@@ -64,16 +64,16 @@
     "openclawgateway": {
       "configfields": {
         "whenEnabledPaperclipPersistsADevice": "When enabled, Paperclip persists a device key during onboarding so pairing approvals remain stable across runs.",
-        "gatewaySharedPassword": "Gateway shared password",
+        "gatewaySharedPassword": "Senha compartilhada do gateway",
         "perRun": "Por execução",
         "perIssue": "Por issue",
         "fixed": "Fixo",
-        "openclawGatewayToken": "OpenClaw gateway token"
+        "openclawGatewayToken": "Token do gateway OpenClaw"
       }
     },
     "process": {
       "configfields": {
-        "eGScriptJsFlag": "e.g. script.js, --flag",
+        "eGScriptJsFlag": "ex.: script.js, --flag",
         "eGNodePython": "ex.: node, python"
       }
     }
@@ -227,9 +227,9 @@
       "runThisInATerminalOn": "Run this in a terminal on that machine and finish signing in in your browser. We’ll check automatically when you return.",
       "submitCode": "Enviar código",
       "preparingBrowserSignIn": "Preparing browser sign-in…",
-      "useADifferentAccount": "Use a different account",
+      "useADifferentAccount": "Usar uma conta diferente",
       "copied": "Copiado!",
-      "preparingTheSignIn": "Preparing the sign-in"
+      "preparingTheSignIn": "Preparando a entrada"
     },
     "agentActionButtons": {
       "pauseAnyway": "Pausar mesmo assim",
@@ -267,8 +267,8 @@
       "loadingAgents": "Carregando agentes…",
       "retry": "Repetir",
       "couldnTLoadAgentsTryAgain": "Couldn’t load agents. Try again.",
-      "openingConversation": "Opening conversation…",
-      "searchByNameOrRole": "Search by name or role…",
+      "openingConversation": "Abrindo conversa…",
+      "searchByNameOrRole": "Buscar por nome ou papel…",
       "searchAgentsByNameOrRole": "Search agents by name or role",
       "oneConversationPerAgentPickUp": "One conversation per agent. Pick up where you left off.",
       "chatWithAnAgent": "Conversar com um agente"
@@ -283,18 +283,18 @@
       "default": "Padrão",
       "model": "Modelo",
       "loadingModels": "Carregando modelos…",
-      "enterModelIdOrAlias": "Enter model ID or alias",
+      "enterModelIdOrAlias": "Informe o ID ou alias do modelo",
       "modelId": "ID do modelo",
       "enterCustomModel": "Informe um modelo personalizado…",
       "experimental": "Experimental",
       "harness": "Harness",
       "authenticatedTheEnvironmentHasCredentialsNow": "Authenticated. The environment has credentials now.",
-      "completingTheLogin": "Completing the login…",
+      "completingTheLogin": "Concluindo o login…",
       "submit": "Enviar",
       "browserCode": "Código do navegador",
       "2BrowserCode": "2. Código do navegador",
       "openTheAuthorizationPage": "Open the authorization page",
-      "1AuthorizationUrl": "1. Authorization URL",
+      "1AuthorizationUrl": "1. URL de autorização",
       "openTheAuthorizationPageThenEnter": "Open the authorization page, then enter the browser code it shows.",
       "thisConnectionIsNotEncryptedThe": "This connection is not encrypted. The login code travels in clear text on this network. Continue only on a network you trust.",
       "preparing": "Preparando...",
@@ -307,7 +307,7 @@
       "agentBoundToTheSignedIn": "Agent bound to the signed-in account.",
       "bindingThisAgentToTheSigned": "Binding this agent to the signed-in account...",
       "openTheAuthenticationPage": "Open the authentication page",
-      "2AuthenticationUrl": "2. Authentication URL",
+      "2AuthenticationUrl": "2. URL de autenticação",
       "1Code": "1. Code",
       "copyTheCodeThenOpenThe": "Copy the code, then open the authentication page.",
       "signIn": "Entrar",
@@ -321,11 +321,11 @@
       "codexMayRejectMinimalThinkingWhen": "Codex may reject `minimal` thinking when search is enabled.",
       "grokBot": "Grok Bot",
       "adapter": "Adaptador",
-      "environmentOverride": "Environment override",
+      "environmentOverride": "Sobreposição de ambiente",
       "environment": "Ambiente",
       "thisInstanceRequiresTheKubernetesSandbox": "This instance requires the Kubernetes sandbox, but no managed Kubernetes environment is available for this organization yet. Configure one before creating agents; execution will not fall back to local.",
       "promptTemplateIsReplayedOnEvery": "Prompt template is replayed on every heartbeat. Keep it compact and dynamic to avoid recurring token cost and cache churn.",
-      "eGVpOfEngineering": "e.g. VP of Engineering",
+      "eGVpOfEngineering": "ex.: VP de Engenharia",
       "agentName": "Nome do agente",
       "identity": "Identidade",
       "unsavedChanges": "Alterações não salvas",
@@ -335,7 +335,7 @@
       "secretAccess": "Acesso ao segredo"
     },
     "agentContextualSidebar": {
-      "loadingAuditLinks": "Loading audit links…",
+      "loadingAuditLinks": "Carregando links de auditoria…",
       "audit": "Auditoria",
       "apps": "Aplicativos"
     },
@@ -347,7 +347,7 @@
       "couldnTLoadYourChats": "Não foi possível carregar suas conversas.",
       "retryChatHistory": "Repetir histórico de conversas",
       "someChatHistoryCouldnTLoad": "Some chat history couldn’t load.",
-      "loadingChatHistory": "Loading chat history…",
+      "loadingChatHistory": "Carregando histórico de conversas…",
       "findAnAgent": "Encontrar um agente",
       "searchAgents": "Buscar agentes",
       "addChat": "Adicionar conversa",
@@ -367,12 +367,12 @@
       "filterAgents": "Filtrar agentes"
     },
     "agentRunnerSelect": {
-      "retryRunnerDiscovery": "Retry runner discovery",
+      "retryRunnerDiscovery": "Repetir descoberta do executor",
       "runner": "Executor"
     },
     "agentSecretAccessEditor": {
       "getAgentsMeSecrets": "GET /agents/me/secrets",
-      "apiAccessNoEnvVar": "API access (no env var)",
+      "apiAccessNoEnvVar": "Acesso por API (sem variável de ambiente)",
       "proposedAccess": "Acesso proposto",
       "noSecretsAreBoundToThis": "No secrets are bound to this agent yet."
     },
@@ -393,10 +393,10 @@
       "loading": "Carregando…"
     },
     "announcementCard": {
-      "dismissAnnouncement": "Dismiss announcement"
+      "dismissAnnouncement": "Dispensar anúncio"
     },
     "announcementWell": {
-      "paperclipAnnouncements": "Paperclip announcements"
+      "paperclipAnnouncements": "Anúncios do Paperclip"
     },
     "appConnectionSidebarproduction": {
       "allApps": "Todos os aplicativos"
@@ -445,7 +445,7 @@
       "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar."
     },
     "attentionQueueRow": {
-      "optionalDecisionNote": "Optional decision note…",
+      "optionalDecisionNote": "Nota de decisão opcional…",
       "missingIssueReferenceForThisDecision": "Missing issue reference for this decision.",
       "snoozeUntil": "Adiar até…",
       "custom": "Personalizado",
@@ -499,7 +499,7 @@
       "updateReservation": "Atualizar reserva",
       "anEstimateHeldBeforeEachRun": "An estimate held before each run starts. Zero disables the estimate. Actual provider charges may exceed it.",
       "enterAValidAmountOfZero": "Enter a valid amount of zero or more.",
-      "reservePerRunUsd": "Reserve per run (USD)"
+      "reservePerRunUsd": "Reserva por execução (USD)"
     },
     "builtInAgentGate": {
       "viewAgent": "Ver agente"
@@ -551,13 +551,13 @@
     },
     "claudeSubscriptionPanel": {
       "quotaFromTheClaudeSubscriptionConnected": "Quota from the Claude subscription connected to this server.",
-      "anthropicSubscription": "Anthropic subscription"
+      "anthropicSubscription": "Assinatura da Anthropic"
     },
     "cloudAccessGate": {
       "connectionInterruptedReconnectingAutomatically": "Connection interrupted. Reconnecting automatically…",
       "useAnOrganizationInviteOrSign": "Use an organization invite or sign in with an account that already belongs to this org.",
       "thisAccountIsSignedInBut": "This account is signed in, but it does not have an active organization membership or instance-admin access on this Paperclip instance.",
-      "noOrganizationAccess": "No organization access"
+      "noOrganizationAccess": "Sem acesso à organização"
     },
     "cloudSignIn": {
       "continueToPaperclipCloud": "Continue to Paperclip Cloud",
@@ -577,14 +577,14 @@
     "commentThread": {
       "responsible": "Responsável",
       "leaveAComment": "Deixe um comentário...",
-      "noTimelineEntriesYet": "No timeline entries yet.",
+      "noTimelineEntriesYet": "Nenhuma entrada na linha do tempo ainda.",
       "workspace": "Workspace",
       "assignee": "Atribuído a",
       "status": "Status",
       "commentDeleted": "Comentário excluído",
       "followUp": "Acompanhamento",
       "queued": "Na fila",
-      "copyCommentAsMarkdown": "Copy comment as markdown"
+      "copyCommentAsMarkdown": "Copiar comentário como markdown"
     },
     "companySettingsSidebar": {
       "settings": "Configurações"
@@ -613,12 +613,12 @@
     },
     "costDataQualityNotice": {
       "showingThe25MostRecentEntries": "Showing the 25 most recent entries in each category. Select a shorter date range to inspect more.",
-      "costDetailsByAgent": "Cost details by agent",
+      "costDetailsByAgent": "Detalhes de custo por agente",
       "noCostGapsRemainInThis": "No cost gaps remain in this period.",
       "showingTheLastLoadedCostDetails": "Showing the last loaded cost details. Updates will resume automatically.",
       "retryLoading": "Repetir carregamento",
       "costDetailsCouldNotBeLoaded": "Cost details could not be loaded.",
-      "loadingAffectedRuns": "Loading affected runs…"
+      "loadingAffectedRuns": "Carregando execuções afetadas…"
     },
     "csvPreview": {
       "row": "Linha",
@@ -629,7 +629,7 @@
       "someEffectsMayAlreadyHaveBeen": "Some effects may already have been applied. Review the results before asking the proposer to re-propose.",
       "dismissedNoEffectsWereRun": "Dismissed — no effects were run.",
       "thisDecisionWasWithdrawnByThe": "This decision was withdrawn by the proposer before a response.",
-      "dismissNoEffects": "Dismiss — no effects",
+      "dismissNoEffects": "Dispensar — sem efeitos",
       "notNow": "Agora não?",
       "optionsThatRequireAnUnchangedTarget": "Options that require an unchanged target are disabled below.",
       "viewRun": "ver execução"
@@ -646,7 +646,7 @@
       "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar."
     },
     "decisionTriageStrip": {
-      "noOtherQueuesYet": "No other queues yet.",
+      "noOtherQueuesYet": "Nenhuma outra fila ainda.",
       "cancel": "Cancelar",
       "newQueueName": "Novo nome de fila…",
       "clear": "Limpar",
@@ -665,10 +665,10 @@
       "closeThisWindowToKeepWorking": "Close this window to keep working. Reload the page before trying again."
     },
     "designPageAside": {
-      "resizeRightSidebar": "Resize right sidebar"
+      "resizeRightSidebar": "Redimensionar barra lateral direita"
     },
     "designPageShell": {
-      "skipToMainContent": "Skip to main content"
+      "skipToMainContent": "Ir para o conteúdo principal"
     },
     "designSidebar": {
       "recentTasks": "Tarefas recentes",
@@ -698,7 +698,7 @@
       "reply": "Responder…",
       "cancel": "Cancelar",
       "writeAComment": "Escreva um comentário…",
-      "closeAnnotationPanel": "Close annotation panel"
+      "closeAnnotationPanel": "Fechar painel de anotações"
     },
     "documentAnnotationPopover": {
       "cancel": "Cancelar",
@@ -797,13 +797,13 @@
       "retry": "Repetir"
     },
     "fileViewerSheet": {
-      "tryProjectWorkspace": "Try project workspace",
+      "tryProjectWorkspace": "Testar workspace do projeto",
       "resizeFileTree": "Redimensionar árvore de arquivos",
       "closeFileViewer": "Fechar visualizador de arquivo",
       "downloadFile": "Baixar arquivo",
       "backToFiles": "Voltar para arquivos",
-      "loadingFilePreview": "Loading file preview",
-      "loadingFileDetails": "Loading file details"
+      "loadingFilePreview": "Carregando pré-visualização do arquivo",
+      "loadingFileDetails": "Carregando detalhes do arquivo"
     },
     "filterBar": {
       "clearAll": "Limpar tudo"
@@ -815,7 +815,7 @@
     },
     "financeTimelineCard": {
       "providerChargesSubscriptionsFeesAndCredits": "Provider charges, subscriptions, fees, and credits. Reported separately from run-cost estimates.",
-      "recentFinancialEvents": "Recent financial events"
+      "recentFinancialEvents": "Eventos financeiros recentes"
     },
     "frontmatterPanel": {
       "rawYamlIsTheSourceOf": "Raw YAML is the source of truth in this mode.",
@@ -841,7 +841,7 @@
       "noGoals": "Nenhuma meta."
     },
     "grokBotConnection": {
-      "disconnectAgentAccess": "Disconnect agent access",
+      "disconnectAgentAccess": "Desconectar acesso do agente",
       "thisRecordsYourInspectionItDoes": "This records your inspection. It does not confirm remote termination. Verify the routine again before new work.",
       "clearRecoveryHold": "Limpar retenção de recuperação",
       "iInspectedGrokAndResolvedThe": "I inspected Grok and resolved the old work.",
@@ -852,17 +852,17 @@
       "copyThisCodeIntoPaperclipS": "Copy this code into Paperclip’s authorization page. Keep it out of Bot chat.",
       "copyCode": "Copiar código",
       "oneUsePairingCode": "Código de pareamento de uso único",
-      "reconnectAgentAccess": "Reconnect agent access",
+      "reconnectAgentAccess": "Reconectar acesso do agente",
       "replaceRoutineCredentials": "Substituir credenciais da rotina",
       "verifyConnection": "Verificar conexão",
       "saveRoutine": "Salvar rotina",
       "webhookKey": "Chave do webhook",
       "webhookUrl": "URL do webhook",
       "botNameInGrok": "Nome do bot no Grok",
-      "retryRejectedDelivery": "Retry rejected delivery",
+      "retryRejectedDelivery": "Repetir entrega rejeitada",
       "theRoutineRejectedThisDeliveryCheck": "The routine rejected this delivery. Check the routine in Grok before retrying.",
       "lastAuthenticatedContact": "Last authenticated contact",
-      "lastVerifiedExchange": "Last verified exchange",
+      "lastVerifiedExchange": "Última troca verificada",
       "bot": "Bot",
       "enableGrokBotAssistantConnectionsMcp": "Enable Grok Bot, Assistant connections (MCP), and Paperclip Runner on an authenticated public HTTPS instance.",
       "loadingConnection": "Carregando conexão…",
@@ -886,7 +886,7 @@
       "saved": "Salvo",
       "agentsAllowedToTidyMyInbox": "Agents allowed to tidy my inbox",
       "chooseWhetherTheAgentsYouManage": "Choose whether the agents you manage may archive tasks out of your inbox on your behalf. You can undo any archive, and every agent archive is attributed in the task's properties.",
-      "letAgentsTidyMyInbox": "Let agents tidy my inbox",
+      "letAgentsTidyMyInbox": "Deixar agentes organizarem minha caixa de entrada",
       "loadingInboxAgentPolicy": "Loading inbox agent policy…"
     },
     "inlineEntitySelector": {
@@ -894,7 +894,7 @@
     },
     "instructionHistory": {
       "saveOrCancelYourEditsBefore": "Save or cancel your edits before restoring.",
-      "restoreAsNewRevision": "Restore as new revision",
+      "restoreAsNewRevision": "Restaurar como nova revisão",
       "changesFromSelectedRevisionToCurrent": "Changes from selected revision to current",
       "selectedRevision": "Revisão selecionada",
       "olderRevisions": "Revisões mais antigas",
@@ -907,7 +907,7 @@
       "kind": "Tipo",
       "humanOnly": "Somente pessoas",
       "anyone": "Qualquer pessoa",
-      "interactionGovernance": "Interaction governance"
+      "interactionGovernance": "Governança da interação"
     },
     "issueAssignedBacklogNotice": {
       "commentsStillNotifyTheAssigneeFor": "Comments still notify the assignee for questions or triage. Leave this parked only if the work is intentionally on hold.",
@@ -921,7 +921,7 @@
       "loadingPreview": "Carregando pré-visualização..."
     },
     "issueBlockedNotice": {
-      "ultimatelyWaitingOn": "Ultimately waiting on",
+      "ultimatelyWaitingOn": "No fim, aguardando",
       "stalledInReview": "Travado em revisão",
       "workOnThisTaskIsBlocked": "Work on this task is blocked until someone moves it back to To do. Comments still notify the assignee for questions or triage.",
       "delegateFollowUpWorkOrQueue": "Delegate follow-up work or queue a continuation.",
@@ -932,8 +932,8 @@
       "thisTaskStillNeedsANext": "This task still needs a next step.",
       "nowRunning": "Em execução agora",
       "thisTaskResumesAutomaticallyWhenThe": "This task — resumes automatically when the chain is done",
-      "blockerChainProgress": "Blocker chain progress",
-      "waitingOnLiveWork": "Waiting on live work"
+      "blockerChainProgress": "Progresso da cadeia de bloqueio",
+      "waitingOnLiveWork": "Aguardando trabalho ao vivo"
     },
     "issueCasesPanel": {
       "cases": "Casos"
@@ -943,7 +943,7 @@
       "sendAnyway": "Enviar mesmo assim",
       "goBack": "Voltar",
       "thisCommentWillBePostedWithout": "This comment will be posted without an assignee, so no agent will be woken to act on it. Go back to pick a responsible, or send anyway.",
-      "noResponsibleSelected": "No responsible selected",
+      "noResponsibleSelected": "Nenhum responsável selecionado",
       "responsible": "Responsável",
       "reply": "Responder",
       "discardDraftAndStartNew": "Descartar rascunho e começar outro",
@@ -953,7 +953,7 @@
       "weCouldnTConfirmWhetherThis": "Não conseguimos confirmar se este comentário foi salvo. Ele pode já estar na conversa. Revise antes de começar outro rascunho.",
       "imagesInsertIntoTheReplyOther": "Images insert into the reply. Other files are added to this task.",
       "dropToUpload": "Solte para enviar",
-      "deletedThisComment": "deleted this comment",
+      "deletedThisComment": "excluiu este comentário",
       "workspace": "Workspace",
       "assignee": "Atribuído a",
       "status": "Status",
@@ -962,7 +962,7 @@
       "copyLinkToSystemNotice": "Copy link to system notice",
       "copyLink": "Copiar link",
       "staleDispositionWarning": "Stale disposition warning",
-      "noAdditionalDetails": "No additional details.",
+      "noAdditionalDetails": "Nenhum detalhe adicional.",
       "updatedThisTask": "atualizou esta tarefa",
       "readOurTermsOfService": "Leia nossos termos de serviço",
       "youCanChangeThisLaterIn": "Você pode mudar isso depois em Configurações > Geral.",
@@ -998,7 +998,7 @@
       "live": "Ao vivo",
       "statusIdUpdated": "status, id, atualizado",
       "showTodayYesterdayAndEarlierRules": "Show Today, Yesterday, and Earlier rules on newest-first task lists.",
-      "dateGroupSeparators": "Date group separators",
+      "dateGroupSeparators": "Separadores de grupo por data",
       "desktopTaskRows": "Linhas de tarefa no desktop"
     },
     "issueDocumentsSection": {
@@ -1015,10 +1015,10 @@
       "filters": "Filtros"
     },
     "issueFiltersPopover": {
-      "showAgentCreatedTasks": "show agent-created tasks",
+      "showAgentCreatedTasks": "mostrar tarefas criadas por agentes",
       "liveRunsOnly": "Somente execuções ao vivo",
       "visibility": "Visibilidade",
-      "externalObjectStatus": "External object status",
+      "externalObjectStatus": "Status do objeto externo",
       "labels": "Etiquetas",
       "project": "Projeto",
       "noCreatorsMatch": "Nenhum criador corresponde.",
@@ -1049,7 +1049,7 @@
     "issuePrivacyActions": {
       "keepPrivate": "Manter privado",
       "contentAlreadySeenByOthersCannot": "Content already seen by others cannot be taken back.",
-      "makeThisTaskPublic": "Make this task public?",
+      "makeThisTaskPublic": "Tornar esta tarefa pública?",
       "retryAccessCheck": "Repetir verificação de acesso"
     },
     "issueRecoveryActionCard": {
@@ -1087,7 +1087,7 @@
       "liveCheckedOut": "Ao vivo · em checkout",
       "recordedExpected": "Registrado · esperado",
       "withoutAnAncestryProof": "without an ancestry proof",
-      "divergenceDiagnosis": "Divergence diagnosis",
+      "divergenceDiagnosis": "Diagnóstico de divergência",
       "detachedUnknown": "desanexado / desconhecido"
     },
     "issueRelatedWorkPanel": {
@@ -1119,7 +1119,7 @@
       "cancel": "Cancelar",
       "back": "Voltar",
       "sharedAgent": "Agente compartilhado.",
-      "sharedAgentCaution": "Shared agent caution",
+      "sharedAgentCaution": "Cuidado com agente compartilhado",
       "chooseAPersonOrAgent": "Choose a person or agent…",
       "onlyYouCanSeeThisTask": "Only you can see this task."
     },
@@ -1146,7 +1146,7 @@
       "newConfigPath": "Novo caminho de configuração",
       "targetAgent": "Agente de destino",
       "sourceSecret": "Segredo de origem",
-      "bindAnExistingSecret": "Bind an existing secret",
+      "bindAnExistingSecret": "Vincular um segredo existente",
       "alwaysAllow": "Sempre permitir",
       "approvalOptions": "Opções de aprovação",
       "approveRequest": "Aprovar pedido",
@@ -1156,7 +1156,7 @@
       "confirmed": "Confirmado",
       "agentResumeFailed": "A retomada do agente falhou",
       "submittedSummary": "Resumo enviado",
-      "noAnswerWasRecorded": "No answer was recorded.",
+      "noAnswerWasRecorded": "Nenhuma resposta foi registrada.",
       "submitOnceAfterYouFinishThe": "Submit once after you finish the full form.",
       "addAShortReasonForRejecting": "Add a short reason for rejecting this suggestion",
       "resetSelection": "Redefinir seleção",
@@ -1167,7 +1167,7 @@
       "childTask": "Tarefa filha"
     },
     "issueWorkspaceCard": {
-      "viewWorkspaceDetails": "View workspace details →",
+      "viewWorkspaceDetails": "Ver detalhes do workspace →",
       "save": "Salvar"
     },
     "issueWriteDenialNotice": {
@@ -1189,8 +1189,8 @@
       "noConfigurationOptionsAvailable": "No configuration options available.",
       "enterAJsonObjectUsingThe": "Enter a JSON object using the action's argument names.",
       "noItemsAddedYet": "Nenhum item adicionado ainda.",
-      "orPasteARawValue": "Or paste a raw value",
-      "hideRawValueInput": "Hide raw value input",
+      "orPasteARawValue": "Ou cole um valor bruto",
+      "hideRawValueInput": "Ocultar entrada de valor bruto",
       "selectAnExistingSecret": "Select an existing secret",
       "none": "Nenhum",
       "selectAnOption": "Selecione uma opção"
@@ -1254,7 +1254,7 @@
       "openMuse": "Open Muse",
       "disconnect": "Desconectar",
       "pauseAgent": "Pausar agente",
-      "confirmWorkerStopped": "Confirm worker stopped",
+      "confirmWorkerStopped": "Confirmar que o worker parou",
       "cancel": "Cancelar",
       "iHaveStoppedThisMuseWorker": "I have stopped this Muse worker for the named assignment and run. This does not certify independent private tools or unknown native effects.",
       "confirmTheWorkerForThisExact": "Confirm the worker for this exact assignment stopped",
@@ -1265,7 +1265,7 @@
       "detectorRemovalObservedAtUtc": "Detector removal observed at (UTC)",
       "useTheDigestOfTheSecret": "Use the digest of the secret-free runtime observation. Do not paste the listing, a URL, credentials, or private tool output.",
       "detectorRemovalObservationSha256": "Detector removal observation SHA-256",
-      "registeredMuseHookId": "Registered Muse hook ID",
+      "registeredMuseHookId": "ID do hook do Muse registrado",
       "recordAnObservationOfThisExact": "Record an observation of this exact detector",
       "recordExactMuseDetectorRemoval": "Record exact Muse detector removal",
       "attestThisWorkerStopped": "Attest this worker stopped",
@@ -1349,22 +1349,22 @@
     },
     "pathInstructionsModal": {
       "choose": "Escolher",
-      "howToGetAFullPath": "How to get a full path"
+      "howToGetAFullPath": "Como obter um caminho completo"
     },
     "pluginAppShellOverlays": {
-      "applicationExtensions": "Application extensions"
+      "applicationExtensions": "Extensões do aplicativo"
     },
     "pluginOrganizationSwitcher": {
-      "loadingOrganization": "Loading organization"
+      "loadingOrganization": "Carregando organização"
     },
     "projectAccessMembers": {
       "couldnTLoadProjectAccessMembers": "Couldn't load project access members.",
       "loadingAccess": "Carregando acesso…",
       "thisAgentCanRetainPrivateProject": "This agent can retain private project context in its memory and workspace for later runs. Removing access cannot erase what it has already learned.",
-      "addAPersonOrAgent": "Add a person or agent",
+      "addAPersonOrAgent": "Adicionar uma pessoa ou agente",
       "couldnTLoadTheCompanyAccess": "Couldn't load the company access directory.",
       "membersCanDiscoverThisProjectAnd": "Members can discover this project and read every task in it. A task can still be shared directly.",
-      "privateProjectAccess": "Private project access"
+      "privateProjectAccess": "Acesso ao projeto privado"
     },
     "projectProperties": {
       "dangerZone": "Zona de perigo",
@@ -1386,7 +1386,7 @@
       "enableIsolatedTaskCheckouts": "Enable isolated task checkouts",
       "projectOwnedDefaultsForIsolatedTask": "Project-owned defaults for isolated task checkouts and execution workspace behavior.",
       "executionWorkspacesHelp": "Execution workspaces help",
-      "executionWorkspaces": "Execution Workspaces",
+      "executionWorkspaces": "Workspaces de execução",
       "failedToUpdateWorkspace": "Failed to update workspace.",
       "failedToDeleteWorkspace": "Failed to delete workspace.",
       "failedToSaveWorkspace": "Failed to save workspace.",
@@ -1423,7 +1423,7 @@
       "branch": "Branch"
     },
     "projectWorkspacesContent": {
-      "cleanupAttentionNeeded": "Cleanup attention needed",
+      "cleanupAttentionNeeded": "Limpeza requer atenção",
       "noNonDefaultWorkspaceActivityYet": "No non-default workspace activity yet."
     },
     "projectsToolbar": {
@@ -1484,14 +1484,14 @@
       "revisions": "Revisões",
       "saveAndContinue": "Salvar e continuar",
       "discardChanges": "Descartar alterações",
-      "unsavedRoutineEdits": "Unsaved routine edits",
+      "unsavedRoutineEdits": "Edições da rotina não salvas",
       "returnToCurrent": "Voltar para o atual",
       "revision1IsTheOnlyHistory": "Revision 1 is the only history this routine has. Saving an edit creates the first additional revision.",
       "retry": "Repetir",
-      "couldNotLoadRevisions": "Could not load revisions"
+      "couldNotLoadRevisions": "Não foi possível carregar as revisões"
     },
     "routineOverview": {
-      "viewRoutineActivity": "View routine activity",
+      "viewRoutineActivity": "Ver atividade da rotina",
       "noRunsYetRunTheRoutine": "No runs yet. Run the routine now or wait for its schedule.",
       "viewAllRuns": "Ver todas as execuções",
       "recentRuns": "Execuções recentes",
@@ -1570,16 +1570,16 @@
       "semanticFinalizationLineage": "Semantic finalization lineage",
       "resolvedFinalResponseDecision": "Resolved final response decision",
       "noPresentationSurfaceWasEmittedFor": "No presentation surface was emitted for this operation.",
-      "productionPresentation": "Production presentation",
+      "productionPresentation": "Apresentação de produção",
       "thisProviderOperationEmittedNoCanonical": "This provider operation emitted no canonical PRP events.",
-      "canonicalPrpEvents": "Canonical PRP events",
+      "canonicalPrpEvents": "Eventos canônicos de PRP",
       "noInterpretationStageWasRecordedFor": "No interpretation stage was recorded for this frame.",
-      "interpretationStages": "Interpretation stages",
+      "interpretationStages": "Etapas de interpretação",
       "thisPrpEventHasNoRecoverable": "This PRP event has no recoverable raw frame.",
       "serverRedactedByDefault": "server-redacted by default",
       "providerFrames": "Frames do provedor",
       "noOperationsMatchTheseFilters": "No operations match these filters.",
-      "loadingRunPipeline": "Loading run pipeline…",
+      "loadingRunPipeline": "Carregando pipeline da execução…",
       "hidden": "Oculto",
       "visible": "Visível",
       "visibleHidden": "Visível + oculto",
@@ -1597,15 +1597,15 @@
       "direction": "Direção",
       "searchOperationsFieldsAndEvents": "Search operations, fields, and events",
       "parsedFramesAreRedactedOnThe": "Parsed frames are redacted on the server. Exact reveals and downloads are administrator-only, warned, audited, and automatically expire.",
-      "sensitiveDebugData": "Sensitive debug data",
+      "sensitiveDebugData": "Dados sensíveis de depuração",
       "recentCorrelatedOperations": "Recent correlated operations",
       "noInterpretationRecordsWerePersisted": "No interpretation records were persisted.",
-      "interpretationOutcomes": "Interpretation outcomes",
+      "interpretationOutcomes": "Resultados da interpretação",
       "canonicalPrpEventsAndPersistedPresentation": "Canonical PRP events and persisted presentation decisions remain available below.",
       "rawProviderCaptureWasOffFor": "Raw provider capture was off for this run.",
       "canonicalPrpEventsAndPresentationDecisions": "Canonical PRP events and presentation decisions remain inspectable below.",
       "rawProviderTracesRequireAnInstance": "Raw provider traces require an instance administrator.",
-      "runnerInspectorViews": "Runner inspector views",
+      "runnerInspectorViews": "Visões do inspetor do executor",
       "correlateExactProviderTrafficWithEvery": "Correlate exact provider traffic with every interpretation stage, canonical PRP event, and production surface.",
       "runnerInspector": "Inspetor do executor",
       "noFieldLevelMappingWasRecorded": "No field-level mapping was recorded at this stage.",
@@ -1637,7 +1637,7 @@
       "optionalNotesNoValues": "Optional notes (no values)",
       "description": "Descrição",
       "theValueIsStoredOnceAnd": "The value is stored once and never re-displayed. Rotate to replace.",
-      "pasteTheSecretValue": "Paste the secret value",
+      "pasteTheSecretValue": "Cole o valor do segredo",
       "value": "Valor",
       "name": "Nome",
       "createNewSecret": "Criar novo segredo",
@@ -1670,7 +1670,7 @@
     "sidebarCompanyMenuproduction": {
       "createOrganization": "Criar organização",
       "noCompanies": "Nenhuma empresa",
-      "couldnTLoadCompanies": "Couldn't load companies",
+      "couldnTLoadCompanies": "Não foi possível carregar as empresas",
       "organizations": "Organizações"
     },
     "sidebarCompanyMenu": {
@@ -1740,10 +1740,10 @@
       "currentMonthlyCostsForAccountsVisible": "Current monthly costs for accounts visible to you. Token totals cover company work in the selected period.",
       "viewDetails": "Ver detalhes",
       "showingLastLoadedSubscriptionData": "Showing last loaded subscription data.",
-      "loadingSubscriptions": "Loading subscriptions…",
+      "loadingSubscriptions": "Carregando assinaturas…",
       "subscriptionDataIsUnavailable": "Subscription data is unavailable.",
       "monthlyFeesForAccountsVisibleTo": "Monthly fees for accounts visible to you",
-      "knownMonthlySubtotal": "Known monthly subtotal",
+      "knownMonthlySubtotal": "Subtotal mensal conhecido",
       "subscriptions": "Assinaturas",
       "linkAccounts": "Vincular contas",
       "couldNotLinkTheseAccountsReopen": "Could not link these accounts. Reopen their details and try again.",
@@ -1762,7 +1762,7 @@
       "billed": "Cobrado",
       "currency": "Moeda",
       "unknown": "Desconhecido",
-      "pricePerBillingPeriod": "Price per billing period",
+      "pricePerBillingPeriod": "Preço por período de cobrança",
       "plan": "Plano"
     },
     "summarySlotCard": {
@@ -1780,7 +1780,7 @@
       "generating": "Gerando"
     },
     "taskChatThread": {
-      "loadingConversation": "Loading conversation",
+      "loadingConversation": "Carregando conversa",
       "retry": "Repetir"
     },
     "taskListColumns": {
@@ -1802,7 +1802,7 @@
       "retryPreview": "Repetir pré-visualização"
     },
     "toastViewport": {
-      "dismissNotification": "Dismiss notification"
+      "dismissNotification": "Dispensar notificação"
     },
     "trustPresetSection": {
       "advancedPermissionsRemainEditableThroughThe": "Advanced permissions remain editable through the EE permissions extension when installed.",
@@ -1820,7 +1820,7 @@
       "signsInWithTheSnapshotLocal": "Signs in with the snapshot-local credentials captured when this clone was made."
     },
     "workspaceBaseRefRecoveryNotice": {
-      "chooseAnotherBranch": "Choose another branch",
+      "chooseAnotherBranch": "Escolha outra branch",
       "cancel": "Cancelar",
       "branchName": "Nome da branch",
       "startingBranch": "Branch inicial",
@@ -1829,8 +1829,8 @@
     },
     "workspaceFileBrowser": {
       "loadMoreFromThisFolder": "Load more from this folder",
-      "refreshWorkspaceFiles": "Refresh workspace files",
-      "searchWorkspaceFiles": "Search workspace files",
+      "refreshWorkspaceFiles": "Atualizar arquivos do workspace",
+      "searchWorkspaceFiles": "Buscar arquivos do workspace",
       "searchFilesByNameOrPath": "Search files by name or path…",
       "workspaceFiles": "Arquivos do workspace",
       "currentFolder": "Pasta atual"
@@ -1846,7 +1846,7 @@
       "missingWorkAndReconstructionPlan": "Missing work and reconstruction plan",
       "attachTheSurvivingSourceFilesTo": "Attach the surviving source files to this task first.",
       "loadingSavedAttachments": "Loading saved attachments…",
-      "savedSourceAttachments": "Saved source attachments",
+      "savedSourceAttachments": "Anexos de origem salvos",
       "selectTaskAttachmentsToRebuildFrom": "Select task attachments to rebuild from and record what remains missing. Paperclip starts a fresh session through its normal execution checks. Existing work limits still apply.",
       "theOriginalWorkspaceWasDestroyedBefore": "The original workspace was destroyed before its edits were saved. Its last run will remain failed.",
       "continueFromSavedSources": "Continue from saved sources"
@@ -1856,7 +1856,7 @@
     },
     "workspaceServiceControlBar": {
       "noUrl": "sem url",
-      "manageInServicesTab": "Manage in Services tab →",
+      "manageInServicesTab": "Gerenciar na aba Serviços →",
       "restartAll": "Reiniciar todos",
       "stopAll": "Parar todos",
       "startAll": "Iniciar todos",
@@ -1910,13 +1910,13 @@
       "clickCopyAsPath": "Click \"Copy as path\".",
       "shift": "Turno",
       "findTheFolderInFileExplorer": "Find the folder in File Explorer.",
-      "windowsFileExplorer": "Windows (File Explorer)",
+      "windowsFileExplorer": "Windows (Explorador de Arquivos)",
       "clickCopyFolderNameAsPathname": "Click \"Copy <folder name> as Pathname\".",
       "option": "Opção",
       "findTheFolderInFinder": "Find the folder in Finder.",
       "macosFinder": "macOS (Finder)",
       "browserSecurityBlocksAppsFromReading": "Browser security blocks apps from reading full local paths via a file picker. Copy the absolute path and paste it into the input.",
-      "specifyPathManually": "Specify path manually",
+      "specifyPathManually": "Informar o caminho manualmente",
       "choose": "Escolher"
     },
     "aiconnections": {
@@ -1926,7 +1926,7 @@
         "aiAccountSettings": "Configurações da conta de IA"
       },
       "aiConnectionAuth": {
-        "waitingForSignIn": "Waiting for sign-in…",
+        "waitingForSignIn": "Aguardando a entrada…",
         "submitCode": "Enviar código",
         "cancel": "Cancelar",
         "enterApiKeyHere": "Informe a chave de API aqui",
@@ -1936,7 +1936,7 @@
       },
       "aiConnectionCredentialStep": {
         "cancel": "Cancelar",
-        "executionEnvironment": "Execution environment",
+        "executionEnvironment": "Ambiente de execução",
         "copilotExecutionEnvironment": "Copilot execution environment",
         "githubTokenInstructions": "GitHub token instructions",
         "preparingSignIn": "Preparing sign-in…",
@@ -1951,7 +1951,7 @@
         "chooseAnotherProviderOrGateway": "Choose another provider or gateway",
         "advancedProviders": "Provedores avançados",
         "selectingYourDefaultAccount": "Selecting your default account…",
-        "retryDefaultSelection": "Retry default selection",
+        "retryDefaultSelection": "Repetir seleção padrão",
         "cancel": "Cancelar",
         "afterAdoptionMissingCredentialsBlockExecution": "After adoption, missing credentials block execution. Previous authentication will not be used as a fallback.",
         "newTasksRotateExistingTasksKeep": "New tasks rotate. Existing tasks keep their account.",
@@ -1965,10 +1965,10 @@
         "existingAuthenticationNotManagedByConnections": "Existing authentication — not managed by Connections"
       },
       "aiConnectionPicker": {
-        "connectAnotherAccount": "Connect another account",
+        "connectAnotherAccount": "Conectar outra conta",
         "reconnectAccount": "Reconectar conta",
         "retryConnections": "Repetir conexões",
-        "loadingAiConnections": "Loading AI connections",
+        "loadingAiConnections": "Carregando conexões de IA",
         "aiConnection": "Conexão de IA"
       },
       "aiConnectionPoolConnector": {
@@ -1982,14 +1982,14 @@
         "addConnections": "Adicionar conexões",
         "noAgentsYet": "Nenhum agente ainda.",
         "retry": "Repetir",
-        "couldnTLoadAgents": "Couldn’t load agents.",
+        "couldnTLoadAgents": "Não foi possível carregar os agentes.",
         "loadingAgents": "Carregando agentes…",
         "usedBy": "Usado por",
         "usageThreshold": "Limite de uso",
         "advanced": "Avançado",
         "connections": "Conexões",
         "aConnectionManagerCanEditThis": "A connection manager can edit this pool.",
-        "manageConnectionPool": "Manage connection pool",
+        "manageConnectionPool": "Gerenciar pool de conexões",
         "addAConnectionToGetStarted": "Add a connection to get started.",
         "connectionOrder": "Ordem das conexões",
         "thisConnectionPoolIsNoLonger": "This connection pool is no longer available.",
@@ -2011,7 +2011,7 @@
         "unavailableForThisSignInMethod": "Unavailable for this sign-in method.",
         "usageNotObserved": "Uso não observado.",
         "usage": "Uso",
-        "accountUsageLimits": "Account usage limits"
+        "accountUsageLimits": "Limites de uso da conta"
       },
       "aiProviderSetup": {
         "back": "Voltar",
@@ -2049,10 +2049,10 @@
       },
       "artifactUploadControls": {
         "dropFilesAnywhereInThisPanel": "Drop files anywhere in this panel or use the upload icon.",
-        "addFilesToThisTask": "Add files to this task",
+        "addFilesToThisTask": "Adicionar arquivos a esta tarefa",
         "uploads": "Envios",
         "uploadFiles": "Enviar arquivos",
-        "chooseArtifactFiles": "Choose artifact files"
+        "chooseArtifactFiles": "Escolher arquivos de artefato"
       },
       "artifactsToolbar": {
         "groupBy": "Agrupar por",
@@ -2066,7 +2066,7 @@
         "openInTab": "Abrir em aba"
       },
       "richArtifactCards": {
-        "downloadUnavailable": "Download unavailable",
+        "downloadUnavailable": "Download indisponível",
         "downloadFile": "Baixar arquivo",
         "openFile": "Abrir arquivo",
         "openLink": "Abrir link",
@@ -2089,7 +2089,7 @@
     "cases": {
       "caseDocumentPreview": {
         "revisionHistory": "Histórico de revisões",
-        "thisDocumentIsEmpty": "This document is empty.",
+        "thisDocumentIsEmpty": "Este documento está vazio.",
         "thisDocumentCouldnTBeLoaded": "This document couldn’t be loaded.",
         "loadingDocument": "Carregando documento…"
       },
@@ -2127,7 +2127,7 @@
     "chat": {
       "agentChannelsPanel": {
         "openConnectors": "Abrir conectores",
-        "noChannelsConnected": "No channels connected",
+        "noChannelsConnected": "Nenhum canal conectado",
         "loadingChannels": "Carregando canais…",
         "chatAndEmailIdentitiesConnectedTo": "Chat and email identities connected to this agent.",
         "channels": "Canais"
@@ -2148,10 +2148,10 @@
         "chatConnection": "Conexão de conversa"
       },
       "externallyConnectedTaskBanner": {
-        "dismissDeliveryReceipt": "Dismiss delivery receipt",
+        "dismissDeliveryReceipt": "Dispensar recibo de entrega",
         "openActivity": "Abrir atividade",
         "deliveryStatusCouldNotBeRefreshed": "Delivery status could not be refreshed. Your draft is kept; Paperclip will check again without sending another update.",
-        "fileDeliveryOutcomes": "File delivery outcomes",
+        "fileDeliveryOutcomes": "Resultados da entrega de arquivos",
         "yourExactDraftAndRequestIdentity": "Your exact draft and request identity are kept. Retry safely to learn the authoritative publication state without creating a duplicate.",
         "deliveryResultNotConfirmed": "Delivery result not confirmed",
         "editRejectedSend": "Editar envio rejeitado",
@@ -2165,7 +2165,7 @@
         "boardUpdate": "Atualização do conselho",
         "connection": "Conexão",
         "sendToChannel": "Enviar para o canal",
-        "externalConversation": "External conversation"
+        "externalConversation": "Conversa externa"
       }
     },
     "decisionmodels": {
@@ -2180,7 +2180,7 @@
         "addADecisionConnection": "Add a decision connection",
         "tryAgain": "Tentar novamente",
         "couldNotLoadDecisionSettings": "Could not load decision settings.",
-        "loadingDecisionModel": "Loading decision model…",
+        "loadingDecisionModel": "Carregando modelo de decisão…",
         "usageWasRecordedTestAnswersAre": "Usage was recorded. Test answers are not saved.",
         "decisionModelIsWorking": "Decision model is working",
         "backgroundFeaturesCanChargeThisConnection": "Background features can charge this connection without a responsible person. These requests appear as Paperclip services.",
@@ -2201,7 +2201,7 @@
         "showSavedThread": "Mostrar thread salva",
         "resetReplay": "Redefinir / repetir",
         "savedThread": "Thread salva",
-        "threadPreviewState": "Thread preview state",
+        "threadPreviewState": "Estado da pré-visualização da thread",
         "threadPreview": "Pré-visualização da thread"
       }
     },
@@ -2222,7 +2222,7 @@
         "requirement": "Requisito",
         "userSecretKey": "Chave secreta do usuário",
         "userSecretKey2": "chave secreta de usuário",
-        "selectUserSecret": "Select user secret...",
+        "selectUserSecret": "Selecionar segredo do usuário...",
         "userSecret": "Segredo do usuário",
         "recommended": "(recomendado)",
         "secretVersion": "Versão do segredo",
@@ -2246,7 +2246,7 @@
       "index": {
         "userSecretsResolveFromTheUser": "User secrets resolve from the user responsible for the run. Required bindings fail until that user sets their value under Secrets → My secrets.",
         "unsavedChanges": "Alterações não salvas",
-        "noEnvironmentVariables": "No environment variables",
+        "noEnvironmentVariables": "Nenhuma variável de ambiente",
         "value": "Valor",
         "name": "Nome"
       }
@@ -2255,14 +2255,14 @@
       "fastResponseHistory": {
         "tryAgain": "Tentar novamente",
         "couldNotLoadFastResponses": "Could not load fast responses.",
-        "loadingFastResponses": "Loading fast responses…"
+        "loadingFastResponses": "Carregando respostas rápidas…"
       },
       "fastResponseSettings": {
         "useASharedApiConnectionFor": "Use a shared API connection for short acknowledgements.",
         "addAFastResponseConnection": "Add a fast response connection",
         "tryAgain": "Tentar novamente",
         "couldNotLoadFastResponseSettings": "Could not load fast response settings.",
-        "loadingFastResponse": "Loading fast response…",
+        "loadingFastResponse": "Carregando resposta rápida…",
         "coversAcceptedExternalMessagesFromPeople": "Covers accepted external messages from people without a linked Paperclip account.",
         "chooseOrEnterAModelId": "Choose or enter a model ID",
         "model": "Modelo",
@@ -2289,7 +2289,7 @@
         "searchFolders": "Buscar pastas",
         "organization": "Organização",
         "dismissFolderSuggestion": "Dismiss folder suggestion",
-        "createYourFirstFolder": "Create your first folder",
+        "createYourFirstFolder": "Crie sua primeira pasta",
         "editColor": "Editar cor",
         "rename": "Renomear",
         "system": "Sistema",
@@ -2306,7 +2306,7 @@
         "folderPath": "Caminho da pasta",
         "editColor": "Editar cor",
         "rename": "Renomear",
-        "resizeSkillFolders": "Resize skill folders",
+        "resizeSkillFolders": "Redimensionar pastas de skills",
         "system": "Sistema",
         "noOrganizationFoldersYet": "No organization folders yet.",
         "skillFolders": "Pastas de skills"
@@ -2314,7 +2314,7 @@
     },
     "interrupthandoff": {
       "interruptHandoffViews": {
-        "noTasksAreAffected": "No tasks are affected.",
+        "noTasksAreAffected": "Nenhuma tarefa é afetada.",
         "nothingLiveToPauseNoAgent": "Nothing live to pause — no agent run is in flight or queued. This records a hold so new work won't start until you resume.",
         "handOffTo": "Repassar para",
         "dismissSuggestion": "Dispensar sugestão",
@@ -2338,19 +2338,19 @@
     },
     "issueproperties": {
       "issueProperties": {
-        "openClosedSidebarTab": "Open closed sidebar tab",
+        "openClosedSidebarTab": "Abrir aba fechada da barra lateral",
         "properties": "Propriedades",
         "propertiesPanelSections": "Properties panel sections",
-        "noMatchingWorkspaces": "No matching workspaces.",
+        "noMatchingWorkspaces": "Nenhum workspace corresponde.",
         "failedToLoadWorkspaces": "Failed to load workspaces.",
         "loadingWorkspaces": "Carregando workspaces...",
         "searchReusableWorkspaces": "Search reusable workspaces",
-        "searchWorkspaces": "Search workspaces...",
+        "searchWorkspaces": "Buscar workspaces...",
         "backToWorkspaceOptions": "Back to workspace options",
         "pickAWorkspaceToReuse": "Pick a workspace to reuse",
         "reuseExistingWorkspace": "Reuse existing workspace…",
         "createAFreshWorkspaceOnThe": "Create a fresh workspace on the next run",
-        "newIsolatedWorkspace": "New isolated workspace",
+        "newIsolatedWorkspace": "Novo workspace isolado",
         "useTheProjectWorkspacePolicy": "Use the project workspace policy",
         "default": "Padrão",
         "openWatchdogTask": "Abrir tarefa do watchdog",
@@ -2392,8 +2392,8 @@
         "watchdogAgent": "Agente watchdog",
         "addLabel": "Adicionar etiqueta",
         "disabled": "(desativado)",
-        "clearAdapterOptions": "Clear adapter options",
-        "enableChromeChrome": "Enable Chrome (--chrome)",
+        "clearAdapterOptions": "Limpar opções do adaptador",
+        "enableChromeChrome": "Habilitar o Chrome (--chrome)",
         "thinkingEffort": "Esforço de raciocínio",
         "defaultModel": "Modelo padrão",
         "model": "Modelo",
@@ -2426,8 +2426,8 @@
     },
     "newagent": {
       "agentBasicsDialog": {
-        "chooseANativeHarness": "Choose a native harness…",
-        "experimentalHarness": "Experimental harness",
+        "chooseANativeHarness": "Escolha um harness nativo…",
+        "experimentalHarness": "Harness experimental",
         "advanced": "Avançado",
         "loadingAdapters": "Carregando adaptadores…",
         "adapter": "Adaptador",
@@ -2455,23 +2455,23 @@
         "preparingYourInvitation": "Preparing your invitation…",
         "receiverContactIsPersistedInBatches": "Receiver contact is persisted in batches and may lag. Setup never creates a task. Provider usage and cost are unavailable.",
         "refreshConnection": "Atualizar conexão",
-        "testBackgroundReply": "Test background reply",
+        "testBackgroundReply": "Testar resposta em segundo plano",
         "museUsesItsOwnApprovedTools": "Muse uses its own approved tools. Provider usage and cost are unavailable to Paperclip.",
         "role": "Papel",
         "muse": "Muse",
         "agentName": "Nome do agente",
         "loadingMuseSetup": "Carregando configuração do Muse…",
-        "loadingMuseInvitation": "Loading Muse invitation…",
+        "loadingMuseInvitation": "Carregando convite do Muse…",
         "tryAgain": "Tentar novamente",
-        "museConnectionChecks": "Muse connection checks",
-        "dotConnectionChecks": "Dot connection checks"
+        "museConnectionChecks": "Verificações de conexão do Muse",
+        "dotConnectionChecks": "Verificações de conexão do Dot"
       },
       "grokBotSetupContent": {
         "reviewApproval": "Revisar aprovação",
         "saveExit": "Salvar e sair",
         "back": "Voltar",
         "grokRunsExternallyUsageAndSpending": "Grok runs externally. Usage and spending are not reported. Paperclip contact does not prove the Bot is continuously available.",
-        "grokConnectionChecks": "Grok connection checks",
+        "grokConnectionChecks": "Verificações de conexão do Grok",
         "copyTheseFieldsDirectlyFromGrok": "Copy these fields directly from Grok into Paperclip. Credentials are stored securely and are never included in instructions.",
         "webhookKey": "Chave do webhook",
         "webhookUrl": "URL do webhook",
@@ -2490,7 +2490,7 @@
         "botNameInGrok": "Nome do bot no Grok",
         "paperclipName": "Nome no Paperclip",
         "anOrganizationAdminNeedsToApprove": "An organization admin needs to approve this agent. Setup is saved and will resume after approval.",
-        "restoringSavedSetup": "Restoring saved setup…",
+        "restoringSavedSetup": "Restaurando configuração salva…",
         "tryAgain": "Tentar novamente",
         "grokBotSetup": "Grok Bot setup"
       },
@@ -2513,7 +2513,7 @@
         "couldNotLoadModelsRetryOr": "Could not load models. Retry or enter a model ID manually.",
         "enableAssistantConnectionsMcpInExperimental": "Enable Assistant connections (MCP) in Experimental settings before pairing.",
         "createThisAgentThenCopyIts": "Create this agent, then copy its pairing prompt to your Dot.",
-        "configureYourAgent": "Configure your agent",
+        "configureYourAgent": "Configure seu agente",
         "model": "Modelo",
         "adapter": "Adaptador",
         "loadingConnectionSettings": "Carregando configurações da conexão…",
@@ -2532,7 +2532,7 @@
         "disableExport": "Desativar exportação",
         "saveChangesBeforeTesting": "Save changes before testing.",
         "cancel": "Cancelar",
-        "reloadSavedSettings": "Reload saved settings",
+        "reloadSavedSettings": "Recarregar configurações salvas",
         "nativeLimitsApplyExportedRecordsCan": "Native limits apply. Exported records can contain task content, including prompts and tool output. A collector can forward records to multiple services.",
         "contentCapture": "Captura de conteúdo",
         "theAgentHarnessReceivesTheseCredentials": "The agent harness receives these credentials. Use a key limited to telemetry ingestion.",
@@ -2544,7 +2544,7 @@
         "replaceApiKey": "Substituir chave de API",
         "apiKeyConfigured": "Chave de API configurada",
         "apiKey": "Chave de API",
-        "braintrustProjectUuid": "Braintrust project UUID",
+        "braintrustProjectUuid": "UUID do projeto no Braintrust",
         "projectId": "ID do projeto",
         "customOtlp": "OTLP personalizado",
         "braintrust": "Braintrust",
@@ -2556,7 +2556,7 @@
     },
     "onboarding": {
       "connectModelPreview": {
-        "useApiKeysInstead": "Use API keys instead"
+        "useApiKeysInstead": "Usar chaves de API em vez disso"
       },
       "savedProviderKeySelect": {
         "someSavedKeysCouldNotBe": "Some saved keys could not be loaded. You can still enter a new key.",
@@ -2641,7 +2641,7 @@
         "checkConnection": "Verificar conexão",
         "replaceKey": "Substituir chave",
         "theOldKeyWillStopWorking": "The old key will stop working. Update your sending app with the new key.",
-        "replaceTheWebhookKey": "Replace the webhook key?",
+        "replaceTheWebhookKey": "Substituir a chave do webhook?",
         "signTheTimestampAPeriodAnd": "Sign the timestamp, a period, and the exact JSON body with HMAC-SHA256. Send X-Paperclip-Timestamp and X-Paperclip-Signature: sha256=<signature>.",
         "thisWebhookUsesItsUrlAs": "This webhook uses its URL as the shared secret.",
         "hideKey": "Ocultar chave",
@@ -2660,10 +2660,10 @@
         "continue": "Continuar",
         "theRoutineIsPausedEnableIts": "The routine is paused. Enable its automatic triggers when you’re ready to use this schedule.",
         "checkThatTheWebhookIsEnabled": "Check that the webhook is enabled in your sending app and that its URL matches. Scripts must send POST with a JSON body.",
-        "troubleshootDelivery": "Troubleshoot delivery",
+        "troubleshootDelivery": "Diagnosticar a entrega",
         "keepThisPageOpenToSee": "Keep this page open to see the test result.",
         "eventsReceivedDuringSetupWonT": "Events received during setup won’t start the routine or create tasks.",
-        "connectionTestOnly": "Connection test only",
+        "connectionTestOnly": "Somente teste de conexão",
         "generateNewKey": "Gerar nova chave",
         "theKeyIsHiddenAfterLeaving": "The key is hidden after leaving setup. If you haven’t saved it in your app, generate a replacement.",
         "publicServicesNeedAPubliclyReachable": "Public services need a publicly reachable HTTPS webhook URL.",
@@ -2674,7 +2674,7 @@
         "day": "Dia",
         "time": "Hora",
         "everyWeek": "Toda semana",
-        "weekdaysMondayFriday": "Weekdays (Monday–Friday)",
+        "weekdaysMondayFriday": "Dias de semana (segunda a sexta)",
         "everyDay": "Todos os dias",
         "repeat": "Repetir",
         "triggerType": "Tipo de disparo",
@@ -2729,9 +2729,9 @@
         "cancel": "Cancelar",
         "nothingIsAssignedToItSo": "Nothing is assigned to it, so your copy won't change any agent's behaviour.",
         "switchTheseAgentsToTheCopy": "Switch these agents to the copy",
-        "openYourExistingCopy": "Open your existing copy",
+        "openYourExistingCopy": "Abrir sua cópia existente",
         "anUneditedCopyOfThisSkill": "An unedited copy of this skill already exists. Open it instead of making another.",
-        "youAlreadyHaveACopy": "You already have a copy"
+        "youAlreadyHaveACopy": "Você já tem uma cópia"
       },
       "skillPolicySurfaces": {
         "dismiss": "Dispensar"
@@ -2751,7 +2751,7 @@
         "tryAgain": "Tentar novamente",
         "loadingConnections": "Carregando conexões…",
         "automaticUpdatesWillUseYourAccess": "Automatic updates will use your access to this connection. Installed skills and selections stay in place.",
-        "chooseGithubConnection": "Choose GitHub connection"
+        "chooseGithubConnection": "Escolher conexão do GitHub"
       },
       "skillSourceSyncControls": {
         "automaticUpdates": "Atualizações automáticas"
@@ -2788,11 +2788,11 @@
         "searchAssignees": "Buscar responsáveis…",
         "searchAssignees2": "Buscar responsáveis",
         "chooseAssignee": "Escolher responsável",
-        "resetToAgentDefault": "Reset to agent default",
+        "resetToAgentDefault": "Redefinir para o padrão do agente",
         "fastMode": "Modo rápido",
         "model": "Modelo",
         "chooseExactModel": "Escolher o modelo exato",
-        "selectModelAndEffort": "Select model and effort",
+        "selectModelAndEffort": "Selecione modelo e esforço",
         "selectAssignee": "Selecionar responsável",
         "closePicker": "Fechar seletor"
       },
@@ -2839,7 +2839,7 @@
         "messageDetails": "Detalhes da mensagem"
       },
       "taskChatCompactInteractionCard": {
-        "submitRejectionReason": "Submit rejection reason",
+        "submitRejectionReason": "Enviar motivo da rejeição",
         "addAShortReason": "Adicione um motivo curto",
         "open": "Abrir",
         "nextItem": "Próximo item",
@@ -2851,17 +2851,17 @@
         "addAShortNote": "Adicione uma nota curta",
         "whyShouldTheseTasksChangeOptional": "Why should these tasks change? (optional)",
         "suggestedTasks": "Tarefas sugeridas",
-        "filterSuggestedTasks": "Filter suggested tasks",
+        "filterSuggestedTasks": "Filtrar tarefas sugeridas",
         "selectTheTasksToCreate": "Select the tasks to create.",
         "filterOptions": "Opções de filtro",
         "expires": "Expira",
         "why": "Por quê",
         "binding": "Vínculo",
         "secret": "Segredo",
-        "argumentsAndAuditHash": "Arguments and audit hash",
+        "argumentsAndAuditHash": "Argumentos e hash de auditoria",
         "viewOriginalRequestAndResolution": "View original request and resolution",
         "noTasksCreated": "Nenhuma tarefa criada",
-        "noVerdictsSubmitted": "No verdicts submitted"
+        "noVerdictsSubmitted": "Nenhum veredito enviado"
       },
       "taskChatComposer": {
         "cancel": "Cancelar",
@@ -2885,10 +2885,10 @@
       "taskChatMarker": {
         "viewRun": "Ver execução",
         "viewSavedPlan": "Ver plano salvo",
-        "changeAiConnection": "Change AI connection"
+        "changeAiConnection": "Alterar conexão de IA"
       },
       "taskChatPausedTakeover": {
-        "yourDraftIsSaved": "Your draft is saved."
+        "yourDraftIsSaved": "Seu rascunho está salvo."
       },
       "taskChatPlanView": {
         "plan": "Plano"
@@ -2899,7 +2899,7 @@
       "taskChatProtocolActivityRow": {
         "details": "Detalhes",
         "previewTruncatedByTheRunner": "Pré-visualização truncada pelo executor.",
-        "previewUnavailable": "Preview unavailable.",
+        "previewUnavailable": "Pré-visualização indisponível.",
         "changedFiles": "Arquivos alterados",
         "noChangedFileDetailsWereReported": "No changed-file details were reported.",
         "outputTruncatedTo8Kib": "Saída truncada em 8 KiB.",
@@ -2911,7 +2911,7 @@
         "query": "Consulta"
       },
       "taskChatProtocolCard": {
-        "verificationResults": "Verification results",
+        "verificationResults": "Resultados da verificação",
         "resolveThisRequestInTheActive": "Resolve this request in the active runtime session.",
         "cancel": "Cancelar",
         "deny": "Negar",
@@ -2929,8 +2929,8 @@
       },
       "taskChatQueuedMessages": {
         "queuedMessages": "Mensagens na fila",
-        "queuedMessageActions": "Queued message actions",
-        "discardQueuedMessage": "Discard queued message"
+        "queuedMessageActions": "Ações da mensagem na fila",
+        "discardQueuedMessage": "Descartar mensagem na fila"
       },
       "taskChatRichInput": {
         "orDropPasteAnImageInto": "or drop/paste an image into the note"
@@ -2950,7 +2950,7 @@
         "interrupted": "Interrompido"
       },
       "taskChatTurnStatusIsland": {
-        "withinTurnChecklist": "Within-turn checklist",
+        "withinTurnChecklist": "Checklist dentro do turno",
         "turnPlan": "Plano do turno"
       },
       "taskMessageScroller": {
@@ -2998,7 +2998,7 @@
         "reloadTheLiveViewBrowserWork": "Reload the live view. Browser work keeps running.",
         "reconnectView": "Reconectar visão",
         "browserDefault": "Padrão do navegador",
-        "fitToThisPaneInstead": "Fit to this pane instead",
+        "fitToThisPaneInstead": "Ajustar a este painel em vez disso",
         "fitToPane": "Ajustar ao painel",
         "browserSize": "Tamanho do navegador",
         "browserOptions": "Opções do navegador",
@@ -3014,7 +3014,7 @@
         "reconnectView": "Reconectar visão",
         "reconnectTheViewOrOpenThis": "Reconnect the view or open this task in another browser. The remote browser is still running.",
         "theLiveViewDidNotLoad": "The live view did not load",
-        "connectingToBrowser": "Connecting to browser…",
+        "connectingToBrowser": "Conectando ao navegador…",
         "liveBrowserUseBrowser": "Live Browser Use browser"
       },
       "taskDocumentPanel": {
@@ -3065,9 +3065,9 @@
     "voice": {
       "nativeVoiceConversation": {
         "spekoHandlesTheAudioAndMay": "Speko handles the audio and may retain recordings according to your workspace settings. Paperclip keeps task history. Speko usage is billed separately from agent work. Calls are limited to ten minutes.",
-        "viewConversationTask": "View conversation task",
+        "viewConversationTask": "Ver tarefa da conversa",
         "newConversation": "Nova conversa",
-        "continueConversation": "Continue conversation",
+        "continueConversation": "Continuar a conversa",
         "conversation": "Conversa"
       },
       "spekoCallHistory": {
@@ -3093,11 +3093,11 @@
         "conversationTask": "Tarefa da conversa",
         "approveOnlyTheCallYouAre": "Approve only the call you are currently on. Enter the six-digit code spoken on the phone. Approval gives this call your access to the selected task.",
         "reviewPhoneIntake": "Revisar entrada por telefone",
-        "incomingCallApproval": "Incoming call approval",
+        "incomingCallApproval": "Aprovação de chamada recebida",
         "endCall": "Encerrar chamada",
         "thisCallerIsTalkingToThe": "This caller is talking to the agent in a new low-trust task.",
-        "openConversationTask": "Open conversation task",
-        "incomingConversation": "Incoming conversation"
+        "openConversationTask": "Abrir tarefa da conversa",
+        "incomingConversation": "Conversa recebida"
       },
       "spekoPhoneCallback": {
         "useAnInternationalNumberBeginningWith": "Use an international number beginning with + and the country code.",
@@ -3106,13 +3106,13 @@
       "spekoPhoneLine": {
         "chooseAnAvailableCompanyPhoneNumber": "Choose an available company phone number.",
         "onlyNewIncomingTasksUseThis": "Only new incoming tasks use this setting. Low-trust work requires an active sandbox and isolated workspaces.",
-        "useThisAgentSSandbox": "Use this agent's sandbox",
+        "useThisAgentSSandbox": "Usar o sandbox deste agente",
         "executionSandbox": "Sandbox de execução",
         "eachCallGetsItsOwnTask": "Each call gets its own task. The assigned agent can discuss that conversation under a low-trust policy, without access to existing private tasks or private tools.",
         "selectANumber": "Selecione um número",
-        "companyPhoneNumber": "Company phone number",
+        "companyPhoneNumber": "Telefone da empresa",
         "buyOrImportANumberIn": "Buy or import a number in Speko",
-        "loadingSpekoNumbers": "Loading Speko numbers…",
+        "loadingSpekoNumbers": "Carregando números Speko…",
         "letCallersStartAConversationIn": "Let callers start a conversation in a new task, or require approval to discuss an existing task.",
         "refreshNumbers": "Atualizar números",
         "incomingCalls": "Chamadas recebidas"
@@ -3127,8 +3127,8 @@
       },
       "taskVoiceLauncher": {
         "voicePersona": "Persona de voz",
-        "taskVoiceConversation": "Task voice conversation",
-        "retryVoiceConnections": "Retry voice connections",
+        "taskVoiceConversation": "Conversa de voz da tarefa",
+        "retryVoiceConnections": "Repetir conexões de voz",
         "voiceConnectionsCouldNotBeLoaded": "Voice connections could not be loaded."
       },
       "voiceCallProvider": {
@@ -3139,10 +3139,10 @@
         "endingTheCallKeepsYourTask": "Ending the call keeps your task running. Speko voice charges are separate from agent costs."
       },
       "voiceConversationPanel": {
-        "voiceTranscriptHistory": "Voice transcript history"
+        "voiceTranscriptHistory": "Histórico de transcrição de voz"
       },
       "voiceTranscript": {
-        "conversationTranscript": "Conversation transcript",
+        "conversationTranscript": "Transcrição da conversa",
         "yourConversationWillAppearHere": "Your conversation will appear here.",
         "theTranscriptIsUnavailableYourTask": "The transcript is unavailable. Your task history is still available."
       }
@@ -3191,13 +3191,13 @@
         "chooseExactlyOneAgentThisIdentity": "Choose exactly one agent. This identity cannot be shared with other agents.",
         "reconnectingReplacesTheCredentialWithoutChanging": "Reconnecting replaces the credential without changing which agents can use it.",
         "existingAgentAccessStaysTheSame": "Existing agent access stays the same",
-        "noIdentityRequired": "No identity required",
+        "noIdentityRequired": "Nenhuma identidade necessária",
         "loadingConnectionIdentity": "Loading connection identity",
         "thisAgentUsesThisGithubAccount": "Este agente usa esta conta do GitHub para o trabalho de todos, em vez da conta de quem dá as instruções.",
         "selectAnOption": "Selecione uma opção",
         "clientSecret": "Segredo do cliente",
         "clientId": "ID do cliente",
-        "paperclipCallbackUrl": "Paperclip callback URL",
+        "paperclipCallbackUrl": "URL de callback do Paperclip",
         "yourOauthApp": "Seu app OAuth",
         "paperclipValidatesTheConnectorAndStores": "Paperclip validates the connector and stores only its reference and redacted verification metadata.",
         "serviceMyConnectorOrScl": "service/my-connector or scl_…",
@@ -3223,13 +3223,13 @@
         "mcpServerUrl": "URL do servidor MCP",
         "searchApps": "Buscar aplicativos…",
         "createAndManageTheProviderConnector": "Create and manage the provider connector in Vercel. Paperclip stores its reference and applies agent access, policy, approval, and audit controls here.",
-        "connectThroughVercel": "Connect through Vercel",
+        "connectThroughVercel": "Conectar pela Vercel",
         "pasteAValidZapierUrlTo": "Paste a valid Zapier URL to continue.",
         "zapierMcpUrl": "URL do MCP do Zapier",
         "openSignInInANew": "Open sign-in in a new tab",
         "manageRepositoriesOnGithub": "Manage repositories on GitHub",
         "openAuthorizationInANewTab": "Open authorization in a new tab",
-        "connectWithPaperclip": "Connect with Paperclip",
+        "connectWithPaperclip": "Conectar com o Paperclip",
         "cancel": "Cancelar",
         "reuseAConnectionWithoutChangingWho": "Reuse a connection without changing who already has access, or connect a new one.",
         "loadingRetainedConnectionSetup": "Loading retained connection setup",
@@ -3260,7 +3260,7 @@
         "cancel": "Cancelar",
         "selectAtLeastOneServiceTo": "Select at least one service to continue.",
         "chooseTheGoogleServicesToConnect": "Choose the Google services to connect.",
-        "connectGoogleWorkspace": "Connect Google Workspace",
+        "connectGoogleWorkspace": "Conectar o Google Workspace",
         "tryAgain": "Tentar novamente"
       },
       "honchoWorkspaceSettings": {
@@ -3297,7 +3297,7 @@
           "completeSignInInTheProvider": "Complete sign-in in the provider window, then return here. Paperclip is waiting for confirmation.",
           "connectionSettings": "Configurações da conexão",
           "theUrlOfYourExecutorOrganization": "The URL of your Executor organization’s integrations page. Used to open and manage imported accounts.",
-          "consoleUrlOptional": "Console URL (optional)",
+          "consoleUrlOptional": "URL do console (opcional)",
           "mcpServerUrl": "URL do servidor MCP"
         },
         "remoteMcpManagement": {
@@ -3335,8 +3335,8 @@
       "versionOptional": "Versão (opcional)",
       "packageName": "Nome do pacote",
       "acceptsLinuxWslAndWindowsPaths": "Accepts Linux, WSL, and Windows paths. Windows paths are auto-converted.",
-      "pathToAdapterPackage": "Path to adapter package",
-      "installExternalAdapter": "Install External Adapter",
+      "pathToAdapterPackage": "Caminho para o pacote do adaptador",
+      "installExternalAdapter": "Instalar adaptador externo",
       "alpha": "Alfa",
       "adapters": "Adaptadores",
       "loadingAdapters": "Carregando adaptadores...",
@@ -3350,7 +3350,7 @@
       "installedFromLocalPath": "Installed from local path"
     },
     "agentChat": {
-      "loadingConversation": "Loading conversation…",
+      "loadingConversation": "Carregando conversa…",
       "agentNotFound": "Agente não encontrado.",
       "agentChatIsDisabledEnableIt": "Agent Chat is disabled. Enable it in Experimental settings. Existing history remains available through task links."
     },
@@ -3461,26 +3461,26 @@
       "loadingRunLogs": "Carregando logs da execução...",
       "after": "Depois",
       "changed": "(alterado)",
-      "githubIdentityHistory": "GitHub identity history",
+      "githubIdentityHistory": "Histórico de identidade do GitHub",
       "runsInGrokBotUsageNot": "Runs in Grok Bot. Usage not reported. Stopping this session revokes Paperclip authority; remote execution may continue. Open the Grok Bot desktop app to inspect it. This view contains Paperclip-reported activity.",
       "noRunsYet": "Nenhuma execução ainda.",
       "tryAgain": "Tentar novamente",
       "loadingRun": "Carregando execução…",
       "usageAndCostUnavailable": "Usage and cost unavailable",
       "fileContents": "Conteúdo do arquivo",
-      "instructionFileEditor": "Instruction file editor",
+      "instructionFileEditor": "Editor do arquivo de instruções",
       "agentInstructions": "# Instruções do agente",
       "thisInstructionFileIsEmpty": "This instruction file is empty.",
       "thisFileIsPreservedWithThe": "This file is preserved with the agent directory. Download it to view its contents.",
       "revisionSavedTheInstructionFileStill": "Revision saved. The instruction file still needs to be rebuilt from the saved revision.",
-      "refreshCurrentRevision": "Refresh current revision",
+      "refreshCurrentRevision": "Atualizar a revisão atual",
       "theCurrentInstructionsChangedAfterThis": "The current instructions changed after this draft was loaded. Refresh the current revision, compare the instructions, and save your resolved draft again.",
       "compareCurrentInstructions": "Compare current instructions",
       "reviewingPreservedEditsSaveToApply": "Reviewing preserved edits. Save to apply your resolved draft and close this preserved edit.",
       "olderInstructionOnlySessionsHaveEdits": "Older instruction-only sessions have edits to review.",
       "preservedInstructionEdits": "Preserved instruction edits",
       "delete": "Excluir",
-      "instructionFileView": "Instruction file view",
+      "instructionFileView": "Visão do arquivo de instruções",
       "cancel": "Cancelar",
       "create": "Criar",
       "addAgentFile": "Adicionar arquivo do agente",
@@ -3499,7 +3499,7 @@
       "canCreateNewAgents": "Pode criar novos agentes",
       "permissions": "Permissões",
       "noConfigurationRevisionsYet": "Nenhuma revisão de configuração ainda.",
-      "configurationRevisions": "Configuration Revisions",
+      "configurationRevisions": "Revisões de configuração",
       "audit": "Auditoria",
       "noRecentTasks": "Nenhuma tarefa recente.",
       "seeAll": "Ver todas →",
@@ -3517,7 +3517,7 @@
       "notCreatedYet": "Ainda não criado",
       "couldNotLoadPublicKey": "Could not load public key",
       "loading": "Carregando…",
-      "couldNotLoadCreator": "Could not load creator",
+      "couldNotLoadCreator": "Não foi possível carregar o criador",
       "board": "Conselho",
       "identity": "Identidade",
       "discard": "Descartar",
@@ -3567,10 +3567,10 @@
       "noPermittedAppsYetBindAn": "No permitted apps yet. Bind an access profile to make apps available here.",
       "hasAccessMeansTheAppIs": "Has access means the app is permitted. Installed means its tools are added to this agent's runtime context.",
       "installedApps": "Aplicativos instalados",
-      "useADedicatedAccount": "Use a dedicated account",
+      "useADedicatedAccount": "Usar uma conta dedicada",
       "connectMyGithub": "Conectar meu GitHub",
       "manageMyGithub": "Gerenciar meu GitHub",
-      "manageGithubIdentity": "Manage GitHub identity",
+      "manageGithubIdentity": "Gerenciar identidade do GitHub",
       "retry": "Repetir",
       "atRunStartPaperclipUsesThe": "At run start, Paperclip uses the personal GitHub connection of the person responsible for the task.",
       "useResponsiblePersonSGithub": "Use responsible person's GitHub",
@@ -3596,7 +3596,7 @@
     },
     "approvalDetail": {
       "addAComment": "Adicione um comentário...",
-      "deleteDisapprovedAgent": "Delete disapproved agent",
+      "deleteDisapprovedAgent": "Excluir agente reprovado",
       "markResubmitted": "Marcar como reenviado",
       "requestRevision": "Solicitar revisão",
       "reject": "Rejeitar",
@@ -3621,7 +3621,7 @@
       "openAgentFeed": "Abrir feed do agente",
       "resizeBoardChatAndAgentFeed": "Resize board chat and agent feed",
       "askAnythingAboutYourOrganization": "Ask anything about your organization...",
-      "jumpToLatestMessages": "Jump to latest messages",
+      "jumpToLatestMessages": "Ir para as mensagens mais recentes",
       "newChat": "nova conversa",
       "chatHistory": "histórico de conversas",
       "selectAnOrganizationToStartChatting": "Select an organization to start chatting with your board concierge.",
@@ -3629,17 +3629,17 @@
     },
     "boardClaim": {
       "thisWillPromoteYourUserTo": "This will promote your user to instance admin and migrate organization ownership access from local trusted mode.",
-      "claimBoardOwnership": "Claim Board ownership",
+      "claimBoardOwnership": "Reivindicar a posse do conselho",
       "signInCreateAccount": "Entrar / Criar conta",
       "signInOrCreateAnAccount": "Sign in or create an account, then return to this page to claim Board ownership.",
       "signInRequired": "É necessário entrar",
       "openBoard": "Abrir conselho",
       "thisInstanceIsNowLinkedTo": "This instance is now linked to your authenticated user.",
-      "boardOwnershipClaimed": "Board ownership claimed",
+      "boardOwnershipClaimed": "Posse do conselho reivindicada",
       "claimChallengeUnavailable": "Claim challenge unavailable.",
       "claimChallengeUnavailable2": "Claim challenge unavailable",
       "loadingClaimChallenge": "Loading claim challenge...",
-      "invalidBoardClaimUrl": "Invalid board claim URL."
+      "invalidBoardClaimUrl": "URL de reivindicação do conselho inválida."
     },
     "bootstrapSetupUxLab": {
       "bootstrapPendingSetupStates": "Bootstrap-pending setup states",
@@ -3709,10 +3709,10 @@
       "cliAccessApproved": "Acesso por CLI aprovado",
       "cliAuthChallengeUnavailable": "CLI auth challenge unavailable.",
       "cliAuthChallengeUnavailable2": "CLI auth challenge unavailable",
-      "invalidCliAuthUrl": "Invalid CLI auth URL."
+      "invalidCliAuthUrl": "URL de autenticação da CLI inválida."
     },
     "companies": {
-      "loadingOrganizations": "Loading organizations..."
+      "loadingOrganizations": "Carregando organizações..."
     },
     "companyAccess": {
       "openInvites": "Abrir convites",
@@ -3720,7 +3720,7 @@
       "corePaperclipKeepsEnforcingOrganizationBoundaries": "Core Paperclip keeps enforcing organization boundaries and any existing restrictive policy data, but editing advanced permissions requires an installed extension.",
       "advancedPermissionsUnavailable": "Advanced permissions unavailable",
       "advancedAccessScopedAssignmentAndExplicit": "Advanced access, scoped assignment, and explicit grant controls are provided by installed organization settings extensions.",
-      "advancedPermissions": "Advanced Permissions",
+      "advancedPermissions": "Permissões avançadas",
       "checkingForAdvancedPermissionExtensions": "Checking for advanced permission extensions...",
       "cancel": "Cancelar",
       "agents": "Agentes",
@@ -3744,7 +3744,7 @@
       "reviewPendingJoinRequestsBeforeThey": "Review pending join requests before they become active organization members.",
       "pendingHumanJoins": "Entradas de pessoas pendentes",
       "thisAccountCanManageAccessHere": "This account can manage access here through instance-admin privileges, but it does not currently hold an active organization membership.",
-      "organizationMembers": "Organization Members",
+      "organizationMembers": "Membros da organização",
       "loadingOrganizationAccess": "Loading organization access…",
       "selectAnOrganizationToManageAccess": "Select an organization to manage access."
     },
@@ -3755,7 +3755,7 @@
     "companyEnvironments": {
       "cancel": "Cancelar",
       "reassignAgentsToEnvironment": "Reassign agents to environment",
-      "sandboxLeasesHeldBy": "Sandbox leases held by",
+      "sandboxLeasesHeldBy": "Concessões de sandbox mantidas por",
       "startASetupSandboxSshIn": "Start a setup sandbox, SSH in to customize the instance, then capture the running machine as a reusable image for future runs.",
       "customImage": "Imagem personalizada",
       "thisProviderDoesNotDeclareAdditional": "This provider does not declare additional configuration fields.",
@@ -3764,10 +3764,10 @@
       "sandbox": "Sandbox",
       "configureAReusableExecutionTargetFor": "Configure a reusable execution target for your agents. Saved changes affect future runs; Paperclip may start fresh sessions or sandbox leases after environment config changes.",
       "thisEnvironmentIsProvisionedAndMaintained": "This environment is provisioned and maintained for you. You can add environment variables for your agents; its name and configuration are managed by Paperclip.",
-      "backToEnvironments": "Back to environments",
+      "backToEnvironments": "Voltar para ambientes",
       "theEnvironmentMayHaveBeenRemoved": "The environment may have been removed or is not available in this organization.",
-      "environmentNotFound": "Environment not found",
-      "loadingEnvironment": "Loading environment...",
+      "environmentNotFound": "Ambiente não encontrado",
+      "loadingEnvironment": "Carregando ambiente...",
       "addEnvironment": "Adicionar ambiente",
       "selectEnvironment": "Selecionar ambiente",
       "defaultEnvironment": "Ambiente padrão",
@@ -3776,7 +3776,7 @@
       "selectAnOrganizationContextToManage": "Select an organization context to manage environment secrets and bindings.",
       "notConfigured": "Não configurado",
       "activeTemplate": "Modelo ativo",
-      "sshCommandFallback": "SSH command fallback",
+      "sshCommandFallback": "Fallback de comando SSH",
       "captureIsInProgressIfThis": "Capture is in progress. If this state remains after a refresh or interrupted request, cancel it to return to the active template controls.",
       "loadingTemplateSetup": "Loading template setup...",
       "customImageBrowserTerminal": "Custom image browser terminal",
@@ -3784,11 +3784,11 @@
       "browserTerminal": "Terminal do navegador"
     },
     "companyExport": {
-      "exportPreviewFailed": "Export preview failed",
+      "exportPreviewFailed": "A pré-visualização da exportação falhou",
       "thePreviousPreviewRemainsAvailableRetry": "The previous preview remains available. Retry when you are ready.",
-      "previewUpdateCancelled": "Preview update cancelled",
+      "previewUpdateCancelled": "Atualização da pré-visualização cancelada",
       "largeTaskHistoriesCanTakeA": "Large task histories can take a minute. You can untick Tasks or cancel this update.",
-      "updatingExportPreview": "Updating export preview…",
+      "updatingExportPreview": "Atualizando pré-visualização da exportação…",
       "searchFiles": "Buscar arquivos...",
       "taskAndRoutineHistoryIsOpt": "Task and routine history is opt-in because it can be large.",
       "whatToInclude": "O que incluir",
@@ -3804,19 +3804,19 @@
       "replaceExisting": "Substituir existente",
       "skipOnConflict": "Ignorar em caso de conflito",
       "renameOnConflict": "Renomear em caso de conflito",
-      "importedOrganization": "Imported Organization",
-      "createNewOrganization": "Create new organization",
+      "importedOrganization": "Organização importada",
+      "createNewOrganization": "Criar nova organização",
       "chooseZip": "Escolher zip",
       "chooseAGithubRepoOrUpload": "Choose a GitHub repo or upload a local Paperclip zip package.",
       "importSource": "Importar origem",
       "importRunningOnTheServerSafe": "Import running on the server — safe to keep waiting; reconnecting won't lose it.",
       "anImportYouStartedEarlierIs": "An import you started earlier is still running on the server.",
-      "resumeWatchingImport": "Resume watching import",
+      "resumeWatchingImport": "Retomar observação da importação",
       "goToDashboard": "Ir para o painel",
       "anythingLeftPausedHereStaysVisible": "Anything left paused here stays visible on the company's Agents and Routines pages, which offer the same resume actions — nothing is lost if you leave this page.",
       "importedPaused": "importado pausado",
       "activateImportedAgentsAndRoutines": "Activate imported agents and routines",
-      "skillImportResults": "Skill import results",
+      "skillImportResults": "Resultados da importação de skills",
       "importComplete": "Importação concluída",
       "openOrganizationDashboard": "Open organization dashboard",
       "importedAgentsArrivedPausedResumeThem": "Imported agents arrived paused — resume them from the company's Agents page so assigned tasks can start.",
@@ -4050,7 +4050,7 @@
       "type": "Tipo"
     },
     "costs": {
-      "noFinanceEventsYet": "No finance events yet.",
+      "noFinanceEventsYet": "Nenhum evento financeiro ainda.",
       "accountLevelFinancialEventsGroupedBy": "Account-level financial events grouped by who charged or credited them.",
       "byBiller": "Por faturador",
       "financialEventsCouldNotBeLoaded": "Financial events could not be loaded. Please try again shortly.",
@@ -4061,7 +4061,7 @@
       "raiseTheBudgetOrKeepA": "Raise the budget or keep a hard stop paused. Dismiss a warning when no action is needed.",
       "activeIncidents": "Incidentes ativos",
       "hardStopSpendLimitsForAgents": "Hard-stop spend limits for agents and projects. Provider subscription quota stays separate and appears under Providers.",
-      "budgetControlPlane": "Budget control plane",
+      "budgetControlPlane": "Plano de controle de orçamento",
       "couldNotUpdateTheBudgetPolicy": "Could not update the budget policy. Review your settings and try again.",
       "noProjectAttributedRunCostsYet": "No project-attributed run costs yet.",
       "byProject": "Por projeto",
@@ -4113,11 +4113,11 @@
     "decisionQueuePage": {
       "cancel": "Cancelar",
       "reasonOptional": "Motivo (opcional)…",
-      "removeFromThisQueue": "Remove from this queue",
+      "removeFromThisQueue": "Remover desta fila",
       "adjustOrClearYourSearchAnd": "Ajuste ou limpe sua busca e filtros para ver o restante.",
       "noDecisionsMatchYourSearchOr": "No decisions match your search or filters.",
       "decisionsLandHereWhenTheyMatch": "Decisions land here when they match the queue's rules or an agent adds them.",
-      "thisQueueIsEmpty": "This queue is empty.",
+      "thisQueueIsEmpty": "Esta fila está vazia.",
       "selectAnOrganizationFirst": "Selecione uma organização primeiro."
     },
     "designGuide": {
@@ -4137,7 +4137,7 @@
       "bgBlue": "bg-blue-*",
       "bgYellow": "bg-yellow-*",
       "panelC": "Panel C",
-      "panelBCollapsible": "Panel B (collapsible)",
+      "panelBCollapsible": "Painel B (recolhível)",
       "panelA": "Panel A",
       "previewOnlyThisFieldDoesNot": "Preview only. This field does not save or submit a credential.",
       "agentmailSetupHasTwoStepsPick": "AgentMail setup has two steps: pick an agent, then pick an email address. Ask for the API key alongside the agent only when needed. Keep address errors beside the field and additional settings under Advanced options.",
@@ -4146,7 +4146,7 @@
       "useAgentsetuppromptForPromptsHandedTo": "Use AgentSetupPrompt for prompts handed to an external agent: connections, webhook setup, onboarding, and task handoffs. One click copies the complete prompt, opens its preview, and confirms success inline; clipboard failures offer selectable text.",
       "chooseAnAgentYouAlreadyUse": "Choose an agent you already use.",
       "inviteAnExternalAgent": "Convidar um agente externo",
-      "previewInvitationModal": "Preview invitation modal",
+      "previewInvitationModal": "Pré-visualizar modal de convite",
       "matchTheHarnessPickerWithProvider": "Match the harness picker with provider cards. Connection checks reflect confirmed server evidence. AnimatedDialogContent resizes to its content using motion tokens and respects reduced motion.",
       "recoveryRunsInTheBackgroundTask": "Recovery runs in the background. Task lists keep their ordinary status without execution badges. Active transcript headers keep saying Working during automatic recovery. Recovery decisions and attempts belong in the run log; there is no execution status card or reconciliation form.",
       "aDecisionCardSitsAboveThe": "A decision card sits above the ordinary message composer. Dismiss the card to keep a reopen control, or resolve it to clear the pending state.",
@@ -4212,7 +4212,7 @@
       "costsTabContent": "Conteúdo da aba de custos.",
       "configTabContent": "Conteúdo da aba de configuração.",
       "runsTabContent": "Conteúdo da aba de execuções.",
-      "overviewTabContent": "Overview tab content.",
+      "overviewTabContent": "Conteúdo da aba de visão geral.",
       "costs": "Custos",
       "config": "Configuração",
       "runs": "Execuções",
@@ -4231,7 +4231,7 @@
       "editMetadataWithoutLeavingTheCurrent": "Edit metadata without leaving the current page.",
       "issueProperties": "Propriedades da issue",
       "openSidePanel": "Abrir painel lateral",
-      "filterByAgentName": "Filter by agent name",
+      "filterByAgentName": "Filtrar por nome do agente",
       "owner": "Dono",
       "wakeNow": "Acordar agora",
       "lastRunSucceeded24sAgoNext": "Last run succeeded 24s ago. Next timer run in 9m.",
@@ -4250,7 +4250,7 @@
       "nativeSingleValueDropdownsShareAn": "Native single-value dropdowns share an inset, theme-aware caret and reserve room for it in the base stylesheet. Multiple-selection lists and controls with a custom icon keep their own appearance.",
       "addADescription": "Adicione uma descrição...",
       "descriptionMultilineAutoSizing": "Description (multiline, auto-sizing)",
-      "bodyTextSingleLine": "Body text (single-line)",
+      "bodyTextSingleLine": "Texto do corpo (linha única)",
       "titleSingleLine": "Título (linha única)",
       "disabledItem": "Item desativado",
       "uncheckedItem": "Item desmarcado",
@@ -4315,7 +4315,7 @@
       "noWorkspaceOperationsHaveBeenRecorded": "No workspace operations have been recorded yet.",
       "loadingWorkspaceOperations": "Loading workspace operations…",
       "recentOperations": "Operações recentes",
-      "runtimeAndCleanupLogs": "Runtime and cleanup logs",
+      "runtimeAndCleanupLogs": "Logs de runtime e limpeza",
       "pathsAndRefs": "Caminhos e refs",
       "concreteLocation": "Local concreto",
       "linkedObjectsAndRelationships": "Linked objects and relationships",
@@ -4329,13 +4329,13 @@
       "overrideTheInheritedWorkspaceCommandModel": "Override the inherited workspace command model only when this execution workspace truly needs different service or job behavior.",
       "advancedRuntimeJson": "JSON avançado de runtime",
       "resetToInherit": "Redefinir para herdar",
-      "runtimeConfigSource": "Runtime config source",
+      "runtimeConfigSource": "Origem da configuração de runtime",
       "runtimeConfig": "Configuração de runtime",
       "lifecycleCommands": "Comandos de ciclo de vida",
       "paths": "Caminhos",
       "pap946Workspace": "PAP-946-workspace",
       "sourceControl": "Controle de versão",
-      "executionWorkspaceName": "Execution workspace name",
+      "executionWorkspaceName": "Nome do workspace de execução",
       "general": "Geral",
       "editTheConcretePathRepoBranch": "Edit the concrete path, repo, branch, provisioning, teardown, and runtime overrides attached to this execution workspace. Saved changes affect future runs; Paperclip may refresh or replace a reused workspace when config changes.",
       "workspaceSettings": "Configurações do workspace",
@@ -4369,15 +4369,15 @@
       "currentMemberships": "Participações atuais",
       "toggleOrganizationMembershipForThisUser": "Toggle organization membership for this user. New access defaults to an active operator membership.",
       "organizationAccess": "Acesso à organização",
-      "loadingUserAccess": "Loading user access…",
+      "loadingUserAccess": "Carregando acesso do usuário…",
       "selectAUserToInspectInstance": "Select a user to inspect instance access.",
-      "searchByNameOrEmail": "Search by name or email",
+      "searchByNameOrEmail": "Buscar por nome ou e-mail",
       "searchUsers": "Buscar usuários",
       "searchUsersManageInstanceAdminStatus": "Search users, manage instance-admin status, and control which organizations they can access.",
       "instanceAccess": "Acesso à instância",
       "tryAgain": "Tentar novamente",
       "failedToLoadOrganizationsTryAgain": "Failed to load organizations. Try again before changing access.",
-      "loadingInstanceAccess": "Loading instance access…"
+      "loadingInstanceAccess": "Carregando acesso à instância…"
     },
     "instanceExperimentalSettings": {
       "theseFeaturesAreGoingToBe": "These features are going to be removed.",
@@ -4387,10 +4387,10 @@
       "thisIsAnIsolatedGitWorktree": "This is an isolated git-worktree preview instance. Turn this on to let the scheduler execute runs here. Only tasks created after enabling will run automatically — copied/pre-existing tasks stay parked. Toggling off and on resets the cutoff.",
       "runTasksInThisWorktree": "Run tasks in this worktree",
       "internalToolsForDevelopingTestingAnd": "Internal tools for developing, testing, and debugging Paperclip.",
-      "paperclipDeveloperMode": "Paperclip Developer Mode",
+      "paperclipDeveloperMode": "Modo desenvolvedor do Paperclip",
       "setUpAnAssistantConnection": "Set up an assistant connection",
       "optionalProductFeaturesThatAreStill": "Optional product features that are still being evaluated.",
-      "experimentalFeatures": "Experimental features",
+      "experimentalFeatures": "Funcionalidades experimentais",
       "theseFeaturesAreOptInAnd": "These features are opt-in and come with no compatibility guarantees. They may change, break, or be removed without notice. Avoid relying on them for critical or production workflows.",
       "experimentalFeaturesMayBreakAtAny": "Experimental features may break at any time.",
       "optIntoFeaturesThatAreStill": "Opt into features that are still being evaluated before they become default behavior.",
@@ -4411,7 +4411,7 @@
       "backupRetention": "Retenção de backup",
       "toggleUsernameLogCensoring": "Toggle username log censoring",
       "hideTheUsernameSegmentInHome": "Hide the username segment in home-directory paths and similar operator-visible log output. Standalone username mentions outside of paths are not yet masked in the live transcript view. This is off by default.",
-      "censorUsernameInLogs": "Censor username in logs",
+      "censorUsernameInLogs": "Censurar nome de usuário nos logs",
       "deploymentAndAuth": "Implantação e autenticação",
       "general": "Geral",
       "loadingGeneralSettings": "Loading general settings..."
@@ -4436,11 +4436,11 @@
       "youJoinedTheOrganization": "Você entrou na organização",
       "bootstrapComplete": "Inicialização concluída",
       "inviteNotAvailable": "Convite não disponível",
-      "openingOrganization": "Opening organization...",
+      "openingOrganization": "Abrindo organização...",
       "thisInviteMayBeExpiredRevoked": "This invite may be expired, revoked, or already used.",
-      "checkingYourAccess": "Checking your access...",
+      "checkingYourAccess": "Verificando seu acesso...",
       "loadingInvite": "Carregando convite...",
-      "invalidInviteToken": "Invalid invite token.",
+      "invalidInviteToken": "Token de convite inválido.",
       "claimSecret": "Segredo de reivindicação",
       "refreshThisPageAfterYouVe": "Atualize esta página depois de ser aprovado — você será redirecionado automaticamente.",
       "settingsMembers": "Configurações → Membros",
@@ -4455,7 +4455,7 @@
       "youDoNotHavePermissionTo": "You do not have permission to manage organization invites.",
       "permissionError": "Erro de permissão",
       "noInvitesHaveBeenCreatedFor": "Nenhum convite foi criado para esta organização ainda.",
-      "emptyHistoryState": "Empty history state",
+      "emptyHistoryState": "Estado de histórico vazio",
       "action": "Ação",
       "joinRequest": "Pedido de entrada",
       "created": "Criado",
@@ -4485,7 +4485,7 @@
       "approvalPage": "Página de aprovação",
       "openBoard": "Abrir conselho",
       "acceptInvite": "Aceitar convite",
-      "submittingRequest": "Submitting request...",
+      "submittingRequest": "Enviando pedido...",
       "acceptOrganizationInvite": "Accept organization invite",
       "submitRequest": "Enviar pedido",
       "capabilities": "Capacidades",
@@ -4517,7 +4517,7 @@
       "working": "Trabalhando",
       "activeRunShimmer": "Active run — shimmer",
       "fastInterval1sStressTest": "Fast interval (1s) — stress test",
-      "defaultInterval22s": "Default interval (2.2s)",
+      "defaultInterval22s": "Intervalo padrão (2,2 s)",
       "fixtureBackedLiveRun": "fixture-backed live run",
       "assistantUiThread": "assistant-ui thread",
       "thisPageExercisesTheRealAssistant": "This page exercises the real assistant-ui issue chat with fixture-backed messages. Use it to review spacing, chronology, running states, tool rendering, activity rows, queueing, and composer behavior without needing a live issue in progress.",
@@ -4528,11 +4528,11 @@
       "subTasks": "Subtarefas",
       "replySentSendAMessageTo": "Reply sent. Send a message to continue.",
       "addADescription": "Adicione uma descrição...",
-      "openFileInThisIssue": "Open file in this issue",
+      "openFileInThisIssue": "Abrir arquivo nesta issue",
       "archiveFromInbox": "Arquivar da caixa de entrada",
       "upload": "Enviar",
       "uploadAttachment": "Enviar anexo",
-      "noDirectCostData": "No direct cost data.",
+      "noDirectCostData": "Nenhum dado de custo direto.",
       "thisTask": "Esta tarefa",
       "noCostDataYet": "Nenhum dado de custo ainda.",
       "costSummary": "Resumo de custo",
@@ -4564,7 +4564,7 @@
       "alerts": "Alertas",
       "resolved": "Resolvido",
       "needsAction": "Precisa de ação",
-      "allApprovalStatuses": "All approval statuses",
+      "allApprovalStatuses": "Todos os status de aprovação",
       "approvalStatus": "Status da aprovação",
       "failedRuns": "Execuções que falharam",
       "approvals": "Aprovações",
@@ -4585,7 +4585,7 @@
       "noAssistantConnections": "No assistant connections.",
       "loadingConnections": "Carregando conexões…",
       "revokingAConnectionStopsItsFuture": "Revoking a connection stops its future tool calls. Work already delegated continues under your organization’s normal controls.",
-      "assistantConnections": "Assistant connections",
+      "assistantConnections": "Conexões do assistente",
       "cancel": "Cancelar",
       "yourRoleInThisOrganizationIs": "Your role in this organization is read-only.",
       "writeAllOfYourPaperclipData": "Write all of your Paperclip data",
@@ -4600,7 +4600,7 @@
       "company": "Empresa",
       "pairingCode": "Código de pareamento",
       "enterTheOneUseCodeFrom": "Enter the one-use code from Paperclip’s agent setup to review this connection’s access. Keep the code out of Bot chat. Access is granted only when you approve the named agent below.",
-      "enterADifferentCode": "Enter a different code",
+      "enterADifferentCode": "Informe um código diferente",
       "loadingConnectionRequest": "Loading connection request…",
       "continue": "Continuar",
       "enterTheCodeShownByYour": "Enter the code shown by your assistant",
@@ -4629,7 +4629,7 @@
       "cancel": "Cancelar",
       "uninstallPlugin": "Desinstalar plugin",
       "installAPluginToExtendFunctionality": "Install a plugin to extend functionality.",
-      "noPluginsInstalled": "No plugins installed",
+      "noPluginsInstalled": "Nenhum plugin instalado",
       "installedPlugins": "Plugins instalados",
       "noBundledPluginsWereFoundIn": "No bundled plugins were found in this checkout.",
       "failedToLoadBundledPlugins": "Failed to load bundled plugins.",
@@ -4641,7 +4641,7 @@
       "enterTheNpmPackageNameOf": "Enter the npm package name of the plugin you wish to install.",
       "installPlugin": "Instalar plugin",
       "pluginManager": "Gerenciador de plugins",
-      "failedToLoadPlugins": "Failed to load plugins.",
+      "failedToLoadPlugins": "Falha ao carregar os plugins.",
       "loadingPlugins": "Carregando plugins...",
       "experimental": "Experimental"
     },
@@ -4654,7 +4654,7 @@
       "noneDeclared": "Nenhum declarado.",
       "present": "Presente",
       "notInspected": "Não inspecionado",
-      "validationProblems": "Validation problems",
+      "validationProblems": "Problemas de validação",
       "localFolderPath": "Caminho da pasta local",
       "configuredPath": "Caminho configurado",
       "localFolders": "Pastas locais",
@@ -4704,7 +4704,7 @@
       "dismissProjectMembershipNotice": "Dismiss project membership notice",
       "youLeftThisProjectItNo": "You left this project. It no longer appears in your sidebar.",
       "neutralDefault": "Neutro (padrão)",
-      "resetToNeutralGray": "Reset to neutral gray",
+      "resetToNeutralGray": "Redefinir para cinza neutro",
       "color": "Cor",
       "noIconsMatch": "Nenhum ícone corresponde",
       "searchIcons": "Buscar ícones...",
@@ -4808,10 +4808,10 @@
       "updating": "Atualizando…",
       "wrapMultiWordPhrasesInQuotes": "Wrap multi-word phrases in quotes.",
       "tryFewerTokensOrASingle": "Try fewer tokens or a single distinctive term.",
-      "openTasksFilterView": "Open Tasks filter view",
+      "openTasksFilterView": "Abrir visão de filtro de tarefas",
       "searchAllScopes": "Buscar em todos os escopos",
       "retry": "Repetir",
-      "couldnTRunThatSearch": "Couldn’t run that search",
+      "couldnTRunThatSearch": "Não foi possível executar essa busca",
       "quotedPhrases": "Frases entre aspas:",
       "identifierLookup": "Busca de identificador:",
       "recentSearches": "Buscas recentes",
@@ -4840,17 +4840,17 @@
       "inactive": "Inativo",
       "missing": "Ausente",
       "set": "Definir",
-      "coverageUnavailable": "Coverage unavailable.",
+      "coverageUnavailable": "Cobertura indisponível.",
       "noValueIsStoredOnThis": "No value is stored on this admin row. Each member manages their own value under My secrets.",
       "eachUser": "Cada usuário",
-      "coverageUnavailable2": "Coverage unavailable",
+      "coverageUnavailable2": "Cobertura indisponível",
       "optional": "(opcional)",
       "useValues": "Usar valores",
       "safeRequestErrorDetails": "Safe request/error details",
       "operation": "Operação",
       "providerVault": "Cofre de provedores",
       "region": "Região",
-      "requiredIamCapability": "Required IAM capability",
+      "requiredIamCapability": "Capacidade IAM necessária",
       "vaultContext": "Contexto do cofre",
       "provider": "Provedor",
       "noAwsVaultMetadataCandidatesFound": "No AWS vault metadata candidates found. Manual entry is still available.",
@@ -4868,10 +4868,10 @@
       "secret": "Segredo",
       "useSecretsByBindingThemTo": "Use secrets by binding them to runtime environment variables.",
       "cancel": "Cancelar",
-      "removeProviderVault": "Remove provider vault",
+      "removeProviderVault": "Remover cofre do provedor",
       "deleteUserProvidedSecret": "Delete user-provided secret",
       "deleteSecret": "Excluir segredo",
-      "pasteTheNewValue": "Paste the new value",
+      "pasteTheNewValue": "Cole o novo valor",
       "newValue": "Novo valor",
       "rotateTheActualValueInThe": "Rotate the actual value in the provider before changing this Paperclip reference.",
       "externalReference": "Referência externa",
@@ -4884,7 +4884,7 @@
       "comingSoon": "Em breve",
       "warning": "Aviso",
       "ready": "Pronto",
-      "productionLocalVault": "Production local vault",
+      "productionLocalVault": "Cofre local de produção",
       "displayName": "Nome de exibição",
       "saveOnlyNonSensitiveRoutingMetadata": "Save only non-sensitive routing metadata. Credentials stay in the runtime environment or provider identity.",
       "whatIsThisSecretUsedFor": "What is this secret used for? (no values)",
@@ -4894,11 +4894,11 @@
       "existingProviderSecretsAreResolveOnly": "Existing provider secrets are resolve-only in Paperclip. Rotate the value in the provider, then update this reference only if the path, ARN, or version changes.",
       "storedOnceNeverReDisplayed": "Stored once, never re-displayed",
       "value": "Valor",
-      "removeFolderPrefix": "Remove folder prefix",
+      "removeFolderPrefix": "Remover prefixo da pasta",
       "name": "Nome",
       "managedValue": "Valor gerenciado",
       "organizationStoresOneSharedValueEach": "Organization stores one shared value. Each user lets every member supply their own value under My secrets.",
-      "whoProvidesTheValue": "Who provides the value?",
+      "whoProvidesTheValue": "Quem fornece o valor?",
       "chooseWhoProvidesTheValueShared": "Choose who provides the value. Shared fields keep their values when you switch modes.",
       "secretReferences": "Referências de segredo",
       "actions": "Ações",
@@ -4910,7 +4910,7 @@
       "folderName": "Nome da pasta",
       "viewMode": "Modo de visualização",
       "searchSecrets": "Buscar segredos",
-      "searchByNameKeyRef": "Search by name, key, ref",
+      "searchByNameKeyRef": "Buscar por nome, chave ou ref",
       "selectAnOrganizationToManageSecrets": "Select an organization to manage secrets.",
       "importFromVaultDialog": {
         "state": "Estado",
@@ -4918,10 +4918,10 @@
         "lastChanged": "Última alteração",
         "reference": "Referência",
         "remoteName": "Nome do remoto",
-        "refreshRemoteSecrets": "Refresh remote secrets",
-        "searchRemoteSecrets": "Search remote secrets",
-        "searchByNameArnTag": "Search by name, ARN, tag",
-        "selectAnAwsVault": "Select an AWS vault",
+        "refreshRemoteSecrets": "Atualizar segredos remotos",
+        "searchRemoteSecrets": "Buscar segredos remotos",
+        "searchByNameArnTag": "Buscar por nome, ARN ou tag",
+        "selectAnAwsVault": "Selecione um cofre da AWS",
         "selectAwsVault": "Selecionar cofre da AWS",
         "vault": "Cofre",
         "done": "Pronto",
@@ -4933,7 +4933,7 @@
         "importFromAwsSecretsManager": "Import from AWS Secrets Manager"
       },
       "missingUserSecretsBanner": {
-        "manageAllMySecrets": "Manage all my secrets"
+        "manageAllMySecrets": "Gerenciar todos os meus segredos"
       },
       "myUserSecretsTab": {
         "retry": "Repetir"
@@ -4952,7 +4952,7 @@
       },
       "userSecretDefinitionsTab": {
         "cancel": "Cancelar",
-        "removeUserSecret": "Remove user secret?",
+        "removeUserSecret": "Remover segredo do usuário?",
         "archived": "Arquivado",
         "disabled": "Desativado",
         "active": "Ativo",
@@ -4962,7 +4962,7 @@
         "whatThisCredentialIsFor": "What this credential is for",
         "description": "Descrição",
         "key": "Chave",
-        "personalGithubToken": "Personal GitHub token",
+        "personalGithubToken": "Token pessoal do GitHub",
         "name": "Nome",
         "membersSupplyTheirOwnValueFor": "Members supply their own value for this credential. No value is entered here.",
         "retry": "Repetir",
@@ -4991,23 +4991,23 @@
       }
     },
     "skillSources": {
-      "connectAGithubAccount": "Connect a GitHub account",
-      "manageGithubConnection": "Manage GitHub connection",
+      "connectAGithubAccount": "Conectar uma conta do GitHub",
+      "manageGithubConnection": "Gerenciar conexão do GitHub",
       "manageConnections": "Gerenciar conexões",
       "tryAgain": "Tentar novamente",
       "noMatchingRepositories": "No matching repositories.",
       "searchRepositories": "Buscar repositórios",
-      "searchRepositories2": "Search repositories…",
+      "searchRepositories2": "Buscar repositórios…",
       "loadingYourGithubRepositories": "Loading your GitHub repositories…",
       "refreshRepositories": "Atualizar repositórios",
       "uncheckedSkillsStayInstalled": "Unchecked skills stay installed.",
       "cancel": "Cancelar",
       "reloadSource": "Recarregar origem",
       "sourceNotFound": "Origem não encontrada.",
-      "projectRepositories": "Project repositories",
+      "projectRepositories": "Repositórios do projeto",
       "importFromGithub": "Importar do GitHub",
       "loadingSources": "Carregando origens…",
-      "moreSourceActions": "More source actions",
+      "moreSourceActions": "Mais ações da origem",
       "skillsFromYourRepositoriesStayUp": "Skills from your repositories stay up to date automatically.",
       "skillSources": "Origens de skills",
       "selectACompanyToManageSkill": "Select a company to manage skill sources."
@@ -5033,16 +5033,16 @@
       "description": "Descrição",
       "focusedSmoke": "Smoke focado",
       "name": "Nome",
-      "loadingTemplate": "Loading template...",
+      "loadingTemplate": "Carregando modelo...",
       "selectedTemplateIsNoLongerAvailable": "Selected template is no longer available.",
       "runsWillUseOnlyTheInput": "Runs will use only the input text.",
       "runTemplatesCouldNotLoad": "Run templates could not load.",
-      "deleteCustomTemplate": "Delete custom template",
-      "deleteRunTemplate": "Delete run template",
-      "duplicateRunTemplate": "Duplicate run template",
-      "editCustomTemplate": "Edit custom template",
+      "deleteCustomTemplate": "Excluir modelo personalizado",
+      "deleteRunTemplate": "Excluir modelo de execução",
+      "duplicateRunTemplate": "Duplicar modelo de execução",
+      "editCustomTemplate": "Editar modelo personalizado",
       "editRunTemplate": "Editar modelo de execução",
-      "createRunTemplate": "Create run template",
+      "createRunTemplate": "Criar modelo de execução",
       "selectTemplate": "Selecionar modelo",
       "runTemplate": "Modelo de execução",
       "advanced": "Avançado",
@@ -5131,15 +5131,15 @@
         "estimatedCost": "Custo estimado",
         "dailyTokenCap": "Teto diário de tokens",
         "noCap": "sem teto",
-        "activeHoursTimezone": "Active hours timezone",
+        "activeHoursTimezone": "Fuso do horário ativo",
         "timezone": "Fuso horário",
         "activeHoursEnd": "Fim do horário ativo",
         "activeHoursStart": "Início do horário ativo",
         "onlyAutoUpdateDuringActiveHours": "Only auto-update during active hours",
-        "limitToActiveHours": "Limit to active hours",
+        "limitToActiveHours": "Limitar ao horário ativo",
         "guardrails": "Salvaguardas",
         "countAsAChange": "Contar como alteração",
-        "maxUpdatesPerHour": "Max updates per hour",
+        "maxUpdatesPerHour": "Máximo de atualizações por hora",
         "afterTheLastChangeMax": "after the last change · max",
         "debounce": "Debounce",
         "wait": "Aguardar",
@@ -5178,11 +5178,11 @@
       "routingInIssuechatthread": "Routing in IssueChatThread",
       "component": "Componente",
       "whatThePhase4UiImplementation": "What the Phase 4 UI implementation should preserve from this design.",
-      "handoffToEngineering": "Handoff to engineering",
+      "handoffToEngineering": "Repassar para engenharia",
       "details": "Detalhes",
       "you": "Você",
       "suggestedActionReassignToRecoveryAgent": "Suggested action: Reassign to recovery agent",
-      "recoveryOwnerCto": "Recovery owner: CTO",
+      "recoveryOwnerCto": "Dono da recuperação: CTO",
       "normalizedCauseRunCompletedWithoutDisposition": "Normalized cause: Run completed without disposition",
       "statusBeforeInProgress": "Status before: in_progress",
       "recoveryRun61fdb79b80124676Ac71": "Recovery run: 61fdb79b-8012-4676-ac71-2971830e126a",
@@ -5196,7 +5196,7 @@
       "firstClassSystemNoticeTreatment": "First-class system notice treatment"
     },
     "taskChatLab": {
-      "agentBubbleTreatment": "Agent bubble treatment",
+      "agentBubbleTreatment": "Tratamento do balão do agente",
       "agentBubble": "Balão do agente",
       "streamingSpeed": "Velocidade de streaming",
       "speed": "Velocidade",
@@ -5221,14 +5221,14 @@
       "kind": "Tipo",
       "searchTeams": "Buscar times",
       "teams": "Times",
-      "hasExternalSources": "Has external sources",
+      "hasExternalSources": "Tem origens externas",
       "updateAvailableInstalledTeamIsOut": "Update available — installed team is out of date",
       "updateAvailable": "Atualização disponível",
       "done": "Pronto",
-      "viewActivityLog": "View activity log →",
+      "viewActivityLog": "Ver log de atividade →",
       "viewRoutines": "Ver rotinas →",
       "viewImportedProjects": "View imported projects →",
-      "viewImportedAgents": "View imported agents →",
+      "viewImportedAgents": "Ver agentes importados →",
       "teamInstalled": "Instalado pelo time",
       "resolvingSkillsImportingAgentsProjectsAnd": "Resolving skills, importing agents, projects, and routines. This may take a moment.",
       "eachImportedAgentDefaultsToIts": "Each imported agent defaults to its package adapter; override here before install. Deeper per-adapter model config is editable on the agent after install.",
@@ -5258,23 +5258,23 @@
       "agentHierarchy": "Hierarquia de agentes",
       "requiresBoardOperatorOrAgentCreate": "Requires board operator or agent-create permissions.",
       "thisTeamCannotBeInstalledThe": "This team cannot be installed — the package manifest is invalid.",
-      "secretsEnvInputs": "Secrets & env inputs",
-      "noRequiredSkills": "No required skills.",
-      "noAgentsInThisTeam": "No agents in this team.",
+      "secretsEnvInputs": "Segredos e entradas de ambiente",
+      "noRequiredSkills": "Nenhuma skill obrigatória.",
+      "noAgentsInThisTeam": "Nenhum agente neste time.",
       "catalogPackageProvenance": "Catalog package provenance"
     },
     "timeline": {
       "resetZoom": "Redefinir zoom",
       "zoomIn": "Aumentar zoom",
       "zoomOut": "Diminuir zoom",
-      "timelineZoomControls": "Timeline zoom controls",
+      "timelineZoomControls": "Controles de zoom da linha do tempo",
       "timelineEndDate": "Data final da linha do tempo",
-      "timelineStartDate": "Timeline start date"
+      "timelineStartDate": "Data inicial da linha do tempo"
     },
     "userProfile": {
       "noDirectUserActionsRecordedYet": "No direct user actions recorded yet.",
       "recentActivity": "Atividade recente",
-      "noTouchedTasksYet": "No touched tasks yet.",
+      "noTouchedTasksYet": "Nenhuma tarefa tocada ainda.",
       "recentTasks": "Tarefas recentes",
       "tokensTotal": "tokens no total",
       "last14Days": "Últimos 14 dias",
@@ -5284,11 +5284,11 @@
       "tokens": "Tokens"
     },
     "whatNeedsMe": {
-      "youReAllCaughtUp": "You're all caught up",
+      "youReAllCaughtUp": "Você está em dia",
       "adjustOrClearYourSearchAnd": "Ajuste ou limpe sua busca e filtros para ver o restante.",
-      "noExpiredDecisions": "No expired decisions.",
+      "noExpiredDecisions": "Nenhuma decisão expirada.",
       "loadingExpiredDecisions": "Loading expired decisions…",
-      "noDecidedDecisions": "No decided decisions.",
+      "noDecidedDecisions": "Nenhuma decisão tomada.",
       "loadingDecidedDecisions": "Loading decided decisions…",
       "decisions": "Decisões",
       "selectAnOrganizationFirst": "Selecione uma organização primeiro."
@@ -5321,7 +5321,7 @@
         "connection": "Conexão"
       },
       "aggregatorConnectDialog": {
-        "connectANewAccount": "Connect a new account"
+        "connectANewAccount": "Conectar uma nova conta"
       },
       "appDetail": {
         "tryAgain": "Tentar novamente",
@@ -5368,19 +5368,19 @@
         "arcadeUserId": "ID de usuário do Arcade",
         "arcade": "Arcade",
         "projectApiKey": "Chave de API do projeto",
-        "syncArcadeAccounts": "Sync Arcade accounts"
+        "syncArcadeAccounts": "Sincronizar contas do Arcade"
       },
       "assistantConnection": {
-        "backToConnections": "Back to Connections",
+        "backToConnections": "Voltar para conexões",
         "refresh": "Atualizar",
         "loadingConnections": "Carregando conexões…",
         "yourConnectedAssistants": "Your connected assistants",
         "creatingTasksAndAddingCommentsMay": "Creating tasks and adding comments may start agent work using the organization’s configured execution budget.",
-        "connectOrganization": "Connect organization",
+        "connectOrganization": "Conectar organização",
         "assistantSetupInstructions": "Assistant setup instructions",
         "setUpManually": "Configurar manualmente",
         "pasteThisInvitationIntoYourAssistant": "Paste this invitation into your assistant. It will help set up the connection and ask you to approve access in Paperclip.",
-        "inviteYourAssistant": "Invite your assistant",
+        "inviteYourAssistant": "Convide seu assistente",
         "openExperimentalSettings": "Open Experimental settings",
         "anInstanceAdministratorMustTurnOn": "An instance administrator must turn on Assistant connections (MCP) in Experimental settings. Then return here to connect your assistant.",
         "enableAssistantConnections": "Enable assistant connections",
@@ -5395,14 +5395,14 @@
       },
       "browse": {
         "addACustomMcpServerOr": "Add a custom MCP server or paste an existing configuration.",
-        "connectYourOwnTool": "Connect your own tool",
+        "connectYourOwnTool": "Conecte sua própria ferramenta",
         "consoleUrl": "URL do console",
         "permissions": "Permissões",
         "connectCopilot": "Conectar o Copilot",
         "cancel": "Cancelar",
         "next": "Próximo",
         "previous": "Anterior",
-        "connectorCatalogPages": "Connector catalog pages",
+        "connectorCatalogPages": "Páginas do catálogo de conectores",
         "connectorList": "Lista de conectores",
         "clearSearch": "Limpar busca",
         "loadingConnectors": "Carregando conectores",
@@ -5421,13 +5421,13 @@
       },
       "composioAppSetup": {
         "getANewLink": "Obter um novo link",
-        "connectANewAccount": "Connect a new account…",
+        "connectANewAccount": "Conectar uma nova conta…",
         "composioAccount": "Conta Composio"
       },
       "connections": {
         "browseApps": "Explorar aplicativos",
         "apps": "Aplicativos",
-        "noConnectionsYet": "No connections yet.",
+        "noConnectionsYet": "Nenhuma conexão ainda.",
         "theToolsYouVeConnectedAnd": "The tools you’ve connected, and whether they’re working.",
         "connections": "Conexões",
         "confirmThisServerSExactAddress": "Confirm this server’s exact address before Cloud can return encrypted Google credentials to it.",
@@ -5449,7 +5449,7 @@
       },
       "connectorsToolbar": {
         "searchConnectors": "Buscar conectores…",
-        "connectorsControls": "Connectors controls"
+        "connectorsControls": "Controles de conectores"
       },
       "executorManagementSetup": {
         "cancel": "Cancelar",
@@ -5457,7 +5457,7 @@
         "executorConsole": "Console do executor"
       },
       "paperclipCloudOAuthHandoff": {
-        "returnToPaperclip": "Return to Paperclip",
+        "returnToPaperclip": "Voltar ao Paperclip",
         "tryAgain": "Tentar novamente"
       },
       "reviewQueueCard": {
@@ -5502,7 +5502,7 @@
           "off": "Desligado",
           "askFirst": "Perguntar primeiro",
           "allowed": "Permitido",
-          "whatTheBadgesMean": "What the badges mean",
+          "whatTheBadgesMean": "O que os selos significam",
           "onlyAgentsYouCanAssignTasks": "Only agents you can assign tasks to are listed.",
           "noAgentsMatch": "Nenhum agente corresponde.",
           "searchAgents": "Buscar agentes…",
@@ -5537,19 +5537,19 @@
         },
         "agentConnectionAccess": {
           "theseAgentsCanUseTheListed": "These agents can use the listed actions in addition to the permissions above. Removing a grant restores their other permissions.",
-          "additionalAgentAccess": "Additional agent access"
+          "additionalAgentAccess": "Acesso adicional do agente"
         },
         "browserUseSettingsPanel": {
           "theCredentialOwnerOrAShared": "The credential owner or a shared connection manager can configure saved profiles and cost limits.",
           "browserSettings": "Configurações do navegador",
-          "saveBrowserSettings": "Save browser settings",
-          "browserSettingsSaved": "Browser settings saved.",
+          "saveBrowserSettings": "Salvar configurações do navegador",
+          "browserSettingsSaved": "Configurações do navegador salvas.",
           "couldNotSaveOrLoadBrowser": "Could not save or load browser settings. Check your credential access and try again.",
           "retry": "Repetir",
           "loadingProfiles": "Carregando perfis…",
           "noSavedProfiles": "Nenhum perfil salvo.",
           "browserUseCloud": "Browser Use Cloud",
-          "allowedSavedProfiles": "Allowed saved profiles",
+          "allowedSavedProfiles": "Perfis salvos permitidos",
           "theAgentCanChooseALower": "The agent can choose a lower limit. Paperclip also applies any remaining hard budget limit.",
           "useTheRemainingPaperclipBudget": "Use the remaining Paperclip budget",
           "maximumCostPerBrowserRunUsd": "Maximum cost per browser run (USD)"
@@ -5590,13 +5590,13 @@
           "whichAgentsCanUseThisConnection": "Quais agentes podem usar esta conexão?"
         },
         "railwayAccessPanel": {
-          "removeContainerKey": "Remove container key",
+          "removeContainerKey": "Remover chave do contêiner",
           "pasteTheSshRailwayComLine": "Paste the ssh.railway.com line from a known_hosts entry you have independently verified. Paperclip refuses untrusted or changed host keys.",
           "sshRailwayComSshEd25519": "ssh.railway.com ssh-ed25519 …",
           "verifiedRailwayHostKey": "Verified Railway host key",
           "railwayKeySetup": "Configuração da chave da Railway",
           "publicKey": "Chave pública",
-          "generateSshKeyPair": "Generate SSH key pair",
+          "generateSshKeyPair": "Gerar par de chaves SSH",
           "authorization": "Autorização",
           "theConnectionManagerAndAuthorizationOwner": "The connection manager and authorization owner can configure container access.",
           "railwaySshDocumentation": "Railway SSH documentation",
@@ -5613,9 +5613,9 @@
           "addSheet": "Adicionar folha",
           "noSheetsAreConnectedYet": "No sheets are connected yet.",
           "agentsCanOnlyUseTheSheets": "Agents can only use the sheets listed here.",
-          "sheetsAgentsCanUse": "Sheets agents can use",
+          "sheetsAgentsCanUse": "Planilhas que os agentes podem usar",
           "posthogUsesItsNormalAccountDefaults": "PostHog uses its normal account defaults unless you narrow the optional controls below.",
-          "posthogAccessScope": "PostHog access scope"
+          "posthogAccessScope": "Escopo de acesso do PostHog"
         }
       },
       "chat": {
@@ -5632,25 +5632,25 @@
         "chatEndpointDetail": {
           "cancel": "Cancelar",
           "openSlackAppSettings": "Abrir configurações do app do Slack",
-          "removeThisConnection": "Remove this connection?",
+          "removeThisConnection": "Remover esta conexão?",
           "markDelivered": "Marcar como entregue",
           "keepUnresolved": "Manter sem resolver",
           "next": "Próximo",
           "previous": "Anterior",
-          "activityPagination": "Activity pagination",
+          "activityPagination": "Paginação de atividade",
           "noConnectionActivityYet": "No connection activity yet.",
           "tryAgain": "Tentar novamente",
           "connectionActivityCouldNotBeLoaded": "Connection activity could not be loaded.",
-          "conversationSTask": "conversation’s task",
+          "conversationSTask": "tarefa da conversa",
           "refresh": "Atualizar",
           "recentActivity": "Atividade recente",
-          "slackCallbackHealth": "Slack callback health",
+          "slackCallbackHealth": "Saúde do callback do Slack",
           "callbackUrlsNeedAttention": "Callback URLs need attention",
           "connectionHealthAndControls": "Connection health and controls",
-          "lastReportedHealth": "Last reported health:",
-          "connectionActivity": "Connection activity",
+          "lastReportedHealth": "Última saúde reportada:",
+          "connectionActivity": "Atividade da conexão",
           "conversationsCouldNotBeLoaded": "Conversations could not be loaded.",
-          "loadingConversations": "Loading conversations…",
+          "loadingConversations": "Carregando conversas…",
           "people": "Pessoas",
           "noLinkedAccountsYetInviteSomeone": "No linked accounts yet. Invite someone to connect.",
           "loadingPeople": "Carregando pessoas…",
@@ -5661,40 +5661,40 @@
           "openTheBotSPrivateLink": "Open the bot’s private link and sign in to Paperclip to confirm your Slack account.",
           "shareTheseInstructionsWithSomeoneIn": "Share these instructions with someone in your Slack workspace.",
           "invitePeople": "Convidar pessoas",
-          "noDestinationsYet": "No destinations yet.",
-          "loadingDestinations": "Loading destinations…",
+          "noDestinationsYet": "Nenhum destino ainda.",
+          "loadingDestinations": "Carregando destinos…",
           "telegramSDefaultPrivacyModeDoes": "Telegram's default privacy mode does not deliver ordinary mentions to bots. Use this command to start or continue group work, or reply directly to a message from the bot.",
-          "telegramGroupCommand": "Telegram group command",
+          "telegramGroupCommand": "Comando de grupo do Telegram",
           "theseSettingsApplyToTheSaved": "These settings apply to the saved AgentMail account and all inboxes using it.",
           "access": "Acesso",
           "loadingAccess": "Carregando acesso…",
           "connectionAccessCouldNotBeLoaded": "Não foi possível carregar o acesso à conexão.",
           "outgoingCallsUseYourSavedCallback": "Outgoing calls use your saved callback number and opt-in. For a private incoming call, enter the code spoken on the phone in signed-in Paperclip and select a task to approve that live call. Incoming calls can start a new conversation task without sign-in, under a task-scoped low-trust policy. Private mode is optional and requires approval before accessing existing tasks.",
           "browserCallsUseTheSignedIn": "Browser calls use the signed-in Paperclip user’s current company access. Each call stays bound to its selected agent and task.",
-          "privateVoiceAccess": "Private voice access",
+          "privateVoiceAccess": "Acesso privado de voz",
           "continueSetup": "Continuar configuração",
-          "copyDedicatedNumber": "Copy dedicated number",
+          "copyDedicatedNumber": "Copiar número dedicado",
           "thisChatConnectionCouldNotBe": "This chat connection could not be loaded."
         },
         "chatEndpointSetup": {
           "couldnTCopySelectAndCopy": "Couldn't copy. Select and copy the command above.",
           "continueTheConversationInTheThread": "Continue the conversation in the thread.",
           "selectTheBotFromSlackS": "Select the bot from Slack’s @mention suggestions.",
-          "reviewIdentityAccess": "Review identity access",
+          "reviewIdentityAccess": "Revisar acesso de identidade",
           "checkingIdentityAndGuestReadiness": "Checking identity and guest readiness…",
           "completeThisRealConversationToFinish": "Complete this real conversation to finish setup.",
           "saveExit": "Salvar e sair",
           "signingSecret": "Segredo de assinatura",
           "basicInformation": "Informações básicas",
-          "oauthPermissions": "OAuth & Permissions",
+          "oauthPermissions": "OAuth e permissões",
           "botOauthToken": "Token OAuth do bot",
-          "botUserOauthToken": "Bot User OAuth Token",
+          "botUserOauthToken": "Token OAuth do usuário bot",
           "yourCredentialsAreSavedLeaveThe": "Your credentials are saved. Leave the fields blank to keep them, or enter replacements.",
           "nowYouNeedToFindTwo": "Now you need to find two secrets. They are in two different screens on Slack.",
           "iAlreadyCreatedTheApp": "I already created the app",
           "slackAppManifest": "Manifesto do app do Slack",
           "generatedFromYourAppNameBot": "Generated from your app name, bot name, and slash command. Edit those fields to update the manifest.",
-          "viewSlackAppManifest": "View Slack App Manifest",
+          "viewSlackAppManifest": "Ver manifesto do app do Slack",
           "reconnectVerifiesOrReplacesCredentialsFor": "Reconnect verifies or replaces credentials for this same Slack app. It does not reinstall the app or change its workspace or channel membership. Leave credentials blank to reuse the saved values.",
           "learnHowToSetUpHttps": "Learn how to set up HTTPS",
           "slackNeedsAPublicHttpsUrl": "Slack needs a public HTTPS URL to send messages to Paperclip. Configure one for this instance before creating or connecting your Slack app.",
@@ -5704,7 +5704,7 @@
           "slackNeedsToConfirmThatIt": "Slack needs to confirm that it can reach your Paperclip instance.",
           "retry": "Repetir",
           "requestUrl": "URL da requisição",
-          "eventSubscriptions": "Event Subscriptions",
+          "eventSubscriptions": "Assinaturas de evento",
           "configureAPublicHttpsUrlFor": "Configure a public HTTPS URL for this Paperclip instance before connecting GitHub.",
           "copyThisValueNowPaperclipWill": "Copy this value now. Paperclip will not show it again.",
           "generatedWebhookSecret": "Generated webhook secret",
@@ -5714,13 +5714,13 @@
           "choosePemFile": "Escolher arquivo .pem",
           "chooseGithubAppPrivateKeyFile": "Choose GitHub App private key file",
           "privateKeyPem": "Chave privada (PEM)",
-          "onlyOnThisAccount": "Only on this account",
+          "onlyOnThisAccount": "Somente nesta conta",
           "pullRequestReviewComment": "Pull request review comment",
           "issueComment": "Comentário da issue",
           "readWrite": "Leitura e escrita",
           "pullRequests": "Pull requests",
           "issues": "Issues",
-          "enableSslVerification": "Enable SSL verification",
+          "enableSslVerification": "Habilitar verificação de SSL",
           "webhooksActive": "Webhooks · Ativos",
           "underTheTargetUserOrOrganization": "Under the target user or organization, create a new GitHub App. Give it a globally unique name (34 characters or fewer), use the Paperclip homepage URL below, and leave user authorization off.",
           "configureAPublicHttpsUrlFor2": "Configure a public HTTPS URL for this Paperclip instance before connecting Microsoft Teams.",
@@ -5730,7 +5730,7 @@
           "uploadAnAppUploadACustom": "Upload an app · Upload a custom app",
           "microsoftTeamsAppsManageYourApps": "Microsoft Teams · Apps · Manage your apps",
           "application": "Aplicativo",
-          "configurePermissions": "Configure · Permissions",
+          "configurePermissions": "Configurar · Permissões",
           "groupChat": "Conversa em grupo",
           "team": "Time",
           "personal": "Pessoal",
@@ -5738,7 +5738,7 @@
           "newApp": "Novo app",
           "teamsDeveloperPortalApps": "Teams Developer Portal · Apps",
           "microsoftTeams": "Microsoft Teams",
-          "settingsChannels": "Settings · Channels",
+          "settingsChannels": "Configurações · Canais",
           "messagingEndpoint": "Endpoint de mensagens",
           "settingsConfiguration": "Settings · Configuration",
           "useExistingAppRegistration": "Use existing app registration",
@@ -5749,8 +5749,8 @@
           "value": "Valor",
           "newClientSecret": "Novo segredo do cliente",
           "certificatesSecretsClientSecrets": "Certificates & secrets · Client secrets",
-          "directoryTenantId": "Directory (tenant) ID",
-          "applicationClientId": "Application (client) ID",
+          "directoryTenantId": "ID do diretório (tenant)",
+          "applicationClientId": "ID do aplicativo (cliente)",
           "register": "Registrar",
           "accountsInThisOrganizationalDirectoryOnly": "Accounts in this organizational directory only (Single tenant)",
           "newRegistration": "Novo registro",
@@ -5774,7 +5774,7 @@
           "connectionFailed": "A conexão falhou",
           "useYourOwnApp": "Usar seu próprio app",
           "couldnTSaveTheSlackApp": "Couldn't save the Slack app details. Try again before continuing.",
-          "chooseAnActiveAgent": "Choose an active agent",
+          "chooseAnActiveAgent": "Escolha um agente ativo",
           "assignedAgent": "Agente atribuído",
           "thisAgentIsPermanentForThe": "This agent is permanent for the connection. Connect another channel to represent a different agent.",
           "whichAgentDoYouWantTo": "Which agent do you want to chat with?",
@@ -5782,13 +5782,13 @@
           "thisChatProviderIsNotSupported": "This chat provider is not supported.",
           "useThisConnectionAsAnAgent": "Use this connection as an agent tool",
           "chatWithAnAgent": "Conversar com um agente",
-          "chooseHowToConnect": "Choose how to connect"
+          "chooseHowToConnect": "Escolha como conectar"
         },
         "chatExecutionDefaults": {
-          "savedForNewTasks": "Saved for new tasks.",
+          "savedForNewTasks": "Salvo para novas tarefas.",
           "cancel": "Cancelar",
           "projectAndWorkspaceAccessIsChecked": "Project and workspace access is checked for each task. A shared folder must also be allowed by the agent’s execution policy.",
-          "existingWorkspaces": "Existing workspaces",
+          "existingWorkspaces": "Workspaces existentes",
           "savedWorkspaceUnavailable": "Saved workspace (unavailable)",
           "taskFilesSeparateFolder": "Task files — separate folder",
           "useProjectOrTaskDefaults": "Use project or task defaults",
@@ -5832,14 +5832,14 @@
           "inboxDisconnectedEmailHistoryRemainsIn": "Inbox disconnected. Email history remains in its tasks.",
           "giveAnAgentAnEmailAddress": "Give an agent an email address",
           "eachEmailConversationBecomesATask": "Each email conversation becomes a task.",
-          "saveTrustSettings": "Save trust settings",
+          "saveTrustSettings": "Salvar configurações de confiança",
           "cancel": "Cancelar",
           "lowTrustLimitsPaperclipAccessIt": "Low trust limits Paperclip access; it does not sandbox the runtime. Review filesystem, tool, and secret access separately.",
           "changesApplyToAllOfThis": "Changes apply to all of this agent’s work. Use a dedicated email agent if its other tasks need broader access.",
           "done": "Pronto",
           "emailSettings": "Configurações de e-mail",
-          "loadingEmailOptions": "Loading email options…",
-          "reviewTrustSettings": "Review trust settings",
+          "loadingEmailOptions": "Carregando opções de e-mail…",
+          "reviewTrustSettings": "Revisar configurações de confiança",
           "receiving": "Recebendo",
           "setUpACustomDomain": "Set up a custom domain ↗",
           "advancedOptions": "Opções avançadas",
@@ -5848,19 +5848,19 @@
           "chooseAnInbox": "Escolha uma caixa de entrada",
           "emailDomain": "Domínio de e-mail",
           "chooseADifferentAddress": "Choose a different address",
-          "configureWorkBoundary": "Configure work boundary",
+          "configureWorkBoundary": "Configurar fronteira de trabalho",
           "thisAgentNeedsAWorkBoundary": "This agent needs a work boundary before it can receive email.",
           "useTheExistingInboxInstead": "Use the existing inbox instead",
           "chooseAnAgent": "Escolha um agente",
           "agent": "Agente",
           "thisEmailSetupCouldNotBe": "This email setup could not be found. Return to Connectors and start a new connection.",
-          "loadingEmailSetup": "Loading email setup…"
+          "loadingEmailSetup": "Carregando configuração de e-mail…"
         },
         "gitHubAppIdentity": {
           "refreshGithubAppIdentity": "Refresh GitHub App identity",
           "changeTheAppNameOrUpload": "Change the App name or upload its logo on GitHub",
           "editAppNameAndLogoOn": "Edit App name and logo on GitHub",
-          "reconnectAfterward": "Reconnect afterward",
+          "reconnectAfterward": "Reconectar depois",
           "changeTheNameOrUploadA": "Change the name or upload a logo in the App’s Display information settings on GitHub."
         },
         "gitHubBotConfiguration": {
@@ -5876,7 +5876,7 @@
           "theMemberAccountableForAutomaticallyCreated": "The member accountable for automatically created Paperclip tasks. GitHub authors remain recorded separately. This grants no access to the member’s personal credentials.",
           "responsibleMember": "Membro responsável",
           "allowSpecificGithubUsersWithA": "Allow specific GitHub users with a member as their sponsor. They receive restricted access, without company membership or the sponsor’s personal credentials.",
-          "externalContributors": "External contributors",
+          "externalContributors": "Colaboradores externos",
           "settings": "Configurações",
           "noMembersLinkedYetLinkAn": "No members linked yet. Link an account to get started.",
           "loadingLinkedAccounts": "Loading linked accounts…",
@@ -5888,13 +5888,13 @@
           "error": "Erro",
           "warning": "Aviso",
           "info": "Informação",
-          "minimumInlineSeverity": "Minimum inline severity",
+          "minimumInlineSeverity": "Severidade mínima em linha",
           "findingCategories": "Categorias de achados",
           "reviewResults": "Revisar resultados",
           "reviewsRequestedByMentionBypassThese": "Reviews requested by @mention bypass these scheduling filters. Repository access and ignored files still apply.",
           "runsForAuthorizedAuthorsInAccess": "Runs for authorized authors in Access. Use the author filters below to limit whose issues and PRs start work.",
           "automaticEvents": "Eventos automáticos",
-          "managePeopleInAccess": "Manage people in Access",
+          "managePeopleInAccess": "Gerenciar pessoas em Acesso",
           "whenMentioned": "Quando mencionado",
           "whenToRun": "Quando executar",
           "addedToTheMainInstructionsFor": "Added to the main instructions for this event. Type / to select a skill for the agent to use.",
@@ -5903,7 +5903,7 @@
           "includedInEveryGithubTaskType": "Included in every GitHub task. Type / to select a skill for the agent to use.",
           "whatShouldThisAgentDoOn": "What should this agent do on GitHub?",
           "instructions": "Instruções",
-          "configureOnGithub": "Configure on GitHub",
+          "configureOnGithub": "Configurar no GitHub",
           "paperclipReview": "Revisão do Paperclip",
           "enterAWholeNumberFrom1": "Enter a whole number from 1 to 5.",
           "reportOnly": "Somente relatar",
@@ -5927,23 +5927,23 @@
           "paperclipTask": "Tarefa do Paperclip",
           "noAssessmentHasBeenSubmittedYet": "No assessment has been submitted yet.",
           "discardChanges": "Descartar alterações",
-          "manageToolPermissions": "Manage tool permissions",
+          "manageToolPermissions": "Gerenciar permissões de ferramentas",
           "enableBotTools": "Habilitar ferramentas do bot",
           "thisSavedBotHasGithubTools": "This saved bot has GitHub tools disabled, so it cannot start work or respond.",
-          "loadingConfiguration": "Loading configuration…",
-          "loadingRepositories": "Loading repositories…",
+          "loadingConfiguration": "Carregando configuração…",
+          "loadingRepositories": "Carregando repositórios…",
           "repositories": "Repositórios",
           "searchRepositories": "Buscar repositórios",
           "chooseWhereTheBotCanReceive": "Choose where the bot can receive messages and use tools. Repository changes save immediately.",
-          "manageRepositories": "Manage repositories"
+          "manageRepositories": "Gerenciar repositórios"
         },
         "gitHubChatSetup": {
-          "iAlreadyHaveAnApp": "I already have an App",
+          "iAlreadyHaveAnApp": "Já tenho um app",
           "appName": "Nome do aplicativo",
           "githubOrganizationName": "GitHub organization name",
           "organization": "Organização",
           "couldNotLoadSomeConnectedGithub": "Could not load some connected GitHub accounts. Choose Another organization to enter a name.",
-          "anotherOrganization": "Another organization",
+          "anotherOrganization": "Outra organização",
           "myAccount": "Minha conta",
           "githubAccount": "Conta do GitHub",
           "connectionSettings": "Configurações da conexão",
@@ -5956,9 +5956,9 @@
           "existingGithubConnection": "Existing GitHub connection",
           "linkYourGithubAccountSoYour": "Link your GitHub account so your mentions use your Paperclip permissions.",
           "checkingYourGithubConnection": "Checking your GitHub connection…",
-          "loadingYourDraft": "Loading your draft…",
+          "loadingYourDraft": "Carregando seu rascunho…",
           "couldNotLoadThisConnectionTry": "Could not load this connection. Try again to resume your draft.",
-          "resumeGithubSetup": "Resume GitHub setup",
+          "resumeGithubSetup": "Retomar configuração do GitHub",
           "continueToGithub": "Continuar para o GitHub"
         },
         "gitHubConnectionComplete": {
@@ -5989,17 +5989,17 @@
           "directMessagesOnlyEnrollEachTest": "Direct messages only. Enroll each test sender in your Photon project's Users page, then use the number Photon assigns to that sender. Paperclip identity linking is still required. Groups cannot be enabled on this channel.",
           "photonLineSetup": "Configuração da linha Photon",
           "photonDashboard": "Painel do Photon",
-          "connectImessagePhoton": "Connect iMessage Photon"
+          "connectImessagePhoton": "Conectar iMessage Photon"
         },
         "slackAvatarStep": {
           "agentAvatar": "Avatar do agente",
           "slackAvatar": "Avatar do Slack",
           "saveChanges": "Salvar alterações",
           "appIconPreview": "Ícone do app e pré-visualização",
-          "displayInformation": "Display Information",
+          "displayInformation": "Informações de exibição",
           "basicInformation": "Informações básicas",
           "youLlUploadTheDownloadedImage": "You’ll upload the downloaded image directly in Slack’s app settings.",
-          "howToUploadInSlack": "How to upload in Slack",
+          "howToUploadInSlack": "Como enviar no Slack",
           "couldnTDownloadTheAvatarTry": "Não foi possível baixar o avatar. Tente baixar de novo.",
           "png512512ReadyForSlack": "PNG · 512 × 512 · Ready for Slack"
         },
@@ -6019,21 +6019,21 @@
           "noAvailableAccountsFoundInThis": "No available accounts found in this Slack workspace.",
           "yourSlackAccount": "Sua conta do Slack",
           "findYourName": "Encontre seu nome",
-          "findYourSlackAccount": "Find your Slack account",
+          "findYourSlackAccount": "Encontre sua conta do Slack",
           "chooseYourAccountMessagesToThis": "Choose your account. Messages to this agent will use your Paperclip permissions.",
           "connectYourSlackAccount": "Conecte sua conta do Slack",
           "dismiss": "Dispensar"
         },
         "slackToolSettings": {
-          "loadingSearchAccess": "Loading search access…",
+          "loadingSearchAccess": "Carregando acesso à busca…",
           "saveOauthConfiguration": "Save OAuth configuration",
           "clientSecret": "Segredo do cliente",
           "clientId": "ID do cliente",
           "oauthAppConfigurationForConnectionManagers": "OAuth app configuration for connection managers",
           "aConnectionManagerNeedsToConfigure": "A connection manager needs to configure your Slack app’s OAuth credentials first.",
-          "connectSlackSearch": "Connect Slack search",
+          "connectSlackSearch": "Conectar busca do Slack",
           "disconnectSearch": "Desconectar busca",
-          "slackSearchConnected": "Slack search connected",
+          "slackSearchConnected": "Busca do Slack conectada",
           "optionalPersonalAuthorizationEnablesPrivateSearch": "Optional personal authorization enables private search on supported runtimes. It cannot read channels the bot hasn’t joined or let the bot write as you. Basic channel reading works without it.",
           "yourSlackSearchAccess": "Your Slack search access",
           "slackAppSettings": "Configurações do app do Slack",
@@ -6050,7 +6050,7 @@
             "managedSlackSetupIsUnavailableTry": "Managed Slack setup is unavailable. Try again later."
           },
           "ownSlackAppSetup": {
-            "useAnExistingApp": "Use an existing app",
+            "useAnExistingApp": "Usar um app existente",
             "createManually": "Criar manualmente",
             "useManagedSetup": "Usar configuração gerenciada",
             "authorizeInSlackAgain": "Authorize in Slack again",
@@ -6071,7 +6071,7 @@
         "connectClientDialog": {
           "treatTheTokenLikeAPassword": "Treat the token like a password. Anyone holding it can call the tools this gateway allows. Revoke it if it leaks.",
           "noClientSnippetsAvailableForThis": "No client snippets available for this gateway.",
-          "authorizationHeader": "Authorization header",
+          "authorizationHeader": "Cabeçalho de autorização",
           "endpointUrl": "URL do endpoint",
           "clients": "Clientes",
           "authorizationBearer": "Authorization: Bearer …",
@@ -6079,7 +6079,7 @@
           "authorization": "Autorização",
           "chooseAClientAndCopyA": "Choose a client and copy a complete, authenticated configuration.",
           "giveThisMcpGatewayConfigurationTo": "Give this MCP gateway configuration to your tool. It does not give it access to Paperclip or skills; it only gateways calls between the client and the tools exposed here.",
-          "aboutClientSnippets": "About client snippets"
+          "aboutClientSnippets": "Sobre os trechos de cliente"
         },
         "copyableGatewayUrl": {
           "copyGatewayUrl": "Copiar URL do gateway"
@@ -6134,7 +6134,7 @@
             "noCallsHaveGoneThroughThis": "No calls have gone through this gateway yet.",
             "callsThroughThisGatewayFromThe": "Calls through this gateway from the last 30 days. Open a row to inspect its tool, redacted arguments, result, and decision.",
             "resultRedacted": "Resultado (redigido)",
-            "argumentsRedacted": "Arguments (redacted)"
+            "argumentsRedacted": "Argumentos (redigidos)"
           },
           "gatewayAdvancedPanel": {
             "archiveGateway": "Arquivar gateway",
@@ -6146,9 +6146,9 @@
             "transport": "Transporte"
           },
           "overviewPanel": {
-            "howClientsConnect": "How clients connect",
+            "howClientsConnect": "Como os clientes se conectam",
             "thisGatewaySProfileDoesnT": "This gateway’s profile doesn’t include any apps yet.",
-            "appsInThisGateway": "Apps in this gateway",
+            "appsInThisGateway": "Aplicativos neste gateway",
             "anyoneHoldingAnActiveTokenBelow": "Anyone holding an active token below, restricted by the rules in the bound profile.",
             "whoCanUseIt": "Quem pode usar",
             "toggleTheWholeGatewayOffHere": "Toggle the whole gateway off here.",
@@ -6159,7 +6159,7 @@
             "typeTheTokenNameToConfirm": "Type the token name to confirm",
             "revokeThisToken": "Revogar este token?",
             "nextTokenPage": "Próxima página de tokens",
-            "previousTokenPage": "Previous token page",
+            "previousTokenPage": "Página anterior de tokens",
             "status": "Status",
             "expiry": "Validade",
             "lastUsed": "Último uso",
@@ -6171,9 +6171,9 @@
             "dismiss": "Dispensar",
             "dismissNewToken": "Dispensar novo token",
             "itIsNowAvailableInClient": "It is now available in Client snippets for a copy-ready configuration.",
-            "newTokenCopyNow": "New token — copy now",
+            "newTokenCopyNow": "Novo token — copie agora",
             "whoUsesThisTokenOrWhy": "Who uses this token or why it exists",
-            "ownerNoteOptional": "Owner note (optional)",
+            "ownerNoteOptional": "Nota do dono (opcional)",
             "expires": "Expira",
             "alsoUsedAsTheClientLabel": "Also used as the client label.",
             "tokenName": "Nome do token",
@@ -6189,18 +6189,18 @@
       "agentCommentary": {
         "nextPage": "Próxima página",
         "previousPage": "Página anterior",
-        "commentaryMessages": "Commentary messages",
+        "commentaryMessages": "Mensagens de comentário",
         "submitted": "Enviado",
         "message": "Mensagem",
         "type": "Tipo",
         "agent": "Agente",
         "tryAgain": "Tentar novamente",
-        "loadingCommentary": "Loading commentary…",
+        "loadingCommentary": "Carregando comentários…",
         "clearFilters": "Limpar filtros",
         "complaints": "Reclamações",
         "suggestions": "Sugestões",
         "allTypes": "Todos os tipos",
-        "filterByMessageType": "Filter by message type",
+        "filterByMessageType": "Filtrar por tipo de mensagem",
         "allAgents": "Todos os agentes",
         "filterByAgent": "Filtrar por agente",
         "searchMessages": "Buscar mensagens…",
@@ -6241,7 +6241,7 @@
         "fromDate": "Data inicial",
         "from": "De",
         "casC1": "CAS-C1",
-        "caseIdOrIdentifier": "Case ID or identifier",
+        "caseIdOrIdentifier": "ID ou identificador do caso",
         "case": "Caso",
         "entity": "Entidade",
         "action": "Ação",
@@ -6272,7 +6272,7 @@
         "runs": "Execuções",
         "routineRuns": "Execuções da rotina",
         "executionsCreatedByThisRoutineNewest": "Executions created by this routine, newest first.",
-        "loadingRoutineRuns": "Loading routine runs…"
+        "loadingRoutineRuns": "Carregando execuções da rotina…"
       },
       "routineAuditActivity": {
         "routineActivity": "Atividade da rotina",
@@ -6282,7 +6282,7 @@
     },
     "skills": {
       "importSkillsFromProjectDialog": {
-        "noFilesWereCopied": "No files were copied.",
+        "noFilesWereCopied": "Nenhum arquivo foi copiado.",
         "searchDiscoveredSkills": "Buscar skills descobertas",
         "searchDiscoveredSkills2": "Search discovered skills…",
         "chooseDiscoveredSkillsOrBrowseAny": "Choose discovered skills, or browse any workspace folder.",
@@ -6290,11 +6290,11 @@
         "noSkillsFound": "Nenhuma skill encontrada",
         "tryAgain": "Tentar novamente",
         "showingTheFirst250Entries": "Showing the first 250 entries.",
-        "thisFolderIsEmpty": "This folder is empty.",
+        "thisFolderIsEmpty": "Esta pasta está vazia.",
         "openParentFolder": "Abrir pasta pai",
         "projectWorkspace": "Workspace do projeto",
         "openAnyFolderAndAddDirectories": "Open any folder and add directories or individual SKILL.md files.",
-        "browseProjectFolders": "Browse project folders",
+        "browseProjectFolders": "Explorar pastas do projeto",
         "lookingInWellKnownSkillFolders": "Looking in well-known skill folders across each workspace.",
         "loadingProjects": "Carregando projetos…",
         "filterProjects": "Filtrar projetos",
@@ -6318,18 +6318,18 @@
         "showingTheFirst64KbThe": "Showing the first 64 KB. The complete file is imported.",
         "openOnGithubToPreviewOr": "Open on GitHub to preview or download this file.",
         "binaryAssetIncludedWithoutChanges": "Binary asset · included without changes",
-        "manageGithubAccess": "Manage GitHub access",
+        "manageGithubAccess": "Gerenciar acesso ao GitHub",
         "tryAgain": "Tentar novamente",
         "loadingPreview": "Carregando pré-visualização…",
         "packageReferenceWarnings": "Package reference warnings",
-        "runtimeRequirements": "Runtime requirements",
+        "runtimeRequirements": "Requisitos de runtime",
         "refreshThisSourceToInspectIts": "Refresh this source to inspect its complete package contents."
       },
       "skillSourceTree": {
         "selectWholeSkillPackagesExpandA": "Select whole skill packages. Expand a skill to see its included files. Nested skills are selected separately.",
         "importFolderRepository": "Import folder Repository",
         "searchDiscoveredSkills": "Buscar skills descobertas",
-        "searchSkillsOrFiles": "Search skills or files…"
+        "searchSkillsOrFiles": "Buscar skills ou arquivos…"
       }
     },
     "tools": {
@@ -6347,7 +6347,7 @@
         "searchActivity": "Buscar atividade…",
         "allApps": "Todos os aplicativos",
         "app": "Aplicativo",
-        "parametersRedacted": "Parameters (redacted)",
+        "parametersRedacted": "Parâmetros (redigidos)",
         "viewRun": "Ver execução",
         "viewTask": "Ver tarefa"
       },
@@ -6358,7 +6358,7 @@
         "whoThisEndpointIsForAnd": "Para quem este endpoint serve e quando ele deve ser rotacionado.",
         "description": "Descrição",
         "accessProfile": "Perfil de acesso",
-        "engineeringLaptops": "Engineering laptops",
+        "engineeringLaptops": "Notebooks de engenharia",
         "gatewayName": "Nome do gateway"
       },
       "mcpConfigHelpDialog": {
@@ -6403,13 +6403,13 @@
         "disabled": "Desativado",
         "active": "Ativo",
         "status": "Status",
-        "allowUnlessExcluded": "Allow unless excluded",
-        "denyUnlessIncluded": "Deny unless included",
+        "allowUnlessExcluded": "Permitir salvo se excluído",
+        "denyUnlessIncluded": "Negar salvo se incluído",
         "defaultAction": "Ação padrão",
         "optionalContextForReviewers": "Optional context for reviewers.",
         "description": "Descrição",
         "key": "Chave",
-        "engineeringWriteTools": "Engineering write tools",
+        "engineeringWriteTools": "Ferramentas de escrita de engenharia",
         "name": "Nome",
         "profileRulesAreEnforcedByThe": "Profile rules are enforced by the tool gateway policy service.",
         "source": "Origem",
@@ -6428,7 +6428,7 @@
         "eGSendEmailOrSlack": "e.g. send_email or slack.list_*",
         "toolName": "Nome da ferramenta",
         "catalogEntryId": "ID da entrada do catálogo",
-        "selectAConnection": "Select a connection",
+        "selectAConnection": "Selecione uma conexão",
         "connection": "Conexão",
         "selectAnApplication": "Selecione um aplicativo",
         "exclude": "Excluir da seleção",
@@ -6439,7 +6439,7 @@
       "smokeLabTab": {
         "noStepsRecordedForThisRun": "No steps recorded for this run.",
         "selectARunToSeeIts": "Select a run to see its steps.",
-        "noRunsRecordedYet": "No runs recorded yet.",
+        "noRunsRecordedYet": "Nenhuma execução registrada ainda.",
         "runs": "Execuções",
         "noStepsRecordedForTheSelected": "No steps recorded for the selected run yet. Run a browser smoke to populate the matrix.",
         "path": "Caminho",
@@ -6447,18 +6447,18 @@
         "typeTheseIntoTheFakeProvider": "Type these into the fake provider's real consent page during a P1 (OAuth) smoke. Fixed fixture values — safe to show.",
         "fakeOauthDemoCredentials": "Fake OAuth demo credentials",
         "noServicesReportedStartTheFixture": "No services reported. Start the fixture services above.",
-        "installFixtureApps": "Install fixture apps",
+        "installFixtureApps": "Instalar aplicativos de fixture",
         "stop": "Parar",
         "fixtureServices": "Serviços de fixture",
         "handsOnTutorial": "tutorial prático",
         "experimental": "Experimental",
         "smokeLab": "Smoke Lab",
         "loadingSmokeLab": "Loading Smoke Lab…",
-        "smokeLabIsTurnedOff": "Smoke Lab is turned off",
+        "smokeLabIsTurnedOff": "O Smoke Lab está desligado",
         "notRun": "não executado"
       },
       "toolsAccess": {
-        "openDeveloperTools": "Open developer tools",
+        "openDeveloperTools": "Abrir ferramentas de desenvolvedor",
         "connectItThereInstead": "connect it there instead",
         "advanced": "Avançado",
         "advancedSetup": "Configuração avançada",
@@ -6475,8 +6475,8 @@
         "add": "Adicionar",
         "headerName": "Nome do cabeçalho",
         "header": "Cabeçalho",
-        "selectAVaultSecret": "Select a vault secret",
-        "credentialReferences": "Credential references",
+        "selectAVaultSecret": "Selecione um segredo do cofre",
+        "credentialReferences": "Referências de credencial",
         "onlyBoardApprovedCommandTemplatesCan": "Only board-approved command templates can run. Arbitrary commands are never accepted.",
         "selectAnApprovedTemplate": "Select an approved template",
         "commandTemplate": "Modelo de comando",
@@ -6484,14 +6484,14 @@
         "localStdioApprovedTemplate": "Local stdio (approved template)",
         "remoteHttpNoLocalProcess": "Remote HTTP (no local process)",
         "transport": "Transporte",
-        "eGProductionGithub": "e.g. Production GitHub",
+        "eGProductionGithub": "ex.: GitHub de produção",
         "connectionName": "Nome da conexão",
         "applicationTypeIsInferredFromThe": "Application type is inferred from the transport you choose next.",
         "eGGithubTriage": "ex.: Triagem do GitHub",
-        "newApplicationName": "New application name",
+        "newApplicationName": "Nome do novo aplicativo",
         "selectAnApplication": "Selecione um aplicativo",
-        "existingApplication": "Existing application",
-        "createNewApplication": "Create new application",
+        "existingApplication": "Aplicativo existente",
+        "createNewApplication": "Criar novo aplicativo",
         "useExistingApplication": "Use existing application",
         "application": "Aplicativo",
         "2Connection": "2 Connection",
@@ -6564,7 +6564,7 @@
           "startFrom": "Começar de",
           "cancel": "Cancelar",
           "back": "Voltar",
-          "saveFinishLater": "Save & finish later"
+          "saveFinishLater": "Salvar e terminar depois"
         },
         "profileWizardRoute": {
           "chooseWhichToolsThisProfileAllows": "Choose which tools this profile allows, then assign it to the agents that need them.",
@@ -6583,9 +6583,9 @@
           "assignedTo": "Atribuído a",
           "allows": "Permite",
           "profile": "Perfil",
-          "noArchivedProfiles": "No archived profiles.",
+          "noArchivedProfiles": "Nenhum perfil arquivado.",
           "seeExactlyWhichToolsAnAgent": "See exactly which tools an agent can use right now, and which profile allows each one.",
-          "checkAnAgentSAccess": "Check an agent's access"
+          "checkAnAgentSAccess": "Verificar o acesso de um agente"
         },
         "toolsAdminGate": {
           "yourApps": "seus aplicativos",
@@ -6603,7 +6603,7 @@
           "newToolsThatAppearLater": "Novas ferramentas que aparecerem depois",
           "clearSearch": "Limpar busca",
           "searchTools": "Buscar ferramentas…",
-          "browseAppConnections": "Browse app connections",
+          "browseAppConnections": "Explorar conexões de aplicativo",
           "profilesWillBeAvailableOnceApp": "Profiles will be available once app connections are ready. Browse the planned integrations in the meantime.",
           "appConnectionsAreComingSoon": "App connections are coming soon"
         }
