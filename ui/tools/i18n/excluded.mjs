@@ -13,6 +13,11 @@
 const PATH_PATTERNS = [
   /(^|\/)DesignGuide(\.|\/)/,
   /(^|\/)DesignSandbox/,
+  // The whole directory, not just files whose name starts with it:
+  // design-sandbox/ConversationPlayback.tsx is a dev surface too, and the key
+  // rule already excluded components.designsandbox.*, so matching only the
+  // file name left the extractor rewriting what the pruner then deleted.
+  /(^|\/)design-sandbox\//,
   /UxLab\.tsx$/,
   /(^|\/)artifact-directions\//,
   /(^|\/)TaskChatLab\.tsx$/,
