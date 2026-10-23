@@ -1,6 +1,12 @@
 import type { Resource } from "i18next";
 
-import en from "./locales/en.json";
+// Imported raw and parsed, not as a JSON module: Vite turns a JSON import
+// into an ES module, and transforming plus evaluating 335 KB of generated JS
+// costs ~140ms on every module-graph load — paid once per browser start and
+// once per isolated test file. JSON.parse of the same bytes is a few ms.
+import enRaw from "./locales/en.json?raw";
+
+const en = JSON.parse(enRaw) as Record<string, unknown>;
 
 export const DEFAULT_LOCALE = "en" as const;
 
