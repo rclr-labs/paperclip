@@ -415,14 +415,14 @@ export function AdapterManager() {
           <DialogTrigger asChild>
             <Button size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
-              {t("pages.adapterManager.installAdapter")}
+              Install Adapter
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
               <DialogTitle>{t("pages.adapterManager.installExternalAdapter")}</DialogTitle>
               <DialogDescription>
-                {t("pages.adapterManager.addAnAdapterFromNpmOr")} <code className="text-xs bg-muted px-1 py-0.5 rounded">createServerAdapter()</code>.
+                Add an adapter from npm or a local path. The adapter package must export <code className="text-xs bg-muted px-1 py-0.5 rounded">createServerAdapter()</code>.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
@@ -439,7 +439,7 @@ export function AdapterManager() {
                   onClick={() => setIsLocalPath(false)}
                 >
                   <Package className="h-3.5 w-3.5" />
-                  {t("pages.adapterManager.npmPackage")}
+                  npm package
                 </button>
                 <button
                   type="button"
@@ -452,7 +452,7 @@ export function AdapterManager() {
                   onClick={() => setIsLocalPath(true)}
                 >
                   <FolderOpen className="h-3.5 w-3.5" />
-                  {t("pages.adapterManager.localPath")}
+                  Local path
                 </button>
               </div>
 

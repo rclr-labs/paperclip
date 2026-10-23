@@ -766,10 +766,10 @@ export function DesignGuide() {
 
         <SubSection title={t("pages.designGuide.withIcons")}>
           <div className="flex items-center gap-2 flex-wrap">
-            <Button><Plus /> {t("pages.designGuide.newIssue")}</Button>
-            <Button variant="outline"><Upload /> {t("pages.designGuide.upload")}</Button>
-            <Button variant="destructive"><Trash2 /> {t("pages.designGuide.delete")}</Button>
-            <Button size="sm"><Plus /> {t("pages.designGuide.add")}</Button>
+            <Button><Plus /> New Issue</Button>
+            <Button variant="outline"><Upload /> Upload</Button>
+            <Button variant="destructive"><Trash2 /> Delete</Button>
+            <Button size="sm"><Plus /> Add</Button>
           </div>
         </SubSection>
 
@@ -893,7 +893,11 @@ export function DesignGuide() {
 
         <SubSection title="IssueReferencePill">
           <p className="text-xs text-muted-foreground">
-            {t("pages.designGuide.usedWhereverATaskIsReferenced")} <code className="font-mono">status</code> {t("pages.designGuide.toShowTheTargetIssueS")} <code className="font-mono">{t("pages.designGuide.variantProperty")}</code> {t("pages.designGuide.forCompactBadgesWithDirectNavigation")} <code className="font-mono">onRemove</code> {t("pages.designGuide.forASeparateBlockerRemovalControl")} <code className="font-mono">strikethrough</code> {t("pages.designGuide.forRemovedContexts")}
+            Used wherever a task is referenced — in markdown, the Related Work tab, and activity summaries.
+            Pass <code className="font-mono">status</code> to show the target issue&apos;s state at a glance.
+            Use <code className="font-mono">{t("pages.designGuide.variantProperty")}</code> for compact badges with direct navigation.
+            Pass <code className="font-mono">onRemove</code> for a separate blocker removal control with reserved space.
+            Use <code className="font-mono">strikethrough</code> for &quot;removed&quot; contexts.
           </p>
           <div className="flex items-center gap-2 flex-wrap">
             <IssueReferencePill issue={{ id: "demo-1", identifier: "PAP-123", title: "Identifier only — no status yet" }} />
@@ -1093,19 +1097,19 @@ export function DesignGuide() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm">
-              {t("pages.designGuide.quickActions")}
+              Quick Actions
               <ChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-56">
             <DropdownMenuItem>
               <Check className="h-4 w-4" />
-              {t("pages.designGuide.markAsDone")}
+              Mark as done
               <DropdownMenuShortcut>⌘D</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <BookOpen className="h-4 w-4" />
-              {t("pages.designGuide.openDocs")}
+              Open docs
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
@@ -1116,7 +1120,7 @@ export function DesignGuide() {
             </DropdownMenuCheckboxItem>
             <DropdownMenuItem variant="destructive">
               <Trash2 className="h-4 w-4" />
-              {t("pages.designGuide.deleteIssue")}
+              Delete issue
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1217,22 +1221,22 @@ export function DesignGuide() {
               <CommandGroup heading="Pages">
                 <CommandItem>
                   <LayoutDashboard className="h-4 w-4" />
-                  {t("pages.designGuide.dashboard")}
+                  Dashboard
                 </CommandItem>
                 <CommandItem>
                   <CircleDot className="h-4 w-4" />
-                  {t("pages.designGuide.issues")}
+                  Issues
                 </CommandItem>
               </CommandGroup>
               <CommandSeparator />
               <CommandGroup heading="Actions">
                 <CommandItem>
                   <CommandIcon className="h-4 w-4" />
-                  {t("pages.designGuide.openCommandPalette")}
+                  Open command palette
                 </CommandItem>
                 <CommandItem>
                   <Plus className="h-4 w-4" />
-                  {t("pages.designGuide.createNewIssue")}
+                  Create new issue
                 </CommandItem>
               </CommandGroup>
             </CommandList>
@@ -1509,9 +1513,9 @@ export function DesignGuide() {
       <Section title={t("pages.designGuide.avatars")}>
         <SubSection title={t("pages.designGuide.sizes")}>
           <div className="flex items-center gap-3">
-            <Avatar size="sm"><AvatarFallback>{t("pages.designGuide.sm")}</AvatarFallback></Avatar>
-            <Avatar><AvatarFallback>{t("pages.designGuide.df")}</AvatarFallback></Avatar>
-            <Avatar size="lg"><AvatarFallback>{t("pages.designGuide.lg")}</AvatarFallback></Avatar>
+            <Avatar size="sm"><AvatarFallback>SM</AvatarFallback></Avatar>
+            <Avatar><AvatarFallback>DF</AvatarFallback></Avatar>
+            <Avatar size="lg"><AvatarFallback>LG</AvatarFallback></Avatar>
           </div>
         </SubSection>
 
@@ -1751,22 +1755,22 @@ export function DesignGuide() {
           <Card className="block w-60 p-3 space-y-0.5">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium bg-accent text-accent-foreground">
               <LayoutDashboard className="h-4 w-4" />
-              {t("pages.designGuide.dashboard")}
+              Dashboard
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground cursor-pointer">
               <CircleDot className="h-4 w-4" />
-              {t("pages.designGuide.issues")}
+              Issues
               <Badge variant="ghost" className="ml-auto bg-primary text-primary-foreground px-1.5">
                 12
               </Badge>
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground cursor-pointer">
               <Bot className="h-4 w-4" />
-              {t("pages.designGuide.agents")}
+              Agents
             </div>
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground cursor-pointer">
               <Hexagon className="h-4 w-4" />
-              {t("pages.designGuide.projects")}
+              Projects
             </div>
           </Card>
         </SubSection>
@@ -1775,11 +1779,11 @@ export function DesignGuide() {
           <div className="flex items-center border border-border rounded-md w-fit">
             <button className="px-3 py-1.5 text-xs font-medium bg-accent text-foreground rounded-l-md">
               <ListTodo className="h-3.5 w-3.5 inline mr-1" />
-              {t("pages.designGuide.list")}
+              List
             </button>
             <button className="px-3 py-1.5 text-xs font-medium text-muted-foreground hover:bg-accent/50 rounded-r-md">
               <Target className="h-3.5 w-3.5 inline mr-1" />
-              {t("pages.designGuide.org")}
+              Org
             </button>
           </div>
         </SubSection>
@@ -1923,7 +1927,8 @@ export function DesignGuide() {
       {/* ============================================================ */}
       <Section title={t("pages.designGuide.teamCatalog")}>
         <p className="text-sm text-muted-foreground">
-          {t("pages.designGuide.componentsFromTheTeamCatalogBrowse")}<code className="font-mono text-xs">/teams-catalog</code>{t("pages.designGuide.fixturesAreSharedWithTheStorybook")}
+          Components from the Team Catalog browse/install surface (<code className="font-mono text-xs">/teams-catalog</code>).
+          Fixtures are shared with the Storybook stories.
         </p>
 
         <SubSection title={t("pages.designGuide.teamrowBrowseList")}>
@@ -1943,7 +1948,9 @@ export function DesignGuide() {
             <TeamRow team={warnTeam} selected={false} onSelect={() => {}} installed={currentInstalledState} />
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
-            {t("pages.designGuide.installedTeamsCollapseUnder")} <code className="font-mono">{t("pages.designGuide.installedN")}</code>{t("pages.designGuide.anOutOfDateInstallServer")} <code className="font-mono">originHash</code> {t("pages.designGuide.catalog")} <code className="font-mono">contentHash</code>{t("pages.designGuide.showsTheAmber")} <code className="font-mono">↑</code> {t("pages.designGuide.badgePap10256")}
+            Installed teams collapse under <code className="font-mono">{t("pages.designGuide.installedN")}</code>; an out-of-date
+            install (server <code className="font-mono">originHash</code> ≠ catalog <code className="font-mono">contentHash</code>)
+            shows the amber <code className="font-mono">↑</code> badge (PAP-10256).
           </p>
         </SubSection>
 
@@ -2083,7 +2090,9 @@ export function DesignGuide() {
             <EnforcementBanner companyId="" forceVariant="denied-detected" recentDenialCount={3} />
           </div>
           <p className="mt-2 text-xs text-muted-foreground">
-            {t("pages.designGuide.persistentAtTheTopOfThe")} <code>denied-detected</code> {t("pages.designGuide.whenGovernedToolCallsWereDenied")}
+            Persistent at the top of the Tools &amp; Access surface. Tints to <code>denied-detected</code> when
+            governed tool calls were denied or failed in the last hour. Observability only — enforcement lives
+            in the tool gateway.
           </p>
         </SubSection>
 
@@ -2191,7 +2200,8 @@ export function DesignGuide() {
             ]}
           />
           <p className="mt-2 text-xs text-muted-foreground">
-            {t("pages.designGuide.twoColumnKeyValueBlockWith")} <code>ActionCard</code> {t("pages.designGuide.andIsReusedStandaloneInThe")}
+            Two-column key/value block with mono values. Lives inside <code>ActionCard</code> and is reused
+            standalone in the audit row drilldown.
           </p>
         </SubSection>
 
@@ -2241,7 +2251,11 @@ export function DesignGuide() {
 
       <Section title={t("pages.designGuide.environmentVariablesEditor")}>
         <p className="text-sm text-muted-foreground">
-          {t("pages.designGuide.reusableEnvVarEditorAgentsProjects")} <span className="font-mono">{t("pages.designGuide.productEnvironmentVariablesEditor")}</span> {t("pages.designGuide.storiesForAll10States")}
+          Reusable env-var editor (agents, projects, environments, routines). One shared grid, an
+          in-field Text/Secret source switch, a fuzzy secret picker with a pinned “Create secret”
+          item, automatic sensitive-value detection, and inline secret-health warnings. See the
+          Storybook <span className="font-mono">{t("pages.designGuide.productEnvironmentVariablesEditor")}</span> stories
+          for all 10 states.
         </p>
         <EnvironmentVariablesEditorShowcase />
       </Section>
@@ -2420,7 +2434,7 @@ export function DesignGuide() {
             title={t("pages.designGuide.builtInAgent")}
             actions={<Button variant="outline" size="sm">{t("pages.designGuide.resetToDefaults")}</Button>}
           >
-            {t("pages.designGuide.shipsWithPaperclipAndPowers")} <strong>{t("pages.designGuide.briefs")}</strong>. It can be paused but not deleted.
+            Ships with Paperclip and powers <strong>{t("pages.designGuide.briefs")}</strong>. It can be paused but not deleted.
           </InlineBanner>
           <InlineBanner
             tone="warning"

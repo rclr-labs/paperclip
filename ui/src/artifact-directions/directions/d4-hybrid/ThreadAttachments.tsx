@@ -7,7 +7,6 @@ import { KindWell, Picture } from "./Lead";
 import { MetaLine } from "./MetaLine";
 import { FOCUS_RING, MOTION } from "./UnitAction";
 import { glyphLabel, metaParts } from "./kinds";
-import { useTranslation } from "@/i18n";
 
 /**
  * THREAD — the attachments block under an agent message: Tint's cluster
@@ -70,7 +69,6 @@ function Cell({ artifact }: { artifact: LabArtifact }) {
 const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? "" : "s"}`;
 
 export function ThreadAttachments({ artifacts }: { artifacts: LabArtifact[] }) {
-  const { t } = useTranslation();
   const [all, setAll] = useState(false);
   if (artifacts.length === 0) return null;
   // Pictures first, as the product's Images block leads its Files block.
@@ -104,7 +102,7 @@ export function ThreadAttachments({ artifacts }: { artifacts: LabArtifact[] }) {
               onClick={() => setAll(true)}
               className={`flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg bg-(--hy-slab) px-3 text-xs font-medium text-foreground hover:bg-(--hy-slab-raised) active:bg-(--hy-button) ${MOTION} ${FOCUS_RING}`}
             >
-              {t("artifactdirections.directions.d4hybrid.threadAttachments.showAll")} <span className="font-mono text-(length:--text-micro)">{ordered.length}</span>
+              Show all <span className="font-mono text-(length:--text-micro)">{ordered.length}</span>
             </button>
           </li>
         ) : null}

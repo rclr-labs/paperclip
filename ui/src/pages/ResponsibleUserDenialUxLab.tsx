@@ -58,7 +58,7 @@ function RunLedgerRow({
         <span>{t("pages.responsibleUserDenialUxLab.byCodexcoder")}</span>
         {onBehalfOf ? (
           <span className="min-w-0 max-w-full truncate text-muted-foreground">
-            {t("pages.responsibleUserDenialUxLab.onBehalfOf2")} <span className="text-foreground">{onBehalfOf}</span>
+            on behalf of <span className="text-foreground">{onBehalfOf}</span>
           </span>
         ) : null}
         <span className="rounded-md border border-border px-1.5 py-0.5 text-(length:--text-micro) capitalize text-muted-foreground">
@@ -71,7 +71,7 @@ function RunLedgerRow({
           <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.elapsed")}</span> 1m 4s
         </div>
         <div className="min-w-0">
-          <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.lastUsefulAction")}</span> {t("pages.responsibleUserDenialUxLab.2mAgo")}
+          <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.lastUsefulAction")}</span> 2m ago
         </div>
         <div className="min-w-0">
           <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.stop")}</span> {denial ? "Denied" : "Completed"}
@@ -101,7 +101,7 @@ function RunDetailHeader({ onBehalfOf, denial }: { onBehalfOf?: string | null; d
       </div>
       {onBehalfOf ? (
         <div className="text-xs text-muted-foreground">
-          {t("pages.responsibleUserDenialUxLab.onBehalfOf")} <span className="text-foreground">{onBehalfOf}</span>
+          On behalf of <span className="text-foreground">{onBehalfOf}</span>
         </div>
       ) : null}
       {denial}
@@ -232,7 +232,7 @@ export function ResponsibleUserDenialUxLab() {
         </LabSection>
 
         <p className={cn("text-center text-(length:--text-micro) text-muted-foreground")}>
-          {t("pages.responsibleUserDenialUxLab.copyIsSourcedFromTheShared")} <code>describeResponsibleUserDenial</code> contract.
+          Copy is sourced from the shared <code>describeResponsibleUserDenial</code> contract.
         </p>
       </div>
     </div>

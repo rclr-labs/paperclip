@@ -2087,8 +2087,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
       {isCreate && showCreateRunPolicySection ? (
         <div data-config-section="run-policy" className={cn(!cards && "border-b border-border")}>
           {cards
-            ? <h3 className="text-sm font-medium flex items-center gap-2 mb-3"><Heart className="h-3 w-3" /> {t("components.agentConfigForm.runPolicy")}</h3>
-            : <div className="px-4 py-2 text-xs font-medium text-muted-foreground flex items-center gap-2"><Heart className="h-3 w-3" /> {t("components.agentConfigForm.runPolicy")}</div>
+            ? <h3 className="text-sm font-medium flex items-center gap-2 mb-3"><Heart className="h-3 w-3" /> Run Policy</h3>
+            : <div className="px-4 py-2 text-xs font-medium text-muted-foreground flex items-center gap-2"><Heart className="h-3 w-3" /> Run Policy</div>
           }
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
             <ToggleWithNumber
@@ -2111,8 +2111,8 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
       ) : !isCreate ? (
         <div data-config-section="run-policy" className={cn(!cards && "border-b border-border")}>
           {cards
-            ? <h3 className="text-sm font-medium flex items-center gap-2 mb-3"><Heart className="h-3 w-3" /> {t("components.agentConfigForm.runPolicy")}</h3>
-            : <div className="px-4 py-2 text-xs font-medium text-muted-foreground flex items-center gap-2"><Heart className="h-3 w-3" /> {t("components.agentConfigForm.runPolicy")}</div>
+            ? <h3 className="text-sm font-medium flex items-center gap-2 mb-3"><Heart className="h-3 w-3" /> Run Policy</h3>
+            : <div className="px-4 py-2 text-xs font-medium text-muted-foreground flex items-center gap-2"><Heart className="h-3 w-3" /> Run Policy</div>
           }
           <div className={cn(cards ? "border border-border rounded-lg overflow-hidden" : "")}>
             <div className={cn(cards ? "p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
@@ -2251,11 +2251,11 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         <div className={cn(!cards && "border-b border-border")}>
           {cards ? (
             <h3 className="mb-3 flex items-center gap-2 text-sm font-medium">
-              <Bug className="h-3 w-3" /> {t("components.agentConfigForm.debugging")}
+              <Bug className="h-3 w-3" /> Debugging
             </h3>
           ) : (
             <div className="flex items-center gap-2 px-4 py-2 text-xs font-medium text-muted-foreground">
-              <Bug className="h-3 w-3" /> {t("components.agentConfigForm.debugging")}
+              <Bug className="h-3 w-3" /> Debugging
             </div>
           )}
           <div
@@ -3539,7 +3539,8 @@ function SubmittedBrowserCodeLoginPanel({
         {transportInsecure && (
           <p className="flex items-start gap-2 pl-2 text-xs text-amber-700 dark:text-amber-200">
             <TriangleAlert className="mt-0.5 size-3 shrink-0" />
-            {t("components.agentConfigForm.thisConnectionIsNotEncryptedThe2")}
+            This connection is not encrypted. The login code travels in clear text on this
+            network. Continue only on a network you trust.
           </p>
         )}
         {startError ? (
@@ -3986,7 +3987,7 @@ export function ModelDropdown({
         </NativeSelect>
         {enteringCustomModel && (
           <label className="mt-3 block space-y-1 text-xs text-muted-foreground">
-            {t("components.agentConfigForm.modelId")}
+            Model ID
             <Input aria-label={t("components.agentConfigForm.modelId")} value={value} onChange={event => onChange(event.target.value)}
               placeholder={t("components.agentConfigForm.enterModelIdOrAlias")} autoFocus required={required} />
           </label>

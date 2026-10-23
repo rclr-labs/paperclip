@@ -798,10 +798,12 @@ function SearchTabContent({
             <code className="rounded bg-muted px-1 py-0.5 text-(length:--text-micro)">PAP-123</code> to jump straight to a task.
           </li>
           <li>
-            <span className="font-medium text-foreground">{t("pages.search.quotedPhrases")}</span> {t("pages.search.wrapAPhraseInQuotesTo")}
+            <span className="font-medium text-foreground">{t("pages.search.quotedPhrases")}</span> wrap a phrase in quotes to match the
+            exact sequence.
           </li>
           <li>
-            <span className="font-medium text-foreground">⌘K:</span> {t("pages.search.reopensTheCommandPalettePreSeeded")}
+            <span className="font-medium text-foreground">⌘K:</span> reopens the command palette pre-seeded with your
+            current query.
           </li>
         </ul>
       </div>
@@ -874,7 +876,7 @@ function SearchTabContent({
           ) : null}
           <Button onClick={openNewIssue} size="sm" variant="default">
             <Plus className="mr-1.5 h-4 w-4" />
-            {t("pages.search.createTaskFromThisQuery")}
+            Create task from this query
           </Button>
           <Button onClick={navigateIssuesFallback} size="sm" variant="ghost">
             {t("pages.search.openTasksFilterView")}
@@ -883,7 +885,7 @@ function SearchTabContent({
         <ul className="mt-2 space-y-0.5 text-xs text-muted-foreground">
           <li>{t("pages.search.tryFewerTokensOrASingle")}</li>
           <li>
-            {t("pages.search.useAnIdentifierShortcutLike")} <code className="rounded bg-muted px-1 py-0.5">PAP-123</code>.
+            Use an identifier shortcut like <code className="rounded bg-muted px-1 py-0.5">PAP-123</code>.
           </li>
           <li>{t("pages.search.wrapMultiWordPhrasesInQuotes")}</li>
         </ul>

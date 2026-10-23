@@ -254,7 +254,7 @@ function AuditRow({
           </p> : null}
           {documentKey ? (
             <p className="text-xs text-muted-foreground">
-              {t("pages.audit.auditFeed.document")} <span className="font-mono text-(length:--text-micro)">{documentKey}</span>
+              Document <span className="font-mono text-(length:--text-micro)">{documentKey}</span>
             </p>
           ) : null}
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -597,7 +597,7 @@ export function AuditFeed({
             : lockedAgentId
               ? "Scoped to one agent"
               : scopedCase
-                ? <>{t("pages.audit.auditFeed.case")} <Link to={caseHref(scopedCase.identifier)} className="font-medium text-primary hover:underline">{scopedCase.identifier} · {scopedCase.title}</Link></>
+                ? <>Case <Link to={caseHref(scopedCase.identifier)} className="font-medium text-primary hover:underline">{scopedCase.identifier} · {scopedCase.title}</Link></>
                 : `Scoped to ${lockedEntity?.label ?? lockedEntity?.type ?? "entity"}`}
         </div>
       ) : null}
@@ -707,7 +707,7 @@ export function AuditFeed({
           />
         </label>
         <label className="grid gap-1 text-(length:--text-micro) font-medium text-muted-foreground">
-          <span>{t("pages.audit.auditFeed.to")}</span>
+          <span>To</span>
           <Input
             type="date"
             aria-label={t("pages.audit.auditFeed.toDate")}

@@ -63,7 +63,7 @@ export function ConversationPlayback({ header, agentName, agent, onShowSavedThre
         {ended ? <RotateCcw /> : playing ? <Pause /> : <Play />}
         {ended ? "Replay conversation" : playing ? "Pause" : started ? "Resume conversation" : "Play conversation"}
       </Button>
-      {started && !ended ? <Button size="sm" variant="ghost" onClick={restart}><RotateCcw />{t("components.designsandbox.conversationPlayback.replay")}</Button> : null}
+      {started && !ended ? <Button size="sm" variant="ghost" onClick={restart}><RotateCcw />Replay</Button> : null}
       {onShowSavedThread ? <Button size="sm" variant="ghost" onClick={onShowSavedThread}>{t("components.designsandbox.conversationPlayback.showSavedThread")}</Button> : null}
       <span className="text-muted-foreground" role="status">{started ? ended ? "Conversation complete" : `${playing ? "" : "Paused · "}${CONVERSATION_PLAYBACK_STAGES[stage]?.label}` : "Watch a typical conversation · synthetic preview"}</span>
     </div>

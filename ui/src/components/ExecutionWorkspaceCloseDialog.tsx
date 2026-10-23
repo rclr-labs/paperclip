@@ -95,14 +95,15 @@ export function ExecutionWorkspaceCloseDialog({
         <DialogHeader>
           <DialogTitle>{actionLabel}</DialogTitle>
           <DialogDescription className="break-words">
-            {t("components.executionWorkspaceCloseDialog.archive")} <span className="font-medium text-foreground">{workspaceName}</span> {t("components.executionWorkspaceCloseDialog.andCleanUpAnyOwnedWorkspace")}
+            Archive <span className="font-medium text-foreground">{workspaceName}</span> and clean up any owned workspace
+            artifacts. Paperclip keeps the workspace record and task history, but removes it from active workspace views.
           </DialogDescription>
         </DialogHeader>
 
         {readinessQuery.isLoading ? (
           <div className="flex items-center gap-2 rounded-xl border border-border bg-background px-4 py-3 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            {t("components.executionWorkspaceCloseDialog.checkingWhetherThisWorkspaceIsSafe")}
+            Checking whether this workspace is safe to close...
           </div>
         ) : readinessQuery.error ? (
           <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">

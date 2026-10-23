@@ -2909,7 +2909,7 @@ export function OAuthConnectStateScreen({
             {recoveryActions.installationUrl ? (
               <Button type="button" variant="outline" asChild>
                 <a href={recoveryActions.installationUrl} target="_blank" rel="noreferrer">
-                  {t("features.connections.connectionSetupFlow.installPaperclipOnGithub")}
+                  Install Paperclip on GitHub
                   <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
                 </a>
               </Button>
@@ -3096,7 +3096,7 @@ function GalleryStep({
             {vercelConnectAvailability ? (
               <Button asChild variant="outline" size="sm" className="shrink-0">
                 <a href={vercelConnectAvailability.manageUrl} target="_blank" rel="noreferrer">
-                  {t("features.connections.connectionSetupFlow.openVercelConnect")}
+                  Open Vercel Connect
                   <ArrowUpRight className="ml-2 h-3.5 w-3.5" />
                 </a>
               </Button>
@@ -3406,7 +3406,7 @@ function LinkConnectStep({
 
         <Collapsible open={advancedOpen} onOpenChange={onAdvancedOpenChange}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border bg-background px-3 py-2 text-left text-sm font-medium text-foreground hover:bg-accent/40">
-            {t("features.connections.connectionSetupFlow.advancedAuthentication")}
+            Advanced authentication
             <ChevronDown className={cn("h-4 w-4 text-muted-foreground transition-transform", advancedOpen && "rotate-180")} />
           </CollapsibleTrigger>
           <CollapsibleContent className="space-y-5 pt-4">
@@ -3918,7 +3918,7 @@ function KeyStep({
             rel="noreferrer"
             className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground underline underline-offset-2 hover:text-foreground"
           >
-            {t("features.connections.connectionSetupFlow.reviewRequirements")}
+            Review requirements
             <ArrowUpRight className="h-3 w-3" />
           </a>
         </div>
@@ -3946,7 +3946,7 @@ function KeyStep({
                 rel="noreferrer"
                 className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-foreground underline underline-offset-2"
               >
-                {t("features.connections.connectionSetupFlow.openVercelConnect")}
+                Open Vercel Connect
                 <ArrowUpRight className="h-3 w-3" />
               </a>
             </div>
@@ -4451,7 +4451,7 @@ export function AccessStepContent({
               </div>
             ) : lockedAgentId ? (
               <p className="mt-2 text-sm text-muted-foreground">
-                {t("features.connections.connectionSetupFlow.thisTaskGrantsAccessOnlyTo")} <span className="font-medium text-foreground">{lockedAgentName}</span>.
+                This task grants access only to <span className="font-medium text-foreground">{lockedAgentName}</span>.
                 Existing connection access is left unchanged.
               </p>
             ) : (

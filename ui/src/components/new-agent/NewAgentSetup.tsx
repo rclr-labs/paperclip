@@ -1421,7 +1421,7 @@ function Setup({
                           onClick={editConnection}
                         >
                           <ArrowLeft className="size-4" />
-                          {t("components.newagent.newAgentSetup.connection")}
+                          Connection
                         </Button>
                       ) : (
                         null
@@ -1432,7 +1432,7 @@ function Setup({
                         disabled={!ready || busy}
                         onClick={() => setScreen("connect")}
                       >
-                        {t("components.newagent.newAgentSetup.connectModel")}
+                        Connect model
                         <ArrowRight className="size-4" />
                       </Button> : <Button
                         type="submit"

@@ -58,12 +58,12 @@ function ComposioAccountObservations({ app, connection, onClose }: { app: Aggreg
       </div>)}
     </div>}
     <div className="space-y-1 text-xs text-muted-foreground">
-      <p>{t("pages.apps.composioAppManager.via")} <Link to={`/apps/${connection.id}/permissions`} onClick={onClose} className="underline underline-offset-2">“{connection.name}”</Link></p>
+      <p>Via <Link to={`/apps/${connection.id}/permissions`} onClick={onClose} className="underline underline-offset-2">“{connection.name}”</Link></p>
       <p>{t("pages.apps.composioAppManager.composioPermissionsApplyToAllApps")}</p>
     </div>
     <DialogFooter className="sm:items-center sm:justify-between"><Button variant="ghost" onClick={onClose}>{t("pages.apps.composioAppManager.close")}</Button>
       <div className="flex items-center gap-2"><Button variant="ghost" disabled={busy} onClick={() => void refresh()}>{busy ? "Checking…" : "Refresh"}</Button>
-        <Button asChild><a href={COMPOSIO_APP_MANAGEMENT_URL} target="_blank" rel="noopener noreferrer">{t("pages.apps.composioAppManager.openInComposio")}<ExternalLink className="size-4" /></a></Button></div>
+        <Button asChild><a href={COMPOSIO_APP_MANAGEMENT_URL} target="_blank" rel="noopener noreferrer">Open in Composio<ExternalLink className="size-4" /></a></Button></div>
     </DialogFooter>
   </>;
 }

@@ -143,7 +143,7 @@ function Sidebar({ nav }: { nav: ShellNav }) {
         <div className="flex items-center gap-0.5 px-2">
           <span className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-(length:--text-compact) font-medium text-foreground/80">
             <Avatar size="sm">
-              <AvatarFallback>{t("artifactdirections.frames.appShell.to")}</AvatarFallback>
+              <AvatarFallback>TO</AvatarFallback>
             </Avatar>
             <span className="min-w-0 flex-1 truncate">tonio+canary62@paperclip.example</span>
           </span>
@@ -159,12 +159,11 @@ function Sidebar({ nav }: { nav: ShellNav }) {
  * screenshots as a ghost button.
  */
 export function SupportButton() {
-  const { t } = useTranslation();
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1 pl-2">
       <span className="inline-flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium text-muted-foreground">
         <LifeBuoy className="size-4" />
-        {t("artifactdirections.frames.appShell.support")}
+        Support
       </span>
     </span>
   );

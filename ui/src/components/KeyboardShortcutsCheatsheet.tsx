@@ -107,7 +107,7 @@ export function KeyboardShortcutsCheatsheetContent() {
       </div>
       <div className="border-t border-border px-5 py-3">
         <p className="text-xs text-muted-foreground">
-          {t("components.keyboardShortcutsCheatsheet.press")} <KeyCap>{t("components.keyboardShortcutsCheatsheet.esc")}</KeyCap> {t("components.keyboardShortcutsCheatsheet.toCloseShortcutsAreDisabledIn")}
+          Press <KeyCap>{t("components.keyboardShortcutsCheatsheet.esc")}</KeyCap> to close &middot; Shortcuts are disabled in text fields
         </p>
       </div>
     </>

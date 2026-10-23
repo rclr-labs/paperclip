@@ -229,7 +229,7 @@ export function ApprovalDetail() {
             onClick={() => setShowRawPayload((v) => !v)}
           >
             <ChevronRight className={`h-3 w-3 transition-transform ${showRawPayload ? "rotate-90" : ""}`} />
-            {t("pages.approvalDetail.seeFullRequest")}
+            See full request
           </button>
           {showRawPayload && (
             <pre className="text-xs bg-muted/40 rounded-md p-3 overflow-x-auto">
@@ -286,7 +286,7 @@ export function ApprovalDetail() {
           )}
           {isBudgetApproval && approval.status === "pending" && (
             <p className="text-sm text-muted-foreground">
-              {t("pages.approvalDetail.resolveThisBudgetStopFromThe")} <Link to="/costs" className="underline underline-offset-2">/costs</Link>.
+              Resolve this budget stop from the budget controls on <Link to="/costs" className="underline underline-offset-2">/costs</Link>.
             </p>
           )}
           {approval.status === "pending" && (

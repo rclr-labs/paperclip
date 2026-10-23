@@ -206,7 +206,7 @@ function AuditRow({
           ) : null}
           {documentKey ? (
             <p className="text-xs text-muted-foreground">
-              {t("pages.audit.auditFeedproduction.document")} <span className="font-mono text-(length:--text-micro)">{documentKey}</span>
+              Document <span className="font-mono text-(length:--text-micro)">{documentKey}</span>
             </p>
           ) : null}
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">

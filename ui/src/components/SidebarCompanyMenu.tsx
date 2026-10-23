@@ -356,7 +356,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange, showChevron = 
                   }}
                 >
                   <RefreshCw className="h-4 w-4 mr-2" />
-                  {t("components.sidebarCompanyMenu.tryAgain")}
+                  Try again
                 </DropdownMenuItem>
               </>
             ) : (

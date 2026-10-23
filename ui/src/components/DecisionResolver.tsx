@@ -168,7 +168,7 @@ export function DecisionResolver({ companyId, decisionId, originIssue, agentMap,
   if (detail.isLoading) {
     return (
       <div className="flex items-center gap-2 py-3 text-xs text-muted-foreground">
-        <Loader2 className="h-3.5 w-3.5 animate-spin" /> {t("components.decisionResolver.loadingDecision")}
+        <Loader2 className="h-3.5 w-3.5 animate-spin" /> Loading decision…
       </div>
     );
   }

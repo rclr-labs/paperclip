@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { t } from ".";
 import en from "./locales/en.json";
-import { localeMessages } from "./locales";
+import { loadAllLocaleMessages } from "./locales";
 import { validateLocaleMessages } from "./locale-validation";
 
 describe("locale validation", () => {
@@ -11,12 +11,15 @@ describe("locale validation", () => {
     expect(t("app.missing")).toBe("app.missing");
   });
 
-  it("accepts registered locale files", () => {
+  it("accepts registered locale files", async () => {
+    // The runtime no longer validates on import (it costs seconds across 40
+    // locales), so this is the gate that keeps a malformed catalogue out.
+    const localeMessages = await loadAllLocaleMessages();
     expect(Object.keys(localeMessages)).toContain("en");
     for (const [locale, messages] of Object.entries(localeMessages)) {
       expect(validateLocaleMessages(messages), locale).toEqual([]);
     }
-  });
+  }, 120_000);
 
   it("rejects missing and extra nested keys", () => {
     expect(

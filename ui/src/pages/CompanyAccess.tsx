@@ -289,7 +289,7 @@ export function CompanyAccess() {
         </div>
         {cloudInviteUrl && (
           <Button asChild>
-            <a href={cloudInviteUrl}><UserPlus />{t("pages.companyAccess.invitePeople")}</a>
+            <a href={cloudInviteUrl}><UserPlus />Invite people</a>
           </Button>
         )}
       </div>

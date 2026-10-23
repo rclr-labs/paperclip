@@ -127,7 +127,7 @@ export function CaseDetail() {
       {caseData.workIssueId && <CaseHandoffHistory caseId={caseData.id} task={caseData.workIssue} agents={agents} />}
 
       {relatedTasks.length > 0 && <details className="space-y-3">
-        <summary className="w-fit cursor-pointer text-sm font-semibold">{t("pages.caseDetail.relatedTasks")} <span className="text-muted-foreground">{relatedTasks.length}</span></summary>
+        <summary className="w-fit cursor-pointer text-sm font-semibold">Related tasks <span className="text-muted-foreground">{relatedTasks.length}</span></summary>
         <ul className="space-y-2">{relatedTasks.map(link => <li key={link.id} className="flex flex-wrap items-center gap-2"><IssueReferencePill issue={link.issue} /><span className="text-sm text-muted-foreground">{link.issue.title}</span><span className="text-xs text-muted-foreground">{link.role}</span></li>)}</ul>
       </details>}
 

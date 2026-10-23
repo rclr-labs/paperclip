@@ -1915,11 +1915,11 @@ export function Secrets() {
                   setNewFolderError(null);
                 }}
               >
-                <Folder className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.newFolder")}
+                <Folder className="mr-1 h-3.5 w-3.5" /> New folder
               </Button>
             ) : null}
             <Button onClick={openCreateSecret} size="sm">
-              <Plus className="h-3.5 w-3.5 mr-1" /> {t("pages.secrets.newSecret")}
+              <Plus className="h-3.5 w-3.5 mr-1" /> New secret
             </Button>
           </div>
           {newFolderOpen && showFolderView ? (
@@ -2270,12 +2270,12 @@ export function Secrets() {
                     className="h-7 shrink-0 px-2 text-xs"
                     onClick={() => copySecretKey(selectedSecret.key)}
                   >
-                    <Copy className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.copy")}
+                    <Copy className="mr-1 h-3.5 w-3.5" /> Copy
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   <MetaChip>
-                    <ShieldCheck className="h-3 w-3" /> {t("pages.secrets.organization")}
+                    <ShieldCheck className="h-3 w-3" /> Organization
                   </MetaChip>
                   <MetaChip>{modeLabel(selectedSecret.managedMode)}</MetaChip>
                   <MetaChip>{providerLabel(providers, selectedSecret.provider)}</MetaChip>
@@ -2291,12 +2291,12 @@ export function Secrets() {
                   {rotateActionLabel(selectedSecret)}
                 </Button>
                 <Button variant="outline" size="sm" onClick={copyDetailLink}>
-                  <Link2 className="h-3.5 w-3.5 mr-1" /> {t("pages.secrets.copyLink")}
+                  <Link2 className="h-3.5 w-3.5 mr-1" /> Copy link
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" aria-label={`More actions for ${selectedSecret.name}`}>
-                      <MoreHorizontal className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.more")}
+                      <MoreHorizontal className="mr-1 h-3.5 w-3.5" /> More
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-52">
@@ -2334,7 +2334,7 @@ export function Secrets() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem variant="destructive" onSelect={() => setDeleteConfirm(selectedSecret)}>
-                      <Trash2 className="h-4 w-4" /> {t("pages.secrets.deleteSecret")}
+                      <Trash2 className="h-4 w-4" /> Delete secret
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -2404,7 +2404,7 @@ export function Secrets() {
                     className="h-7 shrink-0 px-2 text-xs"
                     onClick={() => copySecretKey(selectedDefinition.key)}
                   >
-                    <Copy className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.copy")}
+                    <Copy className="mr-1 h-3.5 w-3.5" /> Copy
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -2430,12 +2430,12 @@ export function Secrets() {
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm" aria-label={`More actions for ${selectedDefinition.name}`}>
-                      <MoreHorizontal className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.more")}
+                      <MoreHorizontal className="mr-1 h-3.5 w-3.5" /> More
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-52">
                     <DropdownMenuItem onSelect={() => openEditDefinition(selectedDefinition)}>
-                      <Pencil className="h-4 w-4" /> {t("pages.secrets.editDefinition")}
+                      <Pencil className="h-4 w-4" /> Edit definition
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -2472,7 +2472,7 @@ export function Secrets() {
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem variant="destructive" onSelect={() => setDefinitionDeleteConfirm(selectedDefinition)}>
-                      <Trash2 className="h-4 w-4" /> {t("pages.secrets.deleteDefinition")}
+                      <Trash2 className="h-4 w-4" /> Delete definition
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -2730,7 +2730,7 @@ export function Secrets() {
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-medium text-foreground" htmlFor="new-secret-usage-guidance">
-                    {t("pages.secrets.usageGuidance")} <span className="text-muted-foreground/70">{t("pages.secrets.optional")}</span>
+                    Usage guidance <span className="text-muted-foreground/70">{t("pages.secrets.optional")}</span>
                   </label>
                   <Textarea
                     id="new-secret-usage-guidance"
@@ -2756,7 +2756,7 @@ export function Secrets() {
                     className="h-5 px-1.5 text-(length:--text-micro) text-muted-foreground"
                     onClick={() => setCreateKeyEditable(true)}
                   >
-                    <Pencil className="mr-1 h-3 w-3" /> {t("pages.secrets.edit")}
+                    <Pencil className="mr-1 h-3 w-3" /> Edit
                   </Button>
                 ) : null}
               </div>
@@ -2790,7 +2790,7 @@ export function Secrets() {
 
             <div>
               <label className="text-xs font-medium" htmlFor="new-secret-description">
-                {t("pages.secrets.description")} <span className="text-muted-foreground/70">{t("pages.secrets.optional")}</span>
+                Description <span className="text-muted-foreground/70">{t("pages.secrets.optional")}</span>
               </label>
               <Input
                 id="new-secret-description"
@@ -3143,7 +3143,7 @@ export function Secrets() {
               />
               {selectedSecret?.managedMode === "external_reference" ? (
                 <p className="mt-1 text-(length:--text-micro) text-muted-foreground">
-                  {t("pages.secrets.writtenTo")} <code className="font-mono">{selectedSecret.externalRef}</code> {t("pages.secrets.inTheProvider")}
+                  Written to <code className="font-mono">{selectedSecret.externalRef}</code> in the provider.
                 </p>
               ) : null}
             </div>
@@ -3180,7 +3180,7 @@ export function Secrets() {
           <DialogHeader>
             <DialogTitle>{t("pages.secrets.deleteSecret")}</DialogTitle>
             <DialogDescription>
-              {t("pages.secrets.permanentlyRemoves")} <strong>{deleteConfirm?.name}</strong>. Active bindings will fail until you remap them.
+              Permanently removes <strong>{deleteConfirm?.name}</strong>. Active bindings will fail until you remap them.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -3205,7 +3205,8 @@ export function Secrets() {
           <DialogHeader>
             <DialogTitle>{t("pages.secrets.deleteUserProvidedSecret")}</DialogTitle>
             <DialogDescription>
-              {t("pages.secrets.permanentlyRemoves")} <strong>{definitionDeleteConfirm?.name}</strong> {t("pages.secrets.forTheWholeOrganizationExistingMember")}
+              Permanently removes <strong>{definitionDeleteConfirm?.name}</strong> for the whole organization.
+              Existing member values become unreferenced and active bindings must be remapped.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
@@ -3348,7 +3349,7 @@ function SecretsFiltersPopover({
                 onClick={resetFilters}
               >
                 <X className="h-3 w-3" />
-                {t("pages.secrets.clear")}
+                Clear
               </button>
             ) : null}
           </div>
@@ -3499,7 +3500,7 @@ function ImportFromVaultButton({
         className={cn("text-xs text-muted-foreground", className)}
         title={t("pages.secrets.configureAnAwsProviderVaultTo")}
       >
-        <Cloud className="h-3.5 w-3.5 mr-1" /> {t("pages.secrets.awsVaultDisabledManage")}
+        <Cloud className="h-3.5 w-3.5 mr-1" /> AWS vault disabled — manage
       </Button>
     );
   }
@@ -3512,7 +3513,7 @@ function ImportFromVaultButton({
       className={className}
       data-testid="import-from-vault-button"
     >
-      <Cloud className="h-3.5 w-3.5 mr-1" /> {t("pages.secrets.importFromVault")}
+      <Cloud className="h-3.5 w-3.5 mr-1" /> Import from vault
     </Button>
   );
 }
@@ -3551,7 +3552,7 @@ export function ProviderVaultsTab({
     return (
       <div className="flex items-center gap-2 py-4 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        {t("pages.secrets.loadingProviderVaults")}
+        Loading provider vaults
       </div>
     );
   }
@@ -3669,7 +3670,7 @@ function ProviderVaultCard({
             {config.isDefault ? (
               <span className="inline-flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
                 <Star className="h-3 w-3 fill-current" />
-                {t("pages.secrets.default")}
+                Default
               </span>
             ) : null}
           </div>
@@ -3721,7 +3722,7 @@ function ProviderVaultCard({
             data-testid={`provider-vault-refresh-secrets-${config.id}`}
           >
             <Cloud className="h-3.5 w-3.5 mr-1" />
-            {t("pages.secrets.refreshSecrets")}
+            Refresh secrets
           </Button>
         ) : null}
         <Button
@@ -3731,7 +3732,7 @@ function ProviderVaultCard({
           disabled={pending || Boolean(blockReason) || config.isDefault}
         >
           <Star className="h-3.5 w-3.5 mr-1" />
-          {t("pages.secrets.makeDefault")}
+          Make default
         </Button>
         <Button
           variant="outline"
@@ -3741,7 +3742,7 @@ function ProviderVaultCard({
           disabled={pending || config.status === "disabled"}
         >
           <Ban className="h-3.5 w-3.5 mr-1" />
-          {t("pages.secrets.disable")}
+          Disable
         </Button>
         <Button
           variant="outline"
@@ -3751,7 +3752,7 @@ function ProviderVaultCard({
           disabled={pending}
         >
           <Trash2 className="h-3.5 w-3.5 mr-1" />
-          {t("pages.secrets.remove")}
+          Remove
         </Button>
       </div>
     </div>
@@ -3872,7 +3873,7 @@ function AwsProviderVaultDiscoveryPanel({
       {loading ? (
         <div className="flex items-center gap-2 rounded-md border border-border bg-muted/20 p-3 text-xs text-muted-foreground">
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          {t("pages.secrets.searchingAwsSecretsManagerMetadata")}
+          Searching AWS Secrets Manager metadata
         </div>
       ) : null}
 
@@ -4252,7 +4253,7 @@ function UserSecretDetailsTab({
           onClick={onViewCoverage}
         >
           <CoverageInline companyId={companyId} definitionId={definition.id} />
-          <span className="shrink-0 text-muted-foreground">{t("pages.secrets.viewInCoverage")}</span>
+          <span className="shrink-0 text-muted-foreground">· View in Coverage</span>
         </button>
       </DetailRow>
       <DetailRow label={t("pages.secrets.created")}>{formatRelative(definition.createdAt)}</DetailRow>
@@ -4679,7 +4680,7 @@ function SecretDetailsTab({
           onClick={onViewUsage}
         >
           {bindingLabel}
-          <span className="text-muted-foreground">{t("pages.secrets.viewInUsage")}</span>
+          <span className="text-muted-foreground">· View in Usage</span>
         </button>
       </DetailRow>
       <DetailRow label={t("pages.secrets.created")}>{formatRelative(secret.createdAt)}</DetailRow>

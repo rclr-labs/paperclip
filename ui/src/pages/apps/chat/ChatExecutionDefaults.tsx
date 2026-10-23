@@ -68,7 +68,7 @@ export function ChatExecutionDefaults({ companyId, value, resource = false, onSa
       <h3 id={`${id}-title`} className="text-sm font-semibold">{t("pages.apps.chat.chatExecutionDefaults.taskDefaults")}</h3>
       <p className="text-sm text-muted-foreground">{t("pages.apps.chat.chatExecutionDefaults.appliesToNewConversationsExistingTasks")}</p>
     </div>
-    {(projects.isError || workspaces.isError) && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatExecutionDefaults.couldnTLoadAvailableProjectsOr")} <button type="button" className="underline" onClick={() => { void projects.refetch(); void workspaces.refetch(); }}>{t("pages.apps.chat.chatExecutionDefaults.tryAgain")}</button></p>}
+    {(projects.isError || workspaces.isError) && <p role="alert" className="text-sm text-destructive">Couldn’t load available projects or workspaces. <button type="button" className="underline" onClick={() => { void projects.refetch(); void workspaces.refetch(); }}>{t("pages.apps.chat.chatExecutionDefaults.tryAgain")}</button></p>}
     <div className="space-y-2">
       <label htmlFor={`${id}-project`} className="text-sm font-medium">{t("pages.apps.chat.chatExecutionDefaults.project")}</label>
       <NativeSelect id={`${id}-project`} value={projectValue} disabled={pending || projects.isPending} onChange={(event) => {

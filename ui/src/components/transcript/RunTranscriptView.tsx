@@ -940,7 +940,7 @@ function TranscriptMessageBlock({
             <span className="tc-live-ping absolute inline-flex h-full w-full rounded-full bg-current opacity-70" />
             <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-current" />
           </span>
-          {t("components.transcript.runTranscriptView.streaming")}
+          Streaming
         </div>
       )}
     </div>

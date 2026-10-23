@@ -69,7 +69,7 @@ function CommentaryDetail({ companyId, id, onClose, triggerRef }: { companyId: s
           <div className="min-h-0 overflow-y-auto overscroll-contain break-words pr-2"><MarkdownBody>{entry.body}</MarkdownBody></div>
           <div className="flex shrink-0 flex-wrap items-center gap-4 border-t border-border pt-4 text-sm">
             {entry.task && <Link to={`/issues/${entry.task.identifier ?? entry.task.id}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"><span className="font-mono">{entry.task.identifier ?? "Source task"}</span><ArrowUpRight className="size-3.5" /></Link>}
-            <Link to={`/agents/${entry.agent.id}/runs/${entry.runId}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">{t("pages.audit.agentCommentary.viewRun")}<ArrowUpRight className="size-3.5" /></Link>
+            <Link to={`/agents/${entry.agent.id}/runs/${entry.runId}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">View run<ArrowUpRight className="size-3.5" /></Link>
           </div>
         </> : null}
       </DialogContent>
@@ -127,7 +127,7 @@ export function AgentCommentary({ companyId }: { companyId: string }) {
         <Select value={kind ?? ALL} onValueChange={(value) => updateFilters({ kind: value })}><SelectTrigger aria-label={t("pages.audit.agentCommentary.filterByMessageType")} className="min-w-36"><SelectValue /></SelectTrigger><SelectContent><SelectItem value={ALL}>{t("pages.audit.agentCommentary.allTypes")}</SelectItem><SelectItem value="suggestion">{t("pages.audit.agentCommentary.suggestions")}</SelectItem><SelectItem value="complaint">{t("pages.audit.agentCommentary.complaints")}</SelectItem></SelectContent></Select>
         {hasFilters && <Button variant="ghost" size="sm" onClick={clearFilters}>{t("pages.audit.agentCommentary.clearFilters")}</Button>}
       </div>
-      {agents.error && <p role="alert" className="text-sm text-destructive">{t("pages.audit.agentCommentary.couldNotLoadAgentFilters")} <button type="button" className="underline" onClick={() => void agents.refetch()}>{t("pages.audit.agentCommentary.tryAgain")}</button></p>}
+      {agents.error && <p role="alert" className="text-sm text-destructive">Could not load agent filters. <button type="button" className="underline" onClick={() => void agents.refetch()}>{t("pages.audit.agentCommentary.tryAgain")}</button></p>}
       {messages.isPending ? <p role="status" className="py-12 text-center text-sm text-muted-foreground">{t("pages.audit.agentCommentary.loadingCommentary")}</p> : messages.error ? (
         <div role="alert" className="flex flex-col items-center gap-3 py-12"><p className="text-sm text-destructive">{messages.error.message}</p><Button variant="outline" size="sm" onClick={() => void messages.refetch()}>{t("pages.audit.agentCommentary.tryAgain")}</Button></div>
       ) : messages.data?.items.length === 0 ? (
@@ -139,7 +139,7 @@ export function AgentCommentary({ companyId }: { companyId: string }) {
         </div>
         <div className="flex items-center justify-between gap-3 border-t border-border pt-4">
           <p role="status" className="font-mono text-xs text-muted-foreground">{offset + 1}–{offset + messages.data.items.length} of {messages.data.total} messages</p>
-          <div className="flex gap-2"><Button variant="outline" size="sm" aria-label={t("pages.audit.agentCommentary.previousPage")} disabled={offset === 0} onClick={() => updateFilters({ offset: String(Math.max(0, offset - PAGE_SIZE)) })}><ChevronLeft className="size-4" />{t("pages.audit.agentCommentary.previous")}</Button><Button variant="outline" size="sm" aria-label={t("pages.audit.agentCommentary.nextPage")} disabled={offset + messages.data.items.length >= messages.data.total} onClick={() => updateFilters({ offset: String(offset + PAGE_SIZE) })}>{t("pages.audit.agentCommentary.next")}<ChevronRight className="size-4" /></Button></div>
+          <div className="flex gap-2"><Button variant="outline" size="sm" aria-label={t("pages.audit.agentCommentary.previousPage")} disabled={offset === 0} onClick={() => updateFilters({ offset: String(Math.max(0, offset - PAGE_SIZE)) })}><ChevronLeft className="size-4" />Previous</Button><Button variant="outline" size="sm" aria-label={t("pages.audit.agentCommentary.nextPage")} disabled={offset + messages.data.items.length >= messages.data.total} onClick={() => updateFilters({ offset: String(offset + PAGE_SIZE) })}>Next<ChevronRight className="size-4" /></Button></div>
         </div>
       </> : null}
       <CommentaryDetail key={companyId} companyId={companyId} id={selectedId} onClose={() => selectEntry(null)} triggerRef={triggerRef} />

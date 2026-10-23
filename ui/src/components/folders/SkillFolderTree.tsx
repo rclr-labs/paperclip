@@ -416,7 +416,7 @@ export function SkillFolderRail({
         <div className="mt-4 border-t border-border pt-3">
           <div className="mb-1.5 flex items-center gap-1.5 px-2 text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
             <Hash className="h-3 w-3" />
-            {t("components.folders.skillFolderTree.tags")}
+            Tags
           </div>
           <div className="flex flex-wrap gap-1.5 px-1">
             {activeTag ? (
@@ -643,7 +643,7 @@ function TreeBranch({
               {canNest ? (
                 <DropdownMenuItem onSelect={() => onCreateFolder(folder.id)}>
                   <FolderPlus className="h-3.5 w-3.5" />
-                  {t("components.folders.skillFolderTree.newSubfolder")}
+                  New subfolder
                 </DropdownMenuItem>
               ) : null}
               {editable ? (
@@ -657,7 +657,7 @@ function TreeBranch({
                   <DropdownMenuSeparator />
                   <DropdownMenuItem variant="destructive" onSelect={() => onDeleteFolder(folder)}>
                     <Trash2 className="h-3.5 w-3.5" />
-                    {t("components.folders.skillFolderTree.delete")}
+                    Delete
                   </DropdownMenuItem>
                 </>
               ) : null}
@@ -726,7 +726,7 @@ export function FolderBreadcrumb({
         )}
       >
         <Home className="h-3.5 w-3.5" />
-        {t("components.folders.skillFolderTree.allSkills")}
+        All skills
       </button>
       {selection === "unfiled" ? (
         <>
@@ -995,7 +995,7 @@ export function MoveToFolderDialog({
                 className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent/40 hover:text-foreground"
               >
                 <Plus className="h-3.5 w-3.5" />
-                {t("components.folders.skillFolderTree.newTopLevelFolder")}
+                New top-level folder…
               </button>
             )}
           </div>
@@ -1004,7 +1004,7 @@ export function MoveToFolderDialog({
         <div className="min-h-5 text-xs text-muted-foreground">
           {previewPath ? (
             <span>
-              {t("components.folders.skillFolderTree.movingTo")} <span className="font-mono text-foreground">{previewPath}</span>
+              Moving to <span className="font-mono text-foreground">{previewPath}</span>
             </span>
           ) : (
             <span>{t("components.folders.skillFolderTree.pickADestinationFolder")}</span>

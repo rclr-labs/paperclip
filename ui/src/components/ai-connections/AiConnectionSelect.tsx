@@ -152,12 +152,12 @@ export function AiConnectionSelect({
           {(canUseDefault || value?.mode === "responsible_user") && (
             <SelectItem value="responsible_user" disabled={!canUseDefault}>
               <span className="flex size-5 shrink-0 items-center justify-center"><UserRound className="size-4" /></span>
-              {t("components.aiconnections.aiConnectionSelect.responsibleUserSDefault")}
+              Responsible user’s default
             </SelectItem>
           )}
           <SelectItem value="connect">
             <span className="flex size-5 shrink-0 items-center justify-center"><Plus className="size-4" /></span>
-            {t("components.aiconnections.aiConnectionSelect.connectAnAccount")}
+            Connect an account…
           </SelectItem>
         </SelectContent>
       </Select>

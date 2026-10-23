@@ -380,14 +380,14 @@ export function FrontmatterPanel({
                   </Tooltip>
                 )}
                 <TabsTrigger value="yaml" className="px-2 py-0.5 text-xs">
-                  {t("components.frontmatterPanel.yaml")}
+                  YAML
                 </TabsTrigger>
               </TabsList>
             </Tabs>
           ) : !readOnly ? (
             <Button variant="ghost" size="sm" onClick={addFrontmatter} data-testid="add-frontmatter">
               <Plus className="mr-1 h-3.5 w-3.5" />
-              {t("components.frontmatterPanel.addFrontmatter")}
+              Add frontmatter
             </Button>
           ) : null}
 
@@ -578,7 +578,6 @@ function MetadataRows({
   readOnly: boolean;
   onChange: (rows: ScalarRow[]) => void;
 }) {
-  const { t } = useTranslation();
   const update = (index: number, patch: Partial<ScalarRow>) => {
     const next = rows.slice();
     next[index] = { ...next[index]!, ...patch, edited: true };
@@ -630,7 +629,7 @@ function MetadataRows({
       {!readOnly ? (
         <Button variant="ghost" size="sm" onClick={add} className="text-xs">
           <Plus className="mr-1 h-3.5 w-3.5" />
-          {t("components.frontmatterPanel.addField")}
+          add field
         </Button>
       ) : null}
     </div>

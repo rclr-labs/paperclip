@@ -56,14 +56,13 @@ function FolderContents({ artifacts }: { artifacts: LabArtifact[] }) {
 const FOCUS = cn(RING, RING_ON.canvas, "focus-visible:ring-offset-4");
 
 function Count({ group, className }: { group: LabGroup; className?: string }) {
-  const { t } = useTranslation();
   return (
     <span className={className}>
       <span className="whitespace-nowrap">
         <span className="font-mono text-(length:--tac-mono-scale)">{group.count}</span> {countLabel(group.count)}
       </span>
       <span className="whitespace-nowrap">
-        {t("artifactdirections.directions.d3tactile.galleryStacks.updated")} <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
+        Updated <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
       </span>
     </span>
   );

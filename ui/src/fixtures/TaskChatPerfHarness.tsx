@@ -45,7 +45,7 @@ function Harness() {
       <header className="flex shrink-0 items-center gap-4 py-3">
         <h1>{t("fixtures.taskChatPerfHarness.taskChat200Responses4000")}</h1>
         <button onClick={() => setStreaming((value) => !value)}>{streaming ? "Stop streaming" : "Start streaming"}</button>
-        <label><input type="checkbox" checked={reproject} onChange={(event) => setReproject(event.target.checked)} /> {t("fixtures.taskChatPerfHarness.recreateHistoryObjects")}</label>
+        <label><input type="checkbox" checked={reproject} onChange={(event) => setReproject(event.target.checked)} /> Recreate history objects</label>
         <output data-testid="stream-tick">{tick}</output>
       </header>
       <TaskChatThreadView items={reproject ? history.map((item) => ({ ...item })) : history} contentKey={tick} tail={<p>Live response {tick}</p>} />

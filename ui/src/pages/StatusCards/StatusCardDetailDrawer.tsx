@@ -348,7 +348,7 @@ export function StatusCardDetailDrawer({
                       className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground underline-offset-2 hover:underline"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      {t("pages.statusCards.statusCardDetailDrawer.viewSetupTask")}
+                      View setup task
                     </Link>
                   ) : null}
                 </div>
@@ -378,7 +378,7 @@ export function StatusCardDetailDrawer({
                   every recorded update (each update is one summary revision). */}
               {updatesQuery.isLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.statusCardDetailDrawer.loadingHistory")}
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading history…
                 </div>
               ) : updates.length === 0 ? (
                 <p className="text-sm text-muted-foreground">{t("pages.statusCards.statusCardDetailDrawer.noUpdatesRecordedYet")}</p>
@@ -424,7 +424,7 @@ export function StatusCardDetailDrawer({
                 </div>
               ) : dryRunQuery.isLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.statusCardDetailDrawer.matchingIssues")}
+                  <Loader2 className="h-4 w-4 animate-spin" /> Matching issues…
                 </div>
               ) : dryRunQuery.isError ? (
                 <InlineBanner tone="danger" title={t("pages.statusCards.statusCardDetailDrawer.couldNotLoadMatchedIssues")}>
@@ -499,13 +499,12 @@ export function StatusCardDetailDrawer({
  * inspectable without leaving Settings.
  */
 function QueryDebugSection({ card }: { card: StatusCardView }) {
-  const { t } = useTranslation();
   const queryJson = JSON.stringify({ queries: card.queries, limit: 50 }, null, 2);
   return (
     <Collapsible className="rounded-md border border-border">
       <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 px-3 py-2.5 text-sm font-semibold">
         <span className="flex items-center gap-2">
-          {t("pages.statusCards.statusCardDetailDrawer.queryDebug")}
+          Query debug
           <Badge variant="secondary">v{card.queryVersion}</Badge>
         </span>
         <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />

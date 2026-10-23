@@ -76,7 +76,7 @@ export function ZeroResultsRecovery({
 
       <Button onClick={onClearAll} variant="default" size="sm">
         <RotateCcw className="mr-1.5 h-4 w-4" />
-        {t("components.search.zeroResultsRecovery.clearAllFilters")}
+        Clear all filters
       </Button>
     </div>
   );

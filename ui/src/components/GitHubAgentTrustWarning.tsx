@@ -46,7 +46,7 @@ export function GitHubAgentTrustWarning({
         target="_blank"
         rel="noreferrer"
       >
-        {t("components.gitHubAgentTrustWarning.learnAboutLowTrustAgents")}
+        Learn about low-trust agents
         <ExternalLink className="size-3.5" />
       </a>
     </div>

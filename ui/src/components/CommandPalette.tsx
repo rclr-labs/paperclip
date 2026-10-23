@@ -265,7 +265,7 @@ export function CommandPalette() {
             >
               <Search className="mr-2 h-4 w-4" />
               <span className="flex-1 truncate">
-                {t("components.commandPalette.searchAllFor")} <span className="font-semibold">&ldquo;{searchQuery}&rdquo;</span>
+                Search all for <span className="font-semibold">&ldquo;{searchQuery}&rdquo;</span>
               </span>
               <span className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground">
                 <span>{t("components.commandPalette.openFullSearch")}</span>
@@ -325,7 +325,7 @@ export function CommandPalette() {
             }}
           >
             <SquarePen className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.createNewTask")}
+            Create new task
             <span className="ml-auto text-xs text-muted-foreground">C</span>
           </CommandItem>
           {onIssueDetail && fileViewerEnabled && (
@@ -336,7 +336,7 @@ export function CommandPalette() {
               }}
             >
               <FileCode2 className="mr-2 h-4 w-4" />
-              {t("components.commandPalette.openFileInThisIssue")}
+              Open file in this issue...
               <span className="ml-auto text-xs text-muted-foreground">g f</span>
             </CommandItem>
           )}
@@ -347,11 +347,11 @@ export function CommandPalette() {
             }}
           >
             <Plus className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.createNewAgent")}
+            Create new agent
           </CommandItem>
           <CommandItem onSelect={() => go("/projects")}>
             <Plus className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.createNewProject")}
+            Create new project
           </CommandItem>
         </CommandGroup>
 
@@ -360,7 +360,7 @@ export function CommandPalette() {
         <CommandGroup heading="Pages">
           <CommandItem onSelect={() => go("/dashboard")}>
             <LayoutDashboard className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.dashboard")}
+            Dashboard
           </CommandItem>
           <CommandItem onSelect={() => go(combinedInboxTasksEnabled ? "/issues?view=mine" : "/inbox")}>
             <Inbox className="mr-2 h-4 w-4" />
@@ -368,27 +368,27 @@ export function CommandPalette() {
           </CommandItem>
           <CommandItem onSelect={() => go("/issues")}>
             <CircleDot className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.tasks")}
+            Tasks
           </CommandItem>
           <CommandItem onSelect={() => go("/projects")}>
             <Hexagon className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.projects")}
+            Projects
           </CommandItem>
           <CommandItem onSelect={() => go("/goals")}>
             <Target className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.goals")}
+            Goals
           </CommandItem>
           <CommandItem onSelect={() => go("/agents")}>
             <Bot className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.agents")}
+            Agents
           </CommandItem>
           <CommandItem onSelect={() => go("/costs")}>
             <DollarSign className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.costs")}
+            Costs
           </CommandItem>
           <CommandItem onSelect={() => go("/activity")}>
             <History className="mr-2 h-4 w-4" />
-            {t("components.commandPalette.activity")}
+            Activity
           </CommandItem>
         </CommandGroup>
 

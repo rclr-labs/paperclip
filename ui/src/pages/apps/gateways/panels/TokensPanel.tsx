@@ -73,7 +73,7 @@ function ExpiryValue({ token }: { token: ToolMcpGatewayToken }) {
   if (expiresAt.getTime() <= Date.now()) {
     return <><span className="font-medium text-foreground">{t("pages.apps.gateways.panels.tokensPanel.expired")}</span> <RelativeTime value={token.expiresAt} /></>;
   }
-  return <>{t("pages.apps.gateways.panels.tokensPanel.expires")} <RelativeTime value={token.expiresAt} /></>;
+  return <>Expires <RelativeTime value={token.expiresAt} /></>;
 }
 
 export function TokensPanel({
@@ -201,7 +201,7 @@ export function TokensPanel({
         </div>
         <Button size="sm" onClick={startIssuing}>
           <Plus className="mr-1.5 h-3.5 w-3.5" />
-          {t("pages.apps.gateways.panels.tokensPanel.issueToken")}
+          Issue token
         </Button>
       </div>
 
@@ -257,7 +257,7 @@ export function TokensPanel({
             {revealed ? (
               <Button variant="outline" size="sm" onClick={() => void copyToken(created.token)}>
                 <Copy className="mr-1 h-3.5 w-3.5" />
-                {t("pages.apps.gateways.panels.tokensPanel.copy")}
+                Copy
               </Button>
             ) : (
               <Button variant="outline" size="sm" onClick={() => setRevealed(true)}>{t("pages.apps.gateways.panels.tokensPanel.show")}</Button>
@@ -271,7 +271,7 @@ export function TokensPanel({
           <Button variant="ghost" className="h-auto w-full justify-between px-0 py-1 hover:bg-transparent">
             <span className="flex items-center gap-2 text-sm font-semibold text-foreground">
               <KeyRound className="h-4 w-4 text-muted-foreground" />
-              {t("pages.apps.gateways.panels.tokensPanel.tokenHistory")}
+              Token history
               <span className="font-normal text-muted-foreground">{tokens.length}</span>
             </span>
             {historyOpen ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
@@ -401,7 +401,8 @@ export function TokensPanel({
             <div>
               <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.tokensPanel.revokeThisToken")}</h3>
               <p className="mt-1 text-sm text-muted-foreground">
-                {t("pages.apps.gateways.panels.tokensPanel.anyClientUsing")} <span className="font-medium text-foreground">{confirmToken.name}</span> {t("pages.apps.gateways.panels.tokensPanel.goesSilentImmediatelyThisCanT")}
+                Any client using <span className="font-medium text-foreground">{confirmToken.name}</span> goes
+                silent immediately. This can’t be undone. Type the token name to confirm.
               </p>
             </div>
             <Input

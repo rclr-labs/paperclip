@@ -462,7 +462,7 @@ function LoadingView({ elapsedMs }: { elapsedMs: number }) {
   if (elapsedMs < 400) {
     return (
       <div className="flex-1 space-y-2 p-6" aria-busy="true" aria-live="polite">
-        <span className="sr-only">{t("components.fileViewerSheet.loadingFilePreview2")}</span>
+        <span className="sr-only">{t("components.fileViewerSheet.loadingFilePreview")}</span>
         {Array.from({ length: 10 }).map((_, index) => (
           <div key={index} className="h-3 rounded bg-muted animate-pulse" style={{ width: `${90 - index * 6}%` }} />
         ))}
@@ -477,7 +477,7 @@ function LoadingView({ elapsedMs }: { elapsedMs: number }) {
     >
       <div className="flex items-center gap-2 text-muted-foreground">
         <Loader2 aria-hidden="true" className="h-4 w-4 animate-spin" />
-        {t("components.fileViewerSheet.loadingFilePreview")}
+        Loading file preview...
       </div>
     </div>
   );
@@ -787,7 +787,7 @@ export function FileViewerSheet({
                   aria-label={t("components.fileViewerSheet.backToFiles")}
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  {t("components.fileViewerSheet.backToFiles")}
+                  Back to files
                 </Button>
               ) : null}
               {contentQuery.data?.resource.previewKind === "text" && contentQuery.data.content.encoding === "utf8"
@@ -999,7 +999,7 @@ export function FileViewerBody({
                 </Button>
               ) : null}
               <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
+                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
               </Button>
             </>
           }
@@ -1023,7 +1023,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
           </Button>
         }
       />
@@ -1062,7 +1062,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
           </Button>
         }
       />

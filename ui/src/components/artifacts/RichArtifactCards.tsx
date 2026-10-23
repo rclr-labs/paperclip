@@ -666,7 +666,7 @@ export function LinkPreviewCard(props: LinkPreviewCardProps) {
       )}
       <div className="flex flex-col gap-4 p-5">
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Globe className="size-4" /> {t("components.artifacts.richArtifactCards.linkPreview")}
+          <Globe className="size-4" /> Link preview
         </span>
         <Identity {...props} />
         <span className="break-all font-mono text-xs text-muted-foreground">

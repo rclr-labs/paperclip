@@ -960,7 +960,7 @@ export function IssueDocumentsSection({
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline" size="sm" onClick={cancelDraft}>
               <X className="mr-1.5 h-3.5 w-3.5" />
-              {t("components.issueDocumentsSection.cancel")}
+              Cancel
             </Button>
             <Button
               size="sm"
@@ -984,7 +984,7 @@ export function IssueDocumentsSection({
           <div className="mb-2 flex items-center gap-2">
             <FileText className="h-4 w-4 text-amber-600" />
             <Badge variant="outline" className="border-amber-500/30 font-mono text-(length:--text-nano) uppercase tracking-(--tracking-eyebrow) text-amber-700 dark:text-amber-300">
-              {t("components.issueDocumentsSection.plan")}
+              PLAN
             </Badge>
           </div>
           <div className={documentBodyPaddingClassName}>

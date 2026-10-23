@@ -100,7 +100,7 @@ export function ComposerWorktreePicker({
         <div className="border-t border-border px-3 py-2 text-xs text-muted-foreground" role="status">
           {loading ? "Loading existing worktrees…" : error ? (
             <span className="flex items-center justify-between gap-2">
-              {t("components.taskchat.composerWorktreePicker.couldnTLoadWorktrees")}
+              Couldn't load worktrees.
               <button type="button" className="rounded px-2 py-1 text-foreground hover:bg-accent" onClick={onRetry}>{t("components.taskchat.composerWorktreePicker.retry")}</button>
             </span>
           ) : "No existing worktrees yet. Choose New worktree to start one."}

@@ -227,7 +227,7 @@ function InviteSummaryPanel({
 
       {signedInLabel ? (
         <div className="border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-emerald-50">
-          {t("pages.inviteUxLab.signedInAs")} <span className="font-medium">{signedInLabel}</span>.
+          Signed in as <span className="font-medium">{signedInLabel}</span>.
         </div>
       ) : null}
     </>
@@ -540,7 +540,7 @@ function CompanyInvitesPreview() {
         <CardHeader className="space-y-3">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <MailPlus className="h-4 w-4" />
-            {t("pages.inviteUxLab.organizationInvites")}
+            Organization Invites
           </div>
           <div>
             <CardTitle>{t("pages.inviteUxLab.createInvite")}</CardTitle>
@@ -600,7 +600,7 @@ function CompanyInvitesPreview() {
               </div>
               <div className="inline-flex items-center gap-1 text-xs font-medium text-foreground">
                 <Check className="h-3.5 w-3.5" />
-                {t("pages.inviteUxLab.copied")}
+                Copied
               </div>
             </div>
             <button
@@ -612,7 +612,7 @@ function CompanyInvitesPreview() {
             <div className="flex flex-wrap gap-2">
               <Button type="button" size="sm" variant="outline">
                 <ExternalLink className="h-4 w-4" />
-                {t("pages.inviteUxLab.openInvite")}
+                Open invite
               </Button>
             </div>
           </div>
@@ -713,7 +713,7 @@ export function InviteUxLab() {
           <div className="p-6 sm:p-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/25 bg-cyan-500/[0.08] px-3 py-1 text-(length:--text-nano) font-semibold uppercase tracking-(--tracking-caps) text-cyan-700 dark:text-cyan-300">
               <FlaskConical className="h-3.5 w-3.5" />
-              {t("pages.inviteUxLab.inviteUxLab")}
+              Invite UX Lab
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight">{t("pages.inviteUxLab.inviteAndSignupUxReviewSurface")}</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">

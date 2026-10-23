@@ -63,7 +63,7 @@ export function DecisionDateChips({ value, custom, onChange }: DecisionDateChips
           </div>
           <div className="flex flex-col gap-1.5">
             <label className="text-(length:--text-nano) font-medium uppercase tracking-wide text-muted-foreground">
-              {t("components.decisionDateChips.to")}
+              To
             </label>
             <input
               type="date"

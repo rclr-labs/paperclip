@@ -374,7 +374,7 @@ function GitHubConnectionSummary({
           <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.identitiesSection.refreshAccessToLoadTheCurrent")}</p>
         )}
         {configurationUrl ? <p className="text-xs text-muted-foreground">
-          {t("pages.apps.appdetail.identitiesSection.missingAnOrganizationOrRepository")} <a href={configurationUrl} target="_blank" rel="noreferrer" className="text-foreground hover:underline">{t("pages.apps.appdetail.identitiesSection.configureAccessOnGithub")}</a>{t("pages.apps.appdetail.identitiesSection.thenRefreshThisList")}
+          Missing an organization or repository? <a href={configurationUrl} target="_blank" rel="noreferrer" className="text-foreground hover:underline">{t("pages.apps.appdetail.identitiesSection.configureAccessOnGithub")}</a>, then refresh this list.
         </p> : null}
       </div>
     </div>

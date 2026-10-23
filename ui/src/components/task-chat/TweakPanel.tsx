@@ -212,7 +212,7 @@ export function TweakPanel() {
               className="flex flex-1 items-center justify-center gap-1 rounded border border-border px-2 py-1 text-xs hover:bg-accent"
             >
               <Copy className="h-3.5 w-3.5" />
-              {t("components.taskchat.tweakPanel.copyAsTheme")}
+              Copy as @theme
             </button>
           </div>
 

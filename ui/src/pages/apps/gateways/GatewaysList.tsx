@@ -165,7 +165,7 @@ export function GatewaysList() {
             </div>
             <Button onClick={() => setCreating(true)}>
               <Plus className="mr-1.5 h-4 w-4" />
-              {t("pages.apps.gateways.gatewaysList.newGateway")}
+              New gateway
             </Button>
           </div>
 
@@ -328,7 +328,7 @@ function EmptyGateways({ onCreate }: { onCreate: () => void }) {
       </p>
       <Button className="mt-5" onClick={onCreate}>
         <Plus className="mr-1.5 h-4 w-4" />
-        {t("pages.apps.gateways.gatewaysList.newGateway")}
+        New gateway
       </Button>
     </div>
   );

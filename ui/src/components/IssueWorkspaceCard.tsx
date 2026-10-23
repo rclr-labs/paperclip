@@ -361,7 +361,7 @@ export function IssueWorkspaceCard({
                   className="h-6 px-2 text-xs text-muted-foreground"
                   onClick={handleCancel}
                 >
-                  <X className="h-3 w-3 mr-1" />{t("components.issueWorkspaceCard.cancel")}
+                  <X className="h-3 w-3 mr-1" />Cancel
                 </Button>
                 <Button
                   size="sm"
@@ -379,7 +379,7 @@ export function IssueWorkspaceCard({
                 className="h-6 px-2 text-xs text-muted-foreground"
                 onClick={() => setEditing(true)}
               >
-                <Pencil className="h-3 w-3 mr-1" />{t("components.issueWorkspaceCard.edit")}
+                <Pencil className="h-3 w-3 mr-1" />Edit
               </Button>
             )}
           </div>
@@ -521,7 +521,7 @@ export function IssueWorkspaceCard({
             className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
           >
             <FolderSearch className="h-3.5 w-3.5 shrink-0" />
-            {t("components.issueWorkspaceCard.browseFiles")}
+            Browse files…
           </button>
           <button
             type="button"
@@ -529,7 +529,7 @@ export function IssueWorkspaceCard({
             className="inline-flex items-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground"
           >
             <FileSearch className="h-3.5 w-3.5 shrink-0" />
-            {t("components.issueWorkspaceCard.openFileByPath")}
+            Open file by path…
           </button>
         </div>
       )}

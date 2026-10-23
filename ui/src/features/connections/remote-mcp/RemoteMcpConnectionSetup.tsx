@@ -187,12 +187,12 @@ export function RemoteMcpConnectionSetup({ provider, state: s, actions: a, agent
                       <div className="min-w-0 flex-1 space-y-2"><Label htmlFor={`${uid}-${header.id}-value`}>Header {index + 1} value</Label><Input id={`${uid}-${header.id}-value`} type="password" autoComplete="off" value={header.value} onChange={(event) => change({ headers: s.headers.map((h) => h.id === header.id ? { ...h, value: event.target.value } : h) })} /></div>
                       <Button type="button" variant="ghost" size="icon" aria-label={`Remove header ${index + 1}`} onClick={() => change({ headers: s.headers.filter((h) => h.id !== header.id) })}><Trash2 className="size-4" /></Button>
                     </div>)}
-                    <Button type="button" variant="outline" size="sm" onClick={() => change({ headers: [...s.headers, { id: crypto.randomUUID(), name: "", value: "" }] })}><Plus className="size-4" />{t("features.connections.remotemcp.remoteMcpConnectionSetup.addHeader")}</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => change({ headers: [...s.headers, { id: crypto.randomUUID(), name: "", value: "" }] })}><Plus className="size-4" />Add header</Button>
                   </div>}
                 </div>)}
             </fieldset>
             {additionalSettings}
-            {busy && <p role="status" className="flex items-center gap-2 text-sm"><Loader2 className="size-4 animate-spin motion-reduce:animate-none" />{t("features.connections.remotemcp.remoteMcpConnectionSetup.connectingAndDiscoveringTools")}</p>}
+            {busy && <p role="status" className="flex items-center gap-2 text-sm"><Loader2 className="size-4 animate-spin motion-reduce:animate-none" />Connecting and discovering tools…</p>}
             {footer(<>{s.setupComplete ? <Button type="button" variant="outline" disabled={busy} onClick={a.finish}>{t("features.connections.remotemcp.remoteMcpConnectionSetup.back")}</Button> : <span />}<Button type="submit" disabled={busy || !s.url.trim() || !settingsValid}>{busy ? "Connecting…" : error || s.connectStatus === "cancelled" ? "Try again" : `Connect ${provider.name}`}</Button></>)}
           </form>}
         </>}

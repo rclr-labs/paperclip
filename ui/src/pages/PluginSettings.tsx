@@ -294,7 +294,7 @@ export function PluginSettings() {
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-1.5">
                     <Cpu className="h-4 w-4" />
-                    {t("pages.pluginSettings.runtimeDashboard")}
+                    Runtime Dashboard
                   </CardTitle>
                   <CardDescription>
                     {t("pages.pluginSettings.workerProcessScheduledJobsAndWebhook")}
@@ -306,7 +306,7 @@ export function PluginSettings() {
                       <div>
                         <h3 className="text-sm font-medium mb-3 flex items-center gap-1.5">
                           <Cpu className="h-3.5 w-3.5 text-muted-foreground" />
-                          {t("pages.pluginSettings.workerProcess")}
+                          Worker Process
                         </h3>
                         {dashboardData.worker ? (
                           <div className="grid grid-cols-2 gap-3 text-sm">
@@ -317,7 +317,7 @@ export function PluginSettings() {
                               </Badge>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-muted-foreground">{t("pages.pluginSettings.pid")}</span>
+                              <span className="text-muted-foreground">PID</span>
                               <span className="font-mono text-xs">{dashboardData.worker.pid ?? "—"}</span>
                             </div>
                             <div className="flex justify-between">
@@ -333,7 +333,7 @@ export function PluginSettings() {
                                 <div className="flex justify-between col-span-2">
                                   <span className="text-muted-foreground flex items-center gap-1">
                                     <AlertTriangle className="h-3 w-3 text-amber-500" />
-                                    {t("pages.pluginSettings.crashes")}
+                                    Crashes
                                   </span>
                                   <span className="text-xs">
                                     {dashboardData.worker.consecutiveCrashes} consecutive / {dashboardData.worker.totalCrashes} total
@@ -358,7 +358,7 @@ export function PluginSettings() {
                       <div>
                         <h3 className="text-sm font-medium mb-3 flex items-center gap-1.5">
                           <CalendarClock className="h-3.5 w-3.5 text-muted-foreground" />
-                          {t("pages.pluginSettings.recentJobRuns")}
+                          Recent Job Runs
                         </h3>
                         {dashboardData.recentJobRuns.length > 0 ? (
                           <div className="space-y-2">
@@ -393,7 +393,7 @@ export function PluginSettings() {
                       <div>
                         <h3 className="text-sm font-medium mb-3 flex items-center gap-1.5">
                           <Webhook className="h-3.5 w-3.5 text-muted-foreground" />
-                          {t("pages.pluginSettings.recentWebhookDeliveries")}
+                          Recent Webhook Deliveries
                         </h3>
                         {dashboardData.recentWebhookDeliveries.length > 0 ? (
                           <div className="space-y-2">
@@ -438,7 +438,7 @@ export function PluginSettings() {
                   <CardHeader>
                     <CardTitle className="text-base flex items-center gap-1.5">
                       <ActivitySquare className="h-4 w-4" />
-                      {t("pages.pluginSettings.recentLogs")}
+                      Recent Logs
                     </CardTitle>
                     <CardDescription>Last {recentLogs.length} log entries</CardDescription>
                   </CardHeader>
@@ -473,7 +473,7 @@ export function PluginSettings() {
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-1.5">
                     <ActivitySquare className="h-4 w-4" />
-                    {t("pages.pluginSettings.healthStatus")}
+                    Health Status
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -558,7 +558,7 @@ export function PluginSettings() {
                 <CardHeader>
                   <CardTitle className="text-base flex items-center gap-1.5">
                     <ShieldAlert className="h-4 w-4" />
-                    {t("pages.pluginSettings.permissions")}
+                    Permissions
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -627,7 +627,7 @@ function PluginLocalFoldersSettings({ pluginId, companyId, declarations }: Plugi
       {isLoading ? (
         <div className="flex items-center gap-2 py-3 text-sm text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" />
-          {t("pages.pluginSettings.loadingLocalFolders")}
+          Loading local folders...
         </div>
       ) : (
         <div className="space-y-3">
@@ -955,7 +955,6 @@ interface PluginConfigFormProps {
  * re-renders on field changes, not the entire page.
  */
 function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoading, pluginStatus, supportsConfigTest }: PluginConfigFormProps) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   // Form values: start with saved values, fall back to schema defaults
@@ -1065,7 +1064,7 @@ function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoadin
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
         <Loader2 className="h-4 w-4 animate-spin" />
-        {t("pages.pluginSettings.loadingConfiguration")}
+        Loading configuration...
       </div>
     );
   }
@@ -1115,7 +1114,7 @@ function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoadin
           {saveMutation.isPending ? (
             <>
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              {t("pages.pluginSettings.saving")}
+              Saving...
             </>
           ) : (
             "Save Configuration"
@@ -1131,7 +1130,7 @@ function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoadin
             {testMutation.isPending ? (
               <>
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                {t("pages.pluginSettings.testing")}
+                Testing...
               </>
             ) : (
               "Test Configuration"

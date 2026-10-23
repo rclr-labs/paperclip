@@ -48,7 +48,7 @@ export function RepositoryBranchSelect({ value, branches, loading, error, disabl
         {option.isDefault && <span className="text-xs text-muted-foreground">Default</span>}
       </>}
     />
-    {loading && <p role="status" className="flex items-center gap-2 text-xs text-muted-foreground"><LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" />{t("components.repositoryBranchSelect.loadingBranches")}</p>}
+    {loading && <p role="status" className="flex items-center gap-2 text-xs text-muted-foreground"><LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" />Loading branches…</p>}
     {error && <div className="flex flex-wrap items-center gap-2"><p role="alert" className="text-sm text-destructive">{error} You can still enter a branch name.</p>
       {onRetry && <Button type="button" size="sm" variant="ghost" disabled={loading || disabled} onClick={onRetry}>{t("components.repositoryBranchSelect.tryAgain")}</Button>}
     </div>}

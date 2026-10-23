@@ -148,7 +148,7 @@ function UsageChart({ points }: { points: UserProfileDailyPoint[] }) {
       </div>
       <div className="mt-4 flex flex-wrap items-center gap-4 text-(length:--text-nano) uppercase tracking-wide text-muted-foreground">
         <span className="inline-flex items-center gap-1.5">
-          <span className="h-2 w-2 bg-foreground/80" /> {t("pages.userProfile.tokensDay")}
+          <span className="h-2 w-2 bg-foreground/80" /> tokens / day
         </span>
         <span className="inline-flex items-center gap-1.5">
           <span className="h-(--sz-3px) w-4 rounded-full bg-emerald-500/80" /> completions
@@ -308,7 +308,7 @@ export function UserProfile() {
             <Button asChild variant="outline" size="sm">
               <Link to={PROFILE_SETTINGS_PATH}>
                 <UserRoundPen />
-                {t("pages.userProfile.editProfile")}
+                Edit profile
               </Link>
             </Button>
           ) : null}

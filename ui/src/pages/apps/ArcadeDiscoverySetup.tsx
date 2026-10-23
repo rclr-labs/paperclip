@@ -28,7 +28,7 @@ export function ArcadeDiscoverySetup({ connection, onClose }: { connection: Tool
     </DialogHeader>
     <form className="space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(); }}>
       <div className="space-y-2"><Label htmlFor="arcade-discovery-key">{t("pages.apps.arcadeDiscoverySetup.projectApiKey")}</Label>
-        <p className="text-xs text-muted-foreground">{t("pages.apps.arcadeDiscoverySetup.createAKeyIn")} <a className="underline" href="https://app.arcade.dev" target="_blank" rel="noopener noreferrer">{t("pages.apps.arcadeDiscoverySetup.arcade")}</a> {t("pages.apps.arcadeDiscoverySetup.forTheSameProjectAsThis")}</p>
+        <p className="text-xs text-muted-foreground">Create a key in <a className="underline" href="https://app.arcade.dev" target="_blank" rel="noopener noreferrer">{t("pages.apps.arcadeDiscoverySetup.arcade")}</a> for the same project as this gateway. The key is stored securely and used only for account sync.</p>
         <Input id="arcade-discovery-key" type="password" autoComplete="off" required value={apiKey} onChange={event => setApiKey(event.target.value)} />
       </div>
       <div className="space-y-2"><Label htmlFor="arcade-discovery-user">{t("pages.apps.arcadeDiscoverySetup.arcadeUserId")}</Label>

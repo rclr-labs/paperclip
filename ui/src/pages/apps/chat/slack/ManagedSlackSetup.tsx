@@ -74,7 +74,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
     {busy || choices.isPending || creating ? <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{busy ? needsAuthorization ? "Opening Slack…" : "Connecting your agent…" : creating ? "Setting up your Slack app…" : "Loading Slack…"}</p>
       : !choices.data?.managedAvailable ? <p className="text-sm">{t("pages.apps.chat.slack.managedSlackSetup.managedSlackSetupIsUnavailableTry")}</p>
       : <>
-        {workspaces.length === 1 && <p className="text-sm">{t("pages.apps.chat.slack.managedSlackSetup.add")} <strong>{endpoint.assignedAgentName}</strong> to <strong>{workspaces[0]!.workspaceName}</strong>.</p>}
+        {workspaces.length === 1 && <p className="text-sm">Add <strong>{endpoint.assignedAgentName}</strong> to <strong>{workspaces[0]!.workspaceName}</strong>.</p>}
         {workspaces.length > 1 && <Select value={grantId ?? ""} onValueChange={setSelectedGrant} disabled={busy || started}>
           <SelectTrigger aria-label={t("pages.apps.chat.slack.managedSlackSetup.slackWorkspace")}><SelectValue placeholder={t("pages.apps.chat.slack.managedSlackSetup.chooseASlackWorkspace")} /></SelectTrigger>
           <SelectContent>{workspaces.map(workspace => <SelectItem key={workspace.grantId} value={workspace.grantId}>{workspace.workspaceName}</SelectItem>)}</SelectContent>
@@ -83,7 +83,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
       </>}
     {uncertain && <div className="space-y-3 text-sm">
       <a className="underline underline-offset-4" href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.slack.managedSlackSetup.openSlackAppSettings")}</a>
-      <label className="flex items-center gap-2"><Checkbox checked={confirmed} onCheckedChange={value => setConfirmed(value === true)} disabled={busy} />{t("pages.apps.chat.slack.managedSlackSetup.iCheckedSlackAndNoApp")}</label>
+      <label className="flex items-center gap-2"><Checkbox checked={confirmed} onCheckedChange={value => setConfirmed(value === true)} disabled={busy} />I checked Slack and no app was created. Create a new app.</label>
     </div>}
     <SetupWizardFooter onSaveExit={onSaveExit} disabled={busy}>
       {choices.isError || !choices.isPending && !choices.data?.managedAvailable ? <Button disabled={busy || choices.isFetching} onClick={() => void choices.refetch()}>{t("pages.apps.chat.slack.managedSlackSetup.retry")}</Button> : <Button disabled={busy || disabled || creating || choices.isPending || !choices.data?.managedAvailable || (workspaces.length > 1 && !grantId) || (uncertain && !confirmed)} onClick={() => void run(connect)}>

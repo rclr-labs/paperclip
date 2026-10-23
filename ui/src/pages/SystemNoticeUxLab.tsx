@@ -148,7 +148,7 @@ export function SystemNoticeUxLab() {
           <div className="p-6 sm:p-7">
             <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/[0.08] px-3 py-1 text-(length:--text-nano) font-semibold uppercase tracking-(--tracking-caps) text-amber-700 dark:text-amber-300">
               <FlaskConical className="h-3.5 w-3.5" />
-              {t("pages.systemNoticeUxLab.systemNoticeLab")}
+              System Notice Lab
             </div>
             <h1 className="mt-4 text-3xl font-semibold tracking-tight">
               {t("pages.systemNoticeUxLab.firstClassSystemNoticeTreatment")}
@@ -173,7 +173,7 @@ export function SystemNoticeUxLab() {
           <aside className="border-t border-border/60 bg-background/70 p-6 lg:border-l lg:border-t-0">
             <div className="mb-4 flex items-center gap-2 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
               <ListChecks className="h-4 w-4 text-amber-700 dark:text-amber-300" />
-              {t("pages.systemNoticeUxLab.whatThisLabProves")}
+              What this lab proves
             </div>
             <div className="space-y-3">
               {checklist.map((line) => (
@@ -295,7 +295,7 @@ export function SystemNoticeUxLab() {
           <div className="space-y-3 rounded-2xl border border-border/70 bg-background/70 p-4">
             <div className="flex items-start gap-2.5">
               <Avatar size="sm" className="shrink-0">
-                <AvatarFallback>{t("pages.systemNoticeUxLab.yo")}</AvatarFallback>
+                <AvatarFallback>YO</AvatarFallback>
               </Avatar>
               <div className="flex min-w-0 max-w-(--pct-85) flex-col">
                 <div className="mb-1 px-1 text-sm font-medium text-foreground">{t("pages.systemNoticeUxLab.you")}</div>
@@ -321,7 +321,9 @@ export function SystemNoticeUxLab() {
               </div>
             </div>
             <p className="px-1 text-xs text-muted-foreground">
-              {t("pages.systemNoticeUxLab.authorReadsAs")} <span className="font-medium text-foreground">{t("pages.systemNoticeUxLab.you")}</span> {t("pages.systemNoticeUxLab.evenThoughTheAuthorIsThe")}
+              Author reads as <span className="font-medium text-foreground">{t("pages.systemNoticeUxLab.you")}</span> even though the
+              author is the Paperclip system. Two containers stack the warning inside a user-style
+              bubble, and operational evidence is always visible.
             </p>
           </div>
         </LabSection>
@@ -348,7 +350,7 @@ export function SystemNoticeUxLab() {
         <CardHeader className="px-5 pt-5 pb-0">
           <div className="flex items-center gap-2 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
             <Layers className="h-4 w-4 text-amber-700 dark:text-amber-300" />
-            {t("pages.systemNoticeUxLab.implementationNotes")}
+            Implementation notes
           </div>
           <CardTitle className="text-lg">{t("pages.systemNoticeUxLab.handoffToEngineering")}</CardTitle>
           <CardDescription>

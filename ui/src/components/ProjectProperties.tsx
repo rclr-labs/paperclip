@@ -82,12 +82,11 @@ const SHARED_WORKSPACE_CONCURRENCY_OPTIONS: {
 ];
 
 function SaveIndicator({ state }: { state: ProjectFieldSaveState }) {
-  const { t } = useTranslation();
   if (state === "saving") {
     return (
       <span className="inline-flex items-center gap-1 text-(length:--text-micro) text-muted-foreground">
         <Loader2 className="h-3 w-3 animate-spin" />
-        {t("components.projectProperties.saving")}
+        Saving
       </span>
     );
   }
@@ -95,7 +94,7 @@ function SaveIndicator({ state }: { state: ProjectFieldSaveState }) {
     return (
       <span className="inline-flex items-center gap-1 text-(length:--text-micro) text-green-600 dark:text-green-400">
         <Check className="h-3 w-3" />
-        {t("components.projectProperties.saved")}
+        Saved
       </span>
     );
   }
@@ -103,7 +102,7 @@ function SaveIndicator({ state }: { state: ProjectFieldSaveState }) {
     return (
       <span className="inline-flex items-center gap-1 text-(length:--text-micro) text-destructive">
         <AlertCircle className="h-3 w-3" />
-        {t("components.projectProperties.failed")}
+        Failed
       </span>
     );
   }
@@ -862,7 +861,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                     {executionWorkspaceAdvancedOpen ? (
                       <div className="space-y-3">
                         <div className="text-xs text-muted-foreground">
-                          {t("components.projectProperties.hostManagedImplementation")} <span className="text-foreground">{t("components.projectProperties.gitWorktree")}</span>
+                          Host-managed implementation: <span className="text-foreground">{t("components.projectProperties.gitWorktree")}</span>
                         </div>
                         {showExecutionWorkspaceEnvironmentControl ? (
                           <div>

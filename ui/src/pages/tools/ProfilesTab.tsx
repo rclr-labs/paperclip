@@ -633,7 +633,8 @@ function AllowList({ rows, catalogLoading }: { rows: AllowListRow[]; catalogLoad
       {patternCount > 0 ? (
         <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
           <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-amber-500" />
-          {t("pages.tools.profilesTab.toolsMarked")} <span className="font-medium">pattern</span> {t("pages.tools.profilesTab.werePulledInByAWildcard")}
+          Tools marked <span className="font-medium">pattern</span> were pulled in by a wildcard, application,
+          connection, or risk selector rather than named explicitly — review them when the catalog changes.
         </p>
       ) : null}
     </div>
@@ -920,7 +921,7 @@ export function ProfilesTab({ companyId }: { companyId: string }) {
         actions={
           <Button size="sm" onClick={() => setCreateOpen(true)}>
             <Plus className="mr-1 h-4 w-4" />
-            {t("pages.tools.profilesTab.newProfile")}
+            New profile
           </Button>
         }
       />
@@ -1288,15 +1289,15 @@ function ProfileDetail({
           <div className="flex shrink-0 flex-wrap gap-1.5">
             <Button size="sm" variant="outline" onClick={onEdit}>
               <Pencil className="mr-1 h-3.5 w-3.5" />
-              {t("pages.tools.profilesTab.edit")}
+              Edit
             </Button>
             <Button size="sm" variant="outline" onClick={onAddEntry}>
               <Plus className="mr-1 h-3.5 w-3.5" />
-              {t("pages.tools.profilesTab.entry")}
+              Entry
             </Button>
             <Button size="sm" variant="outline" onClick={onBind}>
               <Link2 className="mr-1 h-3.5 w-3.5" />
-              {t("pages.tools.profilesTab.bind")}
+              Bind
             </Button>
           </div>
         </div>
@@ -1330,10 +1331,10 @@ function ProfileDetail({
           <h4 className="text-sm font-semibold text-foreground">{t("pages.tools.profilesTab.effectiveScope")}</h4>
           <div className="flex flex-wrap gap-2 text-xs">
             <span className="rounded-md border border-border px-2 py-1 text-muted-foreground">
-              {t("pages.tools.profilesTab.default")} <span className="font-medium text-foreground">{profile.defaultAction}</span>
+              Default <span className="font-medium text-foreground">{profile.defaultAction}</span>
             </span>
             <span className="rounded-md border border-border px-2 py-1 text-muted-foreground">
-              <span className="font-medium text-foreground">{rows.length}</span> {t("pages.tools.profilesTab.toolsAllowed")}
+              <span className="font-medium text-foreground">{rows.length}</span> tools allowed
             </span>
             <span className="rounded-md border border-border px-2 py-1 text-muted-foreground">
               <span className="font-medium text-foreground">{includeCount}</span> include /{" "}

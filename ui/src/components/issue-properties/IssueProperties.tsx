@@ -143,7 +143,6 @@ function splitMiddleTruncation(value: string): { prefix: string; suffix: string 
 }
 
 function TruncatedCopyable({ value, icon: Icon }: { value: string; icon: ComponentType<{ className?: string }> }) {
-  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -183,7 +182,7 @@ function TruncatedCopyable({ value, icon: Icon }: { value: string; icon: Compone
       {copied && (
         <span className={cn("inline-flex items-center gap-1 text-xs shrink-0", issueStatusText.done)} role="status">
           <Check className="h-3 w-3 shrink-0" />
-          {t("components.issueproperties.issueProperties.copied")}
+          Copied
         </span>
       )}
     </div>
@@ -1191,7 +1190,7 @@ export function IssueProperties({
       title={t("components.issueproperties.issueProperties.addLabel")}
     >
       <Plus className="h-3 w-3" />
-      {t("components.issueproperties.issueProperties.addLabel")}
+      Add label
     </button>
   ) : undefined;
   const watchdogContent = (
@@ -1229,7 +1228,7 @@ export function IssueProperties({
       </div>
       <div className="space-y-1.5">
         <div className="text-xs font-medium text-foreground">
-          {t("components.issueproperties.issueProperties.instructions")} <span className="font-normal text-muted-foreground">{t("components.issueproperties.issueProperties.optional")}</span>
+          Instructions <span className="font-normal text-muted-foreground">{t("components.issueproperties.issueProperties.optional")}</span>
         </div>
         <Textarea
           value={watchdogInstructionsInput}
@@ -1542,7 +1541,7 @@ export function IssueProperties({
           {retryNow.isPending ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-              {t("components.issueproperties.issueProperties.retrying")}
+              Retrying…
             </span>
           ) : scheduledRetryRetryNowSuccess ? (
             <span className="inline-flex items-center gap-1.5">
@@ -1552,7 +1551,7 @@ export function IssueProperties({
           ) : (
             <span className="inline-flex items-center gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-              {t("components.issueproperties.issueProperties.retryNow")}
+              Retry now
             </span>
           )}
         </Button>
@@ -2327,7 +2326,7 @@ export function IssueProperties({
             }}
           >
             <Plus className="h-3 w-3" />
-            {t("components.issueproperties.issueProperties.addSubtask")}
+            Add subtask
           </button>
         </div>
       ) : null}
@@ -2570,7 +2569,7 @@ export function IssueProperties({
                   onClick={onAddSubIssue}
                 >
                   <Plus className="h-3 w-3" />
-                  {t("components.issueproperties.issueProperties.addSubTask")}
+                  Add sub-task
                 </button>
               ) : null}
             </div>
@@ -2598,7 +2597,7 @@ export function IssueProperties({
               <IssuePullRequestLinks products={pullRequests} externalObjects={externalObjects?.map((entry) => entry.pill)} />
               {workProductsError ? (
                 <span className="text-xs text-muted-foreground">
-                  {t("components.issueproperties.issueProperties.couldnTLoadPullRequests")} <button type="button" className="text-primary hover:underline" onClick={() => void refetchWorkProducts()}>{t("components.issueproperties.issueProperties.retry")}</button>
+                  Couldn’t load pull requests. <button type="button" className="text-primary hover:underline" onClick={() => void refetchWorkProducts()}>{t("components.issueproperties.issueProperties.retry")}</button>
                 </span>
               ) : null}
             </div>
@@ -2805,7 +2804,7 @@ export function IssueProperties({
                       aria-label={t("components.issueproperties.issueProperties.backToWorkspaceOptions")}
                     >
                       <ChevronLeft className="h-3.5 w-3.5" />
-                      {t("components.issueproperties.issueProperties.workspaceMode")}
+                      Workspace mode
                     </button>
                     <input
                       className="block w-full bg-transparent px-2 py-1.5 text-xs outline-none placeholder:text-muted-foreground/50"
@@ -2857,7 +2856,7 @@ export function IssueProperties({
                 className="text-sm text-primary hover:underline inline-flex min-w-0 items-center gap-1.5"
               >
                 <HardDrive className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                {t("components.issueproperties.issueProperties.viewWorkspace")}
+                View workspace
                 <ArrowUpRight className="h-3 w-3 shrink-0" />
               </Link>
             </PropertyRow>

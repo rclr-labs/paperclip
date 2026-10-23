@@ -22,7 +22,6 @@ import { useTranslation } from "@/i18n";
  */
 
 function Summary({ group }: { group: LabGroup }) {
-  const { t } = useTranslation();
   const review = reviewCountOf(group.artifacts);
   return (
     <header className="flex items-end gap-5">
@@ -44,7 +43,7 @@ function Summary({ group }: { group: LabGroup }) {
             <span className="font-mono text-(length:--tac-mono-scale)">{group.count}</span> {countLabel(group.count)}
           </span>
           <span>
-            {t("artifactdirections.directions.d3tactile.galleryStack.updated")} <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
+            Updated <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
           </span>
           {review > 0 ? <span className="sr-only">{review} to review</span> : null}
         </p>

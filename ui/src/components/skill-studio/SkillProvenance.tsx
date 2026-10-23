@@ -22,7 +22,6 @@ export function SkillLineageChip({
   companyId: string;
   forkedFromSkillId: string | null;
 }) {
-  const { t } = useTranslation();
   const originalQuery = useQuery({
     queryKey: queryKeys.companySkills.detail(companyId, forkedFromSkillId ?? ""),
     queryFn: () => companySkillsApi.detail(companyId, forkedFromSkillId!),
@@ -43,7 +42,7 @@ export function SkillLineageChip({
     >
       <GitFork className="h-3 w-3 shrink-0" />
       <span className="truncate">
-        {t("components.skillstudio.skillProvenance.forkedFrom")} <span className="font-medium text-foreground">{label}</span>
+        Forked from <span className="font-medium text-foreground">{label}</span>
       </span>
     </Link>
   );
@@ -70,7 +69,7 @@ export function ProjectScanNotice({
       <FolderGit2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
       <div className="min-w-0 flex-1">
         <span>
-          {t("components.skillstudio.skillProvenance.thisSkillLivesIn")} <span className="font-mono text-foreground">{location}</span>.
+          This skill lives in <span className="font-mono text-foreground">{location}</span>.
           Saves write to the project working tree and are not committed.
         </span>{" "}
         <Button

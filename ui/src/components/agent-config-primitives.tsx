@@ -407,7 +407,7 @@ export function ChoosePathButton() {
               <p className="font-medium">{t("components.agentconfigprimitives.macosFinder")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
                 <li>{t("components.agentconfigprimitives.findTheFolderInFinder")}</li>
-                <li>{t("components.agentconfigprimitives.hold")} <kbd>{t("components.agentconfigprimitives.option")}</kbd> {t("components.agentconfigprimitives.andRightClickTheFolder")}</li>
+                <li>Hold <kbd>{t("components.agentconfigprimitives.option")}</kbd> and right-click the folder.</li>
                 <li>{t("components.agentconfigprimitives.clickCopyFolderNameAsPathname")}</li>
                 <li>{t("components.agentconfigprimitives.pasteTheResultIntoThePath")}</li>
               </ol>
@@ -419,7 +419,7 @@ export function ChoosePathButton() {
               <p className="font-medium">{t("components.agentconfigprimitives.windowsFileExplorer")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
                 <li>{t("components.agentconfigprimitives.findTheFolderInFileExplorer")}</li>
-                <li>{t("components.agentconfigprimitives.hold")} <kbd>{t("components.agentconfigprimitives.shift")}</kbd> {t("components.agentconfigprimitives.andRightClickTheFolder")}</li>
+                <li>Hold <kbd>{t("components.agentconfigprimitives.shift")}</kbd> and right-click the folder.</li>
                 <li>{t("components.agentconfigprimitives.clickCopyAsPath")}</li>
                 <li>{t("components.agentconfigprimitives.pasteTheResultIntoThePath")}</li>
               </ol>
@@ -430,15 +430,15 @@ export function ChoosePathButton() {
             <section className="space-y-1.5">
               <p className="font-medium">{t("components.agentconfigprimitives.terminalFallbackMacosLinux")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>{t("components.agentconfigprimitives.run")} <code>{t("components.agentconfigprimitives.cdPathToFolder")}</code>.</li>
-                <li>{t("components.agentconfigprimitives.run")} <code>pwd</code>.</li>
+                <li>Run <code>{t("components.agentconfigprimitives.cdPathToFolder")}</code>.</li>
+                <li>Run <code>pwd</code>.</li>
                 <li>{t("components.agentconfigprimitives.copyTheOutputAndPasteIt")}</li>
               </ol>
             </section>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
-              {t("components.agentconfigprimitives.ok")}
+              OK
             </Button>
           </DialogFooter>
         </DialogContent>

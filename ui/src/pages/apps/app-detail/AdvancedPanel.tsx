@@ -243,7 +243,7 @@ export function ReconnectCard({
           <div className="flex items-center gap-2">
             <Button type="button" size="sm" variant="outline" asChild>
               <a href="https://vercel.com/connect" target="_blank" rel="noreferrer">
-                {t("pages.apps.appdetail.advancedPanel.manageInVercel")} <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
+                Manage in Vercel <ArrowUpRight className="ml-1.5 h-3.5 w-3.5" />
               </a>
             </Button>
             <Button

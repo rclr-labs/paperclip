@@ -217,7 +217,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             ) : null}
             {goal?.workingNow ? (
               <span className="inline-flex items-center gap-1 text-xs text-primary" role="status">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> {t("components.taskchat.runnerGoalWidget.workingNow")}
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> Working now
               </span>
             ) : null}
             {pendingLabel ? (

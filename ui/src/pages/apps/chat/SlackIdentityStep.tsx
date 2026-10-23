@@ -60,17 +60,17 @@ export function SlackIdentityStep({ endpointId, command, testStartedAt, onConnec
       </div>
       {copyError && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.slackIdentityStep.couldnTCopyTheCommandSelect")}</p>}
       <p className="text-sm">
-        <a href="https://app.slack.com/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{t("pages.apps.chat.slackIdentityStep.openSlack")} <ExternalLink className="inline size-3" /></a>{t("pages.apps.chat.slackIdentityStep.sendTheCommandInYourWorkspace")}
+        <a href="https://app.slack.com/" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Open Slack <ExternalLink className="inline size-3" /></a>, send the command in your workspace, then return here.
       </p>
       {identities.isError ? (
         <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.slackIdentityStep.couldnTCheckForYourSlack")}</p>
       ) : candidates.length === 0 ? (
-        <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{t("pages.apps.chat.slackIdentityStep.waitingForYourConnectCommand")}</p>
+        <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Waiting for your connect command…</p>
       ) : (
         <div className={`space-y-3 rounded-lg border p-4 ${linkedToMe
           ? "border-(--status-task-done)/30 bg-(--status-task-done)/10"
           : "border-(--status-task-todo)/30 bg-(--status-task-todo)/10"}`}>
-          <p className="text-sm">{t("pages.apps.chat.slackIdentityStep.chooseYourSlackAccountBelowTo")} <strong>{userLabel ?? "your Paperclip account"}</strong>. Only confirm an account that belongs to you. Future messages will use your Paperclip permissions.</p>
+          <p className="text-sm">Choose your Slack account below to link it to <strong>{userLabel ?? "your Paperclip account"}</strong>. Only confirm an account that belongs to you. Future messages will use your Paperclip permissions.</p>
           {candidates.map((identity) => {
             const mine = identity.status === "linked" && identity.paperclipUserId === userId;
             return (

@@ -548,7 +548,7 @@ function BreakGlassOverride({
           className="border-red-400/60 text-red-700 hover:bg-red-500/10 dark:border-red-500/40 dark:text-red-300"
         >
           <OctagonAlert className="h-3.5 w-3.5" aria-hidden />
-          {t("components.issueRecoveryActionCard.iVeVerifiedThisReconcileAnyway")}
+          I&apos;ve verified this — reconcile anyway
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -563,7 +563,7 @@ function BreakGlassOverride({
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-red-700 dark:text-red-300"
           >
             <OctagonAlert className="h-3.5 w-3.5" aria-hidden />
-            {t("components.issueRecoveryActionCard.breakGlassReconciliation")}
+            Break-glass reconciliation
           </div>
           <p className="text-xs leading-5 text-muted-foreground">
             This overrides Paperclip&apos;s safety check and points the recorded workspace at the live
@@ -597,7 +597,7 @@ function BreakGlassOverride({
         </dl>
         <div className="space-y-1">
           <Label htmlFor="recovery-breakglass-reason" className="text-(length:--text-micro) text-muted-foreground">
-            {t("components.issueRecoveryActionCard.reason")} <span className="text-red-600 dark:text-red-400">{t("components.issueRecoveryActionCard.requiredRecordedInTheAuditLog")}</span>
+            Reason <span className="text-red-600 dark:text-red-400">{t("components.issueRecoveryActionCard.requiredRecordedInTheAuditLog")}</span>
           </Label>
           <Textarea
             id="recovery-breakglass-reason"
@@ -701,7 +701,7 @@ function RepairWorkspace({
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-sky-700 dark:text-sky-300"
           >
             <Wrench className="h-3.5 w-3.5" aria-hidden />
-            {t("components.issueRecoveryActionCard.repairWorkspace")}
+            Repair workspace
           </div>
           <p className="text-xs leading-5 text-muted-foreground">
             {t("components.issueRecoveryActionCard.thisIsLosslessNoReasonRequired")}

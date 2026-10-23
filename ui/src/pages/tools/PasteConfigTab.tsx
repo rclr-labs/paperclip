@@ -411,7 +411,7 @@ function DraftCard({
 
       {onCheck ? (
         <label className="mt-4 block max-w-sm space-y-1 text-xs font-medium text-foreground">
-          {t("pages.tools.pasteConfigTab.connectionName")}
+          Connection name
           <Input
             value={connectionName}
             onChange={(event) => onConnectionNameChange(event.target.value)}

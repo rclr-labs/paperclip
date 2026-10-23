@@ -54,6 +54,17 @@ const LIMIT = Number(opt("limit", "0")) || 0;
 
 const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
 
+/**
+ * JSX collapses any whitespace run containing a newline into a single space
+ * when it renders. A catalogue string does not: React renders a string child
+ * verbatim. So source indentation must be collapsed at extraction time, or a
+ * sentence written across three lines renders with newlines and 14 spaces in
+ * the middle of it.
+ */
+function normalizeJsxText(raw) {
+  return raw.trim().replace(/\s*\n\s*/g, " ");
+}
+
 function slugKey(text) {
   const words = text.trim().toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean).slice(0, 6);
   if (!words.length) return "text";
@@ -122,7 +133,7 @@ function collect(file) {
   const hits = [];
   walk(ast.program, [], (node, ancestors) => {
     if (node.type === "JSXText") {
-      if (!isTranslatable(node.value)) return;
+      if (!isTranslatable(normalizeJsxText(node.value))) return;
       const parent = ancestors[ancestors.length - 1];
       // A composite sentence needs <Trans>, not fragment keys. Text is split
       // by nested ELEMENTS as much as by expressions: `<p>Use the <code>x</code>
@@ -148,7 +159,7 @@ function collect(file) {
         kind: "text",
         start: node.start,
         end: node.end,
-        text: node.value.trim(),
+        text: normalizeJsxText(node.value),
         lead: node.value.match(/^\s*/)[0],
         trail: node.value.match(/\s*$/)[0],
         component,
@@ -307,3 +318,5 @@ console.log(`recusados — exige <Trans>:      ${stats.needsTrans}`);
 console.log(`recusados — fora de componente: ${stats.noComponent}`);
 console.log(`recusados — corpo sem bloco:    ${stats.exprBody}`);
 if (!APPLY) console.log("\n(dry-run — use --apply para escrever)");
+
+export { normalizeJsxText };

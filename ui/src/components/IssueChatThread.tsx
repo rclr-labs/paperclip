@@ -810,7 +810,6 @@ export function IssueAssigneePausedNotice({
   onResume?: () => Promise<void> | void;
   resuming?: boolean;
 }) {
-  const { t } = useTranslation();
   if (!agent || agent.status !== "paused" || issueStatusIsTerminalDisposition(issueStatus)) return null;
 
   const pauseDetail =
@@ -833,7 +832,7 @@ export function IssueAssigneePausedNotice({
         compact
         title={
           <>
-            <span className="font-medium">{agent.name}</span> {t("components.issueChatThread.isPaused")}
+            <span className="font-medium">{agent.name}</span> is paused.
           </>
         }
         actions={
@@ -2516,7 +2515,7 @@ function IssueChatAssistantMessage({
             }}
           >
             <Copy className="mr-2 h-3.5 w-3.5" />
-            {t("components.issueChatThread.copyMessage")}
+            Copy message
           </DropdownMenuItem>
           {canStopRun && onStopRun && runId ? (
             <DropdownMenuItem
@@ -2542,7 +2541,7 @@ function IssueChatAssistantMessage({
             <DropdownMenuItem asChild>
               <Link to={runHref} target="_blank" rel="noreferrer noopener">
                 <Search className="mr-2 h-3.5 w-3.5" />
-                {t("components.issueChatThread.viewRun")}
+                View run
               </Link>
             </DropdownMenuItem>
           ) : null}
@@ -2694,7 +2693,7 @@ function IssueChatAssistantMessage({
                   )}
                 >
                   <Loader2 className="h-3 w-3 animate-spin" />
-                  {t("components.issueChatThread.running")}
+                  Running
                 </Badge>
               ) : null}
             </div>

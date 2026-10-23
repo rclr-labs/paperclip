@@ -83,7 +83,7 @@ export function AssigneeChip({
       data-kind="unassigned"
     >
       <span className="sr-only">{t("components.interrupthandoff.interruptHandoffViews.noResponsible")} </span>
-      {t("components.interrupthandoff.interruptHandoffViews.unassigned")}
+      Unassigned
     </span>
   );
 }
@@ -207,7 +207,8 @@ export function ComposerMentionCoach({
     >
       <Info className="h-3.5 w-3.5 shrink-0" aria-hidden />
       <span className="min-w-0 flex-1">
-        {t("components.interrupthandoff.interruptHandoffViews.didYouMean")} <span className="font-medium">@{candidate.matchedText}</span>{t("components.interrupthandoff.interruptHandoffViews.plainTextWonTNotifyOr")}
+        Did you mean <span className="font-medium">@{candidate.matchedText}</span>? Plain text won't
+        notify or assign an agent.
       </span>
       <button
         type="button"
@@ -324,7 +325,7 @@ export function PauseAffectsSummaryView({
     >
       <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
         <PauseCircle className="h-3.5 w-3.5" aria-hidden />
-        {t("components.interrupthandoff.interruptHandoffViews.whatThisAffects")}
+        What this affects
       </div>
       {summary.nothingLive ? (
         <p role="status" className="text-xs text-muted-foreground" data-testid="pause-nothing-live">

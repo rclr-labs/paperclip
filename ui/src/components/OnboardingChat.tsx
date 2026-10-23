@@ -251,7 +251,7 @@ export function OnboardingChat({
     return (
       <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-        {t("components.onboardingChat.loadingConversation")}
+        Loading conversation...
       </div>
     );
   }
@@ -360,7 +360,7 @@ export function OnboardingChat({
               </div>
             </div>
             <Button size="sm" onClick={onReviewPlan}>
-              {t("components.onboardingChat.reviewPlan")}
+              Review plan
               <ArrowRight className="h-3.5 w-3.5 ml-1" />
             </Button>
           </div>
@@ -435,10 +435,10 @@ function WelcomeMessage({
             </span>
           </div>
           <p>
-            {t("components.onboardingChat.hiThanksForBringingMeOn")} <strong>{companyName}</strong>.
+            Hi! Thanks for bringing me on to lead <strong>{companyName}</strong>.
           </p>
           <p className="mt-1">
-            {t("components.onboardingChat.ourMissionIs")} <em>{companyGoal}</em>
+            Our mission is: <em>{companyGoal}</em>
           </p>
           <p className="mt-1">
             {t("components.onboardingChat.iMReadyToPutTogether")}

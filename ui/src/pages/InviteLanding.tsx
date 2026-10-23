@@ -185,7 +185,7 @@ function AwaitingJoinApprovalPanel({
             <p className="text-sm text-zinc-200">{t("pages.inviteLanding.settingsMembers")}</p>
           </div>
           <p className="text-sm text-zinc-400">
-            {t("pages.inviteLanding.askThemToVisit")} <span className="text-zinc-200">{t("pages.inviteLanding.settingsMembers")}</span> {t("pages.inviteLanding.toApproveYourRequest")}
+            Ask them to visit <span className="text-zinc-200">{t("pages.inviteLanding.settingsMembers")}</span> to approve your request.
           </p>
           <p className="text-xs text-zinc-500">
             {t("pages.inviteLanding.refreshThisPageAfterYouVe")}
@@ -612,7 +612,7 @@ export function InviteLandingPage() {
 
             {sessionQuery.data ? (
               <div className="border border-emerald-500/40 bg-emerald-500/10 p-4 text-sm text-emerald-50">
-                {t("pages.inviteLanding.signedInAs")} <span className="font-medium">{sessionLabel}</span>.
+                Signed in as <span className="font-medium">{sessionLabel}</span>.
               </div>
             ) : null}
           </section>

@@ -372,7 +372,7 @@ export function IssueFiltersPopover({
                         onCheckedChange={() => onChange({ assignees: toggleIssueFilterValue(state.assignees, "__me") })}
                       />
                       <User className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="text-sm">{t("components.issueFiltersPopover.me")}</span>
+                      <span className="text-sm">Me</span>
                     </label>
                   ) : null}
                   {(streamlined ? visibleAgents : agents ?? []).map((agent) => (

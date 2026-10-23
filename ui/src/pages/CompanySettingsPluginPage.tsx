@@ -70,7 +70,7 @@ export function CompanySettingsPluginPage() {
   if (pageSlots.length > 1) {
     return (
       <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-        {t("pages.companySettingsPluginPage.multiplePluginsDeclareTheCompanySettings")} <code>{settingsRoutePath}</code>. Disable one plugin or change its route.
+        Multiple plugins declare the company settings route <code>{settingsRoutePath}</code>. Disable one plugin or change its route.
       </div>
     );
   }

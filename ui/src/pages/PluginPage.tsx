@@ -148,7 +148,7 @@ export function PluginPage() {
     if (duplicateMatches.length > 1) {
       return (
         <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-          {t("pages.pluginPage.multiplePluginsDeclareTheRoute")} <code>{pluginRoutePath}</code>. Use the plugin-id route until the conflict is resolved.
+          Multiple plugins declare the route <code>{pluginRoutePath}</code>. Use the plugin-id route until the conflict is resolved.
         </div>
       );
     }
@@ -172,7 +172,7 @@ export function PluginPage() {
           <Button variant="ghost" size="sm" asChild>
             <Link to={companyPrefix ? `/${companyPrefix}/dashboard` : "/dashboard"}>
               <ArrowLeft className="h-4 w-4 mr-1" />
-              {t("pages.pluginPage.back")}
+              Back
             </Link>
           </Button>
         </div>

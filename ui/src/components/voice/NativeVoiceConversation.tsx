@@ -37,7 +37,7 @@ export function NativeVoiceConversation(props: NativeVoiceConversationProps) {
 
 function ConversationChoice({ value, disabled, onChange }: { value: boolean; disabled: boolean; onChange(value: boolean): void }) {
   const { t } = useTranslation();
-  return <label className="flex flex-col gap-2 text-sm">{t("components.voice.nativeVoiceConversation.conversation")}
+  return <label className="flex flex-col gap-2 text-sm">Conversation
     <select disabled={disabled} aria-label={t("components.voice.nativeVoiceConversation.conversation")} className="rounded-md border border-input bg-background p-2 text-sm" value={value ? "new" : "continue"} onChange={event => onChange(event.target.value === "new")}><option value="continue">{t("components.voice.nativeVoiceConversation.continueConversation")}</option><option value="new">{t("components.voice.nativeVoiceConversation.newConversation")}</option></select>
   </label>;
 }

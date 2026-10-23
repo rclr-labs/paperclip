@@ -225,7 +225,7 @@ export function TaskChatLab() {
               className="flex items-center gap-1 rounded border border-border px-2 py-1 hover:bg-accent"
             >
               <RotateCcw className="h-3.5 w-3.5" />
-              {t("pages.taskChatLab.replay")}
+              Replay
             </button>
             <label className="flex items-center gap-2">
               <span className="text-muted-foreground">{t("pages.taskChatLab.speed")}</span>

@@ -401,11 +401,11 @@ export function ThreadCard(props: {
               >
                 {thread.status === "resolved" ? (
                   <>
-                    <RotateCcw className="h-3 w-3" /> {t("components.documentAnnotationPanel.reopen")}
+                    <RotateCcw className="h-3 w-3" /> Reopen
                   </>
                 ) : (
                   <>
-                    <Check className="h-3 w-3" /> {t("components.documentAnnotationPanel.resolve")}
+                    <Check className="h-3 w-3" /> Resolve
                   </>
                 )}
               </Button>
@@ -438,7 +438,7 @@ export function ThreadCard(props: {
                     }}
                   >
                     <Copy className="h-3.5 w-3.5" />
-                    {t("components.documentAnnotationPanel.copyLink")}
+                    Copy link
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -468,7 +468,6 @@ function CommentRow({
   agentMap?: ReadonlyMap<string, Pick<Agent, "id" | "name"> & Partial<Pick<Agent, "icon" | "appearance">>>;
   userProfileMap?: ReadonlyMap<string, CompanyUserProfile>;
 }) {
-  const { t } = useTranslation();
   const author = resolveAuthor(comment, { agentMap, userProfileMap });
   return (
     <div
@@ -488,7 +487,7 @@ function CommentRow({
           </Avatar>)}
           <span className="truncate font-medium text-foreground">{author.name}</span>
           {author.role === "agent" ? (
-            <span className="text-muted-foreground">{t("components.documentAnnotationPanel.agent")}</span>
+            <span className="text-muted-foreground">· agent</span>
           ) : null}
         </span>
         <span className="shrink-0 text-muted-foreground">{relativeTime(comment.createdAt)}</span>

@@ -108,7 +108,8 @@ export function SetMyUserSecretDialog({
           <DialogDescription>
             {definition ? (
               <>
-                {t("pages.secrets.setMyUserSecretDialog.thisValueIsYoursOnlyIt")} <span className="font-mono">{definition.key}</span>.
+                This value is yours only. It is used when you are the user responsible for a run that
+                needs <span className="font-mono">{definition.key}</span>.
               </>
             ) : null}
           </DialogDescription>

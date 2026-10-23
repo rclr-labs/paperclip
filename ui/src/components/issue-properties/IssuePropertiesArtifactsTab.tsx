@@ -544,7 +544,7 @@ export function IssuePropertiesArtifactsTab({
   const loading = attachmentsPending || productsPending || documentsPending;
   const feedback = loadError ? (
     <div role="alert" className="px-1 py-3 text-sm text-muted-foreground">
-      {t("components.issueproperties.issuePropertiesArtifactsTab.someArtifactsCouldNotBeLoaded")}
+      Some artifacts could not be loaded.
       <button
         className="ml-2 underline"
         onClick={() => {

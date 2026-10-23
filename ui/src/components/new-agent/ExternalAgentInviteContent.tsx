@@ -179,7 +179,7 @@ export function ExternalAgentInviteContent({
   return <>
     <div className="min-h-0 space-y-6 overflow-y-auto px-6 pb-6 pt-8 sm:px-8">
       <div className="space-y-3 pr-5">
-        {muse && <Button variant="ghost" size="sm" onClick={onBack}><ArrowLeft className="size-4" />{t("components.newagent.externalAgentInviteContent.back")}</Button>}
+        {muse && <Button variant="ghost" size="sm" onClick={onBack}><ArrowLeft className="size-4" />Back</Button>}
         {provider && <AdapterMark type={provider.adapter} className="size-10" />}
         <div className="space-y-2">
           <DialogTitle className="text-xl font-semibold tracking-tight">

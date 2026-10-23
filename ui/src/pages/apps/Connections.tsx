@@ -691,7 +691,8 @@ function EmptyConnections({ onBrowse }: { onBrowse: () => void }) {
         </div>
         <p className="mt-4 text-sm font-medium text-foreground">{t("pages.apps.connections.noConnectionsYet")}</p>
         <p className="mt-1 text-sm text-muted-foreground">
-          {t("pages.apps.connections.addOneFrom")} <span className="font-medium text-foreground">{t("pages.apps.connections.apps")}</span> {t("pages.apps.connections.toGiveYourAgentsTheTools")}
+          Add one from <span className="font-medium text-foreground">{t("pages.apps.connections.apps")}</span> to give your agents
+          the tools they need.
         </p>
         <Button className="mt-6" onClick={onBrowse}>
           {t("pages.apps.connections.browseApps")}

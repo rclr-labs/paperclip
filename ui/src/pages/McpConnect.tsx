@@ -93,11 +93,11 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
     <Card className="block space-y-4 p-6">
       <div className="flex items-center gap-3">
         <Paperclip className="size-8 shrink-0 text-foreground" role="img" aria-label="Paperclip" />
-        <h1 className="min-w-0 break-words text-xl font-semibold">{t("pages.mcpConnect.connect")} <bdi>{assistantName}</bdi> {t("pages.mcpConnect.toPaperclip")}</h1>
+        <h1 className="min-w-0 break-words text-xl font-semibold">Connect <bdi>{assistantName}</bdi> to Paperclip</h1>
       </div>
       {clientOrigin && <ClientOrigin key={clientOrigin} origin={clientOrigin} />}
       {!device && data?.redirectOrigin && data.redirectOrigin !== clientOrigin && <ClientOrigin key={data.redirectOrigin} origin={data.redirectOrigin} />}
-      {device && <p className="text-sm">{t("pages.mcpConnect.confirmThisMatchesTheCodeShown")} <strong className="font-mono">{id.toUpperCase()}</strong></p>}
+      {device && <p className="text-sm">Confirm this matches the code shown by your assistant: <strong className="font-mono">{id.toUpperCase()}</strong></p>}
       {request.isPending && <p className="text-sm text-muted-foreground">{t("pages.mcpConnect.loadingConnectionRequest")}</p>}
       {request.error && <p className="text-sm text-destructive">{request.error.message} Start a new connection from your assistant.</p>}
       {device && request.error && <Button variant="outline" onClick={onEditCode}>{t("pages.mcpConnect.enterADifferentCode")}</Button>}

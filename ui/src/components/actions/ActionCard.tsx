@@ -216,7 +216,7 @@ export function ActionCard({
   const editButton = (
     <Button size="sm" variant="outline" onClick={onEditResign} className={mobile ? "w-full" : undefined}>
       <Pencil className="mr-1 h-3.5 w-3.5" />
-      {t("components.actions.actionCard.editReSign")}
+      Edit &amp; re-sign
     </Button>
   );
 
@@ -238,7 +238,7 @@ export function ActionCard({
           </Avatar>
           <div className="min-w-0 flex-1">
             <p className="text-sm text-foreground">
-              <span className="font-medium">{agentName}</span> {t("components.actions.actionCard.requestedApprovalToCall")}
+              <span className="font-medium">{agentName}</span> requested approval to call
             </p>
             <p className="mt-0.5 font-mono text-xs text-muted-foreground break-all">{toolName}</p>
           </div>

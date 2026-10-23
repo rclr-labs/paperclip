@@ -208,7 +208,7 @@ export function SmokeLabTab({ companyId }: { companyId: string }) {
             rel="noreferrer"
             className="ml-auto inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
-            <BookOpen className="h-4 w-4" /> {t("pages.tools.smokeLabTab.handsOnTutorial2")}
+            <BookOpen className="h-4 w-4" /> Hands-on tutorial
           </a>
         </div>
         <p className="mt-1.5 max-w-3xl text-sm text-muted-foreground">
@@ -241,7 +241,7 @@ export function SmokeLabTab({ companyId }: { companyId: string }) {
               onClick={() => startMutation.mutate()}
               disabled={anyMutating}
             >
-              <Power className="h-4 w-4" /> {t("pages.tools.smokeLabTab.startServices")}
+              <Power className="h-4 w-4" /> Start services
             </Button>
             <Button
               size="sm"
@@ -265,7 +265,7 @@ export function SmokeLabTab({ companyId }: { companyId: string }) {
               onClick={() => resetMutation.mutate()}
               disabled={anyMutating}
             >
-              <RotateCcw className="h-4 w-4" /> {t("pages.tools.smokeLabTab.reset")}
+              <RotateCcw className="h-4 w-4" /> Reset
             </Button>
           </div>
         </div>
@@ -336,7 +336,7 @@ export function SmokeLabTab({ companyId }: { companyId: string }) {
             <span className="inline-flex items-center gap-1"><Check className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> pass</span>
             <span className="inline-flex items-center gap-1"><X className="h-3.5 w-3.5 text-destructive" /> fail</span>
             <span className="inline-flex items-center gap-1"><Minus className="h-3.5 w-3.5 text-amber-500" /> skipped</span>
-            <span className="inline-flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/30" /> {t("pages.tools.smokeLabTab.notRun")}</span>
+            <span className="inline-flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/30" /> not run</span>
           </div>
         </div>
         <div className="overflow-x-auto rounded-lg border border-border">

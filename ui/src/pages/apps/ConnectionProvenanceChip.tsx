@@ -1,6 +1,5 @@
 import { Blocks } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
 
 export function ConnectionProvenanceChip({
   connection,
@@ -13,7 +12,6 @@ export function ConnectionProvenanceChip({
   } | null | undefined;
   className?: string;
 }) {
-  const { t } = useTranslation();
   const chipClass = cn(
     "inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground",
     className,
@@ -26,7 +24,7 @@ export function ConnectionProvenanceChip({
         title={connectorUid ? `Credentials managed by Vercel Connect (${connectorUid})` : "Credentials managed by Vercel Connect"}
       >
         <Blocks className="h-3 w-3" />
-        {t("pages.apps.connectionProvenanceChip.viaVercelConnect")}
+        via Vercel Connect
       </span>
     );
   }

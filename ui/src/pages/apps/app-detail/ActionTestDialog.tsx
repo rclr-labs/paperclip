@@ -140,7 +140,7 @@ export function ActionTestDialog({
         {testAgentsQuery.isLoading ? (
           <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
             <Loader2 className="h-4 w-4 animate-spin" />
-            {t("pages.apps.appdetail.actionTestDialog.loadingAgents")}
+            Loading agents…
           </div>
         ) : testAgentsQuery.isError ? (
           <TestLoadError
@@ -157,7 +157,7 @@ export function ActionTestDialog({
         ) : !selectedAgent ? (
           <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
             <Loader2 className="h-4 w-4 animate-spin" />
-            {t("pages.apps.appdetail.actionTestDialog.loadingAgentPermissions")}
+            Loading agent permissions…
           </div>
         ) : (
           <div className="space-y-5">
@@ -325,8 +325,8 @@ function AgentPicker({
         <div className="border-t border-border p-3">
           <p className="text-xs font-semibold text-foreground">{t("pages.apps.appdetail.actionTestDialog.whatTheBadgesMean")}</p>
           <ul className="mt-1.5 space-y-1 text-xs text-muted-foreground">
-            <li><span className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.allowed")}</span> {t("pages.apps.appdetail.actionTestDialog.runsImmediatelyWhenYouPressRun")}</li>
-            <li><span className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.askFirst")}</span> {t("pages.apps.appdetail.actionTestDialog.runIsParkedInReviewFor")}</li>
+            <li><span className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.allowed")}</span> — runs immediately when you press Run.</li>
+            <li><span className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.askFirst")}</span> — Run is parked in Review for your OK.</li>
             <li>
               <span className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.off")}</span> — won't run. Change it in{" "}
               <Link className="text-primary hover:underline" to={appTabHref(connectionId, "permissions")}>
@@ -554,7 +554,7 @@ function ActionTester({
         <Button onClick={onRun} disabled={running || !!outcome?.result.upstreamPending?.resumeTool || outcome?.result.decision === "ask_first"} size="sm">
           {running ? (
             <>
-              <Loader2 className="h-3.5 w-3.5 animate-spin" /> {t("pages.apps.appdetail.actionTestDialog.running")}
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Running…
             </>
           ) : (
             <>

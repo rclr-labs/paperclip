@@ -217,7 +217,7 @@ function SortableQueuedMessage({
         <DropdownMenuContent align="end" className="w-44">
           <DropdownMenuItem disabled={!entry.canEdit} onSelect={onEdit}>
             <Pencil className="h-4 w-4" aria-hidden />
-            {t("components.taskchat.taskChatQueuedMessages.editMessage")}
+            Edit message
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

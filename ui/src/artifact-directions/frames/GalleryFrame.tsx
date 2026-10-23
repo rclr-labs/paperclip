@@ -82,12 +82,11 @@ function Toolbar() {
 
 /** pages/Artifacts.tsx:327-344. */
 function StackHeader({ group }: { group: LabGroup }) {
-  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap items-center gap-2 text-sm">
       <span className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground">
         <ArrowLeft className="h-3.5 w-3.5" />
-        {t("artifactdirections.frames.galleryFrame.allStacks")}
+        All stacks
       </span>
       <span className="truncate text-muted-foreground">
         <span className="text-foreground/80">{group.taskIdentifier}</span> {group.title}

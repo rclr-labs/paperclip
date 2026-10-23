@@ -107,7 +107,9 @@ export function ThreadFrame({ kit, panelOpen }: { kit: DirectionKit; panelOpen: 
                     <ProseLink to="work-product-ic-zip">{t("artifactdirections.frames.threadFrame.editingSource")}</ProseLink>. Prior revisions preserved.
                   </li>
                   <li>
-                    <ProseLink to="document-interface-craft-deck-guide">{t("artifactdirections.frames.threadFrame.checks")}</ProseLink>{t("artifactdirections.frames.threadFrame.bothFilesReopenWith12Slides")}
+                    <ProseLink to="document-interface-craft-deck-guide">{t("artifactdirections.frames.threadFrame.checks")}</ProseLink>: both files reopen with 12 slides/pages; visible
+                    text matches; all PDF pages visually inspected with no clipping or unintended overlap. Text and shapes are editable;
+                    supplied logo remains raster. Native PowerPoint rendering remains untested; PDF is the inspected reference.
                   </li>
                   <li>
                     Next: <Mention name={CEO} /> checks coherence and claims, then presents this pass for founder acceptance through{" "}
@@ -132,7 +134,8 @@ export function ThreadFrame({ kit, panelOpen }: { kit: DirectionKit; panelOpen: 
                   <TaskRef identifier="ACM-3" status="done" /> remains complete.
                 </p>
                 <p>
-                  {t("artifactdirections.frames.threadFrame.anOwnershipConflictPreventedMyReview")} <TaskRef identifier="ACM-1" status="in_review" />{t("artifactdirections.frames.threadFrame.ceoReviewAndFounderAcceptanceRemain")}
+                  An ownership conflict prevented my review there. I’ve routed it to <TaskRef identifier="ACM-1" status="in_review" />;
+                  CEO review and founder acceptance remain pending.
                 </p>
               </Prose>
               <MessageFooter timestamp="11:12 AM" />

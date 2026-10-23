@@ -495,7 +495,7 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
       setSubmitting(false);
     }
   }
-  if (login?.preparing) return <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{t("components.adapterLoginChrome.preparingSignIn")}</p>;
+  if (login?.preparing) return <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Preparing sign-in…</p>;
   const ready = login?.status === "ready";
   return <div className="min-w-0 max-w-full space-y-3 text-sm text-muted-foreground">
     {ready ? <>

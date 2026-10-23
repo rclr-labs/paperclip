@@ -352,7 +352,7 @@ function HistoricalPreviewBanner({
           </Button>
           <Button size="sm" onClick={onRestore} disabled={pending}>
             <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-            {t("components.routineHistoryTab.restoreAsNewRevision")}
+            Restore as new revision
           </Button>
         </div>
       </div>
@@ -590,7 +590,7 @@ function RevisionPreview({
           <div className="flex flex-wrap items-center gap-2">
             <Button variant="outline" size="sm" onClick={onCompare}>
               <Search className="mr-1.5 h-3.5 w-3.5" />
-              {t("components.routineHistoryTab.compareWithCurrent")}
+              Compare with current
             </Button>
             <Button
               size="sm"
@@ -731,7 +731,7 @@ function RestoreConfirmDialog({
         <ul className="space-y-2 text-sm">
           <li className="flex items-start gap-2">
             <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            {t("components.routineHistoryTab.routineFieldValuesVariablesAndSchedule")}
+            Routine field values, variables, and schedule cron will revert.
           </li>
           {envDiffCounts.total > 0 && (
             <li className="flex items-start gap-2">
@@ -741,7 +741,7 @@ function RestoreConfirmDialog({
           )}
           <li className="flex items-start gap-2">
             <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            {t("components.routineHistoryTab.previousRunHistoryIsPreserved")}
+            Previous run history is preserved.
           </li>
           {recreatedWebhookLabels.map((label) => (
             <li key={label} className="flex items-start gap-2 text-amber-800 dark:text-amber-200">

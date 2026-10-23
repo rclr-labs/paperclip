@@ -307,7 +307,7 @@ export function IssueShareSheet({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            {t("components.issueShareSheet.whoCanAccessThisTask")}
+            Who can access this task
           </DialogTitle>
           <DialogDescription>{aclDescription}</DialogDescription>
         </DialogHeader>
@@ -333,10 +333,10 @@ export function IssueShareSheet({
               >
                 <span className="flex items-center gap-1.5">
                   <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  {t("components.issueShareSheet.couldnTLoadAccess")}
+                  Couldn't load access.
                 </span>
                 <Button variant="ghost" size="sm" onClick={() => grantsQuery.refetch()}>
-                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.retry")}
+                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> Retry
                 </Button>
               </div>
             ) : isEmpty ? (
@@ -414,7 +414,7 @@ export function IssueShareSheet({
                   onClick={() => setView("add")}
                   disabled={isLoading}
                 >
-                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.addSomeone")}
+                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add someone
                 </Button>
               </div>
             ) : null}
@@ -482,7 +482,10 @@ export function IssueShareSheet({
               Remove {revokeTarget?.subjectDisplayName ?? "this subject"}'s saved grant?
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {t("components.issueShareSheet.thisRemovesThisGrantAndThe")} <span className="font-semibold">not</span> {t("components.issueShareSheet.eraseContentAlreadySeenOrRetained")}
+              This removes this grant and the access it supplies to this task's descendants.
+              Ownership, current assignment, project membership, inherited access, or another grant
+              can still provide access. Revoking access does <span className="font-semibold">not</span> erase
+              content already seen or retained in an agent's memory.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

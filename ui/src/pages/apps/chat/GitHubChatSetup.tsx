@@ -459,7 +459,7 @@ export function GitHubChatSetup() {
                   </select>
                   {legacyIdentity && (
                     <p className="text-sm">
-                      {t("pages.apps.chat.gitHubChatSetup.githubAccount2")} <strong>{legacyIdentity.login}</strong>
+                      GitHub account: <strong>{legacyIdentity.login}</strong>
                     </p>
                   )}
                 </>
@@ -510,7 +510,7 @@ export function GitHubChatSetup() {
               className="inline-flex items-center gap-1 text-sm underline"
               href={state.installationUrl}
             >
-              {t("pages.apps.chat.gitHubChatSetup.continueInstallationOnGithub")}
+              Continue installation on GitHub
               <ExternalLink className="size-3" />
             </a>
           )}

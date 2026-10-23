@@ -37,7 +37,7 @@ export function RailwayAccessPanel({ connection, grants }: { connection: ToolCon
     </div>
     <div className="space-y-2">
       <h3 className="font-medium">{t("pages.apps.appdetail.railwayAccessPanel.containerAccess")}</h3>
-      <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.railwayAccessPanel.toAllowPaperclipDirectSshAccess")} <a className="underline" href="https://docs.railway.com/cli/ssh" target="_blank" rel="noreferrer">{t("pages.apps.appdetail.railwayAccessPanel.railwaySshDocumentation")}</a></p>
+      <p className="text-sm text-muted-foreground">To allow Paperclip direct SSH access to Railway containers, you can optionally generate an SSH key pair. <a className="underline" href="https://docs.railway.com/cli/ssh" target="_blank" rel="noreferrer">{t("pages.apps.appdetail.railwayAccessPanel.railwaySshDocumentation")}</a></p>
     </div>
     {!canConfigure && <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.railwayAccessPanel.theConnectionManagerAndAuthorizationOwner")}</p>}
     {(canConfigure || canRemove) && grantId && <>
@@ -52,7 +52,7 @@ export function RailwayAccessPanel({ connection, grants }: { connection: ToolCon
         <div className="space-y-2">
           <Label htmlFor={`${id}-public`}>{t("pages.apps.appdetail.railwayAccessPanel.publicKey")}</Label>
           <Textarea id={`${id}-public`} readOnly value={setup.publicKey} className="font-mono text-xs" />
-          <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.railwayAccessPanel.registerThisPublicKeyInThe")} <a className="underline" href="https://docs.railway.com/cli/ssh#manage-ssh-keys" target="_blank" rel="noreferrer">{t("pages.apps.appdetail.railwayAccessPanel.railwayKeySetup")}</a></p>
+          <p className="text-sm text-muted-foreground">Register this public key in the Railway account used by this authorization. The private key stays in Paperclip’s vault. <a className="underline" href="https://docs.railway.com/cli/ssh#manage-ssh-keys" target="_blank" rel="noreferrer">{t("pages.apps.appdetail.railwayAccessPanel.railwayKeySetup")}</a></p>
         </div>
         <div className="space-y-2">
           <Label htmlFor={`${id}-host`}>{t("pages.apps.appdetail.railwayAccessPanel.verifiedRailwayHostKey")}</Label>

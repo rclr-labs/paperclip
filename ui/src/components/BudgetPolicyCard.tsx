@@ -60,7 +60,7 @@ export function BudgetPolicyCard({
   let reservationCents: string | null = null;
   try { if (!reservation.trim().startsWith("-")) reservationCents = usdToCents(reservation.trim()); } catch { /* Shown as invalid input below. */ }
   const reservationSection = onReservationChange ? <div className="space-y-2">
-    <label className="text-sm">{t("components.budgetPolicyCard.reservePerRunUsd")}
+    <label className="text-sm">Reserve per run (USD)
       <Input aria-label={t("components.budgetPolicyCard.reservePerRunUsd")} aria-invalid={reservationCents === null} aria-describedby={reservationCents === null ? reservationErrorId : undefined}
         value={reservation} onChange={event => setReservation(event.target.value)} inputMode="decimal" />
     </label>
@@ -78,7 +78,7 @@ export function BudgetPolicyCard({
           <label className="flex items-center gap-2 text-sm">
             <input type="checkbox" checked={summary.unpricedUsagePolicy !== "allow"} disabled={isSaving}
               onChange={(event) => onUnpricedUsagePolicyChange(event.target.checked ? "block" : "allow")} />
-            {t("components.budgetPolicyCard.blockNewWorkWhenUsageHas")}
+            Block new work when usage has no reliable price
           </label>
         )}
         {reservationSection}

@@ -143,7 +143,8 @@ export function SlackAvatarContent({
               <span className="break-all font-mono text-xs">{filename}</span>.
             </li>
             <li>
-              {t("pages.apps.chat.slackAvatarStep.confirmTheCropThenClick")} <strong>{t("pages.apps.chat.slackAvatarStep.saveChanges")}</strong> {t("pages.apps.chat.slackAvatarStep.inSlack")}
+              Confirm the crop, then click <strong>{t("pages.apps.chat.slackAvatarStep.saveChanges")}</strong> in
+              Slack.
             </li>
           </ol>
         </section>

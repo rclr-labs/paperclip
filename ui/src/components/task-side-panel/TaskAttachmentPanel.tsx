@@ -92,7 +92,7 @@ export function TaskAttachmentPanel({ issueId, attachmentId }: { issueId: string
     retry: false,
   });
   if (attachments.isLoading) return <p className="p-4 text-sm" role="status">{t("components.tasksidepanel.taskAttachmentPanel.loadingFile")}</p>;
-  if (attachments.isError) return <div className="p-4" role="alert">{t("components.tasksidepanel.taskAttachmentPanel.couldNotLoadAttachmentDetails")} <Button onClick={() => void attachments.refetch()}>{t("components.tasksidepanel.taskAttachmentPanel.retry")}</Button></div>;
+  if (attachments.isError) return <div className="p-4" role="alert">Could not load attachment details. <Button onClick={() => void attachments.refetch()}>{t("components.tasksidepanel.taskAttachmentPanel.retry")}</Button></div>;
   if (!attachment) return <p className="p-4 text-sm" role="status">{t("components.tasksidepanel.taskAttachmentPanel.fileNoLongerAvailableCloseThis")}</p>;
   const downloadUrl = attachmentDownloadPath(attachment);
   if (!eligible || content.isError) {

@@ -235,7 +235,6 @@ function CandidateStatusBadge({
 }: {
   status: CompanySkillProjectScanCandidate["status"];
 }) {
-  const { t } = useTranslation();
   switch (status) {
     case "already_imported":
       return (
@@ -243,7 +242,7 @@ function CandidateStatusBadge({
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-muted-foreground border-border/60"
         >
-          <Link2 className="h-3 w-3" /> {t("pages.skills.importSkillsFromProjectDialog.imported")}
+          <Link2 className="h-3 w-3" /> Imported
         </Badge>
       );
     case "conflict":
@@ -252,7 +251,7 @@ function CandidateStatusBadge({
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-amber-600 border-amber-500/40 dark:text-amber-400"
         >
-          <AlertTriangle className="h-3 w-3" /> {t("pages.skills.importSkillsFromProjectDialog.conflict")}
+          <AlertTriangle className="h-3 w-3" /> Conflict
         </Badge>
       );
     case "skipped":
@@ -261,7 +260,7 @@ function CandidateStatusBadge({
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-muted-foreground border-border/60"
         >
-          <FileWarning className="h-3 w-3" /> {t("pages.skills.importSkillsFromProjectDialog.skipped")}
+          <FileWarning className="h-3 w-3" /> Skipped
         </Badge>
       );
     case "new":
@@ -271,7 +270,7 @@ function CandidateStatusBadge({
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-emerald-600 border-emerald-500/40 dark:text-emerald-400"
         >
-          <CheckCircle2 className="h-3 w-3" /> {t("pages.skills.importSkillsFromProjectDialog.new")}
+          <CheckCircle2 className="h-3 w-3" /> New
         </Badge>
       );
   }
@@ -573,7 +572,7 @@ export function ImportSkillsFromProjectDialog({
             <div className="min-w-0 flex-1 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <Link2 className="h-3.5 w-3.5 shrink-0" />
-                {t("pages.skills.importSkillsFromProjectDialog.filesStayInTheProjectStudio")}
+                Files stay in the project — Studio edits save directly to them.
               </span>
             </div>
           ) : (
@@ -605,7 +604,7 @@ export function ImportSkillsFromProjectDialog({
                   </div>
                 )}
                 <Button variant="outline" size="sm" onClick={backToPick}>
-                  <ArrowLeft className="mr-1 h-3.5 w-3.5" /> {t("pages.skills.importSkillsFromProjectDialog.back")}
+                  <ArrowLeft className="mr-1 h-3.5 w-3.5" /> Back
                 </Button>
                 {!scanError && candidates.length > 0 && (
                   <Button
@@ -616,7 +615,7 @@ export function ImportSkillsFromProjectDialog({
                   >
                     {importMutation.isPending ? (
                       <>
-                        <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> {t("pages.skills.importSkillsFromProjectDialog.importing")}
+                        <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Importing…
                       </>
                     ) : (
                       `Import ${selectedCount} skill${selectedCount === 1 ? "" : "s"}`
@@ -825,7 +824,7 @@ function ProjectSkillBrowser({
             <p className="mt-0.5 text-xs text-muted-foreground">{t("pages.skills.importSkillsFromProjectDialog.openAnyFolderAndAddDirectories")}</p>
           </div>
           <Button variant="outline" size="sm" onClick={onBack}>
-            <ArrowLeft className="mr-1 h-3.5 w-3.5" /> {t("pages.skills.importSkillsFromProjectDialog.discoveredSkills")}
+            <ArrowLeft className="mr-1 h-3.5 w-3.5" /> Discovered skills
           </Button>
         </div>
         {workspaces.length > 1 && (
@@ -859,7 +858,7 @@ function ProjectSkillBrowser({
       <div className="min-h-0 flex-1 overflow-y-auto">
         {browseQuery.isLoading ? (
           <div className="flex items-center justify-center gap-2 p-8 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.skills.importSkillsFromProjectDialog.loadingFolder")}
+            <Loader2 className="h-4 w-4 animate-spin" /> Loading folder…
           </div>
         ) : browseQuery.error ? (
           <div className="p-6 text-sm text-destructive">{readableErrorMessage(browseQuery.error)}</div>
@@ -1012,7 +1011,7 @@ function SelectStep({
             onClick={() => onBrowseOpenChange(true)}
             data-testid="browse-project-folders-empty"
           >
-            <FolderOpen className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skills.importSkillsFromProjectDialog.browseProjectFolders")}
+            <FolderOpen className="mr-1.5 h-3.5 w-3.5" /> Browse project folders
           </Button>
           {onImportFromPath && (
             <p className="mt-3 text-sm text-muted-foreground">
@@ -1037,7 +1036,7 @@ function SelectStep({
       <div className="flex shrink-0 items-center justify-between gap-3 border-b border-border/60 px-5 py-2.5">
         <p className="text-xs text-muted-foreground">{t("pages.skills.importSkillsFromProjectDialog.chooseDiscoveredSkillsOrBrowseAny")}</p>
         <Button variant="outline" size="sm" onClick={() => onBrowseOpenChange(true)} data-testid="browse-project-folders">
-          <FolderOpen className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skills.importSkillsFromProjectDialog.browseFolders")}
+          <FolderOpen className="mr-1.5 h-3.5 w-3.5" /> Browse folders
         </Button>
       </div>
       <div className="shrink-0 border-b border-border/60 px-5 py-2.5">
@@ -1191,7 +1190,9 @@ function ResultStep({ result }: ResultStepProps) {
         <div className="flex items-start gap-3 rounded-md border border-emerald-500/30 bg-emerald-500/5 p-3">
           <Link2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400" />
           <div className="text-xs leading-relaxed text-muted-foreground">
-            <span className="font-medium text-foreground">{t("pages.skills.importSkillsFromProjectDialog.noFilesWereCopied")}</span> {t("pages.skills.importSkillsFromProjectDialog.theseSkillsReferenceTheFilesIn")}
+            <span className="font-medium text-foreground">{t("pages.skills.importSkillsFromProjectDialog.noFilesWereCopied")}</span> These skills
+            reference the files in the project workspace — editing them in Skill Studio saves
+            directly back to those files.
           </div>
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">

@@ -79,7 +79,6 @@ function SuccessfulRunRetryNowControl({
   issueId: string;
   scheduledRetry: IssueScheduledRetry;
 }) {
-  const { t } = useTranslation();
   const retryNow = useRetryNowMutation(issueId);
   const dueAtIso = scheduledRetry.scheduledRetryAt
     ? new Date(scheduledRetry.scheduledRetryAt).toISOString()
@@ -113,7 +112,7 @@ function SuccessfulRunRetryNowControl({
           {retryNow.isPending ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-              {t("components.issueBlockedNotice.retrying")}
+              Retrying...
             </span>
           ) : success ? (
             <span className="inline-flex items-center gap-1.5">
@@ -123,7 +122,7 @@ function SuccessfulRunRetryNowControl({
           ) : (
             <span className="inline-flex items-center gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-              {t("components.issueBlockedNotice.retryNow")}
+              Retry now
             </span>
           )}
         </Button>
@@ -390,7 +389,7 @@ function WaitingOnLiveWorkNotice({
             >
               <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-200">
                 <Flag className="h-3 w-3" aria-hidden />
-                {t("components.issueBlockedNotice.blockedByParkedWork")}
+                Blocked by parked work
               </span>
               {parkedBlockers.map((blocker) => renderParkedChip(blocker))}
             </div>
@@ -725,7 +724,7 @@ export function IssueBlockedNotice({
                 >
                   <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-800 dark:text-amber-200">
                     <Flag className="h-3 w-3" aria-hidden />
-                    {t("components.issueBlockedNotice.blockedByParkedWork")}
+                    Blocked by parked work
                   </span>
                   {parkedBlockers.map(renderBlockerChip)}
                 </div>

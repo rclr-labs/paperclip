@@ -227,7 +227,7 @@ export function FolderRail({
     <nav aria-label={`${itemLabelPlural} folders`} className="hidden w-(--sz-folder-rail) shrink-0 border-r border-border pr-3 md:block">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("components.folders.folderControls.folders")}</div>
-        <Button variant="ghost" size="icon-sm" title={t("components.folders.folderControls.newFolder2")} onClick={onCreate}>
+        <Button variant="ghost" size="icon-sm" title={t("components.folders.folderControls.newFolder")} onClick={onCreate}>
           <Plus className="h-3.5 w-3.5" />
         </Button>
       </div>
@@ -348,7 +348,7 @@ export function FolderRailItem({
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onSelect={onDelete}>
             <Trash2 className="h-3.5 w-3.5" />
-            {t("components.folders.folderControls.delete")}
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -491,7 +491,7 @@ export function MobileFolderSheet({
         <div className="border-t border-border px-4 pt-3">
           <Button size="sm" variant="outline" className="w-full" onClick={onCreate}>
             <Plus className="mr-2 h-3.5 w-3.5" />
-            {t("components.folders.folderControls.newFolder2")}
+            New folder
           </Button>
         </div>
       </SheetContent>
@@ -607,7 +607,7 @@ function MoveToMenuItems({
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={onCreateAndMove}>
           <Plus className="h-3.5 w-3.5" />
-          {t("components.folders.folderControls.newFolder")}
+          New folder...
         </DropdownMenuItem>
     </>
   );

@@ -71,7 +71,7 @@ export function PanelBody({ artifacts }: { artifacts: LabArtifact[] }) {
           </FilterButton>
           <FilterButton pressed={filter === "review"} onPress={() => setFilter("review")} count={toReview}>
             <span aria-hidden className="block h-2.5 w-3.5 bg-(--tac-flag)" style={FLAG} />
-            {t("artifactdirections.directions.d3tactile.panelBody.toReview")}
+            To review
           </FilterButton>
         </div>
       ) : null}

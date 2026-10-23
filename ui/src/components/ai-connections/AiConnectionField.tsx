@@ -225,7 +225,7 @@ export function AiConnectionField({
           /> : <>
           {!reconnecting && !savedAccount && <label className="flex items-center gap-2 text-sm">
             <Checkbox checked={allAgents} disabled={!accounts.data?.canManageConnections} onCheckedChange={(checked) => setAllAgents(checked === true)} />
-            {t("components.aiconnections.aiConnectionField.allowAllAgentsInThisCompany")}
+            Allow all agents in this company to use this account for my tasks
           </label>}
           {savedAccount ? <div className="space-y-4">
             {selectDefault.error ? <>

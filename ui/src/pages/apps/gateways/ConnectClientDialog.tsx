@@ -182,7 +182,7 @@ export function ConnectClientDialog({
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            {t("pages.apps.gateways.connectClientDialog.clientSnippets")}
+            Client snippets
             <Tooltip>
               <TooltipTrigger asChild>
                 <button type="button" aria-label={t("pages.apps.gateways.connectClientDialog.aboutClientSnippets")} className="text-muted-foreground hover:text-foreground">
@@ -245,14 +245,16 @@ export function ConnectClientDialog({
               onClick={() => void copyText(`Authorization: Bearer ${selectedToken.token}`, "Authorization header")}
             >
               <Copy className="mr-1 h-3.5 w-3.5" />
-              {t("pages.apps.gateways.connectClientDialog.copyHeader")}
+              Copy header
             </Button>
           ) : null}
         </div>
 
         {!selectedToken ? (
           <p className="text-xs text-muted-foreground">
-            {t("pages.apps.gateways.connectClientDialog.issueATokenBeforeCopyingA")} <code>{t("pages.apps.gateways.connectClientDialog.authorizationBearer")}</code> {t("pages.apps.gateways.connectClientDialog.headerIsRequiredExistingTokenSecrets")}
+            Issue a token before copying a snippet; the full <code>{t("pages.apps.gateways.connectClientDialog.authorizationBearer")}</code> header is
+            required. Existing token secrets cannot be retrieved again, so only tokens issued in this page
+            session can fill a snippet.
           </p>
         ) : null}
 
@@ -288,7 +290,7 @@ export function ConnectClientDialog({
               )}
             >
               <LinkIcon className="h-4 w-4 shrink-0" />
-              {t("pages.apps.gateways.connectClientDialog.rawUrl")}
+              Raw URL
             </button>
           </nav>
 
@@ -303,7 +305,7 @@ export function ConnectClientDialog({
                     </code>
                     <Button variant="outline" size="sm" onClick={() => void copyText(endpoint, "Endpoint URL")}>
                       <Copy className="mr-1 h-3.5 w-3.5" />
-                      {t("pages.apps.gateways.connectClientDialog.copy")}
+                      Copy
                     </Button>
                   </div>
                 </div>
@@ -325,7 +327,7 @@ export function ConnectClientDialog({
                     onClick={() => copyConfigText && void copyText(copyConfigText, `${activeSnippet.label} config`)}
                   >
                     <Copy className="mr-1 h-3.5 w-3.5" />
-                    {t("pages.apps.gateways.connectClientDialog.copy")}
+                    Copy
                   </Button>
                 </div>
                 <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-3 font-mono text-xs text-muted-foreground">
@@ -350,7 +352,7 @@ export function ConnectClientDialog({
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)}>
             <Check className="mr-1.5 h-4 w-4" />
-            {t("pages.apps.gateways.connectClientDialog.done")}
+            Done
           </Button>
         </DialogFooter>
       </DialogContent>

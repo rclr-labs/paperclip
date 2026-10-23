@@ -246,27 +246,26 @@ function Segmented<T extends string>({
 
 /** Encoding key for the "Signal" timeline: colour = how each run started. */
 function TimelineLegend() {
-  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-border px-3.5 py-2 text-xs text-muted-foreground">
       <span className="flex items-center gap-1.5">
         <span className="h-2.5 w-4 rounded-sm" style={{ backgroundColor: TIMELINE_COLORS.delegated }} />
-        {t("pages.timeline.delegated")}
+        Delegated
       </span>
       <span className="flex items-center gap-1.5">
         <span className="h-2.5 w-4 rounded-sm" style={{ backgroundColor: TIMELINE_COLORS.automation }} />
-        {t("pages.timeline.automation")}
+        Automation
       </span>
       <span className="flex items-center gap-1.5">
         <span
           className="h-2.5 w-4 rounded-sm border border-dashed bg-transparent"
           style={{ borderColor: TIMELINE_COLORS.cancelled }}
         />
-        {t("pages.timeline.cancelled")}
+        Cancelled
       </span>
       <span className="flex items-center gap-1.5">
         <span className="h-3.5 w-0.5" style={{ backgroundColor: TIMELINE_COLORS.now }} />
-        {t("pages.timeline.now")}
+        Now
       </span>
     </div>
   );
@@ -400,7 +399,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
 
   const rangeControls = (
     <label className="flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
-      {t("pages.timeline.range")}
+      Range
       <Segmented
         value={rangePreset}
         onChange={(preset) => {

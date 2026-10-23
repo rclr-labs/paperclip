@@ -239,7 +239,7 @@ export function AiProviderSetup({
   );
   const modelSettings = (
     <label className="block space-y-2 text-xs text-muted-foreground">
-      {t("components.aiconnections.aiProviderSetup.modelIdsCommaSeparated")}
+      Model IDs (comma separated)
       <Input
         aria-label={t("components.aiconnections.aiProviderSetup.modelIds")}
         value={models}
@@ -272,7 +272,7 @@ export function AiProviderSetup({
   ) : undefined;
   const cancel = () => reconnect || initialProvider ? onCancel() : setStep("provider");
   if (!reconnect && accounts.isPending) return <p role="status">{t("components.aiconnections.aiProviderSetup.loadingConnectionPermissions")}</p>;
-  if (!reconnect && accounts.isError) return <p role="alert">{t("components.aiconnections.aiProviderSetup.couldNotLoadConnectionPermissions")} <Button type="button" variant="ghost" onClick={() => void accounts.refetch()}>{t("components.aiconnections.aiProviderSetup.retry")}</Button></p>;
+  if (!reconnect && accounts.isError) return <p role="alert">Could not load connection permissions. <Button type="button" variant="ghost" onClick={() => void accounts.refetch()}>{t("components.aiconnections.aiProviderSetup.retry")}</Button></p>;
   return (
     <div className="mx-auto w-full max-w-2xl space-y-6" onSubmit={(event) => event.stopPropagation()}>
       <div className="space-y-2">
@@ -282,7 +282,7 @@ export function AiProviderSetup({
             : `${reconnect ? "Reconnect" : "Connect"} ${label}`}
         </h2>
       </div>
-      {agents.isError && <p role="alert" className="text-sm text-destructive">{t("components.aiconnections.aiProviderSetup.couldNotLoadAgents")} <Button type="button" variant="ghost" onClick={() => void agents.refetch()}>{t("components.aiconnections.aiProviderSetup.retry")}</Button></p>}
+      {agents.isError && <p role="alert" className="text-sm text-destructive">Could not load agents. <Button type="button" variant="ghost" onClick={() => void agents.refetch()}>{t("components.aiconnections.aiProviderSetup.retry")}</Button></p>}
       {step === "provider" ? (
         <>
           {advancedOnly ? choices(true) : <>
@@ -327,7 +327,7 @@ export function AiProviderSetup({
           {(provider === "gateway" || provider === "local") && (
             <>
               <label className="block space-y-2 text-xs text-muted-foreground">
-                {t("components.aiconnections.aiProviderSetup.providerUrl")}
+                Provider URL
                 <Input
                   aria-label={t("components.aiconnections.aiProviderSetup.providerUrl")}
                   placeholder={
@@ -341,7 +341,7 @@ export function AiProviderSetup({
                 />
               </label>
               <label className="block space-y-2 text-xs text-muted-foreground">
-                {t("components.aiconnections.aiProviderSetup.apiFormat")}
+                API format
                 <Select
                   value={protocol}
                   onValueChange={(v) => {
@@ -371,7 +371,7 @@ export function AiProviderSetup({
           )}
           {provider === "bedrock" && (
             <label className="block space-y-2 text-xs text-muted-foreground">
-              {t("components.aiconnections.aiProviderSetup.awsRegion")}
+              AWS region
               <Input
                 aria-label={t("components.aiconnections.aiProviderSetup.awsRegion")}
                 value={region}
@@ -382,7 +382,7 @@ export function AiProviderSetup({
           )}
           {provider !== "openrouter" && (
             <label className="block space-y-2 text-xs text-muted-foreground">
-              {t("components.aiconnections.aiProviderSetup.authentication")}
+              Authentication
               <Select
                 value={auth}
                 onValueChange={(v) => setAuth(v as typeof auth)}
@@ -414,7 +414,7 @@ export function AiProviderSetup({
           {
             auth !== "none" && (
               <label className="block space-y-2 text-xs text-muted-foreground">
-                {t("components.aiconnections.aiProviderSetup.apiKey")}
+                API key
                 <Input
                   aria-label={t("components.aiconnections.aiProviderSetup.apiKey")}
                   type="password"

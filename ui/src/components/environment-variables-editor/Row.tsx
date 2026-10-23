@@ -216,7 +216,7 @@ export function EnvironmentVariableRow({
             showNameIssue && nameIssue?.level === "error" && "border-destructive focus-visible:ring-destructive/40",
             showNameIssue && nameIssue?.level === "warn" && "border-amber-500 focus-visible:ring-amber-500/40",
           )}
-          placeholder={t("components.environmentvariableseditor.row.key")}
+          placeholder="KEY"
           value={row.name}
           spellCheck={false}
           disabled={disabled}

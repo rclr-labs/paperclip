@@ -203,7 +203,7 @@ export function PluginManager() {
           <DialogTrigger asChild>
             <Button size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
-              {t("pages.pluginManager.installPlugin")}
+              Install Plugin
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -506,7 +506,7 @@ export function PluginManager() {
           <DialogHeader>
             <DialogTitle>{t("pages.pluginManager.uninstallPlugin")}</DialogTitle>
             <DialogDescription>
-              {t("pages.pluginManager.areYouSureYouWantTo")} <strong>{uninstallPluginName}</strong>{t("pages.pluginManager.thisActionCannotBeUndone")}
+              Are you sure you want to uninstall <strong>{uninstallPluginName}</strong>? This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

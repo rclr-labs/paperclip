@@ -483,7 +483,7 @@ export function Agents() {
           )}
           <Button size="sm" variant="outline" onClick={openNewAgent}>
             <Plus className="h-3.5 w-3.5 mr-1.5" />
-            {t("pages.agentsproduction.newAgent")}
+            New Agent
           </Button>
         </div>
       </div>

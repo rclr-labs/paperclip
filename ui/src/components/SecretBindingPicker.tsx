@@ -171,7 +171,7 @@ export function SecretBindingPicker({
               onClick={() => onChange(null)}
               disabled={disabled}
             >
-              <X className="h-3 w-3" /> {t("components.secretBindingPicker.clear")}
+              <X className="h-3 w-3" /> Clear
             </button>
           ) : null}
         </div>
@@ -278,7 +278,7 @@ export function SecretBindingPicker({
       ) : selectedMissing ? (
         <p className="text-(length:--text-micro) text-destructive flex items-center gap-1">
           <AlertCircle className="h-3 w-3" />
-          {t("components.secretBindingPicker.thePreviouslySelectedSecretIsNo")}
+          The previously selected secret is no longer available. Pick another or remove the binding.
         </p>
       ) : (filteredSecrets.length === 0 && !secretsQuery.isPending) ? (
         <p className="text-(length:--text-micro) text-muted-foreground">{emptyHint}</p>

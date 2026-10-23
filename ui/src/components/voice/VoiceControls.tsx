@@ -56,8 +56,8 @@ export function VoiceControls({ state, agentName, muted = false, busy = false, p
             <Button size="sm" variant="outline" disabled={state === "ending"} onClick={() => { restoreFocus.current = true; onEnd(); }}><PhoneOff aria-hidden="true" />{state === "cleanup_failed" ? "Retry ending call" : "End call"}</Button>
           </>
         )}
-        {canRepeat && onRepeat && !inactive && <Button size="sm" variant="outline" disabled={busy || connecting || state === "ending" || state === "cleanup_failed"} onClick={onRepeat}><RotateCcw aria-hidden="true" />{t("components.voice.voiceControls.repeatAnswer")}</Button>}
-        {playbackBlocked && !inactive && <Button size="sm" variant="outline" onClick={onResumeAudio}><Volume2 aria-hidden="true" />{t("components.voice.voiceControls.enableAudio")}</Button>}
+        {canRepeat && onRepeat && !inactive && <Button size="sm" variant="outline" disabled={busy || connecting || state === "ending" || state === "cleanup_failed"} onClick={onRepeat}><RotateCcw aria-hidden="true" />Repeat answer</Button>}
+        {playbackBlocked && !inactive && <Button size="sm" variant="outline" onClick={onResumeAudio}><Volume2 aria-hidden="true" />Enable audio</Button>}
       </div>
       {!inactive && <p className="text-xs text-muted-foreground">{t("components.voice.voiceControls.endingTheCallKeepsYourTask")}</p>}
       <span className="sr-only" aria-live="polite" aria-atomic="true">{announcement}</span>

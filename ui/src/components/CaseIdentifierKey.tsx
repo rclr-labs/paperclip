@@ -19,7 +19,6 @@ export function CaseCopyableToken({
   truncate?: boolean;
   stopPropagation?: boolean;
 }) {
-  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
@@ -59,7 +58,7 @@ export function CaseCopyableToken({
           className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 inline-flex -translate-x-1/2 items-center gap-1 rounded-md bg-foreground px-2 py-1 text-xs whitespace-nowrap text-background"
         >
           <Check className="h-3 w-3 shrink-0" />
-          {t("components.caseIdentifierKey.copied")}
+          Copied
         </span>
       ) : null}
     </span>

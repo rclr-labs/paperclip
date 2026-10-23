@@ -572,8 +572,8 @@ function ChatSdkEndpointSetup() {
               >{t("pages.apps.chat.chatEndpointSetup.useYourOwnApp")}</Button>}
             </SlackSetupAdvanced>}
             {isSlack && !endpoint && !slackChoices.data && (slackChoices.isError
-              ? <div role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatEndpointSetup.couldnTLoadSlackSetup")} <Button variant="link" disabled={slackChoices.isFetching} onClick={() => void slackChoices.refetch()}>{t("pages.apps.chat.chatEndpointSetup.retry")}</Button></div>
-              : <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{t("pages.apps.chat.chatEndpointSetup.loadingSlack")}</p>)}
+              ? <div role="alert" className="text-sm text-destructive">Couldn&apos;t load Slack setup. <Button variant="link" disabled={slackChoices.isFetching} onClick={() => void slackChoices.refetch()}>{t("pages.apps.chat.chatEndpointSetup.retry")}</Button></div>
+              : <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Loading Slack…</p>)}
             {provider === "github" && <GitHubAgentTrustWarning agent={selectedAgent} />}
             <SetupWizardFooter disabled={agentStepBusy || isSlack && !endpoint && Boolean(agentId) && !slackChoices.data} onSaveExit={() => void continueFromAgent(true)}>
               <Button
@@ -662,7 +662,7 @@ function ChatSdkEndpointSetup() {
             <div className="flex flex-col items-center gap-3">
               <h1 className="flex items-center gap-2 text-2xl font-bold">
                 <CheckCircle2 aria-hidden="true" className="size-6 text-(--status-task-done)" />
-                {t("pages.apps.chat.chatEndpointSetup.success")}
+                Success
               </h1>
               <p className="flex flex-wrap items-center justify-center gap-2 text-base text-muted-foreground">
                 <span>You can now talk to {selectedAgent?.name ?? endpoint.assignedAgentName} in Slack</span>
@@ -966,7 +966,7 @@ function ProviderConnectStep({
             openProviderSetup("https://discord.com/developers/applications")
           }
         >
-          {t("pages.apps.chat.chatEndpointSetup.openDiscordDeveloperPortal")} <ExternalLink />
+          Open Discord Developer Portal <ExternalLink />
         </Button>
         {field("applicationId", "Application ID", "text")}
         {field("guildId", "Server ID", "text")}
@@ -974,7 +974,7 @@ function ProviderConnectStep({
         {installUrl && (
           <Button asChild variant="outline">
             <a href={installUrl} target="_blank" rel="noreferrer">
-              {t("pages.apps.chat.chatEndpointSetup.installBotInThisServer")} <ExternalLink />
+              Install bot in this server <ExternalLink />
             </a>
           </Button>
         )}
@@ -1012,11 +1012,11 @@ function ProviderConnectStep({
         </div>
         <ol className="list-decimal space-y-2 pl-5 text-sm">
           <li>
-            {t("pages.apps.chat.chatEndpointSetup.openBotfatherAndSend")} <code>/newbot</code>.
+            Open BotFather and send <code>/newbot</code>.
           </li>
           <li>{t("pages.apps.chat.chatEndpointSetup.enterTheBotDisplayName")}</li>
           <li>
-            {t("pages.apps.chat.chatEndpointSetup.chooseAnAvailableUsernameEndingIn")} <code>bot</code>.
+            Choose an available username ending in <code>bot</code>.
           </li>
         </ol>
         <p className="rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
@@ -1030,7 +1030,7 @@ function ProviderConnectStep({
           variant="outline"
           onClick={() => openProviderSetup("https://t.me/BotFather")}
         >
-          {t("pages.apps.chat.chatEndpointSetup.openBotfather")} <ExternalLink />
+          Open BotFather <ExternalLink />
         </Button>
         {field("botToken", "Bot token")}
         {(!endpoint.setup?.webhookUrl || automaticSlack && !endpoint.setup?.slackOAuthCallbackUri?.startsWith("https://")) && (
@@ -1087,7 +1087,7 @@ function ProviderConnectStep({
               target="_blank"
               rel="noreferrer"
             >
-              {t("pages.apps.chat.chatEndpointSetup.openMicrosoftEntra")} <ExternalLink />
+              Open Microsoft Entra <ExternalLink />
             </a>
           </Button>
           <Button asChild variant="outline">
@@ -1096,7 +1096,7 @@ function ProviderConnectStep({
               target="_blank"
               rel="noreferrer"
             >
-              {t("pages.apps.chat.chatEndpointSetup.createAzureBot")} <ExternalLink />
+              Create Azure Bot <ExternalLink />
             </a>
           </Button>
           <Button asChild variant="outline">
@@ -1105,7 +1105,7 @@ function ProviderConnectStep({
               target="_blank"
               rel="noreferrer"
             >
-              {t("pages.apps.chat.chatEndpointSetup.openTeamsDeveloperPortal")} <ExternalLink />
+              Open Teams Developer Portal <ExternalLink />
             </a>
           </Button>
         </div>
@@ -1176,7 +1176,7 @@ function ProviderConnectStep({
           </ol>
         </section>
         <label className="grid gap-2 text-sm font-medium">
-          {t("pages.apps.chat.chatEndpointSetup.requiredTeamsAppManifestBlock")}
+          Required Teams app manifest block
           <Textarea
             className="min-h-80 font-mono text-xs"
             readOnly
@@ -1203,7 +1203,11 @@ function ProviderConnectStep({
           {t("pages.apps.chat.chatEndpointSetup.enterTheApplicationClientIdAbove")}
         </p>
         <p className="text-sm text-muted-foreground">
-          {t("pages.apps.chat.chatEndpointSetup.paperclipDoesNotUseTeamsSingle")} <code>webApplicationInfo</code> {t("pages.apps.chat.chatEndpointSetup.entryOnlyAssociatesTheRscPermissions")}
+          Paperclip does not use Teams single sign-on in this release. The
+          copied <code>webApplicationInfo</code> entry only associates the RSC
+          permissions with the same Entra Application ID. Its nonempty resource
+          is an RSC placeholder; you do not need to register an Entra
+          Application ID URI or add delegated Microsoft Graph permissions.
         </p>
         <p className="text-sm text-muted-foreground">
           {t("pages.apps.chat.chatEndpointSetup.theTwoApplicationRscPermissionsLet")}
@@ -1261,7 +1265,9 @@ function ProviderConnectStep({
               {t("pages.apps.chat.chatEndpointSetup.underTheTargetUserOrOrganization")}
             </li>
             <li>
-              {t("pages.apps.chat.chatEndpointSetup.keep")} <strong>{t("pages.apps.chat.chatEndpointSetup.webhooksActive")}</strong> {t("pages.apps.chat.chatEndpointSetup.onEnterThePaperclipWebhookUrl")} <strong>{t("pages.apps.chat.chatEndpointSetup.enableSslVerification")}</strong> selected.
+              Keep <strong>{t("pages.apps.chat.chatEndpointSetup.webhooksActive")}</strong> on. Enter the Paperclip
+              webhook URL and the Paperclip-generated webhook secret below, and
+              keep <strong>{t("pages.apps.chat.chatEndpointSetup.enableSslVerification")}</strong> selected.
             </li>
             <li>
               Under Repository permissions, set <strong>{t("pages.apps.chat.chatEndpointSetup.issues")}</strong> and{" "}
@@ -1279,7 +1285,9 @@ function ProviderConnectStep({
               automatically; they are not selectable here.
             </li>
             <li>
-              {t("pages.apps.chat.chatEndpointSetup.choose")} <strong>{t("pages.apps.chat.chatEndpointSetup.onlyOnThisAccount")}</strong>{t("pages.apps.chat.chatEndpointSetup.createTheAppCopyItsApp")}
+              Choose <strong>{t("pages.apps.chat.chatEndpointSetup.onlyOnThisAccount")}</strong>, create the App, copy
+              its App ID, generate one private key, then install it on the
+              selected repositories.
             </li>
           </ol>
         )}
@@ -1484,9 +1492,9 @@ function ProviderConnectStep({
       </div>
     );
   const slackRequestUrlInstructions = <ol className="list-decimal space-y-2 pl-5 text-sm">
-      <li><a className="underline underline-offset-4" href={endpoint.setup?.slackRegistration?.appId ? `https://api.slack.com/apps/${encodeURIComponent(endpoint.setup.slackRegistration.appId)}/event-subscriptions` : "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatEndpointSetup.openSlackAppSettings")} <ExternalLink className="inline size-3" /></a> {t("pages.apps.chat.chatEndpointSetup.andChoose")} <strong>{slackApp.appName}</strong>.</li>
-      <li>{t("pages.apps.chat.chatEndpointSetup.choose")} <strong>{t("pages.apps.chat.chatEndpointSetup.eventSubscriptions")}</strong>.</li>
-      <li>{t("pages.apps.chat.chatEndpointSetup.besideThePrefilled")} <strong>{t("pages.apps.chat.chatEndpointSetup.requestUrl")}</strong>{t("pages.apps.chat.chatEndpointSetup.click")} <strong>{t("pages.apps.chat.chatEndpointSetup.retry")}</strong> {t("pages.apps.chat.chatEndpointSetup.ifItIsnTVerifiedSave")}</li>
+      <li><a className="underline underline-offset-4" href={endpoint.setup?.slackRegistration?.appId ? `https://api.slack.com/apps/${encodeURIComponent(endpoint.setup.slackRegistration.appId)}/event-subscriptions` : "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer">Open Slack app Settings <ExternalLink className="inline size-3" /></a> and choose <strong>{slackApp.appName}</strong>.</li>
+      <li>Choose <strong>{t("pages.apps.chat.chatEndpointSetup.eventSubscriptions")}</strong>.</li>
+      <li>Beside the prefilled <strong>{t("pages.apps.chat.chatEndpointSetup.requestUrl")}</strong>, click <strong>{t("pages.apps.chat.chatEndpointSetup.retry")}</strong> if it isn&apos;t verified. Save changes if Slack asks.</li>
     </ol>;
   if (slackStage === "finish")
     return (
@@ -1495,7 +1503,7 @@ function ProviderConnectStep({
           <h1 className="text-xl font-bold">{automaticSlack ? "Send a message to your agent" : "Verify Slack connection"}</h1>
           {!automaticSlack && <p className="mt-1 text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointSetup.slackNeedsToConfirmThatIt")}</p>}
         </div>
-        {automaticSlack ? <Button asChild variant="outline"><a href={endpoint.setup?.slackAccount?.dmChannelId && endpoint.providerAccountId ? `https://app.slack.com/client/${encodeURIComponent(endpoint.providerAccountId)}/${encodeURIComponent(endpoint.setup.slackAccount.dmChannelId)}` : endpoint.setup?.providerUrl ?? "https://app.slack.com"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatEndpointSetup.openSlack")} <ExternalLink className="size-4" /></a></Button> : slackRequestUrlInstructions}
+        {automaticSlack ? <Button asChild variant="outline"><a href={endpoint.setup?.slackAccount?.dmChannelId && endpoint.providerAccountId ? `https://app.slack.com/client/${encodeURIComponent(endpoint.providerAccountId)}/${encodeURIComponent(endpoint.setup.slackAccount.dmChannelId)}` : endpoint.setup?.providerUrl ?? "https://app.slack.com"} target="_blank" rel="noopener noreferrer">Open Slack <ExternalLink className="size-4" /></a></Button> : slackRequestUrlInstructions}
         {endpoint.setup?.webhookVerifiedAt ? (
           <p role="status" className="flex items-center gap-2 text-sm">
             <CheckCircle2 className="size-4 text-(--status-task-done)" />
@@ -1616,7 +1624,7 @@ function ProviderConnectStep({
                   }, 1000);
                 }}
               >
-                {t("pages.apps.chat.chatEndpointSetup.createSlackApp")} <ExternalLink />
+                Create Slack app <ExternalLink />
               </Button>
             )}
           </div>
@@ -1647,11 +1655,11 @@ function ProviderConnectStep({
           <ul id="slack-bot-token-help" className="list-disc space-y-1 pl-5 text-sm">
             <li>
               <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
-                {t("pages.apps.chat.chatEndpointSetup.openSlackAppSettings")} <ExternalLink className="inline size-3" />
-              </a> {t("pages.apps.chat.chatEndpointSetup.andChoose")} <strong>{slackApp.appName}</strong>.
+                Open Slack app Settings <ExternalLink className="inline size-3" />
+              </a> and choose <strong>{slackApp.appName}</strong>.
             </li>
-            <li>{t("pages.apps.chat.chatEndpointSetup.choose")} <strong>{t("pages.apps.chat.chatEndpointSetup.oauthPermissions")}</strong></li>
-            <li>{t("pages.apps.chat.chatEndpointSetup.copyAndPasteYour")} <strong>{t("pages.apps.chat.chatEndpointSetup.botOauthToken")}</strong></li>
+            <li>Choose <strong>{t("pages.apps.chat.chatEndpointSetup.oauthPermissions")}</strong></li>
+            <li>Copy and paste your <strong>{t("pages.apps.chat.chatEndpointSetup.botOauthToken")}</strong></li>
           </ul>
           <Input
             id="slack-bot-token"
@@ -1664,7 +1672,7 @@ function ProviderConnectStep({
           />
           {slackBotTokenInvalid && (
             <p id="slack-bot-token-warning" role="alert" className="text-sm text-destructive">
-              {t("pages.apps.chat.chatEndpointSetup.yourBotUserOauthTokenMust")} <code>xoxb-</code>. Copy it from <strong>{t("pages.apps.chat.chatEndpointSetup.oauthPermissions")}</strong>.
+              Your Bot User OAuth Token must start with <code>xoxb-</code>. Copy it from <strong>{t("pages.apps.chat.chatEndpointSetup.oauthPermissions")}</strong>.
             </p>
           )}
         </section>
@@ -1673,11 +1681,11 @@ function ProviderConnectStep({
           <ul id="slack-signing-secret-help" className="list-disc space-y-1 pl-5 text-sm">
             <li>
               <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">
-                {t("pages.apps.chat.chatEndpointSetup.openSlackAppSettings")} <ExternalLink className="inline size-3" />
-              </a> {t("pages.apps.chat.chatEndpointSetup.andChoose")} <strong>{slackApp.appName}</strong>.
+                Open Slack app Settings <ExternalLink className="inline size-3" />
+              </a> and choose <strong>{slackApp.appName}</strong>.
             </li>
-            <li>{t("pages.apps.chat.chatEndpointSetup.choose")} <strong>{t("pages.apps.chat.chatEndpointSetup.basicInformation")}</strong></li>
-            <li>{t("pages.apps.chat.chatEndpointSetup.copyAndPasteYour")} <strong>{t("pages.apps.chat.chatEndpointSetup.signingSecret")}</strong></li>
+            <li>Choose <strong>{t("pages.apps.chat.chatEndpointSetup.basicInformation")}</strong></li>
+            <li>Copy and paste your <strong>{t("pages.apps.chat.chatEndpointSetup.signingSecret")}</strong></li>
           </ul>
           <Input
             id="slack-signing-secret"
@@ -1690,7 +1698,7 @@ function ProviderConnectStep({
           />
           {slackSigningSecretHasTokenPrefix && (
             <p id="slack-signing-secret-warning" role="alert" className="text-sm text-destructive">
-              {t("pages.apps.chat.chatEndpointSetup.useThe")} <strong>{t("pages.apps.chat.chatEndpointSetup.signingSecret")}</strong>{t("pages.apps.chat.chatEndpointSetup.notAnAppOrBotToken")}
+              Use the <strong>{t("pages.apps.chat.chatEndpointSetup.signingSecret")}</strong>, NOT an app or bot token. The Signing Secret has no token prefix.
             </p>
           )}
         </section>

@@ -158,14 +158,14 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
       <div className="flex items-start gap-2 rounded-md border border-violet-500/30 bg-violet-500/5 px-4 py-3 text-xs text-violet-800 dark:text-violet-200">
         <UserRound className="h-4 w-4 mt-0.5 shrink-0" />
         <p>
-          {t("pages.secrets.userSecretDefinitionsTab.defineCredentialsThat")} <span className="font-medium">{t("pages.secrets.userSecretDefinitionsTab.eachMemberSuppliesForThemselves")}</span>. You set the shape here; every user enters their own value under My
+          Define credentials that <span className="font-medium">{t("pages.secrets.userSecretDefinitionsTab.eachMemberSuppliesForThemselves")}</span>. You set the shape here; every user enters their own value under My
           secrets. Coverage shows how many members have set a value — never the values themselves.
         </p>
       </div>
 
       <div className="flex items-center justify-end">
         <Button size="sm" onClick={openCreate}>
-          <Plus className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.userSecretDefinitionsTab.newUserSecret")}
+          <Plus className="mr-1 h-3.5 w-3.5" /> New user secret
         </Button>
       </div>
 
@@ -288,7 +288,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
             </div>
             <div className="space-y-1">
               <label className="text-xs font-medium text-foreground">
-                {t("pages.secrets.userSecretDefinitionsTab.usageGuidance")} <span className="text-muted-foreground">{t("pages.secrets.userSecretDefinitionsTab.optional")}</span>
+                Usage guidance <span className="text-muted-foreground">{t("pages.secrets.userSecretDefinitionsTab.optional")}</span>
               </label>
               <Textarea
                 value={form.usageGuidance}
@@ -339,7 +339,8 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
           <DialogHeader>
             <DialogTitle>{t("pages.secrets.userSecretDefinitionsTab.removeUserSecret")}</DialogTitle>
             <DialogDescription>
-              {t("pages.secrets.userSecretDefinitionsTab.thisRemovesTheDefinition")} <span className="font-mono">{deleteTarget?.key}</span> {t("pages.secrets.userSecretDefinitionsTab.forTheWholeCompanyExistingMember")}
+              This removes the definition <span className="font-mono">{deleteTarget?.key}</span> for
+              the whole company. Existing member values become unreferenced. This cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

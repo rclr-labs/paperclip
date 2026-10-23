@@ -202,7 +202,7 @@ export function TaskDetailSubtasksPanel({
       {onAddSubtask ? (
         <Button type="button" variant="outline" size="sm" className="self-start" onClick={onAddSubtask}>
           <Plus className="h-3.5 w-3.5" />
-          {t("components.taskdetail.taskDetailRelationsPanel.addSubtask")}
+          Add subtask
         </Button>
       ) : null}
     </section>

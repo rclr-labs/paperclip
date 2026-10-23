@@ -133,21 +133,21 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
     </p> : null}
     {(stage === "app" && !created && !creating || configurationPending) && <>
       {uncertain && <div className="space-y-3 text-sm">
-        <a href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{t("pages.apps.chat.slack.ownSlackAppSetup.openSlackAppSettings")} <ExternalLink className="inline size-3" /></a>
+        <a href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Open Slack app settings <ExternalLink className="inline size-3" /></a>
         <label className="flex items-center gap-2">
           <Checkbox checked={checkedNoApp} disabled={busy} onCheckedChange={value => setCheckedNoApp(value === true)} />
-          {t("pages.apps.chat.slack.ownSlackAppSetup.iCheckedSlackAndNoApp")}
+          I checked Slack and no app was created. Create a new app.
         </label>
       </div>}
       {(!uncertain || checkedNoApp) && <div className="space-y-2">
         <Button asChild size="lg" className="mb-4 h-auto w-full whitespace-normal py-4">
-          <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.slack.ownSlackAppSetup.getYourAppConfigurationAccessToken")} <ExternalLink className="size-4" /></a>
+          <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer">Get your App configuration access token <ExternalLink className="size-4" /></a>
         </Button>
         <div id="slack-configuration-token-help" className="space-y-3 pb-3 text-sm">
           <ol className="list-decimal space-y-2 pl-5">
-            <li>{t("pages.apps.chat.slack.ownSlackAppSetup.inSlackAppSettingsFind")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.yourAppConfigurationTokens")}</strong> {t("pages.apps.chat.slack.ownSlackAppSetup.andChoose")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.generateToken")}</strong>.</li>
+            <li>In Slack app settings, find <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.yourAppConfigurationTokens")}</strong> and choose <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.generateToken")}</strong>.</li>
             <li>{t("pages.apps.chat.slack.ownSlackAppSetup.selectTheWorkspaceWhereYouWant")}</li>
-            <li>{t("pages.apps.chat.slack.ownSlackAppSetup.copyThe")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.accessToken")}</strong> {t("pages.apps.chat.slack.ownSlackAppSetup.andPasteItBelow")}</li>
+            <li>Copy the <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.accessToken")}</strong> and paste it below.</li>
           </ol>
           <p className="text-muted-foreground">{t("pages.apps.chat.slack.ownSlackAppSetup.paperclipUsesThisTokenToCreate")}</p>
         </div>
@@ -157,7 +157,7 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
           aria-describedby="slack-configuration-token-help" />
       </div>}
     </>}
-    {creating && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> {t("pages.apps.chat.slack.ownSlackAppSetup.creatingYourSlackAppYouCan")}</p>}
+    {creating && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> Creating your Slack app. You can return to this saved setup.</p>}
     {created && <p className="text-sm">
       <strong>{endpoint.setup?.slackApp?.appName ?? "Your Slack app"}</strong> is created.
       {stage === "credentials" && " Approve installation with your Slack account. Paperclip will link it to your signed-in Paperclip account and send you a welcome DM."}

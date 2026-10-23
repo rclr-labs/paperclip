@@ -365,7 +365,8 @@ export function ConnectionIntentInteractionBody({
     : null;
   const setupContent = setupQuery.isLoading ? (
                 <div className="flex min-h-48 items-center justify-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> {t("features.connections.connectionIntentInteractionBody.loadingConnectionOptions")}
+                  <Loader2 className="h-4 w-4 animate-spin" /> Loading
+                  connection options…
                 </div>
               ) : setupQuery.isError ? (
                 <div className="py-8 text-center">
@@ -481,7 +482,8 @@ export function ConnectionIntentInteractionBody({
         {needsRetry ? (
           <p className="mt-4 flex items-center gap-2 text-sm text-destructive">
             <RotateCcw className="h-4 w-4" />
-            {t("features.connections.connectionIntentInteractionBody.authorizationDidnTFinishYourPrevious")}
+            Authorization didn’t finish. Your previous choices are safe; try
+            again.
           </p>
         ) : null}
 

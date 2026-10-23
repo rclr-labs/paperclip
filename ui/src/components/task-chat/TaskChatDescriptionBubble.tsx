@@ -101,7 +101,7 @@ export function TaskChatDescriptionBubble({ brief }: TaskChatDescriptionBubblePr
         data-testid="task-chat-description-ghost"
       >
         <Pencil className="h-3.5 w-3.5 shrink-0" aria-hidden />
-        {t("components.taskchat.taskChatDescriptionBubble.addADescription")}
+        Add a description...
       </button>
     );
   }

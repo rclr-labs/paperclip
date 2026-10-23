@@ -909,7 +909,7 @@ function SkillCard({
                 <>
                   <DropdownMenuItem onSelect={() => onOpenMove(card)}>
                     <FolderInput className="h-3.5 w-3.5" />
-                    {t("pages.companySkillsproduction.moveToFolder")}
+                    Move to folder…
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                 </>
@@ -928,7 +928,7 @@ function SkillCard({
       {card.forkedFrom ? (
         <div className="mt-2 inline-flex items-center gap-1 text-(length:--text-micro) text-muted-foreground">
           <GitFork className="h-3 w-3" aria-hidden="true" />
-          {t("pages.companySkillsproduction.forked")}
+          Forked
         </div>
       ) : null}
 
@@ -971,7 +971,7 @@ function SkillCard({
           {card.required ? (
             <Badge variant="outline" className="ml-auto border-border bg-muted/60 text-(length:--text-nano) text-muted-foreground">
               <Lock className="h-3 w-3" aria-hidden="true" />
-              {t("pages.companySkillsproduction.bundled")}
+              Bundled
             </Badge>
           ) : null}
         </div>
@@ -1275,28 +1275,28 @@ export function DiscoveryGrid({
             <DropdownMenuTrigger asChild>
               <Button size="sm" variant="default">
                 <Plus className="mr-1 h-3.5 w-3.5" />
-                {t("pages.companySkillsproduction.new")}
+                New
                 <ChevronDown className="ml-1 h-3.5 w-3.5" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onSelect={onCreate}>
                 <Pencil className="mr-2 h-4 w-4" />
-                {t("pages.companySkillsproduction.createNewSkill")}
+                Create new skill
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={onBrowseCatalog}>
                 <Boxes className="mr-2 h-4 w-4" />
-                {t("pages.companySkillsproduction.browseCatalog")}
+                Browse catalog
               </DropdownMenuItem>
-              <DropdownMenuItem asChild><Link to="/skills/sources/new"><GithubIcon className="mr-2 h-4 w-4" />{t("pages.companySkillsproduction.importFromGithub")}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link to="/skills/sources/new"><GithubIcon className="mr-2 h-4 w-4" />Import from GitHub</Link></DropdownMenuItem>
               <DropdownMenuItem asChild><Link to="/skills/sources">{t("pages.companySkillsproduction.manageSources")}</Link></DropdownMenuItem>
               <DropdownMenuItem onSelect={onImport}>
                 <Globe className="mr-2 h-4 w-4" />
-                {t("pages.companySkillsproduction.importFromPathOrUrl")}
+                Import from path or URL
               </DropdownMenuItem>
               <DropdownMenuItem onSelect={onImportFromProject}>
                 <FolderSearch className="mr-2 h-4 w-4" />
-                {t("pages.companySkillsproduction.importSkillsFromProject")}
+                Import skills from project
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -1313,7 +1313,7 @@ export function DiscoveryGrid({
           {onCreateFolder && !showFolderRail ? (
             <Button variant="outline" size="sm" onClick={onCreateFolder}>
               <Plus className="mr-1 h-3.5 w-3.5" />
-              {t("pages.companySkillsproduction.newFolder")}
+              New folder
             </Button>
           ) : null}
           {onToggleSelectMode ? (
@@ -1391,7 +1391,7 @@ export function DiscoveryGrid({
                   title={`Refresh skills from ${activeProjectFolder.name}`}
                 >
                   <RefreshCw className={cn("h-3.5 w-3.5", scanPending && "animate-spin")} />
-                  {t("pages.companySkillsproduction.refresh")}
+                  Refresh
                 </Button>
               ) : null}
             </div>
@@ -1434,7 +1434,7 @@ export function DiscoveryGrid({
               {totalCount === 0 ? (
                 <div className="mt-3 flex flex-col items-center gap-2">
                   <Button size="sm" onClick={onBrowseCatalog}>
-                    <Boxes className="mr-1.5 h-3.5 w-3.5" /> {t("pages.companySkillsproduction.browseCatalog")}
+                    <Boxes className="mr-1.5 h-3.5 w-3.5" /> Browse catalog
                   </Button>
                   <Button size="sm" variant="outline" asChild><Link to="/skills/sources/new">{t("pages.companySkillsproduction.importFromGithub")}</Link></Button>
                   <Button size="sm" variant="ghost" onClick={onCreate}>
@@ -1910,7 +1910,7 @@ function CatalogDetailPane({
           <span>
             <Button disabled>
               <Download className="mr-1.5 h-3.5 w-3.5" />
-              {t("pages.companySkillsproduction.installSkill")}
+              Install skill
             </Button>
           </span>
         </TooltipTrigger>
@@ -1928,14 +1928,14 @@ function CatalogDetailPane({
     cta = (
       <Button onClick={onUpdate} disabled={loadingPrimaryAction} className="border-amber-500/40 bg-amber-500/20 text-amber-900 dark:text-amber-100 hover:bg-amber-500/30">
         <ArrowUpCircle className="mr-1.5 h-3.5 w-3.5" />
-        {t("pages.companySkillsproduction.updateFromCatalog")}
+        Update from catalog
       </Button>
     );
   } else {
     cta = (
       <Button variant="ghost" onClick={() => installedSkillId && onOpenInstalled(installedSkillId)}>
         <Check className="mr-1.5 h-3.5 w-3.5" />
-        {t("pages.companySkillsproduction.installedOpenInLibrary")}
+        Installed · Open in library
       </Button>
     );
   }
@@ -1971,7 +1971,7 @@ function CatalogDetailPane({
               <TooltipTrigger asChild>
                 <Badge variant="outline" className="border-amber-500/40 bg-amber-500/10 text-(length:--text-micro) text-amber-800 dark:text-amber-200">
                   <ArrowUpCircle className="h-3 w-3" aria-hidden="true" />
-                  {t("pages.companySkillsproduction.updateAvailable")}
+                  Update available
                 </Badge>
               </TooltipTrigger>
               <TooltipContent>{t("pages.companySkillsproduction.catalogContentHashHasChangedSince")}</TooltipContent>
@@ -2149,7 +2149,7 @@ export function InstallPreviewDialog({
                 {skill.compatibility === "compatible" ? (
                   <span className="inline-flex items-center gap-1 text-muted-foreground">
                     <Check className="h-3 w-3" aria-hidden="true" />
-                    {t("pages.companySkillsproduction.compatible")}
+                    Compatible
                   </span>
                 ) : (
                   <CompatChip compatibility={skill.compatibility} />
@@ -2780,7 +2780,7 @@ function SkillLocationCard({
         {onMove ? (
           <Button size="sm" variant="outline" onClick={onMove}>
             <FolderInput className="mr-1.5 h-3.5 w-3.5" />
-            {t("pages.companySkillsproduction.move")}
+            Move
           </Button>
         ) : null}
       </div>
@@ -2816,7 +2816,7 @@ function SkillTagsEditor({
     <section>
       <div className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-muted-foreground">
         <Hash className="h-3 w-3" />
-        {t("pages.companySkillsproduction.tags")}
+        Tags
       </div>
       <div className="flex flex-wrap gap-1.5">
         {categories.map((tag) => (
@@ -3374,7 +3374,7 @@ export function SkillDetailPage({
             <Button variant="outline" size="sm" asChild>
               <Link to={resolvedStudioHref}>
                 <FlaskConical className="mr-1.5 h-3.5 w-3.5" />
-                {t("pages.companySkillsproduction.openInStudio")}
+                Open in Studio
               </Link>
             </Button>
             <div className="flex items-center overflow-hidden rounded-md border border-border">
@@ -3562,7 +3562,7 @@ export function SkillDetailPage({
                 </div>
                 <Button variant="outline" size="sm" className="w-full" onClick={onCheckUpdates} disabled={checkUpdatesPending || updateStatusLoading}>
                   <RefreshCw className={cn("mr-1.5 h-3.5 w-3.5", (checkUpdatesPending || updateStatusLoading) && "animate-spin")} />
-                  {t("pages.companySkillsproduction.checkForUpdates")}
+                  Check for updates
                 </Button>
                 {updateStatus?.supported && updateStatus.hasUpdate ? (
                   <Button size="sm" className="w-full" onClick={onInstallUpdate} disabled={installUpdatePending}>
@@ -3790,7 +3790,7 @@ function SkillPane({
             <Button variant="outline" size="sm" asChild>
               <Link to={skillStudioRoute(detail.id)}>
                 <FlaskConical className="mr-1.5 h-3.5 w-3.5" />
-                {t("pages.companySkillsproduction.openInStudio")}
+                Open in Studio
               </Link>
             </Button>
             <Button
@@ -3860,7 +3860,7 @@ function SkillPane({
                   disabled={checkUpdatesPending || updateStatusLoading}
                 >
                   <RefreshCw className={cn("mr-1.5 h-3.5 w-3.5", (checkUpdatesPending || updateStatusLoading) && "animate-spin")} />
-                  {t("pages.companySkillsproduction.checkForUpdates")}
+                  Check for updates
                 </Button>
                 {updateStatus?.supported && updateStatus.hasUpdate && (
                   <Button
@@ -3898,7 +3898,7 @@ function SkillPane({
                 <TooltipTrigger asChild>
                   <Badge variant="outline" className="border-violet-500/40 bg-violet-500/10 text-(length:--text-micro) text-violet-200">
                     <Pencil className="h-3 w-3" aria-hidden="true" />
-                    {t("pages.companySkillsproduction.locallyModified")}
+                    Locally modified
                   </Badge>
                 </TooltipTrigger>
                 <TooltipContent>{t("pages.companySkillsproduction.youHaveEditedThisSkillAfter")}</TooltipContent>
@@ -3955,7 +3955,7 @@ function SkillPane({
                 >
                   <span className="flex items-center gap-1.5">
                     <Eye className="h-3.5 w-3.5" />
-                    {t("pages.companySkillsproduction.view")}
+                    View
                   </span>
                 </button>
                 <button
@@ -3964,7 +3964,7 @@ function SkillPane({
                 >
                   <span className="flex items-center gap-1.5">
                     <Code2 className="h-3.5 w-3.5" />
-                    {t("pages.companySkillsproduction.code")}
+                    Code
                   </span>
                 </button>
               </div>
@@ -5407,7 +5407,7 @@ export function CompanySkills() {
               className="mb-3 inline-flex items-center gap-1.5 text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
             >
               <ChevronLeft className="h-4 w-4" />
-              {t("pages.companySkillsproduction.back")}
+              Back
             </Link>
             <h1 className="text-2xl font-semibold">{studioTitle}</h1>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{studioDescription}</p>
@@ -5589,7 +5589,7 @@ export function CompanySkills() {
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
             >
               <ChevronLeft className="h-4 w-4" />
-              {t("pages.companySkillsproduction.backToStore")}
+              Back to store
             </Link>
           </div>
           {catalogListQuery.isLoading || catalogDetailQuery.isLoading ? (

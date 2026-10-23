@@ -278,7 +278,7 @@ export function GatewaysTab({ companyId }: { companyId: string }) {
           disabled={profileLoading}
         >
           <Plus className="mr-1.5 h-3.5 w-3.5" />
-          {t("pages.tools.gatewaysTab.createGateway")}
+          Create gateway
         </Button>
       </div>
 

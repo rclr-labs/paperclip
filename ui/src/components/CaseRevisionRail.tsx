@@ -87,7 +87,7 @@ function CaseDocumentDiffModal({
         <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <DialogHeader className="min-w-0">
             <DialogTitle className="break-words pr-6">
-              {t("components.caseRevisionRail.diff2")} <span className="font-mono text-sm">{documentKey}</span>
+              Diff - <span className="font-mono text-sm">{documentKey}</span>
             </DialogTitle>
           </DialogHeader>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2 lg:gap-4">
@@ -229,7 +229,7 @@ export function CaseRevisionRail({
               onClick={() => setDiffOpen(true)}
             >
               <Diff className="h-3.5 w-3.5" />
-              {t("components.caseRevisionRail.diff")}
+              Diff
             </Button>
           ) : null}
         </div>

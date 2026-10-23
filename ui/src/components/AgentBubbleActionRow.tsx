@@ -160,7 +160,7 @@ export function AgentBubbleActionRow({
             }}
           >
             <Copy className="mr-2 h-3.5 w-3.5" />
-            {t("components.agentBubbleActionRow.copyMessage")}
+            Copy message
           </DropdownMenuItem>
           {menuItems}
         </DropdownMenuContent>

@@ -166,7 +166,7 @@ export function BrowserUseSettingsPanel({
       <h2 className="text-lg font-semibold">{t("pages.apps.appdetail.browserUseSettingsPanel.browserSettings")}</h2>
       {eligible.length > 1 && (
         <Label className="flex flex-col gap-2">
-          {t("pages.apps.appdetail.browserUseSettingsPanel.credential")}
+          Credential
           <select
             value={grantId}
             onChange={(e) => setSelected(e.target.value)}

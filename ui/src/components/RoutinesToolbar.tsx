@@ -101,8 +101,8 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
     <div className="design-toolbar-actions">
       {onToggleSelect && <Button variant="outline" size="sm" onClick={onToggleSelect}>{selectMode ? "Done" : "Select"}</Button>}
       {runsHref && <Button variant="outline" size="sm" asChild><Link data-toolbar-control to={runsHref}>{t("components.routinesToolbar.viewAllRuns")}</Link></Button>}
-      {onNewFolder && <Button variant="outline" size="sm" onClick={onNewFolder}><Plus className="h-4 w-4" />{t("components.routinesToolbar.newFolder")}</Button>}
-      <Button variant="outline" size="sm" data-toolbar-primary onClick={onCreateRoutine}><Plus className="h-4 w-4" />{t("components.routinesToolbar.createRoutine")}</Button>
+      {onNewFolder && <Button variant="outline" size="sm" onClick={onNewFolder}><Plus className="h-4 w-4" />New folder</Button>}
+      <Button variant="outline" size="sm" data-toolbar-primary onClick={onCreateRoutine}><Plus className="h-4 w-4" />Create routine</Button>
     </div>
   </div>;
 }

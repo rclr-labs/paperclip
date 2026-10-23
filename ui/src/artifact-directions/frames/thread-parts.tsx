@@ -94,7 +94,6 @@ export function WorkedRow() {
 
 /** TaskChatComposerDock.tsx:14-25 + TaskChatComposer.tsx:1184-1189, 1292-1296, 1371-1545. Not sticky here: the frame does not scroll. */
 export function ComposerShell() {
-  const { t } = useTranslation();
   return (
     <div className="mx-auto mt-6 flex w-full max-w-(--tc-shell-max-w) flex-col gap-2 px-1 pb-1 md:px-0 md:pb-0">
       <div className="paperclip-task-chat-composer rounded-(--radius-task-composer) border border-border bg-card p-(--sz-18px) shadow-(--shadow-task-composer) dark:border-0 dark:bg-muted dark:shadow-none">
@@ -107,7 +106,7 @@ export function ComposerShell() {
           </span>
           <div className="ml-auto flex items-center gap-2">
             <span className="inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs text-muted-foreground">
-              {t("artifactdirections.frames.threadparts.usesDefaults")}
+              Uses defaults
               <ChevronDown className="h-3 w-3" />
             </span>
             <span className="flex size-8 items-center justify-center rounded-full bg-foreground text-background">

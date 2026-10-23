@@ -325,7 +325,7 @@ export function AgentBasicsDialog({
               ) : (
                 <>
                   <ArrowLeft className="size-4" />
-                  {t("components.newagent.agentBasicsDialog.back")}
+                  Back
                 </>
               )}
             </Button>

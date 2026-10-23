@@ -98,13 +98,13 @@ export function GitHubRepositoryAccess({
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
               <a href={managementUrl} target="_blank" rel="noreferrer">
-                {t("pages.apps.chat.gitHubBotManagement.manageOnGithub")}
+                Manage on GitHub
                 <ExternalLink className="size-4" />
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem disabled={pending} onClick={onRefresh}>
               <RefreshCw className="size-4" />
-              {t("pages.apps.chat.gitHubBotManagement.refreshRepositories")}
+              Refresh repositories
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -128,7 +128,7 @@ export function GitHubRepositoryAccess({
         {summary.enabledCount} of {summary.totalCount} repositories enabled. Toggle all applies across the entire connection.
       </p>}
       {list.isError && <p role="alert" className="text-sm text-destructive">
-        {t("pages.apps.chat.gitHubBotManagement.couldNotLoadRepositories")} <Button variant="link" size="sm" onClick={() => void list.refetch()}>{t("pages.apps.chat.gitHubBotManagement.tryAgain")}</Button>
+        Could not load repositories. <Button variant="link" size="sm" onClick={() => void list.refetch()}>{t("pages.apps.chat.gitHubBotManagement.tryAgain")}</Button>
       </p>}
       <div ref={scroller} role="region" aria-label={t("pages.apps.chat.gitHubBotManagement.repositories")} tabIndex={0}
         className="max-h-96 overflow-y-auto overscroll-contain border-y border-border">

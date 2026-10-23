@@ -68,12 +68,12 @@ export function WorkspaceBaseRefRecoveryNotice({
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-col gap-1" role="status" aria-live="polite">
           <h2 id={`${id}-title`} className="break-words text-sm font-semibold">
-            {repairedBranch ? "Branch updated · retry requested" : failureKind === "missing_branch" ? <>{t("components.workspaceBaseRefRecoveryNotice.branch")} <code className="font-mono">{requestedRef}</code> {t("components.workspaceBaseRefRecoveryNotice.wasNotFound")}</> : <>{t("components.workspaceBaseRefRecoveryNotice.couldnTUseBranch")} <code className="font-mono">{requestedRef}</code></>}
+            {repairedBranch ? "Branch updated · retry requested" : failureKind === "missing_branch" ? <>Branch <code className="font-mono">{requestedRef}</code> was not found</> : <>Couldn’t use branch <code className="font-mono">{requestedRef}</code></>}
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
             {repairedBranch
               ? <>This task now starts from <code className="font-mono text-foreground">{repairedBranch}</code>. A retry has been requested for {agentName}.</>
-              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> {t("components.workspaceBaseRefRecoveryNotice.hasNoBranchNamed")} <code className="font-mono text-foreground">{requestedRef}</code>.</> : " could not resolve the starting branch. Check the branch name and repository access."} {agentName} hasn’t started.</>}
+              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> has no branch named <code className="font-mono text-foreground">{requestedRef}</code>.</> : " could not resolve the starting branch. Check the branch name and repository access."} {agentName} hasn’t started.</>}
           </p>
         </div>
         {!repairedBranch && (

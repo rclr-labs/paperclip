@@ -44,7 +44,7 @@ export function SkillPackagePreview({ companyId, repository, commitSha, skill, i
         <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{inspection.requirements}</p>
       </section>}
       {Boolean(inspection?.references.length) && <section className="rounded-md border border-border p-3 text-sm" aria-label={t("pages.skills.skillPackagePreview.packageReferenceWarnings")}>
-        <h3 className="flex items-center gap-2 font-medium"><AlertTriangle className="size-4" />{t("pages.skills.skillPackagePreview.filesNotIncluded")}</h3>
+        <h3 className="flex items-center gap-2 font-medium"><AlertTriangle className="size-4" />Files not included</h3>
         <ul className="mt-2 space-y-2">
           {inspection!.references.map(reference => <li key={`${reference.fromPath}:${reference.resolvedPath}`} className="break-all text-xs">
             <span className="font-mono">{reference.target}</span> · {reference.kind === 'outside_package' ? 'Outside this package' : 'Not found'}
@@ -75,7 +75,7 @@ export function SkillPackagePreview({ companyId, repository, commitSha, skill, i
           </div>
         </div>
       </div>}
-      <div className="flex items-center justify-between gap-3"><Button type="button" variant="outline" onClick={onClose}>{t("pages.skills.skillPackagePreview.backToSelection")}</Button><Button asChild variant="ghost" size="sm"><a href={githubUrl} target="_blank" rel="noreferrer">{t("pages.skills.skillPackagePreview.openOnGithub")}<ExternalLink className="size-3.5" /></a></Button></div>
+      <div className="flex items-center justify-between gap-3"><Button type="button" variant="outline" onClick={onClose}>{t("pages.skills.skillPackagePreview.backToSelection")}</Button><Button asChild variant="ghost" size="sm"><a href={githubUrl} target="_blank" rel="noreferrer">Open on GitHub<ExternalLink className="size-3.5" /></a></Button></div>
     </DialogContent>
   </Dialog>;
 }

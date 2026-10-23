@@ -141,7 +141,7 @@ export function RuntimeTestCard({
               aria-hidden="true"
               className="size-3 transition-transform group-open:rotate-90"
             />
-            {t("components.runtimeTestCard.testDetails")}
+            Test details
           </summary>
           <ul className="space-y-3 px-4 pb-4">
             {result.checks.map((check) => (

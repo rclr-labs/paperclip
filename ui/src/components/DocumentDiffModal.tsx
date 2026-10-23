@@ -97,7 +97,7 @@ export function DocumentDiffModal({
         <div className="flex items-center justify-between gap-4">
           <DialogHeader className="shrink-0">
             <DialogTitle>
-              {t("components.documentDiffModal.diff")} <span className="font-mono text-sm">{documentKey}</span>
+              Diff — <span className="font-mono text-sm">{documentKey}</span>
             </DialogTitle>
           </DialogHeader>
 

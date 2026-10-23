@@ -52,7 +52,7 @@ function AccountObservations({ app, connection, onClose }: { app: AggregatorAppC
         <p className="text-xs text-muted-foreground">{snapshot.freshness === "stale" || snapshot.errorAt || Date.now() - new Date(snapshot.checkedAt).getTime() > 5 * 60_000 || account.status === "UNVERIFIED" ? "Not verified" : account.status === "ACTIVE" ? "Connected" : account.status === "INITIATED" ? "Waiting for sign-in" : "Needs sign-in"}</p>
       </div>)}
     </div> : <p className="text-sm text-muted-foreground">{query.data?.discovery.message ?? `No connected ${app.name} accounts.`}</p>}
-    <p className="text-xs text-muted-foreground">{t("pages.apps.aggregatorAppManager.via")} <Link to={`/apps/${connection.id}/permissions`} onClick={onClose} className="underline underline-offset-2">“{connection.name}”</Link></p>
+    <p className="text-xs text-muted-foreground">Via <Link to={`/apps/${connection.id}/permissions`} onClick={onClose} className="underline underline-offset-2">“{connection.name}”</Link></p>
     <DialogFooter className="sm:justify-between"><Button variant="ghost" onClick={onClose}>{t("pages.apps.aggregatorAppManager.close")}</Button><div className="flex flex-wrap items-center gap-2">
       <Button variant="ghost" disabled={!settled || refresh.isPending || query.data?.discovery.availability !== "available"} onClick={() => refresh.mutate()}>{t("pages.apps.aggregatorAppManager.refresh")}</Button>
       {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer">Open in {name}<ExternalLink className="size-4" /></a></Button> : null}

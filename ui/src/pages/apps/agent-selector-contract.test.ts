@@ -1,8 +1,12 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
+import { resolveCatalogueCopy } from "@/i18n/source-copy";
+
 function source(relativePath: string) {
-  return readFileSync(new URL(relativePath, import.meta.url), "utf8");
+  // UI copy lives in the i18n catalogue now, so resolve t("key") back to the
+  // words a reader sees — these contracts are about copy, not call sites.
+  return resolveCatalogueCopy(readFileSync(new URL(relativePath, import.meta.url), "utf8"));
 }
 
 describe("Apps agent selector contract", () => {

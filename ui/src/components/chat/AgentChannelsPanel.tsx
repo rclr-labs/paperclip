@@ -49,7 +49,7 @@ export function AgentChannelsPanel({
         <Button asChild size="sm">
           <Link to={`/apps?chatAgentId=${encodeURIComponent(agentId)}`}>
             <MessageSquarePlus />
-            {t("components.chat.agentChannelsPanel.connectAChannel")}
+            Connect a channel
           </Link>
         </Button>
       </div>

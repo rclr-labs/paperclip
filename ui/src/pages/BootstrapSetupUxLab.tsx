@@ -88,7 +88,7 @@ function SignedInPrivate() {
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button>{t("pages.bootstrapSetupUxLab.claimThisInstance")}</Button>
         <span className="text-sm text-muted-foreground">
-          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
+          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
@@ -114,10 +114,10 @@ function ClaimingPrivate() {
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button disabled>
           <Loader2 className="mr-2 size-4 animate-spin" aria-hidden />
-          {t("pages.bootstrapSetupUxLab.claiming")}
+          Claiming…
         </Button>
         <span className="text-sm text-muted-foreground">
-          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
+          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <CliFallback hasActiveInvite={false} />
@@ -136,7 +136,7 @@ function ClaimErrorPrivate() {
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button>{t("pages.bootstrapSetupUxLab.claimThisInstance")}</Button>
         <span className="text-sm text-muted-foreground">
-          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
+          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <div

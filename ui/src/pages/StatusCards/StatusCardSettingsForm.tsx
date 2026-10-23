@@ -203,7 +203,7 @@ export function StatusCardSettingsForm({
       {autoUpdating ? (
         <Collapsible className="rounded-md border border-border">
           <CollapsibleTrigger className="group flex w-full items-center justify-between gap-2 px-3 py-2.5 text-sm font-semibold">
-            {t("pages.statusCards.statusCardSettingsForm.advanced")}
+            Advanced
             <ChevronDown className="h-4 w-4 text-muted-foreground transition-transform group-data-[state=open]:rotate-180" />
           </CollapsibleTrigger>
           <CollapsibleContent className="space-y-6 border-t border-border px-3 py-3">

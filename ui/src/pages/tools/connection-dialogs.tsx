@@ -476,8 +476,8 @@ export function AddConnectionDialog({
                       </p>
                     ) : null}
                     <p className="text-xs text-muted-foreground">
-                      {t("pages.tools.connectiondialogs.freeTextSecretsAreNotAccepted")}
-                      <span className="font-mono"> vault://</span> {t("pages.tools.connectiondialogs.referenceAndResolvesItAtGateway")}
+                      Free-text secrets are not accepted — pick a vault entry; Paperclip stores only the
+                      <span className="font-mono"> vault://</span> reference and resolves it at gateway use time.
                     </p>
                   </>
                 ) : null}

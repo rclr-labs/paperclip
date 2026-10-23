@@ -443,7 +443,7 @@ export function ProjectWorkspaceDetail() {
         <Button variant="ghost" size="sm" asChild>
           <Link to={`/projects/${canonicalProjectRef}/workspaces`}>
             <ArrowLeft className="mr-1 h-4 w-4" />
-            {t("pages.projectWorkspaceDetail.backToWorkspaces")}
+            Back to workspaces
           </Link>
         </Button>
       </div>
@@ -470,7 +470,7 @@ export function ProjectWorkspaceDetail() {
         ) : (
           <div className="inline-flex items-center gap-2 rounded-xl border border-emerald-500/25 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300 sm:max-w-sm">
             <Sparkles className="h-4 w-4" />
-            {t("pages.projectWorkspaceDetail.thisIsTheProjectSPrimary")}
+            This is the project’s primary codebase workspace.
           </div>
         )}
       </div>

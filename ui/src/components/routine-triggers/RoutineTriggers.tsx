@@ -149,7 +149,7 @@ export function RoutineTriggers() {
         </p>
         <Button size="sm" onClick={() => startSetup("new")}>
           <Plus className="mr-1.5 h-3.5 w-3.5" />
-          {t("components.routinetriggers.routineTriggers.addTrigger")}
+          Add trigger
         </Button>
       </div>
       {(error || statusError) && (
@@ -466,7 +466,7 @@ function ScheduleSettings({
         onValidityChange={setValid}
       />
       <Label>
-        {t("components.routinetriggers.routineTriggers.timeZone")}
+        Time zone
         <Input
           value={timezone}
           onChange={(event) => setTimezone(event.target.value)}

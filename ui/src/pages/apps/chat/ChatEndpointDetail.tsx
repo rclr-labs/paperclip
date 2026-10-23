@@ -303,7 +303,7 @@ export function ChatEndpointDetail() {
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        {t("pages.apps.chat.chatEndpointDetail.loadingConnection")}
+        Loading connection…
       </div>
     );
   if (endpointQuery.isError || !endpoint)
@@ -351,15 +351,15 @@ export function ChatEndpointDetail() {
               <Button variant="ghost" size="sm" aria-label={t("pages.apps.chat.chatEndpointDetail.copyDedicatedNumber")} onClick={async () => {
                 try { await copyTextToClipboard(endpoint.botExternalId!); setCopyStatus("Number copied"); }
                 catch { setCopyStatus("Could not copy the number. Select and copy it manually."); }
-              }}><Copy className="size-4" />{t("pages.apps.chat.chatEndpointDetail.copyNumber")}</Button>
+              }}><Copy className="size-4" />Copy number</Button>
               <span role="status" className="text-muted-foreground">{copyStatus}</span>
             </div>
           )}
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {endpoint.provider === "speko" && <a href="https://platform.speko.ai/agents" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline">{t("pages.apps.chat.chatEndpointDetail.openSpeko")}<ExternalLink className="size-3.5" aria-hidden="true" /></a>}
-          {slackUrl && <Button asChild variant="outline"><a href={slackUrl} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatEndpointDetail.openSlackConfiguration")} <ExternalLink className="size-4" /></a></Button>}
+          {endpoint.provider === "speko" && <a href="https://platform.speko.ai/agents" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline">Open Speko<ExternalLink className="size-3.5" aria-hidden="true" /></a>}
+          {slackUrl && <Button asChild variant="outline"><a href={slackUrl} target="_blank" rel="noopener noreferrer">Open Slack configuration <ExternalLink className="size-4" /></a></Button>}
           {setupIncomplete ? (
             <Button
               variant="outline"
@@ -535,7 +535,7 @@ function Settings({
       )}
       <div className="space-y-2">
         <h3 className="text-sm font-semibold">{endpoint.provider === "slack" ? "Allowed Channels" : "Destinations"}</h3>
-        {resourcesQuery.isError ? <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatEndpointDetail.couldnTLoadChannels")} <button className="underline" onClick={() => void resourcesQuery.refetch()}>{t("pages.apps.chat.chatEndpointDetail.tryAgain")}</button></p> : resourcesQuery.isLoading ? (
+        {resourcesQuery.isError ? <p role="alert" className="text-sm text-destructive">Couldn't load channels. <button className="underline" onClick={() => void resourcesQuery.refetch()}>{t("pages.apps.chat.chatEndpointDetail.tryAgain")}</button></p> : resourcesQuery.isLoading ? (
           <p className="text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.loadingDestinations")}</p>
         ) : destinationResources.length === 0 && endpoint.provider !== "slack" ? (
           <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground">
@@ -741,7 +741,7 @@ function Access({
             </DialogHeader>
             <div className="space-y-4 text-sm">
               <ol className="list-decimal space-y-3 pl-5">
-                <li>{t("pages.apps.chat.chatEndpointDetail.send")} <code className="font-mono">{joinCommand}</code> {t("pages.apps.chat.chatEndpointDetail.inSlack")}</li>
+                <li>Send <code className="font-mono">{joinCommand}</code> in Slack.</li>
                 <li>{t("pages.apps.chat.chatEndpointDetail.openTheBotSPrivateLink")}</li>
                 <li>{t("pages.apps.chat.chatEndpointDetail.ifYouReNewToThis")}</li>
               </ol>
@@ -759,7 +759,7 @@ function Access({
           </DialogContent>
         </Dialog>}
       </div>
-      <p className="text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.peopleWithLinkedAccountsUseTheir")} <Link className="underline underline-offset-4" to="/company/settings/members">{t("pages.apps.chat.chatEndpointDetail.manageMembers")}</Link></p>
+      <p className="text-sm text-muted-foreground">People with linked accounts use their own Paperclip permissions. <Link className="underline underline-offset-4" to="/company/settings/members">{t("pages.apps.chat.chatEndpointDetail.manageMembers")}</Link></p>
       {confirmationUrl && (
         <div className="space-y-2 border-y border-border py-3">
           <p className="text-sm font-medium">Confirm {confirmationFor ?? "this account"}</p>
@@ -787,12 +787,12 @@ function Access({
             }}
           >
             <Copy />
-            {t("pages.apps.chat.chatEndpointDetail.copyLink")}
+            Copy link
           </Button>
         </div>
       )}
       <div className="space-y-2">
-        {linksQuery.isPending ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.loadingPeople")}</p> : linksQuery.isError ? <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatEndpointDetail.couldnTLoadPeople")} <button className="underline" onClick={() => void linksQuery.refetch()}>{t("pages.apps.chat.chatEndpointDetail.tryAgain")}</button></p> : links.length === 0 ? (
+        {linksQuery.isPending ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.loadingPeople")}</p> : linksQuery.isError ? <p role="alert" className="text-sm text-destructive">Couldn't load people. <button className="underline" onClick={() => void linksQuery.refetch()}>{t("pages.apps.chat.chatEndpointDetail.tryAgain")}</button></p> : links.length === 0 ? (
           <p className="rounded-lg border border-dashed border-border p-4 text-sm text-muted-foreground">
             {t("pages.apps.chat.chatEndpointDetail.noLinkedAccountsYetInviteSomeone")}
           </p>
@@ -1173,7 +1173,7 @@ function Activity({
               onClick={() => setRemoveOpen(true)}
             >
               <Trash2 />
-              {t("pages.apps.chat.chatEndpointDetail.removeConnection")}
+              Remove connection
             </Button>
           </div>
           {status !== "draft" && status !== "verifying" && (
@@ -1200,7 +1200,7 @@ function Activity({
           {(query.isLoading || calls.loading) && (
             <div className="flex items-center gap-2 py-5 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              {t("pages.apps.chat.chatEndpointDetail.loadingActivity")}
+              Loading activity…
             </div>
           )}
           {query.isError && (
@@ -1407,7 +1407,7 @@ function Activity({
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline underline-offset-4"
-                >{t("pages.apps.chat.chatEndpointDetail.openSlackAppSettings")}</a> {t("pages.apps.chat.chatEndpointDetail.toManageOrDeleteTheSlack")}</>
+                >{t("pages.apps.chat.chatEndpointDetail.openSlackAppSettings")}</a> to manage or delete the Slack app.</>
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>

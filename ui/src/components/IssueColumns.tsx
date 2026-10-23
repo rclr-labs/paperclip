@@ -173,7 +173,7 @@ export function IssueColumnPicker({
           onSelect={onResetColumns}
           className="rounded-lg px-3 py-2 text-sm"
         >
-          {t("components.issueColumns.resetDefaults")}
+          Reset defaults
           <span className="ml-auto text-xs text-muted-foreground">{t("components.issueColumns.statusIdUpdated")}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

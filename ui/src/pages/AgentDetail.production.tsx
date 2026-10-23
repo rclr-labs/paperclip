@@ -470,7 +470,7 @@ export function RunInvocationCard({
         <Collapsible>
           <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
             <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-            {t("pages.agentDetailproduction.details")}
+            Details
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
             {commandLine && (
@@ -2672,14 +2672,14 @@ export function PromptsTab({
       <Collapsible defaultOpen={currentMode === "external"}>
         <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
           <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-          {t("pages.agentDetailproduction.advanced")}
+          Advanced
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 pb-6">
           <TooltipProvider>
             <div className="grid gap-x-6 gap-y-4 md:grid-cols-(--gtc-18)">
               <label className="space-y-1.5 min-w-0">
                 <span className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                  {t("pages.agentDetailproduction.mode")}
+                  Mode
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
@@ -2734,7 +2734,7 @@ export function PromptsTab({
               </label>
               <label className="space-y-1.5 min-w-0">
                 <span className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                  {t("pages.agentDetailproduction.rootPath")}
+                  Root path
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
@@ -2783,7 +2783,7 @@ export function PromptsTab({
               </label>
               <label className="space-y-1.5">
                 <span className="text-xs font-medium text-muted-foreground flex items-center gap-1">
-                  {t("pages.agentDetailproduction.entryFile")}
+                  Entry file
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
@@ -3211,7 +3211,7 @@ export function RunsTab({
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            {t("pages.agentDetailproduction.backToRuns")}
+            Back to runs
           </Link>
           <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} adapterConfig={adapterConfig} />
         </div>
@@ -3537,7 +3537,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                 )}
                 {claudeLoginResult?.loginUrl && (
                   <p className="text-xs">
-                    {t("pages.agentDetailproduction.loginUrl")}
+                    Login URL:
                     <a
                       href={claudeLoginResult.loginUrl}
                       className="text-blue-600 underline underline-offset-2 ml-1 break-all dark:text-blue-400"
@@ -4278,7 +4278,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
-              {t("pages.agentDetailproduction.live")}
+              Live
             </span>
           )}
         </div>
@@ -4483,7 +4483,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
       <div className="border border-border rounded-lg p-4 space-y-3">
         <h3 className="text-xs font-medium text-muted-foreground flex items-center gap-2">
           <Key className="h-3.5 w-3.5" />
-          {t("pages.agentDetailproduction.createApiKey")}
+          Create API Key
         </h3>
         <p className="text-xs text-muted-foreground">
           {t("pages.agentDetailproduction.apiKeysAllowThisAgentTo")}
@@ -4504,7 +4504,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
             disabled={createKey.isPending}
           >
             <Plus className="h-3.5 w-3.5 mr-1" />
-            {t("pages.agentDetailproduction.create")}
+            Create
           </Button>
         </div>
       </div>

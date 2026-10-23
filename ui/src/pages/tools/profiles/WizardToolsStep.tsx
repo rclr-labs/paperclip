@@ -424,7 +424,7 @@ function AdvancedRules({
           )}
           <Button type="button" variant="outline" size="sm" onClick={addRule}>
             <Plus className="mr-1 h-3.5 w-3.5" />
-            {t("pages.tools.profiles.wizardToolsStep.addRule")}
+            Add rule
           </Button>
         </div>
       </CollapsibleContent>

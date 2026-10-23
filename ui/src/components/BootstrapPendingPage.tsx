@@ -149,7 +149,7 @@ export function BootstrapPendingPage({
           {isClaiming ? "Claiming..." : "Claim this instance"}
         </Button>
         <span className="text-sm text-muted-foreground">
-          {t("components.bootstrapPendingPage.signedInAs")} <span className="font-medium text-foreground">{displayIdentity(session)}</span>
+          Signed in as <span className="font-medium text-foreground">{displayIdentity(session)}</span>
         </span>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">

@@ -983,7 +983,6 @@ function IssueDetailLoadingState({
 }: {
   headerSeed: ReturnType<typeof readIssueDetailHeaderSeed>;
 }) {
-  const { t } = useTranslation();
   const identifier =
     headerSeed?.identifier ?? headerSeed?.id.slice(0, 8) ?? null;
   const { taskChatShellEnabled } = useTaskDetailInterfaceMode();
@@ -1023,7 +1022,7 @@ function IssueDetailLoadingState({
                   title={`Routine execution from routine ${headerSeed.originId}`}
                 >
                   <Repeat className="h-3 w-3" />
-                  {t("pages.issueDetail.routine")}
+                  Routine
                 </Badge>
               ) : null}
               {/* Seeded header — same anatomy as the resolved one below, so the
@@ -1038,7 +1037,7 @@ function IssueDetailLoadingState({
               ) : (
                 <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
                   <ProjectTile size="xs" />
-                  {t("pages.issueDetail.noProject")}
+                  No project
                 </span>
               )}
             </>
@@ -1172,7 +1171,7 @@ function InboxMobileToolbar({
               }}
             >
               <Copy className="h-3 w-3" />
-              {t("pages.issueDetail.copyAsMarkdown")}
+              Copy as markdown
             </button>
             <button
               className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
@@ -1182,7 +1181,7 @@ function InboxMobileToolbar({
               }}
             >
               <SlidersHorizontal className="h-3 w-3" />
-              {t("pages.issueDetail.properties")}
+              Properties
             </button>
             {issueIdProp && (
               <button
@@ -1193,7 +1192,7 @@ function InboxMobileToolbar({
                 }}
               >
                 <EyeOff className="h-3 w-3" />
-                {t("pages.issueDetail.hideThisTask")}
+                Hide this task
               </button>
             )}
           </PopoverContent>
@@ -7331,7 +7330,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
             </span>
-            {t("pages.issueDetail.live")}
+            Live
           </Badge>
         )}
 
@@ -7342,7 +7341,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title={`Routine execution from routine ${issue.originId}`}
           >
             <Repeat className="h-3 w-3" />
-            {t("pages.issueDetail.routine")}
+            Routine
           </Link>
         )}
 
@@ -7353,7 +7352,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title={t("pages.issueDetail.thisTaskIsAGeneratedWatchdog")}
           >
             <ScanEye className="h-3 w-3" />
-            {t("pages.issueDetail.watchdog")}
+            Watchdog
           </Badge>
         ) : null}
 
@@ -7390,7 +7389,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title={t("pages.issueDetail.blockedByParkedWorkAtLeast")}
           >
             <Flag className="h-3 w-3" />
-            {t("pages.issueDetail.blockedByParkedWork")}
+            Blocked by parked work
           </Badge>
         ) : null}
 
@@ -7419,7 +7418,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
         ) : (
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
             <ProjectTile size="xs" />
-            {t("pages.issueDetail.noProject")}
+            No project
           </span>
         )}
 
@@ -7838,7 +7837,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               )}
             >
               <EyeOff className="h-4 w-4 shrink-0" />
-              {t("pages.issueDetail.thisTaskIsHidden")}
+              This task is hidden
             </div>
           )}
           {treeControlWakeWarning ? (
@@ -7907,7 +7906,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                 className="shrink-0 shadow-none"
               >
                 <Plus className="mr-1.5 h-3.5 w-3.5" />
-                {t("pages.issueDetail.newSubTask")}
+                New Sub-task
               </Button>
             </div>
           )}
@@ -8093,15 +8092,15 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               >
                 <TabsTrigger value="chat" className="gap-1.5">
                   <MessageSquare className="h-3.5 w-3.5" />
-                  {t("pages.issueDetail.chat")}
+                  Chat
                 </TabsTrigger>
                 <TabsTrigger value="activity" className="gap-1.5">
                   <ActivityIcon className="h-3.5 w-3.5" />
-                  {t("pages.issueDetail.activity")}
+                  Activity
                 </TabsTrigger>
                 <TabsTrigger value="related-work" className="gap-1.5">
                   <ListTree className="h-3.5 w-3.5" />
-                  {t("pages.issueDetail.relatedWork")}
+                  Related work
                 </TabsTrigger>
                 {issuePluginTabItems.map((item) => (
                   <TabsTrigger key={item.value} value={item.value}>

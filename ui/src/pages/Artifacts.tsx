@@ -18,7 +18,6 @@ import { useSearchParams, Link } from "@/lib/router";
 import { ArtifactsToolbar, ARTIFACT_KIND_FILTERS } from "@/components/artifacts/ArtifactsToolbar";
 import { ArtifactSingleTile, ArtifactStackTile, ArtifactTileGrid, ArtifactsV1Filters, artifactsV1View, subjectFromCompanyArtifact, type ArtifactsV1View } from "@/components/artifacts/v1";
 import { useArtifactsV1Enabled } from "@/hooks/useArtifactsV1Enabled";
-import { useTranslation } from "@/i18n";
 export { ARTIFACT_KIND_FILTERS, ARTIFACT_GROUP_OPTIONS, artifactGroupByLabel } from "@/components/artifacts/ArtifactsToolbar";
 
 const ARTIFACTS_PAGE_SIZE = 30;
@@ -38,7 +37,6 @@ function parseKind(value: string | null): ArtifactKindFilter {
 }
 
 export function Artifacts() {
-  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -266,7 +264,7 @@ export function Artifacts() {
             className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-            {t("pages.artifacts.allStacks")}
+            All stacks
           </Link>
           {selectedGroup ? (
             <span className="truncate text-muted-foreground">

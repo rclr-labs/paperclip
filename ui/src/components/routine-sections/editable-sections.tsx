@@ -352,7 +352,7 @@ export function OverviewSection({
               onClick={() => navigateToSection("activity")}
               className="flex items-center gap-1 pt-2 text-xs text-muted-foreground hover:text-foreground"
             >
-              {t("components.routinesections.editablesections.viewAllActivity")} <ArrowRight className="h-3 w-3" />
+              View all activity <ArrowRight className="h-3 w-3" />
             </button>
           </div>
         )}
@@ -396,7 +396,6 @@ function SummaryCard({
 export { RoutineTriggers as TriggersSection } from "../routine-triggers/RoutineTriggers";
 
 export function VariablesSection() {
-  const { t } = useTranslation();
   const ctx = useRoutineDetail();
   const { editDraft, setEditDraft, navigateToSection } = ctx;
   const hasVariables = editDraft.variables.length > 0;
@@ -405,11 +404,13 @@ export function VariablesSection() {
     <div className="space-y-4">
       <div className="flex items-center gap-3 rounded-md border border-border bg-muted/20 px-4 py-3 text-xs">
         <span className="flex-1 text-muted-foreground">
-          {t("components.routinesections.editablesections.variablesAreAutoDetectedFrom")} <code className="font-mono">{"{{placeholders}}"}</code> {t("components.routinesections.editablesections.inTheTitleInstructionsTheVariable")}
+          Variables are auto-detected from <code className="font-mono">{"{{placeholders}}"}</code> in
+          the title &amp; instructions. The variable name is read-only — rename by editing the
+          placeholder.
         </span>
         <Button variant="secondary" size="sm" onClick={() => navigateToSection("overview")}>
           <Edit3 className="mr-1.5 h-3.5 w-3.5" />
-          {t("components.routinesections.editablesections.editInstructions")}
+          Edit instructions
         </Button>
       </div>
 
@@ -433,7 +434,6 @@ export function VariablesSection() {
 }
 
 export function SecretsSection() {
-  const { t } = useTranslation();
   const ctx = useRoutineDetail();
   const { editDraft, setEditDraft, availableSecrets, createSecret } = ctx;
 
@@ -455,7 +455,8 @@ export function SecretsSection() {
   return (
     <div className="space-y-4">
       <div className="rounded-md border border-border bg-muted/20 px-4 py-3 text-xs text-muted-foreground">
-        {t("components.routinesections.editablesections.routineSecretsApplyToEveryTask")} <span className="font-mono">PAPERCLIP_*</span> {t("components.routinesections.editablesections.namesAreReserved")}
+        Routine secrets apply to every task this routine creates. They override matching keys in
+        project and agent env. <span className="font-mono">PAPERCLIP_*</span> names are reserved.
       </div>
 
 

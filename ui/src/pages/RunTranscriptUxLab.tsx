@@ -126,7 +126,7 @@ function LiveWidgetPreview({
             </div>
           </div>
           <Badge variant="outline" className="border-border/70 bg-background/70 px-2.5 py-1 text-(length:--text-micro) text-muted-foreground">
-            {t("pages.runTranscriptUxLab.openRun")}
+            Open run
             <ExternalLink className="h-3 w-3" />
           </Badge>
         </div>
@@ -214,7 +214,7 @@ export function RunTranscriptUxLab() {
             <div className="mb-5">
               <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/25 bg-cyan-500/[0.08] px-3 py-1 text-(length:--text-nano) font-semibold uppercase tracking-(--tracking-caps) text-cyan-700 dark:text-cyan-300">
                 <FlaskConical className="h-3.5 w-3.5" />
-                {t("pages.runTranscriptUxLab.uxLab")}
+                UX Lab
               </div>
               <h1 className="mt-4 text-2xl font-semibold tracking-tight">{t("pages.runTranscriptUxLab.runTranscriptFixtures")}</h1>
               <p className="mt-2 text-sm text-muted-foreground">

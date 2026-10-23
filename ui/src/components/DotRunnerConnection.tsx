@@ -56,7 +56,7 @@ export function DotRunnerConnection({ companyId, agentId, bindingId, onBinding }
   return <div className="space-y-3">
     <p className="text-sm text-muted-foreground">{t("components.dotRunnerConnection.dotManagesItsModelAndExternal")}</p>
     {state.data && !state.data.enabled && <p className="text-sm text-muted-foreground">{t("components.dotRunnerConnection.enableOpenaiDotAndAssistantConnections")}</p>}
-    {state.data?.resourceUrl && <p className="text-sm break-all">{t("components.dotRunnerConnection.privatePluginMcpUrl")} <code>{state.data.resourceUrl}</code></p>}
+    {state.data?.resourceUrl && <p className="text-sm break-all">Private plugin MCP URL: <code>{state.data.resourceUrl}</code></p>}
     {b && <p className="text-sm">Connection: {b.status}. Event subscription: {b.subscriptionVerified ? "verified" : "required"}.</p>}
     {b?.assignment && <p className="text-sm">Assignment: {b.assignment.status === "offered" ? "waiting for Dot to accept" : "accepted by Dot"}.</p>}
     {b?.assignment?.attentionRequired && <p className="text-sm text-destructive" role="alert">{t("components.dotRunnerConnection.dotHasNotReportedUsefulActivity")}</p>}

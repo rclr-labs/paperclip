@@ -1257,7 +1257,7 @@ export function CompanyExport() {
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={handleCancelPreview}>
                   <X />
-                  {t("pages.companyExport.cancelUpdate")}
+                  Cancel update
                 </Button>
               </div>
             </div>
@@ -1275,7 +1275,7 @@ export function CompanyExport() {
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={startPreviewRequest}>
                   <RotateCcw />
-                  {t("pages.companyExport.retryPreview")}
+                  Retry preview
                 </Button>
               </div>
             </div>
@@ -1294,7 +1294,7 @@ export function CompanyExport() {
                 </div>
                 <Button type="button" variant="outline" size="sm" onClick={startPreviewRequest}>
                   <RotateCcw />
-                  {t("pages.companyExport.retryPreview")}
+                  Retry preview
                 </Button>
               </div>
             </div>

@@ -24,7 +24,7 @@ export function ProjectRepositoryInput({ companyId, selected, onChange, onConnec
     <RepositoryEditor selected={selected.map((repo) => query.data?.repositories.find((available) => available.id === repo.id) ?? repo)} onChange={onChange} available={query.data?.repositories} state={state}
       onRetry={() => void query.refetch()} onConnect={onConnect} disabled={disabled} />
     {!!query.data?.failedConnectionCount && query.data.repositories.length > 0 && <div role="alert" className="flex flex-wrap items-center gap-2 text-xs text-destructive">
-      {t("components.projectRepositoryInput.someGithubConnectionsCouldNotLoad")}
+      Some GitHub connections could not load. Reconnect them in Apps or try again.
       <Button type="button" variant="ghost" size="sm" disabled={query.isFetching} onClick={() => void query.refetch()}>{t("components.projectRepositoryInput.tryAgain")}</Button>
     </div>}
   </div>;

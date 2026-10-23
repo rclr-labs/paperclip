@@ -66,12 +66,12 @@ export function PanelIndex({ artifacts, filter, onFilter }: { artifacts: LabArti
   return (
     <div role="group" aria-label={t("artifactdirections.directions.d2tint.panelIndex.filterArtifacts")} data-index className="flex flex-wrap items-center gap-1">
       <Chip pressed={filter === "all"} onPress={() => onFilter("all")} name={`All ${artifacts.length} artifacts`}>
-        {t("artifactdirections.directions.d2tint.panelIndex.all")} <Count value={artifacts.length} />
+        All <Count value={artifacts.length} />
       </Chip>
       {review > 0 ? (
         <Chip pressed={filter === "review"} onPress={() => toggle("review")} name={`Review ${review} waiting`}>
           <StateDot review="needs_review" />
-          {t("artifactdirections.directions.d2tint.panelIndex.review")} <Count value={review} />
+          Review <Count value={review} />
         </Chip>
       ) : null}
       {shown.map(({ kind, count }) => {

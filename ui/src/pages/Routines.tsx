@@ -819,7 +819,7 @@ export function Routines() {
           </div>
           <Button onClick={openCreateRoutine}>
             <Plus className="mr-2 h-4 w-4" />
-            {t("pages.routines.createRoutine")}
+            Create routine
           </Button>
         </div>
         <Tabs value={activeTab} onValueChange={handleLegacyTabChange}>
@@ -1238,7 +1238,7 @@ export function Routines() {
                 <div className="mt-3 flex justify-center">
                   <Button size="sm" onClick={openCreateRoutine}>
                     <Plus className="mr-2 h-3.5 w-3.5" />
-                    {t("pages.routines.newRoutineInThisFolder")}
+                    New routine in this folder
                   </Button>
                 </div>
               ) : null}

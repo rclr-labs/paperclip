@@ -36,7 +36,6 @@ export function TaskTreeControlMenuItems({
   onCancel: () => void;
   onRestore: () => void;
 }) {
-  const { t } = useTranslation();
   const itemClass =
     "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 disabled:opacity-50 disabled:pointer-events-none";
   return (
@@ -60,13 +59,13 @@ export function TaskTreeControlMenuItems({
           onClick={onCancel}
         >
           <XCircle className="h-3 w-3" />
-          {t("components.taskTreeControls.cancelSubtree")}
+          Cancel subtree...
         </button>
       ) : null}
       {canRestore ? (
         <button disabled={pending} className={itemClass} onClick={onRestore}>
           <Repeat className="h-3 w-3" />
-          {t("components.taskTreeControls.restoreSubtree")}
+          Restore subtree...
         </button>
       ) : null}
     </>

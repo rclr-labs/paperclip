@@ -81,7 +81,7 @@ export function PhotonConnectStep({
         </p>
       )}
       <label className="grid gap-2 text-sm font-medium">
-        {t("pages.apps.chat.photonConnectStep.projectId")}
+        Project ID
         <Input
           value={projectId}
           autoComplete="off"
@@ -93,7 +93,7 @@ export function PhotonConnectStep({
         />
       </label>
       <label className="grid gap-2 text-sm font-medium">
-        {t("pages.apps.chat.photonConnectStep.projectSecret")}
+        Project secret
         <Input
           type="password"
           value={projectSecret}

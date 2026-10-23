@@ -51,7 +51,7 @@ export function GeminiLocalConfigFields({
         >
           <option value="auto">{t("adapters.geminilocal.configfields.defaultAcp")}</option>
           <option value="cli">{t("adapters.geminilocal.configfields.geminiCli")}</option>
-          <option value="acp">{t("adapters.geminilocal.configfields.acp")}</option>
+          <option value="acp">ACP</option>
         </select>
       </Field>}
       {acpSelected && (
