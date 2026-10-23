@@ -31,6 +31,7 @@ const KEY_PREFIXES = [
   "pages.issueChatLongThreadPerf",
   "components.smokeLabDashboardCard",
   "components.designsandbox",
+  "pages.tools.smokeLabTab",
 ];
 
 /** True when this source file is an internal development surface. */

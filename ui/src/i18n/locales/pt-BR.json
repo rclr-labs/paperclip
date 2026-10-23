@@ -5883,27 +5883,6 @@
         "effect": "Efeito",
         "selector": "Seletor"
       },
-      "smokeLabTab": {
-        "noStepsRecordedForThisRun": "Nenhuma etapa registrada para esta execução.",
-        "selectARunToSeeIts": "Selecione uma execução para ver as etapas.",
-        "noRunsRecordedYet": "Nenhuma execução registrada ainda.",
-        "runs": "Execuções",
-        "noStepsRecordedForTheSelected": "No steps recorded for the selected run yet. Run a browser smoke to populate the matrix.",
-        "path": "Caminho",
-        "integrationMatrix": "Matriz de integração",
-        "typeTheseIntoTheFakeProvider": "Type these into the fake provider's real consent page during a P1 (OAuth) smoke. Fixed fixture values — safe to show.",
-        "fakeOauthDemoCredentials": "Credenciais falsas de demonstração OAuth",
-        "noServicesReportedStartTheFixture": "No services reported. Start the fixture services above.",
-        "installFixtureApps": "Instalar aplicativos de fixture",
-        "stop": "Parar",
-        "fixtureServices": "Serviços de fixture",
-        "handsOnTutorial": "tutorial prático",
-        "experimental": "Experimental",
-        "smokeLab": "Smoke Lab",
-        "loadingSmokeLab": "Loading Smoke Lab…",
-        "smokeLabIsTurnedOff": "O Smoke Lab está desligado",
-        "notRun": "não executado"
-      },
       "toolsAccess": {
         "openDeveloperTools": "Abrir ferramentas de desenvolvedor",
         "connectItThereInstead": "conecte por lá em vez disso",

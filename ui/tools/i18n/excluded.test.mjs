@@ -30,6 +30,7 @@ describe("isExcludedKey", () => {
     "pages.systemNoticeUxLab.someLabel",
     "artifactdirections.frames.someLabel",
     "pages.taskChatLab.someLabel",
+    "pages.tools.smokeLabTab.someLabel",
   ])("excludes %s", (key) => {
     expect(isExcludedKey(key)).toBe(true);
   });
