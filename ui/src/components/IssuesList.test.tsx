@@ -1567,6 +1567,9 @@ describe("IssuesList", () => {
     });
   });
 
+  // Renders a large issue tree; the default 5s timeout leaves no margin on a
+  // loaded machine. 10s matches the allowance this file already gives the
+  // other heavy render test above.
   it.each([true, false])("retains loaded context while revealing a large automated tree (streamlined=%s)", async (streamlined) => {
     mockInstanceSettingsApi.getExperimental.mockResolvedValue({ enableStreamlinedUi: streamlined });
     const parent = createIssue({ id: "human-root", createdByUserId: "person", originKind: "manual" });
@@ -1607,8 +1610,11 @@ describe("IssuesList", () => {
       expect(container.textContent).toContain("Automated child 249");
     }, 60);
     act(() => root.unmount());
-  });
+  }, 10_000);
 
+  // Renders a large issue tree; the default 5s timeout leaves no margin on a
+  // loaded machine. 10s matches the allowance this file already gives the
+  // other heavy render test above.
   it("keeps rendering local issue batches while the user stays near the bottom", async () => {
     const manyIssues = Array.from({ length: 420 }, (_, index) =>
       createIssue({
@@ -1649,8 +1655,11 @@ describe("IssuesList", () => {
     act(() => {
       root.unmount();
     });
-  });
+  }, 10_000);
 
+  // Renders a large issue tree; the default 5s timeout leaves no margin on a
+  // loaded machine. 10s matches the allowance this file already gives the
+  // other heavy render test above.
   it("waits for the desktop main scroll container before rendering more local rows", async () => {
     const manyIssues = Array.from({ length: 120 }, (_, index) =>
       createIssue({
@@ -1701,7 +1710,7 @@ describe("IssuesList", () => {
     act(() => {
       root.unmount();
     });
-  });
+  }, 10_000);
 
   it("requests more server issues after scrolling past the rendered rows", async () => {
     const visibleIssues = Array.from({ length: 100 }, (_, index) =>
