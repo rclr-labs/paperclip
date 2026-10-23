@@ -109,14 +109,14 @@ function ActivityRow({ event }: { event: ToolGatewayActivityEvent }) {
       {open ? (
         <div className="border-t border-border bg-muted/30 px-4 py-3 pl-10 text-xs">
           <dl>
-            {rawTool ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.tool")} value={rawTool} mono /> : null}
-            {event.invocation?.status ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.callStatus")} value={event.invocation.status} /> : null}
-            {event.invocation?.policyDecision ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.decision")} value={event.invocation.policyDecision} /> : null}
-            {reason ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.reason")} value={reason} mono /> : null}
-            {duration ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.duration")} value={duration} /> : null}
-            {event.invocation?.id ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.invocationId")} value={event.invocation.id} mono /> : null}
-            {event.invocation?.errorCode ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.errorCode")} value={event.invocation.errorCode} mono /> : null}
-            {event.invocation?.errorMessage ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.error")} value={event.invocation.errorMessage} /> : null}
+            {rawTool ? <Fact label="Tool" value={rawTool} mono /> : null}
+            {event.invocation?.status ? <Fact label="Call status" value={event.invocation.status} /> : null}
+            {event.invocation?.policyDecision ? <Fact label="Decision" value={event.invocation.policyDecision} /> : null}
+            {reason ? <Fact label="Reason" value={reason} mono /> : null}
+            {duration ? <Fact label="Duration" value={duration} /> : null}
+            {event.invocation?.id ? <Fact label="Invocation ID" value={event.invocation.id} mono /> : null}
+            {event.invocation?.errorCode ? <Fact label="Error code" value={event.invocation.errorCode} mono /> : null}
+            {event.invocation?.errorMessage ? <Fact label="Error" value={event.invocation.errorMessage} /> : null}
           </dl>
           {argumentsText ? (
             <div className="mt-2 space-y-1">

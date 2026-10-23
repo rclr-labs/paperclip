@@ -187,13 +187,13 @@ export function FastResponseSettingsView({
             </datalist>
           </div>
           <ToggleField
-            label={t("components.fastresponses.fastResponseSettings.enableFastResponses")}
+            label="Enable fast responses"
             checked={draft.enabled}
             onChange={(enabled) => setDraft((d) => ({ ...d, enabled }))}
           />
           <div className="space-y-2">
             <ToggleField
-              label={t("components.fastresponses.fastResponseSettings.allowCompanySponsoredFastResponses")}
+              label="Allow company-sponsored fast responses"
               checked={draft.allowSponsored}
               onChange={(allowSponsored) =>
                 setDraft((d) => ({ ...d, allowSponsored }))

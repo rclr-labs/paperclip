@@ -2079,7 +2079,7 @@ export function CompanyImport() {
           </div>
         ) : (
           <Field
-            label={t("pages.companyImport.githubUrl")}
+            label="GitHub URL"
             hint="Repo tree path or blob URL to COMPANY.md (e.g. github.com/owner/repo/tree/main/company)."
           >
             <input
@@ -2096,7 +2096,7 @@ export function CompanyImport() {
           </Field>
         )}
 
-        <Field label={t("pages.companyImport.target")} hint="Import into this organization or create a new one.">
+        <Field label="Target" hint="Import into this organization or create a new one.">
           <select
             className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
             value={targetMode}
@@ -2115,7 +2115,7 @@ export function CompanyImport() {
 
         {targetMode === "new" && (
           <Field
-            label={t("pages.companyImport.newOrganizationName")}
+            label="New organization name"
             hint="Optional override. Leave blank to use the package name."
           >
             <input
@@ -2132,7 +2132,7 @@ export function CompanyImport() {
         )}
 
         <Field
-          label={t("pages.companyImport.collisionStrategy")}
+          label="Collision strategy"
           hint="Board imports can rename, skip, or replace matching organization content."
         >
           <select

@@ -46,7 +46,7 @@ export function AgentConversationSidebar({ agents, existingChatAgentIds, availab
     <div className="flex shrink-0 flex-col gap-4 px-3 pb-4 pt-4">
       <div className="flex items-center justify-between gap-2">
         <h2 id={headingId} className="text-sm font-semibold">{t("components.agentConversationSidebar.chat")}</h2>
-        <Button variant="outline" size="icon-sm" aria-label={t("components.agentConversationSidebar.addChat")} title={t("components.agentConversationSidebar.addChat")} onClick={() => setPickerOpen(true)}>
+        <Button variant="outline" size="icon-sm" aria-label={t("components.agentConversationSidebar.addChat")} title="Add chat" onClick={() => setPickerOpen(true)}>
           <Plus className="size-4" />
         </Button>
       </div>

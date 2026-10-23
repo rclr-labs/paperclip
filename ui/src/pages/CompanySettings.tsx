@@ -228,7 +228,7 @@ export function CompanySettings() {
           {t("pages.companySettings.general")}
         </div>
         <div className="space-y-3">
-          <Field label={t("pages.companySettings.organizationName")} hint="The display name for your organization.">
+          <Field label="Organization name" hint="The display name for your organization.">
             <input
               className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
               type="text"
@@ -242,7 +242,7 @@ export function CompanySettings() {
             )}
           </Field>
           <Field
-            label={t("pages.companySettings.description")}
+            label="Description"
             hint="Optional description shown in the organization profile."
           >
             <input
@@ -272,7 +272,7 @@ export function CompanySettings() {
             </div>
             <div className="flex-1 space-y-3">
               <Field
-                label={t("pages.companySettings.logo")}
+                label="Logo"
                 hint="Upload a PNG, JPEG, WEBP, GIF, or SVG logo image."
               >
                 <div className="space-y-2">
@@ -347,7 +347,7 @@ export function CompanySettings() {
         </div>
         <div>
           <ToggleField
-            label={t("pages.companySettings.requireBoardApprovalForNewHires")}
+            label="Require board approval for new hires"
             hint="New agent hires stay pending until approved by board."
             checked={!!selectedCompany.requireBoardApprovalForNewAgents}
             onChange={(v) => settingsMutation.mutate(v)}

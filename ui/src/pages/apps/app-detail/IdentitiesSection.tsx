@@ -235,7 +235,7 @@ export function IdentitiesSection({
           personalGrant ? null : (
             <IdentityRow
               id="personal-identity"
-              title={t("pages.apps.appdetail.identitiesSection.personalAccount")}
+              title="Personal account"
               status={null}
               detail="Personal identity"
               actions={capabilities?.canConnectAsCurrentUser ? (
@@ -257,7 +257,7 @@ export function IdentitiesSection({
             ) : null
           ) : (
             <IdentityRow
-              title={t("pages.apps.appdetail.identitiesSection.organizationAccount")}
+              title="Organization account"
               status={null}
               detail="Organization identity"
               actions={capabilities?.canCreateOrganizationGrant ? (
@@ -340,7 +340,7 @@ function GitHubConnectionSummary({
           </div>
           <div className="flex items-center gap-2">
             {onRefreshAccess && configurationUrl ? (
-              <Button size="icon-sm" variant="outline" aria-label={t("pages.apps.appdetail.identitiesSection.refreshAccess")} title={t("pages.apps.appdetail.identitiesSection.refreshAccess")} disabled={refreshPending} onClick={onRefreshAccess}>
+              <Button size="icon-sm" variant="outline" aria-label={t("pages.apps.appdetail.identitiesSection.refreshAccess")} title="Refresh access" disabled={refreshPending} onClick={onRefreshAccess}>
                 {refreshPending ? <Loader2 className="animate-spin" aria-hidden="true" /> : <RefreshCw aria-hidden="true" />}
               </Button>
             ) : null}

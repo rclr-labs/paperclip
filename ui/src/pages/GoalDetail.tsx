@@ -31,7 +31,6 @@ export function GoalPropertiesToggleButton({
   panelVisible,
   onShowProperties,
 }: GoalPropertiesToggleButtonProps) {
-  const { t } = useTranslation();
   return (
     <Button
       variant="ghost"
@@ -41,7 +40,7 @@ export function GoalPropertiesToggleButton({
         panelVisible ? "opacity-0 pointer-events-none w-0 overflow-hidden" : "opacity-100",
       )}
       onClick={onShowProperties}
-      title={t("pages.goalDetail.showProperties")}
+      title="Show properties"
     >
       <SlidersHorizontal className="h-4 w-4" />
     </Button>

@@ -21,10 +21,10 @@ export function AgentsToolbar({ query, onQueryChange, tab, items, onTabChange, v
   const { t } = useTranslation();
   return <div data-canonical-toolbar="agents" role="toolbar" aria-label={t("components.agentsToolbar.agentsControls")} className="flex flex-wrap items-center gap-3">
     <div className="design-toolbar-controls flex w-full flex-wrap items-center gap-4">
-      <ToolbarSearch query={query} onQueryChange={onQueryChange} label={t("components.agentsToolbar.searchAgents2")} placeholder={t("components.agentsToolbar.searchAgents")} />
+      <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search agents" placeholder={t("components.agentsToolbar.searchAgents")} />
       {!hideViewToggle && <div className="design-view-toggle" role="group" aria-label={t("components.agentsToolbar.agentView")}>
-          <Button type="button" size="icon-sm" variant={view === "list" ? "secondary" : "ghost"} className="design-toolbar-icon" onClick={() => onViewChange("list")} title={t("components.agentsToolbar.listView")} aria-label={t("components.agentsToolbar.listView")} aria-pressed={view === "list"}><List aria-hidden /></Button>
-          <Button type="button" size="icon-sm" variant={view === "org" ? "secondary" : "ghost"} className="design-toolbar-icon" onClick={() => onViewChange("org")} title={t("components.agentsToolbar.orgChartView")} aria-label={t("components.agentsToolbar.orgChartView")} aria-pressed={view === "org"}><Network aria-hidden /></Button>
+          <Button type="button" size="icon-sm" variant={view === "list" ? "secondary" : "ghost"} className="design-toolbar-icon" onClick={() => onViewChange("list")} title="List view" aria-label={t("components.agentsToolbar.listView")} aria-pressed={view === "list"}><List aria-hidden /></Button>
+          <Button type="button" size="icon-sm" variant={view === "org" ? "secondary" : "ghost"} className="design-toolbar-icon" onClick={() => onViewChange("org")} title="Org chart view" aria-label={t("components.agentsToolbar.orgChartView")} aria-pressed={view === "org"}><Network aria-hidden /></Button>
       </div>}
       <div className="design-toolbar-actions">
         <Button size="sm" variant="outline" data-toolbar-primary onClick={onNewAgent}><Plus aria-hidden />New Agent</Button>

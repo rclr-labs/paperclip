@@ -30,7 +30,6 @@ import { useCloudInstance } from "@/hooks/useCloudInstance";
 import { useHiddenSettings } from "@/hooks/useHiddenSettings";
 import { usePluginSlots } from "@/plugins/slots";
 import { SidebarNavItem } from "./SidebarNavItem.production";
-import { useTranslation } from "@/i18n";
 
 /**
  * Sandbox-provider-only plugins (e.g. E2B, exe.dev, Modal) have no per-plugin
@@ -45,7 +44,6 @@ function isSandboxProviderOnly(plugin: PluginRecord): boolean {
 }
 
 export function CompanySettingsSidebar() {
-  const { t } = useTranslation();
   const { selectedCompany, selectedCompanyId } = useCompany();
   const { isMobile, setSidebarOpen } = useSidebar();
   const { hidden: hiddenSettings } = useHiddenSettings();
@@ -103,11 +101,11 @@ export function CompanySettingsSidebar() {
 
       <nav className="flex-1 min-h-0 overflow-y-auto scrollbar-auto-hide px-3 py-2">
         <div className="flex flex-col gap-0.5">
-          <SidebarNavItem to="/company/settings" label={t("components.companySettingsSidebarproduction.general")} icon={SlidersHorizontal} end />
+          <SidebarNavItem to="/company/settings" label="General" icon={SlidersHorizontal} end />
           {showPage("instance.profile") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/profile`}
-              label={t("components.companySettingsSidebarproduction.profile")}
+              label="Profile"
               icon={UserRoundPen}
               end
             />
@@ -115,7 +113,7 @@ export function CompanySettingsSidebar() {
           {showPage("company.members") && (
             <SidebarNavItem
               to="/company/settings/members"
-              label={t("components.companySettingsSidebarproduction.members")}
+              label="Members"
               icon={Users}
               badge={badges?.joinRequests ?? 0}
               end
@@ -133,24 +131,24 @@ export function CompanySettingsSidebar() {
               />
             ))}
           {showPage("company.invites") && (
-            <SidebarNavItem to="/company/settings/invites" label={t("components.companySettingsSidebarproduction.invites")} icon={MailPlus} end />
+            <SidebarNavItem to="/company/settings/invites" label="Invites" icon={MailPlus} end />
           )}
           {showPage("company.secrets") && (
-            <SidebarNavItem to="/company/settings/secrets" label={t("components.companySettingsSidebarproduction.secrets")} icon={KeyRound} end />
+            <SidebarNavItem to="/company/settings/secrets" label="Secrets" icon={KeyRound} end />
           )}
           {showPage("instance.environments") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/environments`}
-              label={t("components.companySettingsSidebarproduction.environments")}
+              label="Environments"
               icon={MonitorCog}
               end
             />
           )}
-          <SidebarNavItem to="/company/settings/connections" label={t("components.companySettingsSidebarproduction.connections")} icon={Link2} end />
+          <SidebarNavItem to="/company/settings/connections" label="Connections" icon={Link2} end />
           {showPage("instance.access") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/access`}
-              label={t("components.companySettingsSidebarproduction.access")}
+              label="Access"
               icon={Shield}
               end
             />
@@ -158,28 +156,28 @@ export function CompanySettingsSidebar() {
           {showPage("instance.heartbeats") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/heartbeats`}
-              label={t("components.companySettingsSidebarproduction.heartbeats")}
+              label="Heartbeats"
               icon={Clock3}
               end
             />
           )}
           {showPage("company.export") && (
-            <SidebarNavItem to="/company/export" label={t("components.companySettingsSidebarproduction.export")} icon={Download} />
+            <SidebarNavItem to="/company/export" label="Export" icon={Download} />
           )}
           {!isCloud && showPage("company.import") && (
-            <SidebarNavItem to="/company/import" label={t("components.companySettingsSidebarproduction.import")} icon={Upload} end />
+            <SidebarNavItem to="/company/import" label="Import" icon={Upload} end />
           )}
           {showPage("instance.experimental") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/experimental`}
-              label={t("components.companySettingsSidebarproduction.experimental")}
+              label="Experimental"
               icon={FlaskConical}
             />
           )}
           {showPlugins && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/plugins`}
-              label={t("components.companySettingsSidebarproduction.plugins")}
+              label="Plugins"
               icon={Puzzle}
             />
           )}
@@ -207,7 +205,7 @@ export function CompanySettingsSidebar() {
           {showPage("instance.adapters") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/adapters`}
-              label={t("components.companySettingsSidebarproduction.adapters")}
+              label="Adapters"
               icon={Cpu}
             />
           )}

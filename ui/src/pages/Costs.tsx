@@ -144,25 +144,25 @@ function FinanceSummaryCard({
       </CardHeader>
       <CardContent className="grid gap-3 px-5 pb-5 pt-2 sm:grid-cols-2 xl:grid-cols-4">
         <MetricTile
-          label={t("pages.costs.debits")}
+          label="Debits"
           value={formatCents(debitCents)}
           subtitle={`${eventCount} total event${eventCount === 1 ? "" : "s"} in range`}
           icon={ArrowUpRight}
         />
         <MetricTile
-          label={t("pages.costs.credits")}
+          label="Credits"
           value={formatCents(creditCents)}
           subtitle="Refunds, offsets, and credit returns"
           icon={ArrowDownLeft}
         />
         <MetricTile
-          label={t("pages.costs.net")}
+          label="Net"
           value={formatCents(netCents)}
           subtitle="Debit minus credit for the selected period"
           icon={ReceiptText}
         />
         <MetricTile
-          label={t("pages.costs.estimated")}
+          label="Estimated"
           value={formatCents(estimatedDebitCents)}
           subtitle="Estimated debits that are not yet invoice-authoritative"
           icon={Coins}
@@ -668,7 +668,7 @@ export function Costs({
           )}
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
             <MetricTile
-              label={t("pages.costs.apiSpend")}
+              label="API spend"
               value={subscriptions ? subscriptions.api.unpricedEventCount === subscriptions.api.eventCount && subscriptions.api.eventCount > 0 ? "—" : formatCents(Number(subscriptions.api.costCents)) : "—"}
               subtitle={subscriptions ? <div className="space-y-1">
                 <CostEstimateLabel eventCount={subscriptions.api.eventCount} estimatedEventCount={subscriptions.api.estimatedEventCount} />
@@ -678,7 +678,7 @@ export function Costs({
             />
             <SubscriptionCostCard key={companyId} companyId={companyId} report={subscriptions} error={subscriptionError} onChanged={invalidateSubscriptions} />
             <MetricTile
-              label={t("pages.costs.budget")}
+              label="Budget"
               value={activeBudgetIncidents.length > 0 ? String(activeBudgetIncidents.length) : (
                 spendData?.summary.budgetCents && spendData.summary.budgetCents > 0
                   ? preset === "mtd" ? `${spendData.summary.utilizationPercent}%` : formatCents(spendData.summary.budgetCents)
@@ -694,7 +694,7 @@ export function Costs({
               icon={Coins}
             />
             <MetricTile
-              label={t("pages.costs.recordedCharges")}
+              label="Recorded charges"
               value={financeData ? formatCents(financeData.summary.netCents) : "—"}
               subtitle={financeData ? (
                 <>
@@ -705,7 +705,7 @@ export function Costs({
               icon={ReceiptText}
             />
             <MetricTile
-              label={t("pages.costs.financeEvents")}
+              label="Finance events"
               value={financeData ? String(financeData.summary.eventCount) : "—"}
               subtitle={financeData ? `${formatCents(financeData.summary.estimatedDebitCents)} estimated in range` : "Financial data unavailable"}
               icon={ArrowUpRight}
@@ -940,25 +940,25 @@ export function Costs({
                 </CardHeader>
                 <CardContent className="grid gap-3 px-5 pb-5 pt-0 md:grid-cols-4">
                   <MetricTile
-                    label={t("pages.costs.activeIncidents")}
+                    label="Active incidents"
                     value={String(activeBudgetIncidents.length)}
                     subtitle="Open soft or hard threshold crossings"
                     icon={ReceiptText}
                   />
                   <MetricTile
-                    label={t("pages.costs.pendingApprovals")}
+                    label="Pending approvals"
                     value={String(budgetData?.pendingApprovalCount ?? 0)}
                     subtitle="Budget override approvals awaiting board action"
                     icon={ArrowUpRight}
                   />
                   <MetricTile
-                    label={t("pages.costs.pausedAgents")}
+                    label="Paused agents"
                     value={String(budgetData?.pausedAgentCount ?? 0)}
                     subtitle="Agent heartbeats blocked by budget"
                     icon={Coins}
                   />
                   <MetricTile
-                    label={t("pages.costs.pausedProjects")}
+                    label="Paused projects"
                     value={String(budgetData?.pausedProjectCount ?? 0)}
                     subtitle="Project execution blocked by budget"
                     icon={DollarSign}

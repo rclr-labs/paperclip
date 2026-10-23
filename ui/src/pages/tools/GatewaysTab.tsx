@@ -254,7 +254,7 @@ export function GatewaysTab({ companyId }: { companyId: string }) {
     createTokenMutation.mutate(gatewayId);
   }
 
-  if (gatewaysQuery.isLoading) return <LoadingState label={t("pages.tools.gatewaysTab.loadingGateways")} />;
+  if (gatewaysQuery.isLoading) return <LoadingState label="Loading gateways..." />;
   if (gatewaysQuery.isError) return <ErrorState error={gatewaysQuery.error} />;
 
   const gateways = gatewaysQuery.data?.gateways ?? [];
@@ -265,7 +265,7 @@ export function GatewaysTab({ companyId }: { companyId: string }) {
     <div className="space-y-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <ToolsPageHeader
-          title={t("pages.tools.gatewaysTab.namedMcpGateways")}
+          title="Named MCP gateways"
           description="Stable endpoints for external clients that use the same profiles, rules, and audit trail as agent tool access."
         />
         <Button

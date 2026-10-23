@@ -207,7 +207,7 @@ export function IssueChatUxLab() {
       <LabSection
         id="rotating-text"
         eyebrow="Animation demo"
-        title={t("pages.issueChatUxLab.rotatingReasoningText")}
+        title="Rotating reasoning text"
         description="Isolated ticker that cycles sample reasoning lines on a timer. The outgoing line slides up and fades out while the incoming line slides up from below. Runs in a loop so you can tune timing and easing without needing a live stream."
         accentClassName="bg-[linear-gradient(180deg,rgba(168,85,247,0.06),transparent_28%),var(--background)]"
       >
@@ -230,7 +230,7 @@ export function IssueChatUxLab() {
       <LabSection
         id="working-tokens"
         eyebrow="Status tokens"
-        title={t("pages.issueChatUxLab.workingWorkedHeaderVerb")}
+        title="Working / Worked header verb"
         description='The "Working" token uses the shimmer-text gradient sweep to signal an active run. Once the run completes it becomes the static "Worked" token.'
         accentClassName="bg-[linear-gradient(180deg,rgba(16,185,129,0.06),transparent_28%),var(--background)]"
       >
@@ -267,7 +267,7 @@ export function IssueChatUxLab() {
       <LabSection
         id="live-execution"
         eyebrow="Primary preview"
-        title={t("pages.issueChatUxLab.liveExecutionThread")}
+        title="Live execution thread"
         description="Shows the fully active state: timeline events, historical run marker, a running assistant reply with reasoning and tools, and a queued follow-up from the user."
         accentClassName="bg-[linear-gradient(180deg,rgba(6,182,212,0.05),transparent_28%),var(--background)]"
       >
@@ -298,7 +298,7 @@ export function IssueChatUxLab() {
 
       <LabSection
         eyebrow="Submitting state"
-        title={t("pages.issueChatUxLab.pendingMessageBubble")}
+        title="Pending message bubble"
         description='When a user sends a message, the bubble briefly shows a "Sending..." label at reduced opacity until the server confirms receipt. This preview renders that transient state.'
         accentClassName="bg-[linear-gradient(180deg,rgba(59,130,246,0.06),transparent_28%),var(--background)]"
       >
@@ -319,7 +319,7 @@ export function IssueChatUxLab() {
       <div className="grid gap-6 xl:grid-cols-2">
         <LabSection
           eyebrow="Settled review"
-          title={t("pages.issueChatUxLab.durableCommentsAndFeedback")}
+          title="Durable comments and feedback"
           description="Shows the post-run state: assistant comment feedback controls, historical run context, and timeline reassignment without any active stream."
           accentClassName="bg-[linear-gradient(180deg,rgba(168,85,247,0.05),transparent_26%),var(--background)]"
         >
@@ -343,7 +343,7 @@ export function IssueChatUxLab() {
         <div className="space-y-6">
           <LabSection
             eyebrow="Empty thread"
-            title={t("pages.issueChatUxLab.emptyStateAndDisabledComposer")}
+            title="Empty state and disabled composer"
             description="Keeps the message area visible even when there is no thread yet, and replaces the composer with an explicit warning when replies are blocked."
             accentClassName="bg-[linear-gradient(180deg,rgba(245,158,11,0.08),transparent_26%),var(--background)]"
           >

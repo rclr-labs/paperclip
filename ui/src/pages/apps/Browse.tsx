@@ -1560,13 +1560,13 @@ function CustomConnectorCard({
         >
           <CustomConnectorOption
             icon={ServerCog}
-            title={t("pages.apps.browse.connectYourOwnMcpServer")}
+            title="Connect your own MCP server"
             description="Enter the URL for a custom or self-hosted MCP server."
             onClick={() => onNavigate("/apps/byo")}
           />
           <CustomConnectorOption
             icon={ClipboardPaste}
-            title={t("pages.apps.browse.pasteAConfig")}
+            title="Paste a config"
             description="Paste an existing setup snippet and connect it."
             onClick={() => onNavigate("/apps/advanced/paste-config")}
           />

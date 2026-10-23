@@ -352,7 +352,7 @@ export function Dashboard() {
         <InlineBanner
           tone="warning"
           icon={PauseCircle}
-          title={t("pages.dashboard.allAgentsInThisOrganizationAre")}
+          title="All agents in this organization are paused — nothing will run."
           actions={
             <Button variant="ghost" size="sm" asChild>
               <Link to="/agents">{t("pages.dashboard.reviewAgents")}</Link>
@@ -408,7 +408,7 @@ export function Dashboard() {
               appearance={designSandbox ? "card" : "plain"}
               icon={Bot}
               value={data.agents.active + data.agents.running + data.agents.paused + data.agents.error}
-              label={t("pages.dashboard.agentsEnabled")}
+              label="Agents Enabled"
               to="/agents"
               description={
                 <span>
@@ -422,7 +422,7 @@ export function Dashboard() {
               appearance={designSandbox ? "card" : "plain"}
               icon={CircleDot}
               value={data.tasks.inProgress}
-              label={t("pages.dashboard.tasksInProgress")}
+              label="Tasks In Progress"
               to="/issues"
               description={
                 <span>
@@ -435,7 +435,7 @@ export function Dashboard() {
               appearance={designSandbox ? "card" : "plain"}
               icon={DollarSign}
               value={formatCents(data.costs.monthSpendCents)}
-              label={t("pages.dashboard.monthSpend")}
+              label="Month Spend"
               to="/costs"
               description={
                 <span>
@@ -449,7 +449,7 @@ export function Dashboard() {
               appearance={designSandbox ? "card" : "plain"}
               icon={ShieldCheck}
               value={data.pendingApprovals + data.budgets.pendingApprovals}
-              label={t("pages.dashboard.pendingApprovals")}
+              label="Pending Approvals"
               to="/approvals"
               description={
                 <span>
@@ -464,19 +464,19 @@ export function Dashboard() {
           <SmokeLabDashboardCard companyId={selectedCompanyId!} />
 
           <div className={cn("grid grid-cols-2 gap-4", SHOW_TASK_PRIORITY_UI ? "lg:grid-cols-4" : "lg:grid-cols-3")}>
-            <ChartCard title={t("pages.dashboard.runActivity")} subtitle="Last 14 days">
+            <ChartCard title="Run Activity" subtitle="Last 14 days">
               <RunActivityChart activity={data.runActivity} />
             </ChartCard>
             {/* PAP-411: "Tasks by Priority" chart hidden behind SHOW_TASK_PRIORITY_UI. */}
             {SHOW_TASK_PRIORITY_UI && (
-              <ChartCard title={t("pages.dashboard.tasksByPriority")} subtitle="Last 14 days">
+              <ChartCard title="Tasks by Priority" subtitle="Last 14 days">
                 <PriorityChart issues={issues ?? []} />
               </ChartCard>
             )}
-            <ChartCard title={t("pages.dashboard.tasksByStatus")} subtitle="Last 14 days">
+            <ChartCard title="Tasks by Status" subtitle="Last 14 days">
               <IssueStatusChart issues={issues ?? []} />
             </ChartCard>
-            <ChartCard title={t("pages.dashboard.successRate")} subtitle="Last 14 days">
+            <ChartCard title="Success Rate" subtitle="Last 14 days">
               <SuccessRateChart activity={data.runActivity} />
             </ChartCard>
           </div>

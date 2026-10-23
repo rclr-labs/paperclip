@@ -58,7 +58,6 @@ function AttachmentActions({
   deletePending?: boolean;
   onPreview?: (attachment: IssueAttachment) => void;
 }) {
-  const { t } = useTranslation();
   const openText = useContext(TextAttachmentContext);
   const openInPanel = (event: React.MouseEvent) => {
     if (openText && isTextAttachment(attachment) && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); openText(attachment.id, attachmentFilename(attachment)); }
@@ -70,19 +69,19 @@ function AttachmentActions({
         <Button
           variant="ghost"
           size="icon-sm"
-          title={t("components.issueAttachmentsSection.browseGallery")}
+          title="Browse gallery"
           aria-label={`Browse ${filename} in gallery`}
           onClick={() => onPreview(attachment)}
         >
           <Maximize2 className="h-4 w-4" />
         </Button>
       ) : null}
-      <Button asChild variant="ghost" size="icon-sm" title={t("components.issueAttachmentsSection.openInNewTab")}>
+      <Button asChild variant="ghost" size="icon-sm" title="Open in new tab">
         <a href={attachmentOpenPath(attachment)} onClick={openInPanel} target="_blank" rel="noreferrer" aria-label={`Open ${filename}`}>
           <ExternalLink className="h-4 w-4" />
         </a>
       </Button>
-      <Button asChild variant="ghost" size="icon-sm" title={t("components.issueAttachmentsSection.download")}>
+      <Button asChild variant="ghost" size="icon-sm" title="Download">
         <a href={attachmentDownloadPath(attachment)} aria-label={`Download ${filename}`}>
           <Download className="h-4 w-4" />
         </a>
@@ -91,7 +90,7 @@ function AttachmentActions({
         <Button
           variant="ghost"
           size="icon-sm"
-          title={t("components.issueAttachmentsSection.deleteAttachment")}
+          title="Delete attachment"
           className="text-muted-foreground hover:text-destructive"
           onClick={() => onDelete(attachment.id)}
           disabled={deletePending}

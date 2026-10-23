@@ -475,12 +475,12 @@ function DivergenceDiagnosis({
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
         <BranchFacet
-          label={t("components.issueRecoveryActionCard.expectedRecorded")}
+          label="Expected · recorded"
           branch={divergence.expectedBranch}
           sha={divergence.expectedHeadSha}
         />
         <BranchFacet
-          label={t("components.issueRecoveryActionCard.liveCheckedOut")}
+          label="Live · checked out"
           branch={divergence.liveBranch}
           sha={divergence.liveHeadSha}
         />
@@ -1172,7 +1172,7 @@ export function IssueRecoveryActionCard({
       <dl className={cn("border-t bg-background/40 dark:bg-background/20", tone.divider)}>
         {lineage ? (
           <>
-            <MetadataRow label={t("components.issueRecoveryActionCard.taskOwner")}>
+            <MetadataRow label="Task owner">
               <span
                 className="inline-flex flex-wrap items-center gap-1.5"
                 data-testid="recovery-source-owner"
@@ -1185,7 +1185,7 @@ export function IssueRecoveryActionCard({
                 <span className="text-muted-foreground">{t("components.issueRecoveryActionCard.keepsThisTask")}</span>
               </span>
             </MetadataRow>
-            <MetadataRow label={t("components.issueRecoveryActionCard.recoveryOwner")}>
+            <MetadataRow label="Recovery owner">
               <span
                 className="inline-flex flex-wrap items-center gap-1.5"
                 data-testid="recovery-recovery-owner"
@@ -1214,7 +1214,7 @@ export function IssueRecoveryActionCard({
                 )}
               </span>
             </MetadataRow>
-            <MetadataRow label={t("components.issueRecoveryActionCard.retryProgress")}>
+            <MetadataRow label="Retry progress">
               <span
                 className="inline-flex flex-wrap items-center gap-x-2 gap-y-1"
                 data-testid="recovery-retry-progress"
@@ -1259,7 +1259,7 @@ export function IssueRecoveryActionCard({
               </span>
             </MetadataRow>
             {lineage.lane !== "source_owner" && lineage.sourceMaxAttempts !== null ? (
-              <MetadataRow label={t("components.issueRecoveryActionCard.ownerRetries")}>
+              <MetadataRow label="Owner retries">
                 <span data-testid="recovery-source-attempts">
                   The original owner used {lineage.sourceAttempt ?? lineage.sourceMaxAttempts} of{" "}
                   {lineage.sourceMaxAttempts} automatic attempts.
@@ -1268,7 +1268,7 @@ export function IssueRecoveryActionCard({
             ) : null}
           </>
         ) : (
-        <MetadataRow label={t("components.issueRecoveryActionCard.owner")}>
+        <MetadataRow label="Owner">
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {action.ownerType === "agent" && action.ownerAgentId ? (
               <>
@@ -1293,15 +1293,15 @@ export function IssueRecoveryActionCard({
           </span>
         </MetadataRow>
         )}
-        <MetadataRow label={t("components.issueRecoveryActionCard.sourceRun")}>
+        <MetadataRow label="Source run">
           <RunChip runId={sourceRunId} agentId={action.previousOwnerAgentId} />
         </MetadataRow>
         {correctiveRunId ? (
-          <MetadataRow label={t("components.issueRecoveryActionCard.correctiveRun")}>
+          <MetadataRow label="Corrective run">
             <RunChip runId={correctiveRunId} agentId={action.previousOwnerAgentId} />
           </MetadataRow>
         ) : null}
-        <MetadataRow label={t("components.issueRecoveryActionCard.evidence")}>
+        <MetadataRow label="Evidence">
           {evidenceSummary ? (
             evidenceSummary.isCode ? (
               <span className="break-words font-mono text-(length:--text-micro) text-foreground/80">
@@ -1314,10 +1314,10 @@ export function IssueRecoveryActionCard({
             <MissingValue />
           )}
         </MetadataRow>
-        <MetadataRow label={t("components.issueRecoveryActionCard.nextAction")}>
+        <MetadataRow label="Next action">
           {action.nextAction ? <span>{action.nextAction}</span> : <MissingValue />}
         </MetadataRow>
-        <MetadataRow label={t("components.issueRecoveryActionCard.followUp")}>
+        <MetadataRow label="Follow-up">
           <span className="inline-flex flex-wrap items-center gap-1.5">
             {wakeSummary ? <span>{wakeSummary}</span> : <MissingValue />}
             {showAttempt ? (
@@ -1333,7 +1333,7 @@ export function IssueRecoveryActionCard({
           </span>
         </MetadataRow>
         {cardState === "resolved" && action.outcome ? (
-          <MetadataRow label={t("components.issueRecoveryActionCard.resolution")}>
+          <MetadataRow label="Resolution">
             <span className={cn("font-medium", tone.labelClass)}>
               Resolved as {OUTCOME_LABEL[action.outcome]}
               {action.resolvedAt ? ` · ${formatTimeShort(action.resolvedAt) ?? ""}` : ""}

@@ -120,7 +120,7 @@ export function MuseConnectionDetails({ connection, pairing, busy, error, offlin
       </div>
     </section>}
     {pairing && !b?.paired && <div className="space-y-2">
-      <AgentSetupPrompt key={pairing.bindingId + pairing.revision} prompt={pairing.setupInstruction} label={t("components.museRunnerConnection.copySetupPrompt")} title={t("components.museRunnerConnection.connectYourMuse")} agent={{ name: "Muse", icon: <Bot className="size-5" /> }} description="Paste into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve the Paperclip hostname." />
+      <AgentSetupPrompt key={pairing.bindingId + pairing.revision} prompt={pairing.setupInstruction} label="Copy setup prompt" title="Connect your Muse" agent={{ name: "Muse", icon: <Bot className="size-5" /> }} description="Paste into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve the Paperclip hostname." />
       <p className="text-xs text-muted-foreground">One-use setup expires {formatDateTime(pairing.expiresAt)}. Muse keeps the connection credential in its secure vault. Hostname permission applies to future requests to this Paperclip hostname.</p>
     </div>}
     <div className="flex flex-wrap items-center gap-2">

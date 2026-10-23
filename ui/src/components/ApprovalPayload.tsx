@@ -91,9 +91,9 @@ export function HireAgentPayload({ payload }: { payload: Record<string, unknown>
         <span className="text-muted-foreground w-20 sm:w-24 shrink-0 text-xs">{t("components.approvalPayload.name")}</span>
         <span className="font-medium">{String(payload.name ?? "—")}</span>
       </div>
-      <PayloadField label={t("components.approvalPayload.role")} value={payload.role} />
-      <PayloadField label={t("components.approvalPayload.title")} value={payload.title} />
-      <PayloadField label={t("components.approvalPayload.icon")} value={payload.icon} />
+      <PayloadField label="Role" value={payload.role} />
+      <PayloadField label="Title" value={payload.title} />
+      <PayloadField label="Icon" value={payload.icon} />
       {!!payload.capabilities && (
         <div className="flex items-start gap-2">
           <span className="text-muted-foreground w-20 sm:w-24 shrink-0 text-xs pt-0.5">{t("components.approvalPayload.capabilities")}</span>
@@ -114,11 +114,10 @@ export function HireAgentPayload({ payload }: { payload: Record<string, unknown>
 }
 
 export function CeoStrategyPayload({ payload }: { payload: Record<string, unknown> }) {
-  const { t } = useTranslation();
   const plan = payload.plan ?? payload.description ?? payload.strategy ?? payload.text;
   return (
     <div className="mt-3 space-y-1.5 text-sm">
-      <PayloadField label={t("components.approvalPayload.title")} value={payload.title} />
+      <PayloadField label="Title" value={payload.title} />
       {!!plan && (
         <div className="mt-2 rounded-md bg-muted/40 px-3 py-2 text-sm text-muted-foreground whitespace-pre-wrap font-mono text-xs max-h-48 overflow-y-auto">
           {String(plan)}
@@ -134,14 +133,13 @@ export function CeoStrategyPayload({ payload }: { payload: Record<string, unknow
 }
 
 export function BudgetOverridePayload({ payload }: { payload: Record<string, unknown> }) {
-  const { t } = useTranslation();
   const budgetAmount = typeof payload.budgetAmount === "number" ? payload.budgetAmount : null;
   const observedAmount = typeof payload.observedAmount === "number" ? payload.observedAmount : null;
   return (
     <div className="mt-3 space-y-1.5 text-sm">
-      <PayloadField label={t("components.approvalPayload.scope")} value={payload.scopeName ?? payload.scopeType} />
-      <PayloadField label={t("components.approvalPayload.window")} value={payload.windowKind} />
-      <PayloadField label={t("components.approvalPayload.metric")} value={payload.metric} />
+      <PayloadField label="Scope" value={payload.scopeName ?? payload.scopeType} />
+      <PayloadField label="Window" value={payload.windowKind} />
+      <PayloadField label="Metric" value={payload.metric} />
       {(budgetAmount !== null || observedAmount !== null) ? (
         <div className="rounded-md bg-muted/40 px-3 py-2 text-xs text-muted-foreground">
           Limit {budgetAmount !== null ? formatCents(budgetAmount) : "—"} · Observed {observedAmount !== null ? formatCents(observedAmount) : "—"}

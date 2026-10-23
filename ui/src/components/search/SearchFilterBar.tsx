@@ -13,7 +13,6 @@ import { PriorityIcon } from "@/components/PriorityIcon";
 import { SHOW_TASK_PRIORITY_UI } from "@/lib/ui-flags";
 import { SearchFilterMenu, type FilterMenuOption } from "./SearchFilterMenu";
 import { SearchSortMenu } from "./SearchSortMenu";
-import { useTranslation } from "@/i18n";
 import {
   applyAssigneeToken,
   assigneeToken,
@@ -149,7 +148,6 @@ export function SearchFilterBar({
   onSortChange: (next: CompanySearchSort) => void;
   data: SearchFilterDataProps;
 }) {
-  const { t } = useTranslation();
   const options = useMemo(() => buildSearchFilterOptions(data), [data]);
 
   function toggleMulti(dimension: "status" | "priority", value: string) {
@@ -165,7 +163,7 @@ export function SearchFilterBar({
   return (
     <div className="flex flex-wrap items-center gap-1.5" data-testid="search-filter-bar">
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.status")}
+        label="Status"
         multi
         options={options.status}
         selected={filters.status ?? []}
@@ -174,7 +172,7 @@ export function SearchFilterBar({
         presets={[{ label: "Open items", values: OPEN_STATUS_PRESET }]}
       />
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.assignee")}
+        label="Assignee"
         options={options.assignee}
         selected={selectedAssignee ? [selectedAssignee] : []}
         onSelect={(value) => onChange(applyAssigneeToken(filters, value, data.currentUserId))}
@@ -183,7 +181,7 @@ export function SearchFilterBar({
         emptyMessage="No assignees"
       />
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.project")}
+        label="Project"
         options={options.project}
         selected={filters.projectId ? [filters.projectId] : []}
         onSelect={(value) => onChange({ ...filters, projectId: value })}
@@ -192,7 +190,7 @@ export function SearchFilterBar({
         emptyMessage="No projects"
       />
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.label")}
+        label="Label"
         options={options.label}
         selected={filters.labelId ? [filters.labelId] : []}
         onSelect={(value) => onChange({ ...filters, labelId: value })}
@@ -203,7 +201,7 @@ export function SearchFilterBar({
       {/* PAP-411: Priority filter menu hidden behind SHOW_TASK_PRIORITY_UI (search DSL stays intact). */}
       {SHOW_TASK_PRIORITY_UI && (
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.priority")}
+        label="Priority"
         multi
         options={options.priority}
         selected={filters.priority ?? []}
@@ -212,7 +210,7 @@ export function SearchFilterBar({
       />
       )}
       <SearchFilterMenu
-        label={t("components.search.searchFilterBar.updated")}
+        label="Updated"
         options={options.updated}
         selected={filters.updatedWithin ? [filters.updatedWithin] : []}
         onSelect={(value) => onChange({ ...filters, updatedWithin: value })}

@@ -495,7 +495,7 @@ export function ProjectWorkspaceDetail() {
             <Separator className="my-5" />
 
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label={t("pages.projectWorkspaceDetail.workspaceName")}>
+              <Field label="Workspace name">
                 <input
                   className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                   value={form.name}
@@ -504,7 +504,7 @@ export function ProjectWorkspaceDetail() {
                 />
               </Field>
 
-              <Field label={t("pages.projectWorkspaceDetail.visibility")}>
+              <Field label="Visibility">
                 <select
                   className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                   value={form.visibility}
@@ -520,7 +520,7 @@ export function ProjectWorkspaceDetail() {
             </div>
 
             <div className="mt-4 grid gap-4">
-              <Field label={t("pages.projectWorkspaceDetail.sourceType")} hint={sourceTypeDescription ?? undefined}>
+              <Field label="Source type" hint={sourceTypeDescription ?? undefined}>
                 <select
                   className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                   value={form.sourceType}
@@ -542,7 +542,7 @@ export function ProjectWorkspaceDetail() {
               */}
               {!hideHostPaths && (
                 <div className="grid gap-4 md:grid-cols-(--gtc-13)">
-                  <Field label={t("pages.projectWorkspaceDetail.localPath")}>
+                  <Field label="Local path">
                     <input
                       className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                       value={form.cwd}
@@ -557,7 +557,7 @@ export function ProjectWorkspaceDetail() {
               )}
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label={t("pages.projectWorkspaceDetail.repoUrl")}>
+                <Field label="Repo URL">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                     value={form.repoUrl}
@@ -565,7 +565,7 @@ export function ProjectWorkspaceDetail() {
                     placeholder="https://github.com/org/repo"
                   />
                 </Field>
-                <Field label={t("pages.projectWorkspaceDetail.repoRef")}>
+                <Field label="Repo ref">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.repoRef}
@@ -576,7 +576,7 @@ export function ProjectWorkspaceDetail() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label={t("pages.projectWorkspaceDetail.defaultRef")}>
+                <Field label="Default ref">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.defaultRef}
@@ -584,7 +584,7 @@ export function ProjectWorkspaceDetail() {
                     placeholder="origin/main"
                   />
                 </Field>
-                <Field label={t("pages.projectWorkspaceDetail.sharedWorkspaceKey")}>
+                <Field label="Shared workspace key">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.sharedWorkspaceKey}
@@ -595,7 +595,7 @@ export function ProjectWorkspaceDetail() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label={t("pages.projectWorkspaceDetail.remoteProvider")}>
+                <Field label="Remote provider">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none"
                     value={form.remoteProvider}
@@ -603,7 +603,7 @@ export function ProjectWorkspaceDetail() {
                     placeholder="codespaces"
                   />
                 </Field>
-                <Field label={t("pages.projectWorkspaceDetail.remoteWorkspaceRef")}>
+                <Field label="Remote workspace ref">
                   <input
                     className="w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.remoteWorkspaceRef}
@@ -614,7 +614,7 @@ export function ProjectWorkspaceDetail() {
               </div>
 
               <div className="grid gap-4 md:grid-cols-2">
-                <Field label={t("pages.projectWorkspaceDetail.setupCommand")} hint="Runs when this workspace needs custom bootstrap">
+                <Field label="Setup command" hint="Runs when this workspace needs custom bootstrap">
                   <textarea
                     className="min-h-28 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.setupCommand}
@@ -622,7 +622,7 @@ export function ProjectWorkspaceDetail() {
                     placeholder="pnpm install && pnpm dev"
                   />
                 </Field>
-                <Field label={t("pages.projectWorkspaceDetail.cleanupCommand")} hint="Runs before project-level execution workspace teardown">
+                <Field label="Cleanup command" hint="Runs before project-level execution workspace teardown">
                   <textarea
                     className="min-h-28 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                     value={form.cleanupCommand}
@@ -638,7 +638,7 @@ export function ProjectWorkspaceDetail() {
                   {t("pages.projectWorkspaceDetail.paperclipDerivesServicesAndJobsFrom")}
                 </p>
                 <div className="mt-3">
-                  <Field label={t("pages.projectWorkspaceDetail.workspaceCommandsJson")} hint="Execution workspaces inherit this config unless they override it. Legacy `services` arrays still work, but `commands` supports both services and jobs.">
+                  <Field label="Workspace commands JSON" hint="Execution workspaces inherit this config unless they override it. Legacy `services` arrays still work, but `commands` supports both services and jobs.">
                     <textarea
                       className="min-h-96 w-full rounded-lg border border-border bg-background px-3 py-2 font-mono text-sm outline-none"
                       value={form.runtimeConfig}
@@ -680,18 +680,18 @@ export function ProjectWorkspaceDetail() {
               <h2 className="text-lg font-semibold">{t("pages.projectWorkspaceDetail.currentState")}</h2>
             </div>
             <Separator className="my-4" />
-            <DetailRow label={t("pages.projectWorkspaceDetail.project")}>
+            <DetailRow label="Project">
               <Link to={`/projects/${canonicalProjectRef}`} className="hover:underline">{project.name}</Link>
             </DetailRow>
-            <DetailRow label={t("pages.projectWorkspaceDetail.workspaceId")}>
+            <DetailRow label="Workspace ID">
               <span className="break-all font-mono text-xs">{workspace.id}</span>
             </DetailRow>
             {hideHostPaths ? null : (
-              <DetailRow label={t("pages.projectWorkspaceDetail.localPath")}>
+              <DetailRow label="Local path">
                 <span className="break-all font-mono text-xs">{workspace.cwd ?? "None"}</span>
               </DetailRow>
             )}
-            <DetailRow label={t("pages.projectWorkspaceDetail.repo")}>
+            <DetailRow label="Repo">
               {workspace.repoUrl && isSafeExternalUrl(workspace.repoUrl) ? (
                 <a href={workspace.repoUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
                   {workspace.repoUrl}
@@ -701,8 +701,8 @@ export function ProjectWorkspaceDetail() {
                 <span className="break-all font-mono text-xs">{workspace.repoUrl}</span>
               ) : "None"}
             </DetailRow>
-            <DetailRow label={t("pages.projectWorkspaceDetail.defaultRef")}>{workspace.defaultRef ?? "None"}</DetailRow>
-            <DetailRow label={t("pages.projectWorkspaceDetail.updated")}>{new Date(workspace.updatedAt).toLocaleString()}</DetailRow>
+            <DetailRow label="Default ref">{workspace.defaultRef ?? "None"}</DetailRow>
+            <DetailRow label="Updated">{new Date(workspace.updatedAt).toLocaleString()}</DetailRow>
           </Card>
 
           <Card className="block p-5">

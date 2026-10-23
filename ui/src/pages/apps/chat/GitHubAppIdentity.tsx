@@ -25,13 +25,12 @@ export function gitHubAppSettingsUrl(endpoint: ChatEndpoint) {
 }
 
 export function GitHubBotMention({ endpoint }: { endpoint: ChatEndpoint }) {
-  const { t } = useTranslation();
   const mention = gitHubBotMention(endpoint);
   return mention ? (
     <CopyText
       text={mention}
       ariaLabel="Copy GitHub mention"
-      title={t("pages.apps.chat.gitHubAppIdentity.copyGithubMention")}
+      title="Copy GitHub mention"
       className="break-all font-mono text-xs"
     >
       {mention}
@@ -49,7 +48,7 @@ export function GitHubAppBranding({
 }) {
   const { t } = useTranslation();
   return (
-    <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubAppIdentity.githubAppNameAndLogo")}>
+    <GitHubSettingsDisclosure title="GitHub App name and logo">
       <div className="mt-4 space-y-4">
         <p className="text-sm text-muted-foreground">
           {t("pages.apps.chat.gitHubAppIdentity.changeTheNameOrUploadA")}
@@ -127,7 +126,7 @@ export function GitHubAppIdentityActions({
         <Link
           to={`/apps/chat/connect?provider=github&resume=${endpoint.id}&reconnect=1`}
           aria-label={t("pages.apps.chat.gitHubAppIdentity.refreshGithubAppIdentity")}
-          title={t("pages.apps.chat.gitHubAppIdentity.reconnectAfterRenamingTheAppTo")}
+          title="Reconnect after renaming the App to refresh its @mention"
         >
           <RefreshCw className="size-3.5" />
         </Link>

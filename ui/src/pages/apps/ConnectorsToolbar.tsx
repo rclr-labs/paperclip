@@ -12,7 +12,7 @@ export function ConnectorsToolbar({ query, onQueryChange, source, onSourceChange
   const { t } = useTranslation();
   return <header data-canonical-toolbar="connectors" role="toolbar" aria-label={t("pages.apps.connectorsToolbar.connectorsControls")} className="flex flex-wrap items-center gap-3">
     <div className="w-full">
-      <ToolbarSearch query={query} onQueryChange={onQueryChange} label={t("pages.apps.connectorsToolbar.searchConnectors2")} placeholder={t("pages.apps.connectorsToolbar.searchConnectors")} inputType="search" />
+      <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search connectors" placeholder={t("pages.apps.connectorsToolbar.searchConnectors")} inputType="search" />
     </div>
     <CatalogSourceFilters source={source} onChange={onSourceChange} />
   </header>;

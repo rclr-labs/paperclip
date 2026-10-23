@@ -147,7 +147,7 @@ export function AgentBubbleActionRow({
             variant="ghost"
             size="icon-xs"
             className="text-muted-foreground hover:text-foreground"
-            title={t("components.agentBubbleActionRow.moreActions")}
+            title="More actions"
             aria-label={t("components.agentBubbleActionRow.moreActions")}
           >
             <MoreHorizontal className="h-3.5 w-3.5" />

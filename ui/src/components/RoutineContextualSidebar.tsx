@@ -108,12 +108,12 @@ export function RoutineContextualSidebar({
         <div className="flex flex-col gap-0.5">
           <SidebarNavItem
             to={routineDetailHref(routineId, "runs")}
-            label={t("components.routineContextualSidebar.runs")}
+            label="Runs"
             icon={Play}
           />
           <SidebarNavItem
             to={routineDetailHref(routineId, "activity")}
-            label={t("components.routineContextualSidebar.activity")}
+            label="Activity"
             icon={Activity}
           />
         </div>

@@ -258,7 +258,7 @@ export function SkillFolderRail({
         <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
           {t("components.folders.skillFolderTree.folders")}
         </div>
-        <Button variant="ghost" size="icon-sm" title={t("components.folders.skillFolderTree.newFolder")} onClick={() => onCreateFolder(null)}>
+        <Button variant="ghost" size="icon-sm" title="New folder" onClick={() => onCreateFolder(null)}>
           <Plus className="h-3.5 w-3.5" />
         </Button>
       </div>
@@ -273,7 +273,7 @@ export function SkillFolderRail({
         <div className="space-y-0.5">
           <VirtualRow
             active={selection === "all"}
-            label={t("components.folders.skillFolderTree.allSkills")}
+            label="All skills"
             count={allCount}
             icon={<Layers className="h-3.5 w-3.5" />}
             onSelect={() => onSelect("all")}
@@ -304,7 +304,7 @@ export function SkillFolderRail({
           ) : onEnsureMyFolder ? (
             <VirtualRow
               active={false}
-              label={t("components.folders.skillFolderTree.mySkills")}
+              label="My Skills"
               count={0}
               icon={<User className="h-3.5 w-3.5" />}
               muted
@@ -313,7 +313,7 @@ export function SkillFolderRail({
           ) : null}
 
           {/* Company — plain top-level company folders */}
-          <RailHeading label={t("components.folders.skillFolderTree.organization")} onCreate={() => onCreateFolder(null)} />
+          <RailHeading label="Organization" onCreate={() => onCreateFolder(null)} />
           {model.company.length > 0 ? (
             model.company.map((node) => (
               <TreeBranch
@@ -365,7 +365,7 @@ export function SkillFolderRail({
           ) : (
             <VirtualRow
               active={false}
-              label={t("components.folders.skillFolderTree.projects")}
+              label="Projects"
               count={0}
               icon={<Boxes className="h-3.5 w-3.5" />}
               muted
@@ -403,7 +403,7 @@ export function SkillFolderRail({
           </div>
           <VirtualRow
             active={selection === "unfiled"}
-            label={t("components.folders.skillFolderTree.unfiled")}
+            label="Unfiled"
             count={unfiledCount}
             icon={<FolderSwatch color={null} />}
             onSelect={() => onSelect("unfiled")}

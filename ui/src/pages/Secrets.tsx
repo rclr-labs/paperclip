@@ -2408,7 +2408,7 @@ export function Secrets() {
                   </Button>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
-                  <UserSecretChip label={t("pages.secrets.eachUser")} />
+                  <UserSecretChip label="Each user" />
                   <MetaChip>
                     <CoverageInline companyId={selectedCompanyId} definitionId={selectedDefinition.id} compact />
                   </MetaChip>
@@ -3480,7 +3480,6 @@ function ImportFromVaultButton({
   onManageVaults,
   className,
 }: ImportFromVaultButtonProps) {
-  const { t } = useTranslation();
   const awsConfigs = providerConfigs.filter(
     (config) => config.provider === "aws_secrets_manager",
   );
@@ -3498,7 +3497,7 @@ function ImportFromVaultButton({
         size="sm"
         onClick={onManageVaults}
         className={cn("text-xs text-muted-foreground", className)}
-        title={t("pages.secrets.configureAnAwsProviderVaultTo")}
+        title="Configure an AWS provider vault to enable remote import"
       >
         <Cloud className="h-3.5 w-3.5 mr-1" /> AWS vault disabled — manage
       </Button>
@@ -3790,12 +3789,12 @@ function ProviderVaultFields({
   if (form.provider === "aws_secrets_manager") {
     return (
       <div className="grid gap-3 sm:grid-cols-2">
-        <TextField label={t("pages.secrets.awsRegion")} value={form.region} onChange={(value) => setField("region", value)} placeholder="us-east-1" required />
-        <TextField label={t("pages.secrets.namespace")} value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="production" />
-        <TextField label={t("pages.secrets.secretNamePrefix")} value={form.secretNamePrefix} onChange={(value) => setField("secretNamePrefix", value)} placeholder="paperclip" />
-        <TextField label={t("pages.secrets.kmsKeyId")} value={form.kmsKeyId} onChange={(value) => setField("kmsKeyId", value)} placeholder="alias/paperclip-secrets" />
-        <TextField label={t("pages.secrets.ownerTag")} value={form.ownerTag} onChange={(value) => setField("ownerTag", value)} placeholder="platform" />
-        <TextField label={t("pages.secrets.environmentTag")} value={form.environmentTag} onChange={(value) => setField("environmentTag", value)} placeholder="prod" />
+        <TextField label="AWS region" value={form.region} onChange={(value) => setField("region", value)} placeholder="us-east-1" required />
+        <TextField label="Namespace" value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="production" />
+        <TextField label="Secret name prefix" value={form.secretNamePrefix} onChange={(value) => setField("secretNamePrefix", value)} placeholder="paperclip" />
+        <TextField label="KMS key id" value={form.kmsKeyId} onChange={(value) => setField("kmsKeyId", value)} placeholder="alias/paperclip-secrets" />
+        <TextField label="Owner tag" value={form.ownerTag} onChange={(value) => setField("ownerTag", value)} placeholder="platform" />
+        <TextField label="Environment tag" value={form.environmentTag} onChange={(value) => setField("environmentTag", value)} placeholder="prod" />
       </div>
     );
   }
@@ -3803,20 +3802,20 @@ function ProviderVaultFields({
   if (form.provider === "gcp_secret_manager") {
     return (
       <div className="grid gap-3 sm:grid-cols-2">
-        <TextField label={t("pages.secrets.projectId")} value={form.projectId} onChange={(value) => setField("projectId", value)} placeholder="paperclip-prod" />
-        <TextField label={t("pages.secrets.location")} value={form.location} onChange={(value) => setField("location", value)} placeholder="global" />
-        <TextField label={t("pages.secrets.namespace")} value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="production" />
-        <TextField label={t("pages.secrets.secretNamePrefix")} value={form.secretNamePrefix} onChange={(value) => setField("secretNamePrefix", value)} placeholder="paperclip" />
+        <TextField label="Project id" value={form.projectId} onChange={(value) => setField("projectId", value)} placeholder="paperclip-prod" />
+        <TextField label="Location" value={form.location} onChange={(value) => setField("location", value)} placeholder="global" />
+        <TextField label="Namespace" value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="production" />
+        <TextField label="Secret name prefix" value={form.secretNamePrefix} onChange={(value) => setField("secretNamePrefix", value)} placeholder="paperclip" />
       </div>
     );
   }
 
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      <TextField label={t("pages.secrets.address")} value={form.address} onChange={(value) => setField("address", value)} placeholder="https://vault.example.com" />
-      <TextField label={t("pages.secrets.namespace")} value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="admin" />
-      <TextField label={t("pages.secrets.mountPath")} value={form.mountPath} onChange={(value) => setField("mountPath", value)} placeholder="secret" />
-      <TextField label={t("pages.secrets.secretPathPrefix")} value={form.secretPathPrefix} onChange={(value) => setField("secretPathPrefix", value)} placeholder="paperclip/prod" />
+      <TextField label="Address" value={form.address} onChange={(value) => setField("address", value)} placeholder="https://vault.example.com" />
+      <TextField label="Namespace" value={form.namespace} onChange={(value) => setField("namespace", value)} placeholder="admin" />
+      <TextField label="Mount path" value={form.mountPath} onChange={(value) => setField("mountPath", value)} placeholder="secret" />
+      <TextField label="Secret path prefix" value={form.secretPathPrefix} onChange={(value) => setField("secretPathPrefix", value)} placeholder="paperclip/prod" />
     </div>
   );
 }
@@ -4238,15 +4237,15 @@ function UserSecretDetailsTab({
   const { t } = useTranslation();
   return (
     <dl className="divide-y divide-border/60 text-xs">
-      <DetailRow label={t("pages.secrets.description")}>
+      <DetailRow label="Description">
         <span>{definition.description ?? <span className="text-muted-foreground">—</span>}</span>
       </DetailRow>
-      <DetailRow label={t("pages.secrets.providedBy")}>{t("pages.secrets.eachUser")}</DetailRow>
-      <DetailRow label={t("pages.secrets.key")}>
+      <DetailRow label="Provided by">{t("pages.secrets.eachUser")}</DetailRow>
+      <DetailRow label="Key">
         <code>{definition.key}</code>
       </DetailRow>
-      <DetailRow label={t("pages.secrets.status")}><StatusBadge status={definition.status} /></DetailRow>
-      <DetailRow label={t("pages.secrets.coverage")}>
+      <DetailRow label="Status"><StatusBadge status={definition.status} /></DetailRow>
+      <DetailRow label="Coverage">
         <button
           type="button"
           className="inline-flex min-w-0 items-center gap-1 text-left text-primary hover:underline"
@@ -4256,9 +4255,9 @@ function UserSecretDetailsTab({
           <span className="shrink-0 text-muted-foreground">· View in Coverage</span>
         </button>
       </DetailRow>
-      <DetailRow label={t("pages.secrets.created")}>{formatRelative(definition.createdAt)}</DetailRow>
-      <DetailRow label={t("pages.secrets.updated")}>{formatRelative(definition.updatedAt)}</DetailRow>
-      <DetailRow label={t("pages.secrets.usageGuidance")}>
+      <DetailRow label="Created">{formatRelative(definition.createdAt)}</DetailRow>
+      <DetailRow label="Updated">{formatRelative(definition.updatedAt)}</DetailRow>
+      <DetailRow label="Usage guidance">
         {definition.usageGuidance ?? <span className="text-muted-foreground">—</span>}
       </DetailRow>
       <div className="mt-3 rounded-md border border-violet-500/30 bg-violet-500/5 p-2 text-(length:--text-micro) text-violet-800 dark:text-violet-200">
@@ -4658,22 +4657,22 @@ function SecretDetailsTab({
 
   return (
     <dl className="divide-y divide-border/60 text-xs">
-      <DetailRow label={t("pages.secrets.description")}>
+      <DetailRow label="Description">
         <span>{secret.description ?? <span className="text-muted-foreground">—</span>}</span>
       </DetailRow>
-      <DetailRow label={t("pages.secrets.providedBy")}>{t("pages.secrets.organization")}</DetailRow>
-      <DetailRow label={t("pages.secrets.custody")}>{modeLabel(secret.managedMode)}</DetailRow>
-      <DetailRow label={t("pages.secrets.provider")}>{providerLabel(providers, secret.provider)}</DetailRow>
-      <DetailRow label={t("pages.secrets.providerVault")}>{providerVaultLabel(providerConfigs, secret.providerConfigId)}</DetailRow>
-      <DetailRow label={t("pages.secrets.externalArn")}>
+      <DetailRow label="Provided by">{t("pages.secrets.organization")}</DetailRow>
+      <DetailRow label="Custody">{modeLabel(secret.managedMode)}</DetailRow>
+      <DetailRow label="Provider">{providerLabel(providers, secret.provider)}</DetailRow>
+      <DetailRow label="Provider vault">{providerVaultLabel(providerConfigs, secret.providerConfigId)}</DetailRow>
+      <DetailRow label="External ARN">
         {secret.externalRef ? (
           <span className="break-all font-mono">{secret.externalRef}</span>
         ) : (
           <span className="text-muted-foreground">—</span>
         )}
       </DetailRow>
-      <DetailRow label={t("pages.secrets.latestVersion")}>v{secret.latestVersion}</DetailRow>
-      <DetailRow label={t("pages.secrets.references")}>
+      <DetailRow label="Latest version">v{secret.latestVersion}</DetailRow>
+      <DetailRow label="References">
         <button
           type="button"
           className="inline-flex items-center gap-1 text-left text-primary hover:underline"
@@ -4683,10 +4682,10 @@ function SecretDetailsTab({
           <span className="text-muted-foreground">· View in Usage</span>
         </button>
       </DetailRow>
-      <DetailRow label={t("pages.secrets.created")}>{formatRelative(secret.createdAt)}</DetailRow>
-      <DetailRow label={t("pages.secrets.updated")}>{formatRelative(secret.updatedAt)}</DetailRow>
-      <DetailRow label={t("pages.secrets.lastRotated")}>{formatRelative(secret.lastRotatedAt)}</DetailRow>
-      <DetailRow label={t("pages.secrets.lastResolved")}>{formatRelative(secret.lastResolvedAt)}</DetailRow>
+      <DetailRow label="Created">{formatRelative(secret.createdAt)}</DetailRow>
+      <DetailRow label="Updated">{formatRelative(secret.updatedAt)}</DetailRow>
+      <DetailRow label="Last rotated">{formatRelative(secret.lastRotatedAt)}</DetailRow>
+      <DetailRow label="Last resolved">{formatRelative(secret.lastResolvedAt)}</DetailRow>
       <div className="mt-3 rounded-md border border-amber-500/30 bg-amber-500/5 p-2 text-(length:--text-micro) text-amber-700 dark:text-amber-300">
         {modeDescription(
           secret.managedMode,

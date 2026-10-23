@@ -313,7 +313,7 @@ export function OnboardingLoginCodeRow({
       </AnimatePresence>
       <LoginCardCopyButton
         value={code}
-        label={t("components.adapterLoginChrome.copyTheCode")}
+        label="Copy the code"
         onCopied={() => {
           // No wait here. A press is a direct action, and delaying its
           // acknowledgement would read as the button having missed.
@@ -460,12 +460,11 @@ export function ProviderApiKeyCard({
 }: Omit<Parameters<typeof OnboardingCardField>[0], "masked" | "label"> & {
   providerName: string;
 }) {
-  const { t } = useTranslation();
   return (
     <OnboardingLoginCard
       instruction={`Provide your ${providerName} API key to connect`}
     >
-      <OnboardingCardField {...field} label={t("components.adapterLoginChrome.apiKey")} masked />
+      <OnboardingCardField {...field} label="API key" masked />
     </OnboardingLoginCard>
   );
 }
@@ -522,7 +521,7 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
       <p>{t("components.adapterLoginChrome.runThisInATerminalOn")}</p>
       {command && <div className="flex min-w-0 max-w-full items-start gap-2 rounded-md border bg-muted p-3 text-foreground">
         <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all font-mono text-xs"><code>{command}</code></pre>
-        <LoginCardCopyButton value={command} label={t("components.adapterLoginChrome.copySignInCommand")} />
+        <LoginCardCopyButton value={command} label="Copy sign-in command" />
       </div>}
     </>}
     {login?.error && <p role="alert">{login.error}</p>}

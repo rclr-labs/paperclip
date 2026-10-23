@@ -847,11 +847,11 @@ function IssueAttributionByline({
         data-testid="issue-attribution-avatar-stack"
       >
         {assignee ? (
-          <AttributionAvatar label={t("pages.issueDetail.assignee")} actor={assignee} />
+          <AttributionAvatar label="Assignee" actor={assignee} />
         ) : null}
         {originator ? (
           <AttributionAvatar
-            label={t("pages.issueDetail.originating")}
+            label="Originating"
             actor={originator}
             via={originatorVia}
           />
@@ -7349,7 +7349,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
           <Badge
             variant="outline"
             className="border-sky-500/40 bg-sky-500/10 text-(length:--text-nano) text-sky-700 dark:text-sky-300"
-            title={t("pages.issueDetail.thisTaskIsAGeneratedWatchdog")}
+            title="This task is a generated watchdog task. It verifies whether stopped work in the watched task tree is legitimate."
           >
             <ScanEye className="h-3 w-3" />
             Watchdog
@@ -7386,7 +7386,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             variant="outline"
             data-testid="issue-detail-parked-blocker"
             className="border-amber-500/60 bg-amber-500/15 text-(length:--text-nano) text-amber-700 dark:text-amber-300"
-            title={t("pages.issueDetail.blockedByParkedWorkAtLeast")}
+            title="Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee."
           >
             <Flag className="h-3 w-3" />
             Blocked by parked work
@@ -7459,7 +7459,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={copyIssueToClipboard}
-              title={t("pages.issueDetail.copyTaskAsMarkdown")}
+              title="Copy task as markdown"
             >
               {copied ? (
                 <Check className="h-4 w-4 text-green-500" />
@@ -7471,7 +7471,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={() => setMobilePropsOpen(true)}
-              title={t("pages.issueDetail.properties")}
+              title="Properties"
             >
               <SlidersHorizontal className="h-4 w-4" />
             </Button>
@@ -7488,7 +7488,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                   archiveFromInbox.mutate(issue.id);
               }}
               disabled={archivePending}
-              title={t("pages.issueDetail.archiveFromInbox")}
+              title="Archive from inbox"
               aria-label={t("pages.issueDetail.archiveFromInbox")}
             >
               <Archive className="h-4 w-4" />
@@ -7499,7 +7499,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={() => setFileViewerPromptOpen(true)}
-              title={t("pages.issueDetail.openFileGF")}
+              title="Open file... (g f)"
               aria-label={t("pages.issueDetail.openFileInThisIssue")}
             >
               <FileCode2 className="h-4 w-4" />
@@ -7510,7 +7510,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               variant="ghost"
               size="icon-xs"
               onClick={copyIssueToClipboard}
-              title={t("pages.issueDetail.copyTaskAsMarkdown")}
+              title="Copy task as markdown"
             >
               {copied ? (
                 <Check className="h-4 w-4 text-green-500" />

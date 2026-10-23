@@ -56,7 +56,7 @@ function Toolbar() {
         <Input readOnly className="h-9 pl-9 pr-9 text-sm" placeholder={t("artifactdirections.frames.galleryFrame.searchArtifacts2")} aria-label={t("artifactdirections.frames.galleryFrame.searchArtifacts")} />
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
-        <Button variant="outline" size="icon" className="h-8 w-8 shrink-0 bg-accent" title={t("artifactdirections.frames.galleryFrame.groupArtifacts")} aria-label={t("artifactdirections.frames.galleryFrame.groupArtifactsCurrentlyTask")}>
+        <Button variant="outline" size="icon" className="h-8 w-8 shrink-0 bg-accent" title="Group artifacts" aria-label={t("artifactdirections.frames.galleryFrame.groupArtifactsCurrentlyTask")}>
           <Layers className="h-3.5 w-3.5" />
         </Button>
         <div role="tablist" aria-label={t("artifactdirections.frames.galleryFrame.filterArtifactsByType")} className="flex flex-wrap items-center gap-1.5">

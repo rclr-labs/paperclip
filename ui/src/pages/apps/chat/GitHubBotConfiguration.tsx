@@ -299,7 +299,7 @@ export function GitHubPolicyEditor({
         <p className="text-xs text-muted-foreground">
           {t("pages.apps.chat.gitHubBotConfiguration.includedInEveryGithubTaskType")}
         </p>
-        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.eventSpecificInstructions")}>
+        <GitHubSettingsDisclosure title="Event-specific instructions">
           <div className="grid gap-3 pt-3">
             <Label htmlFor={`${id}-github-prompt-event`} className="sr-only">
               {t("pages.apps.chat.gitHubBotConfiguration.event")}
@@ -367,7 +367,7 @@ export function GitHubPolicyEditor({
           </div>
         </div>
         <GitHubToggle
-          label={t("pages.apps.chat.gitHubBotConfiguration.runAutomatically")}
+          label="Run automatically"
           description="Start work without a mention when an allowed person creates an issue or updates a pull request."
           checked={policy.invocation !== "mentions_only"}
           onChange={(enabled) =>
@@ -412,21 +412,21 @@ export function GitHubPolicyEditor({
             <p className="text-xs text-muted-foreground">
               {t("pages.apps.chat.gitHubBotConfiguration.runsForAuthorizedAuthorsInAccess")}
             </p>
-            <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.automaticReviewFilters")}>
+            <GitHubSettingsDisclosure title="Automatic review filters">
               <div>
                 <GitHubToggle
-                  label={t("pages.apps.chat.gitHubBotConfiguration.includeDraftPrs")}
+                  label="Include draft PRs"
                   checked={policy.reviewDrafts}
                   onChange={(value) => set("reviewDrafts", value)}
                 />
                 <GitHubToggle
-                  label={t("pages.apps.chat.gitHubBotConfiguration.includeBotAuthors")}
+                  label="Include bot authors"
                   description="The account also needs a sponsor and external-contributor automatic runs enabled in Access."
                   checked={policy.reviewBotAuthors}
                   onChange={(value) => set("reviewBotAuthors", value)}
                 />
               </div>
-              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.authors")}>
+              <GitHubSettingsDisclosure title="Authors">
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "includeAuthors",
@@ -440,7 +440,7 @@ export function GitHubPolicyEditor({
                   )}
                 </div>
               </GitHubSettingsDisclosure>
-              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.branches")}>
+              <GitHubSettingsDisclosure title="Branches">
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "targetBranches",
@@ -454,7 +454,7 @@ export function GitHubPolicyEditor({
                   )}
                 </div>
               </GitHubSettingsDisclosure>
-              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.labels")}>
+              <GitHubSettingsDisclosure title="Labels">
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "requiredLabels",
@@ -487,12 +487,12 @@ export function GitHubPolicyEditor({
         </h2>
         <div className="grid gap-x-8 sm:grid-cols-2">
           <GitHubToggle
-            label={t("pages.apps.chat.gitHubBotConfiguration.postAReviewSummary")}
+            label="Post a review summary"
             checked={policy.publishSummary}
             onChange={(value) => set("publishSummary", value)}
           />
           <GitHubToggle
-            label={t("pages.apps.chat.gitHubBotConfiguration.postInlineFindings")}
+            label="Post inline findings"
             checked={policy.publishInline}
             onChange={(value) => set("publishInline", value)}
           />
@@ -501,14 +501,14 @@ export function GitHubPolicyEditor({
           onChange={(value) => set("ratingThreshold", value)} onValidityChange={onValidityChange} />
       </section>
       <div className="divide-y divide-border">
-        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.ignoredFiles")}>
+        <GitHubSettingsDisclosure title="Ignored files">
           {filterField(
             "ignoredPaths",
             "File patterns",
             "Excluded from all reviews, including @mentions. One pattern per line; supports * and **.",
           )}
         </GitHubSettingsDisclosure>
-        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.inlineCommentOptions")}>
+        <GitHubSettingsDisclosure title="Inline comment options">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor={`${id}-github-categories`}>
@@ -547,19 +547,19 @@ export function GitHubPolicyEditor({
             </div>
           </div>
         </GitHubSettingsDisclosure>
-        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.approvalsAndChangeRequests")}>
+        <GitHubSettingsDisclosure title="Approvals and change requests">
           <p className="text-xs text-muted-foreground">
             {t("pages.apps.chat.gitHubBotConfiguration.optionalFormalDecisionsOnGithubScores")}
           </p>
           <div>
             <GitHubToggle
-              label={t("pages.apps.chat.gitHubBotConfiguration.allowApprovals")}
+              label="Allow approvals"
               help="Lets the agent submit an Approve review on GitHub after a complete assessment. The agent must explicitly choose it; a 5/5 score or passing check does not approve the PR. Off still allows scores, comments, and checks."
               checked={policy.allowApprove}
               onChange={(value) => set("allowApprove", value)}
             />
             <GitHubToggle
-              label={t("pages.apps.chat.gitHubBotConfiguration.allowRequestChanges")}
+              label="Allow request changes"
               help="Lets the agent submit a Request changes review on GitHub after a complete assessment. This is a formal review decision and may prevent merging under your repository rules. Off still allows findings, comments, and a failing check."
               checked={policy.allowRequestChanges}
               onChange={(value) => set("allowRequestChanges", value)}
@@ -789,7 +789,7 @@ export function GitHubAccessEditor({
           </Button>
         </div>
         <GitHubToggle
-          label={t("pages.apps.chat.gitHubBotConfiguration.allowMentionsFromAllLinkedMembers")}
+          label="Allow mentions from all linked members"
           description={
             configuration.memberAccess === "all_linked"
               ? `Includes members from ${company?.name ?? "this company"} who link their GitHub account later.`
@@ -864,7 +864,7 @@ export function GitHubAccessEditor({
         {peopleRows(guests)}
         {guests.length > 0 && (
           <GitHubToggle
-            label={t("pages.apps.chat.gitHubBotConfiguration.allowAutomaticRunsForExternalContributors")}
+            label="Allow automatic runs for external contributors"
             description={
               automatic
                 ? "Authorized contributors can trigger the events and author filters configured in Settings."
@@ -884,7 +884,7 @@ export function GitHubAccessEditor({
           />
         )}
       </section>
-      <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.automaticTaskResponsibility")}>
+      <GitHubSettingsDisclosure title="Automatic task responsibility">
         <div className="space-y-2">
           {activeMembers.length === 1 && responsible ? (
             <p className="text-sm">

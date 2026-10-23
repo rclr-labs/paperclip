@@ -767,7 +767,6 @@ function StudioLanding({
   onSelectSkill: (skillId: string) => void;
   onCreateNew: () => void;
 }) {
-  const { t } = useTranslation();
   // Recency-sorted list, enriched with the last human editor (PAP-13149) — the
   // source for both landing sections. Kept separate from the alphabetical
   // switcher list so each cache stays sorted the way its consumer expects.
@@ -820,13 +819,13 @@ function StudioLanding({
           <div className="mx-auto w-full max-w-3xl space-y-8 px-4 py-8">
             {visited.length > 0 ? (
               <StudioLandingSection
-                title={t("pages.skillStudio.recentlyVisited")}
+                title="Recently visited"
                 skills={visited}
                 onSelectSkill={onSelectSkill}
               />
             ) : null}
             <StudioLandingSection
-              title={t("pages.skillStudio.recentlyUpdated")}
+              title="Recently updated"
               skills={updated}
               onSelectSkill={onSelectSkill}
             />
@@ -2523,7 +2522,7 @@ function RunsPane({
 
   return (
     <PaneScaffold
-      title={t("pages.skillStudio.testRuns")}
+      title="Test runs"
       action={
         <div className="flex items-center gap-2">
           <AgentPicker
@@ -3117,14 +3116,14 @@ function RunDetailView({
 
   if (detailQuery.isLoading) {
     return (
-      <PaneScaffold title={t("pages.skillStudio.run")} action={<BackButton onBack={onBack} />}>
+      <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
         <div className="p-3 text-xs text-muted-foreground">{t("pages.skillStudio.loadingRun")}</div>
       </PaneScaffold>
     );
   }
   if (!detail) {
     return (
-      <PaneScaffold title={t("pages.skillStudio.run")} action={<BackButton onBack={onBack} />}>
+      <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
         <div className="p-3 text-xs text-muted-foreground">{t("pages.skillStudio.runNotFound")}</div>
       </PaneScaffold>
     );
@@ -3139,7 +3138,7 @@ function RunDetailView({
   const taskLink = testTaskLinkState(detail);
 
   return (
-    <PaneScaffold title={t("pages.skillStudio.run")} action={<BackButton onBack={onBack} />}>
+    <PaneScaffold title="Run" action={<BackButton onBack={onBack} />}>
       <div className="min-h-0 flex-1 space-y-3 overflow-auto p-3">
         <div className="flex flex-wrap items-center gap-2">
           <StatusBadge status={runBadgeStatus(detail.status)} />
@@ -3155,10 +3154,10 @@ function RunDetailView({
 
         {/* snapshot property block */}
         <div className="rounded-md border border-border text-xs">
-          <PropRow label={t("pages.skillStudio.input")} value={detail.inputId ? "saved input" : "ad-hoc paste"} />
-          <PropRow label={t("pages.skillStudio.template")} value={detail.templateName ?? "No template"} />
-          <PropRow label={t("pages.skillStudio.skillVersion")} value={`v${detail.skillVersion.revisionNumber}`} />
-          <PropRow label={t("pages.skillStudio.created")} value={relativeTime(detail.createdAt)} />
+          <PropRow label="Input" value={detail.inputId ? "saved input" : "ad-hoc paste"} />
+          <PropRow label="Template" value={detail.templateName ?? "No template"} />
+          <PropRow label="Skill version" value={`v${detail.skillVersion.revisionNumber}`} />
+          <PropRow label="Created" value={relativeTime(detail.createdAt)} />
         </div>
 
         {showRunErrorCard(detail.status) && (

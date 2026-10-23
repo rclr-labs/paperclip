@@ -641,7 +641,7 @@ export function EmailEndpointSettings({
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 aria-label={inbox.address ?? undefined} className="min-w-0 break-all text-xl font-bold">
             {inbox.address ? (
-              <CopyText text={inbox.address} ariaLabel="Copy email address" title={t("pages.apps.chat.emailEndpointSetup.copyEmailAddress")}
+              <CopyText text={inbox.address} ariaLabel="Copy email address" title="Copy email address"
                 containerClassName="max-w-full" className="flex min-w-0 items-center gap-2 rounded-md text-left">
                 <span className="min-w-0 break-all">{inbox.address}</span>
                 <Copy aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
@@ -712,7 +712,7 @@ export function EmailEndpointSettings({
           <p className="text-sm text-muted-foreground">
             {t("pages.apps.chat.emailEndpointSetup.replaceTheApiKeyOrChange")}
           </p>
-          <AgentMailApiKeyField label={t("pages.apps.chat.emailEndpointSetup.newApiKey")} value={replacementKey} onChange={setReplacementKey} disabled={reconnect.isPending} />
+          <AgentMailApiKeyField label="New API key" value={replacementKey} onChange={setReplacementKey} disabled={reconnect.isPending} />
           <div className="space-y-2">
             <Label htmlFor="email-reconnect-mode">{t("pages.apps.chat.emailEndpointSetup.receivingMode")}</Label>
             <select id="email-reconnect-mode" className={selectClass}

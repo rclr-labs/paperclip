@@ -29,8 +29,7 @@ export function artifactGroupByLabel(value: ArtifactGroupBy): string {
 
 /** Canonical collection filters; compact standalone, standard in the toolbar. */
 export function ArtifactKindFilters({ kind, onKindChange, size = "compact" }: { kind: ArtifactKindFilter; onKindChange: (value: ArtifactKindFilter) => void; size?: TabSize }) {
-  const { t } = useTranslation();
-  return <TabFilters items={ARTIFACT_KIND_FILTERS} value={kind} onValueChange={onKindChange} size={size} label={t("components.artifacts.artifactsToolbar.filterArtifactsByType")} />;
+  return <TabFilters items={ARTIFACT_KIND_FILTERS} value={kind} onValueChange={onKindChange} size={size} label="Filter artifacts by type" />;
 }
 
 export interface ArtifactsToolbarProps {
@@ -51,7 +50,7 @@ export function ArtifactsToolbar({ query: draftQuery, onQueryChange: setDraftQue
   return (
     <div data-canonical-toolbar="artifacts" role="toolbar" aria-label={t("components.artifacts.artifactsToolbar.artifactsControls")} className="flex flex-col items-start gap-4">
       <div className="design-toolbar-controls flex w-full flex-wrap items-center gap-4">
-        <ToolbarSearch query={draftQuery} onQueryChange={setDraftQuery} label={t("components.artifacts.artifactsToolbar.searchArtifacts2")} placeholder={t("components.artifacts.artifactsToolbar.searchArtifacts")} clearLabel="Clear artifact search" />
+        <ToolbarSearch query={draftQuery} onQueryChange={setDraftQuery} label="Search artifacts" placeholder={t("components.artifacts.artifactsToolbar.searchArtifacts")} clearLabel="Clear artifact search" />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -60,7 +59,7 @@ export function ArtifactsToolbar({ query: draftQuery, onQueryChange: setDraftQue
               variant="outline"
               size="icon"
               aria-label={`Group artifacts (currently ${artifactGroupByLabel(groupBy)})`}
-              title={t("components.artifacts.artifactsToolbar.groupArtifacts")}
+              title="Group artifacts"
               data-testid="artifact-group-control"
               data-group-by={groupBy}
               data-active={grouping}

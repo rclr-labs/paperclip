@@ -38,7 +38,7 @@ export function ProcessConfigFields({
   const { t } = useTranslation();
   return configFieldsForSection(section, (
     <>
-      <Field configSection="advanced" label={t("adapters.process.configfields.command")} hint={help.command}>
+      <Field configSection="advanced" label="Command" hint={help.command}>
         <DraftInput
           value={
             isCreate
@@ -55,7 +55,7 @@ export function ProcessConfigFields({
           placeholder={t("adapters.process.configfields.eGNodePython")}
         />
       </Field>
-      <Field configSection="advanced" label={t("adapters.process.configfields.argsCommaSeparated")} hint={help.args}>
+      <Field configSection="advanced" label="Args (comma-separated)" hint={help.args}>
         <DraftInput
           value={
             isCreate

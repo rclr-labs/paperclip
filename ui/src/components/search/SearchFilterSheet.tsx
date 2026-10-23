@@ -152,7 +152,7 @@ export function SearchFilterSheet({
 
         <div className="flex-1 space-y-4 overflow-y-auto p-4">
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.status")}
+            title="Status"
             options={options.status}
             selected={draft.status ?? []}
             onToggle={(value) => toggleMulti("status", value)}
@@ -160,32 +160,32 @@ export function SearchFilterSheet({
           {/* PAP-411: Priority filter group hidden behind SHOW_TASK_PRIORITY_UI (search DSL stays intact). */}
           {SHOW_TASK_PRIORITY_UI && (
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.priority")}
+            title="Priority"
             options={options.priority}
             selected={draft.priority ?? []}
             onToggle={(value) => toggleMulti("priority", value)}
           />
           )}
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.assignee")}
+            title="Assignee"
             options={options.assignee}
             selected={selectedAssignee ? [selectedAssignee] : []}
             onToggle={toggleAssignee}
           />
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.project")}
+            title="Project"
             options={options.project}
             selected={draft.projectId ? [draft.projectId] : []}
             onToggle={(value) => toggleSingle("projectId", value)}
           />
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.label")}
+            title="Label"
             options={options.label}
             selected={draft.labelId ? [draft.labelId] : []}
             onToggle={(value) => toggleSingle("labelId", value)}
           />
           <ChipToggleGroup
-            title={t("components.search.searchFilterSheet.updated")}
+            title="Updated"
             options={options.updated}
             selected={draft.updatedWithin ? [draft.updatedWithin] : []}
             onToggle={(value) => toggleSingle("updatedWithin", value)}

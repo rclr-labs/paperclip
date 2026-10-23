@@ -485,7 +485,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
         <EmptyLibraryCard />
       ) : (
         <div className="space-y-4">
-          <SkillSection title={t("pages.agentskills.agentSkillsTab.enabledOnThisAgent")} count={filteredEnabled.length}>
+          <SkillSection title="Enabled on this agent" count={filteredEnabled.length}>
             {filteredEnabled.length > 0 ? (
               filteredEnabled.map((row) => renderRow(row, "enabled"))
             ) : (
@@ -495,7 +495,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
             )}
           </SkillSection>
 
-          <SkillSection title={t("pages.agentskills.agentSkillsTab.availableFromTheLibrary")} count={filteredAvailable.length}>
+          <SkillSection title="Available from the library" count={filteredAvailable.length}>
             {filteredAvailable.length > 0 ? (
               filteredAvailable.map((row) => renderRow(row, "available"))
             ) : (

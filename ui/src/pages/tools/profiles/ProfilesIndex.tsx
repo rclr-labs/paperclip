@@ -123,7 +123,7 @@ export function ProfilesIndex({
 
   const header = (
     <ToolsPageHeader
-      title={t("pages.tools.profiles.profilesIndex.accessProfiles")}
+      title="Access profiles"
       description="Decide which tools your agents can use. Build a profile once, then assign it to the agents that need it."
       actions={
         <>
@@ -160,7 +160,7 @@ export function ProfilesIndex({
     return (
       <div className="space-y-5">
         {header}
-        <LoadingState label={t("pages.tools.profiles.profilesIndex.loadingProfiles")} />
+        <LoadingState label="Loading profiles…" />
       </div>
     );
   }

@@ -489,7 +489,7 @@ export function AddConnectionDialog({
           {locked ? (
             probe.isPending ? (
               <div className="rounded-md border border-border bg-muted/40 p-3">
-                <LoadingState label={t("pages.tools.connectiondialogs.probingConnection")} />
+                <LoadingState label="Probing connection…" />
               </div>
             ) : probe.isError ? (
               <ErrorState error={probe.error} onRetry={() => draft && probe.mutate(draft.id)} />

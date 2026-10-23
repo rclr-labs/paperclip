@@ -326,7 +326,7 @@ export function DecisionQueuePage() {
 
           {agingItems.length > 0 && (
             <Curtain
-              label={t("pages.decisionQueuePage.aging")}
+              label="Aging"
               count={agingItems.length}
               open={agingOpen}
               onToggle={() => setAgingOpen((prev) => !prev)}

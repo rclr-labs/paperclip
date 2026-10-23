@@ -811,7 +811,7 @@ export function ProjectDetail() {
         companyId={resolvedCompanyId}
         scopeKind="project"
         scopeId={project.id}
-        title={t("pages.projectDetail.projectSummary")}
+        title="Project summary"
         description="Summarizer keeps the latest project status, next step, and operator-needed items here."
       />
 

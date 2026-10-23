@@ -2368,7 +2368,7 @@ export function Inbox() {
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", blockedGroupBy !== "none" && "bg-accent")}
-                    title={t("pages.legacyInbox.group")}
+                    title="Group"
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2397,7 +2397,7 @@ export function Inbox() {
                 visibleColumnSet={visibleIssueColumnSet}
                 onToggleColumn={toggleIssueColumn}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title={t("pages.legacyInbox.chooseWhichInboxColumnsStayVisible")}
+                title="Choose which inbox columns stay visible"
                 iconOnly
               />
               <Popover>
@@ -2407,7 +2407,7 @@ export function Inbox() {
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 shrink-0"
-                    title={t("pages.legacyInbox.sort")}
+                    title="Sort"
                   >
                     <ArrowUpDown className="h-3.5 w-3.5" />
                   </Button>
@@ -2466,7 +2466,7 @@ export function Inbox() {
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")}
-                    title={t("pages.legacyInbox.group")}
+                    title="Group"
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2501,7 +2501,7 @@ export function Inbox() {
                 visibleColumnSet={visibleIssueColumnSet}
                 onToggleColumn={toggleIssueColumn}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title={t("pages.legacyInbox.chooseWhichInboxColumnsStayVisible")}
+                title="Choose which inbox columns stay visible"
                 iconOnly
               />
               {canMarkAllRead && (

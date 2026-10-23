@@ -164,25 +164,25 @@ export function RoutineOverview() {
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <OverviewFact
           icon={Repeat}
-          label={t("components.routineOverview.state")}
+          label="State"
           value={<StatusBadge status={automationState} />}
           detail={hasLiveRun ? "A run is active now" : "No active run"}
         />
         <OverviewFact
           icon={CalendarClock}
-          label={t("components.routineOverview.triggers")}
+          label="Triggers"
           value={schedule.label}
           detail={<span className="font-mono">{schedule.detail}</span>}
         />
         <OverviewFact
           icon={Clock3}
-          label={t("components.routineOverview.nextRun")}
+          label="Next run"
           value={schedule.nextRunAt ? formatRoutineTimestamp(schedule.nextRunAt) : hasWebhook ? "On webhook delivery" : "Not scheduled"}
           detail={schedule.nextRunAt ? "Scheduled" : hasWebhook ? "Waiting for an incoming request" : "Add or enable a schedule"}
         />
         <OverviewFact
           icon={Play}
-          label={t("components.routineOverview.lastRun")}
+          label="Last run"
           value={lastRun ? <StatusBadge status={lastRun.status} /> : "No runs yet"}
           detail={lastRun ? formatRoutineTimestamp(lastRun.triggeredAt) : "Run manually or wait for a trigger"}
         />

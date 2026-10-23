@@ -87,7 +87,7 @@ export function CompanySettingsSidebar() {
   return (
     <ContextualSidebarFrame
       surface="settings"
-      title={t("components.companySettingsSidebar.settings")}
+      title="Settings"
       showHeader={false}
       className={primarySidebarStyles.surface}
     >
@@ -96,7 +96,7 @@ export function CompanySettingsSidebar() {
         className="flex h-(--sz-60px) shrink-0 items-center px-3"
       >
         <div data-slot="settings-back-group" className={`${primarySidebarStyles.group} w-full`}>
-          <SidebarNavItem to="/dashboard" label={t("components.companySettingsSidebar.backToApp")} icon={ArrowLeft} />
+          <SidebarNavItem to="/dashboard" label="Back to app" icon={ArrowLeft} />
         </div>
       </div>
       <nav
@@ -105,11 +105,11 @@ export function CompanySettingsSidebar() {
         className={primarySidebarStyles.nav}
       >
         <div data-slot="contextual-sidebar-group" className={primarySidebarStyles.group}>
-          <SidebarNavItem to="/company/settings" label={t("components.companySettingsSidebar.general")} icon={SlidersHorizontal} end />
+          <SidebarNavItem to="/company/settings" label="General" icon={SlidersHorizontal} end />
           {showPage("instance.profile") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/profile`}
-              label={t("components.companySettingsSidebar.profile")}
+              label="Profile"
               icon={UserRoundPen}
               end
             />
@@ -117,7 +117,7 @@ export function CompanySettingsSidebar() {
           {showPage("company.members") && (
             <SidebarNavItem
               to="/company/settings/members"
-              label={t("components.companySettingsSidebar.members")}
+              label="Members"
               icon={Users}
               badge={badges?.joinRequests ?? 0}
               end
@@ -135,42 +135,42 @@ export function CompanySettingsSidebar() {
               />
             ))}
           {showPage("company.secrets") && (
-            <SidebarNavItem to="/company/settings/secrets" label={t("components.companySettingsSidebar.secrets")} icon={KeyRound} end />
+            <SidebarNavItem to="/company/settings/secrets" label="Secrets" icon={KeyRound} end />
           )}
           {showPage("instance.environments") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/environments`}
-              label={t("components.companySettingsSidebar.environments")}
+              label="Environments"
               icon={MonitorCog}
               end
             />
           )}
-          <SidebarNavItem to="/company/settings/connections" label={t("components.companySettingsSidebar.connections")} icon={Link2} end />
+          <SidebarNavItem to="/company/settings/connections" label="Connections" icon={Link2} end />
           {showPage("instance.access") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/access`}
-              label={t("components.companySettingsSidebar.access")}
+              label="Access"
               icon={Shield}
               end
             />
           )}
           {showPage("company.export") && (
-            <SidebarNavItem to="/company/export" label={t("components.companySettingsSidebar.export")} icon={Download} />
+            <SidebarNavItem to="/company/export" label="Export" icon={Download} />
           )}
           {!isCloud && showPage("company.import") && (
-            <SidebarNavItem to="/company/import" label={t("components.companySettingsSidebar.import")} icon={Upload} end />
+            <SidebarNavItem to="/company/import" label="Import" icon={Upload} end />
           )}
           {showPage("instance.experimental") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/experimental`}
-              label={t("components.companySettingsSidebar.experimental")}
+              label="Experimental"
               icon={FlaskConical}
             />
           )}
           {showPlugins && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/plugins`}
-              label={t("components.companySettingsSidebar.plugins")}
+              label="Plugins"
               icon={Puzzle}
             />
           )}
@@ -198,7 +198,7 @@ export function CompanySettingsSidebar() {
           {showPage("instance.adapters") && (
             <SidebarNavItem
               to={`${INSTANCE_SETTINGS_PATH_PREFIX}/adapters`}
-              label={t("components.companySettingsSidebar.adapters")}
+              label="Adapters"
               icon={Cpu}
             />
           )}

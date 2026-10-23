@@ -2535,7 +2535,7 @@ function StreamlinedInbox({
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", blockedGroupBy !== "none" && "bg-accent")}
-                    title={t("pages.inbox.group")}
+                    title="Group"
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2571,7 +2571,7 @@ function StreamlinedInbox({
                   }));
                 }}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title={t("pages.inbox.chooseWhichColumnsStayVisible")}
+                title="Choose which columns stay visible"
                 iconOnly
               />
               <Popover>
@@ -2581,7 +2581,7 @@ function StreamlinedInbox({
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 shrink-0"
-                    title={t("pages.inbox.sort")}
+                    title="Sort"
                   >
                     <ArrowUpDown className="h-3.5 w-3.5" />
                   </Button>
@@ -2654,7 +2654,7 @@ function StreamlinedInbox({
                     variant="outline"
                     size="icon"
                     className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")}
-                    title={t("pages.inbox.group")}
+                    title="Group"
                   >
                     <Layers className="h-3.5 w-3.5" />
                   </Button>
@@ -2696,7 +2696,7 @@ function StreamlinedInbox({
                   }));
                 }}
                 onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-                title={t("pages.inbox.chooseWhichColumnsStayVisible")}
+                title="Choose which columns stay visible"
                 iconOnly
                 rowPresentation={streamlinedUiEnabled ? "task" : "legacy"}
               />

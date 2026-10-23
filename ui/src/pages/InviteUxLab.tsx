@@ -212,10 +212,10 @@ function InviteSummaryPanel({
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
-        <MetaCard label={t("pages.inviteUxLab.organization")} value="Acme Robotics" />
-        <MetaCard label={t("pages.inviteUxLab.invitedBy")} value="Board User" />
-        <MetaCard label={t("pages.inviteUxLab.requestedAccess")} value={requestedAccess} />
-        <MetaCard label={t("pages.inviteUxLab.inviteExpires")} value="Mar 7, 2027" />
+        <MetaCard label="Organization" value="Acme Robotics" />
+        <MetaCard label="Invited by" value="Board User" />
+        <MetaCard label="Requested access" value={requestedAccess} />
+        <MetaCard label="Invite expires" value="Mar 7, 2027" />
       </div>
 
       {inviteMessage ? (
@@ -759,52 +759,52 @@ export function InviteUxLab() {
 
       <LabSection
         eyebrow="Top-level states"
-        title={t("pages.inviteUxLab.landingStateCoverage")}
+        title="Landing state coverage"
         description="Small cards for the fast-return invite states that do not render the full split-screen layout."
         accentClassName="bg-[linear-gradient(180deg,rgba(59,130,246,0.05),transparent_30%),var(--background)]"
       >
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <StatusCard
             icon={<Loader2 className="h-4 w-4 animate-spin" />}
-            title={t("pages.inviteUxLab.loadingInvite")}
+            title="Loading invite"
             body="Shown while invite summary, deployment mode, or auth session data is still loading."
           />
           <StatusCard
             icon={<Clock3 className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.checkingYourAccess")}
+            title="Checking your access"
             body="Shown after sign-in while the app verifies whether the current user already belongs to the invited organization."
           />
           <StatusCard
             icon={<KeyRound className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.invalidInviteToken")}
+            title="Invalid invite token"
             body="The token is missing entirely, so the page short-circuits before any invite lookup."
             tone="error"
           />
           <StatusCard
             icon={<Link2 className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.inviteNotAvailable")}
+            title="Invite not available"
             body="Used for expired, revoked, already-consumed, or otherwise missing invites."
             tone="warn"
           />
           <StatusCard
             icon={<ShieldCheck className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.bootstrapComplete")}
+            title="Bootstrap complete"
             body="Result screen for bootstrap CEO invites after setup has been accepted successfully."
             tone="success"
           />
           <StatusCard
             icon={<ArrowRight className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.autoAcceptInProgress")}
+            title="Auto-accept in progress"
             body="Signed-in human users skip the extra button click and move straight into join submission."
           />
           <StatusCard
             icon={<Users className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.alreadyAMember")}
+            title="Already a member"
             body="Acceptance stays disabled and the page redirects into the organization once membership is confirmed."
           />
           <StatusCard
             icon={<UserPlus className="h-4 w-4" />}
-            title={t("pages.inviteUxLab.inviteResultSurfaces")}
+            title="Invite result surfaces"
             body="Both pending-approval and joined-now confirmations are included below with claim and onboarding extras."
             tone="success"
           />
@@ -813,7 +813,7 @@ export function InviteUxLab() {
 
       <LabSection
         eyebrow="Invite landing"
-        title={t("pages.inviteUxLab.splitScreenInviteFlows")}
+        title="Split-screen invite flows"
         description="These frames mirror the production invite surface closely enough to review spacing, hierarchy, and control states while keeping data fixture-driven."
         accentClassName="bg-[linear-gradient(180deg,rgba(234,179,8,0.06),transparent_28%),var(--background)]"
       >
@@ -821,7 +821,7 @@ export function InviteUxLab() {
           <InviteLandingShell
             left={
               <InviteSummaryPanel
-                title={t("pages.inviteUxLab.joinAcmeRobotics")}
+                title="Join Acme Robotics"
                 description="Create your Paperclip account first. If you already have one, switch to sign in and continue the invite with the same email."
                 inviteMessage="Welcome aboard."
                 requestedAccess="Operator"
@@ -833,7 +833,7 @@ export function InviteUxLab() {
           <InviteLandingShell
             left={
               <InviteSummaryPanel
-                title={t("pages.inviteUxLab.joinAcmeRobotics")}
+                title="Join Acme Robotics"
                 description="Create your Paperclip account first. If you already have one, switch to sign in and continue the invite with the same email."
                 inviteMessage="Welcome aboard."
                 requestedAccess="Operator"
@@ -853,7 +853,7 @@ export function InviteUxLab() {
           <InviteLandingShell
             left={
               <InviteSummaryPanel
-                title={t("pages.inviteUxLab.joinAcmeRobotics")}
+                title="Join Acme Robotics"
                 description="Your account is ready. Review the invite details, then accept it to continue."
                 inviteMessage="Welcome aboard."
                 requestedAccess="Operator"
@@ -866,7 +866,7 @@ export function InviteUxLab() {
           <InviteLandingShell
             left={
               <InviteSummaryPanel
-                title={t("pages.inviteUxLab.joinAcmeRobotics")}
+                title="Join Acme Robotics"
                 description="Review the invite details, then submit the agent information below to start the join request."
                 requestedAccess="Agent join request"
               />
@@ -877,7 +877,7 @@ export function InviteUxLab() {
           <InviteLandingShell
             left={
               <InviteSummaryPanel
-                title={t("pages.inviteUxLab.joinAcmeRobotics")}
+                title="Join Acme Robotics"
                 description="Your account is ready. Review the invite details, then accept it to continue."
                 requestedAccess="Operator"
                 signedInLabel="Jane Example"
@@ -890,24 +890,24 @@ export function InviteUxLab() {
 
       <LabSection
         eyebrow="Result states"
-        title={t("pages.inviteUxLab.approvalAndCompletionScreens")}
+        title="Approval and completion screens"
         description="These are the post-submit states returned from invite acceptance, including optional claim and onboarding metadata."
         accentClassName="bg-[linear-gradient(180deg,rgba(16,185,129,0.06),transparent_30%),var(--background)]"
       >
         <div className="grid gap-5 xl:grid-cols-3">
           <InviteResultPreview
-            title={t("pages.inviteUxLab.requestToJoinAcmeRobotics")}
+            title="Request to join Acme Robotics"
             description="Board User must approve your request to join."
             claimSecret="pcp_claim_secret_demo"
             onboardingTextUrl="/api/invites/pcp_invite_test/onboarding.txt"
           />
           <InviteResultPreview
-            title={t("pages.inviteUxLab.youJoinedTheOrganization")}
+            title="You joined the organization"
             description="Your account already matched the approved invite, so the board can be opened immediately."
             joinedNow
           />
           <InviteResultPreview
-            title={t("pages.inviteUxLab.requestToJoinAcmeRobotics")}
+            title="Request to join Acme Robotics"
             description="Ask them to visit Settings → Members to approve your request."
           />
         </div>
@@ -915,7 +915,7 @@ export function InviteUxLab() {
 
       <LabSection
         eyebrow="Standalone auth"
-        title={t("pages.inviteUxLab.authPageStates")}
+        title="Auth page states"
         description="The general `/auth` page uses a different composition from invite landing. These previews keep both sign-in and sign-up variants visible."
         accentClassName="bg-[linear-gradient(180deg,rgba(168,85,247,0.06),transparent_28%),var(--background)]"
       >
@@ -927,7 +927,7 @@ export function InviteUxLab() {
 
       <LabSection
         eyebrow="Settings"
-        title={t("pages.inviteUxLab.organizationInviteManagement")}
+        title="Organization invite management"
         description="This section captures the board-side invite creation flow, copied-link state, audit table, and the edge states that are otherwise tedious to stage."
         accentClassName="bg-[linear-gradient(180deg,rgba(244,114,182,0.06),transparent_28%),var(--background)]"
       >

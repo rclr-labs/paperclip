@@ -156,16 +156,16 @@ export function Cases() {
         onSortChange={(field, dir) => setView({ sort: field === "updated" ? "" : field, dir: dir === "desc" ? "" : dir })}
         groupBy={view.groupBy} onGroupChange={group => setView({ group: group === "none" ? "" : group })}
         filters={<>
-        <CaseFilter label={t("pages.cases.status")} value={status} onChange={value => setFilter("status", value)} options={[
+        <CaseFilter label="Status" value={status} onChange={value => setFilter("status", value)} options={[
           { value: ALL, label: "All statuses" },
           ...CASE_STATUSES.map(value => ({ value, label: CASE_STATUS_LABELS[value] })),
         ]} />
-        <CaseFilter label={t("pages.cases.type")} value={type} disabled={typesQuery.isPending || typesQuery.isError}
+        <CaseFilter label="Type" value={type} disabled={typesQuery.isPending || typesQuery.isError}
           onChange={value => setFilter("type", value)} options={[
             { value: ALL, label: "All types" },
             ...typeOptions.map(value => ({ value, label: value })),
           ]} />
-        <CaseFilter label={t("pages.cases.project")} value={project} disabled={projectsQuery.isPending || projectsQuery.isError}
+        <CaseFilter label="Project" value={project} disabled={projectsQuery.isPending || projectsQuery.isError}
           onChange={value => setFilter("project", value)} options={[
             { value: ALL, label: "All projects" },
             { value: "none", label: "No project" },

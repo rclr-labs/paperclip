@@ -122,17 +122,17 @@ function Sidebar({ nav }: { nav: ShellNav }) {
             <NavItem key={entry.label} {...entry} />
           ))}
         </div>
-        <Section label={t("artifactdirections.frames.appShell.work")}>
+        <Section label="Work">
           {WORK.map((entry) => (
             <NavItem key={entry.label} {...entry} active={entry.nav === nav} />
           ))}
         </Section>
-        <Section label={t("artifactdirections.frames.appShell.org")}>
+        <Section label="Org">
           {ORG.map((entry) => (
             <NavItem key={entry.label} {...entry} />
           ))}
         </Section>
-        <Section label={t("artifactdirections.frames.appShell.recentTasks")}>
+        <Section label="Recent Tasks">
           {RECENT.map((title) => (
             <NavItem key={title} label={title} />
           ))}

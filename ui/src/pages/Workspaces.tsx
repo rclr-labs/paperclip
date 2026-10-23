@@ -126,7 +126,7 @@ export function Workspaces() {
       <SummarySlotCard
         companyId={selectedCompanyId}
         scopeKind="workspaces_overview"
-        title={t("pages.workspaces.workspaceSummary")}
+        title="Workspace summary"
         description="Summarizer tracks workspace activity, live services, and follow-up needs across projects."
       />
 

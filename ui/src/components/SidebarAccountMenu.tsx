@@ -239,14 +239,14 @@ export function SidebarAccountMenu({
 
             <FlyoutOptions className="flex flex-1 flex-col gap-0.5 border-t border-border px-2.5 pb-2.5 pt-2">
               <MenuAction
-                label={t("components.sidebarAccountMenu.settings")}
+                label="Settings"
                 icon={Settings}
                 href="/company/settings"
                 onClick={closeNavigationChrome}
               />
               {showInvite && inviteHref ? (
                 <MenuAction
-                  label={t("components.sidebarAccountMenu.invite")}
+                  label="Invite"
                   icon={UserPlus}
                   href={inviteHref}
                   topLevel={isCloud}
@@ -254,7 +254,7 @@ export function SidebarAccountMenu({
                 />
               ) : null}
               <MenuAction
-                label={t("components.sidebarAccountMenu.documentation")}
+                label="Documentation"
                 icon={BookOpen}
                 href={DOCS_URL}
                 external

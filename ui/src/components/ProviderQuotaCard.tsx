@@ -175,14 +175,14 @@ export function ProviderQuotaCard({
         {hasBudget && (
           <div className="space-y-3">
             <QuotaBar
-              label={t("components.providerQuotaCard.periodSpend")}
+              label="Period spend"
               percentUsed={budgetPct}
               leftLabel={formatCents(totalCostCents)}
               rightLabel={`${Math.round(budgetPct)}% of company budget`}
               showDeficitNotch={showDeficitNotch}
             />
             <QuotaBar
-              label={t("components.providerQuotaCard.thisWeek")}
+              label="This week"
               percentUsed={weekPct}
               leftLabel={formatCents(weekSpendCents)}
               rightLabel={`~${formatCents(Math.round(weeklyBudgetShare))} / wk`}

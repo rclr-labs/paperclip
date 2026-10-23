@@ -326,7 +326,7 @@ export function OverviewSection({
       <div className="grid gap-3 sm:grid-cols-3">
         <SummaryCard
           icon={Clock3}
-          label={t("components.routinesections.editablesectionsproduction.triggers")}
+          label="Triggers"
           value={activeTriggers === 0 ? "None" : `${activeTriggers} active`}
           hint={nextFire ? `Next fire ${nextFire}` : "No schedule"}
           to={() => navigateToSection("triggers")}
@@ -334,7 +334,7 @@ export function OverviewSection({
         />
         <SummaryCard
           icon={KeyRound}
-          label={t("components.routinesections.editablesectionsproduction.secrets")}
+          label="Secrets"
           value={boundSecrets === 0 ? "None" : `${boundSecrets} bound`}
           hint="Manage bound secrets"
           to={() => navigateToSection("secrets")}
@@ -342,7 +342,7 @@ export function OverviewSection({
         />
         <SummaryCard
           icon={Play}
-          label={t("components.routinesections.editablesectionsproduction.lastRun")}
+          label="Last run"
           value={lastRun ? lastRun.status.replaceAll("_", " ") : "No runs"}
           hint={lastRun ? timeAgo(lastRun.triggeredAt) : "Trigger a run"}
           to={() => navigateToSection("runs")}

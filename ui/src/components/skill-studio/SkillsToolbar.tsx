@@ -103,7 +103,7 @@ export function SkillsToolbar({ viewTitle, viewDescription, searchLabel, search,
         onClick={() => onScan()}
         disabled={scanPending}
         aria-label={t("components.skillstudio.skillsToolbar.scanProjectWorkspacesForSkills")}
-        title={t("components.skillstudio.skillsToolbar.scanProjectWorkspacesForSkills")}
+        title="Scan project workspaces for skills"
       >
         <RefreshCw className={cn("h-4 w-4", scanPending && "animate-spin")} />
       </Button>

@@ -258,11 +258,11 @@ export function StatusCardDetailDrawer({
 
           {actionError ? (
             <div className="px-4 pt-3">
-              <InlineBanner tone="warning" title={t("pages.statusCards.statusCardDetailDrawer.headsUp")}>{actionError}</InlineBanner>
+              <InlineBanner tone="warning" title="Heads up">{actionError}</InlineBanner>
             </div>
           ) : actionNote ? (
             <div className="px-4 pt-3">
-              <InlineBanner tone="info" title={t("pages.statusCards.statusCardDetailDrawer.workingOnIt")}>{actionNote}</InlineBanner>
+              <InlineBanner tone="info" title="Working on it">{actionNote}</InlineBanner>
             </div>
           ) : null}
 
@@ -427,7 +427,7 @@ export function StatusCardDetailDrawer({
                   <Loader2 className="h-4 w-4 animate-spin" /> Matching issues…
                 </div>
               ) : dryRunQuery.isError ? (
-                <InlineBanner tone="danger" title={t("pages.statusCards.statusCardDetailDrawer.couldNotLoadMatchedIssues")}>
+                <InlineBanner tone="danger" title="Could not load matched issues">
                   {dryRunQuery.error instanceof Error ? dryRunQuery.error.message : "Try again."}
                 </InlineBanner>
               ) : (

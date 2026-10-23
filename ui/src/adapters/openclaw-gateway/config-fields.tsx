@@ -31,7 +31,6 @@ function HeadersJsonTextarea({
   onEditCommit: (next: string) => void;
   inputClass: string;
 }) {
-  const { t } = useTranslation();
   const [editDraft, setEditDraft] = useState<string>(editStringified);
   const [lastSyncedFromConfig, setLastSyncedFromConfig] = useState<string>(editStringified);
   useEffect(() => {
@@ -56,7 +55,7 @@ function HeadersJsonTextarea({
       }}
       rows={3}
       className={inputClass}
-      placeholder={"{\"x-custom-header\": \"value\"}"}
+      placeholder='{"x-custom-header": "value"}'
     />
   );
 }
@@ -147,7 +146,7 @@ export function OpenClawGatewayConfigFields({
 
   return configFieldsForSection(section, (
     <>
-      <Field label={t("adapters.openclawgateway.configfields.gatewayUrl")} hint={help.webhookUrl}>
+      <Field label="Gateway URL" hint={help.webhookUrl}>
         <DraftInput
           value={
             isCreate
@@ -175,7 +174,7 @@ export function OpenClawGatewayConfigFields({
 
       {/* Auth and Identity - available in both create and edit modes */}
       <SecretField
-        label={t("adapters.openclawgateway.configfields.gatewayAuthToken")}
+        label="Gateway auth token"
         value={
           isCreate
             ? values!.authToken ?? ""
@@ -189,7 +188,7 @@ export function OpenClawGatewayConfigFields({
         placeholder={t("adapters.openclawgateway.configfields.openclawGatewayToken")}
       />
 
-      <Field label={t("adapters.openclawgateway.configfields.agentId")}>
+      <Field label="Agent ID">
         <DraftInput
           value={
             isCreate
@@ -207,7 +206,7 @@ export function OpenClawGatewayConfigFields({
         />
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.sessionStrategy")}>
+      <Field label="Session strategy">
         <select
           value={
             isCreate
@@ -228,7 +227,7 @@ export function OpenClawGatewayConfigFields({
       </Field>
 
       {(isCreate ? values!.sessionKeyStrategy ?? "fixed" : sessionStrategy) === "fixed" && (
-        <Field label={t("adapters.openclawgateway.configfields.sessionKey")}>
+        <Field label="Session key">
           <DraftInput
             value={
               isCreate
@@ -248,7 +247,7 @@ export function OpenClawGatewayConfigFields({
       )}
 
       <SecretField
-        label={t("adapters.openclawgateway.configfields.passwordAlternativeAuth")}
+        label="Password (alternative auth)"
         value={
           isCreate
             ? values!.password ?? ""
@@ -262,7 +261,7 @@ export function OpenClawGatewayConfigFields({
         placeholder={t("adapters.openclawgateway.configfields.gatewaySharedPassword")}
       />
 
-      <Field label={t("adapters.openclawgateway.configfields.role")}>
+      <Field label="Role">
         <DraftInput
           value={
             isCreate
@@ -280,7 +279,7 @@ export function OpenClawGatewayConfigFields({
         />
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.scopesCommaSeparated")}>
+      <Field label="Scopes (comma-separated)">
         <DraftInput
           value={
             isCreate
@@ -312,7 +311,7 @@ export function OpenClawGatewayConfigFields({
         mark={mark}
       />
 
-      <Field label={t("adapters.openclawgateway.configfields.paperclipApiUrlOverride")}>
+      <Field label="Paperclip API URL override">
         <DraftInput
           value={
             isCreate
@@ -330,7 +329,7 @@ export function OpenClawGatewayConfigFields({
         />
       </Field>
 
-      <Field configSection="runPolicy" label={t("adapters.openclawgateway.configfields.timeoutSeconds")}>
+      <Field configSection="runPolicy" label="Timeout (seconds)">
         <DraftInput
           value={
             isCreate
@@ -352,7 +351,7 @@ export function OpenClawGatewayConfigFields({
         />
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.headersJson")}>
+      <Field label="Headers JSON">
         <HeadersJsonTextarea
           isCreate={isCreate}
           createDraft={isCreate ? values!.headersJson ?? "" : ""}
@@ -378,7 +377,7 @@ export function OpenClawGatewayConfigFields({
       </Field>
 
       {!isCreate && (
-        <Field label={t("adapters.openclawgateway.configfields.claimedApiKeyPath")}>
+        <Field label="Claimed API key path">
           <DraftInput
             value={eff("adapterConfig", "claimedApiKeyPath", String(config.claimedApiKeyPath ?? ""))}
             onCommit={(v) => mark("adapterConfig", "claimedApiKeyPath", v || undefined)}
@@ -389,7 +388,7 @@ export function OpenClawGatewayConfigFields({
         </Field>
       )}
 
-      <Field configSection="runPolicy" label={t("adapters.openclawgateway.configfields.waitTimeoutMs")}>
+      <Field configSection="runPolicy" label="Wait timeout (ms)">
         <DraftInput
           value={
             isCreate
@@ -413,7 +412,7 @@ export function OpenClawGatewayConfigFields({
         />
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.disableDeviceAuth")}>
+      <Field label="Disable device auth">
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
@@ -432,7 +431,7 @@ export function OpenClawGatewayConfigFields({
         </label>
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.autoPairOnFirstConnect")}>
+      <Field label="Auto-pair on first connect">
         <label className="flex items-center gap-2 text-sm">
           <input
             type="checkbox"
@@ -451,7 +450,7 @@ export function OpenClawGatewayConfigFields({
         </label>
       </Field>
 
-      <Field label={t("adapters.openclawgateway.configfields.deviceAuth")}>
+      <Field label="Device auth">
         <div className="text-xs text-muted-foreground leading-relaxed">
           {t("adapters.openclawgateway.configfields.whenEnabledPaperclipPersistsADevice")}
         </div>

@@ -1,6 +1,5 @@
 import type { ArtifactGroupBy, ArtifactKindFilter } from "@/api/artifacts";
 import { TabFilters, type TabBarItem } from "@/components/TabBar";
-import { useTranslation } from "@/i18n";
 
 /**
  * The Artifacts page's one row of views (mock node 2129:133457): Tasks —
@@ -23,6 +22,5 @@ export const ARTIFACTS_V1_VIEWS: TabBarItem<ArtifactsV1View>[] = [
 export const artifactsV1View = (groupBy: ArtifactGroupBy, kind: ArtifactKindFilter): ArtifactsV1View => (groupBy !== "none" ? "tasks" : kind);
 
 export function ArtifactsV1Filters({ view, onViewChange }: { view: ArtifactsV1View; onViewChange: (view: ArtifactsV1View) => void }) {
-  const { t } = useTranslation();
-  return <TabFilters items={ARTIFACTS_V1_VIEWS} value={view} onValueChange={onViewChange} size="standard" label={t("components.artifacts.v1.artifactsV1Filters.showArtifactsByTaskOrBy")} />;
+  return <TabFilters items={ARTIFACTS_V1_VIEWS} value={view} onValueChange={onViewChange} size="standard" label="Show artifacts by task or by type" />;
 }

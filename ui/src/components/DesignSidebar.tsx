@@ -31,23 +31,23 @@ export function DesignSidebar({ onNewTask, recentTasks = [] }: { onNewTask: () =
         <nav className="design-sidebar-navigation" aria-label={t("components.designSidebar.mainNavigation")}>
           <div className="design-sidebar-primary">
             <Button variant="ghost" className="design-sidebar-new-task" onClick={onNewTask}><CirclePlus aria-hidden />New Task</Button>
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/dashboard`} label={t("components.designSidebar.dashboard")} icon={LayoutDashboard} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/chats`} label={t("components.designSidebar.chat")} icon={MessageCircle} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/dashboard`} label="Dashboard" icon={LayoutDashboard} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/chats`} label="Chat" icon={MessageCircle} />
           </div>
-          <SidebarSection label={t("components.designSidebar.work")}>
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/issues`} label={t("components.designSidebar.tasks")} icon={CircleCheck} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/projects`} label={t("components.designSidebar.projects")} icon={FolderOpen} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/routines`} label={t("components.designSidebar.routines")} icon={Repeat} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/artifacts`} label={t("components.designSidebar.artifacts")} icon={Package} />
+          <SidebarSection label="Work">
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/issues`} label="Tasks" icon={CircleCheck} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/projects`} label="Projects" icon={FolderOpen} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/routines`} label="Routines" icon={Repeat} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/artifacts`} label="Artifacts" icon={Package} />
           </SidebarSection>
-          <SidebarSection label={t("components.designSidebar.org")}>
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/agents`} label={t("components.designSidebar.agents")} icon={Users} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/skills`} label={t("components.designSidebar.skills")} icon={Boxes} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/apps`} label={t("components.designSidebar.connectors")} icon={Unplug} />
-            <SidebarNavItem className="design-sidebar-item" to={`${root}/activity`} label={t("components.designSidebar.audit")} icon={History} />
+          <SidebarSection label="Org">
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/agents`} label="Agents" icon={Users} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/skills`} label="Skills" icon={Boxes} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/apps`} label="Connectors" icon={Unplug} />
+            <SidebarNavItem className="design-sidebar-item" to={`${root}/activity`} label="Audit" icon={History} />
           </SidebarSection>
           {companyRecentTasks.length > 0 ? <div className="design-sidebar-recents">
-            <SidebarSection label={t("components.designSidebar.recentTasks2")}>
+            <SidebarSection label="Recent Tasks">
               <div onScroll={handleRecentScroll} className="design-sidebar-recent-list scrollbar-while-scrolling" role="region" aria-label={t("components.designSidebar.recentTasks")} tabIndex={0}>
               {companyRecentTasks.map(issue => <SidebarNavItem key={issue.id} className="design-sidebar-item" to={`${root}/issues/${issue.identifier}`} label={issue.title} />)}
               </div>

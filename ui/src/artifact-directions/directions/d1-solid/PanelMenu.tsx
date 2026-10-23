@@ -3,7 +3,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import type { LabArtifact } from "../../kit";
 import { externalProps, type SolidAction } from "./actions";
 import { ICON_BUTTON } from "./slab";
-import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — a card's "More actions": every way out that is not the primary, in
@@ -13,11 +12,10 @@ import { useTranslation } from "@/i18n";
  * an unlabelled icon.
  */
 export function PanelMenu({ actions, artifact }: { actions: SolidAction[]; artifact: LabArtifact }) {
-  const { t } = useTranslation();
   if (actions.length === 0) return null;
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger data-secondary aria-label={`More actions: ${artifact.title}`} title={t("artifactdirections.directions.d1solid.panelMenu.moreActions")} className={ICON_BUTTON}>
+      <DropdownMenuTrigger data-secondary aria-label={`More actions: ${artifact.title}`} title="More actions" className={ICON_BUTTON}>
         <Ellipsis aria-hidden className="size-3.5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

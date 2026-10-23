@@ -68,10 +68,10 @@ export function AppsSidebar() {
           {t("components.appsSidebarproduction.connectors")}
         </div>
         <div className="flex flex-col gap-0.5">
-          <SidebarNavItem to="/apps" label={t("components.appsSidebarproduction.browse")} icon={Store} end />
+          <SidebarNavItem to="/apps" label="Browse" icon={Store} end />
           <SidebarNavItem
             to="/apps/review"
-            label={t("components.appsSidebarproduction.review")}
+            label="Review"
             icon={ShieldQuestion}
             badge={reviewCount > 0 ? reviewCount : undefined}
             badgeTone="warning"
@@ -85,7 +85,7 @@ export function AppsSidebar() {
           {t("components.appsSidebarproduction.advancedSetupForDevelopersMostTeams")}
         </p>
         <div className="flex flex-col gap-0.5">
-          <SidebarNavItem to="/apps/connections" label={t("components.appsSidebarproduction.connections")} icon={AppWindow} end />
+          <SidebarNavItem to="/apps/connections" label="Connections" icon={AppWindow} end />
           {developerTabs.map((tab) => (
             <SidebarNavItem
               key={tab.key}

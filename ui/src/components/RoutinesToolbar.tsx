@@ -25,10 +25,10 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
 }) {
   const { t } = useTranslation();
   return <div data-canonical-toolbar="routines" role="toolbar" aria-label={t("components.routinesToolbar.routinesControls")} className="flex flex-wrap items-center gap-4">
-    <ToolbarSearch query={query} onQueryChange={onQueryChange} label={t("components.routinesToolbar.searchRoutines2")} placeholder={t("components.routinesToolbar.searchRoutines")} />
+    <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search routines" placeholder={t("components.routinesToolbar.searchRoutines")} />
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" title={t("components.routinesToolbar.sort")}>
+        <Button variant="outline" size="sm" title="Sort">
           <ArrowUpDown className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
           <span >{t("components.routinesToolbar.sort")}</span>
         </Button>
@@ -68,7 +68,7 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
     </Popover>
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" title={t("components.routinesToolbar.group")}>
+        <Button variant="outline" size="sm" title="Group">
           <Layers className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
           <span >{t("components.routinesToolbar.group")}</span>
         </Button>

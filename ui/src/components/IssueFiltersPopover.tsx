@@ -355,7 +355,7 @@ export function IssueFiltersPopover({
               <div className="space-y-1">
                 <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.responsible")}</span>
                 {streamlined && (agents?.length ?? 0) + (currentUserId ? 2 : 1) > SEARCHABLE_FILTER_THRESHOLD ? (
-                  <FilterOptionSearch value={assigneeSearch} onChange={setAssigneeSearch} label={t("components.issueFiltersPopover.responsible")} />
+                  <FilterOptionSearch value={assigneeSearch} onChange={setAssigneeSearch} label="Responsible" />
                 ) : null}
                 <div data-filter-options="responsible" className={streamlined ? "space-y-0.5" : "max-h-32 space-y-0.5 overflow-y-auto"}>
                   <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
@@ -445,7 +445,7 @@ export function IssueFiltersPopover({
                 <div className="space-y-1">
                   <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.project")}</span>
                   {streamlined && projects.length > SEARCHABLE_FILTER_THRESHOLD ? (
-                    <FilterOptionSearch value={projectSearch} onChange={setProjectSearch} label={t("components.issueFiltersPopover.projects")} />
+                    <FilterOptionSearch value={projectSearch} onChange={setProjectSearch} label="Projects" />
                   ) : null}
                   <div data-filter-options="projects" className={streamlined ? "space-y-0.5" : "max-h-32 space-y-0.5 overflow-y-auto"}>
                     {(streamlined ? visibleProjects : projects).map((project) => (
@@ -467,7 +467,7 @@ export function IssueFiltersPopover({
                 <div className="space-y-1">
                   <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.labels")}</span>
                   {streamlined && labels.length > SEARCHABLE_FILTER_THRESHOLD ? (
-                    <FilterOptionSearch value={labelSearch} onChange={setLabelSearch} label={t("components.issueFiltersPopover.labels")} />
+                    <FilterOptionSearch value={labelSearch} onChange={setLabelSearch} label="Labels" />
                   ) : null}
                   <div data-filter-options="labels" className={streamlined ? "space-y-0.5" : "max-h-32 space-y-0.5 overflow-y-auto"}>
                     {(streamlined ? visibleLabels : labels).map((label) => (

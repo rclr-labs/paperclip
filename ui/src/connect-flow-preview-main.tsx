@@ -323,7 +323,7 @@ function ConnectFlowPreview({
           <>
             <div className="space-y-2 pt-12">
               <ModelSourceTiles
-                label={t("connectflowpreviewmain.modelSource")}
+                label="Model source"
                 sources={MODEL_SOURCES}
                 mode={mode}
                 selectedId={selectedId}
@@ -422,7 +422,7 @@ function ConnectFlowPreview({
                     {/* The one place the three paths differ. */}
                     {apiMode ? (
                       <OnboardingCardField
-                        label={t("connectflowpreviewmain.apiKey")}
+                        label="API key"
                         placeholder={t("connectflowpreviewmain.enterApiKeyHere")}
                         masked
                         value={apiKey}

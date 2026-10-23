@@ -234,7 +234,7 @@ export function SidebarAccountMenu({
             <div className="mt-4 space-y-1">
               {showInvite && inviteHref ? (
                 <MenuAction
-                  label={t("components.sidebarAccountMenuproduction.invite")}
+                  label="Invite"
                   description="Invite people to your organization."
                   icon={UserPlus}
                   href={inviteHref}
@@ -243,7 +243,7 @@ export function SidebarAccountMenu({
                 />
               ) : null}
               <MenuAction
-                label={t("components.sidebarAccountMenuproduction.documentation")}
+                label="Documentation"
                 description="Open Paperclip docs in a new tab."
                 icon={BookOpen}
                 href={DOCS_URL}

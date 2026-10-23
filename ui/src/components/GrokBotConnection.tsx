@@ -67,7 +67,7 @@ export function GrokBotConnection({ companyId, agentId }: { companyId?: string; 
       {exchange?.status === "rejected" && <div className="space-y-2"><p>{t("components.grokBotConnection.theRoutineRejectedThisDeliveryCheck")}</p><Button variant="outline" disabled={busy || recovering} onClick={() => retryDelivery.mutate(exchange.id)}>{t("components.grokBotConnection.retryRejectedDelivery")}</Button></div>}
       {!routine?.configured || replace ? <div className="space-y-3">
         <label className="block space-y-2"><span>{t("components.grokBotConnection.botNameInGrok")}</span><Input value={botName} onChange={e => setBotName(e.target.value)} maxLength={100} /></label>
-        <AgentSetupPrompt prompt={buildGrokRoutinePrompt(binding.id, botName || "your Bot")} label={t("components.grokBotConnection.copyRoutineInstructions")} title={t("components.grokBotConnection.enableAssignments")} description="Ask the Bot for a Webhook URL navigation link if clicking its routine does nothing." />
+        <AgentSetupPrompt prompt={buildGrokRoutinePrompt(binding.id, botName || "your Bot")} label="Copy routine instructions" title="Enable assignments" description="Ask the Bot for a Webhook URL navigation link if clicking its routine does nothing." />
         <label className="block space-y-2"><span>{t("components.grokBotConnection.webhookUrl")}</span><Input type="password" autoComplete="off" value={webhookUrl} onChange={e => setWebhookUrl(e.target.value)} /></label>
         <label className="block space-y-2"><span>{t("components.grokBotConnection.webhookKey")}</span><Input type="password" autoComplete="off" value={webhookKey} onChange={e => setWebhookKey(e.target.value)} /></label>
         <Button disabled={busy || recovering || !botName.trim() || !webhookUrl || !webhookKey} onClick={() => configure.mutate()}>{t("components.grokBotConnection.saveRoutine")}</Button>
@@ -78,7 +78,7 @@ export function GrokBotConnection({ companyId, agentId }: { companyId?: string; 
     </> : <>
       <Button disabled={busy || !state.data?.enabled || !state.data.canConfigureConnection} onClick={() => pair.mutate()}>{t("components.grokBotConnection.reconnectAgentAccess")}</Button>
       {pairing && state.data?.resourceUrl && <>
-        <AgentSetupPrompt prompt={buildGrokAccessPrompt(state.data.resourceUrl, botName || "your Bot")} label={t("components.grokBotConnection.copyConnectionInstructions")} title={t("components.grokBotConnection.reconnectGrokBot")} description="Complete OAuth in the browser. Keep this code out of Bot chat." />
+        <AgentSetupPrompt prompt={buildGrokAccessPrompt(state.data.resourceUrl, botName || "your Bot")} label="Copy connection instructions" title="Reconnect Grok Bot" description="Complete OAuth in the browser. Keep this code out of Bot chat." />
         <div className="space-y-2">
           <label htmlFor={pairingCodeId}>{t("components.grokBotConnection.oneUsePairingCode")}</label>
           <div className="flex items-center gap-2">

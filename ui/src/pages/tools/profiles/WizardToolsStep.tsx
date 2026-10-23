@@ -76,7 +76,7 @@ export function WizardToolsStep(props: WizardToolsStepProps) {
       .filter((entry) => entry.tools.length > 0);
   }, [appGroups, search, capabilityFilter]);
 
-  if (catalogLoading) return <LoadingState label={t("pages.tools.profiles.wizardToolsStep.loadingTools")} />;
+  if (catalogLoading) return <LoadingState label="Loading tools…" />;
 
   // Cold state A (AP17): nothing connected at all.
   if (appGroups.length === 0) {

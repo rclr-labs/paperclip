@@ -1994,7 +1994,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
             </span>
           </label>
           <Button size="icon-sm" variant="ghost" asChild>
-            <Link to={`${ENVIRONMENTS_PATH}/new`} aria-label={t("pages.companyEnvironments.addEnvironment")} title={t("pages.companyEnvironments.addEnvironment")}>
+            <Link to={`${ENVIRONMENTS_PATH}/new`} aria-label={t("pages.companyEnvironments.addEnvironment")} title="Add environment">
               <Plus className="h-4 w-4" />
             </Link>
           </Button>
@@ -2141,7 +2141,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
           </div>
           <div className="py-4">
             <Field
-              label={t("pages.companyEnvironments.environmentVariables")}
+              label="Environment variables"
               hint="Injected into runs that resolve through this environment. Use plain values or organization secrets."
             >
               <EnvironmentVariablesEditor
@@ -2199,7 +2199,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                   variant="ghost"
                   className="text-muted-foreground hover:text-destructive"
                   aria-label={`Delete ${editingEnvironment.name}`}
-                  title={t("pages.companyEnvironments.deleteEnvironment")}
+                  title="Delete environment"
                   data-testid="environment-delete-button"
                   onClick={() => {
                     setReassignEnvironmentTargetId("");
@@ -2218,7 +2218,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
 
           <div className="py-4">
             <div className="space-y-4">
-              <Field label={t("pages.companyEnvironments.name")} hint="Operator-facing name for this execution target.">
+              <Field label="Name" hint="Operator-facing name for this execution target.">
                 <input
                   className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                   type="text"
@@ -2226,7 +2226,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                   onChange={(e) => setEnvironmentForm((current) => ({ ...current, name: e.target.value }))}
                 />
               </Field>
-              <Field label={t("pages.companyEnvironments.description")} hint="Optional note about what this machine is for.">
+              <Field label="Description" hint="Optional note about what this machine is for.">
                 <input
                   className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                   type="text"
@@ -2234,7 +2234,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                   onChange={(e) => setEnvironmentForm((current) => ({ ...current, description: e.target.value }))}
                 />
               </Field>
-              <Field label={t("pages.companyEnvironments.driver")} hint="Sandbox stores plugin-backed provider config on the shared environment seam. SSH stores a remote machine target.">
+              <Field label="Driver" hint="Sandbox stores plugin-backed provider config on the shared environment seam. SSH stores a remote machine target.">
                 <select
                   className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                   value={environmentForm.driver}
@@ -2270,7 +2270,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
 
               {environmentForm.driver === "ssh" ? (
                 <div className="grid gap-3 md:grid-cols-2">
-                  <Field label={t("pages.companyEnvironments.host")} hint="DNS name or IP address for the remote machine.">
+                  <Field label="Host" hint="DNS name or IP address for the remote machine.">
                     <input
                       className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                       type="text"
@@ -2278,7 +2278,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                       onChange={(e) => setEnvironmentForm((current) => ({ ...current, sshHost: e.target.value }))}
                     />
                   </Field>
-                  <Field label={t("pages.companyEnvironments.port")} hint="Defaults to 22.">
+                  <Field label="Port" hint="Defaults to 22.">
                     <input
                       className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                       type="number"
@@ -2288,7 +2288,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                       onChange={(e) => setEnvironmentForm((current) => ({ ...current, sshPort: e.target.value }))}
                     />
                   </Field>
-                  <Field label={t("pages.companyEnvironments.username")} hint="SSH username.">
+                  <Field label="Username" hint="SSH username.">
                     <input
                       className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                       type="text"
@@ -2303,7 +2303,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                     the platform-managed environment owns; an SSH environment the
                     user configured is outside that contract.
                   */}
-                  <Field label={t("pages.companyEnvironments.remoteWorkspacePath")} hint="Absolute path that Paperclip will verify during SSH connection tests.">
+                  <Field label="Remote workspace path" hint="Absolute path that Paperclip will verify during SSH connection tests.">
                     <input
                       className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                       type="text"
@@ -2313,7 +2313,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                         setEnvironmentForm((current) => ({ ...current, sshRemoteWorkspacePath: e.target.value }))}
                     />
                   </Field>
-                  <Field label={t("pages.companyEnvironments.privateKey")} hint="Optional PEM private key. Leave blank to rely on the server's SSH agent or default keychain.">
+                  <Field label="Private key" hint="Optional PEM private key. Leave blank to rely on the server's SSH agent or default keychain.">
                     <div className="space-y-2">
                       <select
                         className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
@@ -2338,7 +2338,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                       />
                     </div>
                   </Field>
-                  <Field label={t("pages.companyEnvironments.knownHosts")} hint="Optional known_hosts block used when strict host key checking is enabled.">
+                  <Field label="Known hosts" hint="Optional known_hosts block used when strict host key checking is enabled.">
                     <textarea
                       className="h-32 w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-xs font-mono outline-none"
                       value={environmentForm.sshKnownHosts}
@@ -2347,7 +2347,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                   </Field>
                   <div className="md:col-span-2">
                     <ToggleField
-                      label={t("pages.companyEnvironments.strictHostKeyChecking")}
+                      label="Strict host key checking"
                       hint="Keep this on unless you deliberately want probe-time host key acceptance disabled."
                       checked={environmentForm.sshStrictHostKeyChecking}
                       onChange={(checked) =>
@@ -2359,7 +2359,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
 
               {environmentForm.driver === "sandbox" ? (
                 <div className="space-y-3">
-                  <Field label={t("pages.companyEnvironments.provider")} hint="Installed run-capable sandbox provider plugins appear here.">
+                  <Field label="Provider" hint="Installed run-capable sandbox provider plugins appear here.">
                     <select
                       className="w-full rounded-md border border-border bg-transparent px-2.5 py-1.5 text-sm outline-none"
                       value={environmentForm.sandboxProvider}
@@ -2404,7 +2404,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
                     </div>
                   )}
                   <ToggleField
-                    label={t("pages.companyEnvironments.streamRunLogs")}
+                    label="Stream run logs"
                     hint="Stream the agent CLI's output live while runs execute (recommended). Turn off to deliver output only when the run finishes."
                     checked={environmentForm.sandboxConfig.streamRunLogs !== false}
                     onChange={(checked) =>
@@ -2435,7 +2435,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
               ) : null}
 
               <Field
-                label={t("pages.companyEnvironments.environmentVariables")}
+                label="Environment variables"
                 hint="Injected into runs that resolve through this environment. Use plain values or organization secrets."
               >
                 <EnvironmentVariablesEditor

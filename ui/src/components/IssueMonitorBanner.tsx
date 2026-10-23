@@ -211,7 +211,7 @@ function CancelMonitorButton({ onCancel }: { onCancel: () => Promise<unknown> })
   return (
     <AlertDialog open={open} onOpenChange={(next) => { if (!pending) { setOpen(next); setError(null); } }}>
       <AlertDialogTrigger asChild>
-        <Button type="button" variant="ghost" size="icon" className="absolute right-2 top-2" aria-label={t("components.issueMonitorBanner.cancelMonitor2")} title={t("components.issueMonitorBanner.cancelMonitor2")}>
+        <Button type="button" variant="ghost" size="icon" className="absolute right-2 top-2" aria-label={t("components.issueMonitorBanner.cancelMonitor2")} title="Cancel monitor">
           <X className="h-4 w-4" aria-hidden="true" />
         </Button>
       </AlertDialogTrigger>

@@ -109,7 +109,7 @@ export function SourceResolvedFoldCallout({
           "[&>*]:border-emerald-300/40 dark:[&>*]:border-emerald-500/20",
         )}
       >
-        <MetaRow label={t("components.sourceResolvedFoldCallout.sourceTask")}>
+        <MetaRow label="Source task">
           <span className="inline-flex flex-wrap items-center gap-1.5">
             <Link
               to={issueLink(fold.sourceIssueId, fold.sourceIssueIdentifier)}
@@ -122,7 +122,7 @@ export function SourceResolvedFoldCallout({
             </span>
           </span>
         </MetaRow>
-        <MetaRow label={t("components.sourceResolvedFoldCallout.sameRunEvidence")}>
+        <MetaRow label="Same-run evidence">
           <span className="inline-flex flex-wrap items-baseline gap-1.5">
             <span className="rounded bg-background/70 px-1.5 py-0.5 font-mono text-(length:--text-micro) text-emerald-900 dark:bg-background/40 dark:text-emerald-100">
               {fold.sameRunEvidenceKind}
@@ -138,7 +138,7 @@ export function SourceResolvedFoldCallout({
             ) : null}
           </span>
         </MetaRow>
-        <MetaRow label={t("components.sourceResolvedFoldCallout.silenceAgeBeforeFold")}>
+        <MetaRow label="Silence age before fold">
           {silenceAgeLabel ? (
             <span>
               {silenceAgeLabel}
@@ -150,7 +150,7 @@ export function SourceResolvedFoldCallout({
             <span className="text-muted-foreground">unknown</span>
           )}
         </MetaRow>
-        <MetaRow label={t("components.sourceResolvedFoldCallout.processCleanup")}>
+        <MetaRow label="Process cleanup">
           <span
             className="inline-flex flex-wrap items-baseline gap-1.5"
             title={fold.cleanup.outcome}
@@ -162,7 +162,7 @@ export function SourceResolvedFoldCallout({
           </span>
         </MetaRow>
         {fold.evaluationIssueId ? (
-          <MetaRow label={t("components.sourceResolvedFoldCallout.evaluationTask")}>
+          <MetaRow label="Evaluation task">
             <Link
               to={issueLink(fold.evaluationIssueId, fold.evaluationIssueIdentifier)}
               className="rounded-sm font-medium underline-offset-2 hover:underline"

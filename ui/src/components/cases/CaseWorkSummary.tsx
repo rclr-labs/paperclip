@@ -32,11 +32,11 @@ export function CaseWorkSummary({ caseData, pendingHandoff, agents }: {
     <h2 className="text-sm font-semibold">{t("components.cases.caseWorkSummary.work")}</h2>
     {caseData.workIssueId ? <div className="space-y-3">
       {task ? <div>
-        <PropertyRow label={t("components.cases.caseWorkSummary.task")}><IssueReferencePill issue={task} className="min-h-11 md:min-h-0" /></PropertyRow>
-        <PropertyRow label={t("components.cases.caseWorkSummary.workflow")}><span className="text-sm">{caseData.workflow?.name ?? "Case instructions"}</span></PropertyRow>
-        {caseData.phase && <PropertyRow label={t("components.cases.caseWorkSummary.phase")}><span className="text-sm">{caseData.phase}</span></PropertyRow>}
-        <PropertyRow label={t("components.cases.caseWorkSummary.agent")}>{assignee ? <AgentIdentity agent={assignee} size="xs" /> : <span className="text-sm text-muted-foreground">{t("components.cases.caseWorkSummary.unassigned")}</span>}</PropertyRow>
-        <PropertyRow label={t("components.cases.caseWorkSummary.taskStatus")}><IssueStatusBadge status={task.status} /></PropertyRow>
+        <PropertyRow label="Task"><IssueReferencePill issue={task} className="min-h-11 md:min-h-0" /></PropertyRow>
+        <PropertyRow label="Workflow"><span className="text-sm">{caseData.workflow?.name ?? "Case instructions"}</span></PropertyRow>
+        {caseData.phase && <PropertyRow label="Phase"><span className="text-sm">{caseData.phase}</span></PropertyRow>}
+        <PropertyRow label="Agent">{assignee ? <AgentIdentity agent={assignee} size="xs" /> : <span className="text-sm text-muted-foreground">{t("components.cases.caseWorkSummary.unassigned")}</span>}</PropertyRow>
+        <PropertyRow label="Task status"><IssueStatusBadge status={task.status} /></PropertyRow>
       </div> : <p className="text-sm text-muted-foreground">{t("components.cases.caseWorkSummary.thePrimaryTaskIsUnavailable")}</p>}
       {pending && pending.state !== "delivered" && pending.state !== "completed" && pending.state !== "cancelled" && <div className="flex items-start gap-2 text-sm">
         <Clock3 aria-hidden className="mt-0.5 size-4 shrink-0 text-muted-foreground" />

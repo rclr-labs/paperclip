@@ -171,7 +171,7 @@ export function SidePanelWindowControls({
           className="h-(--side-panel-tab-height) w-(--side-panel-tab-height) text-muted-foreground hover:text-foreground focus-visible:text-foreground"
           onClick={onToggle}
           aria-label={t("components.sidepanel.sidePanelFrame.closeSidePanel")}
-          title={t("components.sidepanel.sidePanelFrame.closeSidePanel")}
+          title="Close side panel"
         >
           <X aria-hidden />
         </Button>

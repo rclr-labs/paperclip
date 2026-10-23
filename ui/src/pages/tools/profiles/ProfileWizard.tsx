@@ -226,7 +226,7 @@ export function ProfileWizard({
   const busy = saveDraft.isPending || finish.isPending;
   const step1Valid = name.trim().length > 0 && (template !== "copy" || Boolean(copyFromId));
 
-  if (profileId && profiles.isLoading) return <LoadingState label={t("pages.tools.profiles.profileWizard.loadingDraft")} />;
+  if (profileId && profiles.isLoading) return <LoadingState label="Loading draft…" />;
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 pb-24">
@@ -655,13 +655,13 @@ export function StepAssign({
               {t("pages.tools.profiles.profileWizard.assignThisProfileToAWhole")}
             </p>
             <TargetChecklist
-              label={t("pages.tools.profiles.profileWizard.projects")}
+              label="Projects"
               options={projects}
               selected={selectedProjectIds ?? new Set()}
               onToggle={onToggleProject}
             />
             <TargetChecklist
-              label={t("pages.tools.profiles.profileWizard.routines")}
+              label="Routines"
               options={routines}
               selected={selectedRoutineIds ?? new Set()}
               onToggle={onToggleRoutine}

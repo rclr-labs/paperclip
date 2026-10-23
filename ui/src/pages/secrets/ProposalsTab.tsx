@@ -186,7 +186,7 @@ export function ProposalsTab({
     return (
       <EmptyState
         icon={Inbox}
-        title={t("pages.secrets.proposalsTab.noPendingProposals")}
+        title="No pending proposals"
         message="When an agent proposes a secret or an access binding, it shows up here for review."
       />
     );

@@ -325,12 +325,12 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
           {availableRepositories.length > 0 && <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <span className="text-xs text-muted-foreground">{availableRepositories.length} {availableRepositories.length === 1 ? 'repository' : 'repositories'}</span>
-              <Button type="button" variant="ghost" size="icon-xs" aria-label={t("pages.skillSources.refreshRepositories")} title={t("pages.skillSources.refreshRepositories")} disabled={busy || repositories.isFetching} onClick={() => void repositories.refetch()}><RefreshCw className={repositories.isFetching ? 'size-3 animate-spin' : 'size-3'} /></Button>
+              <Button type="button" variant="ghost" size="icon-xs" aria-label={t("pages.skillSources.refreshRepositories")} title="Refresh repositories" disabled={busy || repositories.isFetching} onClick={() => void repositories.refetch()}><RefreshCw className={repositories.isFetching ? 'size-3 animate-spin' : 'size-3'} /></Button>
             </div>
             <Button asChild variant="outline" size="sm"><Link onClick={rememberReturn} to={connectHref}><Plus className="size-4" />Add repos</Link></Button>
           </div>}
           {repositories.isPending && <p role="status" className="text-sm text-muted-foreground">{t("pages.skillSources.loadingYourGithubRepositories")}</p>}
-          {availableRepositories.length > 0 && <Command className="h-auto border border-border" label={t("pages.skillSources.sourceRepositories")}>
+          {availableRepositories.length > 0 && <Command className="h-auto border border-border" label="Source repositories">
               <CommandInput placeholder={t("pages.skillSources.searchRepositories2")} aria-label={t("pages.skillSources.searchRepositories")} disabled={busy} />
               <CommandList className="max-h-48">
                 <CommandEmpty>{t("pages.skillSources.noMatchingRepositories")}</CommandEmpty>

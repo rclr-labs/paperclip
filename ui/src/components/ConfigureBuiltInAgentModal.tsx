@@ -179,7 +179,7 @@ export function ConfigureBuiltInAgentModal({
             board.
           </InlineBanner>
 
-          <Field label={t("components.configureBuiltInAgentModal.harness")}>
+          <Field label="Harness">
             <AdapterTypeDropdown
               value={adapterType}
               onChange={(next) => {
@@ -227,7 +227,7 @@ export function ConfigureBuiltInAgentModal({
             </InlineBanner>
           )}
 
-          <Field label={t("components.configureBuiltInAgentModal.monthlyBudgetOptional")} hint="Leave blank for no cap.">
+          <Field label="Monthly budget (optional)" hint="Leave blank for no cap.">
             <div className="flex items-center gap-2">
               <span className="text-sm text-muted-foreground">$</span>
               <Input

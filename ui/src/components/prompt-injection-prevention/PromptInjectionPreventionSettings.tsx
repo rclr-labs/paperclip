@@ -68,7 +68,7 @@ export function PromptInjectionPreventionSettingsView({ settings, choices, model
           onChange={e => setDraft(d => ({ ...d, model: e.target.value }))} />
         <datalist id={modelId}>{models.map(m => <option key={m.id} value={m.id}>{m.label ?? m.id}</option>)}</datalist>
       </div>
-      <ToggleField label={t("components.promptinjectionprevention.promptInjectionPreventionSettings.useModelForPromptInjectionChecks")} checked={draft.enabled} onChange={enabled => setDraft(d => ({ ...d, enabled }))} />
+      <ToggleField label="Use model for prompt injection checks" checked={draft.enabled} onChange={enabled => setDraft(d => ({ ...d, enabled }))} />
       <Button variant="ghost" size="sm" onClick={() => {
         setDraft(d => ({ ...d, connectionId: null, grantId: null, enabled: false })); onConnectionChange?.(null);
       }}>{t("components.promptinjectionprevention.promptInjectionPreventionSettings.clearSelection")}</Button>

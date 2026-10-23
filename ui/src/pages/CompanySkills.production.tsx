@@ -1261,7 +1261,7 @@ export function DiscoveryGrid({
             onClick={() => onScan()}
             disabled={scanPending}
             aria-label={t("pages.companySkillsproduction.scanProjectWorkspacesForSkills")}
-            title={t("pages.companySkillsproduction.scanProjectWorkspacesForSkills")}
+            title="Scan project workspaces for skills"
           >
             <RefreshCw className={cn("h-4 w-4", scanPending && "animate-spin")} />
           </Button>
@@ -2004,7 +2004,7 @@ function CatalogDetailPane({
             text={skill.contentHash}
             copiedLabel="Copied hash"
             ariaLabel="Copy content hash"
-            title={t("pages.companySkillsproduction.copyContentHash")}
+            title="Copy content hash"
             className="inline-flex h-6 w-6 items-center justify-center rounded-sm border border-border text-muted-foreground hover:bg-accent hover:text-foreground"
           >
             <Copy className="h-3 w-3" />
@@ -3835,7 +3835,7 @@ function SkillPane({
                       text={detail.sourcePath}
                       copiedLabel="Copied path"
                       ariaLabel="Copy source path"
-                      title={t("pages.companySkillsproduction.copySourcePath")}
+                      title="Copy source path"
                       className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-sm border border-border text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                     >
                       <Copy className="h-3.5 w-3.5" />

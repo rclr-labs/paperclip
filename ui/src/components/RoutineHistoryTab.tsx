@@ -831,14 +831,14 @@ function RoutineRevisionDiffModal({
         </DialogHeader>
         <div className="flex flex-wrap items-center gap-3">
           <RevisionPicker
-            label={t("components.routineHistoryTab.old")}
+            label="Old"
             value={leftId}
             onChange={setLeftId}
             revisions={revisions}
             tone="red"
           />
           <RevisionPicker
-            label={t("components.routineHistoryTab.new")}
+            label="New"
             value={rightId}
             onChange={setRightId}
             revisions={revisions}

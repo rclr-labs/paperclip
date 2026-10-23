@@ -125,7 +125,7 @@ export function AssistantConnection({ initialAssistant = "codex" }: { initialAss
       <section className="space-y-4" aria-label={t("pages.apps.assistantConnection.inviteYourAssistant")}>
         <p className="text-sm text-muted-foreground">{t("pages.apps.assistantConnection.pasteThisInvitationIntoYourAssistant")}</p>
         <div className="flex justify-end">
-          <AgentSetupPrompt prompt={invitation} label={t("pages.apps.assistantConnection.copyInvitation")} title={t("pages.apps.assistantConnection.inviteYourAssistant")} description="Paste this invitation into your assistant. It will help set up the connection and ask you to approve access in Paperclip." side="bottom" align="end" />
+          <AgentSetupPrompt prompt={invitation} label="Copy invitation" title="Invite your assistant" description="Paste this invitation into your assistant. It will help set up the connection and ask you to approve access in Paperclip." side="bottom" align="end" />
         </div>
       </section>
       <details className="space-y-4 text-sm">
@@ -137,7 +137,7 @@ export function AssistantConnection({ initialAssistant = "codex" }: { initialAss
           <p className="text-sm">Choose <strong>{selectedCompany.name}</strong>, review access, then click <strong>{t("pages.apps.assistantConnection.connectOrganization")}</strong>.</p>
           <p className="text-xs text-muted-foreground">{t("pages.apps.assistantConnection.creatingTasksAndAddingCommentsMay")}</p>
         </section>
-        <CopyValue value={serverUrl} label={t("pages.apps.assistantConnection.mcpServerUrl")} />
+        <CopyValue value={serverUrl} label="MCP server URL" />
       </details>
     </>}
     <section className="space-y-3" aria-labelledby="connected-assistants">

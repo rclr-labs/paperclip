@@ -1572,7 +1572,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             : <div className="px-4 py-2 text-xs font-medium text-muted-foreground">{t("components.agentConfigForm.identity")}</div>
           }
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
-            <Field label={t("components.agentConfigForm.name")} hint={help.name}>
+            <Field label="Name" hint={help.name}>
               <DraftInput
                 value={eff("identity", "name", props.agent.name)}
                 onCommit={(v) => mark("identity", "name", v)}
@@ -1581,7 +1581,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 placeholder={t("components.agentConfigForm.agentName")}
               />
             </Field>
-            <Field label={t("components.agentConfigForm.title")} hint={help.title}>
+            <Field label="Title" hint={help.title}>
               <DraftInput
                 value={eff("identity", "title", props.agent.title ?? "")}
                 onCommit={(v) => mark("identity", "title", v || null)}
@@ -1590,7 +1590,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 placeholder={t("components.agentConfigForm.eGVpOfEngineering")}
               />
             </Field>
-            <Field label={t("components.agentConfigForm.reportsTo")} hint={help.reportsTo}>
+            <Field label="Reports to" hint={help.reportsTo}>
               <ReportsToPicker
                 agents={companyAgents}
                 value={eff("identity", "reportsTo", props.agent.reportsTo ?? null)}
@@ -1601,7 +1601,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             </Field>
             {isLocal && !props.hidePromptTemplate && (
               <>
-                <Field label={t("components.agentConfigForm.promptTemplate")} hint={help.promptTemplate}>
+                <Field label="Prompt Template" hint={help.promptTemplate}>
                   <MarkdownEditor
                     value={eff(
                       "adapterConfig",
@@ -1639,7 +1639,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
           }
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
             <Field
-              label={t("components.agentConfigForm.defaultEnvironment")}
+              label="Default environment"
               hint="This instance runs all agents in the Kubernetes sandbox. Local execution is disabled."
             >
               {kubernetesEnvironment ? (
@@ -1661,7 +1661,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             : <div className="px-4 py-2 text-xs font-medium text-muted-foreground">{t("components.agentConfigForm.environment")}</div>
           }
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
-            <Field label={t("components.agentConfigForm.environmentOverride")}>
+            <Field label="Environment override">
               <div className="space-y-2">
                 <SelectPopover
                   aria-label={t("components.agentConfigForm.environmentOverride")}
@@ -1709,7 +1709,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
         </div>
         <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
           {showAdapterTypeField && isGrokBotRunner && (
-            <Field label={t("components.agentConfigForm.harness")} hint={help.adapterType}>
+            <Field label="Harness" hint={help.adapterType}>
               <div className="inline-flex items-center gap-1.5">
                 <AdapterMark type="grok_bot" className="size-4" />
                 <span>{t("components.agentConfigForm.grokBot")}</span>
@@ -1718,7 +1718,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             </Field>
           )}
           {showAdapterTypeField && !isGrokBotRunner && (
-            <Field label={t("components.agentConfigForm.harness")} hint={help.adapterType}>
+            <Field label="Harness" hint={help.adapterType}>
               <AdapterTypeDropdown
                 value={isDotRunner ? "openai_dot" : isMuseRunner ? "muse" : isRunnerHarness ? harnessType : adapterType}
                 disabledTypes={adapterPickerDisabledTypes}
@@ -1830,7 +1830,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
 
           {/* Working directory */}
           {showLegacyWorkingDirectoryField && (
-            <Field label={t("components.agentConfigForm.workingDirectoryDeprecated")} hint={help.cwd}>
+            <Field label="Working directory (deprecated)" hint={help.cwd}>
               <div className="flex items-center gap-2 rounded-md border border-border px-2.5 py-1.5">
                 <FolderOpen className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
                 <DraftInput
@@ -1960,7 +1960,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
               {!isCreate && typeof config.bootstrapPromptTemplate === "string" && config.bootstrapPromptTemplate && (
                 <>
-                  <Field label={t("components.agentConfigForm.bootstrapPromptLegacy")} hint={help.bootstrapPrompt}>
+                  <Field label="Bootstrap prompt (legacy)" hint={help.bootstrapPrompt}>
                     <MarkdownEditor
                       value={eff(
                         "adapterConfig",
@@ -1987,7 +1987,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               {renderAdapterFields("configuration")}
               {(isLocal || adapterType === "process" || configSchema?.fields.some((field) => schemaFieldSection(field.key) === "advanced")) && (
               <CollapsibleSection
-                title={t("components.agentConfigForm.advanced")}
+                title="Advanced"
                 open={configurationAdvancedOpen}
                 onToggle={() => setConfigurationAdvancedOpen(!configurationAdvancedOpen)}
               >
@@ -2009,7 +2009,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 flashes on a managed instance.
               */}
               {!hideHostPaths && (
-                <Field label={t("components.agentConfigForm.command")} hint={help.localCommand}>
+                <Field label="Command" hint={help.localCommand}>
                   <DraftInput
                     value={
                       isCreate
@@ -2044,7 +2044,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 </Field>
               )}
 
-              <Field label={t("components.agentConfigForm.extraArgsCommaSeparated")} hint={help.extraArgs}>
+              <Field label="Extra args (comma-separated)" hint={help.extraArgs}>
                 <DraftInput
                   value={
                     isCreate
@@ -2092,7 +2092,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
           }
           <div className={cn(cards ? "border border-border rounded-lg p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
             <ToggleWithNumber
-              label={t("components.agentConfigForm.heartbeatOnInterval")}
+              label="Heartbeat on interval"
               hint={help.heartbeatInterval}
               checked={val!.heartbeatEnabled}
               onCheckedChange={(v) => set!({ heartbeatEnabled: v })}
@@ -2103,7 +2103,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               numberHint={help.intervalSec}
               showNumber={val!.heartbeatEnabled}
             />
-            <CollapsibleSection title={t("components.agentConfigForm.advancedRunPolicy")} open={runPolicyAdvancedOpen} onToggle={() => setRunPolicyAdvancedOpen(!runPolicyAdvancedOpen)}>
+            <CollapsibleSection title="Advanced Run Policy" open={runPolicyAdvancedOpen} onToggle={() => setRunPolicyAdvancedOpen(!runPolicyAdvancedOpen)}>
               <div className="space-y-3">{renderAdapterFields("runPolicy")}</div>
             </CollapsibleSection>
           </div>
@@ -2117,7 +2117,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
           <div className={cn(cards ? "border border-border rounded-lg overflow-hidden" : "")}>
             <div className={cn(cards ? "p-4 space-y-3" : "px-4 pb-3 space-y-3")}>
               <ToggleWithNumber
-                label={t("components.agentConfigForm.heartbeatOnInterval")}
+                label="Heartbeat on interval"
                 hint={help.heartbeatInterval}
                 checked={eff("heartbeat", "enabled", heartbeat.enabled === true)}
                 onCheckedChange={(v) => mark("heartbeat", "enabled", v)}
@@ -2130,7 +2130,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               />
             </div>
             <CollapsibleSection
-              title={t("components.agentConfigForm.advancedRunPolicy")}
+              title="Advanced Run Policy"
               bordered={cards}
               open={runPolicyAdvancedOpen}
               onToggle={() => setRunPolicyAdvancedOpen(!runPolicyAdvancedOpen)}
@@ -2142,7 +2142,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               {!isCreate && (
                 <>
                   {!configSchema?.fields.some((field) => field.key === "timeoutSec") && (
-                  <Field label={t("components.agentConfigForm.timeoutSec")} hint={help.timeoutSec}>
+                  <Field label="Timeout (sec)" hint={help.timeoutSec}>
                     <DraftNumberInput
                       value={eff(
                         "adapterConfig",
@@ -2156,7 +2156,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                   </Field>
                   )}
                   {!configSchema?.fields.some((field) => field.key === "graceSec") && (
-                  <Field label={t("components.agentConfigForm.interruptGracePeriodSec")} hint={help.graceSec}>
+                  <Field label="Interrupt grace period (sec)" hint={help.graceSec}>
                     <DraftNumberInput
                       value={eff(
                         "adapterConfig",
@@ -2173,7 +2173,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               )}
               </>)}
               <ToggleField
-                label={t("components.agentConfigForm.wakeOnDemand")}
+                label="Wake on demand"
                 hint={help.wakeOnDemand}
                 checked={eff(
                   "heartbeat",
@@ -2182,7 +2182,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 )}
                 onChange={(v) => mark("heartbeat", "wakeOnDemand", v)}
               />
-              <Field label={t("components.agentConfigForm.cooldownSec")} hint={help.cooldownSec}>
+              <Field label="Cooldown (sec)" hint={help.cooldownSec}>
                 <DraftNumberInput
                   value={eff(
                     "heartbeat",
@@ -2194,7 +2194,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                   className={inputClass}
                 />
               </Field>
-              <Field label={t("components.agentConfigForm.maxConcurrentRuns")} hint={help.maxConcurrentRuns}>
+              <Field label="Max concurrent runs" hint={help.maxConcurrentRuns}>
                 <DraftNumberInput
                   value={eff(
                     "heartbeat",
@@ -2208,14 +2208,14 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
               </Field>
               <div className="rounded-md border border-border/70 px-3 py-2">
                 <ToggleField
-                  label={t("components.agentConfigForm.continueAfterMaxTurnStop")}
+                  label="Continue after max-turn stop"
                   hint={help.maxTurnContinuationEnabled}
                   checked={maxTurnContinuationEnabled}
                   onChange={(v) => updateMaxTurnContinuation({ enabled: v })}
                 />
                 {maxTurnContinuationEnabled ? (
                   <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                    <Field label={t("components.agentConfigForm.continuationAttempts")} hint={help.maxTurnContinuationMaxAttempts}>
+                    <Field label="Continuation attempts" hint={help.maxTurnContinuationMaxAttempts}>
                       <DraftNumberInput
                         value={maxTurnContinuationMaxAttempts}
                         onCommit={(v) =>
@@ -2226,7 +2226,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                         className={inputClass}
                       />
                     </Field>
-                    <Field label={t("components.agentConfigForm.continuationDelaySec")} hint={help.maxTurnContinuationDelaySec}>
+                    <Field label="Continuation delay (sec)" hint={help.maxTurnContinuationDelaySec}>
                       <DraftNumberInput
                         value={maxTurnContinuationDelaySec}
                         onCommit={(v) =>
@@ -2267,7 +2267,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             )}
           >
             <ToggleField
-              label={t("components.agentConfigForm.captureRawProviderTraces")}
+              label="Capture raw provider traces"
               hint="Stores exact provider traffic for every future run until disabled. Traces may contain sensitive prompts and tool arguments, are administrator-only, and expire after 24 hours."
               checked={eff<unknown>("debug", "providerTrace", debug.providerTrace) === "raw"}
               onChange={(enabled) =>
@@ -2894,7 +2894,7 @@ function DisplayedCodeLoginPanel({
               </div>
               <span className="font-mono text-xs text-foreground break-all">{prompt.code}</span>
             </div>
-            <AdapterLoginCopyButton value={prompt.code} label={t("components.agentConfigForm.copyCode")} />
+            <AdapterLoginCopyButton value={prompt.code} label="Copy code" />
           </div>
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
@@ -2904,14 +2904,14 @@ function DisplayedCodeLoginPanel({
               <span className="font-mono text-xs text-foreground break-all">{prompt.url}</span>
             </div>
             <div className="flex items-center">
-              <AdapterLoginCopyButton value={prompt.url} label={t("components.agentConfigForm.copyUrl")} />
+              <AdapterLoginCopyButton value={prompt.url} label="Copy URL" />
               <Button
                 asChild
                 type="button"
                 variant="ghost"
                 size="icon-xs"
                 aria-label={t("components.agentConfigForm.openTheAuthenticationPage")}
-                title={t("components.agentConfigForm.openTheAuthenticationPage")}
+                title="Open the authentication page"
                 className="text-muted-foreground hover:text-foreground"
               >
                 <a href={prompt.url} target="_blank" rel="noreferrer noopener">
@@ -3677,14 +3677,14 @@ function SubmittedBrowserCodeLoginPanel({
                 <span className="font-mono text-xs text-foreground break-all">{authorizationUrl}</span>
               </div>
               <div className="flex items-center">
-                <AdapterLoginCopyButton value={authorizationUrl} label={t("components.agentConfigForm.copyUrl")} />
+                <AdapterLoginCopyButton value={authorizationUrl} label="Copy URL" />
                 <Button
                   asChild
                   type="button"
                   variant="ghost"
                   size="icon-xs"
                   aria-label={t("components.agentConfigForm.openTheAuthorizationPage")}
-                  title={t("components.agentConfigForm.openTheAuthorizationPage")}
+                  title="Open the authorization page"
                   className="text-muted-foreground hover:text-foreground"
                 >
                   <a href={authorizationUrl} target="_blank" rel="noreferrer noopener">
@@ -3962,7 +3962,7 @@ export function ModelDropdown({
     const customOption = "__paperclip_custom_model__";
     const extraModels = [...new Set([value, ...promotedModelIds])].filter(id => id && (!models.some(model => model.id === id) || promotedModelIds.has(id)));
     return (
-      <Field label={t("components.agentConfigForm.model")} hint={help.model}>
+      <Field label="Model" hint={help.model}>
         <NativeSelect
           aria-label={t("components.agentConfigForm.model")}
           aria-busy={loadingModels || refreshingModels}
@@ -4000,7 +4000,7 @@ export function ModelDropdown({
   }
 
   return (
-    <Field label={t("components.agentConfigForm.model")} hint={help.model}>
+    <Field label="Model" hint={help.model}>
       <SelectPopover aria-label={t("components.agentConfigForm.model")} value={value}
         displayValue={<span className={cn("truncate", !value && "text-muted-foreground")}>
           {selected?.label ?? (value || (allowDefault ? (defaultLabel ?? "Default") : required ? "Select model (required)" : "Select model"))}
@@ -4222,7 +4222,7 @@ function ThinkingEffortDropdown({
   onOpenChange: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
-  return <Field label={t("components.agentConfigForm.thinkingEffort")} hint={help.thinkingEffort}>
+  return <Field label="Thinking effort" hint={help.thinkingEffort}>
     <SelectPopover aria-label={t("components.agentConfigForm.thinkingEffort")} value={value} onValueChange={onChange}
       open={open} onOpenChange={onOpenChange}
       options={options.map(option => ({ value: option.id, label: option.label,

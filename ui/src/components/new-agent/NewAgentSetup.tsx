@@ -944,7 +944,7 @@ function Setup({
                   <OnboardingCard className="mx-auto">
                     <div className="mb-8">
                       <OnboardingHeading
-                        title={t("components.newagent.newAgentSetup.connectAModel")}
+                        title="Connect a model"
                         center
                       />
                     </div>
@@ -1077,7 +1077,7 @@ function Setup({
                         {isDot && <>
                           <p className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.createThisAgentThenCopyIts")}</p>
                           {experimental.data?.enablePublicMcp !== true && <p className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.enableAssistantConnectionsMcpInExperimental")}</p>}
-                          <ToggleField label={t("components.newagent.newAgentSetup.allowExternallyBilledProvider")} hint="Dot does not report token usage or cost. Paperclip cannot enforce a provider spend ceiling; known company and agent budget limits still apply."
+                          <ToggleField label="Allow externally billed provider" hint="Dot does not report token usage or cost. Paperclip cannot enforce a provider spend ceiling; known company and agent budget limits still apply."
                             checked={allowUnmeteredProvider} onChange={value => { setAllowUnmeteredProvider(value); resetTest(); }} />
                         </>}
                         {!connectionAdapter && aiProviderForAdapter(brandType) && (
@@ -1129,7 +1129,7 @@ function Setup({
                               />
                             )}
                             {efforts.length > 0 && (
-                              <Field label={t("components.newagent.newAgentSetup.thinkingEffort")}>
+                              <Field label="Thinking effort">
                                 {brandType === "codex_local" ? <SelectPopover aria-label={t("components.newagent.newAgentSetup.thinkingEffort")} value={effort}
                                   onValueChange={value => { setEffort(value); resetTest(); }}
                                   options={[{ value: "", label: "Auto" }, ...efforts.map(value => ({ value, label: value }))]} /> : <NativeSelect
@@ -1159,7 +1159,7 @@ function Setup({
                         {hasCredentialField && !aiBinding && (
                           <div className="grid gap-5 sm:grid-cols-2">
                             {chooseProvider && (
-                              <Field label={t("components.newagent.newAgentSetup.apiKeyProvider")}>
+                              <Field label="API key provider">
                                 <select
                                   aria-label={t("components.newagent.newAgentSetup.apiKeyProvider")}
                                   className={controlClass}
@@ -1240,7 +1240,7 @@ function Setup({
                                   chooseProvider ? "sm:col-span-2" : undefined
                                 }
                               >
-                                <Field label={t("components.newagent.newAgentSetup.orUseAnOrganizationSecret")}>
+                                <Field label="Or use an organization secret">
                                   <SecretPicker
                                     secretId={
                                       selectedBinding &&
@@ -1272,7 +1272,7 @@ function Setup({
                           </div>
                         )}
                         {adapterType === "hermes_gateway" && (
-                          <Field label={t("components.newagent.newAgentSetup.hermesApiBaseUrl")}>
+                          <Field label="Hermes API base URL">
                             <Input
                               aria-label={t("components.newagent.newAgentSetup.hermesApiBaseUrl")}
                               value={gatewayUrl}
@@ -1286,7 +1286,7 @@ function Setup({
                         )}
                         {usingKimiApi && (
                           <div className="grid gap-5 sm:grid-cols-2">
-                            <Field label={t("components.newagent.newAgentSetup.kimiApiModelName")}>
+                            <Field label="Kimi API model name">
                               <Input
                                 aria-label={t("components.newagent.newAgentSetup.kimiApiModelName")}
                                 value={kimiModel}
@@ -1297,7 +1297,7 @@ function Setup({
                                 placeholder="kimi-for-coding"
                               />
                             </Field>
-                            <Field label={t("components.newagent.newAgentSetup.kimiApiProtocol")}>
+                            <Field label="Kimi API protocol">
                               <select
                                 aria-label={t("components.newagent.newAgentSetup.kimiApiProtocol")}
                                 className={controlClass}
@@ -1315,7 +1315,7 @@ function Setup({
                               </select>
                             </Field>
                             <Field
-                              label={t("components.newagent.newAgentSetup.kimiApiBaseUrl")}
+                              label="Kimi API base URL"
                               hint="Optional override for your provider endpoint."
                             >
                               <Input
@@ -1332,7 +1332,7 @@ function Setup({
                         )}
                         {adapterType === "cursor_cloud" && (
                           <div className="grid gap-5 sm:grid-cols-2">
-                            <Field label={t("components.newagent.newAgentSetup.githubRepository")}>
+                            <Field label="GitHub repository">
                               <Input
                                 aria-label={t("components.newagent.newAgentSetup.githubRepository")}
                                 value={repository}
@@ -1343,7 +1343,7 @@ function Setup({
                                 placeholder="https://github.com/your-org/repo"
                               />
                             </Field>
-                            <Field label={t("components.newagent.newAgentSetup.branch")}>
+                            <Field label="Branch">
                               <Input
                                 aria-label={t("components.newagent.newAgentSetup.branch")}
                                 placeholder={t("components.newagent.newAgentSetup.repositoryDefault")}

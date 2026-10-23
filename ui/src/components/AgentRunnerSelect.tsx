@@ -25,7 +25,7 @@ export function AgentRunnerSelect({
 }) {
   const { t } = useTranslation();
   return (
-    <Field label={t("components.agentRunnerSelect.runner")}>
+    <Field label="Runner">
       <SelectPopover
         aria-label={t("components.agentRunnerSelect.runner")}
         disabled={disabled}

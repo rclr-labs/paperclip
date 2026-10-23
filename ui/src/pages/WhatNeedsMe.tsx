@@ -638,7 +638,7 @@ export function WhatNeedsMe() {
 
           {snoozedItems.length > 0 && (
             <Curtain
-              label={t("pages.whatNeedsMe.snoozed")}
+              label="Snoozed"
               count={snoozedItems.length}
               open={snoozedOpen}
               onToggle={() => setSnoozedOpen((prev) => !prev)}
@@ -662,7 +662,7 @@ export function WhatNeedsMe() {
 
           {dismissedItems.length > 0 && (
             <Curtain
-              label={t("pages.whatNeedsMe.dismissed")}
+              label="Dismissed"
               count={dismissedItems.length}
               open={dismissedOpen}
               onToggle={() => setDismissedOpen((prev) => !prev)}
@@ -686,7 +686,7 @@ export function WhatNeedsMe() {
 
           {agingItems.length > 0 && (
             <Curtain
-              label={t("pages.whatNeedsMe.aging")}
+              label="Aging"
               count={agingItems.length}
               open={agingOpen}
               onToggle={() => setAgingOpen((prev) => !prev)}
@@ -717,7 +717,7 @@ export function WhatNeedsMe() {
 
       <div className="space-y-4">
         <Curtain
-          label={t("pages.whatNeedsMe.decided")}
+          label="Decided"
           count={decisionHistoryCount(decidedDecisions?.length)}
           open={decidedOpen}
           onToggle={() => setDecidedOpen((prev) => !prev)}
@@ -740,7 +740,7 @@ export function WhatNeedsMe() {
         </Curtain>
 
         <Curtain
-          label={t("pages.whatNeedsMe.expired")}
+          label="Expired"
           count={decisionHistoryCount(expiredDecisions?.length)}
           open={expiredOpen}
           onToggle={() => setExpiredOpen((prev) => !prev)}

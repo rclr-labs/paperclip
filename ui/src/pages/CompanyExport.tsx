@@ -1038,7 +1038,7 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title={t("pages.companyExport.exportPreviewCancelled")}
+        title="Export preview cancelled"
         message="The preview request was cancelled. Your export settings are unchanged."
         action="Retry preview"
         onAction={startPreviewRequest}
@@ -1051,7 +1051,7 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title={t("pages.companyExport.exportPreviewFailed")}
+        title="Export preview failed"
         message={previewErrorMessage(exportPreviewMutation.error)}
         description="Retry the preview. You do not need to reload this page."
         action="Retry preview"
@@ -1065,7 +1065,7 @@ export function CompanyExport() {
     return (
       <EmptyState
         icon={Package}
-        title={t("pages.companyExport.exportPreviewUnavailable")}
+        title="Export preview unavailable"
         message="No export preview is loaded."
         action="Load preview"
         onAction={startPreviewRequest}

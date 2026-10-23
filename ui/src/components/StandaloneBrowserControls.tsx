@@ -5,7 +5,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useOptionalToastActions } from "../context/ToastContext";
 import { CHROMELESS_DISPLAY_MODES, isChromelessDisplayMode } from "../lib/pwa-display-mode";
 import { copyTextToClipboard } from "../lib/clipboard";
-import { useTranslation } from "@/i18n";
 
 function ControlButton({
   label,
@@ -36,7 +35,6 @@ function ControlButton({
 }
 
 export function StandaloneBrowserControls({ mobile }: { mobile: boolean }) {
-  const { t } = useTranslation();
   const [chromeless, setChromeless] = useState(() =>
     typeof window !== "undefined" && mobile ? isChromelessDisplayMode() : false,
   );
@@ -90,13 +88,13 @@ export function StandaloneBrowserControls({ mobile }: { mobile: boolean }) {
 
   return (
     <div className="flex h-10 items-center justify-end gap-1 border-b border-border bg-background/95 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/85">
-      <ControlButton label={t("components.standaloneBrowserControls.refresh")} onClick={refresh}>
+      <ControlButton label="Refresh" onClick={refresh}>
         <RefreshCw className="h-4 w-4" />
       </ControlButton>
-      <ControlButton label={t("components.standaloneBrowserControls.share")} onClick={share}>
+      <ControlButton label="Share" onClick={share}>
         <Share2 className="h-4 w-4" />
       </ControlButton>
-      <ControlButton label={t("components.standaloneBrowserControls.openInBrowser")} onClick={openInBrowser}>
+      <ControlButton label="Open in Browser" onClick={openInBrowser}>
         <ExternalLink className="h-4 w-4" />
       </ControlButton>
     </div>

@@ -120,7 +120,7 @@ function AdapterRow({
               variant="outline"
               size="icon-sm"
               className="h-8 w-8"
-              title={t("pages.adapterManager.reinstallAdapterPullLatestFromNpm")}
+              title="Reinstall adapter (pull latest from npm)"
               disabled={isReinstalling}
               onClick={() => onReinstall(adapter.type)}
             >
@@ -132,7 +132,7 @@ function AdapterRow({
               variant="outline"
               size="icon-sm"
               className="h-8 w-8"
-              title={t("pages.adapterManager.reloadAdapterHotSwap")}
+              title="Reload adapter (hot-swap)"
               disabled={isReloading}
               onClick={() => onReload(adapter.type)}
             >
@@ -156,7 +156,7 @@ function AdapterRow({
               variant="outline"
               size="icon-sm"
               className="h-8 w-8 text-destructive hover:text-destructive"
-              title={t("pages.adapterManager.removeAdapter2")}
+              title="Remove adapter"
               onClick={() => onRemove(adapter.type)}
             >
               <Trash2 className="h-4 w-4" />

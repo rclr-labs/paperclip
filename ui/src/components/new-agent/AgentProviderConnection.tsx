@@ -340,7 +340,7 @@ export function AgentProviderConnection({
                 />
                 {!selectedKey && (
                   <OnboardingCardField
-                    label={t("components.newagent.agentProviderConnection.apiKey")}
+                    label="API key"
                     masked
                     autoFocus
                     value={apiKey}

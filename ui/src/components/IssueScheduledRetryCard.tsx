@@ -37,7 +37,7 @@ export function IssueScheduledRetryCard({
 
   if (scheduledRetry.scheduledRetryReason === "workspace_busy") {
     return (
-      <InlineBanner tone="info" icon={Clock} title={t("components.issueScheduledRetryCard.waitingForWorkspace")} className="mb-3">
+      <InlineBanner tone="info" icon={Clock} title="Waiting for workspace" className="mb-3">
         {t("components.issueScheduledRetryCard.anotherTaskIsUsingThisWorkspace")}
       </InlineBanner>
     );

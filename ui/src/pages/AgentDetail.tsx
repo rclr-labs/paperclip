@@ -1340,7 +1340,7 @@ export function AgentDetail() {
       {builtInState && (
         <InlineBanner
           tone="info"
-          title={t("pages.agentDetail.builtInAgent")}
+          title="Built-in agent"
           actions={
             <Button
               variant="outline"
@@ -1777,26 +1777,26 @@ export function AgentOverview({
             <StatusBadge status={agent.status} />
           </div>
           <div className="space-y-3">
-            <SummaryRow label={t("pages.agentDetail.role")}><span className="text-sm">{roleLabels[agent.role] ?? agent.role}</span></SummaryRow>
-            <SummaryRow label={t("pages.agentDetail.title")}><span className="text-sm">{agent.title ?? "Not set"}</span></SummaryRow>
-            <SummaryRow label={t("pages.agentDetail.reportsTo")}>
+            <SummaryRow label="Role"><span className="text-sm">{roleLabels[agent.role] ?? agent.role}</span></SummaryRow>
+            <SummaryRow label="Title"><span className="text-sm">{agent.title ?? "Not set"}</span></SummaryRow>
+            <SummaryRow label="Reports to">
               {reportsToAgent ? (
                 <Link className="text-sm hover:underline" to={agentDetailHref(agentRouteRef(reportsToAgent))}>
                   {reportsToAgent.name}
                 </Link>
               ) : <span className="text-sm">{t("pages.agentDetail.board")}</span>}
             </SummaryRow>
-            <SummaryRow label={t("pages.agentDetail.directReports")}><span className="text-sm tabular-nums">{directReportCount}</span></SummaryRow>
+            <SummaryRow label="Direct reports"><span className="text-sm tabular-nums">{directReportCount}</span></SummaryRow>
             {hasHumanCreator && userDirectory.isError ? (
-              <SummaryRow label={t("pages.agentDetail.createdBy")}><span className="text-sm text-destructive">{t("pages.agentDetail.couldNotLoadCreator")}</span></SummaryRow>
+              <SummaryRow label="Created by"><span className="text-sm text-destructive">{t("pages.agentDetail.couldNotLoadCreator")}</span></SummaryRow>
             ) : creatorLabel ? (
-              <SummaryRow label={t("pages.agentDetail.createdBy")}><span className="text-sm">{creatorLabel}</span></SummaryRow>
+              <SummaryRow label="Created by"><span className="text-sm">{creatorLabel}</span></SummaryRow>
             ) : null}
-            <SummaryRow label={t("pages.agentDetail.publicKey")}>
+            <SummaryRow label="Public key">
               {identity.isPending ? <span className="text-sm text-muted-foreground">{t("pages.agentDetail.loading")}</span>
                 : identity.isError ? <span className="text-sm text-destructive">{t("pages.agentDetail.couldNotLoadPublicKey")}</span>
                 : identity.data ? (
-                  <CopyText text={identity.data.publicKeyPem} ariaLabel="Copy public key" title={t("pages.agentDetail.copyPublicKey")}>
+                  <CopyText text={identity.data.publicKeyPem} ariaLabel="Copy public key" title="Copy public key">
                     <span className="font-mono text-sm">{identity.data.keyId.slice(0, 19)}…</span>
                   </CopyText>
                 ) : (
@@ -1815,10 +1815,10 @@ export function AgentOverview({
             <Link className="text-xs text-muted-foreground hover:text-foreground" to={agentDetailHref(agentRouteId, "runtime")}>{t("pages.agentDetail.configure")}</Link>
           </div>
           <div className="space-y-3">
-            <SummaryRow label={t("pages.agentDetail.adapter")}><span className="text-sm">{getAdapterDisplay(agentDisplayAdapterType(agent)).label}</span></SummaryRow>
-            {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" ? <><SummaryRow label={t("pages.agentDetail.execution")}><span className="text-sm">{t("pages.agentDetail.runsInGrokBot")}</span></SummaryRow><SummaryRow label={t("pages.agentDetail.usage")}><span className="text-sm">{t("pages.agentDetail.notReported")}</span></SummaryRow></> : <SummaryRow label={t("pages.agentDetail.model")}><span className="max-w-64 truncate text-sm font-mono">{configuredModel}</span></SummaryRow>}
-            <SummaryRow label={t("pages.agentDetail.session")}><span className="max-w-64 truncate text-sm font-mono">{runtimeState?.sessionDisplayId ?? runtimeState?.sessionId ?? "No session"}</span></SummaryRow>
-            <SummaryRow label={t("pages.agentDetail.lastRun")}>
+            <SummaryRow label="Adapter"><span className="text-sm">{getAdapterDisplay(agentDisplayAdapterType(agent)).label}</span></SummaryRow>
+            {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" ? <><SummaryRow label="Execution"><span className="text-sm">{t("pages.agentDetail.runsInGrokBot")}</span></SummaryRow><SummaryRow label="Usage"><span className="text-sm">{t("pages.agentDetail.notReported")}</span></SummaryRow></> : <SummaryRow label="Model"><span className="max-w-64 truncate text-sm font-mono">{configuredModel}</span></SummaryRow>}
+            <SummaryRow label="Session"><span className="max-w-64 truncate text-sm font-mono">{runtimeState?.sessionDisplayId ?? runtimeState?.sessionId ?? "No session"}</span></SummaryRow>
+            <SummaryRow label="Last run">
               <span className="text-sm">{lastRun ? `${lastRun.status} · ${relativeTime(lastRun.createdAt)}` : "No runs"}</span>
             </SummaryRow>
             {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" && <GrokBotWorkSummary companyId={agent.companyId} agentId={agent.id} />}
@@ -3063,7 +3063,7 @@ export function PromptsTab({
                 <CopyText
                   text={displayValue}
                   ariaLabel="Copy instructions file as markdown"
-                  title={t("pages.agentDetail.copyAsMarkdown")}
+                  title="Copy as markdown"
                   copiedLabel="Copied"
                   className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-foreground"
                 >
@@ -3425,7 +3425,6 @@ export function RunsTab({
 /* ---- Run Detail (expanded) ---- */
 
 export function AgentFileRunNotice({ resultJson }: { resultJson: HeartbeatRun["resultJson"] }) {
-  const { t } = useTranslation();
   const save = asRecord(resultJson?.instructionSave);
   const storageWarning = asNonEmptyString(save?.storageWarning);
   const error = asNonEmptyString(save?.errorMessage);
@@ -3434,8 +3433,8 @@ export function AgentFileRunNotice({ resultJson }: { resultJson: HeartbeatRun["r
   // I/O failure must stay visible even when storage was full at run start.
   const showSyncFailure = syncFailure && (!storageWarning || save?.errorCode !== "AGENT_FILES_LIMIT_EXCEEDED");
   return <>
-    {storageWarning && <InlineBanner tone="warning" title={t("pages.agentDetail.agentStorageWarning")} compact>{storageWarning}</InlineBanner>}
-    {showSyncFailure && <InlineBanner tone="warning" title={t("pages.agentDetail.agentFileSyncFailedForThis")} compact>{error}</InlineBanner>}
+    {storageWarning && <InlineBanner tone="warning" title="Agent storage warning" compact>{storageWarning}</InlineBanner>}
+    {showSyncFailure && <InlineBanner tone="warning" title="Agent file sync failed for this run" compact>{error}</InlineBanner>}
   </>;
 }
 
@@ -4751,7 +4750,7 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
               variant="ghost"
               size="icon-sm"
               onClick={copyToken}
-              title={t("pages.agentDetail.copy")}
+              title="Copy"
             >
               <Copy className="h-3.5 w-3.5" />
             </Button>

@@ -840,7 +840,7 @@ export function Routines() {
             <div className="flex items-center gap-1">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-xs" title={t("pages.routinesproduction.sort")}>
+                  <Button variant="ghost" size="sm" className="text-xs" title="Sort">
                     <ArrowUpDown className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
                     <span className="hidden sm:inline">{t("pages.routinesproduction.sort")}</span>
                   </Button>
@@ -881,7 +881,7 @@ export function Routines() {
               </Popover>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button variant="ghost" size="sm" className="text-xs" title={t("pages.routinesproduction.group")}>
+                  <Button variant="ghost" size="sm" className="text-xs" title="Group">
                     <Layers className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
                     <span className="hidden sm:inline">{t("pages.routinesproduction.group")}</span>
                   </Button>
@@ -1254,7 +1254,7 @@ export function Routines() {
           <div className="min-w-0 flex-1">
           {routineViewState.groupBy === "folder" && hasRoutineFolders ? (
             <div className="mb-3 flex flex-wrap items-center gap-2">
-              {folderSelection === "all" ? <FolderIconHeader label={t("pages.routinesproduction.allRoutines")} count={sortedRoutines.length} /> : (
+              {folderSelection === "all" ? <FolderIconHeader label="All routines" count={sortedRoutines.length} /> : (
                 <div className="flex min-w-0 items-center gap-2 text-sm">
                   <FolderSwatch color={activeFolder?.color} />
                   <span className="truncate font-medium">{folderSelection === "unfiled" ? "Unfiled" : activeFolder?.name ?? "Folder"}</span>

@@ -68,8 +68,8 @@ export function McpConfigHelpDialog() {
         <div>
           <AgentSetupPrompt
             prompt={MCP_CONFIG_HELP_PROMPT}
-            label={t("pages.tools.mcpConfigHelpDialog.getAConfigWithAnAgent")}
-            title={t("pages.tools.mcpConfigHelpDialog.mcpConfiguration")}
+            label="Get a config with an agent"
+            title="MCP configuration"
             description="Paste this into your agent to create an MCP config, then paste its JSON reply back into Paperclip."
           />
         </div>

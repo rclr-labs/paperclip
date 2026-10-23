@@ -540,7 +540,7 @@ function WebhookSettings({
           )}
         />
       )}
-      <CopyField label={t("components.routinetriggers.routineTriggers.webhookUrl")} value={trigger.webhookUrl ?? ""} />
+      <CopyField label="Webhook URL" value={trigger.webhookUrl ?? ""} />
       {trigger.signingMode !== "none" && (
         <div className="space-y-2">
           {secret ? (

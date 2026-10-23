@@ -447,7 +447,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           size="icon-xs"
           onClick={() => adjustZoom(0.8)}
           aria-label={t("pages.timeline.zoomOut")}
-          title={t("pages.timeline.zoomOut")}
+          title="Zoom out"
         >
           <Minus className="h-3 w-3" />
         </Button>
@@ -457,7 +457,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           size="icon-xs"
           onClick={() => adjustZoom(1.25)}
           aria-label={t("pages.timeline.zoomIn")}
-          title={t("pages.timeline.zoomIn")}
+          title="Zoom in"
         >
           <Plus className="h-3 w-3" />
         </Button>
@@ -467,7 +467,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
           size="icon-xs"
           onClick={resetZoom}
           aria-label={t("pages.timeline.resetZoom")}
-          title={t("pages.timeline.resetZoom")}
+          title="Reset zoom"
         >
           <RotateCcw className="h-3 w-3" />
         </Button>

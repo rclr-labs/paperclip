@@ -12,10 +12,10 @@ export function FilePreviewModeToggle({ mode, onChange, label }: {
   const { t } = useTranslation();
   return (
     <div className="flex gap-1" role="group" aria-label={label}>
-      <Button type="button" size="icon-sm" variant={mode === "rendered" ? "secondary" : "ghost"} aria-label={t("components.filePreviewModeToggle.rendered")} title={t("components.filePreviewModeToggle.rendered")} aria-pressed={mode === "rendered"} onClick={() => onChange("rendered")}>
+      <Button type="button" size="icon-sm" variant={mode === "rendered" ? "secondary" : "ghost"} aria-label={t("components.filePreviewModeToggle.rendered")} title="Rendered" aria-pressed={mode === "rendered"} onClick={() => onChange("rendered")}>
         <Eye aria-hidden />
       </Button>
-      <Button type="button" size="icon-sm" variant={mode === "raw" ? "secondary" : "ghost"} aria-label={t("components.filePreviewModeToggle.raw")} title={t("components.filePreviewModeToggle.raw")} aria-pressed={mode === "raw"} onClick={() => onChange("raw")}>
+      <Button type="button" size="icon-sm" variant={mode === "raw" ? "secondary" : "ghost"} aria-label={t("components.filePreviewModeToggle.raw")} title="Raw" aria-pressed={mode === "raw"} onClick={() => onChange("raw")}>
         <Code2 aria-hidden />
       </Button>
     </div>

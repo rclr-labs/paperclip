@@ -1771,7 +1771,7 @@ export function IssuesList({
                       "h-8 shrink-0 gap-1.5 px-2",
                       viewState.boardColumnPageSize !== KANBAN_COLUMN_DEFAULT_PAGE_SIZE && "bg-accent",
                     )}
-                    title={t("components.legacyIssuesList.cardsPerColumn")}
+                    title="Cards per column"
                   >
                     <ListCollapse className="h-3.5 w-3.5" />
                     <span className="min-w-4 text-xs tabular-nums">{viewState.boardColumnPageSize}</span>
@@ -1809,7 +1809,7 @@ export function IssuesList({
                   boardColumnPageSize: KANBAN_COLUMN_DEFAULT_PAGE_SIZE,
                 })}
                 disabled={!boardDensityCustomized}
-                title={t("components.legacyIssuesList.resetBoardDensity")}
+                title="Reset board density"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
               </Button>
@@ -1821,7 +1821,7 @@ export function IssuesList({
             visibleColumnSet={visibleIssueColumnSet}
             onToggleColumn={toggleIssueColumn}
             onResetColumns={() => setIssueColumns(DEFAULT_INBOX_ISSUE_COLUMNS)}
-            title={t("components.legacyIssuesList.chooseWhichTaskColumnsStayVisible")}
+            title="Choose which task columns stay visible"
             iconOnly
           />
 
@@ -1845,7 +1845,7 @@ export function IssuesList({
           {viewState.viewMode === "list" && (
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title={t("components.legacyIssuesList.sort")}>
+                <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title="Sort">
                   <ArrowUpDown className="h-3.5 w-3.5" />
                 </Button>
               </PopoverTrigger>
@@ -1892,7 +1892,7 @@ export function IssuesList({
           {viewState.viewMode === "list" && (
             <Popover>
               <PopoverTrigger asChild>
-                <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title={t("components.legacyIssuesList.group")}>
+                <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title="Group">
                   <Layers className="h-3.5 w-3.5" />
                 </Button>
               </PopoverTrigger>

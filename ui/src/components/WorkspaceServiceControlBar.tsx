@@ -183,7 +183,7 @@ function UrlSegment({ entry, compact }: { entry: WorkspaceServiceControlEntry; c
           size="icon-xs"
           disabled={!live}
           className="text-muted-foreground hover:text-foreground"
-          title={t("components.workspaceServiceControlBar.openInNewTab")}
+          title="Open in new tab"
         >
           {live ? (
             <a href={entry.url ?? undefined} target="_blank" rel="noreferrer" aria-label={t("components.workspaceServiceControlBar.openInNewTab")}>
@@ -218,7 +218,7 @@ function ActionSlots({
         disabled={!canStart}
         onClick={() => onAction("start")}
         aria-label={t("components.workspaceServiceControlBar.start")}
-        title={t("components.workspaceServiceControlBar.start")}
+        title="Start"
       >
         <Play className="size-3" />
         Start
@@ -235,7 +235,7 @@ function ActionSlots({
           disabled={!canStart}
           onClick={() => onAction("start")}
           aria-label={t("components.workspaceServiceControlBar.start")}
-          title={t("components.workspaceServiceControlBar.start")}
+          title="Start"
         >
           <Play className="size-3" />
         </Button>
@@ -245,7 +245,7 @@ function ActionSlots({
           disabled={!canStart}
           onClick={() => onAction("restart")}
           aria-label={t("components.workspaceServiceControlBar.restart")}
-          title={t("components.workspaceServiceControlBar.restart")}
+          title="Restart"
           className="border border-border text-foreground"
         >
           <RotateCcw className="size-3" />
@@ -262,7 +262,7 @@ function ActionSlots({
         disabled={transitional}
         onClick={() => onAction("stop")}
         aria-label={t("components.workspaceServiceControlBar.stop")}
-        title={t("components.workspaceServiceControlBar.stop")}
+        title="Stop"
         className="border border-border text-foreground"
       >
         <Square className="size-3" />
@@ -273,7 +273,7 @@ function ActionSlots({
         disabled={transitional || !canStart}
         onClick={() => onAction("restart")}
         aria-label={t("components.workspaceServiceControlBar.restart")}
-        title={t("components.workspaceServiceControlBar.restart")}
+        title="Restart"
         className="border border-border text-foreground"
       >
         <RotateCcw className="size-3" />

@@ -192,7 +192,7 @@ export function SystemNoticeUxLab() {
       <LabSection
         id="tones"
         eyebrow="Tone matrix"
-        title={t("pages.systemNoticeUxLab.threeTonesTwoStates")}
+        title="Three tones, two states"
         description="Each tone pairs a unique icon and tone label so the notice is recognizable without color. Collapsed is the default; the Details affordance reveals operational metadata only when reviewers ask for it."
         accentClassName="bg-[linear-gradient(180deg,rgba(245,158,11,0.05),transparent_28%),var(--background)]"
       >
@@ -224,7 +224,7 @@ export function SystemNoticeUxLab() {
       <LabSection
         id="hierarchy"
         eyebrow="Hierarchy in thread"
-        title={t("pages.systemNoticeUxLab.distinctFromUserAndAgentComments")}
+        title="Distinct from user and agent comments"
         description="Side-by-side with adjacent comment types so reviewers can confirm the system row reads as a system row — full width, no avatar gutter, no chat bubble — while user and agent comments keep their existing rounded bubbles."
         accentClassName="bg-[linear-gradient(180deg,rgba(8,145,178,0.05),transparent_28%),var(--background)]"
       >
@@ -240,7 +240,7 @@ export function SystemNoticeUxLab() {
           />
           <SystemNotice
             tone="danger"
-            label={t("pages.systemNoticeUxLab.systemAlert")}
+            label="System alert"
             source={{ label: "Paperclip", href: "/PAP/agents" }}
             timestamp="2026-05-04T16:48:00.000Z"
             body="Paperclip could not resolve this issue's missing disposition automatically. The source assignment is unchanged and a board decision is required."
@@ -288,7 +288,7 @@ export function SystemNoticeUxLab() {
       <div className="grid gap-5 xl:grid-cols-2">
         <LabSection
           eyebrow="Before"
-          title={t("pages.systemNoticeUxLab.todaySNestedTreatment")}
+          title="Today's nested treatment"
           description="The same content rendered through the existing user-bubble + warning-callout path. Two containers, same gray background as user comments, and the warning icon is forced inside a chat row."
           accentClassName="bg-[linear-gradient(180deg,rgba(244,63,94,0.05),transparent_28%),var(--background)]"
         >
@@ -330,7 +330,7 @@ export function SystemNoticeUxLab() {
 
         <LabSection
           eyebrow="After"
-          title={t("pages.systemNoticeUxLab.systemNoticeReplacement")}
+          title="System notice replacement"
           description="One container, system-authored label, hidden details. The chat surface keeps user and agent bubbles unchanged."
           accentClassName="bg-[linear-gradient(180deg,rgba(16,185,129,0.05),transparent_28%),var(--background)]"
         >

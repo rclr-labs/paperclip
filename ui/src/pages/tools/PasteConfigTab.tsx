@@ -504,7 +504,7 @@ function CatalogReview({
         </Button>
       </div>
       <ActionGroup
-        title={t("pages.tools.pasteConfigTab.readOnly")}
+        title="Read-only"
         actions={result.actions.readOnly}
         enabled={enabled}
         onToggle={onToggle}
@@ -512,7 +512,7 @@ function CatalogReview({
         askFirstLevels={askFirstLevels}
       />
       <ActionGroup
-        title={t("pages.tools.pasteConfigTab.canMakeChanges")}
+        title="Can make changes"
         actions={result.actions.canMakeChanges}
         enabled={enabled}
         onToggle={onToggle}

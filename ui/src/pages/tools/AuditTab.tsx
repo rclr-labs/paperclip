@@ -278,22 +278,22 @@ function ActivityRow({
             </button>
             {detailsOpen ? (
               <div className="mt-2 space-y-1.5 text-xs">
-                {rawTool ? <DetailFact label={t("pages.tools.auditTab.actionName")} value={rawTool} mono /> : null}
-                <DetailFact label={t("pages.tools.auditTab.reasonCode")} value={reasonCode} mono />
-                <DetailFact label={t("pages.tools.auditTab.actorType")} value={event.actorType ?? "—"} />
-                {runId ? <DetailFact label={t("pages.tools.auditTab.runId")} value={runId} mono /> : null}
-                {transport ? <DetailFact label={t("pages.tools.auditTab.transport")} value={transport} mono /> : null}
-                {requestMethod && endpoint ? <DetailFact label={t("pages.tools.auditTab.httpRequest")} value={`${requestMethod} ${endpoint}`} mono /> : null}
-                {mcpMethod ? <DetailFact label={t("pages.tools.auditTab.mcpMethod")} value={mcpMethod} mono /> : null}
-                {requestId ? <DetailFact label={t("pages.tools.auditTab.requestId")} value={requestId} mono /> : null}
-                {request ? <DetailFact label={t("pages.tools.auditTab.dispatched")} value={request.dispatched === true ? "Yes" : "No"} /> : null}
-                {httpStatus !== undefined ? <DetailFact label={t("pages.tools.auditTab.httpStatus")} value={String(httpStatus)} mono /> : null}
-                {contentType ? <DetailFact label={t("pages.tools.auditTab.contentType")} value={contentType} mono /> : null}
-                {responseBytes !== undefined ? <DetailFact label={t("pages.tools.auditTab.responseSize")} value={`${responseBytes} bytes`} /> : null}
-                {upstreamRequestId ? <DetailFact label={t("pages.tools.auditTab.upstreamId")} value={upstreamRequestId} mono /> : null}
+                {rawTool ? <DetailFact label="Action name" value={rawTool} mono /> : null}
+                <DetailFact label="Reason code" value={reasonCode} mono />
+                <DetailFact label="Actor type" value={event.actorType ?? "—"} />
+                {runId ? <DetailFact label="Run ID" value={runId} mono /> : null}
+                {transport ? <DetailFact label="Transport" value={transport} mono /> : null}
+                {requestMethod && endpoint ? <DetailFact label="HTTP request" value={`${requestMethod} ${endpoint}`} mono /> : null}
+                {mcpMethod ? <DetailFact label="MCP method" value={mcpMethod} mono /> : null}
+                {requestId ? <DetailFact label="Request ID" value={requestId} mono /> : null}
+                {request ? <DetailFact label="Dispatched" value={request.dispatched === true ? "Yes" : "No"} /> : null}
+                {httpStatus !== undefined ? <DetailFact label="HTTP status" value={String(httpStatus)} mono /> : null}
+                {contentType ? <DetailFact label="Content type" value={contentType} mono /> : null}
+                {responseBytes !== undefined ? <DetailFact label="Response size" value={`${responseBytes} bytes`} /> : null}
+                {upstreamRequestId ? <DetailFact label="Upstream ID" value={upstreamRequestId} mono /> : null}
                 {isRuntimeMcpDeliveryDiagnostic ? (
                   <>
-                    <DetailFact label={t("pages.tools.auditTab.deliveredMcpServers")} value="0" mono />
+                    <DetailFact label="Delivered MCP servers" value="0" mono />
                     {permittedNotInstalledConnections.map((connection) => {
                       const connectionId = detailString(connection, "id");
                       const connectionName = detailString(connection, "name") ?? "Unnamed connection";
@@ -399,7 +399,7 @@ export function AuditTab({ companyId }: { companyId: string }) {
   return (
     <div className="space-y-4">
       <ToolsPageHeader
-        title={t("pages.tools.auditTab.activity")}
+        title="Activity"
         description="What your agents actually did with your apps, newest first. Each line is one decision — allowed, blocked, asked first, waiting, or failed."
       />
 

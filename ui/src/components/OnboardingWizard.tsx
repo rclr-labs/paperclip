@@ -3005,7 +3005,7 @@ function OnboardingWizardInner({
                         Picking one starts the sign-in now. The row is the
                         question, and answering it is what opens the card. */}
                     <ModelSourceTiles
-                      label={t("components.onboardingWizard.modelSource")}
+                      label="Model source"
                       sources={recommendedAdapters.map((opt) => ({
                         id: opt.type,
                         label: opt.type === "paperclip_runner" ? "GitHub Copilot" : CONNECT_SOURCE_NAMES[opt.type] ?? opt.label,
@@ -3144,7 +3144,7 @@ function OnboardingWizardInner({
                           setApiKey("");
                         }} />
                         {!selectedApiKey && <OnboardingCardField
-                          label={t("components.onboardingWizard.apiKey")}
+                          label="API key"
                           placeholder={t("components.onboardingWizard.enterApiKeyHere")}
                           masked
                           // The card is the answer to the tile just pressed, so

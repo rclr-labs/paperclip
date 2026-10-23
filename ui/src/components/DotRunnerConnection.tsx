@@ -63,9 +63,9 @@ export function DotRunnerConnection({ companyId, agentId, bindingId, onBinding }
     {pairing && setupPrompt && b?.status === "pairing" && <div className="space-y-2">
       <AgentSetupPrompt
         prompt={setupPrompt}
-        label={t("components.dotRunnerConnection.setUpWithDot")}
+        label="Set up with Dot"
         agent={{ name: "Dot", src: "/brands/adapters/openai-dot.svg" }}
-        title={t("components.dotRunnerConnection.connectYourDot")}
+        title="Connect your Dot"
         description="Paste into your Dot to connect this agent."
         side="bottom"
       />

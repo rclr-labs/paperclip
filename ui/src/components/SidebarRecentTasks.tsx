@@ -247,7 +247,7 @@ function RecentTasksList({
 
   return (
     <>
-      <SidebarSection label={t("components.sidebarRecentTasks.recentTasks")}>
+      <SidebarSection label="Recent Tasks">
         {entries.map((entry) => (
           <div key={entry.id} className="sidebar-action-row group/recent-task relative">
             <SidebarNavItem

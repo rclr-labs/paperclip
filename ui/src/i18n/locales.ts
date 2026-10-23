@@ -34,8 +34,6 @@ if (!loaderByLocale.has(DEFAULT_LOCALE)) {
   throw new Error(`Missing default locale messages for ${DEFAULT_LOCALE}`);
 }
 
-export const defaultLocaleMessages = en;
-
 export const i18nextResources: Resource = {
   [DEFAULT_LOCALE]: { translation: en },
 };
@@ -54,5 +52,3 @@ export async function loadAllLocaleMessages() {
   );
   return Object.fromEntries(entries) as Record<string, unknown>;
 }
-
-export type SupportedLocale = string;

@@ -35,13 +35,12 @@ export function SetupPanel({
   permissionsLoading: boolean;
   onOpenPermissions: () => void;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="space-y-10">
       {identities}
-      <SetupLinkSection title={t("pages.apps.appdetail.setupPanel.agents")} summary={agentsSummary} onClick={onOpenPermissions} />
+      <SetupLinkSection title="Agents" summary={agentsSummary} onClick={onOpenPermissions} />
       <SetupLinkSection
-        title={t("pages.apps.appdetail.setupPanel.actions")}
+        title="Actions"
         summary={permissionsLoading ? "Loading permissions…" : permissionsSummary ?? "Manage permissions"}
         onClick={onOpenPermissions}
       />

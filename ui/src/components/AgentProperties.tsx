@@ -10,7 +10,6 @@ import { AgentStatusBadge } from "./StatusBadge";
 import { Identity } from "./Identity";
 import { formatDate, agentUrl } from "../lib/utils";
 import { Separator } from "@/components/ui/separator";
-import { useTranslation } from "@/i18n";
 
 interface AgentPropertiesProps {
   agent: Agent;
@@ -29,7 +28,6 @@ function PropertyRow({ label, children }: { label: string; children: React.React
 }
 
 export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
-  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const lastErrorIsActive = agent.status === "error";
 
@@ -44,25 +42,25 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-1">
-        <PropertyRow label={t("components.agentProperties.status")}>
+        <PropertyRow label="Status">
           <AgentStatusBadge status={agent.status} />
         </PropertyRow>
         {lastErrorIsActive && agent.errorReason && (
-          <PropertyRow label={t("components.agentProperties.errorReason")}>
+          <PropertyRow label="Error reason">
             <span className="text-xs text-red-600 dark:text-red-400 break-words min-w-0">
               {agent.errorReason}
             </span>
           </PropertyRow>
         )}
-        <PropertyRow label={t("components.agentProperties.role")}>
+        <PropertyRow label="Role">
           <span className="text-sm">{roleLabels[agent.role] ?? agent.role}</span>
         </PropertyRow>
         {agent.title && (
-          <PropertyRow label={t("components.agentProperties.title")}>
+          <PropertyRow label="Title">
             <span className="text-sm">{agent.title}</span>
           </PropertyRow>
         )}
-        <PropertyRow label={t("components.agentProperties.adapter")}>
+        <PropertyRow label="Adapter">
           <span className="text-sm font-mono">{getAdapterLabel(agentDisplayAdapterType(agent))}</span>
         </PropertyRow>
       </div>
@@ -71,7 +69,7 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
 
       <div className="space-y-1">
         {(runtimeState?.sessionDisplayId ?? runtimeState?.sessionId) && (
-          <PropertyRow label={t("components.agentProperties.session")}>
+          <PropertyRow label="Session">
             <span className="text-xs font-mono">
               {String(runtimeState.sessionDisplayId ?? runtimeState.sessionId).slice(0, 12)}...
             </span>
@@ -91,12 +89,12 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
           </PropertyRow>
         )}
         {agent.lastHeartbeatAt && (
-          <PropertyRow label={t("components.agentProperties.lastHeartbeat")}>
+          <PropertyRow label="Last Heartbeat">
             <span className="text-sm">{formatDate(agent.lastHeartbeatAt)}</span>
           </PropertyRow>
         )}
         {agent.reportsTo && (
-          <PropertyRow label={t("components.agentProperties.reportsTo")}>
+          <PropertyRow label="Reports To">
             {reportsToAgent ? (
               <Link to={agentUrl(reportsToAgent)} className="hover:underline">
                 <AgentIdentity agent={reportsToAgent} size="sm" />
@@ -106,7 +104,7 @@ export function AgentProperties({ agent, runtimeState }: AgentPropertiesProps) {
             )}
           </PropertyRow>
         )}
-        <PropertyRow label={t("components.agentProperties.created")}>
+        <PropertyRow label="Created">
           <span className="text-sm">{formatDate(agent.createdAt)}</span>
         </PropertyRow>
       </div>

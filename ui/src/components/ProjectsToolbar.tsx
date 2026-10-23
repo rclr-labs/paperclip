@@ -26,10 +26,10 @@ export function ProjectsToolbar({ query, onQueryChange, sortField, sortDir, onSo
   const { t } = useTranslation();
   const sortLabel = PROJECT_SORT_OPTIONS.find(option => option.field === sortField)?.label ?? "Name";
   return <div data-canonical-toolbar="projects" role="toolbar" aria-label={t("components.projectsToolbar.projectsControls")} className="flex flex-wrap items-center gap-4">
-    <ToolbarSearch query={query} onQueryChange={onQueryChange} label={t("components.projectsToolbar.searchProjects2")} placeholder={t("components.projectsToolbar.searchProjects")} />
+    <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search projects" placeholder={t("components.projectsToolbar.searchProjects")} />
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" title={t("components.projectsToolbar.sort")}>
+        <Button variant="outline" size="sm" title="Sort">
           <ArrowUpDown className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
           <span>Sort: {sortLabel}</span>
         </Button>

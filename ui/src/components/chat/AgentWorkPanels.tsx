@@ -176,7 +176,7 @@ export function AgentTasksPanel({
         />
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title={t("components.chat.agentWorkPanels.sort")} aria-label={t("components.chat.agentWorkPanels.sortTasks")}>
+            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title="Sort" aria-label={t("components.chat.agentWorkPanels.sortTasks")}>
               <ArrowUpDown className="h-3.5 w-3.5" />
             </Button>
           </PopoverTrigger>

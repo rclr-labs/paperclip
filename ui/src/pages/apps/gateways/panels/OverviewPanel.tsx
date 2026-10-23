@@ -72,14 +72,14 @@ export function OverviewPanel({
           </div>
           <p className="mt-2 text-xs text-muted-foreground">{t("pages.apps.gateways.panels.overviewPanel.toggleTheWholeGatewayOffHere")}</p>
         </div>
-        <StatCard label={t("pages.apps.gateways.panels.overviewPanel.apps")}>
+        <StatCard label="Apps">
           {apps.length} {apps.length === 1 ? "app" : "apps"}
           {profile ? ` · ${allowedToolsLabel(profile)}` : ""}
         </StatCard>
-        <StatCard label={t("pages.apps.gateways.panels.overviewPanel.tokens")}>
+        <StatCard label="Tokens">
           {active} active{expiring > 0 ? ` · ${expiring} expiring` : ""}
         </StatCard>
-        <StatCard label={t("pages.apps.gateways.panels.overviewPanel.health")}>
+        <StatCard label="Health">
           {needsAttention.length === 0 ? "All green" : `${needsAttention.length} needs attention`}
         </StatCard>
       </div>

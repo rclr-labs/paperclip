@@ -82,7 +82,7 @@ export function CreateStatusCardDialog({
           </DialogDescription>
         </DialogHeader>
 
-        {error ? <InlineBanner tone="danger" title={t("pages.statusCards.createStatusCardDialog.createFailed")}>{error}</InlineBanner> : null}
+        {error ? <InlineBanner tone="danger" title="Create failed">{error}</InlineBanner> : null}
 
         <div className="space-y-3">
           <label htmlFor="status-card-prompt" className="block pb-1 text-sm font-semibold">

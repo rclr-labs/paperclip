@@ -125,7 +125,7 @@ export function StatusCardSettingsForm({
         <div className="space-y-2">
           <RadioRow
             selected={policy.mode === "manual"}
-            title={t("pages.statusCards.statusCardSettingsForm.manualOnlyUpdatesWhenIPress")}
+            title="Manual only — updates when I press refresh"
             badge={
               <span className="ml-auto rounded-full bg-muted px-2 py-0.5 text-(length:--text-nano) font-medium uppercase tracking-wide text-muted-foreground">
                 {t("pages.statusCards.statusCardSettingsForm.default")}
@@ -135,7 +135,7 @@ export function StatusCardSettingsForm({
           />
           <RadioRow
             selected={policy.mode === "interval"}
-            title={t("pages.statusCards.statusCardSettingsForm.onAScheduleOnlyIfSomething")}
+            title="On a schedule, only if something changed"
             onSelect={() => setMode("interval")}
           >
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -159,7 +159,7 @@ export function StatusCardSettingsForm({
           </RadioRow>
           <RadioRow
             selected={policy.mode === "reactive"}
-            title={t("pages.statusCards.statusCardSettingsForm.asSoonAsSomethingChangesDebounced")}
+            title="As soon as something changes (debounced)"
             onSelect={() => setMode("reactive")}
           >
             <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">

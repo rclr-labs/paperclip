@@ -729,10 +729,10 @@ function PluginLocalFolderRow({ pluginId, companyId, declaration, status }: Plug
       </div>
 
       <div className="grid gap-3 text-sm sm:grid-cols-3">
-        <FolderStatusMetric label={t("pages.pluginSettings.configured")} value={status?.configured ? "Yes" : "No"} ok={!!status?.configured} />
-        <FolderStatusMetric label={t("pages.pluginSettings.readable")} value={status?.readable ? "Yes" : "No"} ok={!!status?.readable} />
+        <FolderStatusMetric label="Configured" value={status?.configured ? "Yes" : "No"} ok={!!status?.configured} />
+        <FolderStatusMetric label="Readable" value={status?.readable ? "Yes" : "No"} ok={!!status?.readable} />
         <FolderStatusMetric
-          label={t("pages.pluginSettings.writable")}
+          label="Writable"
           value={access === "read" ? "Not requested" : status?.writable ? "Yes" : "No"}
           ok={access === "read" || !!status?.writable}
         />
@@ -825,7 +825,6 @@ function FolderRequirements({
   status?: PluginLocalFolderStatus;
   declaration: PluginLocalFolderDeclaration;
 }) {
-  const { t } = useTranslation();
   const requiredDirectories = status?.requiredDirectories ?? declaration.requiredDirectories ?? [];
   const requiredFiles = status?.requiredFiles ?? declaration.requiredFiles ?? [];
   const missingDirectories = status?.missingDirectories ?? requiredDirectories;
@@ -837,14 +836,14 @@ function FolderRequirements({
   return (
     <div className="grid gap-3 text-sm md:grid-cols-2">
       <RequirementList
-        title={t("pages.pluginSettings.requiredDirectories")}
+        title="Required directories"
         items={requiredDirectories}
         missingItems={missingDirectories}
         missingLabel="Missing directories"
         inspectionUnavailable={rootNotInspected}
       />
       <RequirementList
-        title={t("pages.pluginSettings.requiredFiles")}
+        title="Required files"
         items={requiredFiles}
         missingItems={missingFiles}
         missingLabel="Missing files"

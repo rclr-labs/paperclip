@@ -89,13 +89,13 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
         <p className="text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.ifItSOwnedByAn")}</p>
       </div>
       <div className="space-y-2">
-        <CredentialLabel id="github-app-id" label={t("pages.apps.chat.gitHubConnectionRecovery.appId")} help="The numeric App ID on the GitHub App’s settings page. This is different from its Client ID or installation ID." />
+        <CredentialLabel id="github-app-id" label="App ID" help="The numeric App ID on the GitHub App’s settings page. This is different from its Client ID or installation ID." />
         <p id="github-app-id-help" className="text-sm text-muted-foreground">Copy <strong>{t("pages.apps.chat.gitHubConnectionRecovery.appId")}</strong> from the App’s settings page. {reconnect && "The saved ID is filled in when available."}</p>
         <Input id="github-app-id" aria-describedby="github-app-id-help" inputMode="numeric" value={credentials.appId} disabled={pending} aria-invalid={appIdInvalid} onChange={event => setCredentials({ ...credentials, appId: event.target.value })} />
         {appIdInvalid && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.gitHubConnectionRecovery.useTheNumericAppIdNot")}</p>}
       </div>
       <div className="space-y-2">
-        <CredentialLabel id="github-private-key" label={t("pages.apps.chat.gitHubConnectionRecovery.privateKey")} help="Upload the .pem file downloaded from this GitHub App, or paste its entire contents, including the BEGIN and END lines." />
+        <CredentialLabel id="github-private-key" label="Private key" help="Upload the .pem file downloaded from this GitHub App, or paste its entire contents, including the BEGIN and END lines." />
         <ol id="github-private-key-help" className="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
           <li>In the same App’s settings, open <strong>{t("pages.apps.chat.gitHubConnectionRecovery.credentialsKeyPairsNewKey")}</strong>. On the older settings page, use <strong>{t("pages.apps.chat.gitHubConnectionRecovery.privateKeysGenerateAPrivateKey")}</strong>.</li>
           <li>Upload the downloaded <strong>.pem</strong> file below, or paste its entire contents.</li>
@@ -120,7 +120,7 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
         <a className="inline-flex items-center gap-1 text-sm underline" href="https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps" target="_blank" rel="noreferrer">GitHub’s private key instructions<ExternalLink className="size-3.5" /></a>
       </div>
       {needsWebhookSecret && <div className="space-y-2">
-        <CredentialLabel id="github-webhook-secret" label={t("pages.apps.chat.gitHubConnectionRecovery.webhookSecret")} help="The secret configured for this App’s webhook. It must match GitHub exactly." />
+        <CredentialLabel id="github-webhook-secret" label="Webhook secret" help="The secret configured for this App’s webhook. It must match GitHub exactly." />
         <p className="text-sm text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.useTheSecretSavedWhenYou")}</p>
         <Input id="github-webhook-secret" type="password" autoComplete="off" disabled={pending} value={credentials.webhookSecret} onChange={event => setCredentials({ ...credentials, webhookSecret: event.target.value })} />
       </div>}

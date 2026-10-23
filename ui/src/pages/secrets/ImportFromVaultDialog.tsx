@@ -1329,7 +1329,6 @@ interface ResultStepProps {
 }
 
 function ResultStep({ result, draftList }: ResultStepProps) {
-  const { t } = useTranslation();
   const grouped = useMemo(() => {
     const created: RemoteSecretImportRowResult[] = [];
     const skipped: RemoteSecretImportRowResult[] = [];
@@ -1367,13 +1366,13 @@ function ResultStep({ result, draftList }: ResultStepProps) {
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
         {grouped.created.length > 0 && (
-          <ResultGroup label={t("pages.secrets.importFromVaultDialog.created")} rows={grouped.created} draftLookup={draftLookup} />
+          <ResultGroup label="Created" rows={grouped.created} draftLookup={draftLookup} />
         )}
         {grouped.skipped.length > 0 && (
-          <ResultGroup label={t("pages.secrets.importFromVaultDialog.skipped")} rows={grouped.skipped} draftLookup={draftLookup} />
+          <ResultGroup label="Skipped" rows={grouped.skipped} draftLookup={draftLookup} />
         )}
         {grouped.failed.length > 0 && (
-          <ResultGroup label={t("pages.secrets.importFromVaultDialog.failed")} rows={grouped.failed} draftLookup={draftLookup} />
+          <ResultGroup label="Failed" rows={grouped.failed} draftLookup={draftLookup} />
         )}
       </div>
     </div>

@@ -785,10 +785,10 @@ export function TeamDetailPane({
 
         {/* Summary grid */}
         <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-          <MetricTile label={t("pages.teamCatalog.agents")} value={team.counts.agents} Icon={Users2} />
-          <MetricTile label={t("pages.teamCatalog.projects")} value={team.counts.projects} Icon={FolderKanban} />
-          <MetricTile label={t("pages.teamCatalog.routines")} value={team.counts.routines} Icon={Repeat} />
-          <MetricTile label={t("pages.teamCatalog.requiredSkills")} value={skillCount(team)} Icon={Boxes} />
+          <MetricTile label="Agents" value={team.counts.agents} Icon={Users2} />
+          <MetricTile label="Projects" value={team.counts.projects} Icon={FolderKanban} />
+          <MetricTile label="Routines" value={team.counts.routines} Icon={Repeat} />
+          <MetricTile label="Required skills" value={skillCount(team)} Icon={Boxes} />
         </div>
 
         {/* Agent hierarchy */}
@@ -1611,19 +1611,19 @@ export function StepSourcePolicy({
 
       <div className="space-y-2.5 rounded-md border border-border p-3">
         <PolicyToggle
-          label={t("pages.teamCatalog.allowExternalSources")}
+          label="Allow external sources"
           description="Resolve github/url skill and team sources at install time."
           checked={allowExternalSources}
           onChange={(v) => onChange("external", v)}
         />
         <PolicyToggle
-          label={t("pages.teamCatalog.allowUnpinnedOptionalSources")}
+          label="Allow unpinned optional sources"
           description="Permit optional sources that are not pinned to a ref or checksum."
           checked={allowUnpinnedOptionalSources}
           onChange={(v) => onChange("unpinned", v)}
         />
         <PolicyToggle
-          label={t("pages.teamCatalog.allowLocalPathSources")}
+          label="Allow local-path sources"
           description="Required for local_path / agent_package sources. Development use only."
           checked={allowLocalPathSources}
           onChange={(v) => onChange("localPath", v)}
@@ -1840,10 +1840,10 @@ export function StepPreview({
       <div className="space-y-2">
         <SectionHeader>{t("pages.teamCatalog.summary")}</SectionHeader>
         <div className="grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
-          <SummaryCount label={t("pages.teamCatalog.agents")} value={plan.agentPlans.length} />
-          <SummaryCount label={t("pages.teamCatalog.projects")} value={plan.projectPlans.length} />
-          <SummaryCount label={t("pages.teamCatalog.starterTasks")} value={plan.issuePlans.length} />
-          <SummaryCount label={t("pages.teamCatalog.requiredSkills")} value={result.skillPreparations.length} />
+          <SummaryCount label="Agents" value={plan.agentPlans.length} />
+          <SummaryCount label="Projects" value={plan.projectPlans.length} />
+          <SummaryCount label="Starter tasks" value={plan.issuePlans.length} />
+          <SummaryCount label="Required skills" value={result.skillPreparations.length} />
         </div>
       </div>
 
@@ -2100,9 +2100,9 @@ export function ApplySuccess({
       </p>
       {result && (
         <ul className="divide-y divide-border/60 rounded-md border border-border px-3">
-          <ResultRow label={t("pages.teamCatalog.agentsImported")} count={agentsCreated} />
-          <ResultRow label={t("pages.teamCatalog.projectsImported")} count={projectsCreated} />
-          <ResultRow label={t("pages.teamCatalog.skillsResolved")} count={skillsResolved} />
+          <ResultRow label="Agents imported" count={agentsCreated} />
+          <ResultRow label="Projects imported" count={projectsCreated} />
+          <ResultRow label="Skills resolved" count={skillsResolved} />
         </ul>
       )}
       {warnings.length > 0 && (

@@ -2340,7 +2340,7 @@ export function IssueProperties({
         first
         streamlined={streamlinedPropertiesEnabled}
       >
-        <PropertyRow label={t("components.issueproperties.issueProperties.status")}>
+        <PropertyRow label="Status">
           <StatusIcon
             status={issue.status}
             externalConversationState={issue.externalConversationState}
@@ -2353,7 +2353,7 @@ export function IssueProperties({
 
         {/* PAP-411: priority UI is hidden behind SHOW_TASK_PRIORITY_UI. Revive by flipping the flag. */}
         {SHOW_TASK_PRIORITY_UI && (
-          <PropertyRow label={t("components.issueproperties.issueProperties.priority")}>
+          <PropertyRow label="Priority">
             <PriorityIcon
               priority={issue.priority}
               onChange={(priority) => onUpdate({ priority })}
@@ -2364,7 +2364,7 @@ export function IssueProperties({
 
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.assignee")}
+          label="Assignee"
           open={assigneeOpen}
           onOpenChange={(open) => { setAssigneeOpen(open); if (!open) { setAssigneeSearch(""); setPendingAssignee(null); } }}
           triggerContent={assigneeTrigger}
@@ -2385,7 +2385,7 @@ export function IssueProperties({
         {showAssigneeAdapterOptions ? (
           <PropertyPicker
             inline={inline}
-            label={t("components.issueproperties.issueProperties.model")}
+            label="Model"
             open={assigneeOptionsOpen}
             onOpenChange={setAssigneeOptionsOpen}
             triggerContent={assigneeOptionsTrigger}
@@ -2398,7 +2398,7 @@ export function IssueProperties({
 
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.project")}
+          label="Project"
           open={projectOpen}
           onOpenChange={(open) => { setProjectOpen(open); if (!open) setProjectSearch(""); }}
           triggerContent={projectTrigger}
@@ -2419,7 +2419,7 @@ export function IssueProperties({
 
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.labels")}
+          label="Labels"
           open={labelsOpen}
           onOpenChange={(open) => { setLabelsOpen(open); if (!open) setLabelSearch(""); }}
           triggerContent={labelsTrigger}
@@ -2432,10 +2432,10 @@ export function IssueProperties({
         </PropertyPicker>
       </PropertySection>
 
-      <PropertySection title={t("components.issueproperties.issueProperties.relationships")} streamlined={streamlinedPropertiesEnabled}>
+      <PropertySection title="Relationships" streamlined={streamlinedPropertiesEnabled}>
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.parent")}
+          label="Parent"
           open={parentOpen}
           onOpenChange={(open) => {
             setParentOpen(open);
@@ -2452,7 +2452,7 @@ export function IssueProperties({
         {streamlinedPropertiesEnabled ? (
           <PropertyPicker
             inline={inline}
-            label={t("components.issueproperties.issueProperties.blockedBy")}
+            label="Blocked by"
             open={blockedByOpen}
             onOpenChange={(open) => {
               setBlockedByOpen(open);
@@ -2468,7 +2468,7 @@ export function IssueProperties({
           </PropertyPicker>
         ) : inline ? (
           <div>
-            <PropertyRow label={t("components.issueproperties.issueProperties.blockedBy")} wrap>
+            <PropertyRow label="Blocked by" wrap>
               {visibleBlockedByRelations.map((relation) => (
                 <RemovableIssueReferencePill
                   key={relation.id}
@@ -2491,7 +2491,7 @@ export function IssueProperties({
             ) : null}
           </div>
         ) : (
-          <PropertyRow label={t("components.issueproperties.issueProperties.blockedBy")} wrap>
+          <PropertyRow label="Blocked by" wrap>
             {visibleBlockedByRelations.map((relation) => (
               <RemovableIssueReferencePill
                 key={relation.id}
@@ -2520,7 +2520,7 @@ export function IssueProperties({
           </PropertyRow>
         )}
 
-        <PropertyRow label={t("components.issueproperties.issueProperties.blocking")} wrap>
+        <PropertyRow label="Blocking" wrap>
           {blockingIssues.length > 0 ? (
             <div className="flex flex-col items-start gap-1.5">
               {visibleBlockingIssues.map((relation) => (
@@ -2540,7 +2540,7 @@ export function IssueProperties({
         {streamlinedPropertiesEnabled ? (
           <PropertyPicker
             inline={inline}
-            label={t("components.issueproperties.issueProperties.subtasks")}
+            label="Subtasks"
             open={subtasksOpen}
             onOpenChange={setSubtasksOpen}
             separateTrigger={childIssues.length > 0}
@@ -2552,7 +2552,7 @@ export function IssueProperties({
             {subtasksContent}
           </PropertyPicker>
         ) : !taskChatShellEnabled ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.subTasks")} wrap>
+          <PropertyRow label="Sub-tasks" wrap>
             <div className="flex flex-col items-start gap-1.5">
               {visibleChildIssues.map((child) => (
                 <IssueReferencePill key={child.id} issue={child} />
@@ -2592,7 +2592,7 @@ export function IssueProperties({
         ) : null}
 
         {pullRequests.length > 0 || workProductsError ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.pullRequests")} wrap>
+          <PropertyRow label="Pull requests" wrap>
             <div className="flex min-w-0 flex-col gap-2">
               <IssuePullRequestLinks products={pullRequests} externalObjects={externalObjects?.map((entry) => entry.pill)} />
               {workProductsError ? (
@@ -2611,10 +2611,10 @@ export function IssueProperties({
         />
       </PropertySection>
 
-      <PropertySection title={t("components.issueproperties.issueProperties.execution")} streamlined={streamlinedPropertiesEnabled}>
+      <PropertySection title="Execution" streamlined={streamlinedPropertiesEnabled}>
         {/* Read-only: agents set the policy, the board does not. */}
         {reviewPolicyBadge ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.approvals")}>
+          <PropertyRow label="Approvals">
             <PropertyChip title={reviewPolicyBadge.description}>
               <reviewPolicyBadge.Icon className="shrink-0 text-muted-foreground" aria-hidden />
               <span className="min-w-0 truncate">{reviewPolicyBadge.label}</span>
@@ -2623,13 +2623,13 @@ export function IssueProperties({
         ) : null}
 
         {!policyAvailable ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.executionPolicy")} wrap>
+          <PropertyRow label="Execution policy" wrap>
             <span role="status" className="text-sm text-muted-foreground">{t("components.issueproperties.issueProperties.executionPolicyUnavailableRefreshToTry")}</span>
           </PropertyRow>
         ) : (<>
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.reviewers")}
+          label="Reviewers"
           open={reviewersOpen}
           onOpenChange={(open) => { setReviewersOpen(open); if (!open) setReviewerSearch(""); }}
           triggerContent={reviewerTrigger}
@@ -2648,7 +2648,7 @@ export function IssueProperties({
 
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.approvers")}
+          label="Approvers"
           open={approversOpen}
           onOpenChange={(open) => { setApproversOpen(open); if (!open) setApproverSearch(""); }}
           triggerContent={approverTrigger}
@@ -2667,19 +2667,19 @@ export function IssueProperties({
         </>)}
 
         {currentExecutionLabel && (
-          <PropertyRow label={t("components.issueproperties.issueProperties.execution")}>
+          <PropertyRow label="Execution">
             <span className="text-sm truncate min-w-0" title={currentExecutionLabel}>{currentExecutionLabel}</span>
           </PropertyRow>
         )}
 
         {showScheduledRetryRow && scheduledRetry?.scheduledRetryReason === "workspace_busy" ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.workspace")}>
+          <PropertyRow label="Workspace">
             <span className="text-sm text-muted-foreground">{t("components.issueproperties.issueProperties.waitingForWorkspace")}</span>
           </PropertyRow>
         ) : showScheduledRetryRow && scheduledRetryContent ? (
           <PropertyPicker
             inline={inline}
-            label={t("components.issueproperties.issueProperties.scheduledRetry")}
+            label="Scheduled retry"
             open={scheduledRetryOpen}
             onOpenChange={setScheduledRetryOpen}
             triggerContent={scheduledRetryTrigger}
@@ -2694,7 +2694,7 @@ export function IssueProperties({
         {policyAvailable ? (
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.monitor")}
+          label="Monitor"
           open={monitorOpen}
           onOpenChange={setMonitorOpen}
           triggerContent={monitorTrigger}
@@ -2707,7 +2707,7 @@ export function IssueProperties({
 
         <PropertyPicker
           inline={inline}
-          label={t("components.issueproperties.issueProperties.watchdog")}
+          label="Watchdog"
           open={watchdogOpen}
           onOpenChange={setWatchdogOpen}
           triggerContent={watchdogTrigger}
@@ -2718,7 +2718,7 @@ export function IssueProperties({
               <Link
                 to={`/issues/${watchdogIssueRef.id}`}
                 className="inline-flex items-center justify-center h-5 w-5 rounded hover:bg-accent/50 transition-colors text-muted-foreground hover:text-foreground"
-                title={t("components.issueproperties.issueProperties.openWatchdogTask")}
+                title="Open watchdog task"
                 aria-label={t("components.issueproperties.issueProperties.openWatchdogTask")}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -2732,11 +2732,11 @@ export function IssueProperties({
       </PropertySection>
 
       {workspacePickerEligible || hasWorkspaceRuntimeControls || issue.currentExecutionWorkspace?.branchName || issue.currentExecutionWorkspace?.cwd || issue.executionWorkspaceId ? (
-        <PropertySection title={t("components.issueproperties.issueProperties.workspace")} streamlined={streamlinedPropertiesEnabled}>
+        <PropertySection title="Workspace" streamlined={streamlinedPropertiesEnabled}>
           {workspacePickerEligible ? (
             <PropertyPicker
               inline={inline}
-              label={t("components.issueproperties.issueProperties.execution")}
+              label="Execution"
               open={workspacePickerOpen}
               onOpenChange={(open) => {
                 setWorkspacePickerOpen(open);
@@ -2850,7 +2850,7 @@ export function IssueProperties({
             </PropertyPicker>
           ) : null}
           {showWorkspaceDetailLink && issue.executionWorkspaceId && (
-            <PropertyRow label={t("components.issueproperties.issueProperties.workspace")}>
+            <PropertyRow label="Workspace">
               <Link
                 to={`/execution-workspaces/${issue.executionWorkspaceId}`}
                 className="text-sm text-primary hover:underline inline-flex min-w-0 items-center gap-1.5"
@@ -2862,7 +2862,7 @@ export function IssueProperties({
             </PropertyRow>
           )}
           {hasWorkspaceRuntimeControls && (
-            <PropertyRow label={t("components.issueproperties.issueProperties.service")}>
+            <PropertyRow label="Service">
               <div className="flex min-w-0 flex-1 flex-col gap-1.5">
                 <WorkspaceRuntimeQuickControls
                   sections={workspaceRuntimeSections}
@@ -2883,7 +2883,7 @@ export function IssueProperties({
             </PropertyRow>
           )}
           {issue.currentExecutionWorkspace?.branchName && (
-            <PropertyRow label={t("components.issueproperties.issueProperties.branch")}>
+            <PropertyRow label="Branch">
               <TruncatedCopyable
                 value={issue.currentExecutionWorkspace.branchName}
                 icon={GitBranch}
@@ -2891,7 +2891,7 @@ export function IssueProperties({
             </PropertyRow>
           )}
           {issue.currentExecutionWorkspace?.cwd && !hideHostPaths && (
-            <PropertyRow label={t("components.issueproperties.issueProperties.folder")}>
+            <PropertyRow label="Folder">
               <TruncatedCopyable
                 value={issue.currentExecutionWorkspace.cwd}
                 icon={FolderOpen}
@@ -2901,9 +2901,9 @@ export function IssueProperties({
         </PropertySection>
       ) : null}
 
-      <PropertySection title={t("components.issueproperties.issueProperties.about")} streamlined={streamlinedPropertiesEnabled}>
+      <PropertySection title="About" streamlined={streamlinedPropertiesEnabled}>
         {originatingActor ? (
-          <PropertyRow label={t("components.issueproperties.issueProperties.originating")}>
+          <PropertyRow label="Originating">
             {originatingActor.kind === "agent" ? (
               <Link
                 to={`/agents/${originatingActor.id}`}
@@ -2928,7 +2928,7 @@ export function IssueProperties({
           </PropertyRow>
         ) : null}
         {issue.startedAt && (
-          <PropertyRow label={t("components.issueproperties.issueProperties.started")}>
+          <PropertyRow label="Started">
             <span
               className={streamlinedPropertiesEnabled ? "min-w-0 truncate whitespace-nowrap text-sm" : "text-sm"}
               title={streamlinedPropertiesEnabled ? formatDateTime(issue.startedAt) : undefined}
@@ -2936,20 +2936,20 @@ export function IssueProperties({
           </PropertyRow>
         )}
         {issue.completedAt && (
-          <PropertyRow label={t("components.issueproperties.issueProperties.completed")}>
+          <PropertyRow label="Completed">
             <span
               className={streamlinedPropertiesEnabled ? "min-w-0 truncate whitespace-nowrap text-sm" : "text-sm"}
               title={streamlinedPropertiesEnabled ? formatDateTime(issue.completedAt) : undefined}
             >{formatDateTime(issue.completedAt)}</span>
           </PropertyRow>
         )}
-        <PropertyRow label={t("components.issueproperties.issueProperties.created")}>
+        <PropertyRow label="Created">
           <span
             className={streamlinedPropertiesEnabled ? "min-w-0 truncate whitespace-nowrap text-sm" : "text-sm"}
             title={streamlinedPropertiesEnabled ? formatDateTime(issue.createdAt) : undefined}
           >{formatDateTime(issue.createdAt)}</span>
         </PropertyRow>
-        <PropertyRow label={t("components.issueproperties.issueProperties.updated")}>
+        <PropertyRow label="Updated">
           <span
             className={streamlinedPropertiesEnabled ? "min-w-0 truncate whitespace-nowrap text-sm" : "text-sm"}
             title={streamlinedPropertiesEnabled ? timeAgo(issue.updatedAt) : undefined}
@@ -3002,7 +3002,7 @@ export function IssueProperties({
           })()
         ) : null}
         {issue.requestDepth > 0 && (
-          <PropertyRow label={t("components.issueproperties.issueProperties.depth")}>
+          <PropertyRow label="Depth">
             <span className="text-sm font-mono">{issue.requestDepth}</span>
           </PropertyRow>
         )}

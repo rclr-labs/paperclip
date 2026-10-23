@@ -340,7 +340,7 @@ function KanbanCard({
           {isSuccessfulRunHandoffRequired(issue) ? (
             <Badge variant="outline"
               className="border-amber-400/45 bg-amber-50/60 px-1.5 text-(length:--text-nano) text-amber-700 dark:border-amber-300/35 dark:bg-amber-400/10 dark:text-amber-300"
-              title={t("components.kanbanBoard.thisTaskNeedsANextStep")}
+              title="This task needs a next step"
               aria-label={t("components.kanbanBoard.needsNextStep")}
             >
               <AlertTriangle className="h-3 w-3" />
@@ -399,7 +399,6 @@ export function KanbanBoard({
   showOverflowFades = false,
   onUpdateIssue,
 }: KanbanBoardProps) {
-  const { t } = useTranslation();
   const [activeId, setActiveId] = useState<string | null>(null);
   const paginationKey = `${initialVisibleCount}:${revealIncrement}`;
   const [visibleState, setVisibleState] = useState<{
@@ -492,7 +491,7 @@ export function KanbanBoard({
       onDragEnd={handleDragEnd}
     >
       {showOverflowFades
-        ? <HorizontalScrollViewport label={t("components.kanbanBoard.taskBoardColumns")} contentClassName="flex gap-3 pb-4 px-2">{columns}</HorizontalScrollViewport>
+        ? <HorizontalScrollViewport label="Task board columns" contentClassName="flex gap-3 pb-4 px-2">{columns}</HorizontalScrollViewport>
         : <div className="flex gap-3 overflow-x-auto pb-4 -mx-2 px-2">{columns}</div>}
       <DragOverlay>
         {activeIssue ? (

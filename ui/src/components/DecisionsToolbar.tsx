@@ -63,7 +63,7 @@ export function DecisionsToolbar({
   const activeFilterCount = countActiveAttentionFilters(filters);
   return (
     <div data-canonical-toolbar="decisions" role="toolbar" aria-label={t("components.decisionsToolbar.decisionsControls")} className="flex flex-wrap items-center gap-2">
-      <ToolbarSearch query={query} onQueryChange={onQueryChange} label={t("components.decisionsToolbar.searchDecisions2")} placeholder={t("components.decisionsToolbar.searchDecisions")} />
+      <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search decisions" placeholder={t("components.decisionsToolbar.searchDecisions")} />
       {/* Filter */}
       <Popover>
         <PopoverTrigger asChild>
@@ -72,7 +72,7 @@ export function DecisionsToolbar({
             variant="outline"
             size="icon"
             className={cn("h-8 w-8 shrink-0", activeFilterCount > 0 && "bg-accent")}
-            title={t("components.decisionsToolbar.filter")}
+            title="Filter"
             data-active={activeFilterCount > 0}
             aria-label={t("components.decisionsToolbar.filter")}
           >
@@ -91,7 +91,7 @@ export function DecisionsToolbar({
             variant="outline"
             size="icon"
             className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")}
-            title={t("components.decisionsToolbar.group")}
+            title="Group"
             data-active={groupBy !== "none"}
             aria-label={t("components.decisionsToolbar.group")}
           >
@@ -125,7 +125,7 @@ export function DecisionsToolbar({
             variant="outline"
             size="icon"
             className="h-8 w-8 shrink-0"
-            title={t("components.decisionsToolbar.sort")}
+            title="Sort"
             aria-label={t("components.decisionsToolbar.sort")}
           >
             <ArrowUpDown className="h-3.5 w-3.5" />
@@ -188,7 +188,7 @@ function FilterMenu({
       </div>
 
       {options.sourceKinds.length > 1 && (
-        <FilterSection title={t("components.decisionsToolbar.type")}>
+        <FilterSection title="Type">
           {options.sourceKinds.map((kind) => (
             <FilterRow
               key={kind}
@@ -201,7 +201,7 @@ function FilterMenu({
       )}
 
       {options.severities.length > 1 && (
-        <FilterSection title={t("components.decisionsToolbar.severity")}>
+        <FilterSection title="Severity">
           {options.severities.map((severity) => (
             <FilterRow
               key={severity}
@@ -214,7 +214,7 @@ function FilterMenu({
       )}
 
       {(options.projects.length > 0 || options.hasNoProject) && (
-        <FilterSection title={t("components.decisionsToolbar.project")}>
+        <FilterSection title="Project">
           {options.projects.map((project) => (
             <FilterRow
               key={project.id}
@@ -225,7 +225,7 @@ function FilterMenu({
           ))}
           {options.hasNoProject && (
             <FilterRow
-              label={t("components.decisionsToolbar.noProject")}
+              label="No project"
               checked={filters.projectIds.includes(NO_GROUP_SENTINEL)}
               onToggle={() => toggle("projectIds", NO_GROUP_SENTINEL)}
             />
@@ -234,7 +234,7 @@ function FilterMenu({
       )}
 
       {(options.workspaces.length > 0 || options.hasNoWorkspace) && (
-        <FilterSection title={t("components.decisionsToolbar.workspace")}>
+        <FilterSection title="Workspace">
           {options.workspaces.map((workspace) => (
             <FilterRow
               key={workspace.id}
@@ -245,7 +245,7 @@ function FilterMenu({
           ))}
           {options.hasNoWorkspace && (
             <FilterRow
-              label={t("components.decisionsToolbar.noWorkspace")}
+              label="No workspace"
               checked={filters.workspaceIds.includes(NO_GROUP_SENTINEL)}
               onToggle={() => toggle("workspaceIds", NO_GROUP_SENTINEL)}
             />

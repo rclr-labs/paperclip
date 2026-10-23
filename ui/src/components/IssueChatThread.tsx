@@ -2492,7 +2492,7 @@ function IssueChatAssistantMessage({
             variant="ghost"
             size="icon-xs"
             className="text-muted-foreground hover:text-foreground"
-            title={t("components.issueChatThread.moreActions")}
+            title="More actions"
             aria-label={t("components.issueChatThread.moreActions")}
           >
             <MoreHorizontal className="h-3.5 w-3.5" />
@@ -5695,7 +5695,7 @@ const IssueChatComposer = forwardRef<
             disabled={stopControl.stopping}
             onClick={() => void stopControl.stop()}
             aria-label={stopControl.stopping ? "Stopping…" : "Stop"}
-            title={t("components.issueChatThread.stopResponse")}
+            title="Stop response"
           >
             {stopControl.stopping ? (
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -6716,7 +6716,7 @@ export function IssueChatThread({
                     {legacyRecoverySourceIssue ? (
                       <SystemNotice
                         tone="info"
-                        label={t("components.issueChatThread.legacyRecoveryTask")}
+                        label="Legacy recovery task"
                         body={
                           <span>
                             Legacy recovery task. Newer recovery actions live on

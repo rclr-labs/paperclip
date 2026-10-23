@@ -38,32 +38,32 @@ export function ChatDetailSidebar({
         >
           <NavItem
             to={`/apps/chat/${endpointId}/settings`}
-            label={t("components.chat.chatDetailSidebar.settings")}
+            label="Settings"
             icon={Settings}
             end
           />
           <NavItem
             to={`/apps/chat/${endpointId}/access`}
-            label={t("components.chat.chatDetailSidebar.access")}
+            label="Access"
             icon={Users}
             end
           />
           {endpoint.data?.provider === "github" && (
             <NavItem
               to={`/apps/chat/${endpointId}/reviews`}
-              label={t("components.chat.chatDetailSidebar.reviews")}
+              label="Reviews"
               icon={GitPullRequest}
             />
           )}
           <NavItem
             to={`/apps/chat/${endpointId}/conversations`}
-            label={t("components.chat.chatDetailSidebar.conversations")}
+            label="Conversations"
             icon={MessageSquare}
             end
           />
           <NavItem
             to={`/apps/chat/${endpointId}/activity`}
-            label={t("components.chat.chatDetailSidebar.activity")}
+            label="Activity"
             icon={Activity}
             end
           />

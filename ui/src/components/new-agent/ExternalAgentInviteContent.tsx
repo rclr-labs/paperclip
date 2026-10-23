@@ -247,7 +247,7 @@ export function ExternalAgentInviteContent({
         : museAwaitingInvitation ? <Button disabled={busy} onClick={onRetry}>{busy ? "Loading setup…" : "Refresh setup"}</Button>
         : muse ? museConnection?.problem === "disconnected" || museConnection?.problem === "connection_expired" ? <Button disabled={busy} onClick={onNewPrompt}>{t("components.newagent.externalAgentInviteContent.reconnectMuse")}</Button>
           : museConnection?.problem === "prompt_unavailable" ? <Button disabled={busy} onClick={onNewPrompt}>{t("components.newagent.externalAgentInviteContent.createANewPrompt")}</Button>
-          : !museConnection?.paired && prompt ? <AgentSetupPrompt key={prompt} prompt={prompt} label={t("components.newagent.externalAgentInviteContent.copySetupPrompt")} title={t("components.newagent.externalAgentInviteContent.connectYourMuse")} agent={{ name: "Muse", icon: <Bot className="size-5" /> }} description="Send this whole prompt to your current Muse conversation." align="end" className="min-w-0 shrink" onCopied={onCopied} />
+          : !museConnection?.paired && prompt ? <AgentSetupPrompt key={prompt} prompt={prompt} label="Copy setup prompt" title="Connect your Muse" agent={{ name: "Muse", icon: <Bot className="size-5" /> }} description="Send this whole prompt to your current Muse conversation." align="end" className="min-w-0 shrink" onCopied={onCopied} />
           : busy ? <Button disabled>{t("components.newagent.externalAgentInviteContent.preparing")}</Button>
           : <Button asChild><a href="https://muse.ai" target="_blank" rel="noopener noreferrer">{t("components.newagent.externalAgentInviteContent.openMuse")}</a></Button>
         : connecting ? <Button disabled aria-live="polite">

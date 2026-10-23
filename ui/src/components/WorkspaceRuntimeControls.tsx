@@ -551,7 +551,7 @@ export function WorkspaceRuntimeControls({
       </div>
 
       <CommandSection
-        title={t("components.workspaceRuntimeControls.services")}
+        title="Services"
         description="Long-running commands that Paperclip can supervise for this workspace."
         items={sections.services}
         emptyMessage={serviceEmptyMessage}
@@ -563,7 +563,7 @@ export function WorkspaceRuntimeControls({
       />
 
       <CommandSection
-        title={t("components.workspaceRuntimeControls.jobs")}
+        title="Jobs"
         description="One-shot commands that run now and exit when they finish."
         items={sections.jobs}
         emptyMessage={jobEmptyMessage}
@@ -575,7 +575,7 @@ export function WorkspaceRuntimeControls({
 
       {sections.otherServices.length > 0 ? (
         <CommandSection
-          title={t("components.workspaceRuntimeControls.untrackedServices")}
+          title="Untracked services"
           description="Running services that no longer match the current workspace command config."
           items={sections.otherServices}
           emptyMessage=""

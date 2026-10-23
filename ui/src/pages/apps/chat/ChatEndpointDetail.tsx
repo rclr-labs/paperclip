@@ -595,7 +595,7 @@ function Settings({
       {endpoint.provider !== "github" && (
         <div className="space-y-3">
           <SettingToggle
-            label={t("pages.apps.chat.chatEndpointDetail.allowDirectMessages")}
+            label="Allow direct messages"
             detail={
               endpoint.provider === "discord"
                 ? "People must also enable Direct Messages in their shared Discord server’s Privacy Settings."
@@ -609,7 +609,7 @@ function Settings({
           />
           {endpoint.provider === "slack" && (
             <SettingToggle
-              label={t("pages.apps.chat.chatEndpointDetail.requireAtMention")}
+              label="Require at-mention"
               detail="In channels, only respond to messages that @mention this bot, including thread replies. Direct messages never require an @mention and must be allowed above."
               checked={endpoint.requireAtMention ?? false}
               pending={updateEndpoint.isPending}
@@ -620,7 +620,7 @@ function Settings({
           )}
           {endpoint.provider === "microsoft-teams" && (
             <SettingToggle
-              label={t("pages.apps.chat.chatEndpointDetail.allowGroupChats")}
+              label="Allow group chats"
               detail="The bot may participate in group chats where it is installed."
               checked={endpoint.allowGroupChats ?? false}
               pending={updateEndpoint.isPending}
@@ -639,7 +639,7 @@ function Settings({
           queryClient.setQueryData(queryKeys.chatEndpoints.detail(endpointId), next);
         }}
       />}
-      {endpoint.provider === "slack" && <SlackSetupAdvanced label={t("pages.apps.chat.chatEndpointDetail.slackTools")}><SlackToolsSettings companyId={endpoint.companyId} endpointId={endpointId} /></SlackSetupAdvanced>}
+      {endpoint.provider === "slack" && <SlackSetupAdvanced label="Slack tools"><SlackToolsSettings companyId={endpoint.companyId} endpointId={endpointId} /></SlackSetupAdvanced>}
     </section>
   );
 }
@@ -843,12 +843,12 @@ function Access({
           </div>
         )}
       </div>
-      <SlackSetupAdvanced label={t("pages.apps.chat.chatEndpointDetail.guestAccess")}>
-        <SettingToggle label={t("pages.apps.chat.chatEndpointDetail.allowUnlinkedPeople")}
+      <SlackSetupAdvanced label="Guest access">
+        <SettingToggle label="Allow unlinked people"
           detail="People without linked accounts can start isolated tasks. They cannot approve actions, spend, or manage access. Requests are refused when isolation is unavailable."
           checked={allowUnlinked} pending={updatePolicy.isPending} onChange={value => updatePolicy.mutate(value)} />
       </SlackSetupAdvanced>
-      {endpoint.provider === "slack" && <SlackSetupAdvanced label={t("pages.apps.chat.chatEndpointDetail.personalSlackSearch")}><SlackSearchAccess companyId={endpoint.companyId} endpointId={endpointId} /></SlackSetupAdvanced>}
+      {endpoint.provider === "slack" && <SlackSetupAdvanced label="Personal Slack search"><SlackSearchAccess companyId={endpoint.companyId} endpointId={endpointId} /></SlackSetupAdvanced>}
     </section>
   );
 }

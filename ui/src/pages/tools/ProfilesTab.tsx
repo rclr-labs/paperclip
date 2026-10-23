@@ -495,7 +495,7 @@ export function EffectiveAgentPanel({ companyId, agentOptions }: { companyId: st
           {t("pages.tools.profilesTab.pickAnAgentToSeeWhat")}
         </div>
       ) : effective.isLoading ? (
-        <LoadingState label={t("pages.tools.profilesTab.checkingAccess")} />
+        <LoadingState label="Checking access..." />
       ) : effective.error ? (
         <ErrorState error={effective.error} onRetry={() => effective.refetch()} />
       ) : (
@@ -916,7 +916,7 @@ export function ProfilesTab({ companyId }: { companyId: string }) {
   return (
     <div className="space-y-4">
       <ToolsPageHeader
-        title={t("pages.tools.profilesTab.accessProfiles")}
+        title="Access profiles"
         description="Reusable bundles of allowed applications, connections, and tools, assignable to agents, projects, routines, or issues."
         actions={
           <Button size="sm" onClick={() => setCreateOpen(true)}>

@@ -41,7 +41,23 @@ const parser = loadParser();
 
 import { isTranslatable } from "./translatable.mjs";
 
-const UI_ATTRS = new Set(["placeholder", "title", "aria-label", "alt", "label"]);
+/** Attributes that are DOM passthroughs on any element. */
+const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
+
+/**
+ * `label` and `title` are only safe on a DOM element. On a custom component
+ * they are author-defined props that may carry a TYPE, not copy — e.g.
+ * `<AttributionAvatar label="Assignee">` where the prop is
+ * `"Assignee" | "Originating"`. Replacing that with `t(...)` widens it to
+ * string and stops compiling, which no render test catches.
+ */
+const DOM_ONLY_ATTRS = new Set(["label", "title"]);
+
+function isDomElement(node) {
+  const name = node?.openingElement?.name ?? node?.name;
+  const text = name?.type === "JSXIdentifier" ? name.name : null;
+  return text !== null && /^[a-z]/.test(text);
+}
 const EN = path.join(LOCALES_DIR, "en.json");
 
 const args = process.argv.slice(2);
@@ -165,7 +181,11 @@ function collect(file) {
         component,
       });
     }
-    if (node.type === "JSXAttribute" && node.name?.name && UI_ATTRS.has(node.name.name) && node.value?.type === "StringLiteral") {
+    if (node.type === "JSXAttribute" && node.name?.name && node.value?.type === "StringLiteral") {
+      const attr = node.name.name;
+      const owner = ancestors[ancestors.length - 2]; // JSXOpeningElement -> JSXElement
+      const allowed = UI_ATTRS.has(attr) || (DOM_ONLY_ATTRS.has(attr) && isDomElement(owner));
+      if (!allowed) return;
       if (!isTranslatable(node.value.value)) return;
       const { component, reason } = enclosingComponent(ancestors);
       if (!component) {

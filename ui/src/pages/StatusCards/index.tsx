@@ -137,20 +137,20 @@ export function StatusCards() {
         </div>
       </div>
 
-      {actionError ? <InlineBanner tone="warning" title={t("pages.statusCards.index.headsUp")}>{actionError}</InlineBanner> : null}
+      {actionError ? <InlineBanner tone="warning" title="Heads up">{actionError}</InlineBanner> : null}
 
       {activeQuery.isLoading ? (
         <div className="flex items-center gap-2 py-12 text-sm text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" /> Loading cards…
         </div>
       ) : activeQuery.isError ? (
-        <InlineBanner tone="danger" title={t("pages.statusCards.index.couldNotLoadStatusCards")}>
+        <InlineBanner tone="danger" title="Could not load status cards">
           {activeQuery.error instanceof Error ? activeQuery.error.message : "Try again."}
         </InlineBanner>
       ) : activeCards.length === 0 ? (
         <EmptyState
           icon={FlaskConical}
-          title={t("pages.statusCards.index.noStatusCardsYet")}
+          title="No status cards yet"
           message="Create a card to keep a living summary of the issues you care about."
           action={selectedCompanyId ? "New card" : undefined}
           onAction={() => setCreateOpen(true)}

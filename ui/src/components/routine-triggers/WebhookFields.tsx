@@ -81,8 +81,8 @@ export function AgentInstructions({ value }: { value: string }) {
       </div>
       <AgentSetupPrompt
         prompt={value}
-        label={t("components.routinetriggers.webhookFields.copyForYourAgent")}
-        title={t("components.routinetriggers.webhookFields.webhookSetup")}
+        label="Copy for your agent"
+        title="Webhook setup"
         description="Paste this into your agent to connect this webhook to your routine."
       />
     </section>

@@ -140,15 +140,15 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             <StatusBox
-              label={t("pages.instanceGeneralSettings.authReadiness")}
+              label="Auth readiness"
               value={healthQuery.data?.authReady ? "Ready" : "Not ready"}
             />
             <StatusBox
-              label={t("pages.instanceGeneralSettings.bootstrapStatus")}
+              label="Bootstrap status"
               value={healthQuery.data?.bootstrapStatus === "bootstrap_pending" ? "Setup required" : "Ready"}
             />
             <StatusBox
-              label={t("pages.instanceGeneralSettings.bootstrapInvite")}
+              label="Bootstrap invite"
               value={healthQuery.data?.bootstrapInviteActive ? "Active" : "None"}
             />
           </div>

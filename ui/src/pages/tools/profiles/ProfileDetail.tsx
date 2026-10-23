@@ -163,12 +163,12 @@ export function ProfileDetail({
     onError: (error: unknown) => pushToast({ title: "Could not submit review", body: errorBody(error), tone: "error" }),
   });
 
-  if (data.profiles.isLoading) return <LoadingState label={t("pages.tools.profiles.profileDetail.loadingProfile")} />;
+  if (data.profiles.isLoading) return <LoadingState label="Loading profile..." />;
   if (data.profiles.isError) return <ErrorState error={data.profiles.error} onRetry={() => data.profiles.refetch()} />;
   if (!profile) {
     return (
       <div className="space-y-4">
-        <ToolsPageHeader title={t("pages.tools.profiles.profileDetail.profileNotFound")} description="This access profile may have been deleted." />
+        <ToolsPageHeader title="Profile not found" description="This access profile may have been deleted." />
         <Button variant="outline" onClick={() => navigate("/apps/advanced/profiles")}>{t("pages.tools.profiles.profileDetail.backToProfiles")}</Button>
       </div>
     );
@@ -387,7 +387,7 @@ function NewToolsReviewDialog({
           </DialogDescription>
         </DialogHeader>
         {loading ? (
-          <LoadingState label={t("pages.tools.profiles.profileDetail.loadingNewTools")} />
+          <LoadingState label="Loading new tools..." />
         ) : error ? (
           <ErrorState error={error} onRetry={onRetry} />
         ) : tools.length === 0 ? (

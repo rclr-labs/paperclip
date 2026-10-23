@@ -79,10 +79,10 @@ export function GatewayAdvancedPanel({
       <section className="space-y-2">
         <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.gatewayAdvancedPanel.transport")}</h3>
         <dl className="grid gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
-          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.transport")} value="streamable_http" />
-          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.authentication")} value="bearer" />
-          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.protocolVersion")} value="2025-03-26" />
-          <Row label={t("pages.apps.gateways.panels.gatewayAdvancedPanel.publicId")} value={gateway.gatewayPublicId} mono />
+          <Row label="Transport" value="streamable_http" />
+          <Row label="Authentication" value="bearer" />
+          <Row label="Protocol version" value="2025-03-26" />
+          <Row label="Public ID" value={gateway.gatewayPublicId} mono />
         </dl>
         <div className="flex items-center gap-2">
           <code className="min-w-0 flex-1 truncate rounded-md bg-muted px-3 py-2 font-mono text-xs text-muted-foreground">

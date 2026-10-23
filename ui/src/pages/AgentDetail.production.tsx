@@ -1364,7 +1364,7 @@ export function AgentDetail() {
       {builtInState && (
         <InlineBanner
           tone="info"
-          title={t("pages.agentDetailproduction.builtInAgent")}
+          title="Built-in agent"
           actions={
             <Button
               variant="outline"
@@ -1804,19 +1804,19 @@ function AgentOverview({
 
       {/* Charts */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <ChartCard title={t("pages.agentDetailproduction.runActivity")} subtitle="Last 14 days">
+        <ChartCard title="Run Activity" subtitle="Last 14 days">
           <RunActivityChart runs={runs} />
         </ChartCard>
         {/* PAP-411: "Tasks by Priority" chart hidden behind SHOW_TASK_PRIORITY_UI. */}
         {SHOW_TASK_PRIORITY_UI && (
-          <ChartCard title={t("pages.agentDetailproduction.tasksByPriority")} subtitle="Last 14 days">
+          <ChartCard title="Tasks by Priority" subtitle="Last 14 days">
             <PriorityChart issues={assignedIssues} />
           </ChartCard>
         )}
-        <ChartCard title={t("pages.agentDetailproduction.tasksByStatus")} subtitle="Last 14 days">
+        <ChartCard title="Tasks by Status" subtitle="Last 14 days">
           <IssueStatusChart issues={assignedIssues} />
         </ChartCard>
-        <ChartCard title={t("pages.agentDetailproduction.successRate")} subtitle="Last 14 days">
+        <ChartCard title="Success Rate" subtitle="Last 14 days">
           <SuccessRateChart runs={runs} />
         </ChartCard>
       </div>
@@ -2995,7 +2995,7 @@ export function PromptsTab({
                 <CopyText
                   text={displayValue}
                   ariaLabel="Copy instructions file as markdown"
-                  title={t("pages.agentDetailproduction.copyAsMarkdown")}
+                  title="Copy as markdown"
                   copiedLabel="Copied"
                   className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground hover:bg-accent hover:text-foreground"
                 >
@@ -4462,7 +4462,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
               variant="ghost"
               size="icon-sm"
               onClick={copyToken}
-              title={t("pages.agentDetailproduction.copy")}
+              title="Copy"
             >
               <Copy className="h-3.5 w-3.5" />
             </Button>

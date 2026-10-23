@@ -130,12 +130,12 @@ export function SidebarServerInfo() {
       </p>
       <ServerInfoRow
         icon={Clock3}
-        label={t("components.sidebarServerInfo.lastRestarted")}
+        label="Last restarted"
         value={lastRestartedLabel}
         dateTime={!healthUnavailable && !isWaitingForHealth && restartedAtIsValid ? restartedAt : null}
       />
-      <ServerInfoRow icon={GitCommit} label={t("components.sidebarServerInfo.runningCommit")} value={commit} />
-      <ServerInfoRow icon={FileDiff} label={t("components.sidebarServerInfo.checkoutState")} value={localChanges} />
+      <ServerInfoRow icon={GitCommit} label="Running commit" value={commit} />
+      <ServerInfoRow icon={FileDiff} label="Checkout state" value={localChanges} />
     </div>
   );
 }

@@ -667,13 +667,13 @@ function TaskTreeNode({
         {hasMetadata ? (
           <div className="mt-2 flex flex-wrap gap-1.5">
             {hasExplicitAssignee ? (
-              <TaskField label={t("components.issueThreadInteractionCard.responsible")} value={assigneeLabel} />
+              <TaskField label="Responsible" value={assigneeLabel} />
             ) : null}
             {node.task.billingCode ? (
-              <TaskField label={t("components.issueThreadInteractionCard.billing")} value={node.task.billingCode} />
+              <TaskField label="Billing" value={node.task.billingCode} />
             ) : null}
             {node.task.projectId ? (
-              <TaskField label={t("components.issueThreadInteractionCard.project")} value={node.task.projectId} tone="subtle" />
+              <TaskField label="Project" value={node.task.projectId} tone="subtle" />
             ) : null}
             {labels.map((label) => (
               <TaskField key={label} label="Label" value={label} tone="subtle" />
@@ -846,7 +846,7 @@ function SuggestTasksCard({
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         <span>{totalTasks === 1 ? "1 draft issue" : `${totalTasks} draft issues`}</span>
         {interaction.payload.defaultParentId ? (
-          <TaskField label={t("components.issueThreadInteractionCard.defaultParent")} value={interaction.payload.defaultParentId} tone="subtle" />
+          <TaskField label="Default parent" value={interaction.payload.defaultParentId} tone="subtle" />
         ) : null}
       </div>
 

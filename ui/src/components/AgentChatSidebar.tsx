@@ -74,7 +74,7 @@ export function AgentChatSidebar({
           variant="ghost"
           size="icon-xs"
           aria-label={t("components.agentChatSidebar.chatWithAnAgent")}
-          title={t("components.agentChatSidebar.chatWithAnAgent")}
+          title="Chat with an agent"
           onClick={onOpenChat}
           className="absolute right-2 top-(--pct-50) -translate-y-(--pct-50) text-muted-foreground opacity-0 group-hover/chats:opacity-100 focus-visible:opacity-100 pointer-coarse:opacity-100"
         >

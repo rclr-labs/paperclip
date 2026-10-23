@@ -134,7 +134,7 @@ export function AgentObservabilitySettingsView(props: AgentObservabilitySettings
           </div>
         </>}
         <p className="text-xs text-muted-foreground">{t("components.observability.agentObservabilitySettings.theAgentHarnessReceivesTheseCredentials")}</p>
-        <ToggleField label={t("components.observability.agentObservabilitySettings.enableExport")} checked={enabled} onChange={setEnabled} hint="Applies to executions that start preparation after saving." />
+        <ToggleField label="Enable export" checked={enabled} onChange={setEnabled} hint="Applies to executions that start preparation after saving." />
         <details><summary className="cursor-pointer text-sm font-medium">{t("components.observability.agentObservabilitySettings.contentCapture")}</summary>
           <div className="space-y-3 pt-3">{captureLabels.map(row => <ToggleField key={row.key} label={row.label} checked={capture[row.key]} onChange={value => setCapture(current => ({ ...current, [row.key]: value }))} />)}
             <p className="text-xs text-muted-foreground">{t("components.observability.agentObservabilitySettings.nativeLimitsApplyExportedRecordsCan")}</p>

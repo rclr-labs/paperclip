@@ -248,7 +248,6 @@ interface FileContentViewerProps {
 type MarkdownPreviewMode = "raw" | "rendered";
 
 export function FileContentViewer({ content, highlightedLine, onLoaded, previewMode, htmlMode = "rendered" }: FileContentViewerProps) {
-  const { t } = useTranslation();
   const { resource } = content;
   const isMarkdown = resource.previewKind === "text" && content.content.encoding === "utf8" && isMarkdownResource(resource);
   const isCsv = resource.previewKind === "text" && content.content.encoding === "utf8" && isCsvFile(resource.displayPath || resource.title, resource.contentType ?? "");
@@ -289,7 +288,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded, previewM
       return (
         <FileViewerStateView
           icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-          title={t("components.fileViewerSheet.imagePreviewUnavailable")}
+          title="Image preview unavailable"
         />
       );
     }
@@ -312,7 +311,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded, previewM
       return (
         <FileViewerStateView
           icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-          title={t("components.fileViewerSheet.videoPreviewUnavailable")}
+          title="Video preview unavailable"
         />
       );
     }
@@ -334,7 +333,7 @@ export function FileContentViewer({ content, highlightedLine, onLoaded, previewM
     return (
       <FileViewerStateView
         icon={<AlertTriangle aria-hidden="true" className="h-6 w-6 text-amber-500" />}
-        title={t("components.fileViewerSheet.previewNotSupportedForThisFile")}
+        title="Preview not supported for this file type"
         body={resource.contentType ? `Content type: ${resource.contentType}` : undefined}
       />
     );
@@ -792,7 +791,7 @@ export function FileViewerSheet({
               ) : null}
               {contentQuery.data?.resource.previewKind === "text" && contentQuery.data.content.encoding === "utf8"
                 && isHtmlPreview(contentQuery.data.resource.contentType, contentQuery.data.resource.displayPath || contentQuery.data.resource.title) ? (
-                  <FilePreviewModeToggle mode={htmlMode} onChange={setHtmlMode} label={t("components.fileViewerSheet.htmlView")} />
+                  <FilePreviewModeToggle mode={htmlMode} onChange={setHtmlMode} label="HTML view" />
                 ) : null}
               {state ? (
                 downloadUrl ? (
@@ -858,7 +857,7 @@ export function FileViewerSheet({
                 onClick={() => handleOpenChange(false)}
                 className="h-7 w-7"
                 aria-label={t("components.fileViewerSheet.closeFileViewer")}
-                title={t("components.fileViewerSheet.close")}
+                title="Close"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -989,7 +988,7 @@ export function FileViewerBody({
       return (
         <FileViewerStateView
           icon={<FileSearch aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-          title={t("components.fileViewerSheet.fileNotFound")}
+          title="File not found"
           body="That file was not found in the active workspace."
           actions={
             <>
@@ -1010,7 +1009,7 @@ export function FileViewerBody({
       return (
         <FileViewerStateView
           icon={<FolderOpen aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-          title={t("components.fileViewerSheet.noWorkspaceAvailable")}
+          title="No workspace available"
           body="This issue does not have a workspace that supports preview yet."
         />
       );
@@ -1037,7 +1036,7 @@ export function FileViewerBody({
     return (
       <FileViewerStateView
         icon={<Cloud aria-hidden="true" className="h-6 w-6 text-muted-foreground" />}
-        title={t("components.fileViewerSheet.remoteWorkspacePreviewComingSoon")}
+        title="Remote workspace preview coming soon"
         body="This workspace is hosted remotely; inline previews are not supported yet."
       />
     );

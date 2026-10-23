@@ -40,10 +40,10 @@ export function AppsSidebar() {
         className={contextualSidebarStyles.nav}
       >
         <div data-slot="contextual-sidebar-group" className={contextualSidebarStyles.group}>
-          <SidebarNavItem to="/apps" label={t("components.appsSidebar.browse")} icon={Store} end />
+          <SidebarNavItem to="/apps" label="Browse" icon={Store} end />
           <SidebarNavItem
             to="/apps/review"
-            label={t("components.appsSidebar.review")}
+            label="Review"
             icon={ShieldQuestion}
             badge={reviewCount > 0 ? reviewCount : undefined}
             badgeTone="warning"

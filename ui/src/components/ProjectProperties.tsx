@@ -450,7 +450,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
         </AlertDialogContent>
       </AlertDialog>
       <div className="space-y-1 pb-4">
-        <PropertyRow label={<FieldLabel label={t("components.projectProperties.name")} state={fieldState("name")} />}>
+        <PropertyRow label={<FieldLabel label="Name" state={fieldState("name")} />}>
           {onUpdate || onFieldUpdate ? (
             <DraftInput
               value={project.name}
@@ -464,7 +464,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
           )}
         </PropertyRow>
         <PropertyRow
-          label={<FieldLabel label={t("components.projectProperties.description")} state={fieldState("description")} />}
+          label={<FieldLabel label="Description" state={fieldState("description")} />}
           alignStart
           valueClassName="space-y-0.5"
         >
@@ -484,7 +484,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
             </p>
           )}
         </PropertyRow>
-        <PropertyRow label={<FieldLabel label={t("components.projectProperties.visibility")} state={fieldState("visibility")} />} alignStart>
+        <PropertyRow label={<FieldLabel label="Visibility" state={fieldState("visibility")} />} alignStart>
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm">
               <ToggleSwitch
@@ -511,7 +511,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
         </PropertyRow>
         {repositories ?? <ProjectRepositories key={project.id} project={project} />}
         <PropertyRow
-          label={<FieldLabel label={t("components.projectProperties.env")} state={fieldState("env")} />}
+          label={<FieldLabel label="Env" state={fieldState("env")} />}
           alignStart
           valueClassName="space-y-2"
         >
@@ -530,11 +530,11 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
 
           </div>
         </PropertyRow>
-        <PropertyRow label={<FieldLabel label={t("components.projectProperties.updated")} state="idle" />}>
+        <PropertyRow label={<FieldLabel label="Updated" state="idle" />}>
           <span className="text-sm">{formatDate(project.updatedAt)}</span>
         </PropertyRow>
         {project.targetDate && (
-          <PropertyRow label={<FieldLabel label={t("components.projectProperties.targetDate")} state="idle" />}>
+          <PropertyRow label={<FieldLabel label="Target Date" state="idle" />}>
             <span className="text-sm">{formatDate(project.targetDate)}</span>
           </PropertyRow>
         )}
@@ -1067,7 +1067,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
           </div>
         </>
       )}
-        <PropertyRow label={<FieldLabel label={t("components.projectProperties.created")} state="idle" />}>
+        <PropertyRow label={<FieldLabel label="Created" state="idle" />}>
           <span className="text-sm">{formatDate(project.createdAt)}</span>
         </PropertyRow>
     </div>

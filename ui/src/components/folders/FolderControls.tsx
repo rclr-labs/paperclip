@@ -227,7 +227,7 @@ export function FolderRail({
     <nav aria-label={`${itemLabelPlural} folders`} className="hidden w-(--sz-folder-rail) shrink-0 border-r border-border pr-3 md:block">
       <div className="mb-2 flex items-center justify-between gap-2">
         <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("components.folders.folderControls.folders")}</div>
-        <Button variant="ghost" size="icon-sm" title={t("components.folders.folderControls.newFolder")} onClick={onCreate}>
+        <Button variant="ghost" size="icon-sm" title="New folder" onClick={onCreate}>
           <Plus className="h-3.5 w-3.5" />
         </Button>
       </div>
@@ -482,7 +482,7 @@ export function MobileFolderSheet({
           )}
           <MobileFolderRow
             id="unfiled"
-            label={t("components.folders.folderControls.unfiled")}
+            label="Unfiled"
             count={result?.unfiledCount ?? 0}
             selected={selection === "unfiled"}
             onSelect={select}

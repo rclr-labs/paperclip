@@ -150,7 +150,7 @@ function ProjectItem({
       <span className={rail ? SIDEBAR_RAIL_HIDDEN_LABEL : "flex-1 truncate"}>{project.name}</span>
             {!rail && project.visibility === "private" ? <Lock className="size-3.5 shrink-0 text-muted-foreground" aria-label={t("components.sidebarProjects.privateProject")} /> : null}
       {!rail ? <ExternalObjectStatusSummary summary={externalObjectsSummary} compact /> : null}
-      {!rail && project.pauseReason === "budget" ? <BudgetSidebarMarker title={t("components.sidebarProjects.projectPausedByBudget")} /> : null}
+      {!rail && project.pauseReason === "budget" ? <BudgetSidebarMarker title="Project paused by budget" /> : null}
     </NavLink>
   );
 
@@ -256,7 +256,6 @@ function SortableProjectItem(props: ProjectItemProps) {
 }
 
 export function SidebarProjects() {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(true);
   const { selectedCompany, selectedCompanyId } = useCompany();
   const { openNewProject } = useDialogActions();
@@ -413,7 +412,7 @@ export function SidebarProjects() {
 
   return (
     <SidebarSection
-      label={t("components.sidebarProjects.projects")}
+      label="Projects"
       collapsible={{ open, onOpenChange: setOpen }}
       headerAction={{
         ariaLabel: "New project",

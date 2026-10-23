@@ -22,7 +22,7 @@ export function CaseListControls({ filters, activeFilterCount, columns, onColumn
   const { t } = useTranslation();
   return <>
     <DropdownMenu>
-      <DropdownMenuTrigger asChild><Button variant="outline" size="icon" className="h-8 w-8 shrink-0" aria-label={t("components.cases.caseListControls.columns")} title={t("components.cases.caseListControls.columns")}><Columns3 aria-hidden className="h-3.5 w-3.5" /></Button></DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild><Button variant="outline" size="icon" className="h-8 w-8 shrink-0" aria-label={t("components.cases.caseListControls.columns")} title="Columns"><Columns3 aria-hidden className="h-3.5 w-3.5" /></Button></DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuLabel>{t("components.cases.caseListControls.visibleFields")}</DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -35,7 +35,7 @@ export function CaseListControls({ filters, activeFilterCount, columns, onColumn
     </DropdownMenu>
     <Popover>
       <PopoverTrigger asChild><Button variant="outline" size="icon" className={cn("relative h-8 w-8 shrink-0", activeFilterCount > 0 && "text-(--collection-filter-active)")}
-        aria-label={activeFilterCount ? `Filter cases (${activeFilterCount} active)` : "Filter cases"} title={t("components.cases.caseListControls.filter")}>
+        aria-label={activeFilterCount ? `Filter cases (${activeFilterCount} active)` : "Filter cases"} title="Filter">
         <Filter aria-hidden className="h-3.5 w-3.5" />
         {activeFilterCount > 0 && <span aria-hidden className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-(--collection-filter-badge) text-(length:--text-nano) font-bold text-(--collection-filter-badge-foreground)">{activeFilterCount}</span>}
       </Button></PopoverTrigger>
@@ -45,7 +45,7 @@ export function CaseListControls({ filters, activeFilterCount, columns, onColumn
       </PopoverContent>
     </Popover>
     <Popover>
-      <PopoverTrigger asChild><Button variant="outline" size="icon" className="h-8 w-8 shrink-0" aria-label={t("components.cases.caseListControls.sort")} title={t("components.cases.caseListControls.sort")}><ArrowUpDown aria-hidden className="h-3.5 w-3.5" /></Button></PopoverTrigger>
+      <PopoverTrigger asChild><Button variant="outline" size="icon" className="h-8 w-8 shrink-0" aria-label={t("components.cases.caseListControls.sort")} title="Sort"><ArrowUpDown aria-hidden className="h-3.5 w-3.5" /></Button></PopoverTrigger>
       <PopoverContent align="end" className="w-48 p-2" aria-label={t("components.cases.caseListControls.sortCases")}>
         {CASE_SORT_OPTIONS.map(([value, label]) => <button key={value} type="button" aria-pressed={sortField === value}
           className={cn("flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm", sortField === value ? "bg-accent/50 text-foreground" : "text-muted-foreground hover:bg-accent/50")}
@@ -55,7 +55,7 @@ export function CaseListControls({ filters, activeFilterCount, columns, onColumn
       </PopoverContent>
     </Popover>
     <Popover>
-      <PopoverTrigger asChild><Button variant="outline" size="icon" className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")} aria-label={t("components.cases.caseListControls.group")} title={t("components.cases.caseListControls.group")}><Layers aria-hidden className="h-3.5 w-3.5" /></Button></PopoverTrigger>
+      <PopoverTrigger asChild><Button variant="outline" size="icon" className={cn("h-8 w-8 shrink-0", groupBy !== "none" && "bg-accent")} aria-label={t("components.cases.caseListControls.group")} title="Group"><Layers aria-hidden className="h-3.5 w-3.5" /></Button></PopoverTrigger>
       <PopoverContent align="end" className="w-44 p-2" aria-label={t("components.cases.caseListControls.groupCases")}>
         {CASE_GROUP_OPTIONS.map(([value, label]) => <button key={value} type="button" aria-pressed={groupBy === value}
           className={cn("flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm", groupBy === value ? "bg-accent/50 text-foreground" : "text-muted-foreground hover:bg-accent/50")}

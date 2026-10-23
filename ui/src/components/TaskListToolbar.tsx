@@ -35,7 +35,7 @@ export function TaskListToolbar({ view, onViewChange, query, onQueryChange, sear
           </FlyoutOptions></DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
-      <ToolbarSearch query={query} onQueryChange={onQueryChange} inputRef={searchRef} label={t("components.taskListToolbar.searchTasks2")} placeholder={t("components.taskListToolbar.searchTasks")} />
+      <ToolbarSearch query={query} onQueryChange={onQueryChange} inputRef={searchRef} label="Search tasks" placeholder={t("components.taskListToolbar.searchTasks")} />
       <div className="design-view-toggle" role="group" aria-label={t("components.taskListToolbar.taskLayout")}>
         {[{ value: "list", label: "List view", icon: List }, { value: "board", label: "Board view", icon: Columns3 }].map(({ value, label, icon: Icon }) => (
           <Tooltip key={value}><TooltipTrigger asChild><Button variant="ghost" className="design-toolbar-button design-toolbar-icon" aria-label={label} aria-pressed={layout === value} onClick={() => onLayoutChange(value as "list" | "board")}><Icon aria-hidden /></Button></TooltipTrigger><TooltipContent>{label}</TooltipContent></Tooltip>

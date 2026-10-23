@@ -187,14 +187,13 @@ export function IssueRelatedWorkPanel({
   externalObjectsError?: boolean;
   onRetryExternalObjects?: () => void;
 }) {
-  const { t } = useTranslation();
   const outbound = relatedWork?.outbound ?? [];
   const inbound = relatedWork?.inbound ?? [];
 
   return (
     <div className="space-y-3">
       <Section
-        title={t("components.issueRelatedWorkPanel.references")}
+        title="References"
         description="Other tasks this task currently points at in its title, description, comments, or documents."
         items={outbound}
         emptyLabel="This task does not reference any other tasks yet."
@@ -208,7 +207,7 @@ export function IssueRelatedWorkPanel({
         />
       ) : null}
       <Section
-        title={t("components.issueRelatedWorkPanel.referencedBy")}
+        title="Referenced by"
         description="Other tasks that currently point at this task."
         items={inbound}
         emptyLabel="No other tasks reference this task yet."

@@ -51,7 +51,7 @@ export function DashboardLive() {
 
       <ActiveAgentsPanel
         companyId={selectedCompanyId}
-        title={t("pages.dashboardLive.activeRecent")}
+        title="Active / recent"
         minRunCount={DASHBOARD_LIVE_RUN_LIMIT}
         fetchLimit={DASHBOARD_LIVE_RUN_LIMIT}
         cardLimit={DASHBOARD_LIVE_RUN_LIMIT}

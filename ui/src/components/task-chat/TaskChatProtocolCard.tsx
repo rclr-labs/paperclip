@@ -410,7 +410,7 @@ function WorkspaceChangeCard({ item }: { item: TaskChatWorkspaceChangeItem }) {
     <>
       <CardShell
         icon={GitBranch}
-        title={t("components.taskchat.taskChatProtocolCard.workspaceChanges")}
+        title="Workspace changes"
         status={item.complete ? "completed" : "running"}
         summary={summary}
         testId="task-chat-workspace-change"
@@ -954,7 +954,7 @@ function ResultCard({
   return (
     <CardShell
       icon={PackageCheck}
-      title={t("components.taskchat.taskChatProtocolCard.runResult")}
+      title="Run result"
       status={item.disposition}
       summary={item.summary}
       testId="task-chat-run-result"
@@ -1030,11 +1030,10 @@ function TerminalCard({
 }: {
   item: Extract<TaskChatProtocolItem, { surface: "run_terminal" }>;
 }) {
-  const { t } = useTranslation();
   return (
     <CardShell
       icon={TerminalSquare}
-      title={t("components.taskchat.taskChatProtocolCard.runEnded")}
+      title="Run ended"
       status={item.runState}
       summary={[item.disposition.replaceAll("_", " "), item.stopReason]
         .filter(Boolean)

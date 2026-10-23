@@ -70,10 +70,10 @@ function WindowColumn({ stats }: { stats: UserProfileWindowStats }) {
       </div>
 
       <div className="grid grid-cols-2 gap-x-5 gap-y-3">
-        <Metric value={formatNumber(stats.touchedIssues)} label={t("pages.userProfile.touched")} />
-        <Metric value={formatNumber(stats.completedIssues)} label={t("pages.userProfile.completed")} />
-        <Metric value={formatNumber(stats.commentCount)} label={t("pages.userProfile.comments")} />
-        <Metric value={formatNumber(stats.activityCount)} label={t("pages.userProfile.actions")} />
+        <Metric value={formatNumber(stats.touchedIssues)} label="Touched" />
+        <Metric value={formatNumber(stats.completedIssues)} label="Completed" />
+        <Metric value={formatNumber(stats.commentCount)} label="Comments" />
+        <Metric value={formatNumber(stats.activityCount)} label="Actions" />
       </div>
 
       <div className="grid grid-cols-2 gap-x-5 gap-y-1.5 pt-3 text-xs tabular-nums text-muted-foreground">
@@ -315,10 +315,10 @@ export function UserProfile() {
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <HeroStat label={t("pages.userProfile.allTimeTokens")} value={formatTokens(allTimeTokens)} hint={formatCents(allTime?.costCents ?? 0) + " spent"} />
-          <HeroStat label={t("pages.userProfile.completed")} value={formatNumber(allTime?.completedIssues ?? 0)} hint={allTime ? `${completionRate(allTime)} rate` : undefined} />
-          <HeroStat label={t("pages.userProfile.openAssigned")} value={formatNumber(allTime?.assignedOpenIssues ?? 0)} hint={`${formatNumber(allTime?.createdIssues ?? 0)} created`} />
-          <HeroStat label={t("pages.userProfile.7DayActions")} value={formatNumber(last7?.activityCount ?? 0)} hint={`${formatNumber(last7?.commentCount ?? 0)} comments`} />
+          <HeroStat label="All-time tokens" value={formatTokens(allTimeTokens)} hint={formatCents(allTime?.costCents ?? 0) + " spent"} />
+          <HeroStat label="Completed" value={formatNumber(allTime?.completedIssues ?? 0)} hint={allTime ? `${completionRate(allTime)} rate` : undefined} />
+          <HeroStat label="Open assigned" value={formatNumber(allTime?.assignedOpenIssues ?? 0)} hint={`${formatNumber(allTime?.createdIssues ?? 0)} created`} />
+          <HeroStat label="7-day actions" value={formatNumber(last7?.activityCount ?? 0)} hint={`${formatNumber(last7?.commentCount ?? 0)} comments`} />
         </div>
       </section>
 
@@ -383,8 +383,8 @@ export function UserProfile() {
       </div>
 
       <div className="grid gap-10 xl:grid-cols-2">
-        <UsageList title={t("pages.userProfile.agentAttribution")} empty="No issue-linked token usage yet." rows={agentUsageRows} />
-        <UsageList title={t("pages.userProfile.providerMix")} empty="No provider usage attributed yet." rows={providerUsageRows} />
+        <UsageList title="Agent attribution" empty="No issue-linked token usage yet." rows={agentUsageRows} />
+        <UsageList title="Provider mix" empty="No provider usage attributed yet." rows={providerUsageRows} />
       </div>
     </div>
   );

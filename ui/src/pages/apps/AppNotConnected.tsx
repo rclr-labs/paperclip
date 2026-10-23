@@ -187,7 +187,7 @@ export function AppNotConnected() {
           <ReviewPanel connectionId={previousConnection.id} />
         ) : (
           <EmptyTab
-            title={t("pages.apps.appNotConnected.nothingIsWaitingForYourOk")}
+            title="Nothing is waiting for your OK right now."
             body="Review requests will appear here after this app is connected."
           />
         )

@@ -61,7 +61,7 @@ export function GrokBotSetupContent(p: GrokBotSetupContentProps) {
         </div>}
         {p.step === 1 && <div className="space-y-4 text-sm">
           <p>{t("components.newagent.grokBotSetupContent.copyTheConnectionInstructionsIntoYour")}</p>
-          {p.connection?.resourceUrl && <AgentSetupPrompt prompt={buildGrokAccessPrompt(p.connection.resourceUrl, p.details.botName)} label={t("components.newagent.grokBotSetupContent.copyConnectionInstructions")} title={t("components.newagent.grokBotSetupContent.connectPaperclipAccess")} description="Send these instructions to your Bot. The pairing code stays in your browser." />}
+          {p.connection?.resourceUrl && <AgentSetupPrompt prompt={buildGrokAccessPrompt(p.connection.resourceUrl, p.details.botName)} label="Copy connection instructions" title="Connect Paperclip access" description="Send these instructions to your Bot. The pairing code stays in your browser." />}
           {!binding?.connected && p.pairing && <div className="space-y-2">
             <label htmlFor={pairingCodeId}>{t("components.newagent.grokBotSetupContent.oneUsePairingCode")}</label>
             <div className="flex items-center gap-2">
@@ -75,7 +75,7 @@ export function GrokBotSetupContent(p: GrokBotSetupContentProps) {
         </div>}
         {p.step === 2 && <div className="space-y-4 text-sm">
           <p>{t("components.newagent.grokBotSetupContent.askYourBotToCreateA")}</p>
-          {binding && <AgentSetupPrompt prompt={buildGrokRoutinePrompt(binding.id, p.details.botName)} label={t("components.newagent.grokBotSetupContent.copyRoutineInstructions")} title={t("components.newagent.grokBotSetupContent.enableAssignments")} description="Send this to the connected Bot. The routine wakes it when Paperclip work changes." />}
+          {binding && <AgentSetupPrompt prompt={buildGrokRoutinePrompt(binding.id, p.details.botName)} label="Copy routine instructions" title="Enable assignments" description="Send this to the connected Bot. The routine wakes it when Paperclip work changes." />}
           <p className="text-xs text-muted-foreground">{t("components.newagent.grokBotSetupContent.ifClickingTheRoutineDoesNothing")}</p>
           {routine?.configured && !p.editingCredentials && !p.webhookUrl && !p.webhookKey ? <div className="space-y-2"><p role="status" className="text-muted-foreground">{t("components.newagent.grokBotSetupContent.routineCredentialsAreStoredContinueTo")}</p>{p.onEditCredentials && <Button variant="outline" onClick={p.onEditCredentials} disabled={p.busy}>{t("components.newagent.grokBotSetupContent.replaceRoutineCredentials")}</Button>}</div> : <>
             <label className="block space-y-2"><span>{t("components.newagent.grokBotSetupContent.webhookUrl")}</span><Input value={p.webhookUrl} onChange={e => p.onCredentials(e.target.value, p.webhookKey)} type="password" autoComplete="off" spellCheck={false} /></label>

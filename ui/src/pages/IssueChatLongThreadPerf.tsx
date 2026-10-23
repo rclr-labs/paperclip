@@ -123,8 +123,8 @@ export function IssueChatLongThreadPerf() {
           </p>
         </div>
         <div className="grid min-w-(--sz-280px) grid-cols-2 gap-2">
-          <MetricTile label={t("pages.issueChatLongThreadPerf.fixtureRows")} value={String(rowTarget)} testId="perf-fixture-row-target" />
-          <MetricTile label={t("pages.issueChatLongThreadPerf.markdownRows")} value={String(LONG_THREAD_MARKDOWN_COMMENT_COUNT)} testId="perf-fixture-markdown-rows" />
+          <MetricTile label="Fixture rows" value={String(rowTarget)} testId="perf-fixture-row-target" />
+          <MetricTile label="Markdown rows" value={String(LONG_THREAD_MARKDOWN_COMMENT_COUNT)} testId="perf-fixture-markdown-rows" />
         </div>
       </div>
 
@@ -182,11 +182,11 @@ export function IssueChatLongThreadPerf() {
               <CardTitle className="text-base">{t("pages.issueChatLongThreadPerf.baselineMetrics")}</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-2">
-              <MetricTile label={t("pages.issueChatLongThreadPerf.profilerCommits")} value={String(metrics.commitCount)} testId="perf-commit-count" />
-              <MetricTile label={t("pages.issueChatLongThreadPerf.mountDuration")} value={formatMs(metrics.mountActualDuration)} testId="perf-mount-duration" />
-              <MetricTile label={t("pages.issueChatLongThreadPerf.latestDuration")} value={formatMs(metrics.latestActualDuration)} testId="perf-latest-duration" />
-              <MetricTile label={t("pages.issueChatLongThreadPerf.maxDuration")} value={formatMs(metrics.maxActualDuration)} testId="perf-max-duration" />
-              <MetricTile label={t("pages.issueChatLongThreadPerf.totalDuration")} value={formatMs(metrics.totalActualDuration)} testId="perf-total-duration" />
+              <MetricTile label="Profiler commits" value={String(metrics.commitCount)} testId="perf-commit-count" />
+              <MetricTile label="Mount duration" value={formatMs(metrics.mountActualDuration)} testId="perf-mount-duration" />
+              <MetricTile label="Latest duration" value={formatMs(metrics.latestActualDuration)} testId="perf-latest-duration" />
+              <MetricTile label="Max duration" value={formatMs(metrics.maxActualDuration)} testId="perf-max-duration" />
+              <MetricTile label="Total duration" value={formatMs(metrics.totalActualDuration)} testId="perf-total-duration" />
             </CardContent>
           </Card>
 

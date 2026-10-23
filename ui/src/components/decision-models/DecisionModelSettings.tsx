@@ -62,9 +62,9 @@ export function DecisionModelSettingsView({ settings, choices, saving, testing, 
       {selected && <Link to={`/apps/${selected.id}/permissions`} className="text-sm underline underline-offset-4">{selected.status === "connected" ? "Manage connection" : "Reconnect connection"}</Link>}
     </div>
     {draft.connectionId && <fieldset disabled={saving || testing} className="space-y-4">
-      <ToggleField label={t("components.decisionmodels.decisionModelSettings.enableDecisions")} checked={draft.enabled} onChange={enabled => setDraft(value => ({ ...value, enabled }))} />
+      <ToggleField label="Enable decisions" checked={draft.enabled} onChange={enabled => setDraft(value => ({ ...value, enabled }))} />
       <div className="space-y-2">
-        <ToggleField label={t("components.decisionmodels.decisionModelSettings.allowCompanySponsoredBackgroundDecisions")} checked={draft.allowBackground} onChange={allowBackground => setDraft(value => ({ ...value, allowBackground }))} />
+        <ToggleField label="Allow company-sponsored background decisions" checked={draft.allowBackground} onChange={allowBackground => setDraft(value => ({ ...value, allowBackground }))} />
         <p className="text-xs text-muted-foreground">{t("components.decisionmodels.decisionModelSettings.backgroundFeaturesCanChargeThisConnection")}</p>
       </div>
     </fieldset>}

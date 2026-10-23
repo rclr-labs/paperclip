@@ -540,7 +540,7 @@ export function RoutineTriggerWizard({
                 <p className="text-xs text-muted-foreground">
                   {t("components.routinetriggers.triggerWizard.checkThatTheWebhookIsEnabled")}
                 </p>
-                <CopyField label={t("components.routinetriggers.triggerWizard.webhookUrl")} value={webhookUrl} />
+                <CopyField label="Webhook URL" value={webhookUrl} />
               </div>
             </details>
           </div>

@@ -1,6 +1,5 @@
 import { Copy } from "lucide-react";
 import { CopyText } from "./CopyText";
-import { useTranslation } from "@/i18n";
 
 export function RoutineSectionHeading({
   title,
@@ -10,7 +9,6 @@ export function RoutineSectionHeading({
   /** Description markdown to copy. Omit the button when this is null. */
   copyText?: string | null;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="mb-4 flex items-center gap-1">
       <h2 id="routine-section-title" className="text-lg font-semibold">
@@ -20,7 +18,7 @@ export function RoutineSectionHeading({
         <CopyText
           text={copyText}
           ariaLabel="Copy description"
-          title={t("components.routineSectionHeading.copyDescription")}
+          title="Copy description"
           copiedLabel="Description copied"
           className="inline-flex size-6 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground"
         >

@@ -98,7 +98,7 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
   return (
     <div className="space-y-4">
       <div className="space-y-1">
-        <PropertyRow label={t("components.goalProperties.status")}>
+        <PropertyRow label="Status">
           {onUpdate ? (
             <PickerButton
               current={goal.status}
@@ -112,7 +112,7 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
           )}
         </PropertyRow>
 
-        <PropertyRow label={t("components.goalProperties.level")}>
+        <PropertyRow label="Level">
           {onUpdate ? (
             <PickerButton
               current={goal.level}
@@ -126,7 +126,7 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
           )}
         </PropertyRow>
 
-        <PropertyRow label={t("components.goalProperties.owner")}>
+        <PropertyRow label="Owner">
           {ownerAgent ? (
             <Link
               to={agentUrl(ownerAgent)}
@@ -140,7 +140,7 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
         </PropertyRow>
 
         {goal.parentId && (
-          <PropertyRow label={t("components.goalProperties.parentGoal")}>
+          <PropertyRow label="Parent Goal">
             <Link
               to={`/goals/${goal.parentId}`}
               className="text-sm hover:underline"
@@ -154,10 +154,10 @@ export function GoalProperties({ goal, onUpdate }: GoalPropertiesProps) {
       <Separator />
 
       <div className="space-y-1">
-        <PropertyRow label={t("components.goalProperties.created")}>
+        <PropertyRow label="Created">
           <span className="text-sm">{formatDate(goal.createdAt)}</span>
         </PropertyRow>
-        <PropertyRow label={t("components.goalProperties.updated")}>
+        <PropertyRow label="Updated">
           <span className="text-sm">{formatDate(goal.updatedAt)}</span>
         </PropertyRow>
       </div>

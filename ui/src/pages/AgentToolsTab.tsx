@@ -557,7 +557,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
   const profiles = effective.data?.profiles ?? [];
   const catalogLoading = catalogQueries.some((q) => q.isLoading);
 
-  if (effective.isLoading) return <ToolsLoadingState label={t("pages.agentToolsTab.resolvingEffectiveAccess")} />;
+  if (effective.isLoading) return <ToolsLoadingState label="Resolving effective access…" />;
   if (effective.error) {
     return <ToolsErrorState error={effective.error} onRetry={() => effective.refetch()} />;
   }
@@ -568,7 +568,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
     <div className="space-y-4">
       <EnforcementBanner
         tone="info"
-        title={t("pages.agentToolsTab.effectiveAccess")}
+        title="Effective access"
         body={
           <>
             This is exactly the tool set Paperclip will accept for{" "}
