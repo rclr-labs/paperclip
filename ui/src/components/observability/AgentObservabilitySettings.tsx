@@ -104,7 +104,7 @@ export function AgentObservabilitySettingsView(props: AgentObservabilitySettings
           <Label htmlFor="agent-observability-provider">{t("components.observability.agentObservabilitySettings.destination")}</Label>
           <select id="agent-observability-provider" className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm" value={provider}
             onChange={event => { setProvider(event.target.value as "braintrust" | "otlp"); setApiKey(""); setReplaceKey(false); setValidation(null); }}>
-            <option value="braintrust">{t("components.observability.agentObservabilitySettings.braintrust")}</option><option value="otlp">{t("components.observability.agentObservabilitySettings.customOtlp")}</option>
+            <option value="braintrust">Braintrust</option><option value="otlp">{t("components.observability.agentObservabilitySettings.customOtlp")}</option>
           </select>
         </div>
         {provider === "braintrust" ? <>

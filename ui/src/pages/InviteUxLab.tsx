@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CompanyPatternIcon } from "@/components/CompanyPatternIcon";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
 import {
   ArrowRight,
   Check,
@@ -195,7 +194,6 @@ function InviteSummaryPanel({
   requestedAccess: string;
   signedInLabel?: string;
 }) {
-  const { t } = useTranslation();
   return (
     <>
       <div className="flex items-start gap-4">
@@ -205,7 +203,7 @@ function InviteSummaryPanel({
           className="h-16 w-16 rounded-none border border-zinc-800"
         />
         <div className="min-w-0">
-          <p className="text-xs uppercase tracking-(--tracking-caps) text-zinc-500">{t("pages.inviteUxLab.youVeBeenInvitedToJoin")}</p>
+          <p className="text-xs uppercase tracking-(--tracking-caps) text-zinc-500">You&apos;ve been invited to join Paperclip</p>
           <h3 className="mt-2 text-2xl font-semibold text-zinc-100">{title}</h3>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-300">{description}</p>
         </div>
@@ -220,7 +218,7 @@ function InviteSummaryPanel({
 
       {inviteMessage ? (
         <div className="border border-amber-500/40 bg-amber-500/10 p-4">
-          <div className="text-xs uppercase tracking-(--tracking-caps) text-amber-200/80">{t("pages.inviteUxLab.messageFromInviter")}</div>
+          <div className="text-xs uppercase tracking-(--tracking-caps) text-amber-200/80">Message from inviter</div>
           <p className="mt-2 text-sm leading-6 text-amber-50">{inviteMessage}</p>
         </div>
       ) : null}
@@ -252,7 +250,6 @@ function InlineAuthPreview({
   feedback?: { tone: "info" | "error"; text: string };
   working?: boolean;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="space-y-5">
       <div>
@@ -276,7 +273,7 @@ function InlineAuthPreview({
               : "border-zinc-800 text-zinc-300 hover:border-zinc-600",
           )}
         >
-          {t("pages.inviteUxLab.createAccount")}
+          Create account
         </button>
         <button
           type="button"
@@ -287,23 +284,23 @@ function InlineAuthPreview({
               : "border-zinc-800 text-zinc-300 hover:border-zinc-600",
           )}
         >
-          {t("pages.inviteUxLab.iAlreadyHaveAnAccount")}
+          I already have an account
         </button>
       </div>
 
       <form className="space-y-4">
         {mode === "sign_up" ? (
           <label className="block text-sm">
-            <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.name")}</span>
+            <span className="mb-1 block text-zinc-400">Name</span>
             <input name="name" className={fieldClassName} defaultValue="Jane Example" readOnly />
           </label>
         ) : null}
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.email")}</span>
+          <span className="mb-1 block text-zinc-400">Email</span>
           <input name="email" type="email" className={fieldClassName} defaultValue="jane@example.com" readOnly />
         </label>
         <label className="block text-sm">
-          <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.password")}</span>
+          <span className="mb-1 block text-zinc-400">Password</span>
           <input name="password" type="password" className={fieldClassName} defaultValue="supersecret" readOnly />
         </label>
         {feedback ? (
@@ -326,29 +323,28 @@ function InlineAuthPreview({
 }
 
 function AgentRequestPreview() {
-  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold text-zinc-100">{t("pages.inviteUxLab.submitAgentDetails")}</h3>
+        <h3 className="text-lg font-semibold text-zinc-100">Submit agent details</h3>
         <p className="mt-1 text-sm text-zinc-400">
-          {t("pages.inviteUxLab.thisInviteWillCreateAnApproval")}
+          This invite will create an approval request for a new agent in Acme Robotics.
         </p>
       </div>
       <label className="block text-sm">
-        <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.agentName")}</span>
+        <span className="mb-1 block text-zinc-400">Agent name</span>
         <input className={fieldClassName} defaultValue="Acme Ops Agent" readOnly />
       </label>
       <label className="block text-sm">
-        <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.adapterType")}</span>
+        <span className="mb-1 block text-zinc-400">Adapter type</span>
         <select className={fieldClassName} defaultValue="codex_local" disabled>
-          <option value="codex_local">{t("pages.inviteUxLab.codex")}</option>
-          <option value="claude_local">{t("pages.inviteUxLab.claudeCode")}</option>
-          <option value="cursor">{t("pages.inviteUxLab.cursor")}</option>
+          <option value="codex_local">Codex</option>
+          <option value="claude_local">Claude Code</option>
+          <option value="cursor">Cursor</option>
         </select>
       </label>
       <label className="block text-sm">
-        <span className="mb-1 block text-zinc-400">{t("pages.inviteUxLab.capabilities")}</span>
+        <span className="mb-1 block text-zinc-400">Capabilities</span>
         <textarea
           className={fieldClassName}
           rows={4}
@@ -357,7 +353,7 @@ function AgentRequestPreview() {
         />
       </label>
       <Button type="button" className="w-full rounded-none">
-        {t("pages.inviteUxLab.submitRequest")}
+        Submit request
       </Button>
     </div>
   );
@@ -372,11 +368,10 @@ function AcceptInvitePreview({
   isCurrentMember?: boolean;
   error?: string;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold text-zinc-100">{t("pages.inviteUxLab.acceptOrganizationInvite")}</h3>
+        <h3 className="text-lg font-semibold text-zinc-100">Accept organization invite</h3>
         <p className="mt-1 text-sm text-zinc-400">
           {autoAccept
             ? "Granting your access to Acme Robotics."
@@ -387,10 +382,10 @@ function AcceptInvitePreview({
       </div>
       {error ? <p className="text-xs text-red-400">{error}</p> : null}
       {autoAccept ? (
-        <div className="text-sm text-zinc-400">{t("pages.inviteUxLab.submittingRequest")}</div>
+        <div className="text-sm text-zinc-400">Submitting request...</div>
       ) : (
         <Button type="button" className="w-full rounded-none" disabled={isCurrentMember}>
-          {t("pages.inviteUxLab.acceptInvite")}
+          Accept invite
         </Button>
       )}
     </div>
@@ -410,7 +405,6 @@ function InviteResultPreview({
   onboardingTextUrl?: string;
   joinedNow?: boolean;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-md border border-zinc-800 bg-zinc-950 p-6 text-zinc-100">
       <div className="flex items-center gap-3">
@@ -425,26 +419,26 @@ function InviteResultPreview({
         <p className="text-sm text-zinc-400">{description}</p>
         {joinedNow ? (
           <Button type="button" className="w-full rounded-none">
-            {t("pages.inviteUxLab.openBoard")}
+            Open board
           </Button>
         ) : (
           <>
             <div className="border border-zinc-800 p-3">
-              <p className="mb-1 text-xs text-zinc-500">{t("pages.inviteUxLab.approvalPage")}</p>
+              <p className="mb-1 text-xs text-zinc-500">Approval page</p>
               <a className="text-sm text-zinc-200 underline underline-offset-2" href="/company/settings/members">
-                {t("pages.inviteUxLab.settingsMembers")}
+                Settings → Members
               </a>
             </div>
             <p className="text-xs text-zinc-500">
-              {t("pages.inviteUxLab.refreshThisPageAfterYouVe")}
+              Refresh this page after you&apos;ve been approved — you&apos;ll be redirected automatically.
             </p>
           </>
         )}
         {claimSecret ? (
           <div className="space-y-1 border border-zinc-800 p-3 text-xs text-zinc-400">
-            <div className="text-zinc-200">{t("pages.inviteUxLab.claimSecret")}</div>
+            <div className="text-zinc-200">Claim secret</div>
             <div className="font-mono break-all">{claimSecret}</div>
-            <div className="font-mono break-all">{t("pages.inviteUxLab.postApiAgentsClaimApiKey")}</div>
+            <div className="font-mono break-all">POST /api/agents/claim-api-key</div>
           </div>
         ) : null}
         {onboardingTextUrl ? (
@@ -458,7 +452,6 @@ function InviteResultPreview({
 }
 
 function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error?: string }) {
-  const { t } = useTranslation();
   return (
     <div className="overflow-hidden rounded-(--rad-28) border border-border/70 bg-background shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
       <div className="grid gap-px bg-border/60 md:grid-cols-2">
@@ -479,7 +472,7 @@ function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error
             <div className="mt-6 space-y-4">
               {mode === "sign_up" ? (
                 <label className="block">
-                  <span className="mb-1 block text-xs text-muted-foreground">{t("pages.inviteUxLab.name")}</span>
+                  <span className="mb-1 block text-xs text-muted-foreground">Name</span>
                   <input
                     className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm"
                     defaultValue="Jane Example"
@@ -488,7 +481,7 @@ function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error
                 </label>
               ) : null}
               <label className="block">
-                <span className="mb-1 block text-xs text-muted-foreground">{t("pages.inviteUxLab.email")}</span>
+                <span className="mb-1 block text-xs text-muted-foreground">Email</span>
                 <input
                   className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm"
                   defaultValue="jane@example.com"
@@ -496,7 +489,7 @@ function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error
                 />
               </label>
               <label className="block">
-                <span className="mb-1 block text-xs text-muted-foreground">{t("pages.inviteUxLab.password")}</span>
+                <span className="mb-1 block text-xs text-muted-foreground">Password</span>
                 <input
                   className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm"
                   defaultValue="supersecret"
@@ -519,11 +512,11 @@ function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error
         <div className="hidden min-h-(--sz-420px) items-center justify-center bg-[radial-gradient(circle_at_top,rgba(8,145,178,0.18),transparent_48%),linear-gradient(180deg,rgba(15,23,42,0.96),rgba(2,6,23,1))] px-8 py-10 md:flex">
           <div className="max-w-sm space-y-4 text-zinc-200">
             <div className="inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-cyan-500/[0.08] px-3 py-1 text-(length:--text-nano) uppercase tracking-(--tracking-caps) text-cyan-200">
-              {t("pages.inviteUxLab.authPreview")}
+              Auth preview
             </div>
-            <div className="text-2xl font-semibold">{t("pages.inviteUxLab.sideBySideSignupStylingReview")}</div>
+            <div className="text-2xl font-semibold">Side-by-side signup styling review</div>
             <p className="text-sm leading-6 text-zinc-400">
-              {t("pages.inviteUxLab.thisFrameMirrorsTheProductionAuth")}
+              This frame mirrors the production auth surface so spacing, label density, button treatments, and desktop composition are easy to compare.
             </p>
           </div>
         </div>
@@ -533,7 +526,6 @@ function AuthScreenPreview({ mode, error }: { mode: "sign_in" | "sign_up"; error
 }
 
 function CompanyInvitesPreview() {
-  const { t } = useTranslation();
   return (
     <div className="grid gap-5 xl:grid-cols-(--gtc-38)">
       <Card className="rounded-(--rad-28) shadow-none">
@@ -543,15 +535,15 @@ function CompanyInvitesPreview() {
             Organization Invites
           </div>
           <div>
-            <CardTitle>{t("pages.inviteUxLab.createInvite")}</CardTitle>
+            <CardTitle>Create invite</CardTitle>
             <CardDescription className="mt-2">
-              {t("pages.inviteUxLab.generateAHumanInviteLinkAnd")}
+              Generate a human invite link and choose the default access it should request.
             </CardDescription>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           <fieldset className="space-y-3">
-            <legend className="text-sm font-medium">{t("pages.inviteUxLab.chooseARole")}</legend>
+            <legend className="text-sm font-medium">Choose a role</legend>
             <div className="rounded-2xl border border-border">
               {inviteRoleOptions.map((option, index) => (
                 <label
@@ -582,20 +574,20 @@ function CompanyInvitesPreview() {
           </fieldset>
 
           <div className="rounded-xl border border-border px-4 py-3 text-sm text-muted-foreground">
-            {t("pages.inviteUxLab.eachInviteLinkIsSingleUse")}
+            Each invite link is single-use. Human invitees get the selected role immediately after sign-in; agent invites still create a join request for approval.
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Button type="button">{t("pages.inviteUxLab.createInvite")}</Button>
-            <span className="text-sm text-muted-foreground">{t("pages.inviteUxLab.inviteHistoryBelowKeepsTheAudit")}</span>
+            <Button type="button">Create invite</Button>
+            <span className="text-sm text-muted-foreground">Invite history below keeps the audit trail.</span>
           </div>
 
           <div className="space-y-3 rounded-2xl border border-border px-4 py-4">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <div className="text-sm font-medium">{t("pages.inviteUxLab.latestInviteLink")}</div>
+                <div className="text-sm font-medium">Latest invite link</div>
                 <div className="text-sm text-muted-foreground">
-                  {t("pages.inviteUxLab.thisUrlIncludesTheCurrentPaperclip")}
+                  This URL includes the current Paperclip domain returned by the server.
                 </div>
               </div>
               <div className="inline-flex items-center gap-1 text-xs font-medium text-foreground">
@@ -623,13 +615,13 @@ function CompanyInvitesPreview() {
         <CardHeader className="space-y-3">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <CardTitle>{t("pages.inviteUxLab.inviteHistory")}</CardTitle>
+              <CardTitle>Invite history</CardTitle>
               <CardDescription className="mt-2">
-                {t("pages.inviteUxLab.reviewInviteStatusRoleInviterAnd")}
+                Review invite status, role, inviter, and any linked join request.
               </CardDescription>
             </div>
             <a href="/inbox/requests" className="text-sm underline underline-offset-4">
-              {t("pages.inviteUxLab.openJoinRequestQueue")}
+              Open join request queue
             </a>
           </div>
         </CardHeader>
@@ -638,12 +630,12 @@ function CompanyInvitesPreview() {
             <table className="min-w-full text-left text-sm">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="px-5 py-3 font-medium text-muted-foreground">{t("pages.inviteUxLab.state")}</th>
-                  <th className="px-5 py-3 font-medium text-muted-foreground">{t("pages.inviteUxLab.role")}</th>
-                  <th className="px-5 py-3 font-medium text-muted-foreground">{t("pages.inviteUxLab.invitedBy")}</th>
-                  <th className="px-5 py-3 font-medium text-muted-foreground">{t("pages.inviteUxLab.created")}</th>
-                  <th className="px-5 py-3 font-medium text-muted-foreground">{t("pages.inviteUxLab.joinRequest")}</th>
-                  <th className="px-5 py-3 text-right font-medium text-muted-foreground">{t("pages.inviteUxLab.action")}</th>
+                  <th className="px-5 py-3 font-medium text-muted-foreground">State</th>
+                  <th className="px-5 py-3 font-medium text-muted-foreground">Role</th>
+                  <th className="px-5 py-3 font-medium text-muted-foreground">Invited by</th>
+                  <th className="px-5 py-3 font-medium text-muted-foreground">Created</th>
+                  <th className="px-5 py-3 font-medium text-muted-foreground">Join request</th>
+                  <th className="px-5 py-3 text-right font-medium text-muted-foreground">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -686,15 +678,15 @@ function CompanyInvitesPreview() {
 
           <div className="grid gap-3 md:grid-cols-2">
             <div className="rounded-2xl border border-border p-4">
-              <div className="text-sm font-medium">{t("pages.inviteUxLab.emptyHistoryState")}</div>
+              <div className="text-sm font-medium">Empty history state</div>
               <div className="mt-2 text-sm text-muted-foreground">
-                {t("pages.inviteUxLab.noInvitesHaveBeenCreatedFor")}
+                No invites have been created for this organization yet.
               </div>
             </div>
             <div className="rounded-2xl border border-rose-400/40 bg-rose-500/[0.07] p-4">
-              <div className="text-sm font-medium text-foreground">{t("pages.inviteUxLab.permissionError")}</div>
+              <div className="text-sm font-medium text-foreground">Permission error</div>
               <div className="mt-2 text-sm text-muted-foreground">
-                {t("pages.inviteUxLab.youDoNotHavePermissionTo")}
+                You do not have permission to manage organization invites.
               </div>
             </div>
           </div>
@@ -705,7 +697,6 @@ function CompanyInvitesPreview() {
 }
 
 export function InviteUxLab() {
-  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       <div className="overflow-hidden rounded-(--rad-32) border border-border/70 bg-[linear-gradient(135deg,rgba(8,145,178,0.10),transparent_28%),linear-gradient(180deg,rgba(245,158,11,0.10),transparent_44%),var(--background)] shadow-[0_30px_80px_rgba(15,23,42,0.10)]">
@@ -715,9 +706,9 @@ export function InviteUxLab() {
               <FlaskConical className="h-3.5 w-3.5" />
               Invite UX Lab
             </div>
-            <h1 className="mt-4 text-3xl font-semibold tracking-tight">{t("pages.inviteUxLab.inviteAndSignupUxReviewSurface")}</h1>
+            <h1 className="mt-4 text-3xl font-semibold tracking-tight">Invite and signup UX review surface</h1>
             <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
-              {t("pages.inviteUxLab.thisPageCollectsTheCurrentInvite")}
+              This page collects the current invite landing, signup, approval-result, and organization invite-management states in one place so styling changes can be reviewed without recreating each backend condition by hand.
             </p>
 
             <div className="mt-5 flex flex-wrap items-center gap-2">
@@ -725,17 +716,17 @@ export function InviteUxLab() {
                 /tests/ux/invites
               </Badge>
               <Badge variant="outline" className="rounded-full px-3 py-1 text-(length:--text-nano) uppercase tracking-(--tracking-caps)">
-                {t("pages.inviteUxLab.signupInviteStates")}
+                signup + invite states
               </Badge>
               <Badge variant="outline" className="rounded-full px-3 py-1 text-(length:--text-nano) uppercase tracking-(--tracking-caps)">
-                {t("pages.inviteUxLab.fixtureBackedPreview")}
+                fixture-backed preview
               </Badge>
             </div>
           </div>
 
           <aside className="border-t border-border/60 bg-background/70 p-6 lg:border-l lg:border-t-0">
             <div className="mb-4 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-              {t("pages.inviteUxLab.coveredStates")}
+              Covered states
             </div>
             <div className="space-y-3">
               {[

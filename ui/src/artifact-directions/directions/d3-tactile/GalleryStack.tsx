@@ -4,7 +4,6 @@ import { GalleryItem } from "./GalleryItem";
 import { KindTally } from "./KindTally";
 import { Folder } from "./objects/Folder";
 import { StateFlag } from "./StateFlag";
-import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — an opened stack: the folder's contents taken out and stood up by
@@ -54,9 +53,8 @@ function Summary({ group }: { group: LabGroup }) {
 }
 
 export function GalleryStack({ group }: { group: LabGroup }) {
-  const { t } = useTranslation();
   const days = daysOf(group.artifacts);
-  if (group.artifacts.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">{t("artifactdirections.directions.d3tactile.galleryStack.noArtifactsInThisStackMatch")}</p>;
+  if (group.artifacts.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">No artifacts in this stack match the current filters.</p>;
   return (
     <div className="flex flex-col gap-7 pt-1">
       <Summary group={group} />

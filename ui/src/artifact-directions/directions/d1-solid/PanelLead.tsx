@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import type { LabArtifact } from "../../kit";
 import { KindTag, PlatePicture } from "./KindBlock";
-import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — what leads a card whose artifact is a picture: the picture itself,
@@ -17,7 +16,6 @@ import { useTranslation } from "@/i18n";
 const LEAD = "relative aspect-(--solid-lead-ratio) w-full overflow-hidden rounded-md bg-(--solid-sheet)";
 
 function VideoLead({ artifact }: { artifact: LabArtifact }) {
-  const { t } = useTranslation();
   const video = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
   return (
@@ -36,7 +34,7 @@ function VideoLead({ artifact }: { artifact: LabArtifact }) {
         <button
           type="button"
           aria-label={`Play video: ${artifact.title}`}
-          title={t("artifactdirections.directions.d1solid.panelLead.playVideo")}
+          title="Play video"
           onClick={() => {
             setStarted(true);
             void video.current?.play();

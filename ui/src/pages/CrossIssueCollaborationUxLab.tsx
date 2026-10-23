@@ -7,7 +7,6 @@ import { IssueFieldChangeReceipt } from "@/components/IssueFieldChangeReceipt";
 import { IssueWriteDenialNotice } from "@/components/IssueWriteDenialNotice";
 import { Identity } from "@/components/Identity";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
 
 /**
  * UX lab for the three surfaces that make open
@@ -98,13 +97,12 @@ function ActivityRow({
   verb: string;
   children?: ReactNode;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="space-y-1.5 rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
       <div className="flex items-center gap-1.5">
         <Identity name={actorName} size="sm" />
         <span>{verb}</span>
-        <span className="ml-auto shrink-0">{t("pages.crossIssueCollaborationUxLab.2mAgo")}</span>
+        <span className="ml-auto shrink-0">2m ago</span>
       </div>
       {children}
     </div>
@@ -117,7 +115,6 @@ const AGENT_NAMES = new Map([
 ]);
 
 export function CrossIssueCollaborationUxLab() {
-  const { t } = useTranslation();
   const resolveAgentLabel = (id: string) => AGENT_NAMES.get(id) ?? null;
   const resolveUserLabel = (id: string) => (id === "user-dotta" ? "Dotta" : null);
 
@@ -126,13 +123,15 @@ export function CrossIssueCollaborationUxLab() {
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
           <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-            {t("pages.crossIssueCollaborationUxLab.openCrossTaskCollaboration")}
+            Open cross-task collaboration
           </div>
           <h1 className="mt-1 text-xl font-semibold text-foreground">
-            {t("pages.crossIssueCollaborationUxLab.openCrossTaskCollaborationAttributionAudit")}
+            Open cross-task collaboration — attribution, audit, and denial copy
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t("pages.crossIssueCollaborationUxLab.agentsMayNowWriteToAny")}
+            Agents may now write to any task they can read. These are the three surfaces that keep
+            that legible: whose authority a comment rode, what an edit changed, and — when a write
+            is refused — which boundary fired and what to do instead.
           </p>
         </header>
 
@@ -253,10 +252,11 @@ export function CrossIssueCollaborationUxLab() {
           <Frame label="Before — what the incident actually saw">
             <div className="text-xs">
               <span className="text-red-600 dark:text-red-400">
-                {t("pages.crossIssueCollaborationUxLab.403ForbiddenIssueIsOutsideThis")}
+                403 Forbidden: Issue is outside this actor&apos;s authorization boundary
               </span>
               <p className="mt-1 text-muted-foreground">
-                {t("pages.crossIssueCollaborationUxLab.noBoundaryNamedNobodyNamedNo")}
+                No boundary named, nobody named, no path forward. The workaround (create a child
+                issue) had to be discovered by trial and error.
               </p>
             </div>
           </Frame>

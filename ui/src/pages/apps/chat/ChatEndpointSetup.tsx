@@ -1127,7 +1127,7 @@ function ProviderConnectStep({
           </div>
           <ol className="list-decimal space-y-3 pl-5 text-sm">
             <li>
-              <strong>{t("pages.apps.chat.chatEndpointSetup.microsoftEntraAdminCenterAppRegistrations")}</strong>:
+              <strong>Microsoft Entra admin center · App registrations</strong>:
               select <strong>{t("pages.apps.chat.chatEndpointSetup.newRegistration")}</strong>, choose{" "}
               <strong>
                 {t("pages.apps.chat.chatEndpointSetup.accountsInThisOrganizationalDirectoryOnly")}
@@ -1135,37 +1135,37 @@ function ProviderConnectStep({
               , then select <strong>{t("pages.apps.chat.chatEndpointSetup.register")}</strong>. Copy{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.applicationClientId")}</strong> and{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.directoryTenantId")}</strong>. Under{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.certificatesSecretsClientSecrets")}</strong>,
+              <strong>Certificates & secrets · Client secrets</strong>,
               select <strong>{t("pages.apps.chat.chatEndpointSetup.newClientSecret")}</strong> and copy its{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.value")}</strong>, not its Secret ID.
             </li>
             <li>
-              <strong>{t("pages.apps.chat.chatEndpointSetup.azureCreateAzureBot")}</strong>: set{" "}
+              <strong>Azure · Create Azure Bot</strong>: set{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.microsoftAppId")}</strong> to{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.singleTenant")}</strong>, set <strong>{t("pages.apps.chat.chatEndpointSetup.creationType")}</strong>{" "}
               to <strong>{t("pages.apps.chat.chatEndpointSetup.useExistingAppRegistration")}</strong>, and enter the
               Application ID and Tenant ID above. After creation, open{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.settingsConfiguration")}</strong> and paste the Paperclip{" "}
+              <strong>Settings · Configuration</strong> and paste the Paperclip{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.messagingEndpoint")}</strong>; then open{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.settingsChannels")}</strong> and enable{" "}
+              <strong>Settings · Channels</strong> and enable{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.microsoftTeams")}</strong>.
             </li>
             <li>
-              <strong>{t("pages.apps.chat.chatEndpointSetup.teamsDeveloperPortalApps")}</strong>: select{" "}
+              <strong>Teams Developer Portal · Apps</strong>: select{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.newApp")}</strong>. Under{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.configureAppFeaturesBot")}</strong>, add an existing
+              <strong>Configure · App features · Bot</strong>, add an existing
               bot using the same Application ID; enable{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.personal")}</strong>, <strong>{t("pages.apps.chat.chatEndpointSetup.team")}</strong>, and{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.groupChat")}</strong> scopes plus file support. Under{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.configurePermissions")}</strong>, add the two RSC{" "}
+              <strong>Configure · Permissions</strong>, add the two RSC{" "}
               <strong>{t("pages.apps.chat.chatEndpointSetup.application")}</strong> permissions shown below. Complete the
               required app details and icons, explain that the app can receive
               every message in an installed team or group chat, then download
               the app package.
             </li>
             <li>
-              <strong>{t("pages.apps.chat.chatEndpointSetup.microsoftTeamsAppsManageYourApps")}</strong>: select{" "}
-              <strong>{t("pages.apps.chat.chatEndpointSetup.uploadAnAppUploadACustom")}</strong>, choose the
+              <strong>Microsoft Teams · Apps · Manage your apps</strong>: select{" "}
+              <strong>Upload an app · Upload a custom app</strong>, choose the
               downloaded package, and install it in each intended personal chat,
               group chat, or team. One team install covers its standard
               channels. Private and shared channels require a separate app
@@ -1265,7 +1265,7 @@ function ProviderConnectStep({
               {t("pages.apps.chat.chatEndpointSetup.underTheTargetUserOrOrganization")}
             </li>
             <li>
-              Keep <strong>{t("pages.apps.chat.chatEndpointSetup.webhooksActive")}</strong> on. Enter the Paperclip
+              Keep <strong>Webhooks · Active</strong> on. Enter the Paperclip
               webhook URL and the Paperclip-generated webhook secret below, and
               keep <strong>{t("pages.apps.chat.chatEndpointSetup.enableSslVerification")}</strong> selected.
             </li>

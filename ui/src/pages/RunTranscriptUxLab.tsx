@@ -11,7 +11,6 @@ import { StatusBadge } from "../components/StatusBadge";
 import { RunTranscriptView, type TranscriptDensity, type TranscriptMode } from "../components/transcript/RunTranscriptView";
 import { runTranscriptFixtureEntries, runTranscriptFixtureMeta } from "../fixtures/runTranscriptFixtures";
 import { ExternalLink, FlaskConical, LayoutPanelLeft, MonitorCog, PanelsTopLeft, RadioTower } from "lucide-react";
-import { useTranslation } from "@/i18n";
 
 type SurfaceId = "detail" | "live" | "dashboard";
 
@@ -64,13 +63,12 @@ function RunDetailPreview({
   streaming: boolean;
   density: TranscriptDensity;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="overflow-hidden rounded-xl border border-border/70 bg-background/80 shadow-[0_24px_60px_rgba(15,23,42,0.08)]">
       <div className="border-b border-border/60 bg-background/90 px-5 py-4">
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="uppercase tracking-(--tracking-caps) text-(length:--text-nano)">
-            {t("pages.runTranscriptUxLab.runDetail")}
+            Run Detail
           </Badge>
           <StatusBadge status={streaming ? "running" : "succeeded"} />
           <span className="text-xs text-muted-foreground">
@@ -102,15 +100,14 @@ function LiveWidgetPreview({
   mode: TranscriptMode;
   density: TranscriptDensity;
 }) {
-  const { t } = useTranslation();
   return (
     <div className="overflow-hidden rounded-xl border border-cyan-500/25 bg-background/85 shadow-[0_20px_50px_rgba(6,182,212,0.10)]">
       <div className="border-b border-border/60 bg-cyan-500/[0.05] px-5 py-4">
         <div className="text-xs font-semibold uppercase tracking-(--tracking-caps) text-cyan-700 dark:text-cyan-300">
-          {t("pages.runTranscriptUxLab.liveRuns")}
+          Live Runs
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
-          {t("pages.runTranscriptUxLab.compactLiveTranscriptStreamForThe")}
+          Compact live transcript stream for the issue detail page.
         </div>
       </div>
       <div className="px-5 py-4">
@@ -198,7 +195,6 @@ function DashboardPreview({
 }
 
 export function RunTranscriptUxLab() {
-  const { t } = useTranslation();
   const [selectedSurface, setSelectedSurface] = useState<SurfaceId>("detail");
   const [detailMode, setDetailMode] = useState<TranscriptMode>("nice");
   const [streaming, setStreaming] = useState(true);
@@ -216,9 +212,9 @@ export function RunTranscriptUxLab() {
                 <FlaskConical className="h-3.5 w-3.5" />
                 UX Lab
               </div>
-              <h1 className="mt-4 text-2xl font-semibold tracking-tight">{t("pages.runTranscriptUxLab.runTranscriptFixtures")}</h1>
+              <h1 className="mt-4 text-2xl font-semibold tracking-tight">Run Transcript Fixtures</h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                {t("pages.runTranscriptUxLab.builtFromARealPaperclipDevelopment")}
+                Built from a real Paperclip development run, then sanitized so no secrets, local paths, or environment details survive into the fixture.
               </p>
             </div>
 
@@ -281,7 +277,7 @@ export function RunTranscriptUxLab() {
 
             <div className="mb-5 flex flex-wrap items-center gap-2">
               <span className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-                {t("pages.runTranscriptUxLab.controls")}
+                Controls
               </span>
               <div className="inline-flex rounded-full border border-border/70 bg-background/80 p-1">
                 {(["nice", "raw"] as const).map((mode) => (

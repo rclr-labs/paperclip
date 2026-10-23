@@ -13,7 +13,6 @@
         "deny": "Deny",
         "oneShot": "One-shot",
         "persistent": "Persistent",
-        "claudeCli": "Claude CLI",
         "defaultAcp": "Default (ACP)"
       }
     },
@@ -48,7 +47,6 @@
         "oneShot": "One-shot",
         "persistent": "Persistent",
         "geminiAcp": "gemini --acp",
-        "geminiCli": "Gemini CLI",
         "defaultAcp": "Default (ACP)"
       }
     },
@@ -75,134 +73,6 @@
       "configfields": {
         "eGScriptJsFlag": "e.g. script.js, --flag",
         "eGNodePython": "e.g. node, python"
-      }
-    }
-  },
-  "artifactdirections": {
-    "directions": {
-      "d1solid": {
-        "gallery": {
-          "noArtifactsInThisStackMatch": "No artifacts in this stack match the current filters.",
-          "noArtifactStacksYet": "No artifact stacks yet."
-        },
-        "galleryTile": {
-          "lastEdited": "Last edited"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here."
-        },
-        "panelCard": {
-          "noPreviewAvailable": "No preview available"
-        },
-        "panelLead": {
-          "playVideo": "Play video"
-        },
-        "threadAttachments": {
-          "attachments": "Attachments"
-        }
-      },
-      "d2tint": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "No artifacts in this stack match the current filters."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "No artifact stacks yet."
-        },
-        "kindTally": {
-          "contentsByKind": "Contents by kind"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here."
-        },
-        "panelIndex": {
-          "filterArtifacts": "Filter artifacts"
-        }
-      },
-      "d3tactile": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "No artifacts in this stack match the current filters."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "No artifact stacks yet."
-        },
-        "panelBody": {
-          "all": "All",
-          "show": "Show",
-          "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here."
-        },
-        "threadAttachments": {
-          "attachments": "Attachments",
-          "moreImages": "more images"
-        }
-      },
-      "d4hybrid": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "No artifacts in this stack match the current filters."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "No artifact stacks yet."
-        },
-        "kindTally": {
-          "contentsByKind": "Contents by kind"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here."
-        },
-        "panelIndex": {
-          "filterArtifacts": "Filter artifacts"
-        }
-      },
-      "d5v1mvp": {
-        "galleryView": {
-          "showArtifactsByTaskOrBy": "Show artifacts by task or by type",
-          "searchArtifacts": "Search artifacts",
-          "searchArtifacts2": "Search artifacts..."
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here."
-        }
-      }
-    },
-    "frames": {
-      "appShell": {
-        "primary": "Primary"
-      },
-      "board": {
-        "galleryStack": "Gallery + stack",
-        "panel": "Panel",
-        "thread": "Thread"
-      },
-      "galleryFrame": {
-        "filterArtifactsByType": "Filter artifacts by type",
-        "groupArtifactsCurrentlyTask": "Group artifacts (currently Task)",
-        "searchArtifacts": "Search artifacts",
-        "searchArtifacts2": "Search artifacts...",
-        "artifacts": "Artifacts"
-      },
-      "labToolbar": {
-        "05KitTThemeA": "0–5 kit · t theme · a animation",
-        "artifactSurfaces": "Artifact surfaces",
-        "artifactDirections": "Artifact directions"
-      },
-      "panelFrame": {
-        "openANewTab": "Open a new tab"
-      },
-      "threadFrame": {
-        "deckPdf": "deck PDF",
-        "checks": "Checks",
-        "editingSource": "editing source",
-        "slideOverview": "slide overview",
-        "matchingPdf": "matching PDF",
-        "editablePowerpoint": "editable PowerPoint",
-        "findingsAndBeforeAfterChanges": "findings and before/after changes",
-        "interfaceCraftRevisionComplete": "Interface Craft revision complete.",
-        "tasks": "Tasks"
-      },
-      "threadparts": {
-        "worked": "Worked",
-        "badResponse": "Bad response",
-        "goodResponse": "Good response",
-        "copyMessage": "Copy message"
       }
     }
   },
@@ -292,9 +162,7 @@
       "completingTheLogin": "Completing the login…",
       "submit": "Submit",
       "browserCode": "Browser code",
-      "2BrowserCode": "2. Browser code",
       "openTheAuthorizationPage": "Open the authorization page",
-      "1AuthorizationUrl": "1. Authorization URL",
       "openTheAuthorizationPageThenEnter": "Open the authorization page, then enter the browser code it shows.",
       "thisConnectionIsNotEncryptedThe": "This connection is not encrypted. The login code travels in clear text on this network. Continue only on a network you trust.",
       "preparing": "Preparing...",
@@ -307,8 +175,6 @@
       "agentBoundToTheSignedIn": "Agent bound to the signed-in account.",
       "bindingThisAgentToTheSigned": "Binding this agent to the signed-in account...",
       "openTheAuthenticationPage": "Open the authentication page",
-      "2AuthenticationUrl": "2. Authentication URL",
-      "1Code": "1. Code",
       "copyTheCodeThenOpenThe": "Copy the code, then open the authentication page.",
       "signIn": "Sign in",
       "cancelPreviousSignInAndRetry": "Cancel previous sign-in and retry",
@@ -319,7 +185,6 @@
       "optionalInitialSetupPromptForThe": "Optional initial setup prompt for the first run",
       "configuration": "Configuration",
       "codexMayRejectMinimalThinkingWhen": "Codex may reject `minimal` thinking when search is enabled.",
-      "grokBot": "Grok Bot",
       "adapter": "Adapter",
       "environmentOverride": "Environment override",
       "environment": "Environment",
@@ -863,7 +728,6 @@
       "theRoutineRejectedThisDeliveryCheck": "The routine rejected this delivery. Check the routine in Grok before retrying.",
       "lastAuthenticatedContact": "Last authenticated contact",
       "lastVerifiedExchange": "Last verified exchange",
-      "bot": "Bot",
       "enableGrokBotAssistantConnectionsMcp": "Enable Grok Bot, Assistant connections (MCP), and Paperclip Runner on an authenticated public HTTPS instance.",
       "loadingConnection": "Loading connection…",
       "runsInGrokBotTheBot": "Runs in Grok Bot. The Bot retains its apps and persistent context. Paperclip supplies task coordination and first-party tools. Usage and spending are not reported.",
@@ -1075,7 +939,6 @@
       "recoversTheExistingRun": "recovers the existing run",
       "keepsThisTask": "keeps this task",
       "restoreTo": "Restore to",
-      "timestamp": "<timestamp>",
       "rescueBranch": "Rescue branch",
       "leftUntouched": "(left untouched)",
       "liveBranch": "Live branch",
@@ -1084,8 +947,6 @@
       "eGVerifiedTheLiveBranch": "e.g. Verified the live branch carries only the intended follow-up commits; safe to adopt.",
       "requiredRecordedInTheAuditLog": "(required — recorded in the audit log)",
       "ancestryVerdict": "Ancestry verdict",
-      "liveCheckedOut": "Live · checked out",
-      "recordedExpected": "Recorded · expected",
       "withoutAnAncestryProof": "without an ancestry proof",
       "divergenceDiagnosis": "Divergence diagnosis",
       "detachedUnknown": "detached / unknown"
@@ -1141,7 +1002,6 @@
       "theBindingWasNotCreated": "The binding was not created.",
       "errorCode": "Error code",
       "theRequestWasAcceptedButExecution": "The request was accepted, but execution failed closed. No secret value was exposed.",
-      "failedBindingWasNotCreated": "FAILED · binding was not created",
       "paperclipIsReCheckingAuthorityAnd": "Paperclip is re-checking authority and the proposal snapshot before writing.",
       "newConfigPath": "New config path",
       "targetAgent": "Target agent",
@@ -1251,7 +1111,6 @@
       "refresh": "Refresh",
       "unableToConfirmYourAccountRefresh": "Unable to confirm your account. Refresh to inspect this Muse connection.",
       "saveTheAgentThenConnectYour": "Save the agent, then connect your personal Muse here.",
-      "openMuse": "Open Muse",
       "disconnect": "Disconnect",
       "pauseAgent": "Pause agent",
       "confirmWorkerStopped": "Confirm worker stopped",
@@ -1506,7 +1365,6 @@
       "defaultAgentRequiredForThisRun": "Default agent required for this run.",
       "project": "Project",
       "agent": "Agent",
-      "agent2": "Agent *",
       "chooseTheAgentAndOptionalProject": "Choose the agent and optional project for this one run. Routine defaults are prefilled and won't be changed.",
       "runRoutine": "Run routine"
     },
@@ -1714,16 +1572,12 @@
       "author": "Author",
       "skills": "Skills"
     },
-    "smokeLabDashboardCard": {
-      "integrationSmoke": "Integration smoke"
-    },
     "sourceResolvedFoldBadge": {
       "sourceResolvedWatchdogFold": "Source-resolved watchdog fold"
     },
     "sourceResolvedFoldCallout": {
       "thisRunWasFoldedAsA": "This run was folded as a source-resolved false positive.",
       "systemAudit": "system audit",
-      "sourceResolvedFold": "SOURCE-RESOLVED FOLD",
       "sourceResolvedWatchdogFold": "Source-resolved watchdog fold"
     },
     "stageSecretsPanel": {
@@ -2019,12 +1873,8 @@
         "modelSettings": "Model settings",
         "apiKey": "API key",
         "noAuthentication": "No authentication",
-        "apiKeyXApiKey": "API key · x-api-key",
         "authentication": "Authentication",
         "awsRegion": "AWS region",
-        "chatCompletionsOpencodeHermes": "Chat Completions · OpenCode, Hermes",
-        "anthropicMessagesClaude": "Anthropic Messages · Claude",
-        "openaiResponsesCodex": "OpenAI Responses · Codex",
         "apiFormat": "API format",
         "providerUrl": "Provider URL",
         "cancel": "Cancel",
@@ -2190,19 +2040,6 @@
         "chooseTheSharedConnectionPaperclipUses": "Choose the shared connection Paperclip uses for optional decision features. API usage is charged to this connection.",
         "viewUsage": "View usage",
         "decisionModel": "Decision model"
-      }
-    },
-    "designsandbox": {
-      "conversationPlayback": {
-        "showSavedThread": "Show saved thread"
-      },
-      "designSandboxTaskThread": {
-        "productionRenderersSyntheticDataPreviewActions": "Production renderers · synthetic data · preview actions stay local",
-        "showSavedThread": "Show saved thread",
-        "resetReplay": "Reset / replay",
-        "savedThread": "Saved thread",
-        "threadPreviewState": "Thread preview state",
-        "threadPreview": "Thread preview"
       }
     },
     "environmentvariableseditor": {
@@ -2434,8 +2271,6 @@
         "inviteAnExternalAgent": "Invite an external agent",
         "eGDarnold": "e.g. Darnold",
         "agentName": "Agent name",
-        "2Adapter": "2. Adapter",
-        "1Name": "1. Name",
         "newAgentProgress": "New agent progress"
       },
       "agentProviderConnection": {
@@ -2444,7 +2279,6 @@
       },
       "externalAgentInviteContent": {
         "createANewPrompt": "Create a new prompt",
-        "openMuse": "Open Muse",
         "preparing": "Preparing…",
         "reconnectMuse": "Reconnect Muse",
         "done": "Done",
@@ -2458,7 +2292,6 @@
         "testBackgroundReply": "Test background reply",
         "museUsesItsOwnApprovedTools": "Muse uses its own approved tools. Provider usage and cost are unavailable to Paperclip.",
         "role": "Role",
-        "muse": "Muse",
         "agentName": "Agent name",
         "loadingMuseSetup": "Loading Muse setup…",
         "loadingMuseInvitation": "Loading Muse invitation…",
@@ -2491,8 +2324,7 @@
         "paperclipName": "Paperclip name",
         "anOrganizationAdminNeedsToApprove": "An organization admin needs to approve this agent. Setup is saved and will resume after approval.",
         "restoringSavedSetup": "Restoring saved setup…",
-        "tryAgain": "Try again",
-        "grokBotSetup": "Grok Bot setup"
+        "tryAgain": "Try again"
       },
       "newAgentSetup": {
         "saveExit": "Save & exit",
@@ -2547,7 +2379,6 @@
         "braintrustProjectUuid": "Braintrust project UUID",
         "projectId": "Project ID",
         "customOtlp": "Custom OTLP",
-        "braintrust": "Braintrust",
         "destination": "Destination",
         "manageConnectionsPermissionIsRequiredTo": "Manage connections permission is required to configure agent observability.",
         "sendCodexAndClaudeCodeLogs": "Send Codex and Claude Code logs and traces to your observability service.",
@@ -3014,8 +2845,7 @@
         "reconnectView": "Reconnect view",
         "reconnectTheViewOrOpenThis": "Reconnect the view or open this task in another browser. The remote browser is still running.",
         "theLiveViewDidNotLoad": "The live view did not load",
-        "connectingToBrowser": "Connecting to browser…",
-        "liveBrowserUseBrowser": "Live Browser Use browser"
+        "connectingToBrowser": "Connecting to browser…"
       },
       "taskDocumentPanel": {
         "documentIsEmpty": "Document is empty.",
@@ -3081,8 +2911,7 @@
         "conversationTask": "Conversation task",
         "callTranscript": "Call transcript",
         "agentCostsAreSeparateRecordingsRemain": "Agent costs are separate. Recordings remain in Speko.",
-        "duration": "Duration",
-        "spekoCharge": "Speko charge"
+        "duration": "Duration"
       },
       "spekoIncomingCalls": {
         "retryTasks": "Retry tasks",
@@ -3311,13 +3140,6 @@
           "tryAgain": "Try again"
         }
       }
-    }
-  },
-  "fixtures": {
-    "taskChatPerfHarness": {
-      "replyToTheTask": "Reply to the task",
-      "reply": "Reply",
-      "taskChat200Responses4000": "Task chat: 200 responses, 4,000 tools"
     }
   },
   "pages": {
@@ -3641,26 +3463,6 @@
       "loadingClaimChallenge": "Loading claim challenge...",
       "invalidBoardClaimUrl": "Invalid board claim URL."
     },
-    "bootstrapSetupUxLab": {
-      "bootstrapPendingSetupStates": "Bootstrap-pending setup states",
-      "uxLab": "UX Lab",
-      "browserBasedClaimIsIntentionallyDisabled": "Browser‑based claim is intentionally disabled in public mode so anyone on the network can’t promote themselves.",
-      "thisInstanceRunsInInviteOnly": "This instance runs in invite‑only mode. The operator must generate a one‑time first‑admin invite URL from the host. Once you have the link, open it from this browser to finish setup.",
-      "thisPaperclipIsWaitingOnIts": "This Paperclip is waiting on its first admin",
-      "continueToDashboard": "Continue to dashboard",
-      "redirecting": "Redirecting…",
-      "setupIsCompleteTakingYouTo": "Setup is complete. Taking you to onboarding to create your first organization…",
-      "youReTheInstanceAdmin": "You’re the instance admin",
-      "settingsAccess": "Settings → Access",
-      "someoneElseHasAlreadyClaimedThis": "Someone else has already claimed this instance.",
-      "claimThisInstance": "Claim this instance",
-      "noAdminHasClaimedThisInstance": "No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding.",
-      "finishSettingUpThisPaperclip": "Finish setting up this Paperclip",
-      "switchAccount": "Switch account",
-      "signInCreateAccount": "Sign in / Create account",
-      "noAdminHasClaimedThisInstance2": "No admin has claimed this instance yet. Sign in or create your Paperclip account to become the first admin from this browser.",
-      "preferToFinishSetupFromThe": "Prefer to finish setup from the host?"
-    },
     "caseDetail": {
       "viewInAudit": "View in Audit",
       "updated": "Updated",
@@ -3897,7 +3699,6 @@
       "bothSidesAreTheSameVersion": "Both sides are the same version.",
       "selectAVersionToCompare": "Select a version to compare.",
       "initial": "Initial",
-      "diffSkillFiles": "Diff · skill files",
       "noSkillsMatchThisFilter": "No skills match this filter.",
       "clearFilter": "Clear filter",
       "latest": "Latest",
@@ -4009,7 +3810,6 @@
       "bothSidesAreTheSameVersion": "Both sides are the same version.",
       "selectAVersionToCompare": "Select a version to compare.",
       "initial": "Initial",
-      "diffSkillFiles": "Diff · skill files",
       "noSkillsMatchThisFilter": "No skills match this filter.",
       "clearFilter": "Clear filter",
       "latest": "Latest",
@@ -4087,14 +3887,6 @@
       "accountLevelChargesThatDoNot": "Account-level charges that do not map to a single inference request.",
       "financeLedger": "Finance ledger"
     },
-    "crossIssueCollaborationUxLab": {
-      "noBoundaryNamedNobodyNamedNo": "No boundary named, nobody named, no path forward. The workaround (create a child issue) had to be discovered by trial and error.",
-      "403ForbiddenIssueIsOutsideThis": "403 Forbidden: Issue is outside this actor's authorization boundary",
-      "agentsMayNowWriteToAny": "Agents may now write to any task they can read. These are the three surfaces that keep that legible: whose authority a comment rode, what an edit changed, and — when a write is refused — which boundary fired and what to do instead.",
-      "openCrossTaskCollaborationAttributionAudit": "Open cross-task collaboration — attribution, audit, and denial copy",
-      "openCrossTaskCollaboration": "Open cross-task collaboration",
-      "2mAgo": "2m ago"
-    },
     "dashboard": {
       "noTasksYet": "No tasks yet.",
       "recentTasks": "Recent Tasks",
@@ -4119,196 +3911,6 @@
       "decisionsLandHereWhenTheyMatch": "Decisions land here when they match the queue's rules or an agent adds them.",
       "thisQueueIsEmpty": "This queue is empty.",
       "selectAnOrganizationFirst": "Select an organization first."
-    },
-    "designGuide": {
-      "builtinagentgateAgentkey": "<BuiltInAgentGate agentKey>",
-      "imagesAndVideosUseGalleryTiles": "Images and videos use gallery tiles. The whole tile opens the task gallery; files and links keep compact, fully clickable rows. Task/Artifact Gallery in Storybook covers playable videos, mixed files, narrow panels, and unavailable previews.",
-      "eachBrowserAppearsOnceAtIts": "Each browser appears once at its opening time among the task messages. Its status updates in place; the action opens its side-panel tab.",
-      "fitToPaneFollowsTheVisible": "Fit to pane follows the visible panel. Fixed viewport presets and session actions live in the footer menu. Costs stay in task reporting. The idle countdown appears only in the final five minutes. Full panel, activity, and settings states are in Storybook under Browser Use.",
-      "uploadedTextOpensInANamed": "Uploaded text opens in a named task tab. Markdown offers Rendered and Raw icon controls; every text file has a download action.",
-      "compactVariantForEmbeddingInsideDialogs": "Compact variant for embedding inside dialogs and modals.",
-      "theLinkedIssueReachedATerminal": "The linked issue reached a terminal state before a summary was written.",
-      "retry": "Retry",
-      "itsBuiltInAgentWasPaused": "Its built-in agent was paused 2 days ago, so new briefs aren't being generated.",
-      "resumeAgent": "Resume agent",
-      "viewAgent": "View agent",
-      "briefs": "Briefs",
-      "resetToDefaults": "Reset to defaults",
-      "bgBlue": "bg-blue-*",
-      "bgYellow": "bg-yellow-*",
-      "panelC": "Panel C",
-      "panelBCollapsible": "Panel B (collapsible)",
-      "panelA": "Panel A",
-      "previewOnlyThisFieldDoesNot": "Preview only. This field does not save or submit a credential.",
-      "agentmailSetupHasTwoStepsPick": "AgentMail setup has two steps: pick an agent, then pick an email address. Ask for the API key alongside the agent only when needed. Keep address errors beside the field and additional settings under Advanced options.",
-      "theTaskCardIsTheDialog": "The task card is the dialog host for the shared connection setup flow. Provider forms, validation, OAuth, access selection, and completion come from the same feature module as the full-page Apps setup; this card owns only audience, dialog, and task refresh behavior. Pending connections stay in the timeline beside a usable composer. The independently addressable Connections/In-task connections stories cover access, OAuth recovery, narrow layouts, completion, and historical outcomes. AgentMail uses an inline API-key field with fixed access defaults; its field and direct key-page link are shared with Apps setup.",
-      "forANamedRecipientPassThe": "For a named recipient, pass the optional agent name and logo. The same copy feedback, preview, and manual clipboard recovery apply.",
-      "useAgentsetuppromptForPromptsHandedTo": "Use AgentSetupPrompt for prompts handed to an external agent: connections, webhook setup, onboarding, and task handoffs. One click copies the complete prompt, opens its preview, and confirms success inline; clipboard failures offer selectable text.",
-      "chooseAnAgentYouAlreadyUse": "Choose an agent you already use.",
-      "inviteAnExternalAgent": "Invite an external agent",
-      "previewInvitationModal": "Preview invitation modal",
-      "matchTheHarnessPickerWithProvider": "Match the harness picker with provider cards. Connection checks reflect confirmed server evidence. AnimatedDialogContent resizes to its content using motion tokens and respects reduced motion.",
-      "recoveryRunsInTheBackgroundTask": "Recovery runs in the background. Task lists keep their ordinary status without execution badges. Active transcript headers keep saying Working during automatic recovery. Recovery decisions and attempts belong in the run log; there is no execution status card or reconciliation form.",
-      "aDecisionCardSitsAboveThe": "A decision card sits above the ordinary message composer. Dismiss the card to keep a reopen control, or resolve it to clear the pending state.",
-      "storybookSRecoveryNoticeStoriesShow": "Storybook’s Recovery notice stories show the actionable, pending, acknowledged, unavailable, failed, and mobile states using this production component.",
-      "productEnvironmentVariablesEditor": "Product/Environment Variables Editor",
-      "loadingErrorsEmptySearchMobileAnd": "Loading, errors, empty search, mobile, and short viewports are covered in the Project repos Storybook stories.",
-      "theSharedFiletreeExplorerLayoutPuts": "The shared FileTree explorer layout puts disclosure controls beside selection, with compact folder chains, equal-height rows, inline skill descriptions, and trailing status badges. Folders select descendant packages; package checkboxes select only that package, independently of nested skills. Included files use aligned rows without individual checkboxes (`getCheckboxState` returns null); package rows use `renderNodeExtra` for file counts and inspection. Use arrow keys to navigate and Space to select.",
-      "identicalContentTheThreeButtonsStack": "Identical content; the three buttons stack full-width in the order Approve / Deny / Edit & re-sign, and the bindings table uses a 70px label column.",
-      "approve": "Approve",
-      "whenAnIssueHasProducedNo": "When an issue has produced no artifact work products, the Output section renders nothing at all (no placeholder card).",
-      "ring2RingRing": "ring-2 ring-ring",
-      "installedN": "INSTALLED · N",
-      "installed2": "Installed · 2",
-      "optional2": "Optional · 2",
-      "bundled1": "Bundled · 1",
-      "right": "Right",
-      "left": "Left",
-      "horizontal": "Horizontal",
-      "total": "Total",
-      "cost": "Cost",
-      "tokens": "Tokens",
-      "model": "Model",
-      "comment": "Comment",
-      "leaveAComment": "Leave a comment...",
-      "apiKeysHaveBeenAddedTo": "API keys have been added to the vault. Please proceed.",
-      "jan162025": "Jan 16, 2025",
-      "human": "Human",
-      "startedWorkingOnTheAuthenticationModule": "Started working on the authentication module. Will need API keys configured.",
-      "jan152025": "Jan 15, 2025",
-      "agent": "Agent",
-      "comments2": "Comments (2)",
-      "inProgress": "In Progress",
-      "layoutAcceptsSidebarsectionsToComposeAdditional": "Layout accepts sidebarSections to compose additional SidebarSection groups inside the shared sidebar. Use SidebarNavItem for each row, with sibling action buttons for starring or menus. The Chats section shows starred agents, the earliest-created agent when unstarred, then four recent agents without duplicates. Compose and star controls share a vertical column. Compose appears on hover or keyboard focus and remains visible on touch; starred icons remain visible. The picker searches all company agents by name or role without a subtitle, count, continuation labels, or footer. Task breadcrumbs support leading identity and trailing actions beside the label, including single-item task headers; see the Agent chat Storybook.",
-      "continue": "Continue",
-      "sharedByConnectionSetupAndTrigger": "Shared by connection setup and trigger previews. Setup navigation takes over the section sidebar; each step owns a single footer.",
-      "zapierArcadeComposioAndExecutorEach": "Zapier, Arcade, Composio and Executor each own a connection. Their controlled setup views share Access → Connect. Tool discovery completes setup. Saved connections reuse the standard Permissions action list and per-action Test dialog. Storybook’s Apps / Connections groups use in-memory provider fixtures.",
-      "created": "Created",
-      "agentAlpha": "Agent Alpha",
-      "responsible": "Responsible",
-      "priority": "Priority",
-      "status": "Status",
-      "live": "Live",
-      "save": "Save",
-      "cancel": "Cancel",
-      "describe": "Describe...",
-      "description": "Description",
-      "enterAName": "Enter a name",
-      "name": "Name",
-      "thisIsASampleDialogShowing": "This is a sample dialog showing the standard layout with header, content, and footer.",
-      "dialogTitle": "Dialog Title",
-      "openDialog": "Open Dialog",
-      "settings": "Settings",
-      "thisIsATooltip": "This is a tooltip",
-      "hoverMe": "Hover me",
-      "placeOneLiveCharacterBesideThe": "Place one live character beside the agent name. Onboarding uses a larger padded frame. Onboarding and agent headers follow the pointer across the page; other placements track within their region. Full-page examples are in Storybook under Agents / Personas / Full pages.",
-      "resetFilters": "Reset filters",
-      "commentsContent": "Comments content.",
-      "detailsContent": "Details content.",
-      "summaryContentWithUnderlineTabs": "Summary content with underline tabs.",
-      "comments": "Comments",
-      "details": "Details",
-      "summary": "Summary",
-      "costsTabContent": "Costs tab content.",
-      "configTabContent": "Config tab content.",
-      "runsTabContent": "Runs tab content.",
-      "overviewTabContent": "Overview tab content.",
-      "costs": "Costs",
-      "config": "Config",
-      "runs": "Runs",
-      "overview": "Overview",
-      "action": "Action",
-      "cardContentGoesHereThisIs": "Card content goes here. This is the main body area.",
-      "cardDescriptionWithSupportingText": "Card description with supporting text.",
-      "cardTitle": "Card Title",
-      "theDashboardAndLiveRunsPage": "The dashboard and Live runs page use the same compact cards. In-progress task icons animate across the app, including between runs, to represent task workflow status. Live indicators report active execution. Open a run to view its status and transcript.",
-      "issueList": "Issue List",
-      "paperclipApp": "Paperclip App",
-      "projects": "Projects",
-      "noResultsFound": "No results found.",
-      "typeACommandOrSearch": "Type a command or search...",
-      "title": "Title",
-      "editMetadataWithoutLeavingTheCurrent": "Edit metadata without leaving the current page.",
-      "issueProperties": "Issue Properties",
-      "openSidePanel": "Open Side Panel",
-      "filterByAgentName": "Filter by agent name",
-      "owner": "Owner",
-      "wakeNow": "Wake now",
-      "lastRunSucceeded24sAgoNext": "Last run succeeded 24s ago. Next timer run in 9m.",
-      "agentHeartbeat": "Agent heartbeat",
-      "openPopover": "Open Popover",
-      "watchIssue": "Watch issue",
-      "low": "Low",
-      "medium": "Medium",
-      "high": "High",
-      "critical": "Critical",
-      "done": "Done",
-      "inReview": "In Review",
-      "todo": "Todo",
-      "backlog": "Backlog",
-      "selectStatus": "Select status",
-      "nativeSingleValueDropdownsShareAn": "Native single-value dropdowns share an inset, theme-aware caret and reserve room for it in the base stylesheet. Multiple-selection lists and controls with a custom icon keep their own appearance.",
-      "addADescription": "Add a description...",
-      "descriptionMultilineAutoSizing": "Description (multiline, auto-sizing)",
-      "bodyTextSingleLine": "Body text (single-line)",
-      "titleSingleLine": "Title (single-line)",
-      "disabledItem": "Disabled item",
-      "uncheckedItem": "Unchecked item",
-      "checkedItem": "Checked item",
-      "writeSomething": "Write something...",
-      "disabledInput": "Disabled input",
-      "defaultInput": "Default input",
-      "customPx": "custom px",
-      "onlineBlueGlow": "online · blue glow",
-      "agentNb": "--agent-Nb",
-      "agentNa": "--agent-Na",
-      "noTitleNeverALink": "no title, never a link",
-      "variantProperty": "variant=\"property\"",
-      "ghost": "Ghost",
-      "destructive": "Destructive",
-      "outline": "Outline",
-      "secondary": "Secondary",
-      "default": "Default",
-      "disabledOutline": "Disabled Outline",
-      "disabled": "Disabled",
-      "large": "Large",
-      "small": "Small",
-      "extraSmall": "Extra Small",
-      "link": "Link",
-      "logCodeTextFontMonoText": "Log/code text — font-mono text-xs",
-      "largeStatText2xlFontBold": "Large stat — text-2xl font-bold",
-      "monoIdentifierTextSmFontMono": "Mono identifier — text-sm font-mono text-muted-foreground",
-      "tinyLabelTextXsTextMuted": "Tiny label — text-xs text-muted-foreground",
-      "mutedDescriptionTextSmTextMuted": "Muted description — text-sm text-muted-foreground",
-      "bodyTextTextSm": "Body text — text-sm",
-      "cardTitleAltTextSmFont": "Card Title Alt — text-sm font-semibold",
-      "cardTitleTextSmFontMedium": "Card Title — text-sm font-medium",
-      "sectionHeadingTextSmFontSemibold": "Section Heading — text-sm font-semibold uppercase tracking-wide",
-      "sectionTitleTextLgFontSemibold": "Section Title — text-lg font-semibold",
-      "pageTitleTextXlFontBold": "Page Title — text-xl font-bold",
-      "more": "More",
-      "updated12mAgo": "Updated 12m ago",
-      "1TaskUpdatedNewestFirst": "1 task · Updated newest first",
-      "newTask": "New task",
-      "filter": "Filter",
-      "searchTasks": "Search tasks...",
-      "searchTaskCollectionExample": "Search task collection example",
-      "recentTasks": "Recent tasks",
-      "collectiontoolbarOwnsSharedGeometryWhileEach": "CollectionToolbar owns shared geometry while each page owns its state and behavior. The canonical task row is opt-in during migration: status leads, unread work uses title emphasis, metadata remains stable, and the task identifier trails.",
-      "thisPageShouldBeUpdatedWhen": "This page should be updated when new UI primitives or app-level patterns ship.",
-      "everyComponentStyleAndPatternUsed": "Every component, style, and pattern used across Paperclip.",
-      "designGuide": "Design Guide",
-      "plusMenuRemovableModeChip": "Plus menu · removable mode chip",
-      "failedPicker": "Failed picker",
-      "loadingPicker": "Loading picker",
-      "emptyPicker": "Empty picker",
-      "startFresh": "Start fresh",
-      "useDraft": "Use draft",
-      "shouldTheAgentUseTheExisting": "Should the agent use the existing draft?"
-    },
-    "designSandboxTasks": {
-      "loadingTasks": "Loading tasks…",
-      "retry": "Retry"
     },
     "executionWorkspaceDetail": {
       "loadingWorkspacePlugin": "Loading workspace plugin...",
@@ -4347,8 +3949,7 @@
       "workspaceRoutines": "Workspace routines",
       "viewRuntimeLogs": "View runtime logs",
       "runsOnceBeforeTheFirstRuntime": "Runs once before the first runtime-service start.",
-      "deferred": "Deferred",
-      "eagerProvisionedDuringWorkspaceSetup": "Eager · provisioned during workspace setup"
+      "deferred": "Deferred"
     },
     "goalDetail": {
       "noLinkedProjects": "No linked projects.",
@@ -4445,83 +4046,6 @@
       "refreshThisPageAfterYouVe": "Refresh this page after you've been approved — you'll be redirected automatically.",
       "settingsMembers": "Settings → Members",
       "approvalPage": "Approval page"
-    },
-    "inviteUxLab": {
-      "coveredStates": "Covered states",
-      "fixtureBackedPreview": "fixture-backed preview",
-      "signupInviteStates": "signup + invite states",
-      "thisPageCollectsTheCurrentInvite": "This page collects the current invite landing, signup, approval-result, and organization invite-management states in one place so styling changes can be reviewed without recreating each backend condition by hand.",
-      "inviteAndSignupUxReviewSurface": "Invite and signup UX review surface",
-      "youDoNotHavePermissionTo": "You do not have permission to manage organization invites.",
-      "permissionError": "Permission error",
-      "noInvitesHaveBeenCreatedFor": "No invites have been created for this organization yet.",
-      "emptyHistoryState": "Empty history state",
-      "action": "Action",
-      "joinRequest": "Join request",
-      "created": "Created",
-      "invitedBy": "Invited by",
-      "role": "Role",
-      "state": "State",
-      "openJoinRequestQueue": "Open join request queue",
-      "reviewInviteStatusRoleInviterAnd": "Review invite status, role, inviter, and any linked join request.",
-      "inviteHistory": "Invite history",
-      "thisUrlIncludesTheCurrentPaperclip": "This URL includes the current Paperclip domain returned by the server.",
-      "latestInviteLink": "Latest invite link",
-      "inviteHistoryBelowKeepsTheAudit": "Invite history below keeps the audit trail.",
-      "createInvite": "Create invite",
-      "eachInviteLinkIsSingleUse": "Each invite link is single-use. Human invitees get the selected role immediately after sign-in; agent invites still create a join request for approval.",
-      "chooseARole": "Choose a role",
-      "generateAHumanInviteLinkAnd": "Generate a human invite link and choose the default access it should request.",
-      "thisFrameMirrorsTheProductionAuth": "This frame mirrors the production auth surface so spacing, label density, button treatments, and desktop composition are easy to compare.",
-      "sideBySideSignupStylingReview": "Side-by-side signup styling review",
-      "authPreview": "Auth preview",
-      "password": "Password",
-      "email": "Email",
-      "name": "Name",
-      "postApiAgentsClaimApiKey": "POST /api/agents/claim-api-key",
-      "claimSecret": "Claim secret",
-      "refreshThisPageAfterYouVe": "Refresh this page after you've been approved — you'll be redirected automatically.",
-      "settingsMembers": "Settings → Members",
-      "approvalPage": "Approval page",
-      "openBoard": "Open board",
-      "acceptInvite": "Accept invite",
-      "submittingRequest": "Submitting request...",
-      "acceptOrganizationInvite": "Accept organization invite",
-      "submitRequest": "Submit request",
-      "capabilities": "Capabilities",
-      "cursor": "Cursor",
-      "claudeCode": "Claude Code",
-      "codex": "Codex",
-      "adapterType": "Adapter type",
-      "agentName": "Agent name",
-      "thisInviteWillCreateAnApproval": "This invite will create an approval request for a new agent in Acme Robotics.",
-      "submitAgentDetails": "Submit agent details",
-      "iAlreadyHaveAnAccount": "I already have an account",
-      "createAccount": "Create account",
-      "messageFromInviter": "Message from inviter",
-      "youVeBeenInvitedToJoin": "You've been invited to join Paperclip"
-    },
-    "issueChatLongThreadPerf": {
-      "fixtureShape": "Fixture shape",
-      "baselineMetrics": "Baseline metrics",
-      "subIssues": "Sub-issues",
-      "issueDocuments": "Issue documents",
-      "deterministicLocalFixtureForMeasuringThe": "Deterministic local fixture for measuring the current direct-render issue chat path with hundreds of merged thread rows, markdown-heavy assistant bodies, linked runs, documents, sub-issues, and sidebar context."
-    },
-    "issueChatUxLab": {
-      "thisRouteShouldBeTheFastest": "This route should be the fastest way to inspect the chat system before or after tweaks.",
-      "whatToEvaluateOnThisPage": "What to evaluate on this page",
-      "for1Min24s": "for 1 min 24s",
-      "completedRunStatic": "Completed run — static",
-      "for12s": "for 12s",
-      "working": "Working",
-      "activeRunShimmer": "Active run — shimmer",
-      "fastInterval1sStressTest": "Fast interval (1s) — stress test",
-      "defaultInterval22s": "Default interval (2.2s)",
-      "fixtureBackedLiveRun": "fixture-backed live run",
-      "assistantUiThread": "assistant-ui thread",
-      "thisPageExercisesTheRealAssistant": "This page exercises the real assistant-ui issue chat with fixture-backed messages. Use it to review spacing, chronology, running states, tool rendering, activity rows, queueing, and composer behavior without needing a live issue in progress.",
-      "issueChatReviewSurface": "Issue chat review surface"
     },
     "issueDetail": {
       "taskSidePanel": "Task side panel",
@@ -4661,7 +4185,6 @@
       "selectAnOrganizationToConfigureThis": "Select an organization to configure this plugin's local folders.",
       "noSpecialPermissionsRequested": "No special permissions requested.",
       "version": "Version",
-      "npmPackage": "NPM Package",
       "pluginKey": "Plugin Key",
       "pluginId": "Plugin ID",
       "details": "Details",
@@ -4730,23 +4253,6 @@
     "projects": {
       "noProjectsMatchYourSearch": "No projects match your search."
     },
-    "responsibleUserDenialUxLab": {
-      "forbiddenResponsibleUserUnavailable": "Forbidden: responsible user unavailable",
-      "responsibleUserDenialNoticeIntentionallyAbsent": "Responsible-user denial notice intentionally absent for non-responsible-user codes.",
-      "forbiddenAgentIsNotPermittedTo": "Forbidden: agent is not permitted to perform this action",
-      "forbiddenActionNotPermitted": "Forbidden: action not permitted",
-      "beforeAfterOfTheTwoRun": "Before/after of the two run surfaces and the four denial-related states.",
-      "runOnBehalfOfSurfacingDenial": "Run \"on behalf of\" surfacing + denial copy",
-      "pap12462P7": "PAP-12462 · P7",
-      "codexLocal": "codex local",
-      "runA1b2c3d4": "Run a1b2c3d4",
-      "stop": "Stop",
-      "lastUsefulAction": "Last useful action",
-      "elapsed": "Elapsed",
-      "2mAgo": "2m ago",
-      "byCodexcoder": "by CodexCoder",
-      "run": "Run"
-    },
     "routineDetailproduction": {
       "routineTitle": "Routine title",
       "skipToSection": "Skip to section"
@@ -4795,14 +4301,6 @@
       "newRoutine": "New routine",
       "recurringWorkDefinitionsThatMaterializeInto": "Recurring work definitions that materialize into auditable execution tasks.",
       "routines": "Routines"
-    },
-    "runTranscriptUxLab": {
-      "controls": "Controls",
-      "builtFromARealPaperclipDevelopment": "Built from a real Paperclip development run, then sanitized so no secrets, local paths, or environment details survive into the fixture.",
-      "runTranscriptFixtures": "Run Transcript Fixtures",
-      "compactLiveTranscriptStreamForThe": "Compact live transcript stream for the issue detail page.",
-      "liveRuns": "Live Runs",
-      "runDetail": "Run Detail"
     },
     "search": {
       "updating": "Updating…",
@@ -5140,7 +4638,6 @@
         "guardrails": "Guardrails",
         "countAsAChange": "Count as a change",
         "maxUpdatesPerHour": "Max updates per hour",
-        "afterTheLastChangeMax": "after the last change · max",
         "debounce": "Debounce",
         "wait": "Wait",
         "checkInterval": "Check interval",
@@ -5170,39 +4667,6 @@
       "index": {
         "status": "Status"
       }
-    },
-    "systemNoticeUxLab": {
-      "legacyFallback": "Legacy fallback",
-      "roleStatus": "role=\"status\"",
-      "accessibility": "Accessibility",
-      "routingInIssuechatthread": "Routing in IssueChatThread",
-      "component": "Component",
-      "whatThePhase4UiImplementation": "What the Phase 4 UI implementation should preserve from this design.",
-      "handoffToEngineering": "Handoff to engineering",
-      "details": "Details",
-      "you": "You",
-      "suggestedActionReassignToRecoveryAgent": "Suggested action: Reassign to recovery agent",
-      "recoveryOwnerCto": "Recovery owner: CTO",
-      "normalizedCauseRunCompletedWithoutDisposition": "Normalized cause: Run completed without disposition",
-      "statusBeforeInProgress": "Status before: in_progress",
-      "recoveryRun61fdb79b80124676Ac71": "Recovery run: 61fdb79b-8012-4676-ac71-2971830e126a",
-      "sourceRun9cdba892C7ca4d938604": "Source run: 9cdba892-c7ca-4d93-8604-4843873b127c",
-      "sourceIssuePap3440": "Source issue: PAP-3440",
-      "successfulRunHandoffMissing": "Successful run handoff missing",
-      "tonesWarningDangerNeutral": "tones: warning · danger · neutral",
-      "phase1Ux": "phase 1 — UX",
-      "pap3525Plan": "PAP-3525 plan",
-      "replacesTheCurrentPatternWhereA": "Replaces the current pattern where a Paperclip-authored warning renders inside a user-style chat bubble. The notice is one container, system-styled, with hidden-by-default operational metadata. Tone is conveyed by icon, label, and color together so it stays accessible.",
-      "firstClassSystemNoticeTreatment": "First-class system notice treatment"
-    },
-    "taskChatLab": {
-      "agentBubbleTreatment": "Agent bubble treatment",
-      "agentBubble": "Agent bubble",
-      "streamingSpeed": "Streaming speed",
-      "speed": "Speed",
-      "states": "States",
-      "syntheticHarnessForTheTaskChat": "Synthetic harness for the task chat redesign · every state renders here with no live agent.",
-      "taskChatLab": "Task Chat Lab"
     },
     "teamCatalog": {
       "selectATeamToViewDetails": "Select a team to view details.",
@@ -5366,7 +4830,6 @@
         "cancel": "Cancel",
         "useTheEndUserIdConfigured": "Use the end-user ID configured for this gateway’s sign-in. This may differ from your email address.",
         "arcadeUserId": "Arcade user ID",
-        "arcade": "Arcade",
         "projectApiKey": "Project API key",
         "syncArcadeAccounts": "Sync Arcade accounts"
       },
@@ -5548,7 +5011,6 @@
           "retry": "Retry",
           "loadingProfiles": "Loading profiles…",
           "noSavedProfiles": "No saved profiles.",
-          "browserUseCloud": "Browser Use Cloud",
           "allowedSavedProfiles": "Allowed saved profiles",
           "theAgentCanChooseALower": "The agent can choose a lower limit. Paperclip also applies any remaining hard budget limit.",
           "useTheRemainingPaperclipBudget": "Use the remaining Paperclip budget",
@@ -5721,40 +5183,29 @@
           "pullRequests": "Pull requests",
           "issues": "Issues",
           "enableSslVerification": "Enable SSL verification",
-          "webhooksActive": "Webhooks · Active",
           "underTheTargetUserOrOrganization": "Under the target user or organization, create a new GitHub App. Give it a globally unique name (34 characters or fewer), use the Paperclip homepage URL below, and leave user authorization off.",
           "configureAPublicHttpsUrlFor2": "Configure a public HTTPS URL for this Paperclip instance before connecting Microsoft Teams.",
           "supportsfilesTrue": "supportsFiles: true",
           "theTwoApplicationRscPermissionsLet": "The two application RSC permissions let the bot receive every message, without an @mention, in each team or group chat where it is installed. Paperclip retains and acts only on messages admitted by your Paperclip reach and access rules. Make this provider access clear in the app description shown to installers.",
           "enterTheApplicationClientIdAbove": "Enter the Application / Client ID above before copying so the block contains the real bot identity. This block contains the Paperclip-specific fields to verify in Developer Portal or merge into a complete Teams app manifest. It is not a complete app package; Developer Portal supplies the remaining required metadata and packages the manifest with your app icons.",
-          "uploadAnAppUploadACustom": "Upload an app · Upload a custom app",
-          "microsoftTeamsAppsManageYourApps": "Microsoft Teams · Apps · Manage your apps",
           "application": "Application",
-          "configurePermissions": "Configure · Permissions",
           "groupChat": "Group chat",
           "team": "Team",
           "personal": "Personal",
-          "configureAppFeaturesBot": "Configure · App features · Bot",
           "newApp": "New app",
-          "teamsDeveloperPortalApps": "Teams Developer Portal · Apps",
           "microsoftTeams": "Microsoft Teams",
-          "settingsChannels": "Settings · Channels",
           "messagingEndpoint": "Messaging endpoint",
-          "settingsConfiguration": "Settings · Configuration",
           "useExistingAppRegistration": "Use existing app registration",
           "creationType": "Creation type",
           "singleTenant": "Single Tenant",
           "microsoftAppId": "Microsoft App ID",
-          "azureCreateAzureBot": "Azure · Create Azure Bot",
           "value": "Value",
           "newClientSecret": "New client secret",
-          "certificatesSecretsClientSecrets": "Certificates & secrets · Client secrets",
           "directoryTenantId": "Directory (tenant) ID",
           "applicationClientId": "Application (client) ID",
           "register": "Register",
           "accountsInThisOrganizationalDirectoryOnly": "Accounts in this organizational directory only (Single tenant)",
           "newRegistration": "New registration",
-          "microsoftEntraAdminCenterAppRegistrations": "Microsoft Entra admin center · App registrations",
           "useTheseExactPortalSectionsAnd": "Use these exact portal sections and reuse the same Application ID in all three places.",
           "microsoftPortalFieldMap": "Microsoft portal field map",
           "inTeamsDeveloperPortalCreateAn": "In Teams Developer Portal, create an app, add a bot with the same Application ID, then apply the manifest settings shown below. The block binds the Teams resource-specific consent permissions to that Entra app; these are not Microsoft Graph permissions in Entra. These permissions let the installed app receive every message in a team or group chat without an @mention, so describe that access to installers. Download the package and install it in the target team or group chat.",
@@ -6000,8 +5451,7 @@
           "basicInformation": "Basic Information",
           "youLlUploadTheDownloadedImage": "You’ll upload the downloaded image directly in Slack’s app settings.",
           "howToUploadInSlack": "How to upload in Slack",
-          "couldnTDownloadTheAvatarTry": "Couldn’t download the avatar. Try downloading it again.",
-          "png512512ReadyForSlack": "PNG · 512 × 512 · Ready for Slack"
+          "couldnTDownloadTheAvatarTry": "Couldn’t download the avatar. Try downloading it again."
         },
         "slackIdentityStep": {
           "continueToMessageTest": "Continue to message test",
@@ -6095,7 +5545,6 @@
         },
         "gatewayDetail": {
           "gatewayTabs": "Gateway tabs",
-          "appsGateways": "Apps · Gateways",
           "backToGateways": "Back to gateways",
           "weCouldnTFindThatGateway": "We couldn’t find that gateway.",
           "selectAnOrganizationToManageGateways": "Select an organization to manage gateways."
@@ -6240,7 +5689,6 @@
         "toDate": "To date",
         "fromDate": "From date",
         "from": "From",
-        "casC1": "CAS-C1",
         "caseIdOrIdentifier": "Case ID or identifier",
         "case": "Case",
         "entity": "Entity",
@@ -6317,7 +5765,6 @@
         "backToSelection": "Back to selection",
         "showingTheFirst64KbThe": "Showing the first 64 KB. The complete file is imported.",
         "openOnGithubToPreviewOr": "Open on GitHub to preview or download this file.",
-        "binaryAssetIncludedWithoutChanges": "Binary asset · included without changes",
         "manageGithubAccess": "Manage GitHub access",
         "tryAgain": "Try again",
         "loadingPreview": "Loading preview…",
@@ -6494,8 +5941,6 @@
         "createNewApplication": "Create new application",
         "useExistingApplication": "Use existing application",
         "application": "Application",
-        "2Connection": "2 Connection",
-        "1Application": "1 Application",
         "chooseAnExistingApplicationOrCreate": "Choose an existing application or create one as part of the same connection flow. Credentials stay as vault references and the connection is probed before activation.",
         "addApplication": "Add application",
         "noToolsDiscoveredYetUseRefresh": "No tools discovered yet. Use “Refresh catalog” to discover tools from this connection."

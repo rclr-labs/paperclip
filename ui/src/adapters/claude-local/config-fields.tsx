@@ -110,7 +110,7 @@ export function ClaudeLocalAdvancedFields({
           }}
         >
           <option value="auto">{t("adapters.claudelocal.configfields.defaultAcp")}</option>
-          <option value="cli">{t("adapters.claudelocal.configfields.claudeCli")}</option>
+          <option value="cli">Claude CLI</option>
           <option value="acp">ACP</option>
         </select>
       </Field>}

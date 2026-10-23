@@ -9,7 +9,6 @@ import { MetaLine } from "./MetaLine";
 import { ArtifactObject } from "./objects/ArtifactObject";
 import { Folder } from "./objects/Folder";
 import { StateFlag } from "./StateFlag";
-import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — the shelf: one folder per task.
@@ -163,8 +162,7 @@ function StackLone({ group }: { group: LabGroup }) {
 }
 
 export function GalleryStacks({ groups }: { groups: LabGroup[] }) {
-  const { t } = useTranslation();
-  if (groups.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">{t("artifactdirections.directions.d3tactile.galleryStacks.noArtifactStacksYet")}</p>;
+  if (groups.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">No artifact stacks yet.</p>;
   return (
     // The shelf, measured: under 40rem it keeps two columns of compact folders (tokens-gallery.css).
     <div className="@container/shelf">

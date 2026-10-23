@@ -361,7 +361,7 @@ export function RoutineRunVariablesDialog({
         <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-6 py-4">
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-1.5">
-              <Label className="text-xs">{t("components.routineRunVariablesDialog.agent2")}</Label>
+              <Label className="text-xs">Agent *</Label>
               <InlineEntitySelector
                 value={selection.assigneeAgentId}
                 options={assigneeOptions}

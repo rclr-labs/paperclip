@@ -678,7 +678,7 @@ export function AuditFeed({
             <Input
               type="search"
               aria-label={t("pages.audit.auditFeed.caseIdOrIdentifier")}
-              placeholder={t("pages.audit.auditFeed.casC1")}
+              placeholder="CAS-C1"
               value={entityIdDraft}
               onChange={event => {
                 setEntityIdDraft(event.target.value);

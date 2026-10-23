@@ -6,7 +6,6 @@ import { MetaLine } from "./MetaLine";
 import { ReviewTally } from "./StateMark";
 import { artifactCount, stackSections, type StackSection } from "./gallery-model";
 import { countReview } from "./panel-model";
-import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — one opened stack: everything below the "← All stacks" row.
@@ -52,10 +51,9 @@ function Section({ section }: { section: StackSection }) {
 }
 
 export function GalleryStack({ group }: { group: LabGroup }) {
-  const { t } = useTranslation();
   if (group.artifacts.length === 0) {
     // The shipped empty state's copy.
-    return <p className="py-16 text-center text-sm font-medium text-foreground">{t("artifactdirections.directions.d4hybrid.galleryStack.noArtifactsInThisStackMatch")}</p>;
+    return <p className="py-16 text-center text-sm font-medium text-foreground">No artifacts in this stack match the current filters.</p>;
   }
   return (
     <div data-surface="gallery-stack" className="flex flex-col gap-6">

@@ -187,13 +187,13 @@ export function AgentBasicsDialog({
           <span
             className={cn(step === "name" && "font-medium text-foreground")}
           >
-            {t("components.newagent.agentBasicsDialog.1Name")}
+            1. Name
           </span>
           <ChevronRight className="size-3" />
           <span
             className={cn(step === "adapter" && "font-medium text-foreground")}
           >
-            {t("components.newagent.agentBasicsDialog.2Adapter")}
+            2. Adapter
           </span>
         </div>
         <form

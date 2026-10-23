@@ -13,7 +13,6 @@
         "deny": "Negar",
         "oneShot": "Disparo único",
         "persistent": "Persistente",
-        "claudeCli": "Claude CLI",
         "defaultAcp": "Padrão (ACP)"
       }
     },
@@ -48,7 +47,6 @@
         "oneShot": "Disparo único",
         "persistent": "Persistente",
         "geminiAcp": "gemini --acp",
-        "geminiCli": "Gemini CLI",
         "defaultAcp": "Padrão (ACP)"
       }
     },
@@ -75,134 +73,6 @@
       "configfields": {
         "eGScriptJsFlag": "ex.: script.js, --flag",
         "eGNodePython": "ex.: node, python"
-      }
-    }
-  },
-  "artifactdirections": {
-    "directions": {
-      "d1solid": {
-        "gallery": {
-          "noArtifactsInThisStackMatch": "Nenhum artefato nesta pilha corresponde aos filtros atuais.",
-          "noArtifactStacksYet": "Nenhuma pilha de artefatos ainda."
-        },
-        "galleryTile": {
-          "lastEdited": "Última edição"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui."
-        },
-        "panelCard": {
-          "noPreviewAvailable": "Nenhuma pré-visualização disponível"
-        },
-        "panelLead": {
-          "playVideo": "Reproduzir vídeo"
-        },
-        "threadAttachments": {
-          "attachments": "Anexos"
-        }
-      },
-      "d2tint": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "Nenhum artefato nesta pilha corresponde aos filtros atuais."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "Nenhuma pilha de artefatos ainda."
-        },
-        "kindTally": {
-          "contentsByKind": "Conteúdo por tipo"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui."
-        },
-        "panelIndex": {
-          "filterArtifacts": "Filtrar artefatos"
-        }
-      },
-      "d3tactile": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "Nenhum artefato nesta pilha corresponde aos filtros atuais."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "Nenhuma pilha de artefatos ainda."
-        },
-        "panelBody": {
-          "all": "Todos",
-          "show": "Mostrar",
-          "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui."
-        },
-        "threadAttachments": {
-          "attachments": "Anexos",
-          "moreImages": "mais imagens"
-        }
-      },
-      "d4hybrid": {
-        "galleryStack": {
-          "noArtifactsInThisStackMatch": "Nenhum artefato nesta pilha corresponde aos filtros atuais."
-        },
-        "galleryStacks": {
-          "noArtifactStacksYet": "Nenhuma pilha de artefatos ainda."
-        },
-        "kindTally": {
-          "contentsByKind": "Conteúdo por tipo"
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui."
-        },
-        "panelIndex": {
-          "filterArtifacts": "Filtrar artefatos"
-        }
-      },
-      "d5v1mvp": {
-        "galleryView": {
-          "showArtifactsByTaskOrBy": "Mostrar artefatos por tarefa ou por tipo",
-          "searchArtifacts": "Buscar artefatos",
-          "searchArtifacts2": "Buscar artefatos..."
-        },
-        "panelBody": {
-          "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui."
-        }
-      }
-    },
-    "frames": {
-      "appShell": {
-        "primary": "Principal"
-      },
-      "board": {
-        "galleryStack": "Galeria + pilha",
-        "panel": "Painel",
-        "thread": "Thread"
-      },
-      "galleryFrame": {
-        "filterArtifactsByType": "Filtrar artefatos por tipo",
-        "groupArtifactsCurrentlyTask": "Agrupar artefatos (atualmente Tarefa)",
-        "searchArtifacts": "Buscar artefatos",
-        "searchArtifacts2": "Buscar artefatos...",
-        "artifacts": "Artefatos"
-      },
-      "labToolbar": {
-        "05KitTThemeA": "0–5 kit · t theme · a animation",
-        "artifactSurfaces": "Superfícies de artefato",
-        "artifactDirections": "Direções de artefato"
-      },
-      "panelFrame": {
-        "openANewTab": "Abrir uma nova aba"
-      },
-      "threadFrame": {
-        "deckPdf": "deck PDF",
-        "checks": "Verificações",
-        "editingSource": "editando a origem",
-        "slideOverview": "visão geral dos slides",
-        "matchingPdf": "matching PDF",
-        "editablePowerpoint": "PowerPoint editável",
-        "findingsAndBeforeAfterChanges": "achados e alterações antes/depois",
-        "interfaceCraftRevisionComplete": "Revisão de Interface Craft concluída.",
-        "tasks": "Tarefas"
-      },
-      "threadparts": {
-        "worked": "Funcionou",
-        "badResponse": "Resposta inválida",
-        "goodResponse": "Resposta boa",
-        "copyMessage": "Copiar mensagem"
       }
     }
   },
@@ -292,9 +162,7 @@
       "completingTheLogin": "Concluindo o login…",
       "submit": "Enviar",
       "browserCode": "Código do navegador",
-      "2BrowserCode": "2. Código do navegador",
       "openTheAuthorizationPage": "Abrir a página de autorização",
-      "1AuthorizationUrl": "1. URL de autorização",
       "openTheAuthorizationPageThenEnter": "Abra a página de autorização e informe o código do navegador que ela mostra.",
       "thisConnectionIsNotEncryptedThe": "Esta conexão não é criptografada. O código de login viaja em texto claro nesta rede. Continue só numa rede em que você confia.",
       "preparing": "Preparando...",
@@ -307,8 +175,6 @@
       "agentBoundToTheSignedIn": "Agente vinculado à conta conectada.",
       "bindingThisAgentToTheSigned": "Vinculando este agente à conta conectada...",
       "openTheAuthenticationPage": "Abrir a página de autenticação",
-      "2AuthenticationUrl": "2. URL de autenticação",
-      "1Code": "1. Code",
       "copyTheCodeThenOpenThe": "Copie o código e abra a página de autenticação.",
       "signIn": "Entrar",
       "cancelPreviousSignInAndRetry": "Cancelar entrada anterior e tentar de novo",
@@ -319,7 +185,6 @@
       "optionalInitialSetupPromptForThe": "Prompt inicial opcional de configuração para a primeira execução",
       "configuration": "Configuração",
       "codexMayRejectMinimalThinkingWhen": "O Codex pode recusar raciocínio `minimal` quando a busca está habilitada.",
-      "grokBot": "Grok Bot",
       "adapter": "Adaptador",
       "environmentOverride": "Sobreposição de ambiente",
       "environment": "Ambiente",
@@ -863,7 +728,6 @@
       "theRoutineRejectedThisDeliveryCheck": "A rotina rejeitou esta entrega. Verifique a rotina no Grok antes de tentar de novo.",
       "lastAuthenticatedContact": "Último contato autenticado",
       "lastVerifiedExchange": "Última troca verificada",
-      "bot": "Bot",
       "enableGrokBotAssistantConnectionsMcp": "Habilite o Grok Bot, as conexões de assistente (MCP) e o Paperclip Runner numa instância pública HTTPS autenticada.",
       "loadingConnection": "Carregando conexão…",
       "runsInGrokBotTheBot": "Executa no Grok Bot. O Bot mantém os aplicativos e o contexto persistente dele. O Paperclip fornece coordenação de tarefas e ferramentas próprias. Uso e gasto não são reportados.",
@@ -1075,7 +939,6 @@
       "recoversTheExistingRun": "recupera a execução existente",
       "keepsThisTask": "mantém esta tarefa",
       "restoreTo": "Restaurar para",
-      "timestamp": "<timestamp>",
       "rescueBranch": "Branch de resgate",
       "leftUntouched": "(não alterado)",
       "liveBranch": "Branch ao vivo",
@@ -1084,8 +947,6 @@
       "eGVerifiedTheLiveBranch": "ex.: Verifiquei que a branch ao vivo carrega só os commits de acompanhamento previstos; seguro adotar.",
       "requiredRecordedInTheAuditLog": "(obrigatório — registrado no log de auditoria)",
       "ancestryVerdict": "Veredito de ascendência",
-      "liveCheckedOut": "Ao vivo · em checkout",
-      "recordedExpected": "Registrado · esperado",
       "withoutAnAncestryProof": "sem prova de ascendência",
       "divergenceDiagnosis": "Diagnóstico de divergência",
       "detachedUnknown": "desanexado / desconhecido"
@@ -1141,7 +1002,6 @@
       "theBindingWasNotCreated": "O vínculo não foi criado.",
       "errorCode": "Código de erro",
       "theRequestWasAcceptedButExecution": "O pedido foi aceito, mas a execução falhou fechada. Nenhum valor de segredo foi exposto.",
-      "failedBindingWasNotCreated": "FALHOU · o vínculo não foi criado",
       "paperclipIsReCheckingAuthorityAnd": "O Paperclip está reverificando a autoridade e o retrato da proposta antes de escrever.",
       "newConfigPath": "Novo caminho de configuração",
       "targetAgent": "Agente de destino",
@@ -1251,7 +1111,6 @@
       "refresh": "Atualizar",
       "unableToConfirmYourAccountRefresh": "Não foi possível confirmar sua conta. Atualize para inspecionar esta conexão do Muse.",
       "saveTheAgentThenConnectYour": "Salve o agente e conecte seu Muse pessoal aqui.",
-      "openMuse": "Open Muse",
       "disconnect": "Desconectar",
       "pauseAgent": "Pausar agente",
       "confirmWorkerStopped": "Confirmar que o worker parou",
@@ -1506,7 +1365,6 @@
       "defaultAgentRequiredForThisRun": "Agente padrão obrigatório para esta execução.",
       "project": "Projeto",
       "agent": "Agente",
-      "agent2": "Agent *",
       "chooseTheAgentAndOptionalProject": "Escolha o agente e, se quiser, o projeto desta execução. Os padrões da rotina vêm preenchidos e não serão alterados.",
       "runRoutine": "Executar rotina"
     },
@@ -1560,22 +1418,22 @@
       "workspaceRecovery": "Recuperação do workspace"
     },
     "runnerInspector": {
-      "selectAFrameFromTheChronological": "Select a frame from the chronological trace.",
-      "noRawFramesWereCapturedFor": "No raw frames were captured for this run.",
-      "selectACorrelatedOperationToInspect": "Select a correlated operation to inspect its pipeline.",
-      "normalizedCaveatsAndIgnoredRequests": "Normalized caveats and ignored requests",
+      "selectAFrameFromTheChronological": "Selecione um frame do trace cronológico.",
+      "noRawFramesWereCapturedFor": "Nenhum frame bruto foi capturado para esta execução.",
+      "selectACorrelatedOperationToInspect": "Selecione uma operação correlacionada para inspecionar o pipeline dela.",
+      "normalizedCaveatsAndIgnoredRequests": "Ressalvas normalizadas e pedidos ignorados",
       "decisionReason": "Motivo da decisão",
       "policy": "Política",
-      "providerNativeTransportAndModelAuthored": "Provider-native transport and model-authored tool arguments are separate layers. PRP normalized the model payload, then server policy chose the issue disposition.",
+      "providerNativeTransportAndModelAuthored": "O transporte nativo do provedor e os argumentos de ferramenta escritos pelo modelo são camadas separadas. O PRP normalizou a carga do modelo, e então a política do servidor escolheu a disposição da issue.",
       "semanticFinalizationLineage": "Linhagem de finalização semântica",
       "resolvedFinalResponseDecision": "Decisão de resposta final resolvida",
-      "noPresentationSurfaceWasEmittedFor": "No presentation surface was emitted for this operation.",
+      "noPresentationSurfaceWasEmittedFor": "Nenhuma superfície de apresentação foi emitida para esta operação.",
       "productionPresentation": "Apresentação de produção",
-      "thisProviderOperationEmittedNoCanonical": "This provider operation emitted no canonical PRP events.",
+      "thisProviderOperationEmittedNoCanonical": "Esta operação do provedor não emitiu nenhum evento canônico de PRP.",
       "canonicalPrpEvents": "Eventos canônicos de PRP",
-      "noInterpretationStageWasRecordedFor": "No interpretation stage was recorded for this frame.",
+      "noInterpretationStageWasRecordedFor": "Nenhuma etapa de interpretação foi registrada para este frame.",
       "interpretationStages": "Etapas de interpretação",
-      "thisPrpEventHasNoRecoverable": "This PRP event has no recoverable raw frame.",
+      "thisPrpEventHasNoRecoverable": "Este evento de PRP não tem frame bruto recuperável.",
       "serverRedactedByDefault": "redigido pelo servidor por padrão",
       "providerFrames": "Frames do provedor",
       "noOperationsMatchTheseFilters": "Nenhuma operação corresponde a estes filtros.",
@@ -1595,20 +1453,20 @@
       "clientProvider": "Cliente → provedor",
       "allDirections": "Todas as direções",
       "direction": "Direção",
-      "searchOperationsFieldsAndEvents": "Search operations, fields, and events",
-      "parsedFramesAreRedactedOnThe": "Parsed frames are redacted on the server. Exact reveals and downloads are administrator-only, warned, audited, and automatically expire.",
+      "searchOperationsFieldsAndEvents": "Buscar operações, campos e eventos",
+      "parsedFramesAreRedactedOnThe": "Frames interpretados são redigidos no servidor. Revelações exatas e downloads são exclusivos de administrador, avisados, auditados e expiram automaticamente.",
       "sensitiveDebugData": "Dados sensíveis de depuração",
       "recentCorrelatedOperations": "Operações correlacionadas recentes",
-      "noInterpretationRecordsWerePersisted": "No interpretation records were persisted.",
+      "noInterpretationRecordsWerePersisted": "Nenhum registro de interpretação foi persistido.",
       "interpretationOutcomes": "Resultados da interpretação",
-      "canonicalPrpEventsAndPersistedPresentation": "Canonical PRP events and persisted presentation decisions remain available below.",
-      "rawProviderCaptureWasOffFor": "Raw provider capture was off for this run.",
-      "canonicalPrpEventsAndPresentationDecisions": "Canonical PRP events and presentation decisions remain inspectable below.",
-      "rawProviderTracesRequireAnInstance": "Raw provider traces require an instance administrator.",
+      "canonicalPrpEventsAndPersistedPresentation": "Os eventos canônicos de PRP e as decisões de apresentação persistidas seguem disponíveis abaixo.",
+      "rawProviderCaptureWasOffFor": "A captura bruta do provedor estava desligada nesta execução.",
+      "canonicalPrpEventsAndPresentationDecisions": "Os eventos canônicos de PRP e as decisões de apresentação seguem inspecionáveis abaixo.",
+      "rawProviderTracesRequireAnInstance": "Traces brutos do provedor exigem um administrador da instância.",
       "runnerInspectorViews": "Visões do inspetor do executor",
-      "correlateExactProviderTrafficWithEvery": "Correlate exact provider traffic with every interpretation stage, canonical PRP event, and production surface.",
+      "correlateExactProviderTrafficWithEvery": "Correlacione o tráfego exato do provedor com cada etapa de interpretação, evento canônico de PRP e superfície de produção.",
       "runnerInspector": "Inspetor do executor",
-      "noFieldLevelMappingWasRecorded": "No field-level mapping was recorded at this stage.",
+      "noFieldLevelMappingWasRecorded": "Nenhum mapeamento no nível de campo foi registrado nesta etapa.",
       "reason": "Motivo",
       "outputPath": "Caminho de saída",
       "providerPath": "Caminho do provedor",
@@ -1714,16 +1572,12 @@
       "author": "Autor",
       "skills": "Skills"
     },
-    "smokeLabDashboardCard": {
-      "integrationSmoke": "Smoke de integração"
-    },
     "sourceResolvedFoldBadge": {
       "sourceResolvedWatchdogFold": "Dobra do watchdog resolvida na origem"
     },
     "sourceResolvedFoldCallout": {
       "thisRunWasFoldedAsA": "Esta execução foi dobrada como falso positivo resolvido na origem.",
       "systemAudit": "auditoria do sistema",
-      "sourceResolvedFold": "SOURCE-RESOLVED FOLD",
       "sourceResolvedWatchdogFold": "Dobra do watchdog resolvida na origem"
     },
     "stageSecretsPanel": {
@@ -2019,12 +1873,8 @@
         "modelSettings": "Configurações do modelo",
         "apiKey": "Chave de API",
         "noAuthentication": "Sem autenticação",
-        "apiKeyXApiKey": "API key · x-api-key",
         "authentication": "Autenticação",
         "awsRegion": "Região da AWS",
-        "chatCompletionsOpencodeHermes": "Chat Completions · OpenCode, Hermes",
-        "anthropicMessagesClaude": "Anthropic Messages · Claude",
-        "openaiResponsesCodex": "OpenAI Responses · Codex",
         "apiFormat": "Formato da API",
         "providerUrl": "URL do provedor",
         "cancel": "Cancelar",
@@ -2190,19 +2040,6 @@
         "chooseTheSharedConnectionPaperclipUses": "Escolha a conexão compartilhada que o Paperclip usa para funcionalidades opcionais de decisão. O uso de API é cobrado nela.",
         "viewUsage": "Ver uso",
         "decisionModel": "Modelo de decisão"
-      }
-    },
-    "designsandbox": {
-      "conversationPlayback": {
-        "showSavedThread": "Mostrar thread salva"
-      },
-      "designSandboxTaskThread": {
-        "productionRenderersSyntheticDataPreviewActions": "Production renderers · synthetic data · preview actions stay local",
-        "showSavedThread": "Mostrar thread salva",
-        "resetReplay": "Redefinir / repetir",
-        "savedThread": "Thread salva",
-        "threadPreviewState": "Estado da pré-visualização da thread",
-        "threadPreview": "Pré-visualização da thread"
       }
     },
     "environmentvariableseditor": {
@@ -2434,8 +2271,6 @@
         "inviteAnExternalAgent": "Convidar um agente externo",
         "eGDarnold": "e.g. Darnold",
         "agentName": "Nome do agente",
-        "2Adapter": "2. Adapter",
-        "1Name": "1. Name",
         "newAgentProgress": "Progresso do novo agente"
       },
       "agentProviderConnection": {
@@ -2444,7 +2279,6 @@
       },
       "externalAgentInviteContent": {
         "createANewPrompt": "Criar um novo prompt",
-        "openMuse": "Open Muse",
         "preparing": "Preparando…",
         "reconnectMuse": "Reconectar o Muse",
         "done": "Pronto",
@@ -2458,7 +2292,6 @@
         "testBackgroundReply": "Testar resposta em segundo plano",
         "museUsesItsOwnApprovedTools": "O Muse usa as ferramentas aprovadas dele. Uso e custo do provedor não ficam disponíveis ao Paperclip.",
         "role": "Papel",
-        "muse": "Muse",
         "agentName": "Nome do agente",
         "loadingMuseSetup": "Carregando configuração do Muse…",
         "loadingMuseInvitation": "Carregando convite do Muse…",
@@ -2491,8 +2324,7 @@
         "paperclipName": "Nome no Paperclip",
         "anOrganizationAdminNeedsToApprove": "Um administrador da organização precisa aprovar este agente. A configuração está salva e retoma após a aprovação.",
         "restoringSavedSetup": "Restaurando configuração salva…",
-        "tryAgain": "Tentar novamente",
-        "grokBotSetup": "Grok Bot setup"
+        "tryAgain": "Tentar novamente"
       },
       "newAgentSetup": {
         "saveExit": "Salvar e sair",
@@ -2547,7 +2379,6 @@
         "braintrustProjectUuid": "UUID do projeto no Braintrust",
         "projectId": "ID do projeto",
         "customOtlp": "OTLP personalizado",
-        "braintrust": "Braintrust",
         "destination": "Destino",
         "manageConnectionsPermissionIsRequiredTo": "A permissão de gerenciar conexões é necessária para configurar a observabilidade do agente.",
         "sendCodexAndClaudeCodeLogs": "Envie logs e traces do Codex e do Claude Code para o seu serviço de observabilidade.",
@@ -3014,8 +2845,7 @@
         "reconnectView": "Reconectar visão",
         "reconnectTheViewOrOpenThis": "Reconecte a visão ou abra esta tarefa em outro navegador. O navegador remoto continua rodando.",
         "theLiveViewDidNotLoad": "A visão ao vivo não carregou",
-        "connectingToBrowser": "Conectando ao navegador…",
-        "liveBrowserUseBrowser": "Live Browser Use browser"
+        "connectingToBrowser": "Conectando ao navegador…"
       },
       "taskDocumentPanel": {
         "documentIsEmpty": "O documento está vazio.",
@@ -3081,8 +2911,7 @@
         "conversationTask": "Tarefa da conversa",
         "callTranscript": "Transcrição da chamada",
         "agentCostsAreSeparateRecordingsRemain": "Os custos do agente são separados. As gravações ficam no Speko.",
-        "duration": "Duração",
-        "spekoCharge": "Speko charge"
+        "duration": "Duração"
       },
       "spekoIncomingCalls": {
         "retryTasks": "Repetir tarefas",
@@ -3311,13 +3140,6 @@
           "tryAgain": "Tentar novamente"
         }
       }
-    }
-  },
-  "fixtures": {
-    "taskChatPerfHarness": {
-      "replyToTheTask": "Responder à tarefa",
-      "reply": "Responder",
-      "taskChat200Responses4000": "Task chat: 200 responses, 4,000 tools"
     }
   },
   "pages": {
@@ -3641,26 +3463,6 @@
       "loadingClaimChallenge": "Carregando desafio de reivindicação...",
       "invalidBoardClaimUrl": "URL de reivindicação do conselho inválida."
     },
-    "bootstrapSetupUxLab": {
-      "bootstrapPendingSetupStates": "Estados de configuração com inicialização pendente",
-      "uxLab": "UX Lab",
-      "browserBasedClaimIsIntentionallyDisabled": "Browser‑based claim is intentionally disabled in public mode so anyone on the network can’t promote themselves.",
-      "thisInstanceRunsInInviteOnly": "This instance runs in invite‑only mode. The operator must generate a one‑time first‑admin invite URL from the host. Once you have the link, open it from this browser to finish setup.",
-      "thisPaperclipIsWaitingOnIts": "Este Paperclip aguarda o primeiro administrador",
-      "continueToDashboard": "Continuar para o painel",
-      "redirecting": "Redirecionando…",
-      "setupIsCompleteTakingYouTo": "Setup is complete. Taking you to onboarding to create your first organization…",
-      "youReTheInstanceAdmin": "Você é o administrador da instância",
-      "settingsAccess": "Configurações → Acesso",
-      "someoneElseHasAlreadyClaimedThis": "Someone else has already claimed this instance.",
-      "claimThisInstance": "Reivindicar esta instância",
-      "noAdminHasClaimedThisInstance": "Nenhum administrador reivindicou esta instância ainda. Reivindique agora para se tornar o primeiro administrador e começar a integração.",
-      "finishSettingUpThisPaperclip": "Conclua a configuração deste Paperclip",
-      "switchAccount": "Trocar de conta",
-      "signInCreateAccount": "Entrar / Criar conta",
-      "noAdminHasClaimedThisInstance2": "Nenhum administrador reivindicou esta instância ainda. Entre ou crie sua conta do Paperclip para se tornar o primeiro administrador por este navegador.",
-      "preferToFinishSetupFromThe": "Prefere concluir a configuração pelo host?"
-    },
     "caseDetail": {
       "viewInAudit": "Ver na auditoria",
       "updated": "Atualizado",
@@ -3897,7 +3699,6 @@
       "bothSidesAreTheSameVersion": "Os dois lados são a mesma versão.",
       "selectAVersionToCompare": "Selecione uma versão para comparar.",
       "initial": "Inicial",
-      "diffSkillFiles": "Diff · arquivos da skill",
       "noSkillsMatchThisFilter": "Nenhuma skill corresponde a este filtro.",
       "clearFilter": "Limpar filtro",
       "latest": "Mais recente",
@@ -4009,7 +3810,6 @@
       "bothSidesAreTheSameVersion": "Os dois lados são a mesma versão.",
       "selectAVersionToCompare": "Selecione uma versão para comparar.",
       "initial": "Inicial",
-      "diffSkillFiles": "Diff · arquivos da skill",
       "noSkillsMatchThisFilter": "Nenhuma skill corresponde a este filtro.",
       "clearFilter": "Limpar filtro",
       "latest": "Mais recente",
@@ -4087,14 +3887,6 @@
       "accountLevelChargesThatDoNot": "Cobranças no nível da conta que não correspondem a uma única requisição de inferência.",
       "financeLedger": "Livro financeiro"
     },
-    "crossIssueCollaborationUxLab": {
-      "noBoundaryNamedNobodyNamedNo": "No boundary named, nobody named, no path forward. The workaround (create a child issue) had to be discovered by trial and error.",
-      "403ForbiddenIssueIsOutsideThis": "403 Forbidden: Issue is outside this actor's authorization boundary",
-      "agentsMayNowWriteToAny": "Agents may now write to any task they can read. These are the three surfaces that keep that legible: whose authority a comment rode, what an edit changed, and — when a write is refused — which boundary fired and what to do instead.",
-      "openCrossTaskCollaborationAttributionAudit": "Open cross-task collaboration — attribution, audit, and denial copy",
-      "openCrossTaskCollaboration": "Abrir colaboração entre tarefas",
-      "2mAgo": "2 min atrás"
-    },
     "dashboard": {
       "noTasksYet": "Nenhuma tarefa ainda.",
       "recentTasks": "Tarefas recentes",
@@ -4119,196 +3911,6 @@
       "decisionsLandHereWhenTheyMatch": "Decisões chegam aqui quando atendem às regras da fila ou quando um agente as adiciona.",
       "thisQueueIsEmpty": "Esta fila está vazia.",
       "selectAnOrganizationFirst": "Selecione uma organização primeiro."
-    },
-    "designGuide": {
-      "builtinagentgateAgentkey": "<BuiltInAgentGate agentKey>",
-      "imagesAndVideosUseGalleryTiles": "Images and videos use gallery tiles. The whole tile opens the task gallery; files and links keep compact, fully clickable rows. Task/Artifact Gallery in Storybook covers playable videos, mixed files, narrow panels, and unavailable previews.",
-      "eachBrowserAppearsOnceAtIts": "Each browser appears once at its opening time among the task messages. Its status updates in place; the action opens its side-panel tab.",
-      "fitToPaneFollowsTheVisible": "Fit to pane follows the visible panel. Fixed viewport presets and session actions live in the footer menu. Costs stay in task reporting. The idle countdown appears only in the final five minutes. Full panel, activity, and settings states are in Storybook under Browser Use.",
-      "uploadedTextOpensInANamed": "Uploaded text opens in a named task tab. Markdown offers Rendered and Raw icon controls; every text file has a download action.",
-      "compactVariantForEmbeddingInsideDialogs": "Compact variant for embedding inside dialogs and modals.",
-      "theLinkedIssueReachedATerminal": "The linked issue reached a terminal state before a summary was written.",
-      "retry": "Repetir",
-      "itsBuiltInAgentWasPaused": "Its built-in agent was paused 2 days ago, so new briefs aren't being generated.",
-      "resumeAgent": "Retomar agente",
-      "viewAgent": "Ver agente",
-      "briefs": "Briefings",
-      "resetToDefaults": "Restaurar padrões",
-      "bgBlue": "bg-blue-*",
-      "bgYellow": "bg-yellow-*",
-      "panelC": "Panel C",
-      "panelBCollapsible": "Painel B (recolhível)",
-      "panelA": "Panel A",
-      "previewOnlyThisFieldDoesNot": "Preview only. This field does not save or submit a credential.",
-      "agentmailSetupHasTwoStepsPick": "AgentMail setup has two steps: pick an agent, then pick an email address. Ask for the API key alongside the agent only when needed. Keep address errors beside the field and additional settings under Advanced options.",
-      "theTaskCardIsTheDialog": "The task card is the dialog host for the shared connection setup flow. Provider forms, validation, OAuth, access selection, and completion come from the same feature module as the full-page Apps setup; this card owns only audience, dialog, and task refresh behavior. Pending connections stay in the timeline beside a usable composer. The independently addressable Connections/In-task connections stories cover access, OAuth recovery, narrow layouts, completion, and historical outcomes. AgentMail uses an inline API-key field with fixed access defaults; its field and direct key-page link are shared with Apps setup.",
-      "forANamedRecipientPassThe": "For a named recipient, pass the optional agent name and logo. The same copy feedback, preview, and manual clipboard recovery apply.",
-      "useAgentsetuppromptForPromptsHandedTo": "Use AgentSetupPrompt for prompts handed to an external agent: connections, webhook setup, onboarding, and task handoffs. One click copies the complete prompt, opens its preview, and confirms success inline; clipboard failures offer selectable text.",
-      "chooseAnAgentYouAlreadyUse": "Escolha um agente que você já usa.",
-      "inviteAnExternalAgent": "Convidar um agente externo",
-      "previewInvitationModal": "Pré-visualizar modal de convite",
-      "matchTheHarnessPickerWithProvider": "Match the harness picker with provider cards. Connection checks reflect confirmed server evidence. AnimatedDialogContent resizes to its content using motion tokens and respects reduced motion.",
-      "recoveryRunsInTheBackgroundTask": "Recovery runs in the background. Task lists keep their ordinary status without execution badges. Active transcript headers keep saying Working during automatic recovery. Recovery decisions and attempts belong in the run log; there is no execution status card or reconciliation form.",
-      "aDecisionCardSitsAboveThe": "A decision card sits above the ordinary message composer. Dismiss the card to keep a reopen control, or resolve it to clear the pending state.",
-      "storybookSRecoveryNoticeStoriesShow": "Storybook’s Recovery notice stories show the actionable, pending, acknowledged, unavailable, failed, and mobile states using this production component.",
-      "productEnvironmentVariablesEditor": "Editor de variáveis de produto/ambiente",
-      "loadingErrorsEmptySearchMobileAnd": "Loading, errors, empty search, mobile, and short viewports are covered in the Project repos Storybook stories.",
-      "theSharedFiletreeExplorerLayoutPuts": "The shared FileTree explorer layout puts disclosure controls beside selection, with compact folder chains, equal-height rows, inline skill descriptions, and trailing status badges. Folders select descendant packages; package checkboxes select only that package, independently of nested skills. Included files use aligned rows without individual checkboxes (`getCheckboxState` returns null); package rows use `renderNodeExtra` for file counts and inspection. Use arrow keys to navigate and Space to select.",
-      "identicalContentTheThreeButtonsStack": "Identical content; the three buttons stack full-width in the order Approve / Deny / Edit & re-sign, and the bindings table uses a 70px label column.",
-      "approve": "Aprovar",
-      "whenAnIssueHasProducedNo": "When an issue has produced no artifact work products, the Output section renders nothing at all (no placeholder card).",
-      "ring2RingRing": "ring-2 ring-ring",
-      "installedN": "INSTALLED · N",
-      "installed2": "Installed · 2",
-      "optional2": "Optional · 2",
-      "bundled1": "Bundled · 1",
-      "right": "Direita",
-      "left": "Esquerda",
-      "horizontal": "Horizontal",
-      "total": "Total",
-      "cost": "Custo",
-      "tokens": "Tokens",
-      "model": "Modelo",
-      "comment": "Comentário",
-      "leaveAComment": "Deixe um comentário...",
-      "apiKeysHaveBeenAddedTo": "API keys have been added to the vault. Please proceed.",
-      "jan162025": "Jan 16, 2025",
-      "human": "Pessoa",
-      "startedWorkingOnTheAuthenticationModule": "Started working on the authentication module. Will need API keys configured.",
-      "jan152025": "Jan 15, 2025",
-      "agent": "Agente",
-      "comments2": "Comments (2)",
-      "inProgress": "Em andamento",
-      "layoutAcceptsSidebarsectionsToComposeAdditional": "Layout accepts sidebarSections to compose additional SidebarSection groups inside the shared sidebar. Use SidebarNavItem for each row, with sibling action buttons for starring or menus. The Chats section shows starred agents, the earliest-created agent when unstarred, then four recent agents without duplicates. Compose and star controls share a vertical column. Compose appears on hover or keyboard focus and remains visible on touch; starred icons remain visible. The picker searches all company agents by name or role without a subtitle, count, continuation labels, or footer. Task breadcrumbs support leading identity and trailing actions beside the label, including single-item task headers; see the Agent chat Storybook.",
-      "continue": "Continuar",
-      "sharedByConnectionSetupAndTrigger": "Shared by connection setup and trigger previews. Setup navigation takes over the section sidebar; each step owns a single footer.",
-      "zapierArcadeComposioAndExecutorEach": "Zapier, Arcade, Composio and Executor each own a connection. Their controlled setup views share Access → Connect. Tool discovery completes setup. Saved connections reuse the standard Permissions action list and per-action Test dialog. Storybook’s Apps / Connections groups use in-memory provider fixtures.",
-      "created": "Criado",
-      "agentAlpha": "Agent Alpha",
-      "responsible": "Responsável",
-      "priority": "Prioridade",
-      "status": "Status",
-      "live": "Ao vivo",
-      "save": "Salvar",
-      "cancel": "Cancelar",
-      "describe": "Descreva...",
-      "description": "Descrição",
-      "enterAName": "Informe um nome",
-      "name": "Nome",
-      "thisIsASampleDialogShowing": "This is a sample dialog showing the standard layout with header, content, and footer.",
-      "dialogTitle": "Título do diálogo",
-      "openDialog": "Abrir diálogo",
-      "settings": "Configurações",
-      "thisIsATooltip": "Esta é uma dica",
-      "hoverMe": "Passe o mouse",
-      "placeOneLiveCharacterBesideThe": "Place one live character beside the agent name. Onboarding uses a larger padded frame. Onboarding and agent headers follow the pointer across the page; other placements track within their region. Full-page examples are in Storybook under Agents / Personas / Full pages.",
-      "resetFilters": "Redefinir filtros",
-      "commentsContent": "Conteúdo dos comentários.",
-      "detailsContent": "Conteúdo dos detalhes.",
-      "summaryContentWithUnderlineTabs": "Conteúdo do resumo com abas sublinhadas.",
-      "comments": "Comentários",
-      "details": "Detalhes",
-      "summary": "Resumo",
-      "costsTabContent": "Conteúdo da aba de custos.",
-      "configTabContent": "Conteúdo da aba de configuração.",
-      "runsTabContent": "Conteúdo da aba de execuções.",
-      "overviewTabContent": "Conteúdo da aba de visão geral.",
-      "costs": "Custos",
-      "config": "Configuração",
-      "runs": "Execuções",
-      "overview": "Visão geral",
-      "action": "Ação",
-      "cardContentGoesHereThisIs": "Card content goes here. This is the main body area.",
-      "cardDescriptionWithSupportingText": "Card description with supporting text.",
-      "cardTitle": "Título do cartão",
-      "theDashboardAndLiveRunsPage": "The dashboard and Live runs page use the same compact cards. In-progress task icons animate across the app, including between runs, to represent task workflow status. Live indicators report active execution. Open a run to view its status and transcript.",
-      "issueList": "Lista de issues",
-      "paperclipApp": "App do Paperclip",
-      "projects": "Projetos",
-      "noResultsFound": "Nenhum resultado encontrado.",
-      "typeACommandOrSearch": "Digite um comando ou busque...",
-      "title": "Título",
-      "editMetadataWithoutLeavingTheCurrent": "Edit metadata without leaving the current page.",
-      "issueProperties": "Propriedades da issue",
-      "openSidePanel": "Abrir painel lateral",
-      "filterByAgentName": "Filtrar por nome do agente",
-      "owner": "Dono",
-      "wakeNow": "Acordar agora",
-      "lastRunSucceeded24sAgoNext": "Last run succeeded 24s ago. Next timer run in 9m.",
-      "agentHeartbeat": "Heartbeat do agente",
-      "openPopover": "Abrir popover",
-      "watchIssue": "Observar issue",
-      "low": "Baixo",
-      "medium": "Médio",
-      "high": "Alto",
-      "critical": "Crítico",
-      "done": "Pronto",
-      "inReview": "Em revisão",
-      "todo": "A fazer",
-      "backlog": "Backlog",
-      "selectStatus": "Selecionar status",
-      "nativeSingleValueDropdownsShareAn": "Native single-value dropdowns share an inset, theme-aware caret and reserve room for it in the base stylesheet. Multiple-selection lists and controls with a custom icon keep their own appearance.",
-      "addADescription": "Adicione uma descrição...",
-      "descriptionMultilineAutoSizing": "Descrição (várias linhas, altura automática)",
-      "bodyTextSingleLine": "Texto do corpo (linha única)",
-      "titleSingleLine": "Título (linha única)",
-      "disabledItem": "Item desativado",
-      "uncheckedItem": "Item desmarcado",
-      "checkedItem": "Item marcado",
-      "writeSomething": "Escreva algo...",
-      "disabledInput": "Entrada desativada",
-      "defaultInput": "Entrada padrão",
-      "customPx": "custom px",
-      "onlineBlueGlow": "online · blue glow",
-      "agentNb": "--agent-Nb",
-      "agentNa": "--agent-Na",
-      "noTitleNeverALink": "no title, never a link",
-      "variantProperty": "variant=\"property\"",
-      "ghost": "Ghost",
-      "destructive": "Destrutivo",
-      "outline": "Contorno",
-      "secondary": "Secundário",
-      "default": "Padrão",
-      "disabledOutline": "Contorno desativado",
-      "disabled": "Desativado",
-      "large": "Grande",
-      "small": "Pequeno",
-      "extraSmall": "Extra pequeno",
-      "link": "Link",
-      "logCodeTextFontMonoText": "Log/code text — font-mono text-xs",
-      "largeStatText2xlFontBold": "Large stat — text-2xl font-bold",
-      "monoIdentifierTextSmFontMono": "Mono identifier — text-sm font-mono text-muted-foreground",
-      "tinyLabelTextXsTextMuted": "Tiny label — text-xs text-muted-foreground",
-      "mutedDescriptionTextSmTextMuted": "Muted description — text-sm text-muted-foreground",
-      "bodyTextTextSm": "Body text — text-sm",
-      "cardTitleAltTextSmFont": "Card Title Alt — text-sm font-semibold",
-      "cardTitleTextSmFontMedium": "Card Title — text-sm font-medium",
-      "sectionHeadingTextSmFontSemibold": "Section Heading — text-sm font-semibold uppercase tracking-wide",
-      "sectionTitleTextLgFontSemibold": "Section Title — text-lg font-semibold",
-      "pageTitleTextXlFontBold": "Page Title — text-xl font-bold",
-      "more": "Mais",
-      "updated12mAgo": "Atualizado 12 min atrás",
-      "1TaskUpdatedNewestFirst": "1 tarefa · Atualizadas da mais recente",
-      "newTask": "Nova tarefa",
-      "filter": "Filtrar",
-      "searchTasks": "Buscar tarefas...",
-      "searchTaskCollectionExample": "Exemplo de busca em coleção de tarefas",
-      "recentTasks": "Tarefas recentes",
-      "collectiontoolbarOwnsSharedGeometryWhileEach": "CollectionToolbar owns shared geometry while each page owns its state and behavior. The canonical task row is opt-in during migration: status leads, unread work uses title emphasis, metadata remains stable, and the task identifier trails.",
-      "thisPageShouldBeUpdatedWhen": "This page should be updated when new UI primitives or app-level patterns ship.",
-      "everyComponentStyleAndPatternUsed": "Every component, style, and pattern used across Paperclip.",
-      "designGuide": "Guia de design",
-      "plusMenuRemovableModeChip": "Plus menu · removable mode chip",
-      "failedPicker": "Seletor com falha",
-      "loadingPicker": "Carregando seletor",
-      "emptyPicker": "Seletor vazio",
-      "startFresh": "Começar de novo",
-      "useDraft": "Usar rascunho",
-      "shouldTheAgentUseTheExisting": "Should the agent use the existing draft?"
-    },
-    "designSandboxTasks": {
-      "loadingTasks": "Carregando tarefas…",
-      "retry": "Repetir"
     },
     "executionWorkspaceDetail": {
       "loadingWorkspacePlugin": "Carregando plugin do workspace...",
@@ -4347,8 +3949,7 @@
       "workspaceRoutines": "Rotinas do workspace",
       "viewRuntimeLogs": "Ver logs de runtime",
       "runsOnceBeforeTheFirstRuntime": "Executa uma vez antes do primeiro início do serviço de runtime.",
-      "deferred": "Adiado",
-      "eagerProvisionedDuringWorkspaceSetup": "Antecipado · provisionado na configuração do workspace"
+      "deferred": "Adiado"
     },
     "goalDetail": {
       "noLinkedProjects": "Nenhum projeto vinculado.",
@@ -4445,83 +4046,6 @@
       "refreshThisPageAfterYouVe": "Atualize esta página depois de ser aprovado — você será redirecionado automaticamente.",
       "settingsMembers": "Configurações → Membros",
       "approvalPage": "Página de aprovação"
-    },
-    "inviteUxLab": {
-      "coveredStates": "Estados cobertos",
-      "fixtureBackedPreview": "fixture-backed preview",
-      "signupInviteStates": "signup + invite states",
-      "thisPageCollectsTheCurrentInvite": "This page collects the current invite landing, signup, approval-result, and organization invite-management states in one place so styling changes can be reviewed without recreating each backend condition by hand.",
-      "inviteAndSignupUxReviewSurface": "Superfície de revisão de UX de convite e cadastro",
-      "youDoNotHavePermissionTo": "You do not have permission to manage organization invites.",
-      "permissionError": "Erro de permissão",
-      "noInvitesHaveBeenCreatedFor": "Nenhum convite foi criado para esta organização ainda.",
-      "emptyHistoryState": "Estado de histórico vazio",
-      "action": "Ação",
-      "joinRequest": "Pedido de entrada",
-      "created": "Criado",
-      "invitedBy": "Convidado por",
-      "role": "Papel",
-      "state": "Estado",
-      "openJoinRequestQueue": "Abrir fila de pedidos de entrada",
-      "reviewInviteStatusRoleInviterAnd": "Review invite status, role, inviter, and any linked join request.",
-      "inviteHistory": "Histórico de convites",
-      "thisUrlIncludesTheCurrentPaperclip": "Esta URL inclui o domínio atual do Paperclip devolvido pelo servidor.",
-      "latestInviteLink": "Link de convite mais recente",
-      "inviteHistoryBelowKeepsTheAudit": "O histórico de convites abaixo mantém a trilha de auditoria.",
-      "createInvite": "Criar convite",
-      "eachInviteLinkIsSingleUse": "Cada link de convite é de uso único. Pessoas convidadas recebem o papel escolhido logo após entrar; convites de agente ainda criam um pedido de entrada para aprovação.",
-      "chooseARole": "Escolha um papel",
-      "generateAHumanInviteLinkAnd": "Gere um link de convite para pessoa e escolha o acesso padrão que ele deve pedir.",
-      "thisFrameMirrorsTheProductionAuth": "This frame mirrors the production auth surface so spacing, label density, button treatments, and desktop composition are easy to compare.",
-      "sideBySideSignupStylingReview": "Revisão de estilo de cadastro lado a lado",
-      "authPreview": "Pré-visualização de autenticação",
-      "password": "Senha",
-      "email": "E-mail",
-      "name": "Nome",
-      "postApiAgentsClaimApiKey": "POST /api/agents/claim-api-key",
-      "claimSecret": "Segredo de reivindicação",
-      "refreshThisPageAfterYouVe": "Atualize esta página depois de ser aprovado — você será redirecionado automaticamente.",
-      "settingsMembers": "Configurações → Membros",
-      "approvalPage": "Página de aprovação",
-      "openBoard": "Abrir conselho",
-      "acceptInvite": "Aceitar convite",
-      "submittingRequest": "Enviando pedido...",
-      "acceptOrganizationInvite": "Aceitar convite da organização",
-      "submitRequest": "Enviar pedido",
-      "capabilities": "Capacidades",
-      "cursor": "Cursor",
-      "claudeCode": "Claude Code",
-      "codex": "Codex",
-      "adapterType": "Tipo de adaptador",
-      "agentName": "Nome do agente",
-      "thisInviteWillCreateAnApproval": "This invite will create an approval request for a new agent in Acme Robotics.",
-      "submitAgentDetails": "Enviar dados do agente",
-      "iAlreadyHaveAnAccount": "Já tenho uma conta",
-      "createAccount": "Criar conta",
-      "messageFromInviter": "Mensagem de quem convidou",
-      "youVeBeenInvitedToJoin": "Você foi convidado para entrar no Paperclip"
-    },
-    "issueChatLongThreadPerf": {
-      "fixtureShape": "Forma do fixture",
-      "baselineMetrics": "Métricas de referência",
-      "subIssues": "Subissues",
-      "issueDocuments": "Documentos da issue",
-      "deterministicLocalFixtureForMeasuringThe": "Deterministic local fixture for measuring the current direct-render issue chat path with hundreds of merged thread rows, markdown-heavy assistant bodies, linked runs, documents, sub-issues, and sidebar context."
-    },
-    "issueChatUxLab": {
-      "thisRouteShouldBeTheFastest": "This route should be the fastest way to inspect the chat system before or after tweaks.",
-      "whatToEvaluateOnThisPage": "O que avaliar nesta página",
-      "for1Min24s": "for 1 min 24s",
-      "completedRunStatic": "Completed run — static",
-      "for12s": "for 12s",
-      "working": "Trabalhando",
-      "activeRunShimmer": "Active run — shimmer",
-      "fastInterval1sStressTest": "Intervalo rápido (1 s) — teste de estresse",
-      "defaultInterval22s": "Intervalo padrão (2,2 s)",
-      "fixtureBackedLiveRun": "fixture-backed live run",
-      "assistantUiThread": "assistant-ui thread",
-      "thisPageExercisesTheRealAssistant": "This page exercises the real assistant-ui issue chat with fixture-backed messages. Use it to review spacing, chronology, running states, tool rendering, activity rows, queueing, and composer behavior without needing a live issue in progress.",
-      "issueChatReviewSurface": "Superfície de revisão da conversa da issue"
     },
     "issueDetail": {
       "taskSidePanel": "Painel lateral da tarefa",
@@ -4661,7 +4185,6 @@
       "selectAnOrganizationToConfigureThis": "Selecione uma organização para configurar as pastas locais deste plugin.",
       "noSpecialPermissionsRequested": "Nenhuma permissão especial solicitada.",
       "version": "Versão",
-      "npmPackage": "NPM Package",
       "pluginKey": "Chave do plugin",
       "pluginId": "ID do plugin",
       "details": "Detalhes",
@@ -4730,23 +4253,6 @@
     "projects": {
       "noProjectsMatchYourSearch": "Nenhum projeto corresponde à sua busca."
     },
-    "responsibleUserDenialUxLab": {
-      "forbiddenResponsibleUserUnavailable": "Forbidden: responsible user unavailable",
-      "responsibleUserDenialNoticeIntentionallyAbsent": "Responsible-user denial notice intentionally absent for non-responsible-user codes.",
-      "forbiddenAgentIsNotPermittedTo": "Forbidden: agent is not permitted to perform this action",
-      "forbiddenActionNotPermitted": "Proibido: ação não permitida",
-      "beforeAfterOfTheTwoRun": "Before/after of the two run surfaces and the four denial-related states.",
-      "runOnBehalfOfSurfacingDenial": "Run \"on behalf of\" surfacing + denial copy",
-      "pap12462P7": "PAP-12462 · P7",
-      "codexLocal": "codex local",
-      "runA1b2c3d4": "Run a1b2c3d4",
-      "stop": "Parar",
-      "lastUsefulAction": "Última ação útil",
-      "elapsed": "Decorrido",
-      "2mAgo": "2 min atrás",
-      "byCodexcoder": "by CodexCoder",
-      "run": "Executar"
-    },
     "routineDetailproduction": {
       "routineTitle": "Título da rotina",
       "skipToSection": "Ir para a seção"
@@ -4795,14 +4301,6 @@
       "newRoutine": "Nova rotina",
       "recurringWorkDefinitionsThatMaterializeInto": "Definições de trabalho recorrente que se materializam em tarefas de execução auditáveis.",
       "routines": "Rotinas"
-    },
-    "runTranscriptUxLab": {
-      "controls": "Controles",
-      "builtFromARealPaperclipDevelopment": "Built from a real Paperclip development run, then sanitized so no secrets, local paths, or environment details survive into the fixture.",
-      "runTranscriptFixtures": "Run Transcript Fixtures",
-      "compactLiveTranscriptStreamForThe": "Compact live transcript stream for the issue detail page.",
-      "liveRuns": "Execuções ao vivo",
-      "runDetail": "Detalhe da execução"
     },
     "search": {
       "updating": "Atualizando…",
@@ -5099,27 +4597,27 @@
       },
       "createStatusCardDialog": {
         "cancel": "Cancelar",
-        "runsThisCardSSetupAnd": "Runs this card's setup and updates. Leave on the default unless another agent should own it.",
+        "runsThisCardSSetupAnd": "Executa a configuração e as atualizações deste cartão. Deixe no padrão, a menos que outro agente deva ser o dono.",
         "agent": "Agente",
         "examples": "Exemplos",
-        "keepAnEyeOnTheId": "Keep an eye on the ID and Cloud projects. Tell me whether the service is live, and if not, the exact three actions needed to get it to production.",
+        "keepAnEyeOnTheId": "Acompanhe os projetos de ID e de Cloud. Me diga se o serviço está no ar e, se não estiver, as três ações exatas necessárias para levá-lo à produção.",
         "whatDoYouWantToKeep": "O que você quer acompanhar?",
-        "oneMessageSetsUpTheWhole": "One message sets up the whole card: say what you want to watch and what each update should tell you. The agent builds the query from it and writes every update against it.",
+        "oneMessageSetsUpTheWhole": "Uma mensagem configura o cartão inteiro: diga o que você quer acompanhar e o que cada atualização deve informar. O agente monta a consulta a partir dela e escreve toda atualização com base nela.",
         "newCard": "Novo cartão"
       },
       "statusCardDetailDrawer": {
         "mentionedInTheLatestUpdate": "Mencionado na atualização mais recente",
-        "theCompiledQueryMatchesNoIssues": "The compiled query matches no issues right now.",
+        "theCompiledQueryMatchesNoIssues": "A consulta compilada não corresponde a nenhuma issue agora.",
         "agent": "Agente",
-        "thisOneMessageDrivesTheWhole": "This one message drives the whole card: the agent compiles the watch query from it and follows it as the instructions for every update. Editing it rebuilds the card.",
+        "thisOneMessageDrivesTheWhole": "Esta única mensagem conduz o cartão todo: o agente compila a consulta de acompanhamento a partir dela e a segue como instruções de cada atualização. Editá-la reconstrói o cartão.",
         "whatThisCardWatchesReports": "O que este cartão observa e reporta",
         "cardName": "Nome do cartão",
         "autoNamedFromTheQuery": "Nomeado automaticamente pela consulta",
-        "thisCardIsStillSettingUp": "This card is still setting up — the issues it watches appear here once it's ready.",
+        "thisCardIsStillSettingUp": "Este cartão ainda está se configurando — as issues que ele acompanha aparecem aqui quando estiver pronto.",
         "noUpdatesRecordedYet": "Nenhuma atualização registrada ainda.",
-        "noSummaryYetTheFirstOne": "No summary yet — the first one is generated automatically once this card finishes setting up.",
-        "noChangeSummaryWasRecordedFor": "No change summary was recorded for this revision.",
-        "theFullSummaryTextForThis": "The full summary text for this revision is unavailable — showing its change summary. The integrated changes below are the live ledger for this revision.",
+        "noSummaryYetTheFirstOne": "Nenhum resumo ainda — o primeiro é gerado automaticamente quando este cartão terminar de se configurar.",
+        "noChangeSummaryWasRecordedFor": "Nenhum resumo de alteração foi registrado para esta revisão.",
+        "theFullSummaryTextForThis": "O texto completo do resumo desta revisão está indisponível — mostrando o resumo de alterações dela. As alterações integradas abaixo são o livro ao vivo desta revisão.",
         "selectSummaryRevision": "Selecionar revisão do resumo",
         "history": "Histórico",
         "watchedIssues": "Issues observadas",
@@ -5127,7 +4625,7 @@
         "summary": "Resumo"
       },
       "statusCardSettingsForm": {
-        "roughEstimateFromTypicalUpdateSizes": "Rough estimate from typical update sizes; actual cost is tracked per update.",
+        "roughEstimateFromTypicalUpdateSizes": "Estimativa aproximada a partir de tamanhos típicos de atualização; o custo real é acompanhado por atualização.",
         "estimatedCost": "Custo estimado",
         "dailyTokenCap": "Teto diário de tokens",
         "noCap": "sem teto",
@@ -5140,7 +4638,6 @@
         "guardrails": "Salvaguardas",
         "countAsAChange": "Contar como alteração",
         "maxUpdatesPerHour": "Máximo de atualizações por hora",
-        "afterTheLastChangeMax": "após a última alteração · máx.",
         "debounce": "Debounce",
         "wait": "Aguardar",
         "checkInterval": "Intervalo de verificação",
@@ -5151,7 +4648,7 @@
       "statusCardTile": {
         "refreshCard": "Atualizar cartão",
         "noSummaryYet": "Nenhum resumo ainda.",
-        "youCanAddInstructionsAndPick": "You can add instructions and pick an update policy while this runs.",
+        "youCanAddInstructionsAndPick": "Você pode adicionar instruções e escolher uma política de atualização enquanto isto roda.",
         "showingLastGoodSummary": "Mostrando o último resumo bom:",
         "details": "Detalhes",
         "retry": "Repetir",
@@ -5165,44 +4662,11 @@
         "cardActions": "Ações do cartão"
       },
       "summarizerAgentSelect": {
-        "summarizerDefault": "Summarizer (default)"
+        "summarizerDefault": "Summarizer (padrão)"
       },
       "index": {
         "status": "Status"
       }
-    },
-    "systemNoticeUxLab": {
-      "legacyFallback": "Fallback antigo",
-      "roleStatus": "role=\"status\"",
-      "accessibility": "Acessibilidade",
-      "routingInIssuechatthread": "Routing in IssueChatThread",
-      "component": "Componente",
-      "whatThePhase4UiImplementation": "What the Phase 4 UI implementation should preserve from this design.",
-      "handoffToEngineering": "Repassar para engenharia",
-      "details": "Detalhes",
-      "you": "Você",
-      "suggestedActionReassignToRecoveryAgent": "Suggested action: Reassign to recovery agent",
-      "recoveryOwnerCto": "Dono da recuperação: CTO",
-      "normalizedCauseRunCompletedWithoutDisposition": "Normalized cause: Run completed without disposition",
-      "statusBeforeInProgress": "Status antes: in_progress",
-      "recoveryRun61fdb79b80124676Ac71": "Recovery run: 61fdb79b-8012-4676-ac71-2971830e126a",
-      "sourceRun9cdba892C7ca4d938604": "Source run: 9cdba892-c7ca-4d93-8604-4843873b127c",
-      "sourceIssuePap3440": "Source issue: PAP-3440",
-      "successfulRunHandoffMissing": "Falta o repasse da execução bem-sucedida",
-      "tonesWarningDangerNeutral": "tones: warning · danger · neutral",
-      "phase1Ux": "phase 1 — UX",
-      "pap3525Plan": "PAP-3525 plan",
-      "replacesTheCurrentPatternWhereA": "Replaces the current pattern where a Paperclip-authored warning renders inside a user-style chat bubble. The notice is one container, system-styled, with hidden-by-default operational metadata. Tone is conveyed by icon, label, and color together so it stays accessible.",
-      "firstClassSystemNoticeTreatment": "Tratamento de aviso do sistema de primeira classe"
-    },
-    "taskChatLab": {
-      "agentBubbleTreatment": "Tratamento do balão do agente",
-      "agentBubble": "Balão do agente",
-      "streamingSpeed": "Velocidade de streaming",
-      "speed": "Velocidade",
-      "states": "Estados",
-      "syntheticHarnessForTheTaskChat": "Synthetic harness for the task chat redesign · every state renders here with no live agent.",
-      "taskChatLab": "Task Chat Lab"
     },
     "teamCatalog": {
       "selectATeamToViewDetails": "Selecione um time para ver os detalhes.",
@@ -5366,7 +4830,6 @@
         "cancel": "Cancelar",
         "useTheEndUserIdConfigured": "Use o ID de usuário final configurado para a entrada deste gateway. Ele pode ser diferente do seu e-mail.",
         "arcadeUserId": "ID de usuário do Arcade",
-        "arcade": "Arcade",
         "projectApiKey": "Chave de API do projeto",
         "syncArcadeAccounts": "Sincronizar contas do Arcade"
       },
@@ -5548,7 +5011,6 @@
           "retry": "Repetir",
           "loadingProfiles": "Carregando perfis…",
           "noSavedProfiles": "Nenhum perfil salvo.",
-          "browserUseCloud": "Browser Use Cloud",
           "allowedSavedProfiles": "Perfis salvos permitidos",
           "theAgentCanChooseALower": "O agente pode escolher um limite menor. O Paperclip também aplica qualquer limite rígido de orçamento restante.",
           "useTheRemainingPaperclipBudget": "Usar o orçamento restante do Paperclip",
@@ -5721,40 +5183,29 @@
           "pullRequests": "Pull requests",
           "issues": "Issues",
           "enableSslVerification": "Habilitar verificação de SSL",
-          "webhooksActive": "Webhooks · Ativos",
           "underTheTargetUserOrOrganization": "No usuário ou na organização de destino, crie um novo GitHub App. Dê a ele um nome globalmente único (34 caracteres ou menos), use a URL da página inicial do Paperclip abaixo e deixe a autorização de usuário desligada.",
           "configureAPublicHttpsUrlFor2": "Configure uma URL HTTPS pública para esta instância do Paperclip antes de conectar o Microsoft Teams.",
           "supportsfilesTrue": "supportsFiles: true",
           "theTwoApplicationRscPermissionsLet": "As duas permissões RSC de aplicativo deixam o bot receber toda mensagem, sem @menção, em cada equipe ou conversa em grupo onde ele está instalado. O Paperclip retém e age apenas nas mensagens admitidas pelas suas regras de alcance e acesso. Deixe esse acesso do provedor claro na descrição do app mostrada a quem instala.",
           "enterTheApplicationClientIdAbove": "Informe o Application / Client ID acima antes de copiar, para o bloco conter a identidade real do bot. Este bloco traz os campos específicos do Paperclip para verificar no Developer Portal ou mesclar num manifesto completo de app do Teams. Não é um pacote de app completo; o Developer Portal fornece os metadados obrigatórios restantes e empacota o manifesto com os ícones do seu app.",
-          "uploadAnAppUploadACustom": "Enviar um app · Enviar um app personalizado",
-          "microsoftTeamsAppsManageYourApps": "Microsoft Teams · Apps · Gerenciar seus apps",
           "application": "Aplicativo",
-          "configurePermissions": "Configurar · Permissões",
           "groupChat": "Conversa em grupo",
           "team": "Time",
           "personal": "Pessoal",
-          "configureAppFeaturesBot": "Configurar · Recursos do app · Bot",
           "newApp": "Novo app",
-          "teamsDeveloperPortalApps": "Portal do Desenvolvedor do Teams · Apps",
           "microsoftTeams": "Microsoft Teams",
-          "settingsChannels": "Configurações · Canais",
           "messagingEndpoint": "Endpoint de mensagens",
-          "settingsConfiguration": "Configurações · Configuração",
           "useExistingAppRegistration": "Usar registro de app existente",
           "creationType": "Tipo de criação",
           "singleTenant": "Tenant único",
           "microsoftAppId": "ID do app da Microsoft",
-          "azureCreateAzureBot": "Azure · Criar Azure Bot",
           "value": "Valor",
           "newClientSecret": "Novo segredo do cliente",
-          "certificatesSecretsClientSecrets": "Certificados e segredos · Segredos do cliente",
           "directoryTenantId": "ID do diretório (tenant)",
           "applicationClientId": "ID do aplicativo (cliente)",
           "register": "Registrar",
           "accountsInThisOrganizationalDirectoryOnly": "Somente contas neste diretório organizacional (tenant único)",
           "newRegistration": "Novo registro",
-          "microsoftEntraAdminCenterAppRegistrations": "Centro de administração do Microsoft Entra · Registros de app",
           "useTheseExactPortalSectionsAnd": "Use exatamente estas seções do portal e reutilize o mesmo Application ID nos três lugares.",
           "microsoftPortalFieldMap": "Mapa de campos do portal da Microsoft",
           "inTeamsDeveloperPortalCreateAn": "No Teams Developer Portal, crie um app, adicione um bot com o mesmo Application ID e aplique as configurações de manifesto mostradas abaixo. O bloco vincula as permissões de consentimento específicas de recurso do Teams àquele app do Entra; elas não são permissões do Microsoft Graph no Entra. Essas permissões deixam o app instalado receber toda mensagem numa equipe ou conversa em grupo sem @menção, então descreva esse acesso a quem instala. Baixe o pacote e instale-o na equipe ou conversa em grupo de destino.",
@@ -6000,8 +5451,7 @@
           "basicInformation": "Informações básicas",
           "youLlUploadTheDownloadedImage": "Você vai enviar a imagem baixada direto nas configurações do app no Slack.",
           "howToUploadInSlack": "Como enviar no Slack",
-          "couldnTDownloadTheAvatarTry": "Não foi possível baixar o avatar. Tente baixar de novo.",
-          "png512512ReadyForSlack": "PNG · 512 × 512 · Pronto para o Slack"
+          "couldnTDownloadTheAvatarTry": "Não foi possível baixar o avatar. Tente baixar de novo."
         },
         "slackIdentityStep": {
           "continueToMessageTest": "Continuar para o teste de mensagem",
@@ -6095,7 +5545,6 @@
         },
         "gatewayDetail": {
           "gatewayTabs": "Abas do gateway",
-          "appsGateways": "Aplicativos · Gateways",
           "backToGateways": "Voltar para gateways",
           "weCouldnTFindThatGateway": "Não encontramos esse gateway.",
           "selectAnOrganizationToManageGateways": "Selecione uma organização para gerenciar gateways."
@@ -6240,7 +5689,6 @@
         "toDate": "Data final",
         "fromDate": "Data inicial",
         "from": "De",
-        "casC1": "CAS-C1",
         "caseIdOrIdentifier": "ID ou identificador do caso",
         "case": "Caso",
         "entity": "Entidade",
@@ -6317,7 +5765,6 @@
         "backToSelection": "Voltar para a seleção",
         "showingTheFirst64KbThe": "Mostrando os primeiros 64 KB. O arquivo completo é importado.",
         "openOnGithubToPreviewOr": "Abra no GitHub para pré-visualizar ou baixar este arquivo.",
-        "binaryAssetIncludedWithoutChanges": "Ativo binário · incluído sem alterações",
         "manageGithubAccess": "Gerenciar acesso ao GitHub",
         "tryAgain": "Tentar novamente",
         "loadingPreview": "Carregando pré-visualização…",
@@ -6494,8 +5941,6 @@
         "createNewApplication": "Criar novo aplicativo",
         "useExistingApplication": "Usar aplicativo existente",
         "application": "Aplicativo",
-        "2Connection": "2 Connection",
-        "1Application": "1 aplicativo",
         "chooseAnExistingApplicationOrCreate": "Escolha um aplicativo existente ou crie um no mesmo fluxo de conexão. As credenciais ficam como referências de cofre e a conexão é sondada antes da ativação.",
         "addApplication": "Adicionar aplicativo",
         "noToolsDiscoveredYetUseRefresh": "Nenhuma ferramenta descoberta ainda. Use “Atualizar catálogo” para descobrir ferramentas desta conexão."

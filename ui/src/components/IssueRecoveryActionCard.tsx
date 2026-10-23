@@ -577,14 +577,14 @@ function BreakGlassOverride({
           className="space-y-1.5 rounded-md border border-red-400/40 bg-red-500/5 px-2.5 py-2 text-(length:--text-micro)"
         >
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">{t("components.issueRecoveryActionCard.recordedExpected")}</dt>
+            <dt className="shrink-0 text-muted-foreground">Recorded · expected</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.expectedBranch ?? "detached"}
               {expectedSha ? ` @ ${expectedSha}` : ""}
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <dt className="shrink-0 text-muted-foreground">{t("components.issueRecoveryActionCard.liveCheckedOut")}</dt>
+            <dt className="shrink-0 text-muted-foreground">Live · checked out</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
               {divergence.liveBranch ?? "detached"}
               {liveSha ? ` @ ${liveSha}` : ""}
@@ -731,7 +731,7 @@ function RepairWorkspace({
               className="min-w-0 truncate font-mono text-foreground/90"
             >
               {divergence.rescueBranchPreview}
-              <span className="text-muted-foreground">{t("components.issueRecoveryActionCard.timestamp")}</span>
+              <span className="text-muted-foreground">&lt;timestamp&gt;</span>
             </dd>
           </div>
           <div className="flex items-center justify-between gap-2">

@@ -5,7 +5,14 @@
 
 /** Brand and proper nouns stay literal: a catalogue entry invites 40 bad
  *  "translations" of a name that must not change. */
-export const DO_NOT_TRANSLATE = new Set(["Paperclip", "GitHub", "Slack", "npm", "Studio", "JSON", "Markdown"]);
+export const DO_NOT_TRANSLATE = new Set([
+  "Paperclip", "GitHub", "Slack", "npm", "Studio", "JSON", "Markdown",
+  // Product and vendor names reached through this UI. A catalogue entry for a
+  // name invites 40 translations of something that must not change.
+  "Muse", "Open Muse", "Arcade", "Bot", "Grok Bot", "Grok Bot setup",
+  "Braintrust", "Claude CLI", "Gemini CLI", "Browser Use Cloud",
+  "Live Browser Use browser", "NPM Package", "Speko charge", "Summarizer",
+]);
 
 /**
  * A string is translatable when a human reads it as prose. Everything that is
@@ -37,6 +44,16 @@ export function isTranslatable(raw) {
   // punctuation ("npm packages will be cleaned up from disk."); a command
   // does not ("bash ./scripts/provision-worktree.sh").
   if (/^(bash|sh|npm|npx|pnpm|yarn|git|sudo|docker|curl|cd)\s/.test(s) && !/[.?!]$/.test(s)) return false;
+
+  if (/^<[^>]*>$/.test(s)) return false;                        // <timestamp> placeholder
+  if (/\s\*$/.test(s)) return false;                            // "Agent *" required marker
+  // "API key · x-api-key", "Anthropic Messages · Claude": a middot joins a
+  // label to a machine value. Prose does not use it as a separator.
+  if (s.includes(" · ") && !/[.?!]$/.test(s)) return false;
+  // "SOURCE-RESOLVED FOLD": screaming case is a diagnostic marker, not copy.
+  if (/^[A-Z][A-Z0-9 \-_]+$/.test(s) && s === s.toUpperCase()) return false;
+  // "1. Code", "2. Adapter", "2 Connection": numbered wizard-step fixtures.
+  if (/^\d+[.)]?\s+\S+(\s+\S+)?$/.test(s) && !/[.?!]$/.test(s)) return false;
 
   // A fragment that opens with punctuation is the tail of a split sentence.
   if (/^[,.;:·—–]/.test(s)) return false;

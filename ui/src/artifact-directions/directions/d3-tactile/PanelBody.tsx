@@ -8,7 +8,6 @@ import { onlyToReview, sectionsOf } from "./panel-order";
 import { PanelDivider } from "./PanelDivider";
 import { BUTTON_RING } from "./PanelActions";
 import { PanelItem } from "./PanelItem";
-import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — the task's shelf: everything the task has produced, laid out on
@@ -45,17 +44,15 @@ function FilterButton({ pressed, onPress, count, children }: { pressed: boolean;
 const BLANK: LabArtifact = { id: "empty", kind: "file", title: "", author: "", updatedAt: "", updatedLabel: "", dayLabel: "", taskIdentifier: "", taskTitle: "" };
 
 function Empty() {
-  const { t } = useTranslation();
   return (
     <div className="flex items-center gap-4 px-1 py-6">
       <ArtifactObject artifact={BLANK} size="sm" flag="none" repose={2} />
-      <p className="text-sm text-(--tac-meta)">{t("artifactdirections.directions.d3tactile.panelBody.noArtifactsYetWorkProductsDocuments")}</p>
+      <p className="text-sm text-(--tac-meta)">No artifacts yet. Work products, documents, and agent-produced files will appear here.</p>
     </div>
   );
 }
 
 export function PanelBody({ artifacts }: { artifacts: LabArtifact[] }) {
-  const { t } = useTranslation();
   const [filter, setFilter] = useState<Filter>("all");
   const sections = useMemo(() => sectionsOf(artifacts), [artifacts]);
   const toReview = sections.reduce((sum, section) => sum + section.reviewCount, 0);
@@ -65,9 +62,9 @@ export function PanelBody({ artifacts }: { artifacts: LabArtifact[] }) {
   return (
     <div data-tac-desk className="-m-4 flex flex-col gap-7 bg-(--tac-desk) bg-(image:--tac-ground-grain) p-4 pb-6 shadow-(--tac-desk-rim)">
       {toReview > 0 ? (
-        <div role="group" aria-label={t("artifactdirections.directions.d3tactile.panelBody.show")} className="-mb-2 flex items-center gap-1">
+        <div role="group" aria-label="Show" className="-mb-2 flex items-center gap-1">
           <FilterButton pressed={filter === "all"} onPress={() => setFilter("all")} count={artifacts.length}>
-            {t("artifactdirections.directions.d3tactile.panelBody.all")}
+            All
           </FilterButton>
           <FilterButton pressed={filter === "review"} onPress={() => setFilter("review")} count={toReview}>
             <span aria-hidden className="block h-2.5 w-3.5 bg-(--tac-flag)" style={FLAG} />

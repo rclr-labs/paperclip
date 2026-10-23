@@ -20,7 +20,6 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { COMPANY, TASKS } from "../fixtures";
-import { useTranslation } from "@/i18n";
 
 /**
  * Static mock of the streamlined app shell (Layout.tsx:618-795): the primary
@@ -96,10 +95,9 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function Sidebar({ nav }: { nav: ShellNav }) {
-  const { t } = useTranslation();
   return (
     // SidebarShell.tsx:15 (240px), Sidebar.tsx:128 — no right border; the edge is the surface change.
-    <aside className="flex w-60 shrink-0 flex-col primary-sidebar-surface" aria-label={t("artifactdirections.frames.appShell.primary")}>
+    <aside className="flex w-60 shrink-0 flex-col primary-sidebar-surface" aria-label="Primary">
       {/* Sidebar.tsx:142 + SidebarCompanyMenu.tsx:268-291 */}
       <div className="flex h-(--sz-60px) shrink-0 items-center gap-1 px-3">
         <span className="flex h-9 min-w-0 flex-1 items-center justify-start gap-2 rounded-md px-4 text-left">

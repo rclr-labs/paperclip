@@ -14,7 +14,64 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { createRequire } from "node:module";
 import { isTranslatable } from "./translatable.mjs";
+import { isExcludedKey } from "./excluded.mjs";
+
+const require_ = createRequire(import.meta.url);
+function loadParser() {
+  try {
+    return require_("@babel/parser");
+  } catch {}
+  const base = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../node_modules/.pnpm");
+  const dir = fs.readdirSync(base).find((d) => d.startsWith("@babel+parser@"));
+  if (!dir) throw new Error("@babel/parser not found; run pnpm install");
+  return require_(path.resolve(base, dir, "node_modules/@babel/parser"));
+}
+const parser = loadParser();
+
+/**
+ * Removes the hook and import a pruned file no longer needs.
+ *
+ * Restoring a literal without removing the `const { t } = useTranslation()`
+ * that served it leaves an unused binding and an unused import — which
+ * noUnusedLocals and lint both reject, and which is why a fully pruned file
+ * otherwise keeps a two-line diff forever.
+ */
+function tidyOrphans(src) {
+  let out = src;
+  // Drop a hook line from any component that no longer calls t(.
+  const lines = out.split("\n");
+  const keep = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (!/^\s*const \{ t \} = useTranslation\(\);\s*$/.test(lines[i])) {
+      keep.push(lines[i]);
+      continue;
+    }
+    // Look ahead to the end of this component body for a t( call.
+    let depth = 0;
+    let usesT = false;
+    for (let j = i + 1; j < lines.length; j++) {
+      if (/\bt\(/.test(lines[j])) { usesT = true; break; }
+      depth += (lines[j].match(/\{/g) ?? []).length - (lines[j].match(/\}/g) ?? []).length;
+      if (depth < 0) break; // left the component
+    }
+    if (usesT) keep.push(lines[i]);
+  }
+  out = keep.join("\n");
+  // Drop the import when nothing in the file calls t( or uses the hook.
+  if (!/\bt\(/.test(out) && !/useTranslation\(/.test(out)) {
+    out = out
+      .replace(/^import \{ useTranslation \} from "@\/i18n";\n/m, "")
+      .replace(/import \{([^}]*?),\s*useTranslation \} from "@\/i18n"/, 'import {$1} from "@/i18n"');
+  }
+  try {
+    parser.parse(out, { sourceType: "module", plugins: ["typescript", "jsx"] });
+  } catch {
+    return src; // never write something that stopped parsing
+  }
+  return out;
+}
 
 const UI_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
 const LOCALES_DIR = path.join(UI_ROOT, "src/i18n/locales");
@@ -27,14 +84,15 @@ const bad = new Map();
   for (const [key, value] of Object.entries(node)) {
     const full = prefix ? `${prefix}.${key}` : key;
     if (value && typeof value === "object") walk(value, full);
-    else if (!isTranslatable(value)) bad.set(full, value);
+    // Two reasons to prune: the string is not copy, or it came from a surface
+    // that should never have been extracted at all.
+    else if (!isTranslatable(value) || isExcludedKey(full)) bad.set(full, value);
   }
 })(en, "");
 
-if (bad.size === 0) {
-  console.log("nada a remover: toda chave do catalogo passa pela regra atual");
-  process.exit(0);
-}
+// No early exit: the tidy pass below still has work when a previous run
+// removed keys but left the hook and import it served behind.
+const nothingToPrune = bad.size === 0;
 
 const tsxFiles = [];
 (function walkDir(dir) {
@@ -56,18 +114,31 @@ for (const file of tsxFiles) {
     const attr = new RegExp(`=\\{\\s*${call}\\s*\\}`, "g");
     const child = new RegExp(`\\{\\s*${call}\\s*\\}`, "g");
     // Restore the plain form when the value allows it, so pruning leaves no
-    // diff at all against the pre-extraction source. Values carrying a quote
-    // or a newline fall back to the brace form, which is always valid.
-    const plain = !value.includes('"') && !value.includes("\n");
+    // diff at all against the pre-extraction source.
+    //
+    // Raw JSX text cannot carry < > { }: Babel DECODES entities when it reads
+    // JSXText, so a source that wrote `&lt;timestamp&gt;` reaches the catalogue
+    // as `<timestamp>`, and writing that back raw makes the parser look for a
+    // closing tag. Children re-encode those characters; attributes, which also
+    // cannot carry a quote, fall back to the always-valid brace form.
+    const jsxEntities = (text) =>
+      text
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/\{/g, "&#123;")
+        .replace(/\}/g, "&#125;")
+        .replace(/"/g, "&quot;");
+    const plainAttr = !/["\n<>{}]/.test(value);
     src = src.replace(attr, () => {
       restored++;
-      return plain ? `="${value}"` : `={${literal}}`;
+      return plainAttr ? `="${value}"` : `={${literal}}`;
     });
     src = src.replace(child, () => {
       restored++;
-      return plain ? value : `{${literal}}`;
+      return value.includes("\n") ? `{${literal}}` : jsxEntities(value);
     });
   }
+  src = tidyOrphans(src);
   if (src !== before) {
     touchedFiles++;
     if (APPLY) fs.writeFileSync(file, src, "utf8");
@@ -95,6 +166,7 @@ if (APPLY) {
   }
 }
 
+if (nothingToPrune) console.log("nada a remover: toda chave do catalogo passa pela regra atual");
 console.log(`chaves removidas:      ${bad.size}`);
 console.log(`literais restaurados:  ${restored} em ${touchedFiles} arquivos`);
 if (!APPLY) console.log("\n(dry-run — use --apply para escrever)");

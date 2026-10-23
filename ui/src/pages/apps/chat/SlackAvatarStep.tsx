@@ -72,7 +72,7 @@ export function SlackAvatarContent({
                 : "1. Download your agent’s avatar"}
             </h2>
             <p className="text-xs text-muted-foreground">
-              {t("pages.apps.chat.slackAvatarStep.png512512ReadyForSlack")}
+              PNG · 512 × 512 · Ready for Slack
             </p>
           </div>
           <Button variant="outline" asChild>

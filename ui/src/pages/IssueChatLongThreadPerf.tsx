@@ -2,7 +2,6 @@ import { Profiler, useEffect, useLayoutEffect, useMemo, useRef, useState, type P
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IssueChatThread } from "../components/IssueChatThread";
-import { useTranslation } from "@/i18n";
 import {
   issueChatLongThreadAgentMap,
   issueChatLongThreadComments,
@@ -53,7 +52,6 @@ function MetricTile({ label, value, testId }: { label: string; value: string; te
 }
 
 export function IssueChatLongThreadPerf() {
-  const { t } = useTranslation();
   const [metrics, setMetrics] = useState<RenderMetrics>(initialMetrics);
   const metricsRef = useRef<RenderMetrics>(initialMetrics);
   const renderStartedAtRef = useRef(performance.now());
@@ -119,7 +117,9 @@ export function IssueChatLongThreadPerf() {
           </div>
           <h1 className="mt-3 text-2xl font-semibold tracking-tight">{fixture.issue.title}</h1>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-            {t("pages.issueChatLongThreadPerf.deterministicLocalFixtureForMeasuringThe")}
+            Deterministic local fixture for measuring the current direct-render issue chat path with
+            hundreds of merged thread rows, markdown-heavy assistant bodies, linked runs, documents,
+            sub-issues, and sidebar context.
           </p>
         </div>
         <div className="grid min-w-(--sz-280px) grid-cols-2 gap-2">
@@ -132,7 +132,7 @@ export function IssueChatLongThreadPerf() {
         <main className="min-w-0 space-y-4">
           <Card className="border-border/70">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("pages.issueChatLongThreadPerf.issueDocuments")}</CardTitle>
+              <CardTitle className="text-base">Issue documents</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-2 sm:grid-cols-2">
               {fixture.documents.map((document) => (
@@ -145,7 +145,7 @@ export function IssueChatLongThreadPerf() {
 
           <Card className="border-border/70">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("pages.issueChatLongThreadPerf.subIssues")}</CardTitle>
+              <CardTitle className="text-base">Sub-issues</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {fixture.subIssues.map((subIssue, index) => (
@@ -179,7 +179,7 @@ export function IssueChatLongThreadPerf() {
         <aside className="space-y-4 xl:sticky xl:top-4 xl:self-start">
           <Card className="border-border/70">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("pages.issueChatLongThreadPerf.baselineMetrics")}</CardTitle>
+              <CardTitle className="text-base">Baseline metrics</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-2">
               <MetricTile label="Profiler commits" value={String(metrics.commitCount)} testId="perf-commit-count" />
@@ -192,7 +192,7 @@ export function IssueChatLongThreadPerf() {
 
           <Card className="border-border/70">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("pages.issueChatLongThreadPerf.fixtureShape")}</CardTitle>
+              <CardTitle className="text-base">Fixture shape</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               {fixture.sidebarStats.map(([label, value]) => (

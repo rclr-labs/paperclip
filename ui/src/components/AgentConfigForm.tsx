@@ -1712,7 +1712,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
             <Field label="Harness" hint={help.adapterType}>
               <div className="inline-flex items-center gap-1.5">
                 <AdapterMark type="grok_bot" className="size-4" />
-                <span>{t("components.agentConfigForm.grokBot")}</span>
+                <span>Grok Bot</span>
                 <ExperimentalBadge />
               </div>
             </Field>
@@ -2890,7 +2890,7 @@ function DisplayedCodeLoginPanel({
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <div className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
-                {t("components.agentConfigForm.1Code")}
+                1. Code
               </div>
               <span className="font-mono text-xs text-foreground break-all">{prompt.code}</span>
             </div>
@@ -2899,7 +2899,7 @@ function DisplayedCodeLoginPanel({
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <div className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
-                {t("components.agentConfigForm.2AuthenticationUrl")}
+                2. Authentication URL
               </div>
               <span className="font-mono text-xs text-foreground break-all">{prompt.url}</span>
             </div>
@@ -3672,7 +3672,7 @@ function SubmittedBrowserCodeLoginPanel({
             <div className="flex items-center justify-between gap-2">
               <div className="min-w-0">
                 <div className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
-                  {t("components.agentConfigForm.1AuthorizationUrl")}
+                  1. Authorization URL
                 </div>
                 <span className="font-mono text-xs text-foreground break-all">{authorizationUrl}</span>
               </div>
@@ -3695,7 +3695,7 @@ function SubmittedBrowserCodeLoginPanel({
             </div>
             <div className="space-y-1">
               <div className="text-(length:--text-micro) uppercase tracking-wide text-muted-foreground">
-                {t("components.agentConfigForm.2BrowserCode")}
+                2. Browser code
               </div>
               <div className="flex items-center gap-2">
                 <input

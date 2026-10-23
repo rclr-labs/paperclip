@@ -187,7 +187,7 @@ export function TaskBrowserPanel({
           <iframe
             ref={frameRef}
             key={refresh}
-            title={t("components.tasksidepanel.taskBrowserPanel.liveBrowserUseBrowser")}
+            title="Live Browser Use browser"
             src={url}
             onLoad={() => setViewerLoad("loaded")}
             referrerPolicy="no-referrer"

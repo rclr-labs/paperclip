@@ -542,7 +542,7 @@ export function PluginSettings() {
                     <span className="font-mono text-xs text-right">{plugin.pluginKey}</span>
                   </div>
                   <div className="flex justify-between gap-3">
-                    <span>{t("pages.pluginSettings.npmPackage")}</span>
+                    <span>NPM Package</span>
                     <span className="max-w-(--sz-170px) truncate text-right text-xs" title={plugin.packageName}>
                       {plugin.packageName}
                     </span>

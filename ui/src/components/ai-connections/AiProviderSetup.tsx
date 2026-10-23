@@ -356,13 +356,13 @@ export function AiProviderSetup({
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="responses">
-                      {t("components.aiconnections.aiProviderSetup.openaiResponsesCodex")}
+                      OpenAI Responses · Codex
                     </SelectItem>
                     <SelectItem value="messages">
-                      {t("components.aiconnections.aiProviderSetup.anthropicMessagesClaude")}
+                      Anthropic Messages · Claude
                     </SelectItem>
                     <SelectItem value="chat">
-                      {t("components.aiconnections.aiProviderSetup.chatCompletionsOpencodeHermes")}
+                      Chat Completions · OpenCode, Hermes
                     </SelectItem>
                   </SelectContent>
                 </Select>
@@ -401,7 +401,7 @@ export function AiProviderSetup({
                     <>
                       {protocol === "messages" && (
                         <SelectItem value="api_key">
-                          {t("components.aiconnections.aiProviderSetup.apiKeyXApiKey")}
+                          API key · x-api-key
                         </SelectItem>
                       )}
                       <SelectItem value="none">{t("components.aiconnections.aiProviderSetup.noAuthentication")}</SelectItem>

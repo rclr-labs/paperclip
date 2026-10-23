@@ -6,7 +6,6 @@ import { plural } from "./kinds";
 import { META_TEXT } from "./MetaLine";
 import { PanelCard } from "./PanelCard";
 import { panelSections, shortStamp, type PanelSection } from "./panel-model";
-import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — the scroll body of the task's Artifacts tab (434px pane, 402px of
@@ -54,9 +53,8 @@ function Section({ section, children }: { section: PanelSection; children: React
 }
 
 export function PanelBody({ artifacts }: { artifacts: LabArtifact[] }) {
-  const { t } = useTranslation();
   if (artifacts.length === 0) {
-    return <p className="px-1 py-6 text-sm text-muted-foreground">{t("artifactdirections.directions.d1solid.panelBody.noArtifactsYetWorkProductsDocuments")}</p>;
+    return <p className="px-1 py-6 text-sm text-muted-foreground">No artifacts yet. Work products, documents, and agent-produced files will appear here.</p>;
   }
   return (
     <div data-solid="panel-body" className="flex flex-col gap-5">

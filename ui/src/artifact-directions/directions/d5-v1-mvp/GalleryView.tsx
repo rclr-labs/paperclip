@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import type { LabArtifact, LabGroup } from "../../kit";
 import { mediaKindOf, type MediaKind } from "./kinds";
 import { SingleTile, StackTile } from "./Tile";
-import { useTranslation } from "@/i18n";
 
 /**
  * The Artifacts page under its top bar: toolbar, the opened stack's header
@@ -36,14 +35,13 @@ function everyArtifact(groups: LabGroup[]): LabArtifact[] {
 }
 
 function Toolbar({ filter, onFilter }: { filter: Filter; onFilter: (filter: Filter) => void }) {
-  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <div className="relative w-full sm:max-w-sm">
         <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input readOnly className="h-9 pl-9 pr-9 text-sm" placeholder={t("artifactdirections.directions.d5v1mvp.galleryView.searchArtifacts2")} aria-label={t("artifactdirections.directions.d5v1mvp.galleryView.searchArtifacts")} />
+        <Input readOnly className="h-9 pl-9 pr-9 text-sm" placeholder="Search artifacts..." aria-label="Search artifacts" />
       </div>
-      <div role="tablist" aria-label={t("artifactdirections.directions.d5v1mvp.galleryView.showArtifactsByTaskOrBy")} className="flex flex-wrap items-center gap-1.5">
+      <div role="tablist" aria-label="Show artifacts by task or by type" className="flex flex-wrap items-center gap-1.5">
         {FILTERS.map(({ id, label }) => (
           <button
             key={id}

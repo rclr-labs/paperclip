@@ -77,7 +77,7 @@ function CredentialSettings({
             rel="noreferrer"
             className="underline"
           >
-            {t("pages.apps.appdetail.browserUseSettingsPanel.browserUseCloud")}
+            Browser Use Cloud
           </a>
           .
         </p>

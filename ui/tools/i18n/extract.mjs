@@ -40,6 +40,7 @@ function loadParser() {
 const parser = loadParser();
 
 import { isTranslatable } from "./translatable.mjs";
+import { isExcludedFile } from "./excluded.mjs";
 
 /** Attributes that are DOM passthroughs on any element. */
 const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
@@ -238,7 +239,14 @@ else {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {
       const p = path.join(d, e.name);
       if (e.isDirectory()) walkDir(p);
-      else if (e.name.endsWith(".tsx") && !e.name.includes(".test.") && !e.name.includes(".stories.")) files.push(p);
+      else if (
+        e.name.endsWith(".tsx") &&
+        !e.name.includes(".test.") &&
+        !e.name.includes(".stories.") &&
+        !isExcludedFile(path.relative(path.join(UI_ROOT, "src"), p))
+      ) {
+        files.push(p);
+      }
     }
   };
   walkDir(opt("dir", path.join(UI_ROOT, "src")));

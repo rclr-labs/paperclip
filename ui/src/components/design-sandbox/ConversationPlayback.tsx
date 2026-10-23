@@ -9,14 +9,12 @@ import type { TaskChatMessageItem } from "../task-chat/task-chat-model";
 import { CONVERSATION_PLAYBACK_STAGES, conversationPlaybackSnapshot, previewHistory, SYNTHETIC_FINAL, PLAYBACK_FOLLOW_UP_STAGE, PLAYBACK_FOLLOW_UP, PLAYBACK_VERIFICATION_FINAL } from "./task-thread-fixtures";
 import { ConversationPlaybackTurn } from "./ConversationPlaybackTurn";
 import { settledPreviewReply } from "./settled-preview-reply";
-import { useTranslation } from "@/i18n";
 
 /** A local clock feeds cumulative synthetic transcript snapshots into the real
  * conversation renderer. One thread persists throughout; no fixture carousel. */
 export function ConversationPlayback({ header, agentName, agent, onShowSavedThread }: {
   header: ReactNode; agentName: string; agent?: Agent; onShowSavedThread?: () => void;
 }) {
-  const { t } = useTranslation();
   const [elapsed, setElapsed] = useState(0);
   const [started, setStarted] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -64,7 +62,7 @@ export function ConversationPlayback({ header, agentName, agent, onShowSavedThre
         {ended ? "Replay conversation" : playing ? "Pause" : started ? "Resume conversation" : "Play conversation"}
       </Button>
       {started && !ended ? <Button size="sm" variant="ghost" onClick={restart}><RotateCcw />Replay</Button> : null}
-      {onShowSavedThread ? <Button size="sm" variant="ghost" onClick={onShowSavedThread}>{t("components.designsandbox.conversationPlayback.showSavedThread")}</Button> : null}
+      {onShowSavedThread ? <Button size="sm" variant="ghost" onClick={onShowSavedThread}>Show saved thread</Button> : null}
       <span className="text-muted-foreground" role="status">{started ? ended ? "Conversation complete" : `${playing ? "" : "Paused · "}${CONVERSATION_PLAYBACK_STAGES[stage]?.label}` : "Watch a typical conversation · synthetic preview"}</span>
     </div>
     <TaskChatThreadView key={generation} header={header} items={started ? [human] : []} contentKey={`${elapsed}:${generation}`} tail={started ? <div className="flex flex-col gap-8">

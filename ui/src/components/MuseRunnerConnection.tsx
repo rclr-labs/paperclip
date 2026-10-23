@@ -129,7 +129,7 @@ export function MuseConnectionDetails({ connection, pairing, busy, error, offlin
       {connection.agentStatus !== "paused" && connection.agentStatus !== "terminated" && <Button type="button" variant="outline" disabled={busy} onClick={onPause}>{t("components.museRunnerConnection.pauseAgent")}</Button>}
       {live && <Button type="button" variant="outline" disabled={busy} onClick={onDisconnect}>{t("components.museRunnerConnection.disconnect")}</Button>}
       <Button type="button" variant="ghost" disabled={busy} onClick={onRefresh}>{t("components.museRunnerConnection.refresh")}</Button>
-      <Button type="button" asChild variant="ghost"><a href="https://muse.ai" target="_blank" rel="noopener noreferrer">{t("components.museRunnerConnection.openMuse")}</a></Button>
+      <Button type="button" asChild variant="ghost"><a href="https://muse.ai" target="_blank" rel="noopener noreferrer">Open Muse</a></Button>
     </div>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
   </div>;

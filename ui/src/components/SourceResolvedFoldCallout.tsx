@@ -83,7 +83,7 @@ export function SourceResolvedFoldCallout({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow)">
-            <span className="text-emerald-900 dark:text-emerald-200">{t("components.sourceResolvedFoldCallout.sourceResolvedFold")}</span>
+            <span className="text-emerald-900 dark:text-emerald-200">SOURCE-RESOLVED FOLD</span>
             <span className="text-muted-foreground/60" aria-hidden>·</span>
             <span className="font-medium normal-case tracking-normal text-muted-foreground">
               {t("components.sourceResolvedFoldCallout.systemAudit")}

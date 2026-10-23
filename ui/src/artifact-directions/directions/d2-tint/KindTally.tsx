@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import type { LabArtifact } from "../../kit";
 import { KindGlyph } from "./KindGlyph";
 import { kindNoun, kindNounInline, tallyKinds } from "./panel-model";
-import { useTranslation } from "@/i18n";
 
 /**
  * What is in a pile, as a CAPTION: one entry per kind present, in the
@@ -14,11 +13,10 @@ import { useTranslation } from "@/i18n";
  * itself — the caption of an opened stack.
  */
 export function KindTally({ artifacts, named = false, className }: { artifacts: LabArtifact[]; named?: boolean; className?: string }) {
-  const { t } = useTranslation();
   const kinds = tallyKinds(artifacts);
   if (kinds.length === 0) return null;
   return (
-    <ul data-tally-kinds aria-label={t("artifactdirections.directions.d2tint.kindTally.contentsByKind")} className={cn("flex min-w-0 flex-wrap items-center gap-y-1", named ? "gap-x-3.5" : "gap-x-2.5", className)}>
+    <ul data-tally-kinds aria-label="Contents by kind" className={cn("flex min-w-0 flex-wrap items-center gap-y-1", named ? "gap-x-3.5" : "gap-x-2.5", className)}>
       {kinds.map(({ kind, count }) => (
         <li key={kind} data-kind={kind} className="flex shrink-0 items-center gap-1">
           <KindGlyph kind={kind} size="mini" />

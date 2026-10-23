@@ -179,7 +179,7 @@ export function StatusCardSettingsForm({
                   ))}
                 </SelectContent>
               </Select>
-              <span className="text-xs">{t("pages.statusCards.statusCardSettingsForm.afterTheLastChangeMax")}</span>
+              <span className="text-xs">after the last change · max</span>
               <Input
                 type="number"
                 min={1}

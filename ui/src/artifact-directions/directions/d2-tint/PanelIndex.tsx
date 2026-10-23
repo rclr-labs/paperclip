@@ -5,7 +5,6 @@ import { KindGlyph } from "./KindGlyph";
 import { StateDot } from "./StateMark";
 import { FOCUS_RING, MOTION } from "./UnitAction";
 import { countReview, kindNoun, tallyKinds, type KindTally, type PanelFilter } from "./panel-model";
-import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — the shelf's index: a FILTER, and built to look like one. A row of
@@ -55,7 +54,6 @@ function frontKinds(kinds: KindTally[], filter: PanelFilter, open: boolean): Kin
 const Count = ({ value }: { value: number }) => <span className="font-mono text-(length:--text-micro) leading-none">{value}</span>;
 
 export function PanelIndex({ artifacts, filter, onFilter }: { artifacts: LabArtifact[]; filter: PanelFilter; onFilter: (filter: PanelFilter) => void }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const review = countReview(artifacts);
   const kinds = tallyKinds(artifacts);
@@ -64,7 +62,7 @@ export function PanelIndex({ artifacts, filter, onFilter }: { artifacts: LabArti
   const shown = frontKinds(kinds, filter, open);
   const behind = kinds.length - shown.length;
   return (
-    <div role="group" aria-label={t("artifactdirections.directions.d2tint.panelIndex.filterArtifacts")} data-index className="flex flex-wrap items-center gap-1">
+    <div role="group" aria-label="Filter artifacts" data-index className="flex flex-wrap items-center gap-1">
       <Chip pressed={filter === "all"} onPress={() => onFilter("all")} name={`All ${artifacts.length} artifacts`}>
         All <Count value={artifacts.length} />
       </Chip>

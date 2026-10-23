@@ -1963,7 +1963,7 @@ function SecretProposalResolution({
           <XCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
             <div className="font-semibold uppercase tracking-(--tracking-eyebrow)">
-              {t("components.issueThreadInteractionCard.failedBindingWasNotCreated")}
+              FAILED · binding was not created
             </div>
             <p className="mt-1 text-red-900/80 dark:text-red-100/80">
               {t("components.issueThreadInteractionCard.theRequestWasAcceptedButExecution")}

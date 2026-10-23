@@ -69,7 +69,7 @@ export function SkillPackagePreview({ companyId, repository, commitSha, skill, i
           <div className="max-h-(--sz-480px) min-h-40 overflow-auto p-3">
             {preview.isFetching && <p role="status" className="text-sm text-muted-foreground">{t("pages.skills.skillPackagePreview.loadingPreview")}</p>}
             {preview.error && <div role="alert" className="space-y-2 text-sm"><p className="text-destructive">{preview.error.message}</p><Button variant="outline" size="sm" onClick={() => void preview.refetch()}>{t("pages.skills.skillPackagePreview.tryAgain")}</Button> <Link to="/apps" className="underline">{t("pages.skills.skillPackagePreview.manageGithubAccess")}</Link></div>}
-            {preview.data?.file.encoding === 'base64' && <div className="flex flex-col items-center gap-3 py-8 text-sm text-muted-foreground"><FileImage className="size-6" /><p>{t("pages.skills.skillPackagePreview.binaryAssetIncludedWithoutChanges")}</p><p className="text-xs">{t("pages.skills.skillPackagePreview.openOnGithubToPreviewOr")}</p></div>}
+            {preview.data?.file.encoding === 'base64' && <div className="flex flex-col items-center gap-3 py-8 text-sm text-muted-foreground"><FileImage className="size-6" /><p>Binary asset · included without changes</p><p className="text-xs">{t("pages.skills.skillPackagePreview.openOnGithubToPreviewOr")}</p></div>}
             {preview.data?.content !== null && preview.data?.content !== undefined && <pre className="whitespace-pre-wrap break-words font-mono text-xs leading-relaxed">{preview.data.content}</pre>}
             {preview.data?.truncated && <p className="mt-3 text-xs text-muted-foreground">{t("pages.skills.skillPackagePreview.showingTheFirst64KbThe")}</p>}
           </div>

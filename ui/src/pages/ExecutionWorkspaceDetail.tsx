@@ -446,7 +446,7 @@ export function RuntimeProvisionStatusValue({
   const { t } = useTranslation();
   if (status.kind === "eager") {
     return (
-      <span className="text-sm text-muted-foreground">{t("pages.executionWorkspaceDetail.eagerProvisionedDuringWorkspaceSetup")}</span>
+      <span className="text-sm text-muted-foreground">Eager · provisioned during workspace setup</span>
     );
   }
   if (status.kind === "deferred") {

@@ -5,7 +5,6 @@ import { SidePanelTabs } from "@/components/side-panel/SidePanelTabs";
 import type { SidePanelTabItem } from "@/components/side-panel/types";
 import type { DirectionKit, LabArtifact } from "../kit";
 import { Slot } from "./Slot";
-import { useTranslation } from "@/i18n";
 
 /**
  * The task's right-hand pane, open on the Artifacts tab.
@@ -29,7 +28,6 @@ const TABS: SidePanelTabItem[] = [
 const noop = () => {};
 
 export function PanelFrame({ kit, artifacts, width = TASK_DETAIL_PANE_WIDTH }: { kit: DirectionKit; artifacts: LabArtifact[]; width?: number }) {
-  const { t } = useTranslation();
   return (
     <aside className="flex bg-card flex-col border-l border-border relative shrink-0" style={{ width }}>
       <SidePanelFrame
@@ -51,7 +49,7 @@ export function PanelFrame({ kit, artifacts, width = TASK_DETAIL_PANE_WIDTH }: {
                   variant="ghost"
                   size="icon-sm"
                   className="shrink-0 text-muted-foreground hover:text-foreground focus-visible:text-foreground h-(--side-panel-tab-height) w-(--side-panel-tab-height) rounded-md"
-                  aria-label={t("artifactdirections.frames.panelFrame.openANewTab")}
+                  aria-label="Open a new tab"
                 >
                   <Plus aria-hidden />
                 </Button>

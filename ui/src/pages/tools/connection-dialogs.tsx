@@ -290,9 +290,9 @@ export function AddConnectionDialog({
 
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <span className={step === 1 ? "font-medium text-foreground" : ""}>{t("pages.tools.connectiondialogs.1Application")}</span>
+            <span className={step === 1 ? "font-medium text-foreground" : ""}>1 Application</span>
             <span>/</span>
-            <span className={step === 2 ? "font-medium text-foreground" : ""}>{t("pages.tools.connectiondialogs.2Connection")}</span>
+            <span className={step === 2 ? "font-medium text-foreground" : ""}>2 Connection</span>
           </div>
 
           {step === 1 && !locked ? (

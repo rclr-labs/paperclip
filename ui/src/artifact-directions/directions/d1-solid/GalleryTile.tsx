@@ -6,7 +6,6 @@ import { GalleryPreview } from "./GalleryPreview";
 import { META_TEXT, MetaDot, MetaLine } from "./MetaLine";
 import { shortStamp } from "./panel-model";
 import { BUTTON, BUTTON_PRIMARY, COVER, ICON_BUTTON, SLAB, SLAB_HOVER } from "./slab";
-import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — one artifact in an opened stack (or the ungrouped grid): a slab
@@ -41,7 +40,6 @@ function Ghost({ action, artifact }: { action: SolidAction; artifact: LabArtifac
 }
 
 export function GalleryTile({ artifact }: { artifact: LabArtifact }) {
-  const { t } = useTranslation();
   const { primary, secondary } = galleryActions(artifact);
   const PrimaryIcon = primary.icon;
   return (
@@ -58,7 +56,7 @@ export function GalleryTile({ artifact }: { artifact: LabArtifact }) {
             <MetaLine artifact={artifact} className="truncate" />
             <span className={cn(META_TEXT, "flex min-w-0 text-(--solid-meta)")}>
               <time dateTime={artifact.updatedAt} className="shrink-0">
-                <span className="sr-only">{t("artifactdirections.directions.d1solid.galleryTile.lastEdited")} </span>
+                <span className="sr-only">Last edited </span>
                 {shortStamp(artifact.updatedLabel)}
               </time>
               <MetaDot />

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { ResponsibleUserDenialNotice } from "@/components/ResponsibleUserDenialNotice";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import { useTranslation } from "@/i18n";
 
 /**
  * UX lab for PAP-12462 (P7): run "on behalf of {user}" surfacing + responsible-user
@@ -49,13 +48,12 @@ function RunLedgerRow({
   onBehalfOf?: string | null;
   denial?: ReactNode;
 }) {
-  const { t } = useTranslation();
   return (
     <article className="space-y-1.5 rounded-lg border border-border/60 px-3 py-2 text-xs text-muted-foreground">
       <div className="flex flex-wrap items-center gap-1.5">
-        <span className="font-medium text-foreground">{t("pages.responsibleUserDenialUxLab.run")}</span>
+        <span className="font-medium text-foreground">Run</span>
         <span className="min-w-0 max-w-full truncate font-mono text-foreground">a1b2c3d4</span>
-        <span>{t("pages.responsibleUserDenialUxLab.byCodexcoder")}</span>
+        <span>by CodexCoder</span>
         {onBehalfOf ? (
           <span className="min-w-0 max-w-full truncate text-muted-foreground">
             on behalf of <span className="text-foreground">{onBehalfOf}</span>
@@ -64,17 +62,17 @@ function RunLedgerRow({
         <span className="rounded-md border border-border px-1.5 py-0.5 text-(length:--text-micro) capitalize text-muted-foreground">
           {denial ? "Failed" : "Succeeded"}
         </span>
-        <span className="ml-auto shrink-0">{t("pages.responsibleUserDenialUxLab.2mAgo")}</span>
+        <span className="ml-auto shrink-0">2m ago</span>
       </div>
       <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-3">
         <div className="min-w-0">
-          <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.elapsed")}</span> 1m 4s
+          <span className="text-foreground">Elapsed</span> 1m 4s
         </div>
         <div className="min-w-0">
-          <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.lastUsefulAction")}</span> 2m ago
+          <span className="text-foreground">Last useful action</span> 2m ago
         </div>
         <div className="min-w-0">
-          <span className="text-foreground">{t("pages.responsibleUserDenialUxLab.stop")}</span> {denial ? "Denied" : "Completed"}
+          <span className="text-foreground">Stop</span> {denial ? "Denied" : "Completed"}
         </div>
       </div>
       {denial}
@@ -84,18 +82,17 @@ function RunLedgerRow({
 
 /** A faithful copy of the run-detail header identity block (see AgentDetail.tsx RunDetail). */
 function RunDetailHeader({ onBehalfOf, denial }: { onBehalfOf?: string | null; denial?: ReactNode }) {
-  const { t } = useTranslation();
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <span className="text-lg font-semibold text-foreground">{t("pages.responsibleUserDenialUxLab.runA1b2c3d4")}</span>
+        <span className="text-lg font-semibold text-foreground">Run a1b2c3d4</span>
         <span className="rounded-md border border-border px-1.5 py-0.5 text-(length:--text-micro) capitalize text-muted-foreground">
           {denial ? "failed" : "succeeded"}
         </span>
       </div>
       <div className="flex flex-wrap items-center gap-1.5 font-mono text-(length:--text-micro) text-muted-foreground">
         <span className="rounded bg-muted px-1.5 py-0.5 text-(length:--text-nano) font-medium uppercase tracking-wide">
-          {t("pages.responsibleUserDenialUxLab.codexLocal")}
+          codex local
         </span>
         <span>anthropic/claude-opus-4-8</span>
       </div>
@@ -110,19 +107,18 @@ function RunDetailHeader({ onBehalfOf, denial }: { onBehalfOf?: string | null; d
 }
 
 export function ResponsibleUserDenialUxLab() {
-  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-muted/20 p-6">
       <div className="mx-auto max-w-5xl space-y-6">
         <header>
           <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-caps) text-muted-foreground">
-            {t("pages.responsibleUserDenialUxLab.pap12462P7")}
+            PAP-12462 · P7
           </div>
           <h1 className="mt-1 text-xl font-semibold text-foreground">
-            {t("pages.responsibleUserDenialUxLab.runOnBehalfOfSurfacingDenial")}
+            Run "on behalf of" surfacing + denial copy
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t("pages.responsibleUserDenialUxLab.beforeAfterOfTheTwoRun")}
+            Before/after of the two run surfaces and the four denial-related states.
           </p>
         </header>
 
@@ -151,7 +147,7 @@ export function ResponsibleUserDenialUxLab() {
           <BeforeAfter label="Before — generic failure text">
             <div className="text-xs">
               <span className="text-red-600 dark:text-red-400">
-                {t("pages.responsibleUserDenialUxLab.forbiddenActionNotPermitted")}
+                Forbidden: action not permitted
               </span>
               <span className="ml-1 text-muted-foreground">(RESPONSIBLE_USER_UNAUTHORIZED)</span>
             </div>
@@ -171,14 +167,14 @@ export function ResponsibleUserDenialUxLab() {
           <BeforeAfter label="Agent-lacks-permission failure">
             <div className="text-xs">
               <span className="text-red-600 dark:text-red-400">
-                {t("pages.responsibleUserDenialUxLab.forbiddenAgentIsNotPermittedTo")}
+                Forbidden: agent is not permitted to perform this action
               </span>
               <span className="ml-1 text-muted-foreground">(deny_missing_membership)</span>
             </div>
           </BeforeAfter>
           <BeforeAfter label="No responsible-user notice rendered">
             <div className="text-xs text-muted-foreground">
-              {t("pages.responsibleUserDenialUxLab.responsibleUserDenialNoticeIntentionallyAbsent")}
+              Responsible-user denial notice intentionally absent for non-responsible-user codes.
             </div>
           </BeforeAfter>
         </LabSection>
@@ -190,7 +186,7 @@ export function ResponsibleUserDenialUxLab() {
           <BeforeAfter label="Before — generic failure text">
             <div className="text-xs">
               <span className="text-red-600 dark:text-red-400">
-                {t("pages.responsibleUserDenialUxLab.forbiddenResponsibleUserUnavailable")}
+                Forbidden: responsible user unavailable
               </span>
               <span className="ml-1 text-muted-foreground">(RESPONSIBLE_USER_UNAVAILABLE)</span>
             </div>
