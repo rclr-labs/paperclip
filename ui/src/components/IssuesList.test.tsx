@@ -1567,9 +1567,9 @@ describe("IssuesList", () => {
     });
   });
 
-  // Renders a large issue tree; the default 5s timeout leaves no margin on a
-  // loaded machine. 10s matches the allowance this file already gives the
-  // other heavy render test above.
+  // Renders a large issue tree twice over. Observed between 5.4s and 10.5s
+  // depending on machine load, so it gets the 15s allowance other suites here
+  // use rather than the 10s the lighter render tests below take.
   it.each([true, false])("retains loaded context while revealing a large automated tree (streamlined=%s)", async (streamlined) => {
     mockInstanceSettingsApi.getExperimental.mockResolvedValue({ enableStreamlinedUi: streamlined });
     const parent = createIssue({ id: "human-root", createdByUserId: "person", originKind: "manual" });
@@ -1610,7 +1610,7 @@ describe("IssuesList", () => {
       expect(container.textContent).toContain("Automated child 249");
     }, 60);
     act(() => root.unmount());
-  }, 10_000);
+  }, 15_000);
 
   // Renders a large issue tree; the default 5s timeout leaves no margin on a
   // loaded machine. 10s matches the allowance this file already gives the
