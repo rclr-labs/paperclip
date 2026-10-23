@@ -2,7 +2,7 @@ import { z } from "zod";
 import { exactCentsSchema } from "./accounting.js";
 import { centsToUnits, unitsToCents } from "./money.js";
 
-export const SUBSCRIPTION_CURRENCIES = ["USD", "EUR", "GBP", "CAD", "AUD", "CHF"] as const;
+export const SUBSCRIPTION_CURRENCIES = ["USD", "EUR", "GBP", "CAD", "AUD", "CHF", "BRL"] as const;
 export const subscriptionPriceSchema = z.object({
   expectedRevision: z.number().int().nonnegative(),
   plan: z.string().trim().min(1).max(100),
