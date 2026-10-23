@@ -377,7 +377,7 @@
       "noSecretsAreBoundToThis": "Nenhum segredo está vinculado a este agente ainda."
     },
     "agentSetupPrompt": {
-      "couldNotCopyAutomaticallySelectAnd": "Could not copy automatically. Select and copy the prompt above, or try again.",
+      "couldNotCopyAutomaticallySelectAnd": "Não foi possível copiar automaticamente. Selecione e copie o prompt acima, ou tente de novo.",
       "setupPrompt": "Prompt de configuração",
       "closeAgentSetup": "Fechar configuração do agente",
       "copied": "Copiado!"
@@ -471,7 +471,7 @@
       "noAdminHasClaimedThisInstance2": "Nenhum administrador reivindicou esta instância ainda. Entre ou crie sua conta do Paperclip para se tornar o primeiro administrador por este navegador.",
       "continueToDashboard": "Continuar para o painel",
       "redirecting": "Redirecionando...",
-      "setupIsCompleteTakingYouTo": "Setup is complete. Taking you to onboarding to create your first organization...",
+      "setupIsCompleteTakingYouTo": "Configuração concluída. Levando você à integração para criar sua primeira organização...",
       "youReTheInstanceAdmin": "Você é o administrador da instância",
       "browserBasedClaimIsIntentionallyDisabled": "Browser-based claim is intentionally disabled in public mode so anyone on the network can't promote themselves.",
       "thisInstanceRunsInInviteOnly": "This instance runs in invite-only mode. The operator must generate a one-time first-admin invite URL from the host. Once you have the link, open it from this browser to finish setup.",
@@ -724,9 +724,9 @@
       "refreshConnection": "Atualizar conexão",
       "testEventDelivery": "Testar entrega de evento",
       "pairDot": "Parear o Dot",
-      "revokeThePendingConnectionAndPair": "Revoke the pending connection and pair again to generate a fresh setup prompt.",
+      "revokeThePendingConnectionAndPair": "Revogue a conexão pendente e pareie de novo para gerar um novo prompt de configuração.",
       "dotHasNotReportedUsefulActivity": "Dot has not reported useful activity for 15 minutes. Inspect the Dot before assigning replacement work; Paperclip cannot confirm its external stop.",
-      "enableOpenaiDotAndAssistantConnections": "Enable OpenAI Dot and Assistant connections (MCP) in experimental settings.",
+      "enableOpenaiDotAndAssistantConnections": "Habilite o OpenAI Dot e as conexões de assistente (MCP) nas configurações experimentais.",
       "dotManagesItsModelAndExternal": "Dot manages its model and external tools. Paperclip supplies task coordination, people, assigned skills, and connected app tools. Dot can start a task directly from its conversation. Enable Read task attachments below to send assigned task file contents to OpenAI. Enable workspace files and commands for work in the assigned workspace. Provider usage and cost are unavailable; stopping a Paperclip run revokes access without confirming an external stop.",
       "saveTheAgentThenReturnHere": "Salve o agente e volte aqui para parear seu Dot."
     },
@@ -753,7 +753,7 @@
       "confirmNotSent": "Confirmar não enviado",
       "confirmSent": "Confirmar envio",
       "providerMessageId": "ID da mensagem no provedor",
-      "confirmTheOutcomeInAgentmailBefore": "Confirm the outcome in AgentMail before resolving. This action does not resend.",
+      "confirmTheOutcomeInAgentmailBefore": "Confirme o resultado no AgentMail antes de resolver. Esta ação não reenvia.",
       "resolveDeliveryAfterCheckingAgentmail": "Resolver a entrega após verificar o AgentMail",
       "emailSendIntent": "Intenção de envio de e-mail"
     },
@@ -849,7 +849,7 @@
       "recoveryNeeded": "Recuperação necessária",
       "revokesThisSessionSPaperclipAuthority": "Revokes this session’s Paperclip authority and stops future dispatch. Remote execution may continue. Open Grok Bot to inspect it.",
       "stopPaperclipWork": "Parar o trabalho do Paperclip",
-      "copyThisCodeIntoPaperclipS": "Copy this code into Paperclip’s authorization page. Keep it out of Bot chat.",
+      "copyThisCodeIntoPaperclipS": "Copie este código na página de autorização do Paperclip. Não o coloque na conversa do Bot.",
       "copyCode": "Copiar código",
       "oneUsePairingCode": "Código de pareamento de uso único",
       "reconnectAgentAccess": "Reconectar acesso do agente",
@@ -860,7 +860,7 @@
       "webhookUrl": "URL do webhook",
       "botNameInGrok": "Nome do bot no Grok",
       "retryRejectedDelivery": "Repetir entrega rejeitada",
-      "theRoutineRejectedThisDeliveryCheck": "The routine rejected this delivery. Check the routine in Grok before retrying.",
+      "theRoutineRejectedThisDeliveryCheck": "A rotina rejeitou esta entrega. Verifique a rotina no Grok antes de tentar de novo.",
       "lastAuthenticatedContact": "Último contato autenticado",
       "lastVerifiedExchange": "Última troca verificada",
       "bot": "Bot",
@@ -1113,7 +1113,7 @@
     "issueScheduledRetryCard": {
       "tryAgain": "Tentar novamente",
       "couldnTRetryNow": "Não foi possível repetir agora",
-      "anotherTaskIsUsingThisWorkspace": "Another task is using this workspace. Work starts automatically when it is available."
+      "anotherTaskIsUsingThisWorkspace": "Outra tarefa está usando este workspace. O trabalho começa automaticamente quando ele liberar."
     },
     "issueShareSheet": {
       "cancel": "Cancelar",
@@ -1140,9 +1140,9 @@
       "theBindingWasNotCreatedA": "O vínculo não foi criado. É necessária uma nova proposta.",
       "theBindingWasNotCreated": "O vínculo não foi criado.",
       "errorCode": "Código de erro",
-      "theRequestWasAcceptedButExecution": "The request was accepted, but execution failed closed. No secret value was exposed.",
+      "theRequestWasAcceptedButExecution": "O pedido foi aceito, mas a execução falhou fechada. Nenhum valor de segredo foi exposto.",
       "failedBindingWasNotCreated": "FALHOU · o vínculo não foi criado",
-      "paperclipIsReCheckingAuthorityAnd": "Paperclip is re-checking authority and the proposal snapshot before writing.",
+      "paperclipIsReCheckingAuthorityAnd": "O Paperclip está reverificando a autoridade e o retrato da proposta antes de escrever.",
       "newConfigPath": "Novo caminho de configuração",
       "targetAgent": "Agente de destino",
       "sourceSecret": "Segredo de origem",
@@ -1276,7 +1276,7 @@
       "afterDisconnectTheReceiverDisablesItself": "After disconnect, the receiver disables itself when it next reaches Paperclip. Cleanup cannot be confirmed through the revoked connection.",
       "detectorRemovalRequestedCompletionIsNot": "Remoção do detector solicitada; a conclusão não está confirmada.",
       "disconnectedPaperclipCredentialsAndExecutionAuthority": "Desconectado. As credenciais e a autoridade de execução do Paperclip foram revogadas.",
-      "anAuthenticatedInstanceWithAPublic": "An authenticated instance with a public HTTPS URL is required to connect Muse.",
+      "anAuthenticatedInstanceWithAPublic": "É necessária uma instância autenticada com URL HTTPS pública para conectar o Muse.",
       "museIsDisabledInExperimentalSettings": "Muse is disabled in experimental settings. Connection cleanup and stop evidence remain available.",
       "museUsesItsOwnToolsAnd": "Muse uses its own tools and permissions. Paperclip coordinates company tasks and questions. Provider usage and cost are unavailable."
     },
@@ -1309,7 +1309,7 @@
     "onboardingChat": {
       "yesGetStarted": "Sim, vamos começar!",
       "letSDiscussFirst": "Vamos discutir primeiro",
-      "iMReadyToPutTogether": "I'm ready to put together a plan for who we should bring on. Want me to get started?",
+      "iMReadyToPutTogether": "Estou pronto para montar um plano de quem devemos trazer. Quer que eu comece?",
       "reviewItMakeEditsThenApprove": "Revise, edite e então aprove."
     },
     "onboardingWizard": {
@@ -1323,7 +1323,7 @@
       "thisEnvironmentDoesNotSupportBrowser": "This environment does not support browser sign-in. Choose another sign-in environment or connect with an API key.",
       "enterApiKeyHere": "Informe a chave de API aqui",
       "refreshModels": "Atualizar modelos",
-      "noAvailableCopilotModelsWereDiscovered": "No available Copilot models were discovered. Check this account’s Copilot access.",
+      "noAvailableCopilotModelsWereDiscovered": "Nenhum modelo do Copilot disponível foi descoberto. Verifique o acesso ao Copilot desta conta.",
       "copilotModel": "Modelo do Copilot",
       "model": "Modelo",
       "anExistingProviderConnectionIsAvailable": "Existe uma conexão de provedor disponível.",
@@ -1380,11 +1380,11 @@
       "environment": "Ambiente",
       "gitWorktree": "Worktree do git",
       "sharedWorkspaceConcurrency": "Concorrência em workspace compartilhado",
-      "ifDisabledNewTasksStayOn": "If disabled, new tasks stay on the project's primary checkout unless someone opts in.",
+      "ifDisabledNewTasksStayOn": "Se desativado, novas tarefas ficam no checkout principal do projeto, a menos que alguém opte por outro.",
       "newTasksDefaultToIsolatedCheckout": "Novas tarefas usam checkout isolado por padrão",
       "letTasksChooseBetweenTheProject": "Let tasks choose between the project's primary checkout and an isolated execution workspace.",
       "enableIsolatedTaskCheckouts": "Habilitar checkouts isolados por tarefa",
-      "projectOwnedDefaultsForIsolatedTask": "Project-owned defaults for isolated task checkouts and execution workspace behavior.",
+      "projectOwnedDefaultsForIsolatedTask": "Padrões do projeto para checkouts isolados por tarefa e comportamento do workspace de execução.",
       "executionWorkspacesHelp": "Ajuda dos workspaces de execução",
       "executionWorkspaces": "Workspaces de execução",
       "failedToUpdateWorkspace": "Falha ao atualizar o workspace.",
@@ -1440,7 +1440,7 @@
       "rollingWindows": "Janelas móveis"
     },
     "reportsToPicker": {
-      "savedManagerIsMissingFromThis": "Saved manager is missing from this organization. Choose a new manager or clear.",
+      "savedManagerIsMissingFromThis": "O gerente salvo não está nesta organização. Escolha um novo gerente ou limpe o campo.",
       "noManager": "Sem gerente",
       "unknownManagerStaleId": "Gerente desconhecido (ID desatualizado)"
     },
@@ -1539,13 +1539,13 @@
       "placeholder": "Placeholder",
       "theseAreFilledInAutomaticallyNo": "These are filled in automatically — no setup needed and they will not appear in the Variables list.",
       "builtInVariables": "Variáveis nativas",
-      "theSameNameReusedAcrossThe": "The same name reused across the title and instructions is treated as one variable.",
+      "theSameNameReusedAcrossThe": "O mesmo nome reutilizado no título e nas instruções é tratado como uma variável só.",
       "variableNamesEndingInCapitalDate": "Variable names ending in capital Date, such as startDate, are created as date variables by default.",
       "pickATypeTextTextareaNumber": "Pick a type (text, textarea, number, boolean, select, date), default value, and whether it is required.",
-      "namesMustStartWithALetter": "Names must start with a letter and may use letters, numbers, and underscores.",
+      "namesMustStartWithALetter": "Nomes precisam começar com letra e podem usar letras, números e sublinhados.",
       "variables": "Variáveis",
       "customVariables": "Variáveis personalizadas",
-      "howToPromptForInputsAnd": "How to prompt for inputs and which variables Paperclip fills in automatically.",
+      "howToPromptForInputsAnd": "Como pedir entradas e quais variáveis o Paperclip preenche automaticamente.",
       "routineVariables": "Variáveis da rotina",
       "showVariableHelp": "Mostrar ajuda das variáveis"
     },
@@ -1787,7 +1787,7 @@
       "resetDefaults": "Restaurar padrões",
       "columns": "Colunas",
       "taskHierarchy": "Hierarquia da tarefa",
-      "dragToReorderColumnsOrUse": "Drag to reorder columns, or use Alt plus Left or Right Arrow. Click to sort.",
+      "dragToReorderColumnsOrUse": "Arraste para reordenar colunas, ou use Alt com as setas esquerda e direita. Clique para ordenar.",
       "taskListColumns": "Colunas da lista de tarefas",
       "taskList": "Lista de tarefas"
     },
@@ -1817,7 +1817,7 @@
     },
     "workspaceAccessCard": {
       "usesASingleUseLoginHandoff": "Usa um repasse de login de uso único — sem senha.",
-      "signsInWithTheSnapshotLocal": "Signs in with the snapshot-local credentials captured when this clone was made."
+      "signsInWithTheSnapshotLocal": "Entra com as credenciais locais do retrato capturadas quando este clone foi feito."
     },
     "workspaceBaseRefRecoveryNotice": {
       "chooseAnotherBranch": "Escolha outra branch",
@@ -1836,7 +1836,7 @@
       "currentFolder": "Pasta atual"
     },
     "workspaceReconstructionRecovery": {
-      "aBoardMemberWithRuntimeAccess": "A board member with runtime access can continue from the surviving task attachments.",
+      "aBoardMemberWithRuntimeAccess": "Um membro do conselho com acesso de runtime pode continuar dos anexos da tarefa que sobreviveram.",
       "continueFromTheseSourcesTheMissing": "Continue destas origens. As edições ausentes não foram recuperadas.",
       "evidenceAndActionsThatMustNot": "Evidências e ações que não devem ser repetidas",
       "allCompleted": "Todos concluídos",
@@ -2263,7 +2263,7 @@
         "tryAgain": "Tentar novamente",
         "couldNotLoadFastResponseSettings": "Não foi possível carregar as configurações de resposta rápida.",
         "loadingFastResponse": "Carregando resposta rápida…",
-        "coversAcceptedExternalMessagesFromPeople": "Covers accepted external messages from people without a linked Paperclip account.",
+        "coversAcceptedExternalMessagesFromPeople": "Cobre mensagens externas aceitas de pessoas sem conta do Paperclip vinculada.",
         "chooseOrEnterAModelId": "Escolha ou informe um ID de modelo",
         "model": "Modelo",
         "theSavedConnectionIsUnavailableDisable": "The saved connection is unavailable. Disable fast responses or choose another connection.",
@@ -2333,7 +2333,7 @@
       },
       "outputPrimaryCard": {
         "primary": "Principal",
-        "outputMetadataIsUnavailableThisFile": "Output metadata is unavailable — this file can’t be played or downloaded here."
+        "outputMetadataIsUnavailableThisFile": "Os metadados de saída estão indisponíveis — este arquivo não pode ser reproduzido nem baixado aqui."
       }
     },
     "issueproperties": {
@@ -2397,7 +2397,7 @@
         "thinkingEffort": "Esforço de raciocínio",
         "defaultModel": "Modelo padrão",
         "model": "Modelo",
-        "taskLevelModelOverrideReplacesThe": "Task-level model override — replaces the agent's primary model for this issue.",
+        "taskLevelModelOverrideReplacesThe": "Sobreposição de modelo no nível da tarefa — substitui o modelo principal do agente nesta issue.",
         "modelLane": "Faixa de modelo"
       },
       "issuePropertiesArtifactsTab": {
@@ -2412,7 +2412,7 @@
         "thisMarkdownFileIsTooLarge": "Este arquivo Markdown é grande demais para pré-visualizar. Use Bruto ou Baixar."
       },
       "issuePropertiesPlansTab": {
-        "aPlanConfirmationIsPendingBut": "A plan confirmation is pending, but the plan document it should confirm is missing.",
+        "aPlanConfirmationIsPendingBut": "Há uma confirmação de plano pendente, mas falta o documento de plano que ela deveria confirmar.",
         "thisTaskIsInPlanMode": "Esta tarefa está em modo de plano, mas nenhum documento de plano foi escrito ainda."
       },
       "externalobjectrows": {
@@ -2451,7 +2451,7 @@
         "reviewApproval": "Revisar aprovação",
         "reconnectUpdates": "Reconectar atualizações",
         "retryTestEvent": "Repetir evento de teste",
-        "dotUsesYourOpenaiAccountProvider": "Dot uses your OpenAI account. Provider usage and cost aren’t reported to Paperclip.",
+        "dotUsesYourOpenaiAccountProvider": "O Dot usa sua conta da OpenAI. Uso e custo do provedor não são reportados ao Paperclip.",
         "preparingYourInvitation": "Preparando seu convite…",
         "receiverContactIsPersistedInBatches": "Receiver contact is persisted in batches and may lag. Setup never creates a task. Provider usage and cost are unavailable.",
         "refreshConnection": "Atualizar conexão",
@@ -2486,7 +2486,7 @@
         "noManager": "Sem gerente",
         "manager": "Gerente",
         "role": "Papel",
-        "useTheNameShownInThe": "Use the name shown in the Grok Bot desktop app. Bot web links may no longer work.",
+        "useTheNameShownInThe": "Use o nome mostrado no app desktop do Grok Bot. Links web do Bot podem não funcionar mais.",
         "botNameInGrok": "Nome do bot no Grok",
         "paperclipName": "Nome no Paperclip",
         "anOrganizationAdminNeedsToApprove": "An organization admin needs to approve this agent. Setup is saved and will resume after approval.",
@@ -2511,14 +2511,14 @@
         "auto": "Automático",
         "thinkingEffort": "Esforço de raciocínio",
         "couldNotLoadModelsRetryOr": "Não foi possível carregar os modelos. Tente de novo ou informe um ID de modelo manualmente.",
-        "enableAssistantConnectionsMcpInExperimental": "Enable Assistant connections (MCP) in Experimental settings before pairing.",
+        "enableAssistantConnectionsMcpInExperimental": "Habilite as conexões de assistente (MCP) nas configurações experimentais antes de parear.",
         "createThisAgentThenCopyIts": "Crie este agente e copie o prompt de pareamento dele para o seu Dot.",
         "configureYourAgent": "Configure seu agente",
         "model": "Modelo",
         "adapter": "Adaptador",
         "loadingConnectionSettings": "Carregando configurações da conexão…",
         "agentSetupSteps": "Etapas de configuração do agente",
-        "noManagedEnvironmentIsAvailableConfigure": "No managed environment is available. Configure an environment before continuing.",
+        "noManagedEnvironmentIsAvailableConfigure": "Nenhum ambiente gerenciado disponível. Configure um ambiente antes de continuar.",
         "thisAdapterIsUnavailableChooseAn": "Este adaptador está indisponível. Escolha um adaptador habilitado.",
         "retry": "Repetir",
         "selectAnOrganizationToCreateAn": "Selecione uma organização para criar um agente."
@@ -2549,7 +2549,7 @@
         "customOtlp": "OTLP personalizado",
         "braintrust": "Braintrust",
         "destination": "Destino",
-        "manageConnectionsPermissionIsRequiredTo": "Manage connections permission is required to configure agent observability.",
+        "manageConnectionsPermissionIsRequiredTo": "A permissão de gerenciar conexões é necessária para configurar a observabilidade do agente.",
         "sendCodexAndClaudeCodeLogs": "Envie logs e traces do Codex e do Claude Code para o seu serviço de observabilidade.",
         "agentObservability": "Observabilidade do agente"
       }
@@ -2727,10 +2727,10 @@
       },
       "forkSkillDialog": {
         "cancel": "Cancelar",
-        "nothingIsAssignedToItSo": "Nothing is assigned to it, so your copy won't change any agent's behaviour.",
+        "nothingIsAssignedToItSo": "Nada está atribuído a ele, então sua cópia não vai alterar o comportamento de nenhum agente.",
         "switchTheseAgentsToTheCopy": "Mudar estes agentes para a cópia",
         "openYourExistingCopy": "Abrir sua cópia existente",
-        "anUneditedCopyOfThisSkill": "An unedited copy of this skill already exists. Open it instead of making another.",
+        "anUneditedCopyOfThisSkill": "Já existe uma cópia não editada desta skill. Abra-a em vez de criar outra.",
         "youAlreadyHaveACopy": "Você já tem uma cópia"
       },
       "skillPolicySurfaces": {
@@ -2916,7 +2916,7 @@
         "cancel": "Cancelar",
         "deny": "Negar",
         "previewTruncatedByTheRunner": "Pré-visualização truncada pelo executor.",
-        "previewUnavailableTheVerifiedWorkspaceReference": "Preview unavailable. The verified workspace reference is still available above.",
+        "previewUnavailableTheVerifiedWorkspaceReference": "Pré-visualização indisponível. A referência verificada do workspace continua disponível acima.",
         "preview": "Pré-visualização",
         "noInlinePatchWasRecordedFor": "Nenhum patch em linha foi registrado para este arquivo.",
         "binaryFileTextDiffIsUnavailable": "Arquivo binário; diff de texto indisponível.",
@@ -3009,7 +3009,7 @@
         "browserSession": "Sessão do navegador"
       },
       "taskBrowserPanel": {
-        "couldNotKeepThisBrowserOpen": "Could not keep this browser open. Check your connection before the timer runs out.",
+        "couldNotKeepThisBrowserOpen": "Não foi possível manter este navegador aberto. Verifique sua conexão antes do tempo acabar.",
         "openActiveBrowser": "Abrir navegador ativo",
         "reconnectView": "Reconectar visão",
         "reconnectTheViewOrOpenThis": "Reconnect the view or open this task in another browser. The remote browser is still running.",
@@ -3021,7 +3021,7 @@
         "documentIsEmpty": "O documento está vazio.",
         "thisTabIsPreservedSoThe": "This tab is preserved so the missing resource is explicit. Close it or choose another document.",
         "documentNoLongerAvailable": "Documento não está mais disponível",
-        "theDocumentCouldNotBeLoaded": "The document could not be loaded. Retry from the tab launcher or refresh the task."
+        "theDocumentCouldNotBeLoaded": "Não foi possível carregar o documento. Tente de novo pelo lançador de abas ou atualize a tarefa."
       },
       "taskSidePanel": {
         "closeSidePanel": "Fechar painel lateral",
@@ -3121,7 +3121,7 @@
         "credentialsAndAGeneratedCallbackSigning": "Credentials and a generated callback signing secret are saved in the company vault. Speko charges for voice usage separately from agent work. Outgoing calls are experimental. After connecting, save your callback number to let this agent call you about your tasks.",
         "configureAPublicHttpsCallbackOrigin": "Configure a public HTTPS callback origin for Paperclip first. Local instances need an explicitly configured tunnel or reverse proxy.",
         "openSpekoAgents": "Abrir agentes Speko",
-        "reviewRecordingAndRetentionSettingsIn": "Review recording and retention settings in your Speko workspace before testing.",
+        "reviewRecordingAndRetentionSettingsIn": "Revise as configurações de gravação e retenção no seu workspace do Speko antes de testar.",
         "copyItsAgentIdAndA": "Copie o ID do agente e uma chave de API do Speko abaixo.",
         "createADedicatedAgentInSpeko": "Create a dedicated agent in Speko and choose its voice. Keep only Speko’s default tools; Paperclip adds the task connection."
       },
@@ -3170,7 +3170,7 @@
         "resetToDefault": "Restaurar o padrão",
         "enterInstructions": "Informe as instruções.",
         "instructionsText": "Texto das instruções",
-        "agentsCanStillUseThisConnection": "Agents can still use this connection’s tools, but won’t receive these instructions.",
+        "agentsCanStillUseThisConnection": "Os agentes ainda podem usar as ferramentas desta conexão, mas não vão receber estas instruções.",
         "agentInstructions": "Instruções do agente"
       },
       "connectionIntentInteractionBody": {
@@ -3182,14 +3182,14 @@
         "couldnTLoadConnectionSetup": "Não foi possível carregar a configuração da conexão",
         "connectionManagerRequired": "É necessário um gerenciador de conexões.",
         "toolPermissions": "Permissões da ferramenta",
-        "onlyTheAddressedPersonCanChoose": "Only the addressed person can choose an identity or authorize this connection."
+        "onlyTheAddressedPersonCanChoose": "Somente a pessoa endereçada pode escolher uma identidade ou autorizar esta conexão."
       },
       "connectionSetupFlow": {
         "viewConnection": "Ver conexão",
         "change": "Alterar",
         "back": "Voltar",
-        "chooseExactlyOneAgentThisIdentity": "Choose exactly one agent. This identity cannot be shared with other agents.",
-        "reconnectingReplacesTheCredentialWithoutChanging": "Reconnecting replaces the credential without changing which agents can use it.",
+        "chooseExactlyOneAgentThisIdentity": "Escolha exatamente um agente. Esta identidade não pode ser compartilhada com outros.",
+        "reconnectingReplacesTheCredentialWithoutChanging": "Reconectar substitui a credencial sem alterar quais agentes podem usá-la.",
         "existingAgentAccessStaysTheSame": "O acesso dos agentes existentes continua igual",
         "noIdentityRequired": "Nenhuma identidade necessária",
         "loadingConnectionIdentity": "Carregando identidade da conexão",
@@ -3231,7 +3231,7 @@
         "openAuthorizationInANewTab": "Abrir autorização em nova aba",
         "connectWithPaperclip": "Conectar com o Paperclip",
         "cancel": "Cancelar",
-        "reuseAConnectionWithoutChangingWho": "Reuse a connection without changing who already has access, or connect a new one.",
+        "reuseAConnectionWithoutChangingWho": "Reutilize uma conexão sem alterar quem já tem acesso, ou conecte uma nova.",
         "loadingRetainedConnectionSetup": "Carregando configuração de conexão retida",
         "loadingSavedConnectionSetup": "Carregando configuração de conexão salva",
         "backToApps": "Voltar para aplicativos",
@@ -3242,13 +3242,13 @@
         "couldnTLoadConnectionSetup": "Não foi possível carregar a configuração da conexão",
         "thisSavedDraftDoesNotMatch": "This saved draft does not match the requested provider. The connection was not changed.",
         "thisSetupCanTBeResumed": "Esta configuração não pode ser retomada",
-        "theSavedConnectionNoLongerExists": "The saved connection no longer exists or is not available to this organization.",
+        "theSavedConnectionNoLongerExists": "A conexão salva não existe mais ou não está disponível para esta organização.",
         "paperclipCouldnTCheckTheRetained": "Paperclip couldn’t check the retained connection. The retained connection was not changed.",
         "selectAnOrganizationToConnectApps": "Selecione uma organização para conectar aplicativos.",
-        "enableMemoryConnectorsInSettingsExperimental": "Enable memory connectors in Settings → Experimental to set up this connection.",
+        "enableMemoryConnectorsInSettingsExperimental": "Habilite conectores de memória em Configurações → Experimental para configurar esta conexão.",
         "loadingConnectionSettings": "Carregando configurações da conexão…",
         "couldNotLoadConnectorAvailabilityRefresh": "Não foi possível carregar a disponibilidade do conector. Atualize para tentar de novo.",
-        "couldNotLoadThisConnectionYour": "Could not load this connection. Your saved access and credentials have not changed.",
+        "couldNotLoadThisConnectionYour": "Não foi possível carregar esta conexão. Seu acesso salvo e suas credenciais não mudaram.",
         "loadingConnection": "Carregando conexão…"
       },
       "connectionSetupHeader": {
@@ -3265,7 +3265,7 @@
       },
       "honchoWorkspaceSettings": {
         "cancel": "Cancelar",
-        "enterAWorkspaceToIncludeHoncho": "Enter a workspace to include Honcho instructions. Existing tools remain available.",
+        "enterAWorkspaceToIncludeHoncho": "Informe um workspace para incluir as instruções do Honcho. As ferramentas existentes continuam disponíveis.",
         "workspaceId": "ID do workspace",
         "honchoWorkspace": "Workspace do Honcho"
       },
@@ -3360,7 +3360,7 @@
       "loadingAgents": "Carregando agentes…",
       "tryAgain": "Tentar novamente",
       "couldnTLoadYourChats": "Não foi possível carregar suas conversas.",
-      "askAQuestionThinkThroughAn": "Ask a question, think through an idea, or plan the next step with your team.",
+      "askAQuestionThinkThroughAn": "Faça uma pergunta, pense uma ideia ou planeje o próximo passo com seu time.",
       "whoWouldYouLikeToTalk": "Com quem você quer falar?",
       "openingChat": "Abrindo conversa…",
       "selectACompanyToStartA": "Selecione uma empresa para iniciar uma conversa.",
@@ -3471,7 +3471,7 @@
       "instructionFileEditor": "Editor do arquivo de instruções",
       "agentInstructions": "# Instruções do agente",
       "thisInstructionFileIsEmpty": "Este arquivo de instruções está vazio.",
-      "thisFileIsPreservedWithThe": "This file is preserved with the agent directory. Download it to view its contents.",
+      "thisFileIsPreservedWithThe": "Este arquivo é preservado junto ao diretório do agente. Baixe-o para ver o conteúdo.",
       "revisionSavedTheInstructionFileStill": "Revision saved. The instruction file still needs to be rebuilt from the saved revision.",
       "refreshCurrentRevision": "Atualizar a revisão atual",
       "theCurrentInstructionsChangedAfterThis": "The current instructions changed after this draft was loaded. Refresh the current revision, compare the instructions, and save your resolved draft again.",
@@ -3601,7 +3601,7 @@
       "requestRevision": "Solicitar revisão",
       "reject": "Rejeitar",
       "approve": "Aprovar",
-      "linkedTasksRemainOpenUntilThe": "Linked tasks remain open until the requesting agent follows up and closes them.",
+      "linkedTasksRemainOpenUntilThe": "Tarefas vinculadas ficam abertas até o agente solicitante acompanhar e fechá-las.",
       "linkedTasks": "Tarefas vinculadas",
       "requestedBy": "Solicitado por",
       "requestingAgentWasNotifiedToReview": "O agente solicitante foi avisado para revisar esta aprovação e as tarefas vinculadas.",
@@ -3631,7 +3631,7 @@
       "thisWillPromoteYourUserTo": "This will promote your user to instance admin and migrate organization ownership access from local trusted mode.",
       "claimBoardOwnership": "Reivindicar a posse do conselho",
       "signInCreateAccount": "Entrar / Criar conta",
-      "signInOrCreateAnAccount": "Sign in or create an account, then return to this page to claim Board ownership.",
+      "signInOrCreateAnAccount": "Entre ou crie uma conta e volte a esta página para reivindicar a posse do conselho.",
       "signInRequired": "É necessário entrar",
       "openBoard": "Abrir conselho",
       "thisInstanceIsNowLinkedTo": "Esta instância agora está vinculada ao seu usuário autenticado.",
@@ -3704,8 +3704,8 @@
       "signInCreateAccount": "Entrar / Criar conta",
       "signInOrCreateAnAccount": "Sign in or create an account, then return to this page to approve the CLI access request.",
       "signInRequired": "É necessário entrar",
-      "startTheCliAuthFlowAgain": "Start the CLI auth flow again from your terminal to generate a new approval request.",
-      "thePaperclipCliCanNowFinish": "The Paperclip CLI can now finish authentication on the requesting machine.",
+      "startTheCliAuthFlowAgain": "Inicie o fluxo de autenticação da CLI de novo no seu terminal para gerar um novo pedido de aprovação.",
+      "thePaperclipCliCanNowFinish": "A CLI do Paperclip já pode concluir a autenticação na máquina que pediu.",
       "cliAccessApproved": "Acesso por CLI aprovado",
       "cliAuthChallengeUnavailable": "Desafio de autenticação da CLI indisponível.",
       "cliAuthChallengeUnavailable2": "Desafio de autenticação da CLI indisponível",
@@ -3741,7 +3741,7 @@
       "role": "Papel",
       "email": "E-mail",
       "name": "Nome",
-      "reviewPendingJoinRequestsBeforeThey": "Review pending join requests before they become active organization members.",
+      "reviewPendingJoinRequestsBeforeThey": "Revise os pedidos de entrada pendentes antes de virarem membros ativos da organização.",
       "pendingHumanJoins": "Entradas de pessoas pendentes",
       "thisAccountCanManageAccessHere": "This account can manage access here through instance-admin privileges, but it does not currently hold an active organization membership.",
       "organizationMembers": "Membros da organização",
@@ -3765,7 +3765,7 @@
       "configureAReusableExecutionTargetFor": "Configure a reusable execution target for your agents. Saved changes affect future runs; Paperclip may start fresh sessions or sandbox leases after environment config changes.",
       "thisEnvironmentIsProvisionedAndMaintained": "This environment is provisioned and maintained for you. You can add environment variables for your agents; its name and configuration are managed by Paperclip.",
       "backToEnvironments": "Voltar para ambientes",
-      "theEnvironmentMayHaveBeenRemoved": "The environment may have been removed or is not available in this organization.",
+      "theEnvironmentMayHaveBeenRemoved": "O ambiente pode ter sido removido ou não está disponível nesta organização.",
       "environmentNotFound": "Ambiente não encontrado",
       "loadingEnvironment": "Carregando ambiente...",
       "addEnvironment": "Adicionar ambiente",
@@ -3773,7 +3773,7 @@
       "defaultEnvironment": "Ambiente padrão",
       "default": "Padrão",
       "enableEnvironmentsInInstanceExperimentalSettings": "Enable Environments in instance experimental settings to manage shared execution targets.",
-      "selectAnOrganizationContextToManage": "Select an organization context to manage environment secrets and bindings.",
+      "selectAnOrganizationContextToManage": "Selecione um contexto de organização para gerenciar segredos e vínculos de ambiente.",
       "notConfigured": "Não configurado",
       "activeTemplate": "Modelo ativo",
       "sshCommandFallback": "Fallback de comando SSH",
@@ -3787,7 +3787,7 @@
       "exportPreviewFailed": "A pré-visualização da exportação falhou",
       "thePreviousPreviewRemainsAvailableRetry": "A pré-visualização anterior continua disponível. Tente de novo quando quiser.",
       "previewUpdateCancelled": "Atualização da pré-visualização cancelada",
-      "largeTaskHistoriesCanTakeA": "Large task histories can take a minute. You can untick Tasks or cancel this update.",
+      "largeTaskHistoriesCanTakeA": "Históricos grandes de tarefas podem levar um minuto. Você pode desmarcar Tarefas ou cancelar esta atualização.",
       "updatingExportPreview": "Atualizando pré-visualização da exportação…",
       "searchFiles": "Buscar arquivos...",
       "taskAndRoutineHistoryIsOpt": "O histórico de tarefas e rotinas é opcional porque pode ser grande.",
@@ -3809,7 +3809,7 @@
       "chooseZip": "Escolher zip",
       "chooseAGithubRepoOrUpload": "Escolha um repositório do GitHub ou envie um pacote zip local do Paperclip.",
       "importSource": "Importar origem",
-      "importRunningOnTheServerSafe": "Import running on the server — safe to keep waiting; reconnecting won't lose it.",
+      "importRunningOnTheServerSafe": "Importação rodando no servidor — pode esperar tranquilo; reconectar não a perde.",
       "anImportYouStartedEarlierIs": "Uma importação que você começou antes ainda está rodando no servidor.",
       "resumeWatchingImport": "Retomar observação da importação",
       "goToDashboard": "Ir para o painel",
@@ -4083,7 +4083,7 @@
       "showingTheLastLoadedApiAnd": "Showing the last loaded API and subscription usage. Updates will resume automatically.",
       "financeHeadlineTotalsAreUsdOnly": "Finance headline totals are USD only. Other currencies are listed separately; no exchange-rate conversion is applied.",
       "costs": "Custos",
-      "couldNotLoadAgentDetailsTotals": "Could not load agent details. Totals below show recorded organization costs.",
+      "couldNotLoadAgentDetailsTotals": "Não foi possível carregar os detalhes do agente. Os totais abaixo mostram os custos registrados da organização.",
       "accountLevelChargesThatDoNot": "Cobranças no nível da conta que não correspondem a uma única requisição de inferência.",
       "financeLedger": "Livro financeiro"
     },
@@ -4116,7 +4116,7 @@
       "removeFromThisQueue": "Remover desta fila",
       "adjustOrClearYourSearchAnd": "Ajuste ou limpe sua busca e filtros para ver o restante.",
       "noDecisionsMatchYourSearchOr": "Nenhuma decisão corresponde à sua busca ou filtros.",
-      "decisionsLandHereWhenTheyMatch": "Decisions land here when they match the queue's rules or an agent adds them.",
+      "decisionsLandHereWhenTheyMatch": "Decisões chegam aqui quando atendem às regras da fila ou quando um agente as adiciona.",
       "thisQueueIsEmpty": "Esta fila está vazia.",
       "selectAnOrganizationFirst": "Selecione uma organização primeiro."
     },
@@ -4398,7 +4398,7 @@
       "loadingExperimentalSettings": "Carregando configurações experimentais..."
     },
     "instanceGeneralSettings": {
-      "signOutOfThisPaperclipInstance": "Sign out of this Paperclip instance. You will be redirected to the login page.",
+      "signOutOfThisPaperclipInstance": "Sair desta instância do Paperclip. Você será redirecionado para a página de login.",
       "signOut": "Sair",
       "noDefaultIsSavedYetThe": "No default is saved yet. The next thumbs up or thumbs down choice will ask once and then save the answer here.",
       "readOurTermsOfService": "Leia nossos termos de serviço",
@@ -4823,15 +4823,15 @@
       "search": "Buscar"
     },
     "secrets": {
-      "noAccessEventsRecordedYetEach": "No access events recorded yet. Each runtime resolution writes a redacted entry here.",
+      "noAccessEventsRecordedYetEach": "Nenhum evento de acesso registrado ainda. Cada resolução de runtime escreve uma entrada redigida aqui.",
       "loading": "Carregando…",
       "noActiveBindingsAddThisSecret": "No active bindings. Add this secret in agent, project, environment, or plugin config to start using it.",
       "organization": "Organização",
-      "envKeysUseLettersDigitsAnd": "Env keys use letters, digits, and underscores, and cannot start with a digit.",
+      "envKeysUseLettersDigitsAnd": "Chaves de ambiente usam letras, dígitos e sublinhados, e não podem começar com dígito.",
       "envVar": "Variável de ambiente",
       "agent": "Agente",
       "noAgentsHaveAccessYet": "Nenhum agente tem acesso ainda.",
-      "agentListUnavailableManageAccessFrom": "Agent list unavailable. Manage access from each agent's configuration instead.",
+      "agentListUnavailableManageAccessFrom": "Lista de agentes indisponível. Gerencie o acesso pela configuração de cada agente.",
       "loadingAgents": "Carregando agentes…",
       "agentAccess": "Acesso do agente",
       "accessEventsAreRecordedOnEach": "Access events are recorded on each member's stored value when runtime resolution occurs.",
@@ -4873,7 +4873,7 @@
       "deleteSecret": "Excluir segredo",
       "pasteTheNewValue": "Cole o novo valor",
       "newValue": "Novo valor",
-      "rotateTheActualValueInThe": "Rotate the actual value in the provider before changing this Paperclip reference.",
+      "rotateTheActualValueInThe": "Rotacione o valor real no provedor antes de alterar esta referência do Paperclip.",
       "externalReference": "Referência externa",
       "rotatingWithTheDeploymentDefaultPreserves": "Rotacionar com o padrão de implantação preserva o comportamento de fallback atual.",
       "deploymentDefault": "Padrão de implantação",
@@ -4964,7 +4964,7 @@
         "key": "Chave",
         "personalGithubToken": "Token pessoal do GitHub",
         "name": "Nome",
-        "membersSupplyTheirOwnValueFor": "Members supply their own value for this credential. No value is entered here.",
+        "membersSupplyTheirOwnValueFor": "Os membros fornecem o próprio valor para esta credencial. Nenhum valor é informado aqui.",
         "retry": "Repetir",
         "eachMemberSuppliesForThemselves": "cada membro fornece a sua"
       },
@@ -5230,7 +5230,7 @@
       "viewImportedProjects": "Ver projetos importados →",
       "viewImportedAgents": "Ver agentes importados →",
       "teamInstalled": "Instalado pelo time",
-      "resolvingSkillsImportingAgentsProjectsAnd": "Resolving skills, importing agents, projects, and routines. This may take a moment.",
+      "resolvingSkillsImportingAgentsProjectsAnd": "Resolvendo skills e importando agentes, projetos e rotinas. Isso pode levar um instante.",
       "eachImportedAgentDefaultsToIts": "Each imported agent defaults to its package adapter; override here before install. Deeper per-adapter model config is editable on the agent after install.",
       "installBlocked": "Instalação bloqueada",
       "skipCollisions": "Ignorar colisões",
@@ -5391,7 +5391,7 @@
         "selectAnOrganizationToConnectAn": "Selecione uma organização para conectar um assistente.",
         "couldnTLoadYourConnectionStatus": "Não foi possível carregar o status da sua conexão.",
         "checkingYourConnectionStatus": "Verificando o status da sua conexão…",
-        "useYourPaperclipOrganizationFromCodex": "Use your Paperclip organization from Codex, Claude, OpenCode, or another assistant."
+        "useYourPaperclipOrganizationFromCodex": "Use sua organização do Paperclip pelo Codex, Claude, OpenCode ou outro assistente."
       },
       "browse": {
         "addACustomMcpServerOr": "Adicione um servidor MCP personalizado ou cole uma configuração existente.",
@@ -5434,7 +5434,7 @@
         "paperclipCloudEnrollmentStatusIsUnavailable": "O status de inscrição no Paperclip Cloud está indisponível.",
         "paperclipManagedSignInIsReady": "A entrada gerenciada pelo Paperclip está pronta",
         "cancel": "Cancelar",
-        "appsYouConnectBecomeAvailableTo": "Apps you connect become available to every agent unless you change “Who can use it”.",
+        "appsYouConnectBecomeAvailableTo": "Aplicativos que você conecta ficam disponíveis a todos os agentes, a menos que você altere “Quem pode usar”.",
         "lastUsed": "Último uso",
         "actions": "Ações",
         "status": "Status",
@@ -5462,7 +5462,7 @@
       },
       "reviewQueueCard": {
         "alwaysAllowLetsThisAgentUse": "Always allow lets this agent use this action with different arguments on this connection, within the current project when present.",
-        "anAgentWantsToRunThis": "An agent wants to run this action. Your connection policy requires approval first.",
+        "anAgentWantsToRunThis": "Um agente quer executar esta ação. Sua política de conexão exige aprovação primeiro.",
         "nothingIsWaitingForYourOk": "Nada está esperando seu OK agora.",
         "couldNotLoadConnectionReviewsPlease": "Não foi possível carregar as revisões da conexão. Atualize para tentar de novo."
       },
@@ -5491,7 +5491,7 @@
           "decline": "Recusar",
           "resumePermission": "Retomar permissão",
           "openTheProviderDashboardToComplete": "Abra o painel do provedor para concluir este pedido.",
-          "paperclipAllowedThisCallTheProvider": "Paperclip allowed this call. The provider needs your input before it can continue.",
+          "paperclipAllowedThisCallTheProvider": "O Paperclip permitiu esta chamada. O provedor precisa da sua resposta para continuar.",
           "theOriginalCallWasNotRepeated": "A chamada original não foi repetida.",
           "cancel": "Cancelar",
           "running": "Em execução…",
@@ -5544,7 +5544,7 @@
           "browserSettings": "Configurações do navegador",
           "saveBrowserSettings": "Salvar configurações do navegador",
           "browserSettingsSaved": "Configurações do navegador salvas.",
-          "couldNotSaveOrLoadBrowser": "Could not save or load browser settings. Check your credential access and try again.",
+          "couldNotSaveOrLoadBrowser": "Não foi possível salvar ou carregar as configurações do navegador. Verifique seu acesso à credencial e tente de novo.",
           "retry": "Repetir",
           "loadingProfiles": "Carregando perfis…",
           "noSavedProfiles": "Nenhum perfil salvo.",
@@ -5609,7 +5609,7 @@
         "setupPanel": {
           "turnAllOff": "Desligar todos",
           "turnAllOn": "Ligar todos",
-          "turnOnTheActionsAgentsMay": "Turn on the actions agents may use. Anything left off stays blocked when you save.",
+          "turnOnTheActionsAgentsMay": "Ligue as ações que os agentes podem usar. O que ficar desligado continua bloqueado ao salvar.",
           "addSheet": "Adicionar folha",
           "noSheetsAreConnectedYet": "Nenhuma planilha conectada ainda.",
           "agentsCanOnlyUseTheSheets": "Agentes só podem usar as planilhas listadas aqui.",
@@ -5657,8 +5657,8 @@
           "shareOnlyWithThisPersonThey": "Compartilhe somente com esta pessoa. Ela precisa entrar e confirmar a própria conta.",
           "manageMembers": "Gerenciar membros",
           "theConfirmationLinkIsPersonalAnd": "O link de confirmação é pessoal e expira em 15 minutos.",
-          "ifYouReNewToThis": "If you’re new to this organization, request access and wait for an admin to approve.",
-          "openTheBotSPrivateLink": "Open the bot’s private link and sign in to Paperclip to confirm your Slack account.",
+          "ifYouReNewToThis": "Se você é novo nesta organização, solicite acesso e aguarde a aprovação de um administrador.",
+          "openTheBotSPrivateLink": "Abra o link privado do bot e entre no Paperclip para confirmar sua conta do Slack.",
           "shareTheseInstructionsWithSomeoneIn": "Compartilhe estas instruções com alguém do seu workspace do Slack.",
           "invitePeople": "Convidar pessoas",
           "noDestinationsYet": "Nenhum destino ainda.",
@@ -5705,7 +5705,7 @@
           "retry": "Repetir",
           "requestUrl": "URL da requisição",
           "eventSubscriptions": "Assinaturas de evento",
-          "configureAPublicHttpsUrlFor": "Configure a public HTTPS URL for this Paperclip instance before connecting GitHub.",
+          "configureAPublicHttpsUrlFor": "Configure uma URL HTTPS pública para esta instância do Paperclip antes de conectar o GitHub.",
           "copyThisValueNowPaperclipWill": "Copie este valor agora. O Paperclip não vai mostrá-lo de novo.",
           "generatedWebhookSecret": "Segredo do webhook gerado",
           "webhookSecret": "Segredo do webhook",
@@ -5761,7 +5761,7 @@
           "inAzureCreateAnAzureBot": "In Azure, create an Azure Bot. Choose Single Tenant, use that Application ID, set its messaging endpoint to the Paperclip URL below, and add the Microsoft Teams channel.",
           "inMicrosoftEntraCreateASingle": "In Microsoft Entra, create a single-tenant app registration. Copy its Application (client) ID and Directory (tenant) ID, then create a client secret and copy its value.",
           "thisSetupRequiresAMicrosoft365": "This setup requires a Microsoft 365 work or school organization where you can register an Entra app, create an Azure Bot, and upload or install a Teams app. Personal or free Teams accounts at teams.live.com cannot complete this setup. This release supports Microsoft 365 commercial cloud tenants only; GCC, GCC High, DoD, and Microsoft 365 operated by 21Vianet are not supported yet.",
-          "configureAPublicHttpsUrlFor3": "Configure a public HTTPS URL for this Paperclip instance before connecting Telegram.",
+          "configureAPublicHttpsUrlFor3": "Configure uma URL HTTPS pública para esta instância do Paperclip antes de conectar o Telegram.",
           "enterTheBotDisplayName": "Informe o nome de exibição do bot.",
           "theInstallLinkGrantsOnlyView": "The install link grants only View Channels, Send Messages, Create Public Threads, Send Messages in Threads, Read Message History, Add Reactions, Embed Links, and Attach Files. Paperclip still requires each discovered channel to be enabled in Access.",
           "enterThoseValuesBelowThenUse": "Enter those values below, then use the generated install link to add the bot to that server.",
@@ -5949,7 +5949,7 @@
           "connectionSettings": "Configurações da conexão",
           "iHavenTCreatedThisApp": "Ainda não criei este app no GitHub.",
           "useExistingAppCredentials": "Usar credenciais do app existente",
-          "paperclipCloudReceivesGithubEventsAnd": "Paperclip Cloud receives GitHub events and securely delivers them to this instance.",
+          "paperclipCloudReceivesGithubEventsAnd": "O Paperclip Cloud recebe eventos do GitHub e os entrega com segurança a esta instância.",
           "waitingForGithubInstallationOrAdministrator": "Aguardando a instalação no GitHub ou a aprovação do administrador…",
           "addAPersonalGithubConnectionThen": "Adicione uma conexão pessoal do GitHub e volte a este rascunho",
           "chooseAnAccount": "Escolha uma conta",
@@ -6007,7 +6007,7 @@
           "continueToMessageTest": "Continuar para o teste de mensagem",
           "saveExit": "Salvar e sair",
           "couldnTLinkYourAccountCheck": "Couldn't link your account. Check that you are a member of this company and try again.",
-          "signInToPaperclipToLink": "Sign in to Paperclip to link your Slack account. Refresh this page after signing in.",
+          "signInToPaperclipToLink": "Entre no Paperclip para vincular sua conta do Slack. Atualize esta página depois de entrar.",
           "couldnTCheckForYourSlack": "Não foi possível verificar sua conta do Slack. Vamos continuar tentando.",
           "couldnTCopyTheCommandSelect": "Não foi possível copiar o comando. Selecione e copie acima.",
           "sendThisCommandInSlackSo": "Send this command in Slack so we can identify your account. It won't start agent work.",
@@ -6030,7 +6030,7 @@
           "clientSecret": "Segredo do cliente",
           "clientId": "ID do cliente",
           "oauthAppConfigurationForConnectionManagers": "Configuração do app OAuth para gerenciadores de conexão",
-          "aConnectionManagerNeedsToConfigure": "A connection manager needs to configure your Slack app’s OAuth credentials first.",
+          "aConnectionManagerNeedsToConfigure": "Um gerenciador de conexões precisa configurar as credenciais OAuth do seu app do Slack primeiro.",
           "connectSlackSearch": "Conectar busca do Slack",
           "disconnectSearch": "Desconectar busca",
           "slackSearchConnected": "Busca do Slack conectada",
@@ -6149,7 +6149,7 @@
             "howClientsConnect": "Como os clientes se conectam",
             "thisGatewaySProfileDoesnT": "O perfil deste gateway ainda não inclui nenhum aplicativo.",
             "appsInThisGateway": "Aplicativos neste gateway",
-            "anyoneHoldingAnActiveTokenBelow": "Anyone holding an active token below, restricted by the rules in the bound profile.",
+            "anyoneHoldingAnActiveTokenBelow": "Qualquer pessoa com um token ativo abaixo, limitada pelas regras do perfil vinculado.",
             "whoCanUseIt": "Quem pode usar",
             "toggleTheWholeGatewayOffHere": "Desligue o gateway inteiro aqui.",
             "toggleGateway": "Alternar gateway"
@@ -6303,7 +6303,7 @@
         "deselectAll": "Desmarcar todos",
         "selectAll": "Selecionar todos",
         "closeImportDialog": "Fechar diálogo de importação",
-        "pickAProjectScanItsWorkspaces": "Pick a project, scan its workspaces for skills, and import them as references.",
+        "pickAProjectScanItsWorkspaces": "Escolha um projeto, varra os workspaces dele em busca de skills e importe-as como referências.",
         "importSkillsFromProject": "Importar skills do projeto"
       },
       "skillImportProgress": {
@@ -6339,7 +6339,7 @@
         "loading": "Carregando…"
       },
       "auditTab": {
-        "asSoonAsYourAgentsStart": "As soon as your agents start using connected apps, what they do shows up here.",
+        "asSoonAsYourAgentsStart": "Assim que seus agentes começarem a usar aplicativos conectados, o que eles fazem aparece aqui.",
         "nothingHereYet": "Nada aqui ainda",
         "clearFilters": "Limpar filtros",
         "tryAWiderTimeWindowOr": "Tente uma janela de tempo maior ou outros filtros.",
@@ -6375,7 +6375,7 @@
         "keysFromThisConfigStayDraft": "Keys from this config stay draft-only until an admin maps them to an approved template.",
         "weHumanizedTheFieldNamesFrom": "We humanized the field names from the config. These run-in-your-workspace tools stay as drafts until an admin maps them to an approved template.",
         "checkingARemoteAppCreatesA": "Checking a remote app creates a draft connection, stores any header replacements as Paperclip secrets, and runs health/catalog discovery before activation.",
-        "weCouldnTFindAnApp": "We couldn't find an app in that config. Double-check you pasted the whole snippet.",
+        "weCouldnTFindAnApp": "Não encontramos um aplicativo nessa configuração. Confirme que você colou o trecho inteiro.",
         "weLlReadItAndShow": "Vamos ler e mostrar o que encontramos antes de salvar qualquer coisa.",
         "pasteAnMcpConfigTheSnippet": "Cole uma configuração MCP — o trecho que um README manda copiar.",
         "browsePlannedAppConnections": "Explorar conexões de aplicativo planejadas",
@@ -6538,7 +6538,7 @@
           "whoHasIt": "Quem tem",
           "editTools": "Editar ferramentas",
           "whatItAllows": "O que permite",
-          "thisProfileIsArchivedItDoes": "This profile is archived. It does not apply to agents until it is restored.",
+          "thisProfileIsArchivedItDoes": "Este perfil está arquivado. Ele não se aplica a agentes até ser restaurado.",
           "dismiss": "Dispensar",
           "profileSaved": "Perfil salvo",
           "archive": "Arquivar",
@@ -6567,7 +6567,7 @@
           "saveFinishLater": "Salvar e terminar depois"
         },
         "profileWizardRoute": {
-          "chooseWhichToolsThisProfileAllows": "Choose which tools this profile allows, then assign it to the agents that need them.",
+          "chooseWhichToolsThisProfileAllows": "Escolha quais ferramentas este perfil permite e atribua-o aos agentes que precisam delas.",
           "selectAnOrganizationToCreateA": "Selecione uma organização para criar um perfil."
         },
         "profilesIndex": {
