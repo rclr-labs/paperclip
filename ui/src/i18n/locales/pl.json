@@ -484,8 +484,8 @@
       "dashboard": "Dashboard",
       "createNewProject": "Create new project",
       "createNewAgent": "Create new agent",
-      "openFileInThisIssueG": "<1></1> Open file in this issue... <3>g f</3>",
-      "createNewTaskC": "<1></1> Create new task <3>C</3>"
+      "openFileInThisIssueG": "<0></0> Open file in this issue... <2>g f</2>",
+      "createNewTaskC": "<0></0> Create new task <2>C</2>"
     },
     "commentThread": {
       "responsible": "Responsible",
@@ -1341,7 +1341,7 @@
       "eGNorthwindLabs": "e.g. Northwind Labs",
       "name": "Name",
       "unavailable": "{{model}} (unavailable)",
-      "claudeFailedWhileAnthropicApiKey": "Claude failed while <3>ANTHROPIC_API_KEY</3> is set. You can clear it in this adapter config and retry the probe."
+      "claudeFailedWhileAnthropicApiKey": "Claude failed while <2>ANTHROPIC_API_KEY</2> is set. You can clear it in this adapter config and retry the probe."
     },
     "outputFeedbackButtons": {
       "readOurTermsOfService": "Read our terms of service",
@@ -1363,7 +1363,7 @@
     "pathInstructionsModal": {
       "choose": "Choose",
       "howToGetAFullPath": "How to get a full path",
-      "pasteTheAbsolutePathEG": "Paste the absolute path (e.g. <3>/Users/you/project</3> ) into the input field."
+      "pasteTheAbsolutePathEG": "Paste the absolute path (e.g. <2>/Users/you/project</2> ) into the input field."
     },
     "pluginAppShellOverlays": {
       "applicationExtensions": "Application extensions"
@@ -1656,7 +1656,7 @@
       "revealExactFrame": "Reveal exact frame",
       "exactUnredactedFrame": "Exact unredacted frame",
       "reRunWithProviderTrace": "Re-run with provider trace",
-      "environmentConstraintWasModelAuthoredTool": "<1>environment_constraint</1> was model-authored tool payload data, not a Codex app-server event. It was normalized into a non-blocking verification caveat."
+      "environmentConstraintWasModelAuthoredTool": "<0>environment_constraint</0> was model-authored tool payload data, not a Codex app-server event. It was normalized into a non-blocking verification caveat."
     },
     "runtimeTestCard": {
       "runtimeTest": "Runtime test",
@@ -3306,6 +3306,12 @@
     },
     "swipeToArchive": {
       "archive": "Archive"
+    },
+    "designsandbox": {
+      "conversationPlayback": {
+        "showSavedThread": "Show saved thread",
+        "replay": "Replay"
+      }
     }
   },
   "connectflowpreviewmain": {
@@ -4473,7 +4479,7 @@
       "deploymentAndAuth": "Deployment and auth",
       "general": "General",
       "loadingGeneralSettings": "Loading general settings...",
-      "toRetestTheFirstUsePrompt": "To retest the first-use prompt in local dev, remove the <3>feedbackDataSharingPreference</3> key from the <7>instance_settings.general</7> JSON row for this instance, or set it back to <11>\"prompt\"</11>. Unset and <13>\"prompt\"</13> both mean no default has been chosen yet."
+      "toRetestTheFirstUsePrompt": "To retest the first-use prompt in local dev, remove the <2>feedbackDataSharingPreference</2> key from the <5>instance_settings.general</5> JSON row for this instance, or set it back to <8>\"prompt\"</8>. Unset and <10>\"prompt\"</10> both mean no default has been chosen yet."
     },
     "inviteLanding": {
       "password": "Password",
@@ -4832,8 +4838,8 @@
       "noResultsFor": "No results for “{{trimmedQuery}}”",
       "searchingFor": "Searching for “{{trimmedQuery}}”…",
       "useAnIdentifierShortcutLikePap": "Use an identifier shortcut like <1>PAP-123</1>.",
-      "kReopensTheCommandPalettePre": "<1>⌘K:</1> reopens the command palette pre-seeded with your current query.",
-      "tryStatusTodoAssigneeMeOr": "Try <1>status:todo</1>, <5>assignee:me</5>, or <9>updated:>7d</9>."
+      "kReopensTheCommandPalettePre": "<0>⌘K:</0> reopens the command palette pre-seeded with your current query.",
+      "tryStatusTodoAssigneeMeOr": "Try <1>status:todo</1>, <4>assignee:me</4>, or <8>updated:>7d</8>."
     },
     "secrets": {
       "noAccessEventsRecordedYetEach": "No access events recorded yet. Each runtime resolution writes a redacted entry here.",
@@ -5319,7 +5325,7 @@
       "cancelled": "Cancelled",
       "automation": "Automation",
       "delegated": "Delegated",
-      "rangeTo": "Range <1></1> <3></3> <5>to</5> <7></7>"
+      "rangeTo": "Range <1></1><2></2><3>to</3><4></4>"
     },
     "userProfile": {
       "noDirectUserActionsRecordedYet": "No direct user actions recorded yet.",
@@ -5639,7 +5645,7 @@
           "theAgentCanChooseALower": "The agent can choose a lower limit. Paperclip also applies any remaining hard budget limit.",
           "useTheRemainingPaperclipBudget": "Use the remaining Paperclip budget",
           "maximumCostPerBrowserRunUsd": "Maximum cost per browser run (USD)",
-          "freshBrowsersAreTheDefaultSelected": "Fresh browsers are the default. Selected profiles let agents use their saved website logins. Manage profiles in <3>Browser Use Cloud</3> ."
+          "freshBrowsersAreTheDefaultSelected": "Fresh browsers are the default. Selected profiles let agents use their saved website logins. Manage profiles in <2>Browser Use Cloud</2> ."
         },
         "connectedAggregatorApps": {
           "loadingApps": "Loading apps…",
@@ -5890,8 +5896,8 @@
           "createInTelegram": "Create {{agentName}} in Telegram",
           "connectToDiscord": "Connect {{agentName}} to Discord",
           "paperclipDoesNotUseTeamsSingle": "Paperclip does not use Teams single sign-on in this release. The copied <1>webApplicationInfo</1> entry only associates the RSC permissions with the same Entra Application ID. Its nonempty resource is an RSC placeholder; you do not need to register an Entra Application ID URI or add delegated Microsoft Graph permissions.",
-          "microsoftTeamsAppsManageYourApps": "<1>Microsoft Teams · Apps · Manage your apps</1>: select <5>Upload an app · Upload a custom app</5>, choose the downloaded package, and install it in each intended personal chat, group chat, or team. One team install covers its standard channels. Private and shared channels require a separate app installation and are not supported by this release. If upload is unavailable, a Teams administrator must enable or approve custom apps.",
-          "paperclipWorksWithTelegramSDefault": "Paperclip works with Telegram's default bot privacy mode and registers its command menu automatically. In a group, ordinary mentions are not delivered to bots: start or continue work with <3>/task@bot_username <request></3>, or reply directly to a message from the bot.",
+          "microsoftTeamsAppsManageYourApps": "<0>Microsoft Teams · Apps · Manage your apps</0>: select <3>Upload an app · Upload a custom app</3>, choose the downloaded package, and install it in each intended personal chat, group chat, or team. One team install covers its standard channels. Private and shared channels require a separate app installation and are not supported by this release. If upload is unavailable, a Teams administrator must enable or approve custom apps.",
+          "paperclipWorksWithTelegramSDefault": "Paperclip works with Telegram's default bot privacy mode and registers its command menu automatically. In a group, ordinary mentions are not delivered to bots: start or continue work with <2>/task@bot_username <request></2>, or reply directly to a message from the bot.",
           "chooseAnAvailableUsernameEndingIn": "Choose an available username ending in <1>bot</1>.",
           "openBotfatherAndSendNewbot": "Open BotFather and send <1>/newbot</1>."
         },
@@ -6182,7 +6188,7 @@
           "addPermissionsToUnlockMoreTools": "Add permissions to unlock more tools",
           "checkingSlackPermissions": "Checking Slack permissions…",
           "readSearchAndActInSlack": "Read, search, and act in Slack. Some actions require approval.",
-          "inSlackAppSettingsAddThis": "In Slack app settings, add this redirect URL under OAuth & Permissions. Add user scopes <1>search:read.public</1>, <5>search:read.private</5> and <9>search:read.files</9>. Find Client ID and Client Secret under Basic Information."
+          "inSlackAppSettingsAddThis": "In Slack app settings, add this redirect URL under OAuth & Permissions. Add user scopes <1>search:read.public</1>, <4>search:read.private</4> and <7>search:read.files</7>. Find Client ID and Client Secret under Basic Information."
         },
         "slack": {
           "managedSlackSetup": {
@@ -6398,7 +6404,7 @@
         "agentAuditIsAPaperclipEnterprise": "Agent audit is a Paperclip Enterprise view",
         "viewRun": "View run",
         "onBehalfOf": "on behalf of {{responsibleLabel}}",
-        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <3>audit:view_agent_actions</3> permission to view it."
+        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <2>audit:view_agent_actions</2> permission to view it."
       },
       "auditFeed": {
         "recordedByPaperclipEntriesCanT": "Recorded by Paperclip — entries can't be edited. Sensitive values are never stored.",
@@ -6425,7 +6431,7 @@
         "viewRun": "View run",
         "theConnection": "the connection",
         "onBehalfOf": "on behalf of {{responsibleLabel}}",
-        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <3>audit:view_agent_actions</3> permission to view it."
+        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <2>audit:view_agent_actions</2> permission to view it."
       },
       "auditHub": {
         "audit": "Audit"
@@ -6629,7 +6635,7 @@
         "entry": "Entry",
         "edit": "Edit",
         "newProfile": "New profile",
-        "toolsMarkedPatternWerePulledIn": "<1></1> Tools marked <3>pattern</3> were pulled in by a wildcard, application, connection, or risk selector rather than named explicitly — review them when the catalog changes."
+        "toolsMarkedPatternWerePulledIn": "<0></0> Tools marked <2>pattern</2> were pulled in by a wildcard, application, connection, or risk selector rather than named explicitly — review them when the catalog changes."
       },
       "toolsAccess": {
         "openDeveloperTools": "Open developer tools",

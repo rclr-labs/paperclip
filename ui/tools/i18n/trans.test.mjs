@@ -55,6 +55,27 @@ describe("buildTrans", () => {
     expect(build('<p>Open{" "}<a>the docs</a></p>').message).toBe("Open <2>the docs</2>");
   });
 
+  it("indexes what React receives, not the AST, when JSX is wrapped", () => {
+    // JSX drops whitespace-only text containing a newline, so the span is at
+    // runtime index 2 even though it sits at 3 in the AST children array.
+    const snippet = [
+      "<p>",
+      '  Ask an administrator to grant you the{" "}',
+      '  <span className="font-mono">audit:view_agent_actions</span>{" "}',
+      "  permission to view it.",
+      "</p>",
+    ].join("\n");
+    expect(build(snippet).message).toBe(
+      "Ask an administrator to grant you the <2>audit:view_agent_actions</2> permission to view it.",
+    );
+  });
+
+  it("keeps a single-line space between elements, which JSX does not drop", () => {
+    expect(build("<p>See <a>docs</a> and <a>guides</a></p>").message).toBe(
+      "See <1>docs</1> and <3>guides</3>",
+    );
+  });
+
   it("refuses an inline element holding another element", () => {
     expect(build("<p>See <a><em>docs</em></a> now</p>")).toBeNull();
   });

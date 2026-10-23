@@ -1,5 +1,5 @@
 import i18n, { type InitOptions, type TOptions } from "i18next";
-import { initReactI18next, Trans as ReactI18nextTrans, useTranslation as useReactI18nextTranslation } from "react-i18next";
+import { initReactI18next, useTranslation as useReactI18nextTranslation } from "react-i18next";
 
 import { DEFAULT_LOCALE, i18nextResources, loadLocaleMessages, supportedLocales } from "./locales";
 import { detectLocale, persistLocale } from "./resolve-locale";
@@ -58,11 +58,4 @@ export function t(key: string, options: TOptions = {}) {
 }
 
 export const useTranslation = useReactI18nextTranslation;
-
-/**
- * Re-exported so a component has one place to reach for translation, and so
- * the extractor can add a single import. <Trans> renders its own children when
- * a key is missing, which makes the worst case English rather than a blank.
- */
-export const Trans = ReactI18nextTrans;
 export { i18n };

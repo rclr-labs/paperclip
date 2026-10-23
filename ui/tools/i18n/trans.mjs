@@ -20,6 +20,21 @@
 
 const normalize = (raw) => raw.replace(/\s*\n\s*/g, " ");
 
+/**
+ * The children React actually receives.
+ *
+ * JSX drops a text child that is entirely whitespace AND contains a newline —
+ * the indentation between elements on separate lines. <Trans> numbers what
+ * reaches it at runtime, so counting the AST array directly puts every tag one
+ * or more positions too high. Whitespace without a newline is real content and
+ * stays.
+ */
+export function runtimeChildren(children) {
+  return (children ?? []).filter(
+    (child) => !(child.type === "JSXText" && !child.value.trim() && child.value.includes("\n")),
+  );
+}
+
 /** The text an inline element contributes, or null if it holds more than text. */
 function innerText(element) {
   const kids = (element.children ?? []).filter((c) => !(c.type === "JSXText" && !c.value.trim()));
@@ -48,7 +63,7 @@ export function buildTrans(children) {
   let topLevelProse = false;
   let prose = "";
 
-  for (const [index, child] of (children ?? []).entries()) {
+  for (const [index, child] of runtimeChildren(children).entries()) {
     if (child.type === "JSXText") {
       parts.push(normalize(child.value));
       prose += ` ${child.value}`;

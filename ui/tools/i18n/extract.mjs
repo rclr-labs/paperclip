@@ -96,6 +96,20 @@ function namespaceFor(file) {
   return rel.split(path.sep).map((p) => p.replace(/[^A-Za-z0-9]/g, "")).map((p, i) => (i === 0 ? p : p[0].toLowerCase() + p.slice(1))).filter(Boolean);
 }
 
+/**
+ * True when this node sits inside a <Trans> the extractor already added.
+ *
+ * Unlike the other transforms, <Trans> WRAPS rather than replaces, so running
+ * again over its own output would nest a second wrapper around the first. The
+ * other phases are idempotent for free: the key already holds the same value,
+ * so the edit is skipped.
+ */
+function insideTrans(ancestors) {
+  return ancestors.some(
+    (node) => node.type === "JSXElement" && node.openingElement?.name?.name === "Trans",
+  );
+}
+
 const FN_TYPES = new Set(["FunctionDeclaration", "FunctionExpression", "ArrowFunctionExpression", "ObjectMethod", "ClassMethod"]);
 
 /** Nearest enclosing React component, or null when a hook cannot go there. */
@@ -205,7 +219,7 @@ function collect(file) {
     // children exactly as they are and reads the numbered tags from the
     // message. No hook is needed, so this does not require a component.
     if (node.type === "JSXElement" || node.type === "JSXFragment") {
-      const trans = buildTrans(node.children ?? []);
+      const trans = node.openingElement?.name?.name === "Trans" ? null : buildTrans(node.children ?? []);
       if (trans && isTranslatable(trans.message.replace(/<\/?\d+>/g, " ").trim(), { composed: true })) {
         const kids = node.children;
         hits.push({
