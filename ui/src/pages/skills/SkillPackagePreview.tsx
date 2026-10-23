@@ -38,7 +38,7 @@ export function SkillPackagePreview({ companyId, repository, commitSha, skill, i
         <DialogDescription className="break-all font-mono text-xs">{repositoryPackage ? 'Repository root' : root || 'Repository root'}/ · {inspection?.files.length ?? skill.fileCount ?? '?'} files{commitSha ? ` · ${commitSha.slice(0, 8)}` : ''}</DialogDescription>
       </DialogHeader>
       {!inspection && <p role="status" className="text-sm text-muted-foreground">{t("pages.skills.skillPackagePreview.refreshThisSourceToInspectIts")}</p>}
-      {skill.error && <p className="text-sm text-muted-foreground">Needs setup: {skill.error}</p>}
+      {skill.error && <p className="text-sm text-muted-foreground">{t("pages.skills.skillPackagePreview.needsSetup", { error: skill.error })}</p>}
       {inspection?.requirements && <section className="rounded-md border border-border bg-muted/30 p-3 text-sm">
         <h3 className="font-medium">{t("pages.skills.skillPackagePreview.runtimeRequirements")}</h3>
         <p className="mt-1 whitespace-pre-wrap text-muted-foreground">{inspection.requirements}</p>

@@ -282,7 +282,7 @@ export function ActionCard({
             {policyNumber != null ? (
               <>
                 {" "}
-                <span className="font-medium text-foreground">Policy #{policyNumber}</span> requires approval here.
+                <span className="font-medium text-foreground">{t("components.actions.actionCard.policy", { policyNumber })}</span> requires approval here.
               </>
             ) : null}
           </p>

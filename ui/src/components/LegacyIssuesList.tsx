@@ -594,9 +594,7 @@ function SubIssueProgressSummaryStrip({
             <span className="font-medium text-foreground">
               {summary.doneCount}/{summary.totalCount} done
             </span>
-            <span className="text-muted-foreground">
-              {summary.inProgressCount} in progress
-            </span>
+            <span className="text-muted-foreground">{t("components.legacyIssuesList.inProgress", { inProgressCount: summary.inProgressCount })}</span>
             <span className="text-muted-foreground">
               {summary.blockedCount} blocked
             </span>
@@ -1931,16 +1929,12 @@ export function IssuesList({
       {(isLoading || externalObjectFilterLoading) && <PageSkeleton variant="issues-list" />}
       {error && <p className="text-sm text-destructive">{error.message}</p>}
       {!searchWithinLoadedIssues && normalizedIssueSearch.length > 0 && searchedIssues.length === ISSUE_SEARCH_RESULT_LIMIT && (
-        <p className="text-xs text-muted-foreground">
-          Showing up to {ISSUE_SEARCH_RESULT_LIMIT} matches. Refine the search to narrow further.
-        </p>
+        <p className="text-xs text-muted-foreground">{t("components.legacyIssuesList.showingUpToMatchesRefineThe", { ISSUE_SEARCH_RESULT_LIMIT })}</p>
       )}
       {boardColumnLimitReached && (
-        <p className="text-xs text-muted-foreground">
-          Some board columns are showing up to {ISSUE_BOARD_COLUMN_RESULT_LIMIT} tasks. Refine filters or search to reveal the rest.
-        </p>
+        <p className="text-xs text-muted-foreground">{t("components.legacyIssuesList.someBoardColumnsAreShowingUp", { ISSUE_BOARD_COLUMN_RESULT_LIMIT })}</p>
       )}
-      {hierarchy.error ? <p className="text-sm text-destructive">Failed to load task hierarchy: {hierarchy.error.message}</p> : null}
+      {hierarchy.error ? <p className="text-sm text-destructive">{t("components.legacyIssuesList.failedToLoadTaskHierarchy", { message: hierarchy.error.message })}</p> : null}
       {!isLoading && !externalObjectFilterLoading && visibleListRowCount === 0 && viewState.viewMode === "list" && (
         <EmptyState
           icon={CircleDot}

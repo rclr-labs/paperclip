@@ -2390,9 +2390,7 @@ export function Secrets() {
                     <StatusBadge status={selectedDefinition.status} />
                   </span>
                 </SheetTitle>
-                <SheetDescription className="sr-only">
-                  Each user secret definition {selectedDefinition.key}
-                </SheetDescription>
+                <SheetDescription className="sr-only">{t("pages.secrets.eachUserSecretDefinition", { key: selectedDefinition.key })}</SheetDescription>
                 <div className="flex min-w-0 items-center gap-2 rounded-md border border-border bg-muted/20 px-2 py-1.5">
                   <code className="min-w-0 flex-1 truncate font-mono text-xs text-foreground">
                     {selectedDefinition.key}
@@ -2685,9 +2683,7 @@ export function Secrets() {
                 />
               )}
               {createNamePrefix && !editingDefinition ? (
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Creating in {folderPath} — remove the chip to type a different path.
-                </p>
+                <p className="mt-1 text-xs text-muted-foreground">{t("pages.secrets.creatingInRemoveTheChipTo", { folderPath })}</p>
               ) : null}
             </div>
 

@@ -515,10 +515,7 @@ function ReceiptDisclosure({
     );
   } else if (interaction.kind === "connection_intent") {
     request = (
-      <p className="text-sm text-foreground">
-        {interaction.payload.requestingAgentName} requested access to{" "}
-        {interaction.payload.serviceName}.
-      </p>
+      <p className="text-sm text-foreground">{t("components.taskchat.taskChatCompactInteractionCard.requestedAccessTo", { requestingAgentName: interaction.payload.requestingAgentName, serviceName: interaction.payload.serviceName })}</p>
     );
   } else {
     request = (
@@ -1310,6 +1307,7 @@ function SuggestedTaskRow({
   selected: Set<string>;
   onToggle: (node: SuggestedTaskTreeNode) => void;
 }) {
+  const { t } = useTranslation();
   if (node.task.hiddenInPreview) return null;
   const hiddenCount = collectSuggestedTaskClientKeys(node).filter(
     (key) =>
@@ -1331,9 +1329,7 @@ function SuggestedTaskRow({
             {node.task.title}
           </span>
           {hiddenCount > 0 ? (
-            <span className="block text-xs text-muted-foreground">
-              + {hiddenCount} hidden follow-up
-            </span>
+            <span className="block text-xs text-muted-foreground">{t("components.taskchat.taskChatCompactInteractionCard.hiddenFollowUp", { hiddenCount })}</span>
           ) : null}
         </span>
       </label>

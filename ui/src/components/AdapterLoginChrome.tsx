@@ -430,6 +430,7 @@ export function ProviderSubscriptionCard({
   loading?: boolean;
   children: ReactNode;
 }) {
+  const { t } = useTranslation();
   return (
     <OnboardingLoginCard
       loading={loading}
@@ -440,9 +441,7 @@ export function ProviderSubscriptionCard({
             target="_blank"
             rel="noreferrer noopener"
             className="underline underline-offset-2 hover:text-foreground"
-          >
-            Sign in to {providerName}
-          </a>
+          >{t("components.adapterLoginChrome.signInTo", { providerName })}</a>
           {mode === "submitted_code"
             ? " then come back and enter authorization code"
             : " by providing the authorization code below"}

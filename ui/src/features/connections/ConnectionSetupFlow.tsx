@@ -619,7 +619,7 @@ export function ConnectionSetupFlow(props: ConnectionSetupFlowProps = {}) {
     if (!availability.loaded) return <p role="status" className="p-6 text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.loadingConnectionSettings")}</p>;
     if (availability.failed) return <p role="alert" className="p-6 text-destructive text-sm">{t("features.connections.connectionSetupFlow.couldNotLoadConnectorAvailabilityRefresh")}</p>;
     const disabled = gatedDefinitions.find(app => !availability.enabled(app));
-    if (disabled) return <p role="status" className="p-6 text-sm text-muted-foreground">{disabled.name} is not available on this instance.</p>;
+    if (disabled) return <p role="status" className="p-6 text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.isNotAvailableOnThisInstance", { name: disabled.name })}</p>;
   }
   if (isMemoryConnectorId(provider) && !(existing.data && existing.data.status !== "draft" && existing.data.config?.sourceTemplateKey === provider)) {
     if (!memory.loaded) return <p className="p-6 text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.loadingConnectionSettings")}</p>;
@@ -2525,14 +2525,10 @@ function StandardConnectionSetupFlow({
 
       {managedConnectorUnavailable && entry ? (
         <div className="mx-auto max-w-xl rounded-xl border border-border bg-card p-6">
-          <h2 className="text-lg font-semibold text-foreground">{entry.name} sign-in is unavailable</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            This instance is connected to Paperclip, but {entry.name} sign-in is not currently available. Try again shortly or contact your instance administrator.
-          </p>
+          <h2 className="text-lg font-semibold text-foreground">{t("features.connections.connectionSetupFlow.signInIsUnavailable", { name: entry.name })}</h2>
+          <p className="mt-2 text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.thisInstanceIsConnectedToPaperclip", { name: entry.name })}</p>
           {customOAuthMethod ? (
-            <Button type="button" variant="link" className="mt-4 h-auto p-0 text-xs" onClick={() => setConnectionMethodKey(customOAuthMethod.key)}>
-              Use your own {entry.name} OAuth app
-            </Button>
+            <Button type="button" variant="link" className="mt-4 h-auto p-0 text-xs" onClick={() => setConnectionMethodKey(customOAuthMethod.key)}>{t("features.connections.connectionSetupFlow.useYourOwnOauthApp", { name: entry.name })}</Button>
           ) : null}
           <div className="mt-6 flex items-center justify-between gap-3">
             <Button type="button" variant="ghost" onClick={backToGallery}>{t("features.connections.connectionSetupFlow.back")}</Button>
@@ -2553,16 +2549,12 @@ function StandardConnectionSetupFlow({
                 <h2 className="text-lg font-semibold text-foreground">
                   {t("features.connections.connectionSetupFlow.connectWithPaperclip")}
                 </h2>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  You must connect this instance to Paperclip to connect to {entry.name} (you only need to do this once).
-                </p>
+                <p className="mt-2 text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.youMustConnectThisInstanceTo", { name: entry.name })}</p>
               </div>
             </div>
 
             {customOAuthMethod ? (
-              <Button type="button" variant="link" className="mt-4 h-auto p-0 text-xs" onClick={() => setConnectionMethodKey(customOAuthMethod.key)}>
-                Use your own {entry.name} OAuth app
-              </Button>
+              <Button type="button" variant="link" className="mt-4 h-auto p-0 text-xs" onClick={() => setConnectionMethodKey(customOAuthMethod.key)}>{t("features.connections.connectionSetupFlow.useYourOwnOauthApp", { name: entry.name })}</Button>
             ) : null}
 
             {connectorEnrollmentQuery.isError || connectorEnrollmentError ? (
@@ -3169,7 +3161,7 @@ function GalleryStep({
           </div>
 
           {filtered.length === 0 && (
-            <div className="py-10 text-center text-sm text-muted-foreground">No apps match “{search}”.</div>
+            <div className="py-10 text-center text-sm text-muted-foreground">{t("features.connections.connectionSetupFlow.noAppsMatch", { search })}</div>
           )}
         </>
       )}
@@ -3203,7 +3195,7 @@ function GalleryStep({
             <div className="mt-3 flex items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2">
               <div className="flex min-w-0 items-center gap-2 text-sm">
                 <AppLogo name={matchedEntry.name} logoUrl={matchedEntry.branding.logoUrl} darkLogoUrl={matchedEntry.branding.darkLogoUrl} size={24} />
-                <span className="truncate">This looks like {matchedEntry.name}.</span>
+                <span className="truncate">{t("features.connections.connectionSetupFlow.thisLooksLike", { name: matchedEntry.name })}</span>
               </div>
               <Button
                 type="button"
@@ -3367,11 +3359,9 @@ function LinkConnectStep({
         <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-muted/40 px-3 py-2">
           <div className="flex min-w-0 items-center gap-2 text-sm">
             <AppLogo name={matchedEntry.name} logoUrl={matchedEntry.branding.logoUrl} darkLogoUrl={matchedEntry.branding.darkLogoUrl} size={24} />
-            <span className="truncate">Paperclip has a guided setup for {matchedEntry.name}.</span>
+            <span className="truncate">{t("features.connections.connectionSetupFlow.paperclipHasAGuidedSetupFor", { name: matchedEntry.name })}</span>
           </div>
-          <Button type="button" size="sm" variant="outline" onClick={onUseMatchedEntry}>
-            Use {matchedEntry.name}
-          </Button>
+          <Button type="button" size="sm" variant="outline" onClick={onUseMatchedEntry}>{t("features.connections.connectionSetupFlow.use", { name: matchedEntry.name })}</Button>
         </div>
       ) : null}
 
@@ -4133,9 +4123,7 @@ function OAuthClientFields({
             </div>
             <CopyValueButton value={callbackUrl} ariaLabel="Copy callback URL" />
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Add this exact URL to {entry.name} before continuing. It must match the authorization request.
-          </p>
+          <p className="mt-2 text-xs text-muted-foreground">{t("features.connections.connectionSetupFlow.addThisExactUrlToBefore", { name: entry.name })}</p>
         </div>
       ) : null}
       <div>
@@ -4219,7 +4207,7 @@ function MethodConfigField({
           className="mt-2 h-11"
         />
       )}
-      {field.required && (typeof value !== "string" || !value.trim()) && <p className="mt-2 text-xs text-muted-foreground">{field.label} is required.</p>}
+      {field.required && (typeof value !== "string" || !value.trim()) && <p className="mt-2 text-xs text-muted-foreground">{t("features.connections.connectionSetupFlow.isRequired", { label: field.label })}</p>}
       {field.helperMd && <p className="mt-2 text-xs text-muted-foreground">{field.helperMd}</p>}
     </div>
   );
@@ -4716,7 +4704,7 @@ export function ConnectionSetupCompletionScreen({
       </div>
       <div className="mt-6 flex items-center justify-center gap-2">
         <AppLogo name={appName} logoUrl={logoUrl} darkLogoUrl={darkLogoUrl} size={28} />
-        <h2 className="text-2xl font-bold tracking-tight">{appName} is ready.</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{t("features.connections.connectionSetupFlow.isReady", { appName })}</h2>
       </div>
       {statedDefault ? <p className="mt-3 text-sm text-muted-foreground">{statedDefault}</p> : null}
       <dl className="mx-auto mt-6 max-w-xs space-y-1 text-left">

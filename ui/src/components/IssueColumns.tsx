@@ -259,9 +259,7 @@ export function InboxIssueMetaLeading({
             )}
             aria-hidden="true"
           />
-          <span className="hidden text-(length:--text-micro) font-medium text-muted-foreground sm:inline">
-            {subtreeLiveCount} live below
-          </span>
+          <span className="hidden text-(length:--text-micro) font-medium text-muted-foreground sm:inline">{t("components.issueColumns.liveBelow", { subtreeLiveCount })}</span>
         </Badge>
       )}
     </>

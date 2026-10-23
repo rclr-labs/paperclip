@@ -1913,9 +1913,7 @@ export function AgentConfigForm(props: AgentConfigFormProps) {
                 && !connectionModels
                 && currentDefaultEnvironment
                 && currentDefaultEnvironment.driver !== "local" && (
-                <p className="text-xs text-muted-foreground">
-                  Live OpenCode model discovery only runs for Local environments. Using the curated list and manual entry for {currentDefaultEnvironment.name}.
-                </p>
+                <p className="text-xs text-muted-foreground">{t("components.agentConfigForm.liveOpencodeModelDiscoveryOnlyRuns", { name: currentDefaultEnvironment.name })}</p>
               )}
 
               {showThinkingEffort && (

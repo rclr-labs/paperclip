@@ -77,6 +77,8 @@ const UI_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), ".
 const LOCALES_DIR = path.join(UI_ROOT, "src/i18n/locales");
 const APPLY = process.argv.includes("--apply");
 
+const withoutPlaceholders = (value) => value.replace(/\{\{[^}]*\}\}/g, "x");
+
 const en = JSON.parse(fs.readFileSync(path.join(LOCALES_DIR, "en.json"), "utf8"));
 
 const bad = new Map();
@@ -86,7 +88,13 @@ const bad = new Map();
     if (value && typeof value === "object") walk(value, full);
     // Two reasons to prune: the string is not copy, or it came from a surface
     // that should never have been extracted at all.
-    else if (!isTranslatable(value) || isExcludedKey(full)) bad.set(full, value);
+    //
+    // Placeholders are stripped before the copy test. `isTranslatable` refuses
+    // a SOURCE string containing {{...}} — a component should not hand the
+    // catalogue something already interpolated — but a catalogue VALUE carries
+    // them by design, and testing the raw value would condemn every
+    // interpolated message the extractor just wrote.
+    else if (!isTranslatable(withoutPlaceholders(value), { composed: value.includes("{{") }) || isExcludedKey(full)) bad.set(full, value);
   }
 })(en, "");
 
@@ -102,6 +110,28 @@ const tsxFiles = [];
     else if (entry.name.endsWith(".tsx") && !entry.name.includes(".test.")) tsxFiles.push(p);
   }
 })(path.join(UI_ROOT, "src"));
+
+// A key is only safe to prune if every call site could be rewritten back to a
+// literal. `t("k", { count })` cannot be — there is nowhere for the value to
+// go — so pruning it would leave a call pointing at a key that no longer
+// exists, which renders as the key itself and no test would notice.
+const orphans = [];
+for (const file of tsxFiles) {
+  const text = fs.readFileSync(file, "utf8");
+  for (const key of bad.keys()) {
+    const call = new RegExp(`\\bt\\(\\s*"${key.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}"`, "g");
+    for (const match of text.matchAll(call)) {
+      const after = text.slice(match.index + match[0].length).trimStart();
+      if (!after.startsWith(")")) orphans.push(`${path.relative(UI_ROOT, file)}: ${key}`);
+    }
+  }
+}
+if (orphans.length > 0) {
+  console.error(`ABORTADO: ${orphans.length} chamada(s) t() com argumentos que o prune nao sabe restaurar.`);
+  console.error("Remover essas chaves deixaria a chamada apontando para chave inexistente.");
+  for (const o of orphans.slice(0, 8)) console.error("  " + o);
+  process.exit(1);
+}
 
 let touchedFiles = 0;
 let restored = 0;

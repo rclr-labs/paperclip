@@ -99,7 +99,7 @@ function SuccessfulRunRetryNowControl({
         <div className="min-w-0 text-xs leading-5 text-amber-900 dark:text-amber-100">
           {retryNow.data?.outcome === "waiting" && retryNow.data.scheduledRetry?.runId === scheduledRetry.runId
             ? retryNow.data.message
-            : <>Paperclip will ask the assignee to choose the next step {scheduleLabel}. Retry now starts that follow-up immediately.</>}
+            : <>{t("components.issueBlockedNotice.paperclipWillAskTheAssigneeTo", { scheduleLabel })}</>}
         </div>
         <Button
           type="button"
@@ -296,11 +296,7 @@ function WaitingOnLiveWorkNotice({
         <div className="min-w-0 flex-1 space-y-2">
           <div className="space-y-1">
             <p className="font-medium leading-5">{t("components.issueBlockedNotice.waitingOnLiveWork")}</p>
-            <p className="leading-5">
-              Queued behind {total} {queuedNoun} being worked in order. This task
-              resumes automatically when the chain is done. Comments still notify the
-              assignee.
-            </p>
+            <p className="leading-5">{t("components.issueBlockedNotice.queuedBehindBeingWorkedInOrder", { total, queuedNoun })}</p>
           </div>
 
           <div className="space-y-1" data-testid="issue-blocked-notice-progress">
@@ -654,9 +650,7 @@ export function IssueBlockedNotice({
                 </span>
               </div>
               {successfulRunHandoff.detectedProgressSummary ? (
-                <p className="text-xs leading-5 text-amber-800 dark:text-amber-200">
-                  Detected progress: {successfulRunHandoff.detectedProgressSummary}
-                </p>
+                <p className="text-xs leading-5 text-amber-800 dark:text-amber-200">{t("components.issueBlockedNotice.detectedProgress", { detectedProgressSummary: successfulRunHandoff.detectedProgressSummary })}</p>
               ) : null}
               {successfulRunRetryNow ? (
                 <SuccessfulRunRetryNowControl

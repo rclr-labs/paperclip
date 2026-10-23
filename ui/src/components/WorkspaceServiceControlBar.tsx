@@ -467,9 +467,7 @@ function MultiServiceBar({
               </button>
             </PopoverTrigger>
             <PopoverContent align="end" className="w-96 p-0" onOpenAutoFocus={(event) => event.preventDefault()}>
-              <div className="px-4 pb-1 pt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                Services · {services.length}
-              </div>
+              <div className="px-4 pb-1 pt-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">{t("components.workspaceServiceControlBar.services", { length: services.length })}</div>
               <div className="divide-y divide-border px-4">
                 {services.map((entry) => (
                   <ServicePopoverRow key={entry.key} entry={entry} onAction={onAction} />

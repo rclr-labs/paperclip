@@ -25,7 +25,7 @@ export function ExecutorManagementSetup({ connection, onClose }: { connection: T
     queries.setQueryData(queryKeys.tools.aggregatorApps(connection.id, userId), result);
   }, onSuccess: async () => { await queries.invalidateQueries({ queryKey: queryKeys.tools.connections(connection.companyId) }); onClose(); } });
   return <Dialog open onOpenChange={open => { if (!open && !save.isPending) onClose(); }}><DialogContent>
-    <DialogHeader><DialogTitle>{t("pages.apps.executorManagementSetup.executorConsole")}</DialogTitle><DialogDescription>Choose where to manage accounts for “{connection.name}”. Include your workspace path.</DialogDescription></DialogHeader>
+    <DialogHeader><DialogTitle>{t("pages.apps.executorManagementSetup.executorConsole")}</DialogTitle><DialogDescription>{t("pages.apps.executorManagementSetup.chooseWhereToManageAccountsFor", { name: connection.name })}</DialogDescription></DialogHeader>
     <form className="space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(); }}>
       <div className="space-y-2"><Label htmlFor="executor-console-url">{t("pages.apps.executorManagementSetup.consoleUrl")}</Label><Input id="executor-console-url" type="url" required value={url} onChange={event => setUrl(event.target.value)} /></div>
       {save.isError ? <p role="alert" className="text-sm text-destructive">{save.error.message}</p> : null}

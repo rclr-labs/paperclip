@@ -61,9 +61,7 @@ export function CompanySettingsPluginPage() {
 
   if (errorMessage) {
     return (
-      <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">
-        Plugin extensions unavailable: {errorMessage}
-      </div>
+      <div className="rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive">{t("pages.companySettingsPluginPage.pluginExtensionsUnavailable", { errorMessage })}</div>
     );
   }
 

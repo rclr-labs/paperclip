@@ -122,7 +122,7 @@ export function DispositionRecoveryNotice({ snapshot, createdAt, defaultExpanded
             {!historical && <span className="font-medium text-foreground">{t("components.dispositionRecoveryNotice.retryUnavailable")} </span>}{unavailableReason}
           </p>
         ) : null}
-        {error ? <p role="alert" className="text-sm text-destructive">Couldn’t confirm the retry. {error}</p> : null}
+        {error ? <p role="alert" className="text-sm text-destructive">{t("components.dispositionRecoveryNotice.couldnTConfirmTheRetry", { error })}</p> : null}
         <div className="flex flex-wrap items-center gap-2">
           {!requested && !historical ? (
             <Button size="xs" variant="outline" disabled={pending || Boolean(unavailableReason)} aria-describedby={unavailableReason ? unavailableId : undefined} onClick={() => void retry()}>

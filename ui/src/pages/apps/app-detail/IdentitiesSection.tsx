@@ -187,9 +187,7 @@ export function IdentitiesSection({
             <Link
               to={agentUrl(dedicatedAgent)}
               className="transition-colors hover:text-foreground hover:underline"
-            >
-              Used only by {dedicatedAgent.name}
-            </Link>
+            >{t("pages.apps.appdetail.identitiesSection.usedOnlyBy", { name: dedicatedAgent.name })}</Link>
           ) : "Dedicated to one agent"}
           actions={!agentGrant && dedicatedAgent && capabilities?.canConfigure ? (
             <Button size="sm" disabled={connectPending} onClick={() => onConnectAgent(dedicatedAgent.id)}>

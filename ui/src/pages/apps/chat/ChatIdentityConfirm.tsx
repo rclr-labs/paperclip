@@ -81,10 +81,7 @@ export function ChatIdentityConfirm() {
         <CheckCircle2 className="h-8 w-8" />
         <div>
           <h1 className="text-xl font-bold">{t("pages.apps.chat.chatIdentityConfirm.identityLinked")}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Future messages from {identity.externalLabel} use your current
-            Paperclip permissions in {identity.companyName}.
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">{t("pages.apps.chat.chatIdentityConfirm.futureMessagesFromUseYourCurrent", { externalLabel: identity.externalLabel, companyName: identity.companyName })}</p>
         </div>
         {identity.provider === "slack" && <Button asChild><a href="https://app.slack.com/" target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatIdentityConfirm.returnToSlack")}</a></Button>}
       </main>
@@ -133,7 +130,7 @@ export function ChatIdentityConfirm() {
       )}
       {identity.canConfirm === false ? (
         <div className="space-y-3">
-          <p className="text-sm">You need membership in {identity.companyName} before linking this account.</p>
+          <p className="text-sm">{t("pages.apps.chat.chatIdentityConfirm.youNeedMembershipInBeforeLinking", { companyName: identity.companyName })}</p>
           {requestAccess.isSuccess ? <p role="status" className="text-sm">{t("pages.apps.chat.chatIdentityConfirm.accessRequestedAnAdminCanApprove")}</p>
             : <Button disabled={requestAccess.isPending || !identity.selfService} onClick={() => requestAccess.mutate()}>{t("pages.apps.chat.chatIdentityConfirm.requestAccess")}</Button>}
           {requestAccess.isError && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatIdentityConfirm.couldnTRequestAccessTheLink")}</p>}

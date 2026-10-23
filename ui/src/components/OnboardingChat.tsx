@@ -351,9 +351,7 @@ export function OnboardingChat({
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
               <div>
-                <p className="text-sm font-medium">
-                  {agentName} has prepared a hiring plan
-                </p>
+                <p className="text-sm font-medium">{t("components.onboardingChat.hasPreparedAHiringPlan", { agentName })}</p>
                 <p className="text-(length:--text-micro) text-muted-foreground">
                   {t("components.onboardingChat.reviewItMakeEditsThenApprove")}
                 </p>

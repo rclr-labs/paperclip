@@ -96,9 +96,7 @@ function AdapterRow({
               </Badge>
             )}
             {overriddenBy && (
-              <Badge variant="secondary" className="text-blue-600 border-blue-400">
-                Overridden by {overriddenBy}
-              </Badge>
+              <Badge variant="secondary" className="text-blue-600 border-blue-400">{t("pages.adapterManager.overriddenBy", { overriddenBy })}</Badge>
             )}
             {adapter.disabled && (
               <Badge variant="secondary" className="text-amber-600 border-amber-400">

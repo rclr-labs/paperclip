@@ -320,9 +320,7 @@ export function QuarantinedActionsReview({
         })}
       </div>
       <div className="flex items-center justify-between gap-3">
-        <span className="text-xs text-amber-700 dark:text-amber-300">
-          {selectedIds.length} of {count} will be on
-        </span>
+        <span className="text-xs text-amber-700 dark:text-amber-300">{t("pages.apps.appdetail.setupPanel.ofWillBeOn", { length: selectedIds.length, count })}</span>
         <Button size="sm" disabled={disabled} onClick={() => onSubmit(selectedIds)}>
           {disabled ? "Saving…" : "Save choices"}
         </Button>

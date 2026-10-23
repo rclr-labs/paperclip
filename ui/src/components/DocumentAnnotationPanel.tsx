@@ -66,6 +66,7 @@ export interface AnnotationPanelProps {
 }
 
 export function DocumentAnnotationPanel(props: AnnotationPanelProps) {
+  const { t } = useTranslation();
   if (props.isMobile) {
     return (
       <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -74,9 +75,7 @@ export function DocumentAnnotationPanel(props: AnnotationPanelProps) {
           showCloseButton={false}
           className="paperclip-doc-annotation-sheet z-(--z-60) flex max-h-(--sz-88vh) flex-col rounded-none border-t border-border bg-popover p-0 text-popover-foreground shadow-2xl"
         >
-          <SheetTitle className="sr-only">
-            Comments on {props.documentKey} revision {props.documentRevisionNumber}
-          </SheetTitle>
+          <SheetTitle className="sr-only">{t("components.documentAnnotationPanel.commentsOnRevision", { documentKey: props.documentKey, documentRevisionNumber: props.documentRevisionNumber })}</SheetTitle>
           <div className="mx-auto mt-2 h-1.5 w-12 shrink-0 rounded-full bg-muted-foreground/30" aria-hidden="true" />
           <AnnotationPanelBody {...props} />
         </SheetContent>

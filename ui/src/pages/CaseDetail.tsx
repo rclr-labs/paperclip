@@ -134,7 +134,7 @@ export function CaseDetail() {
       {(caseData.parent || children.length > 0 || childrenQuery.isError) && <details className="space-y-3">
         <summary className="w-fit cursor-pointer text-sm font-semibold">{t("pages.caseDetail.relatedCases")}</summary>
         {caseData.parent && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">{t("pages.caseDetail.parent")}</h3><CaseRelation item={caseData.parent} search={search} /></div>}
-        {children.length > 0 && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">Children {children.length}</h3>{children.map(child => <CaseRelation key={child.id} item={child} search={search} />)}</div>}
+        {children.length > 0 && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">{t("pages.caseDetail.children", { length: children.length })}</h3>{children.map(child => <CaseRelation key={child.id} item={child} search={search} />)}</div>}
         {childrenQuery.isError && <p role="alert" className="text-sm text-destructive">{t("pages.caseDetail.childCasesCouldnTBeLoaded")}</p>}
       </details>}
 

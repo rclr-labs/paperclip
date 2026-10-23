@@ -810,6 +810,7 @@ export function IssueAssigneePausedNotice({
   onResume?: () => Promise<void> | void;
   resuming?: boolean;
 }) {
+  const { t } = useTranslation();
   if (!agent || agent.status !== "paused" || issueStatusIsTerminalDisposition(issueStatus)) return null;
 
   const pauseDetail =
@@ -848,9 +849,7 @@ export function IssueAssigneePausedNotice({
             </Button>
           ) : undefined
         }
-      >
-        New runs will not start until the agent is resumed. {pauseDetail}
-      </InlineBanner>
+      >{t("components.issueChatThread.newRunsWillNotStartUntil", { pauseDetail })}</InlineBanner>
     </div>
   );
 }

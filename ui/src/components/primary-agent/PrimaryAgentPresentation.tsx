@@ -84,9 +84,7 @@ export function SetPrimaryAgentButton({ agent }: {
       </div>
       <AlertDialogHeader>
         <AlertDialogTitle>{t("components.primaryagent.primaryAgentPresentation.changeYourPrimaryAgent")}</AlertDialogTitle>
-        <AlertDialogDescription className="break-words">
-          This will make {agent.name} your primary agent, do you want to do this?
-        </AlertDialogDescription>
+        <AlertDialogDescription className="break-words">{t("components.primaryagent.primaryAgentPresentation.thisWillMakeYourPrimaryAgent", { name: agent.name })}</AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter className="flex-row justify-between sm:justify-between">
         <AlertDialogCancel>{t("components.primaryagent.primaryAgentPresentation.cancel")}</AlertDialogCancel>

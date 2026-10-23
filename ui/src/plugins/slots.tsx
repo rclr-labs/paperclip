@@ -41,6 +41,7 @@ import { pluginsApi, type PluginUiContribution } from "@/api/plugins";
 import { authApi } from "@/api/auth";
 import { queryKeys } from "@/lib/queryKeys";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 import {
   PluginBridgeContext,
   type PluginHostContext,
@@ -923,6 +924,7 @@ export function PluginSlotOutlet({
   missingBehavior = "hidden",
   errorBehavior = "inline",
 }: PluginSlotOutletProps) {
+  const { t } = useTranslation();
   const { slots, errorMessage } = usePluginSlots({
     slotTypes,
     entityType,
@@ -931,9 +933,7 @@ export function PluginSlotOutlet({
 
   if (errorMessage && errorBehavior === "inline") {
     return (
-      <div className={cn("rounded-md border border-destructive/30 bg-destructive/5 px-2 py-1 text-xs text-destructive", errorClassName)}>
-        Plugin extensions unavailable: {errorMessage}
-      </div>
+      <div className={cn("rounded-md border border-destructive/30 bg-destructive/5 px-2 py-1 text-xs text-destructive", errorClassName)}>{t("plugins.slots.pluginExtensionsUnavailable", { errorMessage })}</div>
     );
   }
 

@@ -1201,6 +1201,7 @@ interface ReviewStepProps {
 }
 
 function ReviewStep({ drafts, reviewErrors, updateDraft, removeDraft, importing }: ReviewStepProps) {
+  const { t } = useTranslation();
   if (drafts.length === 0) {
     return (
       <div className="flex min-h-0 flex-1 items-center justify-center p-6">
@@ -1218,11 +1219,9 @@ function ReviewStep({ drafts, reviewErrors, updateDraft, removeDraft, importing 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-3 border-b border-border/60 bg-muted/20 px-5 py-3 text-xs">
-        <span className="font-medium">{ready} secrets ready to import</span>
+        <span className="font-medium">{t("pages.secrets.importFromVaultDialog.secretsReadyToImport", { ready })}</span>
         {blocked > 0 && (
-          <span className="text-amber-600 dark:text-amber-400">
-            {blocked} need attention before import
-          </span>
+          <span className="text-amber-600 dark:text-amber-400">{t("pages.secrets.importFromVaultDialog.needAttentionBeforeImport", { blocked })}</span>
         )}
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto" data-testid="review-list">

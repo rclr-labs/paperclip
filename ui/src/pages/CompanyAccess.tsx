@@ -642,7 +642,7 @@ export function CompanyAccessLegacyRoute() {
             {t("pages.companyAccess.corePaperclipKeepsEnforcingOrganizationBoundaries")}
           </p>
           {errorMessage ? (
-            <p className="text-sm text-destructive">Plugin extensions unavailable: {errorMessage}</p>
+            <p className="text-sm text-destructive">{t("pages.companyAccess.pluginExtensionsUnavailable", { errorMessage })}</p>
           ) : null}
         </div>
         <div className="flex flex-wrap gap-2">

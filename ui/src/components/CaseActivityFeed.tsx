@@ -129,9 +129,7 @@ export function CaseActivityFeed({ events }: { events: CaseEvent[] }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs text-muted-foreground">
-          {filtered.length} of {events.length} events
-        </p>
+        <p className="text-xs text-muted-foreground">{t("components.caseActivityFeed.ofEvents", { length: filtered.length, length2: events.length })}</p>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="sm" className="h-8 gap-1.5">

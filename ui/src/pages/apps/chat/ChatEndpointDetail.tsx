@@ -585,9 +585,7 @@ function Settings({
               </div>
             ))}
             {endpoint.provider === "slack" && (
-              <p className="py-3 text-sm text-muted-foreground">
-                Invite {endpoint.assignedAgentName} to a channel to add it
-              </p>
+              <p className="py-3 text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.inviteToAChannelToAdd", { assignedAgentName: endpoint.assignedAgentName })}</p>
             )}
           </div>
         )}
@@ -736,7 +734,7 @@ function Access({
           <DialogTrigger asChild><Button>{t("pages.apps.chat.chatEndpointDetail.invitePeople")}</Button></DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite people to talk to {endpoint.assignedAgentName}</DialogTitle>
+              <DialogTitle>{t("pages.apps.chat.chatEndpointDetail.invitePeopleToTalkTo", { assignedAgentName: endpoint.assignedAgentName })}</DialogTitle>
               <DialogDescription>{t("pages.apps.chat.chatEndpointDetail.shareTheseInstructionsWithSomeoneIn")}</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 text-sm">
@@ -1295,7 +1293,7 @@ function Activity({
         </div>
       </div>
       <nav aria-label={t("pages.apps.chat.chatEndpointDetail.activityPagination")} className="flex items-center justify-between gap-3">
-        <span className="text-xs text-muted-foreground">Page {cursors.length}</span>
+        <span className="text-xs text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.page", { length: cursors.length })}</span>
         <div className="flex items-center gap-2">
           <Button size="sm" variant="outline" disabled={cursors.length === 1 || query.isFetching} onClick={() => setCursors((pages) => pages.slice(0, -1))}>{t("pages.apps.chat.chatEndpointDetail.previous")}</Button>
           <Button size="sm" variant="outline" disabled={!query.data?.nextCursor || query.isFetching || query.isError} onClick={() => { if (query.data?.nextCursor) setCursors((pages) => [...pages, query.data.nextCursor!]); }}>{t("pages.apps.chat.chatEndpointDetail.next")}</Button>

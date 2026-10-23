@@ -159,9 +159,7 @@ export function Workspaces() {
           ))}
           {overviewQuery.hasNextPage ? (
             <div className="flex flex-wrap items-center justify-between gap-3 border-t border-border pt-4">
-              <p className="text-sm text-muted-foreground">
-                Showing {overviewItems.length} of {totalWorkspaceCount} workspaces.
-              </p>
+              <p className="text-sm text-muted-foreground">{t("pages.workspaces.showingOfWorkspaces", { length: overviewItems.length, totalWorkspaceCount })}</p>
               <Button
                 type="button"
                 variant="outline"

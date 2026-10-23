@@ -99,13 +99,13 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
       {!device && data?.redirectOrigin && data.redirectOrigin !== clientOrigin && <ClientOrigin key={data.redirectOrigin} origin={data.redirectOrigin} />}
       {device && <p className="text-sm">Confirm this matches the code shown by your assistant: <strong className="font-mono">{id.toUpperCase()}</strong></p>}
       {request.isPending && <p className="text-sm text-muted-foreground">{t("pages.mcpConnect.loadingConnectionRequest")}</p>}
-      {request.error && <p className="text-sm text-destructive">{request.error.message} Start a new connection from your assistant.</p>}
+      {request.error && <p className="text-sm text-destructive">{t("pages.mcpConnect.startANewConnectionFromYour", { message: request.error.message })}</p>}
       {device && request.error && <Button variant="outline" onClick={onEditCode}>{t("pages.mcpConnect.enterADifferentCode")}</Button>}
       {data?.agentConnection && !device && <form className="space-y-3" onSubmit={event => { event.preventDefault(); pairDot.mutate(); }}>
         <p className="text-sm">{t("pages.mcpConnect.enterTheOneUseCodeFrom")}</p>
         <label htmlFor="dot-pairing-code" className="text-sm">{t("pages.mcpConnect.pairingCode")}</label>
         <Input id="dot-pairing-code" type="password" autoComplete="off" value={pairingCode} onChange={event => { setPairingPreview(null); setPairingPreviewError(""); setPairingCode(event.target.value); }} required maxLength={32} />
-        {pairingPreview?.providerKind === "grok_bot" && <p className="text-sm font-medium">Allow this connection to work as {pairingPreview.agent.name} in {pairingPreview.company.name}.</p>}
+        {pairingPreview?.providerKind === "grok_bot" && <p className="text-sm font-medium">{t("pages.mcpConnect.allowThisConnectionToWorkAs", { name: pairingPreview.agent.name, name2: pairingPreview.company.name })}</p>}
         {pairingPreview && <dl className="space-y-2 rounded-md border border-border p-3 text-sm">
           <div><dt className="text-muted-foreground">{t("pages.mcpConnect.company")}</dt><dd>{pairingPreview.company.name} <span className="text-xs text-muted-foreground">({pairingPreview.company.id})</span></dd></div>
           <div><dt className="text-muted-foreground">{t("pages.mcpConnect.agent")}</dt><dd>{pairingPreview.agent.name} <span className="text-xs text-muted-foreground">({pairingPreview.agent.id})</span></dd></div>

@@ -131,7 +131,7 @@ export function ActionTestDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-(--sz-85vh) overflow-y-auto sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Test {title}</DialogTitle>
+          <DialogTitle>{t("pages.apps.appdetail.actionTestDialog.test", { title })}</DialogTitle>
           <DialogDescription>
             {t("pages.apps.appdetail.actionTestDialog.runARealActionWithThe")}
           </DialogDescription>
@@ -320,7 +320,7 @@ function AgentPicker({
         </div>
         <div className="border-t border-border px-3 py-2 text-(length:--text-micro) text-muted-foreground">
           <p>{t("pages.apps.appdetail.actionTestDialog.onlyAgentsYouCanAssignTasks")}</p>
-          <p>Pick one to preview what they'd see in {appName}.</p>
+          <p>{t("pages.apps.appdetail.actionTestDialog.pickOneToPreviewWhatThey", { appName })}</p>
         </div>
         <div className="border-t border-border p-3">
           <p className="text-xs font-semibold text-foreground">{t("pages.apps.appdetail.actionTestDialog.whatTheBadgesMean")}</p>
@@ -611,9 +611,7 @@ function RunningCard({
         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
         <span className="text-sm font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.running")}</span>
       </div>
-      <p className="mt-1 text-xs text-muted-foreground">
-        {verb} {appName} as {agentName}.
-      </p>
+      <p className="mt-1 text-xs text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.as", { verb, appName, agentName })}</p>
       <div className="mt-3 flex items-center justify-between">
         <span className="text-xs text-muted-foreground">Started {seconds(elapsedMs)} ago · Press cancel to stop</span>
         <Button onClick={onCancel} size="sm" variant="outline">
@@ -724,7 +722,7 @@ function ProviderResumeControls({ pending, connectionId, agent, onResult }: {
     if (!Object.keys(validation).length) resume.mutate(action);
   };
   return <div className="space-y-3">
-    <p className="text-muted-foreground">Review the provider's request, then resume this execution as {agent.name}. The original action will not be started again.</p>
+    <p className="text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.reviewTheProviderSRequestThen", { name: agent.name })}</p>
     <div className="flex items-center gap-2"><span>{t("pages.apps.appdetail.actionTestDialog.resumePermission")}</span><DecisionBadge decision={permission} /></div>
     {Object.keys(schema.properties ?? {}).length > 0 && <JsonSchemaForm schema={schema} values={content} onChange={setContent} errors={errors} disabled={resume.isPending} />}
     <div className="flex flex-wrap gap-2">
@@ -1079,7 +1077,7 @@ function ErrorResult({
         Tried as {outcome.agentName} · {seconds(outcome.durationMs)} · {relTime(outcome.ranAt)}
       </p>
       <div className="mt-3">
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">What {appName} said</p>
+        <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.whatSaid", { appName })}</p>
         <p className="mt-1 break-words text-sm text-foreground">{error.message}</p>
         {error.reasonCode && <p className="mt-0.5 text-xs text-muted-foreground">code: {error.reasonCode}</p>}
       </div>
@@ -1216,7 +1214,7 @@ function AskFirstResult({
         <ShieldQuestion className="h-4 w-4 text-amber-600 dark:text-amber-400" />
         <span className="text-sm font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.sentForYourOk")}</span>
       </div>
-      <p className="mt-0.5 text-xs text-muted-foreground">{outcome.agentName} needs your approval before this runs.</p>
+      <p className="mt-0.5 text-xs text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.needsYourApprovalBeforeThisRuns", { agentName: outcome.agentName })}</p>
 
       <dl className="mt-3 space-y-1.5 text-sm">
         <div className="flex gap-3">
@@ -1306,7 +1304,7 @@ function OffExplanation({
         <div className="flex items-start gap-2">
           <Ban className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
           <div className="text-sm text-muted-foreground">
-            <p className="font-medium text-foreground">{title} is off for {agent.name}.</p>
+            <p className="font-medium text-foreground">{t("pages.apps.appdetail.actionTestDialog.isOffFor", { title, name: agent.name })}</p>
             <p className="mt-0.5">{t("pages.apps.appdetail.actionTestDialog.itWonTRunHereAnd")}</p>
             <p className="mt-2">
               Want to test it? Turn it on for {agent.name} in{" "}
@@ -1320,7 +1318,7 @@ function OffExplanation({
         <Button asChild size="sm">
           <Link to={permHref}>{t("pages.apps.appdetail.actionTestDialog.openPermissions")}</Link>
         </Button>
-        <p className="text-xs text-muted-foreground">No call will be made — this action is off for {agent.name}.</p>
+        <p className="text-xs text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.noCallWillBeMadeThis", { name: agent.name })}</p>
       </div>
 
       <aside>

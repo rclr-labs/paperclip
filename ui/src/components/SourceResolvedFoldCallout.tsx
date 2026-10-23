@@ -143,7 +143,7 @@ export function SourceResolvedFoldCallout({
             <span>
               {silenceAgeLabel}
               {silenceStartedLabel ? (
-                <span className="text-muted-foreground"> (silence started {silenceStartedLabel})</span>
+                <span className="text-muted-foreground">{t("components.sourceResolvedFoldCallout.silenceStarted", { silenceStartedLabel })}</span>
               ) : null}
             </span>
           ) : (

@@ -108,7 +108,7 @@ export function SkillSourceTree({ candidates, selected, excludedFolders, onChang
           checked={candidates.length > 0 && selectedCount === candidates.length}
           ref={element => { if (element) element.indeterminate = selectedCount > 0 && selectedCount < candidates.length; }}
           disabled={disabled || candidates.length === 0} onChange={() => toggleCheck('')} />
-        <span>{selectedCount} of {candidates.length} selected</span>
+        <span>{t("pages.skills.skillSourceTree.ofSelected", { selectedCount, length: candidates.length })}</span>
       </label>
       <Button type="button" variant="ghost" size="xs" className="font-normal text-muted-foreground" disabled={disabled || Boolean(search) || allDirs.size === 0} onClick={() => setExpansion(new Map([...allDirs].map(path => [path, allCollapsed])))}>{allCollapsed ? 'Expand all' : 'Collapse all'}</Button>
     </div>

@@ -69,7 +69,7 @@ function AuthAttempt({
       className="flex flex-col gap-4"
     >
       <div className="flex flex-col gap-1">
-        <h3 className="text-sm font-semibold">Connect {info.name}</h3>
+        <h3 className="text-sm font-semibold">{t("components.aiconnections.aiConnectionAuth.connect", { name: info.name })}</h3>
         <p className="text-xs text-muted-foreground">
           {aiMethodLabel(provider, method)}
         </p>
@@ -144,9 +144,7 @@ function AuthAttempt({
                   )}
                 </ProviderSubscriptionCard>
               ) : (
-                <p className="text-sm text-muted-foreground">
-                  Sign in with your {info.subscriptionName}.
-                </p>
+                <p className="text-sm text-muted-foreground">{t("components.aiconnections.aiConnectionAuth.signInWithYour", { subscriptionName: info.subscriptionName })}</p>
               )}
             </>
           )}

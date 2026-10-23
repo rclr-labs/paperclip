@@ -81,7 +81,7 @@ export function WorkspaceBaseRefRecoveryNotice({
             {defaultBranch && !editing && <p className="flex flex-wrap items-center gap-1.5 text-sm"><GitBranch aria-hidden className="size-4 text-muted-foreground" /><code className="font-mono">{defaultBranch}</code><span className="text-muted-foreground">{t("components.workspaceBaseRefRecoveryNotice.isTheRepositorySDefaultBranch")}</span></p>}
             <p className="text-xs text-muted-foreground">{t("components.workspaceBaseRefRecoveryNotice.changesOnlyThisTaskSStarting")}</p>
             {unavailableReason && <p id={`${id}-unavailable`} className="text-sm text-muted-foreground">{unavailableReason}</p>}
-            {error && <p role="alert" id={`${id}-error`} className="text-sm text-destructive">Couldn’t confirm the repair. {error}</p>}
+            {error && <p role="alert" id={`${id}-error`} className="text-sm text-destructive">{t("components.workspaceBaseRefRecoveryNotice.couldnTConfirmTheRepair", { error })}</p>}
             {editing ? (
               <form className="flex flex-col gap-3" onSubmit={event => { event.preventDefault(); void repair(branch); }}>
                 <div className="flex flex-col gap-1.5">

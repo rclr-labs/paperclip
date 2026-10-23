@@ -611,10 +611,7 @@ function NextFiresPreview({
               </div>
             ))}
           </div>
-          <p className="text-(length:--text-micro) text-muted-foreground/60">
-            Preview assumes the previous run is still in flight when the next fires. Times shown in{" "}
-            {preview.timeZone}.
-          </p>
+          <p className="text-(length:--text-micro) text-muted-foreground/60">{t("components.routinesections.editablesections.previewAssumesThePreviousRunIs", { timeZone: preview.timeZone })}</p>
         </>
       ) : (
         <p className="rounded-lg border border-dashed border-border p-3 text-xs text-muted-foreground">

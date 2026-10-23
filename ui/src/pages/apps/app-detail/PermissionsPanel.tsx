@@ -308,9 +308,7 @@ export function ActionsSection({
       </div>
 
       {visibleCount === 0 ? (
-        <div className="py-6 text-center text-sm text-muted-foreground">
-          No actions match “{query}”. Clear the search to see them all.
-        </div>
+        <div className="py-6 text-center text-sm text-muted-foreground">{t("pages.apps.appdetail.permissionsPanel.noActionsMatchClearTheSearch", { query })}</div>
       ) : (
         <div className="space-y-6">
           <ActionGroup

@@ -56,7 +56,7 @@ export function ComposioAppSetup({ name, toolkit, connections, onClose, onBack, 
       </select>
     </div>
     {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
-    {result ? <p role="status" className="text-sm text-muted-foreground">Finish connecting {name} in Composio, then return here.</p> : null}
+    {result ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.composioAppSetup.finishConnectingInComposioThenReturn", { name })}</p> : null}
     {result?.authorizationUrl ? <Button asChild variant="outline" className="w-full">
       <a href={result.authorizationUrl} target="_blank" rel="noopener noreferrer">Connect {name} in Composio<ExternalLink className="size-4" /></a>
     </Button> : null}

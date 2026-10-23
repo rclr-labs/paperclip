@@ -46,7 +46,7 @@ export function DashboardLive() {
             {t("pages.dashboardLive.activeRunsFirstFollowedByThe")}
           </p>
         </div>
-        <div className="text-sm text-muted-foreground">Showing up to {DASHBOARD_LIVE_RUN_LIMIT}</div>
+        <div className="text-sm text-muted-foreground">{t("pages.dashboardLive.showingUpTo", { DASHBOARD_LIVE_RUN_LIMIT })}</div>
       </div>
 
       <ActiveAgentsPanel

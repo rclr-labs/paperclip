@@ -117,7 +117,7 @@ export function EmailMessageCard({
         <summary className="cursor-pointer">{t("components.emailMessageCard.emailDetails")}</summary>
         <div className="space-y-2 pt-3">
           {!!message.bcc?.length && <p>Bcc: {message.bcc.join(", ")}</p>}
-          <p className="break-all">Message ID: {message.providerMessageId}</p>
+          <p className="break-all">{t("components.emailMessageCard.messageId", { providerMessageId: message.providerMessageId })}</p>
           {message.fullText !== message.text && (
             <div className="whitespace-pre-wrap break-words">
               {message.fullText}

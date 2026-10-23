@@ -1274,9 +1274,7 @@ export function AgentDetail() {
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0 space-y-1">
             <p className="font-medium">{t("pages.agentDetailproduction.invalidReportingChain")}</p>
-            <p className="text-amber-900/90 dark:text-amber-100/90">
-              {agent.name} cannot accept tasks or start runs until its reporting chain is repaired.
-            </p>
+            <p className="text-amber-900/90 dark:text-amber-100/90">{t("pages.agentDetailproduction.cannotAcceptTasksOrStartRuns", { name: agent.name })}</p>
             <p className="break-words font-mono text-xs text-amber-900/80 dark:text-amber-100/80">
               {formatOrgChainHealthPath(agent)}
             </p>
@@ -3573,7 +3571,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             {hasNonZeroExit && (
               <div className="text-xs text-red-600 dark:text-red-400">
                 Exit code {run.exitCode}
-                {run.signal && <span className="text-muted-foreground ml-1">(signal: {run.signal})</span>}
+                {run.signal && <span className="text-muted-foreground ml-1">{t("pages.agentDetailproduction.signal", { signal: run.signal })}</span>}
               </div>
             )}
             {retryState && (

@@ -314,9 +314,7 @@ export function ConnectionIntentInteractionBody({
         >
           <Clock className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
           <div>
-            <p className="font-medium text-foreground">
-              Waiting for {addresseeLabel}
-            </p>
+            <p className="font-medium text-foreground">{t("features.connections.connectionIntentInteractionBody.waitingFor", { addresseeLabel })}</p>
             {!accessRequest ? <p className="mt-1 text-sm text-muted-foreground">
               {t("features.connections.connectionIntentInteractionBody.onlyTheAddressedPersonCanChoose")}
             </p> : null}
@@ -336,7 +334,7 @@ export function ConnectionIntentInteractionBody({
         <div className="flex items-center gap-3">
           <AgentAvatar agent={agentQuery.data ?? { id: interaction.payload.requestingAgentId, name: interaction.payload.requestingAgentName }} size={32} label={interaction.payload.requestingAgentName} />
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium text-foreground">Grant {interaction.payload.requestingAgentName} access to “{accessRequest.connectionName}”?</p>
+            <p className="text-sm font-medium text-foreground">{t("features.connections.connectionIntentInteractionBody.grantAccessTo", { requestingAgentName: interaction.payload.requestingAgentName, connectionName: accessRequest.connectionName })}</p>
           </div>
           <AppLogo name={interaction.payload.serviceName} logoUrl={interaction.payload.serviceLogoUrl} darkLogoUrl={interaction.payload.serviceDarkLogoUrl} size={32} />
         </div>
@@ -393,16 +391,13 @@ export function ConnectionIntentInteractionBody({
   const aiProviderName = aiConnection ? AI_CONNECTION_CAPABILITIES[aiConnection.provider].name : serviceName;
   const inlineContent = setupQuery.isLoading || setupQuery.isError ? setupContent
     : readyForAdoption ? <div className="space-y-3">
-        <p className="text-sm">
-          Use your {aiProviderName} connection for {interaction.payload.requestingAgentName}? This replaces the agent’s existing authentication
-          with each responsible person’s own account. The model stays the same.
-        </p>
+        <p className="text-sm">{t("features.connections.connectionIntentInteractionBody.useYourConnectionForThisReplaces", { aiProviderName, requestingAgentName: interaction.payload.requestingAgentName })}</p>
         <Button disabled={adoptMutation.isPending} onClick={() => adoptMutation.mutate(readyForAdoption)}>
           {adoptMutation.isPending ? "Checking connection…" : "Use connection and continue"}
         </Button>
       </div>
     : selectedReady ? <div className="space-y-3">
-        <p className="text-sm">{repair.connection.name} is ready.</p>
+        <p className="text-sm">{t("features.connections.connectionIntentInteractionBody.isReady", { name: repair.connection.name })}</p>
         <Button disabled={completeMutation.isPending} onClick={() => completeMutation.mutate(repair.connection.id)}>
           {completeMutation.isPending ? "Continuing…" : "Continue task"}
         </Button>
@@ -532,9 +527,7 @@ export function ConnectionIntentInteractionBody({
               }}
             >
               <DialogHeader className="sr-only">
-                <DialogTitle>
-                  Connect {interaction.payload.serviceName}
-                </DialogTitle>
+                <DialogTitle>{t("features.connections.connectionIntentInteractionBody.connect", { serviceName: interaction.payload.serviceName })}</DialogTitle>
                 <DialogDescription>
                   {t("features.connections.connectionIntentInteractionBody.completeConnectionSetupWithoutLeavingThis")}
                 </DialogDescription>

@@ -211,9 +211,7 @@ function AuditRow({
           ) : null}
           <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
             {showOnBehalf && responsibleLabel ? (
-              <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5">
-                on behalf of {responsibleLabel}
-              </span>
+              <span className="inline-flex items-center rounded-full bg-muted px-2 py-0.5">{t("pages.audit.auditFeedproduction.onBehalfOf", { responsibleLabel })}</span>
             ) : null}
             {record.runId && record.agentId ? (
               <Link

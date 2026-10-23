@@ -134,9 +134,9 @@ export function BudgetPolicyCard({
 
   const progressSection = (
     <div className="space-y-2">
-      {summary.pendingRunCount > 0 && <p className="text-sm text-destructive">{summary.pendingRunCount} completed runs await accounting.</p>}
+      {summary.pendingRunCount > 0 && <p className="text-sm text-destructive">{t("components.budgetPolicyCard.completedRunsAwaitAccounting", { pendingRunCount: summary.pendingRunCount })}</p>}
       {summary.unpricedEventCount > 0 && (
-        <p className="text-sm text-destructive">{summary.unpricedEventCount} usage events are unpriced. Known spend excludes their unknown cost.</p>
+        <p className="text-sm text-destructive">{t("components.budgetPolicyCard.usageEventsAreUnpricedKnownSpend", { unpricedEventCount: summary.unpricedEventCount })}</p>
       )}
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>{t("components.budgetPolicyCard.remaining")}</span>

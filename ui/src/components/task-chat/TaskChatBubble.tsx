@@ -281,9 +281,7 @@ function TaskChatBubbleContent({
           className="flex max-w-(--pct-85) flex-col gap-2"
           data-testid="task-chat-bubble-media"
         >
-          <span className="text-xs text-muted-foreground">
-            Images · {imageRefs.length}
-          </span>
+          <span className="text-xs text-muted-foreground">{t("components.taskchat.taskChatBubble.images", { length: imageRefs.length })}</span>
           <div className="grid grid-cols-4 gap-2">
             {imageRefs
               .slice(0, imageRefs.length > 4 ? 3 : 4)
@@ -321,9 +319,7 @@ function TaskChatBubbleContent({
       ) : null}
       {!artifactsV1 && attachmentRefs.length > 0 ? (
         <div className="flex max-w-(--pct-85) flex-col gap-2">
-          <span className="text-xs text-muted-foreground">
-            Files · {attachmentRefs.length}
-          </span>
+          <span className="text-xs text-muted-foreground">{t("components.taskchat.taskChatBubble.files", { length: attachmentRefs.length })}</span>
           <AttachmentGroup data-testid="task-chat-bubble-attachments">
             {attachmentRefs.map((ref) => {
               const kind = fileKindForAttachment(ref);

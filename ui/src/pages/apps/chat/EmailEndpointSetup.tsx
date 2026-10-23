@@ -330,7 +330,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       <h1 className="text-xl font-bold">{step === 2 ? "Your agent’s email is ready" : "Give an agent an email address"}</h1>
     </header>
     {step < 2 && inboxes.isError && <div role="alert" className="space-y-2 text-sm">
-      <p className="text-destructive">Could not load email setup progress. {inboxes.error.message}</p>
+      <p className="text-destructive">{t("pages.apps.chat.emailEndpointSetup.couldNotLoadEmailSetupProgress", { message: inboxes.error.message })}</p>
       <Button type="button" variant="outline" size="sm" disabled={busy || inboxes.isFetching} onClick={() => { void inboxes.refetch(); }}>
         {inboxes.isFetching ? "Loading…" : "Retry loading inboxes"}
       </Button>
@@ -349,7 +349,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       {!pendingAddress && <AgentMailCredentialField companyId={companyId} connectionId={selectedCredentialId}
         onConnectionChange={selectCredential} value={apiKey} onChange={value => { setApiKey(value); connect.reset(); }} disabled={busy} />}
       {restrictedInbox && <div className="space-y-2 text-sm">
-        <p className="text-muted-foreground">That key only connects {restrictedInbox}. Choose a saved account key or enter one to create a new address.</p>
+        <p className="text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.thatKeyOnlyConnectsChooseA", { restrictedInbox })}</p>
         <Button type="button" variant="link" size="sm" className="h-auto p-0" disabled={busy || !(selectedCredentialId || apiKey.trim())}
           onClick={() => { setAllowInboxKey(true); setRestrictedInbox(""); connect.reset(); }}>{t("pages.apps.chat.emailEndpointSetup.useTheExistingInboxInstead")}</Button>
       </div>}
@@ -365,7 +365,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
     </form>}
     {step === 1 && <form className="space-y-6" onSubmit={event => { event.preventDefault(); if (canCreate) setup.mutate(); }}>
       <div className="space-y-2">
-        <Label htmlFor={addressMode === "new" ? "email-name" : "email-existing"}>{chosen?.name}’s email address</Label>
+        <Label htmlFor={addressMode === "new" ? "email-name" : "email-existing"}>{t("pages.apps.chat.emailEndpointSetup.sEmailAddress2", { name: chosen?.name })}</Label>
         {pendingAddress ? <>
           <p className="text-sm font-medium">{pendingAddress}</p>
           <p className="text-sm text-muted-foreground">This address was created in AgentMail. Finish connecting it to {chosen?.name}{scopedKey ? "." : ", or choose a different address. The original inbox will stay in AgentMail."}</p>
@@ -410,7 +410,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       <Card className="py-4">
         <CardHeader className="px-4">
           <h2 className="text-sm font-medium">{t("pages.apps.chat.emailEndpointSetup.howItWorks")}</h2>
-          <CardDescription>Incoming email creates tasks for {chosen?.name}. Replies stay in the same task.</CardDescription>
+          <CardDescription>{t("pages.apps.chat.emailEndpointSetup.incomingEmailCreatesTasksForReplies2", { name: chosen?.name })}</CardDescription>
         </CardHeader>
       </Card>
       <details className="space-y-4">
@@ -443,7 +443,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
     </form>}
     {step === 2 && <div className="space-y-6">
       <div className="space-y-2"><p className="flex items-center gap-2 font-medium"><Check className="size-4" />{setup.data?.address}</p>
-        <p className="text-sm text-muted-foreground">{chosen?.name} can now receive email at this address.</p></div>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.canNowReceiveEmailAtThis", { name: chosen?.name })}</p></div>
       <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
         <Button variant="ghost" onClick={leave}>{t("pages.apps.chat.emailEndpointSetup.emailSettings")}</Button><Button onClick={() => navigate("/apps")}>{t("pages.apps.chat.emailEndpointSetup.done")}</Button>
       </div>
@@ -451,7 +451,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       <Dialog open={trustOpen} onOpenChange={setTrustOpen}>
         <DialogContent className="max-h-screen overflow-y-auto sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Trust settings · {chosen?.name}</DialogTitle>
+            <DialogTitle>{t("pages.apps.chat.emailEndpointSetup.trustSettings", { name: chosen?.name })}</DialogTitle>
             <DialogDescription>
               {t("pages.apps.chat.emailEndpointSetup.changesApplyToAllOfThis")}
             </DialogDescription>
@@ -637,7 +637,7 @@ export function EmailEndpointSettings({
   return (
     <div className="max-w-2xl space-y-8 pb-8">
       <header className="space-y-2">
-        <p className="text-sm text-muted-foreground">{assignedAgentName}’s email address</p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.sEmailAddress", { assignedAgentName })}</p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <h1 aria-label={inbox.address ?? undefined} className="min-w-0 break-all text-xl font-bold">
             {inbox.address ? (
@@ -657,18 +657,13 @@ export function EmailEndpointSettings({
           )}
         </div>
         {inbox.status === "active" && inbox.address && (
-          <p className="text-sm text-muted-foreground">
-            Send an email to this address to start a task with {assignedAgentName}.
-          </p>
+          <p className="text-sm text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.sendAnEmailToThisAddress", { assignedAgentName })}</p>
         )}
       </header>
 
       <Card className="gap-2 p-4">
         <h2 className="text-sm font-semibold">{t("pages.apps.chat.emailEndpointSetup.howItWorks")}</h2>
-        <p className="text-sm text-muted-foreground">
-          Incoming email creates tasks for {assignedAgentName}. Replies stay in the same task.
-          Task comments stay internal; use Email reply to send an email.
-        </p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.incomingEmailCreatesTasksForReplies", { assignedAgentName })}</p>
       </Card>
 
       <section aria-labelledby="email-receiving-heading" className="space-y-4">

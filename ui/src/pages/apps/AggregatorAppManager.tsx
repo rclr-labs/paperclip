@@ -21,7 +21,7 @@ export function AggregatorAppManager({ app, connections, initialConnectionId, on
   const connection = connections.find(candidate => candidate.id === connectionId);
   const provider = connection?.config?.sourceTemplateKey;
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}><DialogContent>
-    <DialogHeader><DialogTitle>Manage {app.name}</DialogTitle>
+    <DialogHeader><DialogTitle>{t("pages.apps.aggregatorAppManager.manage", { name: app.name })}</DialogTitle>
       <DialogDescription>Accounts and sign-in are managed in {isAppAggregator(provider) ? AGGREGATOR_NAMES[provider] : "the provider"}.</DialogDescription>
     </DialogHeader>
     {connections.length > 1 ? <div className="space-y-2"><Label htmlFor="manage-aggregator-gateway">{t("pages.apps.aggregatorAppManager.connection")}</Label>
@@ -45,7 +45,7 @@ function AccountObservations({ app, connection, onClose }: { app: AggregatorAppC
   const name = provider ? AGGREGATOR_NAMES[provider] : "provider";
   const managementUrl = provider ? aggregatorManagementUrl(provider, accounts[0]?.account.managementUrl ?? (typeof connection.config?.managementUrl === "string" ? connection.config?.managementUrl : null)) : null;
   return <>
-    {query.isError || refresh.isError || query.data?.sync.status === "error" ? <p role="alert" className="text-sm text-destructive">Couldn’t check {name}. Last known accounts are shown.</p> : null}
+    {query.isError || refresh.isError || query.data?.sync.status === "error" ? <p role="alert" className="text-sm text-destructive">{t("pages.apps.aggregatorAppManager.couldnTCheckLastKnownAccounts", { name })}</p> : null}
     {query.isLoading ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.aggregatorAppManager.loadingAccounts")}</p> : accounts.length ? <div className="divide-y divide-border">
       {accounts.map(({ account, snapshot }) => <div key={`${snapshot.toolkit}:${account.id}`} className="py-3">
         <p className="text-sm font-medium">{account.alias || `${app.name} account`}</p>

@@ -142,9 +142,7 @@ export function RemovableIssueReferencePill({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{t("components.issueproperties.relationcontrols.removeBlocker2")}</DialogTitle>
-            <DialogDescription>
-              Remove {confirmLabel} as a blocker for this task.
-            </DialogDescription>
+            <DialogDescription>{t("components.issueproperties.relationcontrols.removeAsABlockerForThis", { confirmLabel })}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <DialogClose asChild>

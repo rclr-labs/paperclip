@@ -19,7 +19,7 @@ export function ComposioAppManager({ app, connections, initialConnectionId, onCl
   const [connectionId, setConnectionId] = useState(initialConnectionId ?? connections[0]?.id ?? "");
   const connection = connections.find(candidate => candidate.id === connectionId);
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}><DialogContent>
-    <DialogHeader><DialogTitle>Manage {app.name}</DialogTitle><DialogDescription>{t("pages.apps.composioAppManager.accountsAndSignInAreManaged")}</DialogDescription></DialogHeader>
+    <DialogHeader><DialogTitle>{t("pages.apps.composioAppManager.manage", { name: app.name })}</DialogTitle><DialogDescription>{t("pages.apps.composioAppManager.accountsAndSignInAreManaged")}</DialogDescription></DialogHeader>
     {connections.length > 1 ? <div className="space-y-2"><Label htmlFor="composio-manage-gateway">{t("pages.apps.composioAppManager.composioAccount")}</Label>
       <select id="composio-manage-gateway" value={connectionId} onChange={event => setConnectionId(event.target.value)} className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm">
         {connections.map(candidate => <option key={candidate.id} value={candidate.id}>{candidate.name}</option>)}
@@ -50,7 +50,7 @@ function ComposioAccountObservations({ app, connection, onClose }: { app: Aggreg
   }
   return <>
     {error || accountsQuery.isError ? <p role="alert" className="text-sm text-destructive">{error ?? "Couldn’t load Composio accounts. Refresh to try again."}</p> : null}
-    {accountsQuery.isLoading ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.composioAppManager.loadingAccounts")}</p> : accounts.length === 0 ? <p className="text-sm text-muted-foreground">No connected {app.name} accounts.</p> : <div className="divide-y divide-border">
+    {accountsQuery.isLoading ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.composioAppManager.loadingAccounts")}</p> : accounts.length === 0 ? <p className="text-sm text-muted-foreground">{t("pages.apps.composioAppManager.noConnectedAccounts", { name: app.name })}</p> : <div className="divide-y divide-border">
       {accounts.map(({ account, snapshot }) => <div key={`${snapshot.toolkit}:${account.id}`} className="py-3">
         <p className="truncate text-sm font-medium">{account.alias || `${app.name} account`}</p>
         <p className="text-xs text-muted-foreground">{snapshot.errorAt || Date.now() - new Date(snapshot.checkedAt).getTime() > 5 * 60_000

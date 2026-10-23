@@ -174,12 +174,10 @@ function AwaitingJoinApprovalPanel({
             companyLogoUrl={companyLogoUrl}
             className="h-12 w-12 border border-zinc-800 rounded-none"
           />
-          <h1 className="text-lg font-semibold">Request to join {companyDisplayName}</h1>
+          <h1 className="text-lg font-semibold">{t("pages.inviteLanding.requestToJoin", { companyDisplayName })}</h1>
         </div>
         <div className="mt-4 space-y-3">
-          <p className="text-sm text-zinc-400">
-            Your request is still awaiting approval. {approverLabel} must approve your request to join.
-          </p>
+          <p className="text-sm text-zinc-400">{t("pages.inviteLanding.yourRequestIsStillAwaitingApproval", { approverLabel })}</p>
           <div className="border border-zinc-800 p-3">
             <p className="text-xs text-zinc-500 mb-1">{t("pages.inviteLanding.approvalPage")}</p>
             <p className="text-sm text-zinc-200">{t("pages.inviteLanding.settingsMembers")}</p>
@@ -622,9 +620,7 @@ export function InviteLandingPage() {
               <div className="space-y-4">
                 <div>
                   <h2 className="text-lg font-semibold">{t("pages.inviteLanding.submitAgentDetails")}</h2>
-                  <p className="mt-1 text-sm text-zinc-400">
-                    This invite will create an approval request for a new agent in {companyDisplayName}.
-                  </p>
+                  <p className="mt-1 text-sm text-zinc-400">{t("pages.inviteLanding.thisInviteWillCreateAnApproval", { companyDisplayName })}</p>
                 </div>
                 <label className="block text-sm">
                   <span className="mb-1 block text-zinc-400">{t("pages.inviteLanding.agentName")}</span>

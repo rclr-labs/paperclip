@@ -33,7 +33,7 @@ export function ConnectionInstructionsEditor({ provider, template, value, onChan
   return <section className="space-y-3" aria-label={t("features.connections.connectionInstructions.agentInstructions")}>
     <h3 className="text-sm font-medium">{t("features.connections.connectionInstructions.agentInstructions")}</h3>
     <div className="flex items-center justify-between gap-4">
-      <label htmlFor={id} className="text-sm">Tell agents to use {provider}</label>
+      <label htmlFor={id} className="text-sm">{t("features.connections.connectionInstructions.tellAgentsToUse", { provider })}</label>
       <ToggleSwitch id={id} checked={value.enabled} disabled={disabled} onCheckedChange={(enabled) => onChange({ ...value, enabled })} />
     </div>
     {!value.enabled && <InlineBanner tone="warning">{t("features.connections.connectionInstructions.agentsCanStillUseThisConnection")}</InlineBanner>}

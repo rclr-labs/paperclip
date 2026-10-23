@@ -106,6 +106,7 @@ export function AgentsUsingSkillDialog({
   skill: CompanySkillDetail;
   canManage?: boolean;
 }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const toast = useOptionalToastActions();
   const adapterCaps = useAdapterCapabilities();
@@ -233,7 +234,7 @@ export function AgentsUsingSkillDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Agents using {skill.name}</DialogTitle>
+          <DialogTitle>{t("components.skillstudio.agentsUsingSkillDialog.agentsUsing", { name: skill.name })}</DialogTitle>
           <DialogDescription>
             {count === 0
               ? "No agents have this skill assigned yet."

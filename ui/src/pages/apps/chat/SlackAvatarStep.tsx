@@ -160,9 +160,7 @@ export function SlackAvatarSettings(props: SlackAvatarProps) {
     <section className="space-y-4" aria-label={t("pages.apps.chat.slackAvatarStep.slackAvatar")}>
       <div className="space-y-1">
         <h2 className="text-lg font-semibold">{t("pages.apps.chat.slackAvatarStep.agentAvatar")}</h2>
-        <p className="text-sm text-muted-foreground">
-          Use {props.agentName}’s avatar so your team recognizes the agent
-        </p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.chat.slackAvatarStep.useSAvatarSoYourTeam", { agentName: props.agentName })}</p>
       </div>
       <SlackAvatarContent {...props} compact />
     </section>

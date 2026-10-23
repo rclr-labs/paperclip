@@ -36,9 +36,7 @@ export function GitHubAgentTrustWarning({
         {t("components.gitHubAgentTrustWarning.continuingKeepsThisAgentSCurrent")}
       </p>
       {onChangeToLowTrust && (
-        <Button variant="outline" className="h-auto whitespace-normal" disabled={disabled} onClick={onChangeToLowTrust}>
-          Change {agent.name} to a low trust agent
-        </Button>
+        <Button variant="outline" className="h-auto whitespace-normal" disabled={disabled} onClick={onChangeToLowTrust}>{t("components.gitHubAgentTrustWarning.changeToALowTrustAgent", { name: agent.name })}</Button>
       )}
       <a
         className="inline-flex items-center gap-1 underline underline-offset-4"

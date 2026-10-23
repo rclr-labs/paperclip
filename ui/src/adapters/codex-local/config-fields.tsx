@@ -281,7 +281,7 @@ export function CodexLocalConfigFields({
           >
             <SelectTrigger className="w-full" aria-label={t("adapters.codexlocal.configfields.harness")}><SelectValue /></SelectTrigger>
             <SelectContent>
-              {!isPaperclipRunnerProvider(runnerProvider) && <SelectItem value={runnerProvider} disabled>{runnerProvider} (unknown provider)</SelectItem>}
+              {!isPaperclipRunnerProvider(runnerProvider) && <SelectItem value={runnerProvider} disabled>{t("adapters.codexlocal.configfields.unknownProvider", { runnerProvider })}</SelectItem>}
               {runnerHarnessOptions.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   <AdapterMark type={option.adapter} className="size-4" />

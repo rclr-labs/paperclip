@@ -233,7 +233,7 @@ export function ExternalAgentInviteContent({
           {connection.phase === "waiting" && <p className="mt-4 text-xs text-muted-foreground">{t("components.newagent.externalAgentInviteContent.dotUsesYourOpenaiAccountProvider")}</p>}</div>
         {connection.problem === "event_timeout" && <Button variant="outline" disabled={busy} onClick={onRetry}>{t("components.newagent.externalAgentInviteContent.retryTestEvent")}</Button>}
         {connection.problem === "offline" && <Button variant="outline" disabled={busy} onClick={onRetry}>{t("components.newagent.externalAgentInviteContent.reconnectUpdates")}</Button>}
-      </> : <p className="text-sm leading-relaxed text-muted-foreground">The invitation includes everything your agent needs to join {companyName}. You can review its request before granting access.</p>}
+      </> : <p className="text-sm leading-relaxed text-muted-foreground">{t("components.newagent.externalAgentInviteContent.theInvitationIncludesEverythingYourAgent", { companyName })}</p>}
     </div>
     <div className="flex items-center justify-between gap-3 border-t px-6 py-4 sm:px-8">
       <div className="flex items-center gap-2">

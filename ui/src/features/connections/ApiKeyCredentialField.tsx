@@ -34,7 +34,7 @@ export function ApiKeyCredentialField({ options, connectionId, onConnectionChang
       type="password" autoComplete="off" value={value} disabled={disabled}
       onChange={event => { onConnectionChange(""); onChange(event.target.value); }} placeholder={`Paste your ${providerName} API key`} />}
     {loading && <p role="status" className="text-sm text-muted-foreground">{t("features.connections.apiKeyCredentialField.checkingSavedApiKeys")}</p>}
-    {error && <p role="alert" className="text-sm text-destructive">Could not load saved API keys. {error}</p>}
-    <a href={keysUrl} target="_blank" rel="noreferrer" className="text-sm underline">Get an {providerName} API key ↗</a>
+    {error && <p role="alert" className="text-sm text-destructive">{t("features.connections.apiKeyCredentialField.couldNotLoadSavedApiKeys", { error })}</p>}
+    <a href={keysUrl} target="_blank" rel="noreferrer" className="text-sm underline">{t("features.connections.apiKeyCredentialField.getAnApiKey", { providerName })}</a>
   </div>;
 }

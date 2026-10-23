@@ -123,7 +123,7 @@ function RoutineScopedRuns({
           );
         })}
       </ul>
-      <p className="text-xs text-muted-foreground">Showing the {RUN_LIMIT} most recent routine runs.</p>
+      <p className="text-xs text-muted-foreground">{t("pages.audit.auditRuns.showingTheMostRecentRoutineRuns", { RUN_LIMIT })}</p>
     </div>
   );
 }
@@ -308,7 +308,7 @@ export function AuditRuns({ companyId, routineId }: { companyId: string; routine
         </ul>
       )}
 
-      <p className="text-xs text-muted-foreground">Showing the {RUN_LIMIT} most recent runs.</p>
+      <p className="text-xs text-muted-foreground">{t("pages.audit.auditRuns.showingTheMostRecentRuns", { RUN_LIMIT })}</p>
     </div>
   );
 }

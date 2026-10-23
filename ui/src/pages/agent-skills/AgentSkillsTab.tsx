@@ -401,9 +401,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
       {/* Header */}
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-foreground">
-            {enabledRows.length} of {libraryRows.length} enabled
-          </span>
+          <span className="text-sm font-medium text-foreground">{t("pages.agentskills.agentSkillsTab.ofEnabled", { length: enabledRows.length, length2: libraryRows.length })}</span>
           {applicationLabel ? (
             <Tooltip>
               <TooltipTrigger asChild>

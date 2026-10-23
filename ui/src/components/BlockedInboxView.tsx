@@ -165,9 +165,7 @@ export function BlockedInboxView({
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
           <div className="flex-1 space-y-1">
             <p className="text-sm font-medium">{t("components.blockedInboxView.couldnTLoadTheBlockedTab")}</p>
-            <p className="text-xs opacity-80">
-              Other Inbox tabs still work. {message}
-            </p>
+            <p className="text-xs opacity-80">{t("components.blockedInboxView.otherInboxTabsStillWork", { message })}</p>
           </div>
           <Button
             type="button"

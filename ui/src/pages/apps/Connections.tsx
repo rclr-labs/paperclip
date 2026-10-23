@@ -593,9 +593,7 @@ function CloudConnectorEnrollmentBanner({
         <ShieldCheck className="h-5 w-5 text-primary" />
         <div className="min-w-0 flex-1">
           <div className="text-sm font-semibold text-foreground">{t("pages.apps.connections.paperclipManagedSignInIsReady")}</div>
-          <div className="truncate text-xs text-muted-foreground">
-            Provider authorization uses {status.brokerBaseUrl}; credentials stay in this instance.
-          </div>
+          <div className="truncate text-xs text-muted-foreground">{t("pages.apps.connections.providerAuthorizationUsesCredentialsStayIn", { brokerBaseUrl: status.brokerBaseUrl })}</div>
         </div>
       </div>
     );

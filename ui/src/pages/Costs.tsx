@@ -613,9 +613,7 @@ export function Costs({
         <p role="alert" className="text-sm text-destructive">{t("pages.costs.couldNotLoadAgentDetailsTotals")}</p>
       )}
       {museUsageUnavailable && (
-        <p role="status" className="text-sm text-muted-foreground">
-          {scopedAgent.name}'s Muse activity has no reported usage or cost. Totals below show recorded organization charges only. Paperclip cannot enforce a Muse spend ceiling.
-        </p>
+        <p role="status" className="text-sm text-muted-foreground">{t("pages.costs.sMuseActivityHasNoReported", { name: scopedAgent.name })}</p>
       )}
       {showSummaryChrome ? (
         <div className="space-y-5">

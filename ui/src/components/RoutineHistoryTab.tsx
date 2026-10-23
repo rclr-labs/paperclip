@@ -338,13 +338,8 @@ function HistoricalPreviewBanner({
     <div className="rounded-md border border-amber-500/30 bg-amber-500/5 px-4 py-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
-          <p className="text-sm font-medium text-amber-800 dark:text-amber-200">
-            Viewing revision {revisionNumber} (read-only)
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Restoring this revision creates a new revision {nextRevisionNumber} with the same content.
-            History stays append-only.
-          </p>
+          <p className="text-sm font-medium text-amber-800 dark:text-amber-200">{t("components.routineHistoryTab.viewingRevisionReadOnly", { revisionNumber })}</p>
+          <p className="text-xs text-muted-foreground">{t("components.routineHistoryTab.restoringThisRevisionCreatesANew", { nextRevisionNumber })}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" onClick={onReturn} disabled={pending}>
@@ -379,10 +374,7 @@ function ConflictBanner({
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="space-y-1">
           <p className="text-sm font-medium text-amber-800 dark:text-amber-200">{t("components.routineHistoryTab.unsavedRoutineEdits")}</p>
-          <p className="text-xs text-muted-foreground">
-            You changed {fieldsText} but haven&apos;t saved yet. Save or discard before previewing or
-            restoring an older revision.
-          </p>
+          <p className="text-xs text-muted-foreground">{t("components.routineHistoryTab.youChangedButHavenTSaved", { fieldsText })}</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Button variant="outline" size="sm" onClick={onDiscard}>
@@ -721,12 +713,8 @@ function RestoreConfirmDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Restore revision {target.revisionNumber}?</DialogTitle>
-          <DialogDescription>
-            This creates a new revision {newRevisionNumber} with the same content as revision{" "}
-            {target.revisionNumber}. Revisions {target.revisionNumber}–{currentRevisionNumber} stay
-            in history and are not modified.
-          </DialogDescription>
+          <DialogTitle>{t("components.routineHistoryTab.restoreRevision", { revisionNumber: target.revisionNumber })}</DialogTitle>
+          <DialogDescription>{t("components.routineHistoryTab.thisCreatesANewRevisionWith", { newRevisionNumber, revisionNumber: target.revisionNumber, revisionNumber2: target.revisionNumber, currentRevisionNumber })}</DialogDescription>
         </DialogHeader>
         <ul className="space-y-2 text-sm">
           <li className="flex items-start gap-2">

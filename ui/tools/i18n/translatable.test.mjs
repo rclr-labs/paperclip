@@ -61,3 +61,30 @@ describe("isTranslatable", () => {
     expect(isTranslatable(value)).toBe(true);
   });
 });
+
+describe("isTranslatable with composed: true", () => {
+  // The catalogue's own messages carry placeholders, and the label heuristics
+  // cannot tell "Images · {{length}}" from "API key · x-api-key" once the
+  // placeholder is replaced. Composed messages skip those heuristics.
+  it.each([
+    "Images · x",
+    "Files · x",
+    "Trust settings · x",
+    "2 Connection",
+    "SOURCE RESOLVED FOLD",
+  ])("accepts %s as a composed message", (value) => {
+    expect(isTranslatable(value, { composed: true })).toBe(true);
+  });
+
+  it.each(["Images · x", "2 Connection", "SOURCE RESOLVED FOLD"])("still refuses %s as source", (value) => {
+    expect(isTranslatable(value)).toBe(false);
+  });
+
+  it("keeps refusing a path even when composed", () => {
+    expect(isTranslatable("/absolute/path/to/x", { composed: true })).toBe(false);
+  });
+
+  it("keeps refusing a shell command even when composed", () => {
+    expect(isTranslatable("bash ./scripts/x.sh", { composed: true })).toBe(false);
+  });
+});

@@ -49,10 +49,7 @@ export function PhotonConnectStep({
     <div className="space-y-5">
       <div className="space-y-2">
         <h1 className="text-xl font-bold">{t("pages.apps.chat.photonConnectStep.connectImessagePhoton")}</h1>
-        <p className="text-sm text-muted-foreground">
-          Connect {agentName} to Photon Cloud. Pro supports direct messages through
-          a shared line. Dedicated numbers also support individually enabled groups.
-        </p>
+        <p className="text-sm text-muted-foreground">{t("pages.apps.chat.photonConnectStep.connectToPhotonCloudProSupports", { agentName })}</p>
         <p className="text-sm">
           <a
             className="underline"

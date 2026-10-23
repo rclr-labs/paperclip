@@ -503,13 +503,9 @@ function AllowList({ rows, total }: { rows: AllowRow[]; total: number }) {
         </tbody>
       </table>
       {rows.length > 80 ? (
-        <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">
-          Showing 80 of {rows.length} allowed tools.
-        </p>
+        <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">{t("pages.tools.profiles.profileDetail.showing80OfAllowedTools", { length: rows.length })}</p>
       ) : (
-        <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">
-          Allows {rows.length} of {total} known tools.
-        </p>
+        <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">{t("pages.tools.profiles.profileDetail.allowsOfKnownTools", { length: rows.length, total })}</p>
       )}
     </div>
   );

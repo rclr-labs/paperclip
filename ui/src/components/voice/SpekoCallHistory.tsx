@@ -52,8 +52,8 @@ export function SpekoCallHistoryView({ entries = [], unapprovedCalls = [], loadi
     <div className="flex items-center justify-between gap-3"><h2 className="text-lg font-semibold">{t("components.voice.spekoCallHistory.yourCalls")}</h2><Button size="sm" variant="ghost" onClick={onRetry} disabled={loading}>{t("components.voice.spekoCallHistory.refresh")}</Button></div>
     {loading && <p role="status" className="text-sm text-muted-foreground">{t("components.voice.spekoCallHistory.loadingCalls")}</p>}
     {error && <div className="space-y-2"><p role="alert" className="text-sm text-destructive">{error}</p><Button size="sm" variant="outline" onClick={onRetry}>{t("components.voice.spekoCallHistory.tryAgain")}</Button></div>}
-    {incomingError && <p role="alert" className="text-sm text-destructive">Unapproved calls could not be loaded. {incomingError}</p>}
-    {endError && <p role="alert" className="text-sm text-destructive">The call could not be ended. {endError}</p>}
+    {incomingError && <p role="alert" className="text-sm text-destructive">{t("components.voice.spekoCallHistory.unapprovedCallsCouldNotBeLoaded", { incomingError })}</p>}
+    {endError && <p role="alert" className="text-sm text-destructive">{t("components.voice.spekoCallHistory.theCallCouldNotBeEnded", { endError })}</p>}
     {!loading && !error && !incomingError && !entries.length && !unapprovedCalls.length && <p className="text-sm text-muted-foreground">{t("components.voice.spekoCallHistory.yourBrowserConversationsAndPhoneCalls")}</p>}
     {!error && entries.map(entry => <SpekoCallActivityItem key={entry.session.id} entry={entry} onEnd={onEnd} ending={endingSessionId === entry.session.id} />)}
     {!incomingError && unapprovedCalls.length > 0 && <div className="space-y-2"><h3 className="text-sm font-medium">{t("components.voice.spekoCallHistory.unapprovedIncomingCalls")}</h3><ul className="space-y-2">{unapprovedCalls.map(call => <li key={call.id}><SpekoUnapprovedCallActivityItem call={call} /></li>)}</ul></div>}

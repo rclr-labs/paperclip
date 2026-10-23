@@ -20,7 +20,7 @@ export const DO_NOT_TRANSLATE = new Set([
  * filenames — is refused, because a translation catalogue is the wrong place
  * for it and a human translator will dutifully mangle it.
  */
-export function isTranslatable(raw) {
+export function isTranslatable(raw, { composed = false } = {}) {
   const s = raw.trim();
   if (s.length < 2) return false;
   if (!/[A-Za-z]{2}/.test(s)) return false;
@@ -45,15 +45,20 @@ export function isTranslatable(raw) {
   // does not ("bash ./scripts/provision-worktree.sh").
   if (/^(bash|sh|npm|npx|pnpm|yarn|git|sudo|docker|curl|cd)\s/.test(s) && !/[.?!]$/.test(s)) return false;
 
-  if (/^<[^>]*>$/.test(s)) return false;                        // <timestamp> placeholder
-  if (/\s\*$/.test(s)) return false;                            // "Agent *" required marker
-  // "API key · x-api-key", "Anthropic Messages · Claude": a middot joins a
-  // label to a machine value. Prose does not use it as a separator.
-  if (s.includes(" · ") && !/[.?!]$/.test(s)) return false;
-  // "SOURCE-RESOLVED FOLD": screaming case is a diagnostic marker, not copy.
-  if (/^[A-Z][A-Z0-9 \-_]+$/.test(s) && s === s.toUpperCase()) return false;
-  // "1. Code", "2. Adapter", "2 Connection": numbered wizard-step fixtures.
-  if (/^\d+[.)]?\s+\S+(\s+\S+)?$/.test(s) && !/[.?!]$/.test(s)) return false;
+  // These read a SOURCE label and decide it is not copy. They must not judge a
+  // message the extractor composed: "Images · {{length}}" is a real label
+  // joined to a count, while "API key · x-api-key" is a label joined to a
+  // machine value, and the two are indistinguishable once the placeholder is
+  // gone. `composed` says the string came from the catalogue, not the source.
+  if (!composed) {
+    if (/^<[^>]*>$/.test(s)) return false;                      // <timestamp> placeholder
+    if (/\s\*$/.test(s)) return false;                          // "Agent *" required marker
+    if (s.includes(" · ") && !/[.?!]$/.test(s)) return false;    // label · machine value
+    // "SOURCE-RESOLVED FOLD": screaming case is a diagnostic marker, not copy.
+    if (/^[A-Z][A-Z0-9 \-_]+$/.test(s) && s === s.toUpperCase()) return false;
+    // "1. Code", "2. Adapter", "2 Connection": numbered wizard-step fixtures.
+    if (/^\d+[.)]?\s+\S+(\s+\S+)?$/.test(s) && !/[.?!]$/.test(s)) return false;
+  }
 
   // A fragment that opens with punctuation is the tail of a split sentence.
   if (/^[,.;:·—–]/.test(s)) return false;

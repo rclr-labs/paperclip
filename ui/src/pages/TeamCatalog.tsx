@@ -1405,9 +1405,7 @@ export function TeamInstallerDialog({
             </span>
           )}
           {currentStep === "preview" && !hasErrors && missingRequiredSecretCount > 0 && (
-            <span className="text-xs text-rose-600 dark:text-rose-300">
-              Required secrets missing: {missingRequiredSecretCount}
-            </span>
+            <span className="text-xs text-rose-600 dark:text-rose-300">{t("pages.teamCatalog.requiredSecretsMissing", { missingRequiredSecretCount })}</span>
           )}
           {currentStep === "preview" && !hasErrors && missingRequiredSecretCount === 0 && missingEnabledAdapter && (
             <span className="text-xs text-rose-600 dark:text-rose-300">
@@ -2055,7 +2053,7 @@ export function ApplyProgress({ team }: { team: CatalogTeam }) {
     <div className="flex items-center gap-3 py-10 text-sm">
       <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
       <div>
-        <p className="font-medium">Installing {team.name}…</p>
+        <p className="font-medium">{t("pages.teamCatalog.installing", { name: team.name })}</p>
         <p className="text-xs text-muted-foreground">
           {t("pages.teamCatalog.resolvingSkillsImportingAgentsProjectsAnd")}
         </p>
@@ -2095,9 +2093,7 @@ export function ApplySuccess({
         <CheckCircle2 className="h-6 w-6 text-emerald-500" />
         <p className="text-base font-semibold">{t("pages.teamCatalog.teamInstalled")}</p>
       </div>
-      <p className="text-sm text-muted-foreground">
-        {team.name} was imported into your organization. Imported entities are stamped with catalog provenance.
-      </p>
+      <p className="text-sm text-muted-foreground">{t("pages.teamCatalog.wasImportedIntoYourOrganizationImported", { name: team.name })}</p>
       {result && (
         <ul className="divide-y divide-border/60 rounded-md border border-border px-3">
           <ResultRow label="Agents imported" count={agentsCreated} />

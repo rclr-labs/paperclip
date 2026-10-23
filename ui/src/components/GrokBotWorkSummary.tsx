@@ -8,7 +8,7 @@ export function GrokBotWorkSummary({ companyId, agentId }: { companyId: string; 
   const state = useQuery({ queryKey: ["grok-binding", companyId, agentId], queryFn: ({ signal }) => grokBotApi.connection(companyId, agentId, signal), retry: false, refetchInterval: 10000 });
   const data = state.data, binding = data?.binding, routine = binding?.routine;
   return <div className="space-y-2 text-sm">
-    {state.error && <p role="alert" className="text-destructive">Connection status could not be refreshed. {state.error.message}</p>}
+    {state.error && <p role="alert" className="text-destructive">{t("components.grokBotWorkSummary.connectionStatusCouldNotBeRefreshed", { message: state.error.message })}</p>}
     <p>{data?.recoveryNeeded ? "Recovery needed" : binding?.assignment?.status === "offered" ? "Awaiting acknowledgement" : binding?.assignment ? "Working in Grok Bot" : routine?.verified ? "No active Paperclip work session" : "Connection setup incomplete"}</p>
     {data?.currentTask && <Link className="underline" to={`/issues/${data.currentTask.id}`}>{data.currentTask.identifier}: {data.currentTask.title}</Link>}
     <p className="text-muted-foreground">Queued tasks: {data?.queuedTaskCount ?? "Checking…"}</p>

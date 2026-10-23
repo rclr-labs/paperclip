@@ -237,7 +237,7 @@ export function ApprovalDetail() {
             </pre>
           )}
           {approval.decisionNote && (
-            <p className="text-xs text-muted-foreground">Decision note: {approval.decisionNote}</p>
+            <p className="text-xs text-muted-foreground">{t("pages.approvalDetail.decisionNote", { decisionNote: approval.decisionNote })}</p>
           )}
         </div>
         {error && <p className="text-sm text-destructive">{error}</p>}

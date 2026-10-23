@@ -520,7 +520,7 @@ function CatalogReview({
         askFirstLevels={askFirstLevels}
       />
       {activatedName ? (
-        <p className="text-xs font-medium text-emerald-700">{activatedName} is active for all agents.</p>
+        <p className="text-xs font-medium text-emerald-700">{t("pages.tools.pasteConfigTab.isActiveForAllAgents", { activatedName })}</p>
       ) : null}
     </div>
   );

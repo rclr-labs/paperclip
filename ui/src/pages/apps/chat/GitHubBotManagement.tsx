@@ -124,9 +124,7 @@ export function GitHubRepositoryAccess({
           {disableAll ? "Disable all" : "Enable all"}
         </Button>
       </div>
-      {summary && <p className="text-xs text-muted-foreground">
-        {summary.enabledCount} of {summary.totalCount} repositories enabled. Toggle all applies across the entire connection.
-      </p>}
+      {summary && <p className="text-xs text-muted-foreground">{t("pages.apps.chat.gitHubBotManagement.ofRepositoriesEnabledToggleAllApplies", { enabledCount: summary.enabledCount, totalCount: summary.totalCount })}</p>}
       {list.isError && <p role="alert" className="text-sm text-destructive">
         Could not load repositories. <Button variant="link" size="sm" onClick={() => void list.refetch()}>{t("pages.apps.chat.gitHubBotManagement.tryAgain")}</Button>
       </p>}

@@ -1153,7 +1153,7 @@ export function WorkspaceFileBrowser({
               {t("components.workspaceFileBrowser.loadMoreFromThisFolder")}
             </button>
           ) : (
-            <>Showing first {items.length} — refine the search to narrow.</>
+            <>{t("components.workspaceFileBrowser.showingFirstRefineTheSearchTo", { length: items.length })}</>
           )}
         </div>
       ) : null}

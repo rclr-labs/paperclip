@@ -187,6 +187,7 @@ function KanbanColumn({
   revealIncrement: number;
   onShowMore: () => void;
 }) {
+  const { t } = useTranslation();
   const { setNodeRef, isOver } = useDroppable({ id: status });
 
   const isEmpty = issues.length === 0;
@@ -257,14 +258,10 @@ function KanbanColumn({
             type="button"
             className="mt-1 flex w-full items-center justify-center rounded-md border border-dashed border-border bg-background/70 px-2 py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-foreground/30 hover:text-foreground"
             onClick={onShowMore}
-          >
-            Show {nextRevealCount} more
-          </button>
+          >{t("components.kanbanBoard.showMore", { nextRevealCount })}</button>
         ) : null}
         {issues.length > 0 && (hiddenCount > 0 || issues.length >= visibleCount) ? (
-          <p className="px-1 pt-1 text-(length:--text-micro) text-muted-foreground">
-            Showing {visibleIssues.length} of {issues.length}
-          </p>
+          <p className="px-1 pt-1 text-(length:--text-micro) text-muted-foreground">{t("components.kanbanBoard.showingOf", { length: visibleIssues.length, length2: issues.length })}</p>
         ) : null}
       </div>
     </div>

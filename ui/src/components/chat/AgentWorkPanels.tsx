@@ -225,9 +225,7 @@ export function AgentTasksPanel({
         <div className="flex flex-col gap-2">
           {visible.map((task) => <AgentTaskCard key={task.id} task={task} />)}
           {capped ? (
-            <p className="px-1 text-xs text-muted-foreground">
-              Showing the {AGENT_TASK_LIMIT} most recently updated tasks.
-            </p>
+            <p className="px-1 text-xs text-muted-foreground">{t("components.chat.agentWorkPanels.showingTheMostRecentlyUpdatedTasks", { AGENT_TASK_LIMIT })}</p>
           ) : null}
         </div>
       )}
@@ -304,7 +302,7 @@ export function AgentArtifactsPanel({ companyId, agentId }: { companyId: string;
     <section className="flex flex-col gap-2" aria-label={t("components.chat.agentWorkPanels.agentArtifacts")}>
       {artifacts.map((artifact) => <AgentArtifactCard key={artifact.id} artifact={artifact} />)}
       {truncated ? (
-        <p className="px-1 text-xs text-muted-foreground">Showing this agent's {artifacts.length} most recent artifacts.</p>
+        <p className="px-1 text-xs text-muted-foreground">{t("components.chat.agentWorkPanels.showingThisAgentSMostRecent", { length: artifacts.length })}</p>
       ) : null}
     </section>
   );

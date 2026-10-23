@@ -37,12 +37,7 @@ export function RemoteMcpAccountChoice({
         </p>
       </div>
       {upstreamServiceName && (
-        <InlineBanner compact>
-          {providerName} is an external service that handles the connection and
-          requests to {upstreamServiceName}. Reusing this account does not yet
-          verify app access; the agent will check it and guide any additional
-          authorization.
-        </InlineBanner>
+        <InlineBanner compact>{t("features.connections.remotemcp.remoteMcpAccountChoice.isAnExternalServiceThatHandles", { providerName, upstreamServiceName })}</InlineBanner>
       )}
       <ConnectionChoiceList
         choices={connections.map((connection) => ({

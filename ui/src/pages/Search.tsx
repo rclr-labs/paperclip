@@ -835,9 +835,7 @@ function SearchTabContent({
   if (isLoading) {
     return (
       <div className="flex flex-col gap-2 px-2 py-3 sm:px-4">
-        <div className="px-3 text-xs text-muted-foreground" data-testid="search-loading">
-          Searching for &ldquo;{trimmedQuery}&rdquo;…
-        </div>
+        <div className="px-3 text-xs text-muted-foreground" data-testid="search-loading">{t("pages.search.searchingFor", { trimmedQuery })}</div>
         <div className="flex flex-col">
           <div className="px-3 py-2">
             <Skeleton className="h-3 w-24" />
@@ -863,7 +861,7 @@ function SearchTabContent({
     return (
       <div className="mx-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 px-4 py-12 text-center">
         <FileQuestion className="h-10 w-10 text-muted-foreground" aria-hidden />
-        <div className="text-base font-semibold">No results for &ldquo;{trimmedQuery}&rdquo;</div>
+        <div className="text-base font-semibold">{t("pages.search.noResultsFor", { trimmedQuery })}</div>
         <p className="text-sm text-muted-foreground">
           We couldn’t find a match in {describeScope(scope).toLowerCase()}. Try widening the scope or rephrasing your
           query.

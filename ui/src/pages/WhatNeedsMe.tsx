@@ -691,9 +691,7 @@ export function WhatNeedsMe() {
               open={agingOpen}
               onToggle={() => setAgingOpen((prev) => !prev)}
             >
-              <p className="text-xs text-muted-foreground">
-                Idle past {ATTENTION_AGING_DAYS} days — kept off the desk. Keep any you still want surfaced.
-              </p>
+              <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.idlePastDaysKeptOffThe", { ATTENTION_AGING_DAYS })}</p>
               {agingItems.map((item) => (
                 <AgingItemRow
                   key={item.id}

@@ -335,9 +335,7 @@ export function PluginSettings() {
                                     <AlertTriangle className="h-3 w-3 text-amber-500" />
                                     {t("pages.pluginSettings.crashes")}
                                   </span>
-                                  <span className="text-xs">
-                                    {dashboardData.worker.consecutiveCrashes} consecutive / {dashboardData.worker.totalCrashes} total
-                                  </span>
+                                  <span className="text-xs">{t("pages.pluginSettings.consecutiveTotal", { consecutiveCrashes: dashboardData.worker.consecutiveCrashes, totalCrashes: dashboardData.worker.totalCrashes })}</span>
                                 </div>
                                 {dashboardData.worker.lastCrashAt && (
                                   <div className="flex justify-between col-span-2">
@@ -440,7 +438,7 @@ export function PluginSettings() {
                       <ActivitySquare className="h-4 w-4" />
                       {t("pages.pluginSettings.recentLogs")}
                     </CardTitle>
-                    <CardDescription>Last {recentLogs.length} log entries</CardDescription>
+                    <CardDescription>{t("pages.pluginSettings.lastLogEntries", { length: recentLogs.length })}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <div className="max-h-64 space-y-1 overflow-y-auto font-mono text-xs">

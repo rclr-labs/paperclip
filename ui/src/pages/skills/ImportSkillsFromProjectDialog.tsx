@@ -1200,7 +1200,7 @@ function ResultStep({ result }: ResultStepProps) {
           <span className="text-emerald-600 dark:text-emerald-400">
             ✓ {result.imported.length} imported
           </span>
-          {result.updated.length > 0 && <span>↻ {result.updated.length} updated</span>}
+          {result.updated.length > 0 && <span>{t("pages.skills.importSkillsFromProjectDialog.updated", { length: result.updated.length })}</span>}
           {result.skipped.length > 0 && <span>⊘ {result.skipped.length} skipped</span>}
         </div>
       </div>
@@ -1260,9 +1260,7 @@ function ResultStep({ result }: ResultStepProps) {
         )}
         {result.warnings.length > 0 && (
           <section>
-            <header className="bg-muted/30 px-5 py-1.5 text-xs uppercase tracking-wide text-muted-foreground">
-              Warnings · {result.warnings.length}
-            </header>
+            <header className="bg-muted/30 px-5 py-1.5 text-xs uppercase tracking-wide text-muted-foreground">{t("pages.skills.importSkillsFromProjectDialog.warnings", { length: result.warnings.length })}</header>
             <ul className="divide-y divide-border/60" data-testid="result-warnings">
               {result.warnings.map((warning, index) => (
                 <li key={index} className="flex items-start gap-2 px-5 py-2.5 text-xs">

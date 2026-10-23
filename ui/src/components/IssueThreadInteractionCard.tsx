@@ -1933,7 +1933,7 @@ function SecretProposalResolution({
       <div aria-live="polite" className="flex items-start gap-2 rounded-sm border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-100">
         <Loader2 className="mt-0.5 h-4 w-4 shrink-0 animate-spin" />
         <div>
-          <div className="font-medium">Approved by {who} — creating the binding</div>
+          <div className="font-medium">{t("components.issueThreadInteractionCard.approvedByCreatingTheBinding", { who })}</div>
           <p className="mt-1 text-amber-900/80 dark:text-amber-100/80">
             {t("components.issueThreadInteractionCard.paperclipIsReCheckingAuthorityAnd")}
           </p>
@@ -1990,7 +1990,7 @@ function SecretProposalResolution({
         <div className="flex items-start gap-2">
           <XCircle className="mt-0.5 h-4 w-4 shrink-0" />
           <div>
-            <div className="font-medium">Rejected by {who}</div>
+            <div className="font-medium">{t("components.issueThreadInteractionCard.rejectedBy", { who })}</div>
             <p className="mt-1 text-red-900/80 dark:text-red-100/80">{t("components.issueThreadInteractionCard.theBindingWasNotCreated")}</p>
           </div>
         </div>
@@ -3618,9 +3618,7 @@ function VerdictProgressBadge({
             style={{ width: `${pct}%` }}
           />
         </div>
-        <span className="whitespace-nowrap text-xs font-medium text-muted-foreground">
-          {progress.decided} of {progress.total} decided
-        </span>
+        <span className="whitespace-nowrap text-xs font-medium text-muted-foreground">{t("components.issueThreadInteractionCard.ofDecided", { decided: progress.decided, total: progress.total })}</span>
       </div>
     </div>
   );
@@ -3833,9 +3831,7 @@ export function IssueThreadInteractionCard({
                       For {addresseeLabel}
                     </Badge>
                   </TooltipTrigger>
-                  <TooltipContent side="bottom" className="max-w-xs text-xs">
-                    Directed to {addresseeLabel}. Agent-addressed interactions are owned by that agent and are kept out of the open organization attention feed.
-                  </TooltipContent>
+                  <TooltipContent side="bottom" className="max-w-xs text-xs">{t("components.issueThreadInteractionCard.directedToAgentAddressedInteractionsAre", { addresseeLabel })}</TooltipContent>
                 </Tooltip>
               ) : null}
             </div>
@@ -3883,7 +3879,7 @@ export function IssueThreadInteractionCard({
             <TooltipTrigger asChild>
               <div className="rounded-sm border border-border/70 bg-transparent px-3 py-2 text-right text-xs text-muted-foreground">
                 <div className="font-medium text-foreground">{formatShortDate(interaction.createdAt)}</div>
-                <div>proposed by {createdByLabel}</div>
+                <div>{t("components.issueThreadInteractionCard.proposedBy", { createdByLabel })}</div>
               </div>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="text-xs">

@@ -118,6 +118,7 @@ export function CodexSubscriptionPanel({
 }
 
 function QuotaWindowRow({ window }: { window: QuotaWindow }) {
+  const { t } = useTranslation();
   const detail = detailText(window);
   if (window.usedPercent == null) {
     return (
@@ -144,9 +145,7 @@ function QuotaWindowRow({ window }: { window: QuotaWindow }) {
             <div className="mt-1 text-xs text-muted-foreground">{detail}</div>
           ) : null}
         </div>
-        <div className="shrink-0 text-sm font-semibold tabular-nums text-foreground">
-          {window.usedPercent}% used
-        </div>
+        <div className="shrink-0 text-sm font-semibold tabular-nums text-foreground">{t("components.codexSubscriptionPanel.used", { usedPercent: window.usedPercent })}</div>
       </div>
 
       <div className="mt-3 h-2 overflow-hidden bg-muted">

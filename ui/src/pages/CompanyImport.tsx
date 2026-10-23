@@ -2107,9 +2107,7 @@ export function CompanyImport() {
             }}
           >
             <option value="new">{t("pages.companyImport.createNewOrganization")}</option>
-            <option value="existing">
-              Existing company: {selectedCompany?.name}
-            </option>
+            <option value="existing">{t("pages.companyImport.existingCompany", { name: selectedCompany?.name })}</option>
           </select>
         </Field>
 

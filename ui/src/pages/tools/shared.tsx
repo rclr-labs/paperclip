@@ -223,6 +223,7 @@ export function PendingBackendNotice({
   body: ReactNode;
   issue?: { identifier: string; href: string };
 }) {
+  const { t } = useTranslation();
   return (
     <Card className="border-dashed">
       <CardContent className="flex flex-col gap-2 py-8">
@@ -232,9 +233,7 @@ export function PendingBackendNotice({
         </div>
         <p className="max-w-2xl text-sm text-muted-foreground">{body}</p>
         {issue ? (
-          <a href={issue.href} className="text-sm font-medium text-primary hover:underline">
-            Tracked in {issue.identifier} →
-          </a>
+          <a href={issue.href} className="text-sm font-medium text-primary hover:underline">{t("pages.tools.shared.trackedIn", { identifier: issue.identifier })}</a>
         ) : null}
       </CardContent>
     </Card>

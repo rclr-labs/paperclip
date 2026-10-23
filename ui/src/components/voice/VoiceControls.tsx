@@ -41,7 +41,7 @@ export function VoiceControls({ state, agentName, muted = false, busy = false, p
   return (
     <section aria-label={`Voice conversation with ${agentName}`} className={cn("flex min-w-0 flex-col gap-3", className)}>
       <div className="flex min-w-0 flex-col gap-1">
-        <h3 className="break-words text-sm font-medium">Talk to {agentName}</h3>
+        <h3 className="break-words text-sm font-medium">{t("components.voice.voiceControls.talkTo", { agentName })}</h3>
         <p role="status" className="text-sm text-muted-foreground">{labels[state]}{muted && !inactive ? " · Microphone muted" : ""}</p>
       </div>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}

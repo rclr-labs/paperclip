@@ -777,9 +777,7 @@ function ConnectedTaskComposer({
                 </p>
               )}
               {currentPublication.redactedError && (
-                <p className="text-muted-foreground">
-                  Provider detail: {currentPublication.redactedError}
-                </p>
+                <p className="text-muted-foreground">{t("components.chat.externallyConnectedTaskBanner.providerDetail", { redactedError: currentPublication.redactedError })}</p>
               )}
               <Link
                 className="inline-block font-medium underline underline-offset-4"

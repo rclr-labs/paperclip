@@ -80,9 +80,7 @@ function GitHubIdentitySection({
                 <p className="mt-0.5 text-sm font-medium text-foreground">
                   {dedicatedLogin ? `@${dedicatedLogin}` : "Dedicated GitHub account"}
                 </p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  Used only by {agentName}. This dedicated connection takes precedence over the responsible person&apos;s GitHub.
-                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{t("pages.agentToolsTab.usedOnlyByThisDedicatedConnection", { agentName })}</p>
               </>
             ) : (
               <>
@@ -204,9 +202,7 @@ function InstalledAppsSection({
       <div className="flex flex-wrap items-start justify-between gap-3 border-b border-border px-3 py-2.5">
         <div>
           <h3 className="text-sm font-semibold text-foreground">{t("pages.agentToolsTab.installedApps")}</h3>
-          <p className="mt-0.5 text-xs text-muted-foreground">
-            Installed apps load tools into {agentName}'s context on every run. Permitted-only apps do not add context cost.
-          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{t("pages.agentToolsTab.installedAppsLoadToolsIntoS", { agentName })}</p>
         </div>
         <InstallSaveStatusChip pending={saving} unsaved={unsaved} error={error} />
       </div>

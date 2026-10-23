@@ -3538,9 +3538,7 @@ function VersionHistorySheet({
           )}
           {diff && (
             <div className="rounded-md border border-border">
-              <div className="border-b border-border px-3 py-1.5 text-xs text-muted-foreground">
-                Diff v{left?.revisionNumber} → v{right?.revisionNumber}
-              </div>
+              <div className="border-b border-border px-3 py-1.5 text-xs text-muted-foreground">{t("pages.skillStudio.diffVV", { revisionNumber: left?.revisionNumber, revisionNumber2: right?.revisionNumber })}</div>
               <pre className="max-h-64 overflow-auto p-2 text-xs">
                 {diff.map((row, i) => (
                   <div

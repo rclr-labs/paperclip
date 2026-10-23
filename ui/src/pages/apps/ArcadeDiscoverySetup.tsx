@@ -24,7 +24,7 @@ export function ArcadeDiscoverySetup({ connection, onClose }: { connection: Tool
   });
   return <Dialog open onOpenChange={open => { if (!open && !save.isPending) onClose(); }}><DialogContent>
     <DialogHeader><DialogTitle>{t("pages.apps.arcadeDiscoverySetup.syncArcadeAccounts")}</DialogTitle>
-      <DialogDescription>See apps available through “{connection.name}”. Your gateway works without account sync.</DialogDescription>
+      <DialogDescription>{t("pages.apps.arcadeDiscoverySetup.seeAppsAvailableThroughYourGateway", { name: connection.name })}</DialogDescription>
     </DialogHeader>
     <form className="space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(); }}>
       <div className="space-y-2"><Label htmlFor="arcade-discovery-key">{t("pages.apps.arcadeDiscoverySetup.projectApiKey")}</Label>

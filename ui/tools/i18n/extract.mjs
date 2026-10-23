@@ -42,6 +42,7 @@ const parser = loadParser();
 import { isTranslatable } from "./translatable.mjs";
 import { isExcludedFile } from "./excluded.mjs";
 import { classifyTextNode } from "./composite.mjs";
+import { buildInterpolation } from "./interpolate.mjs";
 
 /** Attributes that are DOM passthroughs on any element. */
 const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
@@ -70,7 +71,7 @@ const opt = (n, d = null) => {
 const APPLY = args.includes("--apply");
 const LIMIT = Number(opt("limit", "0")) || 0;
 
-const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
+const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
 
 /**
  * JSX collapses any whitespace run containing a newline into a single space
@@ -176,6 +177,29 @@ function collect(file) {
         component,
       });
     }
+    // A clause split around named values becomes one t() call carrying them,
+    // which keeps the sentence whole and reorderable. The element's children
+    // are replaced as a unit, so this is collected per ELEMENT, not per text.
+    if (node.type === "JSXElement" || node.type === "JSXFragment") {
+      const built = buildInterpolation(node.children ?? []);
+      if (built && isTranslatable(built.message.replace(/\{\{[^}]*\}\}/g, "").trim())) {
+        const { component, reason } = enclosingComponent([...ancestors, node]);
+        if (!component) {
+          stats[reason]++;
+        } else {
+          const kids = node.children;
+          hits.push({
+            kind: "interp",
+            start: kids[0].start,
+            end: kids[kids.length - 1].end,
+            text: built.message,
+            values: built.values,
+            component,
+          });
+        }
+      }
+    }
+
     if (node.type === "JSXAttribute" && node.name?.name && node.value?.type === "StringLiteral") {
       const attr = node.name.name;
       const owner = ancestors[ancestors.length - 2]; // JSXOpeningElement -> JSXElement
@@ -263,7 +287,7 @@ for (const file of files) {
   const used = new Map();
   const edits = [];
   for (const hit of hits) {
-    const base = slugKey(hit.text);
+    const base = slugKey(hit.kind === "interp" ? hit.text.replace(/\{\{[^}]*\}\}/g, " ") : hit.text);
     let key = base;
     let n = 2;
     while (used.has(key) && used.get(key) !== hit.text) key = `${base}${n++}`;
@@ -276,10 +300,30 @@ for (const file of files) {
       added.push({ key: full.join("."), text: hit.text });
     }
     const call = `t("${full.join(".")}")`;
-    edits.push({ start: hit.start, end: hit.end, replacement: hit.kind === "text" ? `${hit.lead}{${call}}${hit.trail}` : `{${call}}` });
+    let replacement;
+    if (hit.kind === "text") replacement = `${hit.lead}{${call}}${hit.trail}`;
+    else if (hit.kind === "interp") {
+      // Shorthand when the name already is the expression, e.g. { provider };
+      // otherwise spell it out, e.g. { displayName: user.displayName }.
+      const entries = hit.values.map(({ name, expression }) => {
+        const source = src.slice(expression.start, expression.end);
+        return source === name ? name : `${name}: ${source}`;
+      });
+      replacement = `{t("${full.join(".")}", { ${entries.join(", ")} })}`;
+      stats.interpolated++;
+    } else replacement = `{${call}}`;
+    edits.push({ start: hit.start, end: hit.end, replacement });
   }
   if (!edits.length) continue;
-  for (const e of edits) src = src.slice(0, e.start) + e.replacement + src.slice(e.end);
+  // An interpolation edit spans its element's whole child range, so drop any
+  // edit nested inside another: applying both would corrupt the file.
+  edits.sort((a, b) => b.start - a.start || a.end - b.end);
+  const applied = [];
+  for (const e of edits) {
+    if (applied.some((k) => e.start >= k.start && e.end <= k.end)) continue;
+    applied.push(e);
+  }
+  for (const e of applied) src = src.slice(0, e.start) + e.replacement + src.slice(e.end);
 
   // Re-parse the rewritten file, then insert hooks back-to-front.
   const names = new Set();
@@ -336,6 +380,7 @@ console.log(`arquivos analisados:            ${stats.files}`);
 console.log(`com string extraivel:           ${stats.withStrings}`);
 console.log(`${APPLY ? "alterados" : "alteraveis"}:${" ".repeat(APPLY ? 23 : 22)}${stats.changed}`);
 console.log(`chaves novas:                   ${stats.keys}`);
+console.log(`  das quais com interpolacao:   ${stats.interpolated}`);
 console.log(`recusados — exige <Trans>:      ${stats.needsTrans}`);
 console.log(`recusados — fora de componente: ${stats.noComponent}`);
 console.log(`recusados — corpo sem bloco:    ${stats.exprBody}`);

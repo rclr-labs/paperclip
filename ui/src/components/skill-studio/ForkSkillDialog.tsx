@@ -151,11 +151,7 @@ export function ForkSkillDialog({
             <GitFork className="h-4 w-4" />
             Edit a copy of {skill.name}
           </DialogTitle>
-          <DialogDescription>
-            {skill.name} is read-only because it comes from an external source.
-            Creating a fully editable copy in your workspace leaves the original
-            untouched and still updatable.
-          </DialogDescription>
+          <DialogDescription>{t("components.skillstudio.forkSkillDialog.isReadOnlyBecauseItComes", { name: skill.name })}</DialogDescription>
         </DialogHeader>
 
         {reusableFork ? (

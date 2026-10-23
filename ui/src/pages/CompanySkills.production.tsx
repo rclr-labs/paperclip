@@ -3328,7 +3328,7 @@ export function SkillDetailPage({
                         <SourceIcon className="h-4 w-4" />
                       </span>
                     </TooltipTrigger>
-                    <TooltipContent>Installed from {source.label}</TooltipContent>
+                    <TooltipContent>{t("pages.companySkillsproduction.installedFrom", { label: source.label })}</TooltipContent>
                   </Tooltip>
                 </div>
                 {/* GitHub-style "by" attribution sits directly under the title. */}
@@ -3621,7 +3621,7 @@ export function SkillDetailPage({
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle>{t("pages.companySkillsproduction.skillSettings")}</DialogTitle>
-            <DialogDescription>Manage how {detail.name} is grouped and shared.</DialogDescription>
+            <DialogDescription>{t("pages.companySkillsproduction.manageHowIsGroupedAndShared", { name: detail.name })}</DialogDescription>
           </DialogHeader>
           <div className="space-y-5">
             <div className="space-y-1.5">

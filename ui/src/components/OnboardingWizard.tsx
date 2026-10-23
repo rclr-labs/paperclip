@@ -3124,7 +3124,7 @@ function OnboardingWizardInner({
                             <span>{t("components.onboardingWizard.model")}</span>
                             <select aria-label={t("components.onboardingWizard.copilotModel")} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={model} disabled={adapterModelsFetching} onChange={(event) => setModel(event.target.value)}>
                               <option value="">{adapterModelsFetching ? "Loading models…" : "Select a model"}</option>
-                              {model && !adapterModels?.some((entry) => entry.id === model) && <option value={model}>{model} (unavailable)</option>}
+                              {model && !adapterModels?.some((entry) => entry.id === model) && <option value={model}>{t("components.onboardingWizard.unavailable", { model })}</option>}
                               {(adapterModels ?? []).map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
                             </select>
                             {adapterModelsError && <p role="alert" className="text-destructive">{adapterModelsError instanceof Error ? adapterModelsError.message : "Could not discover Copilot models."}</p>}

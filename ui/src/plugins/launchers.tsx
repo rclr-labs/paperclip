@@ -800,6 +800,7 @@ export function PluginLauncherOutlet({
   errorClassName,
   errorBehavior = "inline",
 }: PluginLauncherOutletProps) {
+  const { t } = useTranslation();
   const { activateLauncher } = usePluginLauncherRuntime();
   const { launchers, contributionsByPluginId, errorMessage } = usePluginLaunchers({
     placementZones,
@@ -810,9 +811,7 @@ export function PluginLauncherOutlet({
 
   if (errorMessage && errorBehavior === "inline") {
     return (
-      <div className={cn("rounded-md border border-destructive/30 bg-destructive/5 px-2 py-1 text-xs text-destructive", errorClassName)}>
-        Plugin launchers unavailable: {errorMessage}
-      </div>
+      <div className={cn("rounded-md border border-destructive/30 bg-destructive/5 px-2 py-1 text-xs text-destructive", errorClassName)}>{t("plugins.launchers.pluginLaunchersUnavailable", { errorMessage })}</div>
     );
   }
 
