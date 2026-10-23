@@ -3,6 +3,7 @@ import type { LabArtifact } from "../../kit";
 import { PanelIndex } from "./PanelIndex";
 import { PanelSection } from "./PanelSection";
 import { buildSections, type PanelFilter } from "./panel-model";
+import { useTranslation } from "@/i18n";
 
 /**
  * PANEL — the whole scroll body of the task pane's Artifacts tab.
@@ -22,12 +23,13 @@ import { buildSections, type PanelFilter } from "./panel-model";
  * the list scrolls.
  */
 export function PanelBody({ artifacts }: { artifacts: LabArtifact[] }) {
+  const { t } = useTranslation();
   const [filter, setFilter] = useState<PanelFilter>("all");
   const sections = useMemo(() => buildSections(artifacts, filter), [artifacts, filter]);
 
   if (artifacts.length === 0) {
     // The shipped empty state, word for word.
-    return <p className="px-1 py-6 text-sm text-(--tint-ink-2)">No artifacts yet. Work products, documents, and agent-produced files will appear here.</p>;
+    return <p className="px-1 py-6 text-sm text-(--tint-ink-2)">{t("artifactdirections.directions.d2tint.panelBody.noArtifactsYetWorkProductsDocuments")}</p>;
   }
 
   return (

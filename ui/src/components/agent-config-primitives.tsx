@@ -65,6 +65,7 @@ export const help: Record<string, string> = {
 };
 
 import { getAdapterLabels } from "../adapters/adapter-display-registry";
+import { useTranslation } from "@/i18n";
 
 export const adapterLabels = getAdapterLabels();
 
@@ -382,6 +383,7 @@ export function DraftNumberInput({
  * type the path due to browser security limitations.
  */
 export function ChoosePathButton() {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   return (
     <>
@@ -390,54 +392,53 @@ export function ChoosePathButton() {
         className="inline-flex items-center rounded-md border border-border px-2 py-0.5 text-xs text-muted-foreground hover:bg-accent/50 transition-colors shrink-0"
         onClick={() => setOpen(true)}
       >
-        Choose
+        {t("components.agentconfigprimitives.choose")}
       </button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Specify path manually</DialogTitle>
+            <DialogTitle>{t("components.agentconfigprimitives.specifyPathManually")}</DialogTitle>
             <DialogDescription>
-              Browser security blocks apps from reading full local paths via a file picker.
-              Copy the absolute path and paste it into the input.
+              {t("components.agentconfigprimitives.browserSecurityBlocksAppsFromReading")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 text-sm">
             <section className="space-y-1.5">
-              <p className="font-medium">macOS (Finder)</p>
+              <p className="font-medium">{t("components.agentconfigprimitives.macosFinder")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Find the folder in Finder.</li>
-                <li>Hold <kbd>Option</kbd> and right-click the folder.</li>
-                <li>Click "Copy &lt;folder name&gt; as Pathname".</li>
-                <li>Paste the result into the path input.</li>
+                <li>{t("components.agentconfigprimitives.findTheFolderInFinder")}</li>
+                <li>{t("components.agentconfigprimitives.hold")} <kbd>{t("components.agentconfigprimitives.option")}</kbd> {t("components.agentconfigprimitives.andRightClickTheFolder")}</li>
+                <li>{t("components.agentconfigprimitives.clickCopyFolderNameAsPathname")}</li>
+                <li>{t("components.agentconfigprimitives.pasteTheResultIntoThePath")}</li>
               </ol>
               <p className="rounded-md bg-muted px-2 py-1 font-mono text-xs">
                 /Users/yourname/Documents/project
               </p>
             </section>
             <section className="space-y-1.5">
-              <p className="font-medium">Windows (File Explorer)</p>
+              <p className="font-medium">{t("components.agentconfigprimitives.windowsFileExplorer")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Find the folder in File Explorer.</li>
-                <li>Hold <kbd>Shift</kbd> and right-click the folder.</li>
-                <li>Click "Copy as path".</li>
-                <li>Paste the result into the path input.</li>
+                <li>{t("components.agentconfigprimitives.findTheFolderInFileExplorer")}</li>
+                <li>{t("components.agentconfigprimitives.hold")} <kbd>{t("components.agentconfigprimitives.shift")}</kbd> {t("components.agentconfigprimitives.andRightClickTheFolder")}</li>
+                <li>{t("components.agentconfigprimitives.clickCopyAsPath")}</li>
+                <li>{t("components.agentconfigprimitives.pasteTheResultIntoThePath")}</li>
               </ol>
               <p className="rounded-md bg-muted px-2 py-1 font-mono text-xs">
                 C:\Users\yourname\Documents\project
               </p>
             </section>
             <section className="space-y-1.5">
-              <p className="font-medium">Terminal fallback (macOS/Linux)</p>
+              <p className="font-medium">{t("components.agentconfigprimitives.terminalFallbackMacosLinux")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Run <code>cd /path/to/folder</code>.</li>
-                <li>Run <code>pwd</code>.</li>
-                <li>Copy the output and paste it into the path input.</li>
+                <li>{t("components.agentconfigprimitives.run")} <code>{t("components.agentconfigprimitives.cdPathToFolder")}</code>.</li>
+                <li>{t("components.agentconfigprimitives.run")} <code>pwd</code>.</li>
+                <li>{t("components.agentconfigprimitives.copyTheOutputAndPasteIt")}</li>
               </ol>
             </section>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setOpen(false)}>
-              OK
+              {t("components.agentconfigprimitives.ok")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -27,6 +27,7 @@ import { ApiError } from "../../api/client";
 import { queryKeys } from "../../lib/queryKeys";
 import { cn } from "../../lib/utils";
 import { useToastActions } from "../../context/ToastContext";
+import { useTranslation } from "@/i18n";
 import {
   coverageSummaryLabel,
   secretStatusTone,
@@ -64,6 +65,7 @@ const emptyForm: DefinitionForm = {
  * only — never values — per the UX terminology decisions.
  */
 export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -156,15 +158,14 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
       <div className="flex items-start gap-2 rounded-md border border-violet-500/30 bg-violet-500/5 px-4 py-3 text-xs text-violet-800 dark:text-violet-200">
         <UserRound className="h-4 w-4 mt-0.5 shrink-0" />
         <p>
-          Define credentials that <span className="font-medium">each member supplies for
-          themselves</span>. You set the shape here; every user enters their own value under My
+          {t("pages.secrets.userSecretDefinitionsTab.defineCredentialsThat")} <span className="font-medium">{t("pages.secrets.userSecretDefinitionsTab.eachMemberSuppliesForThemselves")}</span>. You set the shape here; every user enters their own value under My
           secrets. Coverage shows how many members have set a value — never the values themselves.
         </p>
       </div>
 
       <div className="flex items-center justify-end">
         <Button size="sm" onClick={openCreate}>
-          <Plus className="mr-1 h-3.5 w-3.5" /> New user secret
+          <Plus className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.userSecretDefinitionsTab.newUserSecret")}
         </Button>
       </div>
 
@@ -174,7 +175,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
             <AlertCircle className="h-4 w-4" /> Failed to load definitions:{" "}
             {(definitionsQuery.error as Error).message}
             <Button variant="ghost" size="sm" onClick={() => definitionsQuery.refetch()}>
-              Retry
+              {t("pages.secrets.userSecretDefinitionsTab.retry")}
             </Button>
           </div>
         ) : definitions.length === 0 && !definitionsQuery.isPending ? (
@@ -238,13 +239,13 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
               <UserSecretChip />
             </DialogTitle>
             <DialogDescription>
-              Members supply their own value for this credential. No value is entered here.
+              {t("pages.secrets.userSecretDefinitionsTab.membersSupplyTheirOwnValueFor")}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-3">
             <div className="space-y-1">
-              <label className="text-xs font-medium text-foreground">Name</label>
+              <label className="text-xs font-medium text-foreground">{t("pages.secrets.userSecretDefinitionsTab.name")}</label>
               <Input
                 value={form.name}
                 onChange={(event) => {
@@ -255,12 +256,12 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
                     key: keyDirty ? current.key : keyFromName(name),
                   }));
                 }}
-                placeholder="Personal GitHub token"
+                placeholder={t("pages.secrets.userSecretDefinitionsTab.personalGithubToken")}
                 autoFocus
               />
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium text-foreground">Key</label>
+              <label className="text-xs font-medium text-foreground">{t("pages.secrets.userSecretDefinitionsTab.key")}</label>
               <Input
                 value={form.key}
                 onChange={(event) => {
@@ -276,31 +277,31 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
               </p>
             </div>
             <div className="space-y-1">
-              <label className="text-xs font-medium text-foreground">Description</label>
+              <label className="text-xs font-medium text-foreground">{t("pages.secrets.userSecretDefinitionsTab.description")}</label>
               <Input
                 value={form.description}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, description: event.target.value }))
                 }
-                placeholder="What this credential is for"
+                placeholder={t("pages.secrets.userSecretDefinitionsTab.whatThisCredentialIsFor")}
               />
             </div>
             <div className="space-y-1">
               <label className="text-xs font-medium text-foreground">
-                Usage guidance <span className="text-muted-foreground">(optional)</span>
+                {t("pages.secrets.userSecretDefinitionsTab.usageGuidance")} <span className="text-muted-foreground">{t("pages.secrets.userSecretDefinitionsTab.optional")}</span>
               </label>
               <Textarea
                 value={form.usageGuidance}
                 onChange={(event) =>
                   setForm((current) => ({ ...current, usageGuidance: event.target.value }))
                 }
-                placeholder="Tell members how to create their token, required scopes, etc."
+                placeholder={t("pages.secrets.userSecretDefinitionsTab.tellMembersHowToCreateTheir")}
                 className="min-h-(--sz-70px) text-sm"
               />
             </div>
             {editing ? (
               <div className="space-y-1">
-                <label className="text-xs font-medium text-foreground">Status</label>
+                <label className="text-xs font-medium text-foreground">{t("pages.secrets.userSecretDefinitionsTab.status")}</label>
                 <Select
                   value={form.status}
                   onValueChange={(status) =>
@@ -311,9 +312,9 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="disabled">Disabled</SelectItem>
-                    <SelectItem value="archived">Archived</SelectItem>
+                    <SelectItem value="active">{t("pages.secrets.userSecretDefinitionsTab.active")}</SelectItem>
+                    <SelectItem value="disabled">{t("pages.secrets.userSecretDefinitionsTab.disabled")}</SelectItem>
+                    <SelectItem value="archived">{t("pages.secrets.userSecretDefinitionsTab.archived")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -323,7 +324,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
 
           <DialogFooter>
             <Button variant="ghost" onClick={() => setDialogOpen(false)} disabled={save.isPending}>
-              Cancel
+              {t("pages.secrets.userSecretDefinitionsTab.cancel")}
             </Button>
             <Button onClick={() => save.mutate()} disabled={!canSave || save.isPending}>
               {save.isPending ? "Saving…" : editing ? "Save changes" : "Create"}
@@ -336,15 +337,14 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
       <Dialog open={deleteTarget !== null} onOpenChange={(open) => !open && setDeleteTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Remove user secret?</DialogTitle>
+            <DialogTitle>{t("pages.secrets.userSecretDefinitionsTab.removeUserSecret")}</DialogTitle>
             <DialogDescription>
-              This removes the definition <span className="font-mono">{deleteTarget?.key}</span> for
-              the whole company. Existing member values become unreferenced. This cannot be undone.
+              {t("pages.secrets.userSecretDefinitionsTab.thisRemovesTheDefinition")} <span className="font-mono">{deleteTarget?.key}</span> {t("pages.secrets.userSecretDefinitionsTab.forTheWholeCompanyExistingMember")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setDeleteTarget(null)} disabled={remove.isPending}>
-              Cancel
+              {t("pages.secrets.userSecretDefinitionsTab.cancel")}
             </Button>
             <Button
               variant="destructive"

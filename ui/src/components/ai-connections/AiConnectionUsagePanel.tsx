@@ -5,6 +5,7 @@ import { aiConnectionsApi } from "@/api/ai-connections";
 import { Button } from "@/components/ui/button";
 import { QuotaBar } from "@/components/QuotaBar";
 import { formatDateTime, formatNumber } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 const usageNumber = (value: number) => formatNumber(value, { maximumFractionDigits: 20 });
 const amount = (value: number, unit: string | null) => unit === "USD"
@@ -73,26 +74,27 @@ function usageError(usage: AiConnectionUsage) {
 }
 
 export function AiConnectionUsagePanel({ account, observation, cachedOnly = false }: { account: AiManagedConnectionSummary; observation?: AiConnectionUsage; cachedOnly?: boolean }) {
+  const { t } = useTranslation();
   const probe = useMutation({
     mutationFn: () => aiConnectionsApi.probeUsage(account.companyId, account.id, account.grantId),
   });
   const supported = supportsAiConnectionUsage(account.provider, account.method);
   const usage = cachedOnly ? observation : probe.isSuccess ? probe.data : undefined;
   return (
-    <section aria-label="Account usage limits" className="space-y-3">
+    <section aria-label={t("components.aiconnections.aiConnectionUsagePanel.accountUsageLimits")} className="space-y-3">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h3 className="text-sm font-semibold">Usage</h3>
+        <h3 className="text-sm font-semibold">{t("components.aiconnections.aiConnectionUsagePanel.usage")}</h3>
         {supported && !cachedOnly && <Button variant="outline" size="sm" disabled={probe.isPending || account.status !== "connected"} onClick={() => probe.mutate()}>
           {probe.isPending ? "Checking…" : usage?.status === "ok" ? "Refresh" : "Check usage"}
         </Button>}
       </div>
-      {cachedOnly && !usage && <p className="text-xs text-muted-foreground">Usage not observed.</p>}
-      {!supported && <p className="text-xs text-muted-foreground">Unavailable for this sign-in method.</p>}
+      {cachedOnly && !usage && <p className="text-xs text-muted-foreground">{t("components.aiconnections.aiConnectionUsagePanel.usageNotObserved")}</p>}
+      {!supported && <p className="text-xs text-muted-foreground">{t("components.aiconnections.aiConnectionUsagePanel.unavailableForThisSignInMethod")}</p>}
       {probe.error && <p role="alert" className="text-sm text-destructive">{probe.error.message}</p>}
       {usage && usage.status !== "ok" && <p role={usage.status === "unsupported" ? "status" : "alert"} className="text-sm text-muted-foreground">{usageError(usage)}</p>}
       {usage?.status === "ok" && (
         <div className="space-y-3" aria-live="polite">
-          {usage.limits.length === 0 && <p className="text-xs text-muted-foreground">Usage not reported.</p>}
+          {usage.limits.length === 0 && <p className="text-xs text-muted-foreground">{t("components.aiconnections.aiConnectionUsagePanel.usageNotReported")}</p>}
           {usage.limits.map((window) => {
             const details = limitDetails(window);
             return <div key={window.id} className="space-y-1.5">
@@ -105,7 +107,7 @@ export function AiConnectionUsagePanel({ account, observation, cachedOnly = fals
             </div>;
           })}
           {usage.overage && <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-            <span className="text-muted-foreground">Overage</span>
+            <span className="text-muted-foreground">{t("components.aiconnections.aiConnectionUsagePanel.overage")}</span>
             <span className="font-mono">{overageSummary(usage)}</span>
           </div>}
           <p className="text-xs text-muted-foreground">Updated <time className="font-mono" dateTime={usage.checkedAt} title={formatDateTime(usage.checkedAt)}>{formatDateTime(usage.checkedAt, { includeYear: false })}</time>{usage.planType ? ` · ${usage.planType}` : ""}</p>

@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deriveInitials } from "./Identity";
+import { useTranslation } from "@/i18n";
 
 export type DocumentFrameHeaderRevisionActor = {
   kind: "agent" | "user" | "system";
@@ -80,6 +81,7 @@ export function DocumentFrameHeader({
   titleSlot,
   actionsSlot,
 }: DocumentFrameHeaderProps) {
+  const { t } = useTranslation();
   return (
     <div className="flex items-start justify-between gap-3">
       <div className="min-w-0">
@@ -122,9 +124,9 @@ export function DocumentFrameHeader({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-72">
-                <DropdownMenuLabel>Revision history</DropdownMenuLabel>
+                <DropdownMenuLabel>{t("components.documentFrameHeader.revisionHistory")}</DropdownMenuLabel>
                 {revisionMenu.loading && revisionMenu.revisions.length === 0 ? (
-                  <DropdownMenuItem disabled>Loading revisions...</DropdownMenuItem>
+                  <DropdownMenuItem disabled>{t("components.documentFrameHeader.loadingRevisions")}</DropdownMenuItem>
                 ) : revisionMenu.revisions.length > 0 ? (
                   <DropdownMenuRadioGroup value={revisionMenu.selectedRevisionId ?? revisionMenu.currentRevisionId ?? ""}>
                     {revisionMenu.revisions.map((revision) => {
@@ -157,7 +159,7 @@ export function DocumentFrameHeader({
                     })}
                   </DropdownMenuRadioGroup>
                 ) : (
-                  <DropdownMenuItem disabled>No revisions yet</DropdownMenuItem>
+                  <DropdownMenuItem disabled>{t("components.documentFrameHeader.noRevisionsYet")}</DropdownMenuItem>
                 )}
               </DropdownMenuContent>
             </DropdownMenu>

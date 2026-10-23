@@ -2,6 +2,7 @@ import { AlertCircle, Check, FileText, LoaderCircle } from 'lucide-react';
 import type { SkillSourceCandidate, SkillSourceScanProgress } from '@paperclipai/shared';
 import { formatBytes } from '@/lib/issue-output';
 import { GithubIcon } from '@/components/icons/github-icon';
+import { useTranslation } from "@/i18n";
 
 export type FoundSkill = Pick<SkillSourceCandidate, 'path' | 'name' | 'description' | 'fileCount' | 'error'>;
 export function SkillImportProgress({ repository, progress, found = [], importing = false, count = 0 }: {
@@ -11,6 +12,7 @@ export function SkillImportProgress({ repository, progress, found = [], importin
   importing?: boolean;
   count?: number;
 }) {
+  const { t } = useTranslation();
   const phase = progress?.phase ?? 'connecting';
   const step = phase === 'connecting' || phase === 'downloading' ? 0 : phase === 'listing' ? 1 : 2;
   const download = phase === 'downloading' ? progress?.download : undefined;
@@ -39,9 +41,9 @@ export function SkillImportProgress({ repository, progress, found = [], importin
         </div>
       </div>
       {!importing && download ? <progress className="skill-import-progress h-1 w-full" value={download.percent} max={100} aria-label={download.stage === 'resolving' ? 'Preparing repository' : 'Repository download'} /> : checking && total > 0
-        ? <progress className="skill-import-progress h-1 w-full" value={progress?.checkedSkills ?? 0} max={total} aria-label="Skills checked" />
+        ? <progress className="skill-import-progress h-1 w-full" value={progress?.checkedSkills ?? 0} max={total} aria-label={t("pages.skills.skillImportProgress.skillsChecked")} />
         : <div className="h-1 overflow-hidden rounded-full bg-muted" role="progressbar" aria-label={importing ? 'Saving skill snapshots' : 'Scanning repository'}><div className="skill-import-sweep h-full rounded-full bg-foreground/30" /></div>}
-      {!importing && <ol className="flex items-center justify-between gap-2 text-xs text-muted-foreground" aria-label="Scan stages">
+      {!importing && <ol className="flex items-center justify-between gap-2 text-xs text-muted-foreground" aria-label={t("pages.skills.skillImportProgress.scanStages")}>
         {['Download', 'Find skills', 'Check files'].map((label, index) => <li key={label} className={`flex items-center gap-1.5 ${index === step ? 'text-foreground' : ''}`} aria-current={index === step ? 'step' : undefined}>
           {index < step ? <Check className="size-3" aria-hidden /> : <span className={`size-1.5 rounded-full ${index === step ? 'bg-foreground motion-safe:animate-pulse' : 'bg-muted-foreground/40'}`} />}{label}
         </li>)}

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { EmptyState } from "./EmptyState";
 import { EnvironmentVariablesEditor } from "./environment-variables-editor";
 import { AgentAvatar, type AvatarAgent } from "./AgentAvatar";
+import { useTranslation } from "@/i18n";
 
 export interface StageSecretsPanelProps {
   /** Whether the stage has a backing automation routine with an assignee. */
@@ -47,6 +48,7 @@ export function StageSecretsPanel({
   saving,
   dirty,
 }: StageSecretsPanelProps) {
+  const { t } = useTranslation();
   // No backing automation/assignee → nothing can receive secrets at runtime.
   // Point the user at Automation instead of creating a hidden routine just
   // because the Secrets tab was opened.
@@ -80,7 +82,7 @@ export function StageSecretsPanel({
       </div>
 
       {secretsLoading ? (
-        <p className="text-sm text-muted-foreground">Loading secrets…</p>
+        <p className="text-sm text-muted-foreground">{t("components.stageSecretsPanel.loadingSecrets")}</p>
       ) : (
         <EnvironmentVariablesEditor
           value={value}
@@ -95,7 +97,7 @@ export function StageSecretsPanel({
           <Save className="h-4 w-4 mr-1.5" />
           {saving ? "Saving…" : "Save secrets"}
         </Button>
-        {dirty && !saving ? <span className="text-xs text-muted-foreground">Unsaved changes</span> : null}
+        {dirty && !saving ? <span className="text-xs text-muted-foreground">{t("components.stageSecretsPanel.unsavedChanges")}</span> : null}
       </div>
     </div>
   );

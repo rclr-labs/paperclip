@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import type { LabArtifact } from "../../kit";
+import { useTranslation } from "@/i18n";
 
 /**
  * SIGNATURE ELEMENT 3 — the state mark.
@@ -66,12 +67,13 @@ export function StateDot({ review, className }: { review: LabArtifact["review"];
  * artifacts — a panel section, a folder's pocket, an opened stack's caption.
  */
 export function ReviewTally({ count, className }: { count: number; className?: string }) {
+  const { t } = useTranslation();
   if (count <= 0) return null;
   return (
     <p data-tally className={cn("flex shrink-0 items-center gap-1.5 text-xs font-medium leading-4 text-foreground", className)}>
       <StateDot review="needs_review" />
       <span>
-        <span className="font-mono text-(length:--text-micro)">{count}</span> to review
+        <span className="font-mono text-(length:--text-micro)">{count}</span> {t("artifactdirections.directions.d4hybrid.stateMark.toReview")}
       </span>
     </p>
   );

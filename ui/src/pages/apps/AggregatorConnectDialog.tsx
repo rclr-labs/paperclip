@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AppLogo } from "./AppLogo";
 import { remoteMcpProviders } from "@/features/connections/remote-mcp/providers";
 import { ComposioAppSetup } from "./ComposioAppSetup";
+import { useTranslation } from "@/i18n";
 
 export function aggregatorAppConnectHref(route: AggregatorAppRoute, connection?: ToolConnection) {
   const params = new URLSearchParams({ source: route.provider, targetToolkit: route.toolkit });
@@ -23,6 +24,7 @@ export function AggregatorConnectDialog({ app, connections, initialProvider, onC
   onClose: () => void;
   onNavigate: (href: string) => void;
 }) {
+  const { t } = useTranslation();
   const [selectedAccountId, setSelectedAccountId] = useState("");
   const [selected, setSelected] = useState<AggregatorAppRoute | null>(() => app.routes.find(route => route.provider === initialProvider) ?? (app.routes.length === 1 ? app.routes[0] : null));
   const canChooseProvider = app.routes.length > 1;
@@ -70,8 +72,8 @@ export function AggregatorConnectDialog({ app, connections, initialProvider, onC
       {selected?.provider !== "composio" ? <DialogFooter className="sm:items-center sm:justify-between">
         <Button variant="ghost" onClick={selected && canChooseProvider ? () => setSelected(null) : onClose}>{selected && canChooseProvider ? "Back" : "Cancel"}</Button>
         {selected ? <div className="flex flex-wrap items-center gap-3">
-          {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer" onClick={onClose}>Continue<ExternalLink className="size-4" /></a></Button> : null}
-          <Button variant="link" size="sm" className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground" onClick={() => { onNavigate(`${aggregatorAppConnectHref(selected)}&new=1`); onClose(); }}>Connect a new account</Button>
+          {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer" onClick={onClose}>{t("pages.apps.aggregatorConnectDialog.continue")}<ExternalLink className="size-4" /></a></Button> : null}
+          <Button variant="link" size="sm" className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground" onClick={() => { onNavigate(`${aggregatorAppConnectHref(selected)}&new=1`); onClose(); }}>{t("pages.apps.aggregatorConnectDialog.connectANewAccount")}</Button>
         </div> : null}
       </DialogFooter> : null}
     </DialogContent>

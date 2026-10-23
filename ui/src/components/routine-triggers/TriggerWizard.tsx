@@ -20,6 +20,7 @@ import { useBreadcrumbs } from "@/context/BreadcrumbContext";
 import { cn } from "@/lib/utils";
 import { AgentInstructions, CopyField } from "./WebhookFields";
 import { WebhookUrlWarning } from "./WebhookUrlWarning";
+import { useTranslation } from "@/i18n";
 
 export type TriggerDraft = {
   kind: "choose" | "schedule" | "webhook";
@@ -126,6 +127,7 @@ export function RoutineTriggerWizard({
   onFinish: (draft: TriggerDraft) => void | Promise<void>;
   checkResult?: "waiting" | "received" | "rejected" | "no_event";
 }) {
+  const { t } = useTranslation();
   const [draft, setDraft] = useState(initialDraft);
   const [busy, setBusy] = useState(false);
   const [saveError, setSaveError] = useState("");
@@ -218,7 +220,7 @@ export function RoutineTriggerWizard({
     "w-full rounded-md border border-input bg-background px-3 py-2 text-sm";
   const goBack = (
     <Button variant="outline" onClick={() => patch({ step: draft.step - 1 })}>
-      Back
+      {t("components.routinetriggers.triggerWizard.back")}
     </Button>
   );
   return (
@@ -240,7 +242,7 @@ export function RoutineTriggerWizard({
         {!schedule && draft.step > 0 && <WebhookUrlWarning url={webhookUrl} />}
         {draft.step === 0 && (
           <fieldset className="space-y-3">
-            <legend className="sr-only">Trigger type</legend>
+            <legend className="sr-only">{t("components.routinetriggers.triggerWizard.triggerType")}</legend>
             {(
               [
                 {
@@ -297,20 +299,20 @@ export function RoutineTriggerWizard({
           <div className="space-y-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="repeat">Repeat</Label>
+                <Label htmlFor="repeat">{t("components.routinetriggers.triggerWizard.repeat")}</Label>
                 <select
                   id="repeat"
                   className={selectClass}
                   value={draft.frequency}
                   onChange={(event) => patch({ frequency: event.target.value })}
                 >
-                  <option value="daily">Every day</option>
-                  <option value="weekdays">Weekdays (Monday–Friday)</option>
-                  <option value="weekly">Every week</option>
+                  <option value="daily">{t("components.routinetriggers.triggerWizard.everyDay")}</option>
+                  <option value="weekdays">{t("components.routinetriggers.triggerWizard.weekdaysMondayFriday")}</option>
+                  <option value="weekly">{t("components.routinetriggers.triggerWizard.everyWeek")}</option>
                 </select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="run-time">Time</Label>
+                <Label htmlFor="run-time">{t("components.routinetriggers.triggerWizard.time")}</Label>
                 <Input
                   id="run-time"
                   type="time"
@@ -321,7 +323,7 @@ export function RoutineTriggerWizard({
             </div>
             {draft.frequency === "weekly" && (
               <div className="space-y-2">
-                <Label htmlFor="run-day">Day</Label>
+                <Label htmlFor="run-day">{t("components.routinetriggers.triggerWizard.day")}</Label>
                 <select
                   id="run-day"
                   className={selectClass}
@@ -343,7 +345,7 @@ export function RoutineTriggerWizard({
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="timezone">Time zone</Label>
+              <Label htmlFor="timezone">{t("components.routinetriggers.triggerWizard.timeZone")}</Label>
               <select
                 id="timezone"
                 className={selectClass}
@@ -364,7 +366,7 @@ export function RoutineTriggerWizard({
                 ))}
               </select>
               <p className="text-xs text-muted-foreground">
-                The time follows this zone, including daylight saving changes.
+                {t("components.routinetriggers.triggerWizard.theTimeFollowsThisZoneIncluding")}
               </p>
             </div>
           </div>
@@ -381,15 +383,14 @@ export function RoutineTriggerWizard({
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
-              Each scheduled run creates a task for the routine’s assigned
-              agent. Any existing webhook triggers will continue to work.
+              {t("components.routinetriggers.triggerWizard.eachScheduledRunCreatesATask")}
             </p>
           </div>
         )}
         {draft.step === 0 && draft.kind === "webhook" && (
           <fieldset className="space-y-2">
             <legend className="mb-2 text-sm font-medium">
-              What’s sending the webhook?
+              {t("components.routinetriggers.triggerWizard.whatSSendingTheWebhook")}
             </legend>
             <div className="grid gap-2 sm:grid-cols-2">
               {(
@@ -430,7 +431,7 @@ export function RoutineTriggerWizard({
         )}
         {draft.kind === "webhook" && draft.step === 0 && (
           <p className="text-sm text-muted-foreground">
-            Public services need a publicly reachable HTTPS webhook URL.
+            {t("components.routinetriggers.triggerWizard.publicServicesNeedAPubliclyReachable")}
           </p>
         )}
         {!schedule && draft.step === 1 && (
@@ -468,14 +469,13 @@ export function RoutineTriggerWizard({
             ) : (
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  The key is hidden after leaving setup. If you haven’t saved it
-                  in your app, generate a replacement.
+                  {t("components.routinetriggers.triggerWizard.theKeyIsHiddenAfterLeaving")}
                 </p>
                 <Button
                   variant="outline"
                   onClick={() => void perform(() => onRotateKey?.())}
                 >
-                  Generate new key
+                  {t("components.routinetriggers.triggerWizard.generateNewKey")}
                 </Button>
               </div>
             )}
@@ -484,10 +484,9 @@ export function RoutineTriggerWizard({
         {!schedule && draft.step === 2 && (
           <div className="space-y-5">
             <div className="space-y-1 rounded-md border border-border p-4">
-              <p className="text-sm font-medium">Connection test only</p>
+              <p className="text-sm font-medium">{t("components.routinetriggers.triggerWizard.connectionTestOnly")}</p>
               <p className="text-sm text-muted-foreground">
-                Events received during setup won’t start the routine or create
-                tasks.
+                {t("components.routinetriggers.triggerWizard.eventsReceivedDuringSetupWonT")}
               </p>
             </div>
             <div className="space-y-2">
@@ -500,7 +499,7 @@ export function RoutineTriggerWizard({
                   : "Look for “Send test” in your app’s webhook settings. If it doesn’t have one, do the action that should trigger the webhook—for example, complete a deployment."}
               </p>
               <p className="text-xs text-muted-foreground">
-                Keep this page open to see the test result.
+                {t("components.routinetriggers.triggerWizard.keepThisPageOpenToSee")}
               </p>
             </div>
             <div
@@ -535,14 +534,13 @@ export function RoutineTriggerWizard({
             </div>
             <details>
               <summary className="cursor-pointer text-xs text-muted-foreground">
-                Troubleshoot delivery
+                {t("components.routinetriggers.triggerWizard.troubleshootDelivery")}
               </summary>
               <div className="space-y-3 pt-3">
                 <p className="text-xs text-muted-foreground">
-                  Check that the webhook is enabled in your sending app and that
-                  its URL matches. Scripts must send POST with a JSON body.
+                  {t("components.routinetriggers.triggerWizard.checkThatTheWebhookIsEnabled")}
                 </p>
-                <CopyField label="Webhook URL" value={webhookUrl} />
+                <CopyField label={t("components.routinetriggers.triggerWizard.webhookUrl")} value={webhookUrl} />
               </div>
             </details>
           </div>
@@ -556,8 +554,7 @@ export function RoutineTriggerWizard({
         )}
         {schedule && draft.step === 2 && !routineActive && (
           <p className="text-sm text-muted-foreground">
-            The routine is paused. Enable its automatic triggers when you’re
-            ready to use this schedule.
+            {t("components.routinetriggers.triggerWizard.theRoutineIsPausedEnableIts")}
           </p>
         )}
         {saveError && (
@@ -569,20 +566,20 @@ export function RoutineTriggerWizard({
           {draft.step > 0 && goBack}
           {draft.step === 0 ? (
             <Button disabled={draft.kind === "choose"} onClick={advance}>
-              Continue
+              {t("components.routinetriggers.triggerWizard.continue")}
             </Button>
           ) : schedule ? (
             draft.step === 1 ? (
               <Button disabled={!draft.time} onClick={advance}>
-                Review schedule
+                {t("components.routinetriggers.triggerWizard.reviewSchedule")}
               </Button>
             ) : (
               <Button onClick={() => void perform(() => onFinish(draft))}>
-                Add schedule
+                {t("components.routinetriggers.triggerWizard.addSchedule")}
               </Button>
             )
           ) : draft.step === 1 ? (
-            <Button onClick={advance}>Check connection</Button>
+            <Button onClick={advance}>{t("components.routinetriggers.triggerWizard.checkConnection")}</Button>
           ) : (
             <Button onClick={() => void perform(() => onFinish(draft))}>
               {checkResult === "received"

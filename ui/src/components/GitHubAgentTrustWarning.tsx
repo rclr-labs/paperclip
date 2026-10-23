@@ -2,6 +2,7 @@ import { AlertTriangle, ExternalLink } from "lucide-react";
 import type { AgentPermissions } from "@paperclipai/shared";
 import { getTrustPreset } from "@/lib/trust-policy-ui";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n";
 
 export const LOW_TRUST_AGENT_GUIDE =
   "https://docs.paperclip.ing/administration/trust-and-low-trust-review/";
@@ -16,6 +17,7 @@ export function GitHubAgentTrustWarning({
   onChangeToLowTrust?: () => void;
   disabled?: boolean;
 }) {
+  const { t } = useTranslation();
   if (!agent || getTrustPreset(agent.permissions) === "low_trust_review")
     return null;
   return (
@@ -28,13 +30,10 @@ export function GitHubAgentTrustWarning({
         {agent.name} is not configured for low-trust review
       </p>
       <p>
-        GitHub comments and pull requests can contain malicious instructions. We
-        recommend a low-trust agent with a scoped work boundary and an isolated
-        sandbox runtime.
+        {t("components.gitHubAgentTrustWarning.githubCommentsAndPullRequestsCan")}
       </p>
       <p className="text-xs text-muted-foreground">
-        Continuing keeps this agent’s current permissions. A restricted guest
-        profile does not replace the agent’s trust and runtime settings.
+        {t("components.gitHubAgentTrustWarning.continuingKeepsThisAgentSCurrent")}
       </p>
       {onChangeToLowTrust && (
         <Button variant="outline" className="h-auto whitespace-normal" disabled={disabled} onClick={onChangeToLowTrust}>
@@ -47,7 +46,7 @@ export function GitHubAgentTrustWarning({
         target="_blank"
         rel="noreferrer"
       >
-        Learn about low-trust agents
+        {t("components.gitHubAgentTrustWarning.learnAboutLowTrustAgents")}
         <ExternalLink className="size-3.5" />
       </a>
     </div>

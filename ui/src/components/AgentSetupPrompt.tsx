@@ -8,6 +8,7 @@ import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
 import { copyTextToClipboard } from "@/lib/clipboard";
 import { motionMilliseconds, motionNumber } from "@/lib/onboarding-motion-tokens";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 export interface AgentSetupPromptProps {
   /** The complete text to preview and copy; never truncated on the clipboard. */
@@ -77,6 +78,7 @@ export function AgentSetupPrompt({
   onCopied,
   agent,
 }: AgentSetupPromptProps) {
+  const { t } = useTranslation();
   const agents = agent ? [agent] : defaultAgents;
   const recipient = agent ? `your ${agent.name}` : "your agent";
   const id = useId();
@@ -201,7 +203,7 @@ export function AgentSetupPrompt({
             {status === "copied" ? <Check className="agent-setup-check size-4" /> : <Terminal className="size-4 text-muted-foreground" />}
             <span className="relative min-w-0">
               <span className={status === "copied" ? "invisible" : undefined}>{label}</span>
-              {status === "copied" && <span className="agent-setup-confirmation absolute inset-0 flex items-center">Copied!</span>}
+              {status === "copied" && <span className="agent-setup-confirmation absolute inset-0 flex items-center">{t("components.agentSetupPrompt.copied")}</span>}
             </span>
             <span className="agent-setup-trigger-logos" data-single={Boolean(agent)}><AgentLogos agents={agents} ref={triggerLogos} hidden={open || Boolean(flight)} /></span>
           </Button>
@@ -228,7 +230,7 @@ export function AgentSetupPrompt({
               <h2 id={`${id}-title`} className="text-sm font-semibold">{title}</h2>
               <p id={`${id}-description`} className="text-sm leading-relaxed text-muted-foreground">{description}</p>
             </div>
-            <Button type="button" variant="ghost" size="icon-xs" aria-label="Close agent setup" onClick={() => changeOpen(false)}>
+            <Button type="button" variant="ghost" size="icon-xs" aria-label={t("components.agentSetupPrompt.closeAgentSetup")} onClick={() => changeOpen(false)}>
               <X className="size-3.5" />
             </Button>
           </div>
@@ -237,20 +239,20 @@ export function AgentSetupPrompt({
             <div className="agent-setup-preview-logos absolute right-3 top-0 z-10"><AgentLogos agents={agents} ref={previewLogos} hidden={Boolean(flight)} /></div>
             {status === "failed" ? (
               <Textarea
-                aria-label="Setup prompt"
+                aria-label={t("components.agentSetupPrompt.setupPrompt")}
                 readOnly
                 value={prompt}
                 onFocus={(event) => event.currentTarget.select()}
                 className="agent-setup-preview resize-none rounded-lg bg-muted/50 p-3 pt-5 font-mono text-xs leading-relaxed"
               />
             ) : (
-              <pre tabIndex={0} aria-label="Setup prompt" className="agent-setup-preview m-0 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-muted/50 p-3 pt-5 font-mono text-xs leading-relaxed text-muted-foreground">{prompt}</pre>
+              <pre tabIndex={0} aria-label={t("components.agentSetupPrompt.setupPrompt")} className="agent-setup-preview m-0 overflow-auto whitespace-pre-wrap break-words rounded-lg border border-border/60 bg-muted/50 p-3 pt-5 font-mono text-xs leading-relaxed text-muted-foreground">{prompt}</pre>
             )}
           </div>
 
           <div className="flex flex-col gap-2">
             {status === "failed" && (
-              <p role="alert" className="text-xs text-destructive">Could not copy automatically. Select and copy the prompt above, or try again.</p>
+              <p role="alert" className="text-xs text-destructive">{t("components.agentSetupPrompt.couldNotCopyAutomaticallySelectAnd")}</p>
             )}
             <Button
               ref={copyButton}

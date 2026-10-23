@@ -17,8 +17,10 @@ import { ArchivedStatusCardRow } from "./ArchivedStatusCardRow";
 import { CreateStatusCardDialog } from "./CreateStatusCardDialog";
 import { StatusCardDetailDrawer } from "./StatusCardDetailDrawer";
 import type { StatusCardView } from "./types";
+import { useTranslation } from "@/i18n";
 
 export function StatusCards() {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
   const navigate = useNavigate();
@@ -116,10 +118,10 @@ export function StatusCards() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold">Status</h1>
+          <h1 className="text-xl font-bold">{t("pages.statusCards.index.status")}</h1>
           <Badge variant="secondary" className="gap-1">
             <FlaskConical className="h-3 w-3" />
-            Experimental
+            {t("pages.statusCards.index.experimental")}
           </Badge>
         </div>
         <div className="flex items-center gap-4">
@@ -130,25 +132,25 @@ export function StatusCards() {
           ) : null}
           <Button onClick={() => setCreateOpen(true)} disabled={!selectedCompanyId}>
             <Plus className="h-4 w-4" />
-            New card
+            {t("pages.statusCards.index.newCard")}
           </Button>
         </div>
       </div>
 
-      {actionError ? <InlineBanner tone="warning" title="Heads up">{actionError}</InlineBanner> : null}
+      {actionError ? <InlineBanner tone="warning" title={t("pages.statusCards.index.headsUp")}>{actionError}</InlineBanner> : null}
 
       {activeQuery.isLoading ? (
         <div className="flex items-center gap-2 py-12 text-sm text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" /> Loading cards…
+          <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.index.loadingCards")}
         </div>
       ) : activeQuery.isError ? (
-        <InlineBanner tone="danger" title="Could not load status cards">
+        <InlineBanner tone="danger" title={t("pages.statusCards.index.couldNotLoadStatusCards")}>
           {activeQuery.error instanceof Error ? activeQuery.error.message : "Try again."}
         </InlineBanner>
       ) : activeCards.length === 0 ? (
         <EmptyState
           icon={FlaskConical}
-          title="No status cards yet"
+          title={t("pages.statusCards.index.noStatusCardsYet")}
           message="Create a card to keep a living summary of the issues you care about."
           action={selectedCompanyId ? "New card" : undefined}
           onAction={() => setCreateOpen(true)}

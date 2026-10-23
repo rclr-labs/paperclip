@@ -15,6 +15,7 @@ import { TaskChatRunnerActivityGroup } from "./TaskChatRunnerActivityGroup";
 import { TaskChatProtocolCard } from "./TaskChatProtocolCard";
 import { TaskChatPlanPreviewCard } from "./TaskChatPlanPreviewCard";
 import { TaskChatShimmerScope, useTaskChatShimmer } from "./TaskChatShimmer";
+import { useTranslation } from "@/i18n";
 import {
   buildTurnTimelineRows,
   isTerminalRunStatus,
@@ -75,6 +76,7 @@ function RunnerTurnStatus({
   continuedAfterSteering?: boolean;
   waitingLabel?: string | null;
 }) {
+  const { t } = useTranslation();
   const terminal = isTerminalRunStatus(status);
   useSecondTick(!terminal && startedAtMs != null);
   const elapsedMs =
@@ -100,7 +102,7 @@ function RunnerTurnStatus({
       aria-live="polite"
       aria-atomic="true"
     >
-      {continuedAfterSteering ? <span data-conversation-meta="">Continued after steering · </span> : null}
+      {continuedAfterSteering ? <span data-conversation-meta="">{t("components.taskchat.taskChatRunnerTurn.continuedAfterSteering")} </span> : null}
       {label}<span data-conversation-meta="">{suffix}</span>
     </span>
   );
@@ -154,6 +156,7 @@ export function TaskChatRunnerTurn({
     decision: TaskChatRuntimeRequestDecision,
   ) => void | Promise<void>;
 }) {
+  const { t } = useTranslation();
   const terminal = isTerminalRunStatus(status);
   const waitingLabel = !terminal && execution?.phase === "waiting_for_provider" ? execution.label
     : !runId && !terminal ? preparationLabel ?? null : null;
@@ -236,7 +239,7 @@ export function TaskChatRunnerTurn({
           role="status"
           data-testid="task-chat-activity-unavailable"
         >
-          Live runner activity is temporarily unavailable. Retrying…
+          {t("components.taskchat.taskChatRunnerTurn.liveRunnerActivityIsTemporarilyUnavailable")}
         </div>
       ) : null}
       {timelineRows.length > 0 ? (

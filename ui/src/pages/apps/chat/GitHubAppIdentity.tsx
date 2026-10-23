@@ -5,6 +5,7 @@ import { GitHubSettingsDisclosure } from "./GitHubSettingsDisclosure";
 import { CopyText } from "@/components/CopyText";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/router";
+import { useTranslation } from "@/i18n";
 
 export function gitHubBotMention(endpoint: Pick<ChatEndpoint, "botUsername">) {
   const slug = endpoint.botUsername?.replace(/^@/, "").replace(/\[bot\]$/, "");
@@ -24,12 +25,13 @@ export function gitHubAppSettingsUrl(endpoint: ChatEndpoint) {
 }
 
 export function GitHubBotMention({ endpoint }: { endpoint: ChatEndpoint }) {
+  const { t } = useTranslation();
   const mention = gitHubBotMention(endpoint);
   return mention ? (
     <CopyText
       text={mention}
       ariaLabel="Copy GitHub mention"
-      title="Copy GitHub mention"
+      title={t("pages.apps.chat.gitHubAppIdentity.copyGithubMention")}
       className="break-all font-mono text-xs"
     >
       {mention}
@@ -45,12 +47,12 @@ export function GitHubAppBranding({
   endpoint: ChatEndpoint;
   avatarUrl?: string;
 }) {
+  const { t } = useTranslation();
   return (
-    <GitHubSettingsDisclosure title="GitHub App name and logo">
+    <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubAppIdentity.githubAppNameAndLogo")}>
       <div className="mt-4 space-y-4">
         <p className="text-sm text-muted-foreground">
-          Change the name or upload a logo in the App’s Display information
-          settings on GitHub.
+          {t("pages.apps.chat.gitHubAppIdentity.changeTheNameOrUploadA")}
         </p>
         <div className="flex flex-wrap items-center gap-3">
           {avatarUrl && (
@@ -71,9 +73,9 @@ export function GitHubAppBranding({
               href={gitHubAppSettingsUrl(endpoint)}
               target="_blank"
               rel="noreferrer"
-              aria-label="Edit App name and logo on GitHub"
+              aria-label={t("pages.apps.chat.gitHubAppIdentity.editAppNameAndLogoOn")}
             >
-              Edit on GitHub <ExternalLink className="size-4" />
+              {t("pages.apps.chat.gitHubAppIdentity.editOnGithub")} <ExternalLink className="size-4" />
             </a>
           </Button>
         </div>
@@ -83,7 +85,7 @@ export function GitHubAppBranding({
             className="underline underline-offset-4"
             to={`/apps/chat/connect?provider=github&resume=${endpoint.id}&reconnect=1`}
           >
-            Reconnect afterward
+            {t("pages.apps.chat.gitHubAppIdentity.reconnectAfterward")}
           </Link>{" "}
           to update it here.
         </p>
@@ -100,6 +102,7 @@ export function GitHubAppIdentityActions({
   endpoint: ChatEndpoint;
   avatarUrl?: string;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap items-center gap-1">
       {avatarUrl && (
@@ -114,17 +117,17 @@ export function GitHubAppIdentityActions({
           href={gitHubAppSettingsUrl(endpoint)}
           target="_blank"
           rel="noreferrer"
-          aria-label="Edit App name and logo on GitHub"
-          title="Change the App name or upload its logo on GitHub"
+          aria-label={t("pages.apps.chat.gitHubAppIdentity.editAppNameAndLogoOn")}
+          title={t("pages.apps.chat.gitHubAppIdentity.changeTheAppNameOrUpload")}
         >
-          Edit App <ExternalLink className="size-3.5" />
+          {t("pages.apps.chat.gitHubAppIdentity.editApp")} <ExternalLink className="size-3.5" />
         </a>
       </Button>
       <Button variant="ghost" size="icon" asChild>
         <Link
           to={`/apps/chat/connect?provider=github&resume=${endpoint.id}&reconnect=1`}
-          aria-label="Refresh GitHub App identity"
-          title="Reconnect after renaming the App to refresh its @mention"
+          aria-label={t("pages.apps.chat.gitHubAppIdentity.refreshGithubAppIdentity")}
+          title={t("pages.apps.chat.gitHubAppIdentity.reconnectAfterRenamingTheAppTo")}
         >
           <RefreshCw className="size-3.5" />
         </Link>

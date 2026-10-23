@@ -2,6 +2,7 @@ import type { AgentRunner, AgentRunnerChoice } from "@paperclipai/shared";
 import { Field } from "./agent-config-primitives";
 import { SelectPopover } from "./ui/select";
 import { Button } from "./ui/button";
+import { useTranslation } from "@/i18n";
 
 export function AgentRunnerSelect({
   value,
@@ -22,10 +23,11 @@ export function AgentRunnerSelect({
   error?: string;
   onRetry?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
-    <Field label="Runner">
+    <Field label={t("components.agentRunnerSelect.runner")}>
       <SelectPopover
-        aria-label="Runner"
+        aria-label={t("components.agentRunnerSelect.runner")}
         disabled={disabled}
         value={value}
         displayValue={value === "auto" ? (defaultRunner ? `${defaultRunner === "paperclip" ? "Paperclip Runner" : "Legacy runner"} (default)` : pending ? "Checking runner availability…" : "Automatic selection unavailable") : undefined}
@@ -37,7 +39,7 @@ export function AgentRunnerSelect({
       />
       {error && <div className="mt-2 space-y-2">
         <p role="alert" className="text-sm text-destructive">{error}</p>
-        {onRetry && <Button type="button" variant="outline" size="sm" disabled={pending || disabled} onClick={onRetry}>Retry runner discovery</Button>}
+        {onRetry && <Button type="button" variant="outline" size="sm" disabled={pending || disabled} onClick={onRetry}>{t("components.agentRunnerSelect.retryRunnerDiscovery")}</Button>}
       </div>}
     </Field>
   );

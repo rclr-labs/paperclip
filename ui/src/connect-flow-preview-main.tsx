@@ -31,6 +31,7 @@ import { AgentCharacter } from "./components/AgentCharacter";
 import { SleepingZs } from "./components/onboarding/SleepingZs";
 import { Stepper } from "./components/onboarding/Stepper";
 import "./index.css";
+import { useTranslation } from "@/i18n";
 
 /**
  * Backend-free walkthrough of the connect step's sign-in, deployed so the flow
@@ -121,6 +122,7 @@ function ConnectFlowPreview({
   initialSourceId: string | null;
   initialPhase: Phase;
 }) {
+  const { t } = useTranslation();
   const [selectedId, setSelectedId] = useState<string | null>(initialSourceId);
   const [useApiKeys, setUseApiKeys] = useState(false);
   const [phase, setPhase] = useState<Phase>(initialPhase);
@@ -321,7 +323,7 @@ function ConnectFlowPreview({
           <>
             <div className="space-y-2 pt-12">
               <ModelSourceTiles
-                label="Model source"
+                label={t("connectflowpreviewmain.modelSource")}
                 sources={MODEL_SOURCES}
                 mode={mode}
                 selectedId={selectedId}
@@ -420,8 +422,8 @@ function ConnectFlowPreview({
                     {/* The one place the three paths differ. */}
                     {apiMode ? (
                       <OnboardingCardField
-                        label="API key"
-                        placeholder="Enter API key here"
+                        label={t("connectflowpreviewmain.apiKey")}
+                        placeholder={t("connectflowpreviewmain.enterApiKeyHere")}
                         masked
                         value={apiKey}
                         onChange={setApiKey}

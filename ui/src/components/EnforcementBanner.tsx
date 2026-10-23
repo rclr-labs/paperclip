@@ -5,6 +5,7 @@ import { ShieldAlert, ShieldCheck, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { queryKeys } from "@/lib/queryKeys";
 import { toolsApi } from "@/api/tools";
+import { useTranslation } from "@/i18n";
 
 /**
  * Persistent enforcement-state banner for the Tools & Access surface (PAP-10389).
@@ -101,6 +102,7 @@ function PresentationalBanner({
 }
 
 export function EnforcementBanner(props: EnforcementBannerProps) {
+  const { t } = useTranslation();
   const { companyId, className, forceVariant, recentDenialCount, tone, title, body, icon, action } = props;
 
   // Presentational mode short-circuits the data hook below.
@@ -157,9 +159,7 @@ export function EnforcementBanner(props: EnforcementBannerProps) {
           </p>
         ) : (
           <p>
-            Tool access is enforced server-side by the tool gateway. These screens configure and observe that
-            enforcement — they do not replace it. Agents see and call only the tools their profiles and policies
-            allow; everything else is denied by default.
+            {t("components.enforcementBanner.toolAccessIsEnforcedServerSide")}
           </p>
         )}
       </div>

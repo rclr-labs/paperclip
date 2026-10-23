@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { StatusBadge } from "@/components/StatusBadge";
 import { queryKeys } from "@/lib/queryKeys";
 import { ErrorState, RelativeTime } from "@/pages/tools/shared";
+import { useTranslation } from "@/i18n";
 
 const PAGE_SIZE = 25;
 
@@ -63,6 +64,7 @@ function Fact({ label, value, mono = false }: { label: string; value: string; mo
 }
 
 function ActivityRow({ event }: { event: ToolGatewayActivityEvent }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const outcome = OUTCOME_META[event.normalizedOutcome] ?? OUTCOME_META.unknown;
   const actor = event.agentDisplayName ?? "Client";
@@ -107,18 +109,18 @@ function ActivityRow({ event }: { event: ToolGatewayActivityEvent }) {
       {open ? (
         <div className="border-t border-border bg-muted/30 px-4 py-3 pl-10 text-xs">
           <dl>
-            {rawTool ? <Fact label="Tool" value={rawTool} mono /> : null}
-            {event.invocation?.status ? <Fact label="Call status" value={event.invocation.status} /> : null}
-            {event.invocation?.policyDecision ? <Fact label="Decision" value={event.invocation.policyDecision} /> : null}
-            {reason ? <Fact label="Reason" value={reason} mono /> : null}
-            {duration ? <Fact label="Duration" value={duration} /> : null}
-            {event.invocation?.id ? <Fact label="Invocation ID" value={event.invocation.id} mono /> : null}
-            {event.invocation?.errorCode ? <Fact label="Error code" value={event.invocation.errorCode} mono /> : null}
-            {event.invocation?.errorMessage ? <Fact label="Error" value={event.invocation.errorMessage} /> : null}
+            {rawTool ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.tool")} value={rawTool} mono /> : null}
+            {event.invocation?.status ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.callStatus")} value={event.invocation.status} /> : null}
+            {event.invocation?.policyDecision ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.decision")} value={event.invocation.policyDecision} /> : null}
+            {reason ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.reason")} value={reason} mono /> : null}
+            {duration ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.duration")} value={duration} /> : null}
+            {event.invocation?.id ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.invocationId")} value={event.invocation.id} mono /> : null}
+            {event.invocation?.errorCode ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.errorCode")} value={event.invocation.errorCode} mono /> : null}
+            {event.invocation?.errorMessage ? <Fact label={t("pages.apps.gateways.panels.gatewayActivityPanel.error")} value={event.invocation.errorMessage} /> : null}
           </dl>
           {argumentsText ? (
             <div className="mt-2 space-y-1">
-              <div className="text-muted-foreground">Arguments (redacted)</div>
+              <div className="text-muted-foreground">{t("pages.apps.gateways.panels.gatewayActivityPanel.argumentsRedacted")}</div>
               <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-md border border-border bg-background p-3 font-mono text-xs text-foreground">
                 {argumentsText}
               </pre>
@@ -126,7 +128,7 @@ function ActivityRow({ event }: { event: ToolGatewayActivityEvent }) {
           ) : null}
           {resultText ? (
             <div className="mt-3 space-y-1">
-              <div className="text-muted-foreground">Result (redacted)</div>
+              <div className="text-muted-foreground">{t("pages.apps.gateways.panels.gatewayActivityPanel.resultRedacted")}</div>
               <pre className="overflow-x-auto whitespace-pre-wrap break-words rounded-md border border-border bg-background p-3 font-mono text-xs text-foreground">
                 {resultText}
               </pre>
@@ -145,6 +147,7 @@ export function GatewayActivityPanel({
   companyId: string;
   gateway: ToolMcpGatewayWithTokens;
 }) {
+  const { t } = useTranslation();
   const activityQuery = useInfiniteQuery({
     queryKey: queryKeys.tools.activity(companyId, { gateway: gateway.id, window: "30d" }),
     queryFn: ({ pageParam }) =>
@@ -179,11 +182,11 @@ export function GatewayActivityPanel({
   return (
     <div className="space-y-3">
       <p className="text-sm text-muted-foreground">
-        Calls through this gateway from the last 30 days. Open a row to inspect its tool, redacted arguments, result, and decision.
+        {t("pages.apps.gateways.panels.gatewayActivityPanel.callsThroughThisGatewayFromThe")}
       </p>
       {events.length === 0 ? (
         <div className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          No calls have gone through this gateway yet.
+          {t("pages.apps.gateways.panels.gatewayActivityPanel.noCallsHaveGoneThroughThis")}
         </div>
       ) : (
         <ul className="divide-y divide-border rounded-lg border border-border">

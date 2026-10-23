@@ -6,6 +6,7 @@ import { agentsApi } from "@/api/agents";
 import { InlineEntitySelector, type InlineEntityOption } from "@/components/InlineEntitySelector";
 import { isAgentTaskTarget } from "@/lib/company-members";
 import { queryKeys } from "@/lib/queryKeys";
+import { useTranslation } from "@/i18n";
 
 /**
  * Picker for the agent that runs a card's updates. `value` is the override
@@ -22,6 +23,7 @@ export function SummarizerAgentSelect({
   onChange: (agentId: string) => void;
   enabled?: boolean;
 }) {
+  const { t } = useTranslation();
   const agentsQuery = useQuery({
     queryKey: companyId ? queryKeys.agents.list(companyId) : ["agents", "none"],
     queryFn: () => agentsApi.list(companyId!),
@@ -58,7 +60,7 @@ export function SummarizerAgentSelect({
     <InlineEntitySelector
       value={value ? `agent:${value}` : ""}
       options={agentOptions}
-      placeholder="Summarizer (default)"
+      placeholder={t("pages.statusCards.summarizerAgentSelect.summarizerDefault")}
       noneLabel="Summarizer (default)"
       searchPlaceholder="Search agents..."
       emptyMessage="No agents found."

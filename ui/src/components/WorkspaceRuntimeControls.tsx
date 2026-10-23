@@ -14,6 +14,7 @@ import { useManagedSandboxOnly } from "@/hooks/useManagedSandboxOnly";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { timeAgo } from "@/lib/timeAgo";
+import { useTranslation } from "@/i18n";
 import type {
   WorkspaceServiceControlAction,
   WorkspaceServiceControlEntry,
@@ -516,6 +517,7 @@ export function WorkspaceRuntimeControls({
   className,
   square,
 }: WorkspaceRuntimeControlsProps) {
+  const { t } = useTranslation();
   const runningCount = [...sections.services, ...sections.otherServices].filter(
     (item) => item.statusLabel === "running" || item.statusLabel === "starting",
   ).length;
@@ -525,7 +527,7 @@ export function WorkspaceRuntimeControls({
     <div className={cn("space-y-4", className)}>
       <div className={cn("border border-border/70 bg-background p-3", square ? "rounded-none" : "rounded-xl")}>
         <div className="space-y-1">
-          <div className="text-xs font-medium uppercase tracking-(--tracking-eyebrow) text-muted-foreground">Workspace commands</div>
+          <div className="text-xs font-medium uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.workspaceRuntimeControls.workspaceCommands")}</div>
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline"
               className={cn(
@@ -549,7 +551,7 @@ export function WorkspaceRuntimeControls({
       </div>
 
       <CommandSection
-        title="Services"
+        title={t("components.workspaceRuntimeControls.services")}
         description="Long-running commands that Paperclip can supervise for this workspace."
         items={sections.services}
         emptyMessage={serviceEmptyMessage}
@@ -561,7 +563,7 @@ export function WorkspaceRuntimeControls({
       />
 
       <CommandSection
-        title="Jobs"
+        title={t("components.workspaceRuntimeControls.jobs")}
         description="One-shot commands that run now and exit when they finish."
         items={sections.jobs}
         emptyMessage={jobEmptyMessage}
@@ -573,7 +575,7 @@ export function WorkspaceRuntimeControls({
 
       {sections.otherServices.length > 0 ? (
         <CommandSection
-          title="Untracked services"
+          title={t("components.workspaceRuntimeControls.untrackedServices")}
           description="Running services that no longer match the current workspace command config."
           items={sections.otherServices}
           emptyMessage=""

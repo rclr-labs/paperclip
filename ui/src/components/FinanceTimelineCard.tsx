@@ -1,6 +1,7 @@
 import type { FinanceEvent } from "@paperclipai/shared";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTranslation } from "@/i18n";
 import {
   financeDirectionDisplayName,
   financeEventKindDisplayName,
@@ -18,11 +19,12 @@ export function FinanceTimelineCard({
   rows,
   emptyMessage = "No financial events recorded in this period. Events appear when reported through the API, CLI, or a supported integration.",
 }: FinanceTimelineCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       <CardHeader className="px-4 pt-4 pb-1">
-        <CardTitle className="text-base">Recent financial events</CardTitle>
-        <CardDescription>Provider charges, subscriptions, fees, and credits. Reported separately from run-cost estimates.</CardDescription>
+        <CardTitle className="text-base">{t("components.financeTimelineCard.recentFinancialEvents")}</CardTitle>
+        <CardDescription>{t("components.financeTimelineCard.providerChargesSubscriptionsFeesAndCredits")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3 px-4 pb-4 pt-3">
         {rows.length === 0 ? (

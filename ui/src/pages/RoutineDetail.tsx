@@ -46,6 +46,7 @@ import {
   routineDetailHref,
 } from "../components/RoutineContextualSidebar";
 import { RoutineSaveBar } from "../components/RoutineSaveBar";
+import { useTranslation } from "@/i18n";
 import {
   EDITABLE_SECTIONS,
   SECTION_FIELD_KEYS,
@@ -122,6 +123,7 @@ function buildRoutineMutationPayload(input: RoutineEditDraft) {
 }
 
 export function RoutineDetail() {
+  const { t } = useTranslation();
   const { routineId, section: sectionParam } = useParams<{ routineId: string; section?: string }>();
   const [searchParams] = useSearchParams();
   const triggerSetup = sectionParam === "triggers" && searchParams.has("triggerSetup");
@@ -776,7 +778,7 @@ export function RoutineDetail() {
         href="#routine-section"
         className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-20 focus:rounded focus:bg-background focus:px-3 focus:py-1.5 focus:text-sm"
       >
-        Skip to section
+        {t("pages.routineDetail.skipToSection")}
       </a>
 
       {/* The global shell owns routine navigation. This surface keeps one
@@ -808,7 +810,7 @@ export function RoutineDetail() {
                 ref={titleInputRef}
                 data-autosize-title
                 className="min-w-0 flex-1 resize-none overflow-hidden bg-transparent text-base font-semibold leading-7 outline-none placeholder:text-muted-foreground/50"
-                placeholder="Routine title"
+                placeholder={t("pages.routineDetail.routineTitle")}
                 rows={1}
                 value={editDraft.title}
                 onChange={(event) => {
@@ -840,7 +842,7 @@ export function RoutineDetail() {
                 size="sm"
                 onClick={() => navigate(routineDetailHref(routine.id))}
               >
-                Back to overview
+                {t("pages.routineDetail.backToOverview")}
               </Button>
             ) : (
               <Button
@@ -849,7 +851,7 @@ export function RoutineDetail() {
                 onClick={() => navigate(routineDetailHref(routine.id, "history"))}
               >
                 <History className="h-3.5 w-3.5" />
-                History
+                {t("pages.routineDetail.history")}
               </Button>
             )}
             {section === "overview" ? (
@@ -863,12 +865,12 @@ export function RoutineDetail() {
                   }}
                 >
                   <X className="h-3.5 w-3.5" />
-                  Cancel editing
+                  {t("pages.routineDetail.cancelEditing")}
                 </Button>
               ) : (
                 <Button variant="outline" size="sm" onClick={() => setOverviewEditing(true)}>
                   <Pencil className="h-3.5 w-3.5" />
-                  Edit routine
+                  {t("pages.routineDetail.editRoutine")}
                 </Button>
               )
             ) : null}

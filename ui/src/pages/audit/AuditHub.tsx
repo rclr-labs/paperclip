@@ -12,6 +12,7 @@ import { AuditFeed, type AuditFeedMode } from "./AuditFeed";
 import { AuditRuns } from "./AuditRuns";
 import { AgentCommentary } from "./AgentCommentary";
 import { RoutineAuditActivity } from "./RoutineAuditActivity";
+import { useTranslation } from "@/i18n";
 import {
   AUDIT_SECTIONS,
   auditScopeFromSearchParams,
@@ -20,6 +21,7 @@ import {
 } from "./audit-navigation";
 
 export function AuditHub({ section }: { section: AuditSection }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
@@ -115,7 +117,7 @@ export function AuditHub({ section }: { section: AuditSection }) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight text-foreground">Audit</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-foreground">{t("pages.audit.auditHub.audit")}</h1>
       </div>
 
       <Tabs

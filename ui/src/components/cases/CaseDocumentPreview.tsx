@@ -9,12 +9,14 @@ import { SourceTrustBadge } from "@/components/SourceTrustBadge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Link } from "@/lib/router";
+import { useTranslation } from "@/i18n";
 
 /** Read-only current content and revision browsing, with no editor or restore path. */
 export function CaseDocumentPreview({ caseIdentifier, document: documentRef }: {
   caseIdentifier: string;
   document: CaseDocumentRef | CaseTaskDocumentRef;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const taskRef = "sourceKind" in documentRef ? documentRef : null;
@@ -41,11 +43,11 @@ export function CaseDocumentPreview({ caseIdentifier, document: documentRef }: {
           {document?.latestRevisionNumber != null ? ` · Revision ${document.latestRevisionNumber}` : ""}
         </DialogDescription>
       </DialogHeader>
-      {current.isLoading ? <p className="text-sm text-muted-foreground">Loading document…</p> : current.isError ? <p role="alert" className="text-sm text-destructive">This document couldn’t be loaded.</p> : document ? <div className="space-y-6">
+      {current.isLoading ? <p className="text-sm text-muted-foreground">{t("components.cases.caseDocumentPreview.loadingDocument")}</p> : current.isError ? <p role="alert" className="text-sm text-destructive">{t("components.cases.caseDocumentPreview.thisDocumentCouldnTBeLoaded")}</p> : document ? <div className="space-y-6">
         <SourceTrustBadge sourceTrust={document.sourceTrust} artifactLabel="document" />
-        {document.body ? <MarkdownBody linkIssueReferences linkCaseReferences>{document.body}</MarkdownBody> : <p className="text-sm text-muted-foreground">This document is empty.</p>}
+        {document.body ? <MarkdownBody linkIssueReferences linkCaseReferences>{document.body}</MarkdownBody> : <p className="text-sm text-muted-foreground">{t("components.cases.caseDocumentPreview.thisDocumentIsEmpty")}</p>}
         <details open={historyOpen} onToggle={event => setHistoryOpen(event.currentTarget.open)} className="space-y-3">
-          <summary className="w-fit cursor-pointer text-sm text-muted-foreground hover:text-foreground">Revision history</summary>
+          <summary className="w-fit cursor-pointer text-sm text-muted-foreground hover:text-foreground">{t("components.cases.caseDocumentPreview.revisionHistory")}</summary>
           {historyOpen && <CaseRevisionRail caseIdentifier={caseIdentifier} documentKey={documentRef.key} taskId={taskRef?.taskId} />}
         </details>
       </div> : null}

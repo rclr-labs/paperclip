@@ -4,6 +4,7 @@ import { GalleryItem } from "./GalleryItem";
 import { KindTally } from "./KindTally";
 import { Folder } from "./objects/Folder";
 import { StateFlag } from "./StateFlag";
+import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — an opened stack: the folder's contents taken out and stood up by
@@ -21,6 +22,7 @@ import { StateFlag } from "./StateFlag";
  */
 
 function Summary({ group }: { group: LabGroup }) {
+  const { t } = useTranslation();
   const review = reviewCountOf(group.artifacts);
   return (
     <header className="flex items-end gap-5">
@@ -42,7 +44,7 @@ function Summary({ group }: { group: LabGroup }) {
             <span className="font-mono text-(length:--tac-mono-scale)">{group.count}</span> {countLabel(group.count)}
           </span>
           <span>
-            Updated <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
+            {t("artifactdirections.directions.d3tactile.galleryStack.updated")} <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
           </span>
           {review > 0 ? <span className="sr-only">{review} to review</span> : null}
         </p>
@@ -53,8 +55,9 @@ function Summary({ group }: { group: LabGroup }) {
 }
 
 export function GalleryStack({ group }: { group: LabGroup }) {
+  const { t } = useTranslation();
   const days = daysOf(group.artifacts);
-  if (group.artifacts.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">No artifacts in this stack match the current filters.</p>;
+  if (group.artifacts.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">{t("artifactdirections.directions.d3tactile.galleryStack.noArtifactsInThisStackMatch")}</p>;
   return (
     <div className="flex flex-col gap-7 pt-1">
       <Summary group={group} />

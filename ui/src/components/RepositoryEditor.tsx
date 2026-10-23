@@ -5,8 +5,10 @@ import { GithubIcon } from "./icons/github-icon";
 import { SearchableSelect } from "./SearchableSelect";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { useTranslation } from "@/i18n";
 
 function RepoRow({ repo, onRemove }: { repo: ProjectRepository; onRemove: () => void }) {
+  const { t } = useTranslation();
   return (
     <div className="flex min-w-0 items-center gap-3 rounded-md border border-border px-3 py-2">
       <GithubIcon className="size-4 shrink-0 text-muted-foreground" />
@@ -16,7 +18,7 @@ function RepoRow({ repo, onRemove }: { repo: ProjectRepository; onRemove: () => 
           {repo.connections.join(" · ")}
         </span>}
       </div>
-      {repo.private && <LockKeyhole className="size-3 shrink-0 text-muted-foreground" aria-label="Private repository" />}
+      {repo.private && <LockKeyhole className="size-3 shrink-0 text-muted-foreground" aria-label={t("components.repositoryEditor.privateRepository")} />}
       <Button type="button" variant="ghost" size="icon-sm" aria-label={`Remove ${repo.fullName}`} onClick={onRemove}><X className="size-4" /></Button>
     </div>
   );
@@ -32,6 +34,7 @@ export function RepositoryEditor({ selected, onChange, state = "ready", availabl
   disabled?: boolean;
   onConnect: () => void;
 }) {
+  const { t } = useTranslation();
   const [showPicker, setShowPicker] = useState(false);
   const picker = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -45,7 +48,7 @@ export function RepositoryEditor({ selected, onChange, state = "ready", availabl
   const addLabel = selected.length ? "Add another repo" : "Add GitHub repo";
   return (
     <fieldset disabled={disabled} className="flex min-w-0 flex-col gap-3">
-      <div className="flex items-baseline gap-2"><span className="text-sm font-medium">Source repos</span><span className="text-xs text-muted-foreground">optional</span></div>
+      <div className="flex items-baseline gap-2"><span className="text-sm font-medium">{t("components.repositoryEditor.sourceRepos")}</span><span className="text-xs text-muted-foreground">optional</span></div>
       {selected.map((repo) => <RepoRow key={repo.id} repo={repo} onRemove={() => onChange(selected.filter((item) => item.id !== repo.id))} />)}
       {state === "disconnected" ? (
         <Popover>
@@ -53,8 +56,8 @@ export function RepositoryEditor({ selected, onChange, state = "ready", availabl
           <PopoverContent align="start" className="w-72">
             <div className="flex flex-col gap-3">
               <GithubIcon className="size-5" />
-              <div className="flex flex-col gap-1"><p className="text-sm font-medium">Connect GitHub to pick a repo</p><p className="text-xs text-muted-foreground">Choose from repos you can access through your GitHub connections.</p></div>
-              <Button type="button" onClick={onConnect}><GithubIcon className="size-4" />Connect GitHub</Button>
+              <div className="flex flex-col gap-1"><p className="text-sm font-medium">{t("components.repositoryEditor.connectGithubToPickARepo")}</p><p className="text-xs text-muted-foreground">{t("components.repositoryEditor.chooseFromReposYouCanAccess")}</p></div>
+              <Button type="button" onClick={onConnect}><GithubIcon className="size-4" />{t("components.repositoryEditor.connectGithub")}</Button>
             </div>
           </PopoverContent>
         </Popover>
@@ -75,7 +78,7 @@ export function RepositoryEditor({ selected, onChange, state = "ready", availabl
           />
           <div className="flex items-center justify-between gap-2">
             <p className="text-xs text-muted-foreground">{"All GitHub connections you can use."}</p>
-            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPicker(false)}>Cancel</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={() => setShowPicker(false)}>{t("components.repositoryEditor.cancel")}</Button>
           </div>
         </div>
       ) : <Button type="button" variant="outline" className={addClassName} onClick={() => setShowPicker(true)}><GithubIcon className="size-4" />{addLabel}</Button>}

@@ -3,6 +3,7 @@ import { Folder, GitBranch, GitBranchPlus, Monitor } from "lucide-react";
 import type { ExecutionWorkspaceSummary } from "@paperclipai/shared";
 import { SearchableSelect, type SearchableSelectOption } from "@/components/SearchableSelect";
 import { orderReusableExecutionWorkspaces } from "@/lib/reusable-execution-workspaces";
+import { useTranslation } from "@/i18n";
 
 interface WorktreeOption extends SearchableSelectOption {
   mode: string;
@@ -37,6 +38,7 @@ export function ComposerWorktreePicker({
   mode, workspaceId, workspaces, onChange, loading, error, onRetry,
   disabled, mobile, contentStyle, selectedWorkspaceLabel,
 }: ComposerWorktreePickerProps) {
+  const { t } = useTranslation();
   const groups = useMemo(() => [
     { id: "new", options: [MODE_OPTIONS[0]!] },
     {
@@ -61,7 +63,7 @@ export function ComposerWorktreePicker({
       value={value}
       groups={groups}
       onValueChange={(_, option) => onChange(option.mode, option.workspaceId ?? "")}
-      placeholder="Worktrees"
+      placeholder={t("components.taskchat.composerWorktreePicker.worktrees")}
       triggerAriaLabel="Worktrees"
       mobileTitle="Worktrees"
       searchPlaceholder="Search worktrees..."
@@ -98,8 +100,8 @@ export function ComposerWorktreePicker({
         <div className="border-t border-border px-3 py-2 text-xs text-muted-foreground" role="status">
           {loading ? "Loading existing worktrees…" : error ? (
             <span className="flex items-center justify-between gap-2">
-              Couldn't load worktrees.
-              <button type="button" className="rounded px-2 py-1 text-foreground hover:bg-accent" onClick={onRetry}>Retry</button>
+              {t("components.taskchat.composerWorktreePicker.couldnTLoadWorktrees")}
+              <button type="button" className="rounded px-2 py-1 text-foreground hover:bg-accent" onClick={onRetry}>{t("components.taskchat.composerWorktreePicker.retry")}</button>
             </span>
           ) : "No existing worktrees yet. Choose New worktree to start one."}
         </div>

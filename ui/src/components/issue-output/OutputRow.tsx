@@ -4,6 +4,7 @@ import { cn, relativeTime } from "@/lib/utils";
 import { formatBytes, outputFilename, type IssueOutputItem } from "@/lib/issue-output";
 import { OutputFileTile } from "./OutputFileTile";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "@/i18n";
 
 interface OutputRowProps {
   item: IssueOutputItem;
@@ -12,6 +13,7 @@ interface OutputRowProps {
 
 /** Compact row for a non-primary output ("ALSO PRODUCED"). */
 export function OutputRow({ item, creatorName }: OutputRowProps) {
+  const { t } = useTranslation();
   const filename = outputFilename(item);
   const meta = item.metadata;
 
@@ -41,12 +43,12 @@ export function OutputRow({ item, creatorName }: OutputRowProps) {
       </div>
       {meta ? (
         <div className="flex shrink-0 items-center gap-1">
-          <Button asChild variant="ghost" size="icon-sm" title="Open in new tab">
+          <Button asChild variant="ghost" size="icon-sm" title={t("components.issueoutput.outputRow.openInNewTab")}>
             <a href={meta.openPath} target="_blank" rel="noreferrer" aria-label={`Open ${filename}`}>
               <ExternalLink className="h-4 w-4" />
             </a>
           </Button>
-          <Button asChild variant="ghost" size="icon-sm" title="Download">
+          <Button asChild variant="ghost" size="icon-sm" title={t("components.issueoutput.outputRow.download")}>
             <a href={meta.downloadPath} aria-label={`Download ${filename}`}>
               <Download className="h-4 w-4" />
             </a>

@@ -46,6 +46,7 @@ import { useLocation } from "@/lib/router";
 import { useArtifactsV1Enabled } from "@/hooks/useArtifactsV1Enabled";
 import { ArtifactFileRow, ArtifactRow, ROW_ACTION_CLASS, fileRowSourceFromAttachment, fileRowSourceFromWorkProduct, subjectFromAttachment, subjectFromIssueDocument, subjectFromWorkProduct, workProductStateBadge, type ArtifactSubject } from "@/components/artifacts/v1";
 import { artifactUrl } from "@/lib/artifact-card-data";
+import { useTranslation } from "@/i18n";
 
 interface IssuePropertiesArtifactsTabProps {
   issue: Issue;
@@ -130,6 +131,7 @@ function MarkdownWorkProductRow({
   openRequestId?: number;
   face?: ArtifactFace;
 }) {
+  const { t } = useTranslation();
   const openTextAttachment = useContext(TextAttachmentContext);
   const [expanded, setExpanded] = useState(false);
   const [annotationPanelOpen, setAnnotationPanelOpen] = useState(false);
@@ -186,7 +188,7 @@ function MarkdownWorkProductRow({
   if (tooLarge) {
     expandedBody = (
       <p className="text-sm text-muted-foreground">
-        This Markdown file is too large to preview. Use Raw or Download instead.
+        {t("components.issueproperties.issuePropertiesArtifactsTab.thisMarkdownFileIsTooLarge")}
       </p>
     );
   } else if (reviewDoc) {
@@ -207,7 +209,7 @@ function MarkdownWorkProductRow({
           <MarkdownBody>{reviewDoc.body}</MarkdownBody>
         </IssueDocumentAnnotations>
       ) : (
-        <p className="text-sm text-muted-foreground">Document is empty.</p>
+        <p className="text-sm text-muted-foreground">{t("components.issueproperties.issuePropertiesArtifactsTab.documentIsEmpty")}</p>
       );
   } else if (ensure.isError) {
     expandedBody = (
@@ -226,14 +228,14 @@ function MarkdownWorkProductRow({
               ensure.mutate();
             }}
           >
-            Retry
+            {t("components.issueproperties.issuePropertiesArtifactsTab.retry")}
           </button>
         ) : null}
       </div>
     );
   } else {
     expandedBody = (
-      <p className="text-sm text-muted-foreground">Preparing preview…</p>
+      <p className="text-sm text-muted-foreground">{t("components.issueproperties.issuePropertiesArtifactsTab.preparingPreview")}</p>
     );
   }
 
@@ -260,7 +262,7 @@ function MarkdownWorkProductRow({
                   type="button"
                   onClick={() => openTextAttachment(metadata.attachmentId, metadata.originalFilename ?? workProduct.title)}
                   aria-label={`Open in tab: ${workProduct.title}`}
-                  title="Open in tab"
+                  title={t("components.issueproperties.issuePropertiesArtifactsTab.openInTab")}
                   className={face ? ROW_ACTION_CLASS : "shrink-0 px-1.5 py-1.5 text-muted-foreground hover:text-foreground"}
                 >
                   <FileText className="h-3 w-3" />
@@ -271,7 +273,7 @@ function MarkdownWorkProductRow({
                 target="_blank"
                 rel="noreferrer"
                 aria-label={`Open raw ${workProduct.title}`}
-                title="Open raw"
+                title={t("components.issueproperties.issuePropertiesArtifactsTab.openRaw")}
                 className={face ? ROW_ACTION_CLASS : "shrink-0 px-1.5 py-1.5 text-muted-foreground hover:text-foreground"}
               >
                 <ExternalLink className="h-3 w-3" />
@@ -279,7 +281,7 @@ function MarkdownWorkProductRow({
               <a
                 href={metadata.downloadPath}
                 aria-label={`Download ${workProduct.title}`}
-                title="Download"
+                title={t("components.issueproperties.issuePropertiesArtifactsTab.download")}
                 className={face ? ROW_ACTION_CLASS : "shrink-0 py-1.5 pr-2 pl-0.5 text-muted-foreground hover:text-foreground"}
               >
                 <Download className="h-3 w-3" />
@@ -329,6 +331,7 @@ function DocumentRow({
   onOpen?: () => void;
   face?: ArtifactFace;
 }) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
   const [annotationPanelOpen, setAnnotationPanelOpen] = useState(false);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -389,7 +392,7 @@ function DocumentRow({
               <MarkdownBody>{doc.body}</MarkdownBody>
             </IssueDocumentAnnotations>
           ) : (
-            <p className="text-sm text-muted-foreground">Document is empty.</p>
+            <p className="text-sm text-muted-foreground">{t("components.issueproperties.issuePropertiesArtifactsTab.documentIsEmpty")}</p>
           )}
         </div>
       ) : null}
@@ -411,6 +414,7 @@ export function IssuePropertiesArtifactsTab({
   onOpenDocument,
   uploadState,
 }: IssuePropertiesArtifactsTabProps) {
+  const { t } = useTranslation();
   const { enabled: v1 } = useArtifactsV1Enabled();
   const {
     data: attachments,
@@ -540,7 +544,7 @@ export function IssuePropertiesArtifactsTab({
   const loading = attachmentsPending || productsPending || documentsPending;
   const feedback = loadError ? (
     <div role="alert" className="px-1 py-3 text-sm text-muted-foreground">
-      Some artifacts could not be loaded.
+      {t("components.issueproperties.issuePropertiesArtifactsTab.someArtifactsCouldNotBeLoaded")}
       <button
         className="ml-2 underline"
         onClick={() => {
@@ -549,12 +553,12 @@ export function IssuePropertiesArtifactsTab({
           void refetchDocuments();
         }}
       >
-        Retry
+        {t("components.issueproperties.issuePropertiesArtifactsTab.retry")}
       </button>
     </div>
   ) : loading ? (
     <p role="status" className="px-1 py-3 text-sm text-muted-foreground">
-      Loading artifacts…
+      {t("components.issueproperties.issuePropertiesArtifactsTab.loadingArtifacts")}
     </p>
   ) : null;
 
@@ -570,8 +574,7 @@ export function IssuePropertiesArtifactsTab({
     if (feedback) return withUploads(feedback);
     return withUploads(
       <div className="px-1 py-6 text-sm text-muted-foreground">
-        No artifacts yet. Work products, documents, and agent-produced files
-        will appear here.
+        {t("components.issueproperties.issuePropertiesArtifactsTab.noArtifactsYetWorkProductsDocuments")}
       </div>,
       true,
     );

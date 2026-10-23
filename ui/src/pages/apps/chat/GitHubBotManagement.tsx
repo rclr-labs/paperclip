@@ -37,6 +37,7 @@ import {
   GitHubToggle,
 } from "./GitHubBotConfiguration";
 import { ChatExecutionDefaults } from "./ChatExecutionDefaults";
+import { useTranslation } from "@/i18n";
 
 export function GitHubRepositoryAccess({
   endpointId,
@@ -55,6 +56,7 @@ export function GitHubRepositoryAccess({
   onChange: (id: string, enabled: boolean) => void;
   onToggleAll: (enabled: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const client = useQueryClient();
   const [search, setSearch] = useState("");
   const scroller = useRef<HTMLDivElement>(null);
@@ -82,13 +84,13 @@ export function GitHubRepositoryAccess({
   return (
     <section className="space-y-3">
       <div className="flex items-center justify-between gap-3">
-        <h2 className="text-base font-semibold">Repositories</h2>
+        <h2 className="text-base font-semibold">{t("pages.apps.chat.gitHubBotManagement.repositories")}</h2>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
               size="icon"
-              aria-label="Manage repositories"
+              aria-label={t("pages.apps.chat.gitHubBotManagement.manageRepositories")}
             >
               <MoreHorizontal className="size-4" />
             </Button>
@@ -96,25 +98,24 @@ export function GitHubRepositoryAccess({
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
               <a href={managementUrl} target="_blank" rel="noreferrer">
-                Manage on GitHub
+                {t("pages.apps.chat.gitHubBotManagement.manageOnGithub")}
                 <ExternalLink className="size-4" />
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem disabled={pending} onClick={onRefresh}>
               <RefreshCw className="size-4" />
-              Refresh repositories
+              {t("pages.apps.chat.gitHubBotManagement.refreshRepositories")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
       <p className="text-xs text-muted-foreground">
-        Choose where the bot can receive messages and use tools. Repository
-        changes save immediately.
+        {t("pages.apps.chat.gitHubBotManagement.chooseWhereTheBotCanReceive")}
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <div className="relative min-w-0 flex-1 basis-48">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input aria-label="Search repositories" placeholder="Search repositories" className="pl-9"
+          <Input aria-label={t("pages.apps.chat.gitHubBotManagement.searchRepositories")} placeholder={t("pages.apps.chat.gitHubBotManagement.searchRepositories")} className="pl-9"
             value={search} maxLength={200} onChange={(event) => setSearch(event.target.value)} />
         </div>
         <Button variant="outline" size="sm" disabled={pending || list.isFetching || !summary || !summary.totalCount || (!disableAll && !summary.availableCount)}
@@ -127,9 +128,9 @@ export function GitHubRepositoryAccess({
         {summary.enabledCount} of {summary.totalCount} repositories enabled. Toggle all applies across the entire connection.
       </p>}
       {list.isError && <p role="alert" className="text-sm text-destructive">
-        Could not load repositories. <Button variant="link" size="sm" onClick={() => void list.refetch()}>Try again</Button>
+        {t("pages.apps.chat.gitHubBotManagement.couldNotLoadRepositories")} <Button variant="link" size="sm" onClick={() => void list.refetch()}>{t("pages.apps.chat.gitHubBotManagement.tryAgain")}</Button>
       </p>}
-      <div ref={scroller} role="region" aria-label="Repositories" tabIndex={0}
+      <div ref={scroller} role="region" aria-label={t("pages.apps.chat.gitHubBotManagement.repositories")} tabIndex={0}
         className="max-h-96 overflow-y-auto overscroll-contain border-y border-border">
         <div className="divide-y divide-border">
         {rows.map((resource) => (
@@ -166,7 +167,7 @@ export function GitHubRepositoryAccess({
           </div>
         ))}
         </div>
-        {list.isPending ? <p role="status" className="py-4 text-sm text-muted-foreground">Loading repositories…</p> : rows.length === 0 && !list.isError && (
+        {list.isPending ? <p role="status" className="py-4 text-sm text-muted-foreground">{t("pages.apps.chat.gitHubBotManagement.loadingRepositories")}</p> : rows.length === 0 && !list.isError && (
           <p className="py-4 text-sm text-muted-foreground">
             {search ? "No repositories match your search." : "No repositories available. Add repository access on GitHub, then refresh."}
           </p>
@@ -189,6 +190,7 @@ export function GitHubBotManagement({
   endpoint: ChatEndpoint;
   view: "settings" | "access";
 }) {
+  const { t } = useTranslation();
   const client = useQueryClient();
   const query = useQuery({
     queryKey: ["github-bot-configuration", endpoint.id],
@@ -242,14 +244,14 @@ export function GitHubBotManagement({
             void query.refetch();
           }}
         >
-          Try again
+          {t("pages.apps.chat.gitHubBotManagement.tryAgain")}
         </Button>
       </p>
     );
   if (!record)
     return (
       <p role="status" className="text-sm text-muted-foreground">
-        Loading configuration…
+        {t("pages.apps.chat.gitHubBotManagement.loadingConfiguration")}
       </p>
     );
   const config = record.configuration;
@@ -301,14 +303,13 @@ export function GitHubBotManagement({
             {!config.toolsEnabled && (
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  This saved bot has GitHub tools disabled, so it cannot start
-                  work or respond.
+                  {t("pages.apps.chat.gitHubBotManagement.thisSavedBotHasGithubTools")}
                 </p>
                 <Button
                   variant="outline"
                   onClick={() => edit({ ...config, toolsEnabled: true })}
                 >
-                  Enable bot tools
+                  {t("pages.apps.chat.gitHubBotManagement.enableBotTools")}
                 </Button>
               </div>
             )}
@@ -317,7 +318,7 @@ export function GitHubBotManagement({
                 className="text-xs text-muted-foreground underline underline-offset-4"
                 to={`/apps/${endpoint.connectionId}`}
               >
-                Manage tool permissions
+                {t("pages.apps.chat.gitHubBotManagement.manageToolPermissions")}
               </Link>
             )}
           </>
@@ -358,7 +359,7 @@ export function GitHubBotManagement({
               setError("");
             }}
           >
-            Discard changes
+            {t("pages.apps.chat.gitHubBotManagement.discardChanges")}
           </Button>
           <Button
             disabled={pending || !scoreValid}
@@ -417,6 +418,7 @@ export function gitHubReviewResultLabel(review: GitHubTaskReview) {
 }
 
 function ReviewResult({ review }: { review: GitHubTaskReview }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
@@ -434,7 +436,7 @@ function ReviewResult({ review }: { review: GitHubTaskReview }) {
         </MarkdownBody>
       ) : (
         <p className="text-sm text-muted-foreground">
-          No assessment has been submitted yet.
+          {t("pages.apps.chat.gitHubBotManagement.noAssessmentHasBeenSubmittedYet")}
         </p>
       )}
       <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
@@ -442,7 +444,7 @@ function ReviewResult({ review }: { review: GitHubTaskReview }) {
           className="underline underline-offset-4"
           to={`/issues/${review.issueId}`}
         >
-          Paperclip task
+          {t("pages.apps.chat.gitHubBotManagement.paperclipTask")}
         </Link>
         {review.summaryUrl && (
           <a
@@ -451,7 +453,7 @@ function ReviewResult({ review }: { review: GitHubTaskReview }) {
             target="_blank"
             rel="noreferrer"
           >
-            GitHub comment
+            {t("pages.apps.chat.gitHubBotManagement.githubComment")}
           </a>
         )}
         {review.checkUrl && (
@@ -461,27 +463,27 @@ function ReviewResult({ review }: { review: GitHubTaskReview }) {
             target="_blank"
             rel="noreferrer"
           >
-            Check
+            {t("pages.apps.chat.gitHubBotManagement.check")}
           </a>
         )}
       </div>
-      <section className="space-y-4 text-sm" aria-label="Review evidence">
+      <section className="space-y-4 text-sm" aria-label={t("pages.apps.chat.gitHubBotManagement.reviewEvidence")}>
         <div className="space-y-3">
           {review.runId && (
             <Link
               className="text-xs underline underline-offset-4"
               to={`/issues/${review.issueId}?runId=${review.runId}`}
             >
-              Agent run
+              {t("pages.apps.chat.gitHubBotManagement.agentRun")}
             </Link>
           )}
           {review.assessment && (
             <>
-              <h3 className="font-medium">Rationale</h3>
+              <h3 className="font-medium">{t("pages.apps.chat.gitHubBotManagement.rationale")}</h3>
               <MarkdownBody>{review.assessment.rationale}</MarkdownBody>
               {review.assessment.findings.length > 0 && (
                 <section className="space-y-3">
-                  <h3 className="font-medium">Findings</h3>
+                  <h3 className="font-medium">{t("pages.apps.chat.gitHubBotManagement.findings")}</h3>
                   {review.assessment.findings.map((finding) => (
                     <div
                       key={finding.key}
@@ -495,7 +497,7 @@ function ReviewResult({ review }: { review: GitHubTaskReview }) {
                   ))}
                 </section>
               )}
-              <h3 className="font-medium">Coverage</h3>
+              <h3 className="font-medium">{t("pages.apps.chat.gitHubBotManagement.coverage")}</h3>
               <p className="text-xs text-muted-foreground">
                 {review.assessment.coverage.reviewedPaths.length} files reviewed
                 · {review.assessment.coverage.omittedPaths.length} omitted
@@ -520,6 +522,7 @@ export function GitHubReviewList({
   endpointId: string;
   reviews: GitHubTaskReview[];
 }) {
+  const { t } = useTranslation();
   if (!reviews.length)
     return (
       <EmptyState
@@ -530,7 +533,7 @@ export function GitHubReviewList({
     );
   return (
     <ul
-      aria-label="Reviews"
+      aria-label={t("pages.apps.chat.gitHubBotManagement.reviews")}
       className="divide-y divide-border border-y border-border"
     >
       {orderedGitHubReviews(reviews).map((review) => (
@@ -571,13 +574,14 @@ export function GitHubReviewDetail({
   endpointId: string;
   review: GitHubTaskReview;
 }) {
+  const { t } = useTranslation();
   return (
     <article className="max-w-3xl space-y-6">
       <Link
         className="text-sm text-muted-foreground hover:underline"
         to={`/apps/chat/${endpointId}/reviews`}
       >
-        ← All reviews
+        {t("pages.apps.chat.gitHubBotManagement.allReviews2")}
       </Link>
       <header className="space-y-2">
         <h2 className="text-lg font-semibold">
@@ -604,6 +608,7 @@ export function GitHubReviews({
   endpointId: string;
   reviewId?: string;
 }) {
+  const { t } = useTranslation();
   const query = useQuery({
     queryKey: ["github-bot-reviews", endpointId, reviewId ?? "list"],
     queryFn: async () => reviewId ? [await githubChatApi.review(endpointId, reviewId)] : githubChatApi.reviews(endpointId),
@@ -614,14 +619,14 @@ export function GitHubReviews({
       <p role="alert" className="text-sm text-destructive">
         {reviewId ? "This review could not be loaded or was not found in this connection." : "Reviews could not be loaded."}{" "}
         <Button variant="link" onClick={() => void query.refetch()}>
-          Try again
+          {t("pages.apps.chat.gitHubBotManagement.tryAgain")}
         </Button>
       </p>
     );
   if (query.isPending)
     return (
       <p role="status" className="text-sm text-muted-foreground">
-        Loading reviews…
+        {t("pages.apps.chat.gitHubBotManagement.loadingReviews")}
       </p>
     );
   if (reviewId) {
@@ -631,13 +636,13 @@ export function GitHubReviews({
     ) : (
       <div className="space-y-3">
         <p role="alert" className="text-sm text-muted-foreground">
-          This review was not found in this connection.
+          {t("pages.apps.chat.gitHubBotManagement.thisReviewWasNotFoundIn")}
         </p>
         <Link
           to={`/apps/chat/${endpointId}/reviews`}
           className="text-sm underline"
         >
-          All reviews
+          {t("pages.apps.chat.gitHubBotManagement.allReviews")}
         </Link>
       </div>
     );

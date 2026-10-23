@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { SidePanelTabItem } from "./types";
+import { useTranslation } from "@/i18n";
 
 interface SidePanelMobileTabsProps {
   tabs: SidePanelTabItem[];
@@ -15,6 +16,7 @@ interface SidePanelMobileTabsProps {
 
 /** A readable title and a vertical overview replace crowded desktop tabs. */
 export function SidePanelMobileTabs({ tabs, activeTabId, onActiveTabChange, onCloseTab, addControl }: SidePanelMobileTabsProps) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const listRef = useRef<HTMLUListElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -51,7 +53,7 @@ export function SidePanelMobileTabs({ tabs, activeTabId, onActiveTabChange, onCl
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          aria-label="Open tabs"
+          aria-label={t("components.sidepanel.sidePanelMobileTabs.openTabs")}
           align="start"
           className="w-(--side-panel-mobile-tabs-width) max-w-(--radix-popover-content-available-width) p-2"
           onOpenAutoFocus={(event) => {
@@ -66,8 +68,8 @@ export function SidePanelMobileTabs({ tabs, activeTabId, onActiveTabChange, onCl
             if (addButton) { event.preventDefault(); addButton.focus(); }
           }}
         >
-          <p className="px-2 py-2 text-xs font-medium text-muted-foreground">Open tabs</p>
-          <ul ref={listRef} aria-label="Open tabs" className="max-h-(--side-panel-mobile-tabs-max-height) overflow-y-auto overscroll-contain">
+          <p className="px-2 py-2 text-xs font-medium text-muted-foreground">{t("components.sidepanel.sidePanelMobileTabs.openTabs")}</p>
+          <ul ref={listRef} aria-label={t("components.sidepanel.sidePanelMobileTabs.openTabs")} className="max-h-(--side-panel-mobile-tabs-max-height) overflow-y-auto overscroll-contain">
             {tabs.map((tab) => (
               <li key={tab.id} className={cn("flex items-center rounded-md", tab.id === activeTabId && "bg-muted")}>
                 <button

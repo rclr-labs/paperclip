@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { artifactPreviewUrl, artifactUrl } from "@/lib/artifact-card-data";
+import { useTranslation } from "@/i18n";
 import {
   Dialog,
   DialogContent,
@@ -183,6 +184,7 @@ const stateLabel = {
 };
 
 export function PullRequestCard(props: PullRequestCardProps) {
+  const { t } = useTranslation();
   const {
     number,
     repository,
@@ -262,7 +264,7 @@ export function PullRequestCard(props: PullRequestCardProps) {
       </div>
       <Footer
         {...props}
-        action={<SourceLink url={url}>Open pull request</SourceLink>}
+        action={<SourceLink url={url}>{t("components.artifacts.richArtifactCards.openPullRequest")}</SourceLink>}
       />
     </Card>
   );
@@ -275,6 +277,7 @@ export interface CommitCardProps extends ArtifactIdentity, DiffProps {
   url: string;
 }
 export function CommitCard(props: CommitCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       <div className="flex flex-col gap-4 p-5">
@@ -296,7 +299,7 @@ export function CommitCard(props: CommitCardProps) {
       </div>
       <Footer
         {...props}
-        action={<SourceLink url={props.url}>View commit</SourceLink>}
+        action={<SourceLink url={props.url}>{t("components.artifacts.richArtifactCards.viewCommit")}</SourceLink>}
       />
     </Card>
   );
@@ -435,6 +438,7 @@ export interface DataCardProps extends ArtifactIdentity {
   actions?: ReactNode;
 }
 function DataTable({ columns, rows }: Pick<DataCardProps, "columns" | "rows">) {
+  const { t } = useTranslation();
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-xs">
@@ -463,12 +467,13 @@ function DataTable({ columns, rows }: Pick<DataCardProps, "columns" | "rows">) {
         </tbody>
       </table>
       {rows.length === 0 && (
-        <p className="p-4 text-xs text-muted-foreground">No rows</p>
+        <p className="p-4 text-xs text-muted-foreground">{t("components.artifacts.richArtifactCards.noRows")}</p>
       )}
     </div>
   );
 }
 export function DataCard(props: DataCardProps) {
+  const { t } = useTranslation();
   const csv = [props.columns, ...props.rows]
     .map((row) =>
       row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(","),
@@ -510,7 +515,7 @@ export function DataCard(props: DataCardProps) {
                     `data:text/csv;charset=utf-8,${encodeURIComponent(csv)}`
                   }
                 >
-                  Download CSV
+                  {t("components.artifacts.richArtifactCards.downloadCsv")}
                 </a>
               </Button>
             </Viewer>
@@ -522,6 +527,7 @@ export function DataCard(props: DataCardProps) {
 }
 
 function ImageContent({ src, alt }: { src: string; alt: string }) {
+  const { t } = useTranslation();
   const [failedUrl, setFailedUrl] = useState<string | null>(null);
   return src && failedUrl !== src ? (
     <img
@@ -534,7 +540,7 @@ function ImageContent({ src, alt }: { src: string; alt: string }) {
   ) : (
     <div className="flex aspect-video flex-col items-center justify-center gap-3 text-muted-foreground">
       <ImageIcon className="size-8" />
-      <span className="text-xs">No preview available</span>
+      <span className="text-xs">{t("components.artifacts.richArtifactCards.noPreviewAvailable")}</span>
     </div>
   );
 }
@@ -548,6 +554,7 @@ export interface ImageCardProps extends ArtifactIdentity {
   onOpen?: () => void;
 }
 export function ImageCard(props: ImageCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       <div className="border-b border-border bg-muted/20">
@@ -575,7 +582,7 @@ export function ImageCard(props: ImageCardProps) {
               aria-label={`View image: ${props.title}`}
               onClick={props.onOpen}
             >
-              View image
+              {t("components.artifacts.richArtifactCards.viewImage")}
             </Button>
           ) : (
             <Viewer
@@ -600,6 +607,7 @@ export interface VideoCardProps extends ArtifactIdentity {
   onOpen?: () => void;
 }
 export function VideoCard(props: VideoCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       <video
@@ -631,10 +639,10 @@ export function VideoCard(props: VideoCardProps) {
               aria-label={`Open video: ${props.title}`}
               onClick={props.onOpen}
             >
-              Open video
+              {t("components.artifacts.richArtifactCards.openVideo")}
             </Button>
           ) : (
-            <SourceLink url={props.videoUrl}>Open video</SourceLink>
+            <SourceLink url={props.videoUrl}>{t("components.artifacts.richArtifactCards.openVideo")}</SourceLink>
           )
         }
       />
@@ -648,6 +656,7 @@ export interface LinkPreviewCardProps extends ArtifactIdentity {
   imageAlt: string;
 }
 export function LinkPreviewCard(props: LinkPreviewCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       {props.imageUrl && (
@@ -657,7 +666,7 @@ export function LinkPreviewCard(props: LinkPreviewCardProps) {
       )}
       <div className="flex flex-col gap-4 p-5">
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Globe className="size-4" /> Link preview
+          <Globe className="size-4" /> {t("components.artifacts.richArtifactCards.linkPreview")}
         </span>
         <Identity {...props} />
         <span className="break-all font-mono text-xs text-muted-foreground">
@@ -666,7 +675,7 @@ export function LinkPreviewCard(props: LinkPreviewCardProps) {
       </div>
       <Footer
         {...props}
-        action={<SourceLink url={props.url}>Open link</SourceLink>}
+        action={<SourceLink url={props.url}>{t("components.artifacts.richArtifactCards.openLink")}</SourceLink>}
       />
     </Card>
   );
@@ -682,6 +691,7 @@ export interface FileCardProps extends ArtifactIdentity {
   actions?: ReactNode;
 }
 export function FileCard(props: FileCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       <div className="flex flex-col gap-4 p-5">
@@ -716,17 +726,17 @@ export function FileCard(props: FileCardProps) {
           <div className="flex flex-wrap items-center gap-2">
             {props.actions}
             {props.openUrl && (
-              <SourceLink url={props.openUrl}>Open file</SourceLink>
+              <SourceLink url={props.openUrl}>{t("components.artifacts.richArtifactCards.openFile")}</SourceLink>
             )}
             {props.downloadUrl ? (
               <Button asChild size="sm" variant="outline">
                 <a href={props.downloadUrl} download={props.filename}>
-                  Download file
+                  {t("components.artifacts.richArtifactCards.downloadFile")}
                 </a>
               </Button>
             ) : (
               <Button size="sm" variant="outline" disabled>
-                Download unavailable
+                {t("components.artifacts.richArtifactCards.downloadUnavailable")}
               </Button>
             )}
           </div>

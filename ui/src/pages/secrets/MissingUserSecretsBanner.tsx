@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { secretsApi, type MyUserSecretEntry } from "../../api/secrets";
 import { queryKeys } from "../../lib/queryKeys";
 import { SetMyUserSecretDialog } from "./SetMyUserSecretDialog";
+import { useTranslation } from "@/i18n";
 
 /**
  * Warning surface for user secrets the current user has not yet set. Renders
@@ -31,6 +32,7 @@ export function MissingUserSecretsBanner({
   secretsPath?: string;
   className?: string;
 }) {
+  const { t } = useTranslation();
   const [dialogFor, setDialogFor] = useState<MyUserSecretEntry | null>(null);
 
   const mySecretsQuery = useQuery({
@@ -86,7 +88,7 @@ export function MissingUserSecretsBanner({
               to={secretsPath}
               className="mt-2 inline-block text-(length:--text-micro) font-medium underline underline-offset-2"
             >
-              Manage all my secrets
+              {t("pages.secrets.missingUserSecretsBanner.manageAllMySecrets")}
             </Link>
           ) : null}
         </div>

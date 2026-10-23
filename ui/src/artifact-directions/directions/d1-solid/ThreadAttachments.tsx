@@ -6,6 +6,7 @@ import { KindBlock } from "./KindBlock";
 import { META_TEXT, MetaLine } from "./MetaLine";
 import { STATE, StateMarker } from "./StateMarker";
 import { FOCUS, SLAB, SLAB_HOVER } from "./slab";
+import { useTranslation } from "@/i18n";
 
 /**
  * THREAD — the attachments block under an agent message.
@@ -77,6 +78,7 @@ function AttachmentSlab({ artifact }: { artifact: LabArtifact }) {
 }
 
 export function ThreadAttachments({ artifacts }: { artifacts: LabArtifact[] }) {
+  const { t } = useTranslation();
   if (artifacts.length === 0) return null;
   const images = artifacts.filter((a) => a.kind === "image");
   const files = artifacts.filter((a) => a.kind !== "image");
@@ -86,7 +88,7 @@ export function ThreadAttachments({ artifacts }: { artifacts: LabArtifact[] }) {
   // Whatever has a picture goes first, so the two-row slabs start the grid and the files pack beside them.
   const ordered = [...artifacts.filter(hasThumbnail), ...artifacts.filter((a) => !hasThumbnail(a))];
   return (
-    <section data-solid="thread-attachments" aria-label="Attachments" className="flex w-full flex-col gap-2 py-1">
+    <section data-solid="thread-attachments" aria-label={t("artifactdirections.directions.d1solid.threadAttachments.attachments")} className="flex w-full flex-col gap-2 py-1">
       <p className={cn(META_TEXT, "px-1 text-muted-foreground")}>
         <Counts lead={plural(artifacts.length, "attachment")} parts={counts} of={artifacts} />
       </p>

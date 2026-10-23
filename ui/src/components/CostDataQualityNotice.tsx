@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { AgentAvatar } from "./AgentAvatar";
 import { useToastActions } from "../context/ToastContext";
+import { useTranslation } from "@/i18n";
 
 const explanations: Record<CostDataQualityReason, { label: string; description: string }> = {
   unknown_billing: {
@@ -41,6 +42,7 @@ export function CostDataQualityNotice({ companyId, from, to, reportKey, unpriced
   companyId: string; from?: string; to?: string; reportKey: readonly unknown[];
   unpricedCount: number; pendingCount: number; unknownBillingCount: number;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const unavailableCount = unpricedCount + pendingCount;
   const hasCostGaps = unavailableCount > 0 || unknownBillingCount > 0;
@@ -116,12 +118,12 @@ export function CostDataQualityNotice({ companyId, from, to, reportKey, unpriced
       {label}
     </Button>
     {open && <div id={detailsId} className="space-y-2">
-      {hasCostGaps && isPending && <p role="status">Loading affected runs…</p>}
-      {hasCostGaps && error && !data && <div className="flex flex-wrap items-center gap-2"><p role="status">Cost details could not be loaded.</p><Button variant="outline" size="sm" onClick={() => refetch()}>Retry loading</Button></div>}
+      {hasCostGaps && isPending && <p role="status">{t("components.costDataQualityNotice.loadingAffectedRuns")}</p>}
+      {hasCostGaps && error && !data && <div className="flex flex-wrap items-center gap-2"><p role="status">{t("components.costDataQualityNotice.costDetailsCouldNotBeLoaded")}</p><Button variant="outline" size="sm" onClick={() => refetch()}>{t("components.costDataQualityNotice.retryLoading")}</Button></div>}
       {hasCostGaps && data && <>
-        {error && <p role="status">Showing the last loaded cost details. Updates will resume automatically.</p>}
-        {data.events.length === 0 && data.runs.length === 0 && <p role="status">No cost gaps remain in this period.</p>}
-        <ul aria-label="Cost details by agent" className="space-y-4">
+        {error && <p role="status">{t("components.costDataQualityNotice.showingTheLastLoadedCostDetails")}</p>}
+        {data.events.length === 0 && data.runs.length === 0 && <p role="status">{t("components.costDataQualityNotice.noCostGapsRemainInThis")}</p>}
+        <ul aria-label={t("components.costDataQualityNotice.costDetailsByAgent")} className="space-y-4">
           {sortedGroups.map(group => <li key={group.agent.id ?? "services"}>
             <h3 className="flex items-center gap-2 font-medium text-foreground">
               <AgentAvatar agent={group.agent} size={20} />
@@ -130,7 +132,7 @@ export function CostDataQualityNotice({ companyId, from, to, reportKey, unpriced
             <ul aria-label={`${group.agent.name} cost details`}>{group.items.map(({ item, source }) => itemRow(item, source))}</ul>
           </li>)}
         </ul>
-        {(data.hasMoreEvents || data.hasMoreRuns) && <p className="text-xs">Showing the 25 most recent entries in each category. Select a shorter date range to inspect more.</p>}
+        {(data.hasMoreEvents || data.hasMoreRuns) && <p className="text-xs">{t("components.costDataQualityNotice.showingThe25MostRecentEntries")}</p>}
       </>}
     </div>}
   </div>;

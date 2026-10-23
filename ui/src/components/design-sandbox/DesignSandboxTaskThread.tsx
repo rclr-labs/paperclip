@@ -23,6 +23,7 @@ import { parseCssTimeMs } from "../task-chat/motion-tokens";
 import { isTerminalRunStatus, paperclipRunnerFinalResponse, transcriptToTaskChatItems } from "../task-chat/transcript-adapter";
 import type { TaskChatItem, TaskChatMessageItem, TaskChatRuntimeRequestDecision, TaskChatRuntimeRequestItem } from "../task-chat/task-chat-model";
 import { previewHistory, THREAD_PREVIEW_ALIASES, THREAD_PREVIEW_CASES, type ThreadPreviewCase } from "./task-thread-fixtures";
+import { useTranslation } from "@/i18n";
 
 /** Local design sandbox only. Uses the same transport adapter and rendered
  * surfaces as TaskChatThread; no lab scenarios or imitation thread markup. */
@@ -36,6 +37,7 @@ export default function DesignSandboxTaskThread({
   defaultConversation: boolean;
   previewMode?: "catalog" | "playback";
 }) {
+  const { t } = useTranslation();
   const [params, setParams] = useSearchParams();
   const requested = params.get("threadPreview") ?? (defaultConversation ? "staging-conversation" : "saved");
   const aliased = THREAD_PREVIEW_ALIASES[requested] ?? requested;
@@ -56,18 +58,18 @@ export default function DesignSandboxTaskThread({
 
   return <div className="flex min-h-0 flex-1 flex-col" data-testid="sandbox-task-thread" data-preview-state={selected}>
     <div className="flex shrink-0 flex-wrap items-center gap-2 border-b border-border bg-background py-2 text-xs">
-      <label htmlFor="sandbox-thread-state" className="font-normal text-foreground">Thread preview</label>
-      <NativeSelect id="sandbox-thread-state" value={selected} onChange={event => choose(event.target.value)} className="w-auto min-w-0 max-w-full text-xs" aria-label="Thread preview state">
-        <option value="saved">Saved thread</option>
+      <label htmlFor="sandbox-thread-state" className="font-normal text-foreground">{t("components.designsandbox.designSandboxTaskThread.threadPreview")}</label>
+      <NativeSelect id="sandbox-thread-state" value={selected} onChange={event => choose(event.target.value)} className="w-auto min-w-0 max-w-full text-xs" aria-label={t("components.designsandbox.designSandboxTaskThread.threadPreviewState")}>
+        <option value="saved">{t("components.designsandbox.designSandboxTaskThread.savedThread")}</option>
         <option value="all">All states ({THREAD_PREVIEW_CASES.length})</option>
         {[...new Set(THREAD_PREVIEW_CASES.map(item => item.group))].map(group => <optgroup key={group} label={group}>
           {THREAD_PREVIEW_CASES.filter(item => item.group === group).map(item => <option key={item.id} value={item.id}>{item.label}</option>)}
         </optgroup>)}
       </NativeSelect>
       {selected !== "saved" ? <>
-        <Button size="sm" variant="outline" onClick={() => setGeneration(value => value + 1)}>Reset / replay</Button>
-        <Button size="sm" variant="ghost" onClick={() => choose("saved")}>Show saved thread</Button>
-        <span className="text-muted-foreground">Production renderers · synthetic data · preview actions stay local</span>
+        <Button size="sm" variant="outline" onClick={() => setGeneration(value => value + 1)}>{t("components.designsandbox.designSandboxTaskThread.resetReplay")}</Button>
+        <Button size="sm" variant="ghost" onClick={() => choose("saved")}>{t("components.designsandbox.designSandboxTaskThread.showSavedThread")}</Button>
+        <span className="text-muted-foreground">{t("components.designsandbox.designSandboxTaskThread.productionRenderersSyntheticDataPreviewActions")}</span>
       </> : null}
     </div>
     {selected === "saved" ? children : <TaskChatPresentationProvider mode={streamlined ? "streamlined" : "production"}>

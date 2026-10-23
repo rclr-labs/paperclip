@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 /**
  * "Edit a copy" confirm dialog for read-only external skills (PAP-13112,
@@ -47,6 +48,7 @@ export function ForkSkillDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const toast = useOptionalToastActions();
@@ -158,10 +160,9 @@ export function ForkSkillDialog({
 
         {reusableFork ? (
           <div className="rounded-md border border-primary/40 bg-primary/5 p-3 text-sm">
-            <p className="font-medium text-foreground">You already have a copy</p>
+            <p className="font-medium text-foreground">{t("components.skillstudio.forkSkillDialog.youAlreadyHaveACopy")}</p>
             <p className="mt-0.5 text-muted-foreground">
-              An unedited copy of this skill already exists. Open it instead of
-              making another.
+              {t("components.skillstudio.forkSkillDialog.anUneditedCopyOfThisSkill")}
             </p>
             <Button
               type="button"
@@ -170,7 +171,7 @@ export function ForkSkillDialog({
               onClick={openExisting}
               disabled={busy}
             >
-              Open your existing copy
+              {t("components.skillstudio.forkSkillDialog.openYourExistingCopy")}
             </Button>
           </div>
         ) : null}
@@ -202,7 +203,7 @@ export function ForkSkillDialog({
               <label className="mt-3 flex items-start justify-between gap-3">
                 <span className="text-sm">
                   <span className="font-medium text-foreground">
-                    Switch these agents to the copy
+                    {t("components.skillstudio.forkSkillDialog.switchTheseAgentsToTheCopy")}
                   </span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">
                     {reassign
@@ -214,14 +215,13 @@ export function ForkSkillDialog({
                   checked={reassign}
                   onCheckedChange={setReassign}
                   disabled={busy}
-                  aria-label="Switch these agents to the copy"
+                  aria-label={t("components.skillstudio.forkSkillDialog.switchTheseAgentsToTheCopy")}
                 />
               </label>
             </>
           ) : (
             <p className="mt-1 text-xs text-muted-foreground">
-              Nothing is assigned to it, so your copy won't change any agent's
-              behaviour.
+              {t("components.skillstudio.forkSkillDialog.nothingIsAssignedToItSo")}
             </p>
           )}
         </div>
@@ -233,7 +233,7 @@ export function ForkSkillDialog({
             onClick={() => onOpenChange(false)}
             disabled={busy}
           >
-            Cancel
+            {t("components.skillstudio.forkSkillDialog.cancel")}
           </Button>
           <Button
             type="button"

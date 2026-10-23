@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Search, Info, AlertTriangle } from 'lucide-react';
+import { useTranslation } from "@/i18n";
 
 export type SkillTreeCandidate = Pick<SkillSourceCandidate, 'path' | 'name' | 'description' | 'error' | 'inspection'> & { note?: string; warnings?: string[]; fileCount?: number };
 export function updateSkillTreeSelection(candidates: SkillTreeCandidate[], selected: Set<string>, folder: string, checked: boolean) {
@@ -58,6 +59,7 @@ export function SkillSourceTree({ candidates, selected, excludedFolders, onChang
   onPreview?: (skill: SkillTreeCandidate, filePath?: string) => void; disabled?: boolean;
   packageMode?: 'skills' | 'repository';
 }) {
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [expansion, setExpansion] = useState(new Map<string, boolean>());
   const { nodes, included } = useMemo(() => buildSkillPackageTree(candidates), [candidates]);
@@ -98,11 +100,11 @@ export function SkillSourceTree({ candidates, selected, excludedFolders, onChang
   return <div className="flex min-h-0 flex-col overflow-hidden rounded-md border border-border">
     <div className="flex items-center gap-2 px-3">
       <Search className="size-4 shrink-0 text-muted-foreground" />
-      <Input className="border-0 bg-transparent px-0 shadow-none focus-visible:ring-0 dark:bg-transparent" value={search} onChange={event => setSearch(event.target.value)} placeholder="Search skills or files…" aria-label="Search discovered skills" />
+      <Input className="border-0 bg-transparent px-0 shadow-none focus-visible:ring-0 dark:bg-transparent" value={search} onChange={event => setSearch(event.target.value)} placeholder={t("pages.skills.skillSourceTree.searchSkillsOrFiles")} aria-label={t("pages.skills.skillSourceTree.searchDiscoveredSkills")} />
     </div>
     <div className="flex items-center justify-between gap-2 border-y border-border bg-muted/30 px-3 py-1.5">
       <label className="flex items-center gap-2 text-xs text-muted-foreground">
-        <input type="checkbox" className="size-3.5 accent-foreground" aria-label="Import folder Repository"
+        <input type="checkbox" className="size-3.5 accent-foreground" aria-label={t("pages.skills.skillSourceTree.importFolderRepository")}
           checked={candidates.length > 0 && selectedCount === candidates.length}
           ref={element => { if (element) element.indeterminate = selectedCount > 0 && selectedCount < candidates.length; }}
           disabled={disabled || candidates.length === 0} onChange={() => toggleCheck('')} />
@@ -148,6 +150,6 @@ export function SkillSourceTree({ candidates, selected, excludedFolders, onChang
         }}
       />
     </div>
-    {packageMode === 'skills' && <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">Select whole skill packages. Expand a skill to see its included files. Nested skills are selected separately.</p>}
+    {packageMode === 'skills' && <p className="border-t border-border px-3 py-2 text-xs text-muted-foreground">{t("pages.skills.skillSourceTree.selectWholeSkillPackagesExpandA")}</p>}
   </div>;
 }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DIRECTION_IDS, KIT_META, type DirectionId } from "../kit";
 import { labSearch, type LabTheme, type LabView } from "../lab-state";
+import { useTranslation } from "@/i18n";
 
 /**
  * The contact sheet. Every tile is this same page in an iframe (`chrome=0`),
@@ -95,12 +96,13 @@ function KitBoard({ direction, theme, anim }: { direction: DirectionId; theme: L
 
 /** Every kit: one row each, one column per surface. */
 function AllBoard({ theme, anim }: { theme: LabTheme; anim: boolean }) {
+  const { t } = useTranslation();
   return (
     <div className="grid grid-cols-(--gtc-board) items-start gap-x-4 gap-y-8" style={{ "--gtc-board": "7rem repeat(3, minmax(0, 1fr))" } as React.CSSProperties}>
       <span />
-      <ColumnHead>Thread</ColumnHead>
-      <ColumnHead>Panel</ColumnHead>
-      <ColumnHead>Gallery + stack</ColumnHead>
+      <ColumnHead>{t("artifactdirections.frames.board.thread")}</ColumnHead>
+      <ColumnHead>{t("artifactdirections.frames.board.panel")}</ColumnHead>
+      <ColumnHead>{t("artifactdirections.frames.board.galleryStack")}</ColumnHead>
       {DIRECTION_IDS.map((direction) => (
         <div key={direction} className="contents">
           <div className="flex flex-col gap-1">

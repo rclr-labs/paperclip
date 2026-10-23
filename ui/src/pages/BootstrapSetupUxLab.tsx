@@ -3,6 +3,7 @@ import { Loader2, ShieldCheck, Terminal, TriangleAlert } from "lucide-react";
 import { BOOTSTRAP_FALLBACK_COMMAND } from "@/bootstrapSetup";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "@/i18n";
 
 type LabFixtureKey =
   | "signed-out-private"
@@ -31,11 +32,12 @@ const FIXTURE_ORDER: LabFixtureKey[] = [
 ];
 
 function CliFallback({ hasActiveInvite }: { hasActiveInvite: boolean }) {
+  const { t } = useTranslation();
   return (
     <div className="mt-6 border-t border-border pt-5">
       <div className="flex items-center gap-2 text-sm font-medium">
         <Terminal className="size-4 text-muted-foreground" aria-hidden />
-        <span>Prefer to finish setup from the host?</span>
+        <span>{t("pages.bootstrapSetupUxLab.preferToFinishSetupFromThe")}</span>
       </div>
       <p className="mt-2 text-sm text-muted-foreground">
         {hasActiveInvite
@@ -58,16 +60,16 @@ function StateChrome({ children }: { children: ReactNode }) {
 }
 
 function SignedOutPrivate() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+      <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.finishSettingUpThisPaperclip")}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        No admin has claimed this instance yet. Sign in or create your Paperclip account to become the first
-        admin from this browser.
+        {t("pages.bootstrapSetupUxLab.noAdminHasClaimedThisInstance2")}
       </p>
       <div className="mt-5">
         <Button asChild>
-          <a href="/auth?next=/">Sign in / Create account</a>
+          <a href="/auth?next=/">{t("pages.bootstrapSetupUxLab.signInCreateAccount")}</a>
         </Button>
       </div>
       <CliFallback hasActiveInvite={false} />
@@ -76,22 +78,23 @@ function SignedOutPrivate() {
 }
 
 function SignedInPrivate() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+      <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.finishSettingUpThisPaperclip")}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding.
+        {t("pages.bootstrapSetupUxLab.noAdminHasClaimedThisInstance")}
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <Button>Claim this instance</Button>
+        <Button>{t("pages.bootstrapSetupUxLab.claimThisInstance")}</Button>
         <span className="text-sm text-muted-foreground">
-          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
+          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
         Wrong account?{" "}
         <a href="/auth?next=/" className="underline underline-offset-2">
-          Switch account
+          {t("pages.bootstrapSetupUxLab.switchAccount")}
         </a>
         .
       </p>
@@ -101,19 +104,20 @@ function SignedInPrivate() {
 }
 
 function ClaimingPrivate() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+      <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.finishSettingUpThisPaperclip")}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding.
+        {t("pages.bootstrapSetupUxLab.noAdminHasClaimedThisInstance")}
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-3">
         <Button disabled>
           <Loader2 className="mr-2 size-4 animate-spin" aria-hidden />
-          Claiming…
+          {t("pages.bootstrapSetupUxLab.claiming")}
         </Button>
         <span className="text-sm text-muted-foreground">
-          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
+          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <CliFallback hasActiveInvite={false} />
@@ -122,16 +126,17 @@ function ClaimingPrivate() {
 }
 
 function ClaimErrorPrivate() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">Finish setting up this Paperclip</h1>
+      <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.finishSettingUpThisPaperclip")}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        No admin has claimed this instance yet. Claim it now to become the first admin and start onboarding.
+        {t("pages.bootstrapSetupUxLab.noAdminHasClaimedThisInstance")}
       </p>
       <div className="mt-5 flex flex-wrap items-center gap-3">
-        <Button>Claim this instance</Button>
+        <Button>{t("pages.bootstrapSetupUxLab.claimThisInstance")}</Button>
         <span className="text-sm text-muted-foreground">
-          Signed in as <span className="font-medium text-foreground">jane@appliance.local</span>
+          {t("pages.bootstrapSetupUxLab.signedInAs")} <span className="font-medium text-foreground">jane@appliance.local</span>
         </span>
       </div>
       <div
@@ -140,10 +145,10 @@ function ClaimErrorPrivate() {
       >
         <TriangleAlert className="mt-0.5 size-4 flex-shrink-0" aria-hidden />
         <div>
-          <p className="font-medium">Someone else has already claimed this instance.</p>
+          <p className="font-medium">{t("pages.bootstrapSetupUxLab.someoneElseHasAlreadyClaimedThis")}</p>
           <p className="mt-1 text-destructive/90">
             Refresh to sign in, or ask the existing admin to invite you from{" "}
-            <span className="font-mono">Settings → Access</span>.
+            <span className="font-mono">{t("pages.bootstrapSetupUxLab.settingsAccess")}</span>.
           </p>
         </div>
       </div>
@@ -153,6 +158,7 @@ function ClaimErrorPrivate() {
 }
 
 function ClaimSuccess() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
       <div className="flex items-start gap-3">
@@ -160,19 +166,19 @@ function ClaimSuccess() {
           <ShieldCheck className="size-5" aria-hidden />
         </div>
         <div>
-          <h1 className="text-xl font-semibold">You&rsquo;re the instance admin</h1>
+          <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.youReTheInstanceAdmin")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Setup is complete. Taking you to onboarding to create your first organization&hellip;
+            {t("pages.bootstrapSetupUxLab.setupIsCompleteTakingYouTo")}
           </p>
         </div>
       </div>
       <div className="mt-5 flex items-center gap-3">
         <Loader2 className="size-4 animate-spin text-muted-foreground" aria-hidden />
-        <span className="text-sm text-muted-foreground">Redirecting&hellip;</span>
+        <span className="text-sm text-muted-foreground">{t("pages.bootstrapSetupUxLab.redirecting")}</span>
       </div>
       <div className="mt-5">
         <Button asChild variant="outline">
-          <a href="/">Continue to dashboard</a>
+          <a href="/">{t("pages.bootstrapSetupUxLab.continueToDashboard")}</a>
         </Button>
       </div>
     </StateChrome>
@@ -180,17 +186,16 @@ function ClaimSuccess() {
 }
 
 function PublicInviteOnly() {
+  const { t } = useTranslation();
   return (
     <StateChrome>
-      <h1 className="text-xl font-semibold">This Paperclip is waiting on its first admin</h1>
+      <h1 className="text-xl font-semibold">{t("pages.bootstrapSetupUxLab.thisPaperclipIsWaitingOnIts")}</h1>
       <p className="mt-2 text-sm text-muted-foreground">
-        This instance runs in invite‑only mode. The operator must generate a one‑time first‑admin invite URL
-        from the host. Once you have the link, open it from this browser to finish setup.
+        {t("pages.bootstrapSetupUxLab.thisInstanceRunsInInviteOnly")}
       </p>
       <CliFallback hasActiveInvite />
       <p className="mt-4 text-xs text-muted-foreground">
-        Browser‑based claim is intentionally disabled in public mode so anyone on the network can&rsquo;t
-        promote themselves.
+        {t("pages.bootstrapSetupUxLab.browserBasedClaimIsIntentionallyDisabled")}
       </p>
     </StateChrome>
   );
@@ -206,12 +211,13 @@ const FIXTURE_BODIES: Record<LabFixtureKey, ReactElement> = {
 };
 
 export function BootstrapSetupUxLab() {
+  const { t } = useTranslation();
   return (
     <div className="bg-background min-h-screen pb-16">
       <header className="border-b border-border bg-muted/20">
         <div className="mx-auto max-w-3xl px-6 py-6">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">UX Lab</p>
-          <h1 className="mt-1 text-2xl font-semibold">Bootstrap-pending setup states</h1>
+          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{t("pages.bootstrapSetupUxLab.uxLab")}</p>
+          <h1 className="mt-1 text-2xl font-semibold">{t("pages.bootstrapSetupUxLab.bootstrapPendingSetupStates")}</h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
             Fixtures for the bootstrap-pending screen in <span className="font-mono">CloudAccessGate</span>. Used
             as the UX spec for{" "}

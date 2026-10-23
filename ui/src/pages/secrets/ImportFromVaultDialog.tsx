@@ -51,6 +51,7 @@ import {
 } from "@/components/ui/select";
 import { EmptyState } from "../../components/EmptyState";
 import { cn } from "../../lib/utils";
+import { useTranslation } from "@/i18n";
 
 type Step = "select" | "review" | "result";
 
@@ -144,6 +145,7 @@ function StatusBadge({
 }
 
 function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["status"] }) {
+  const { t } = useTranslation();
   switch (status) {
     case "imported":
       return (
@@ -151,7 +153,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-emerald-600 border-emerald-500/40 dark:text-emerald-400"
         >
-          <CheckCircle2 className="h-3 w-3" /> Created
+          <CheckCircle2 className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.created")}
         </Badge>
       );
     case "skipped":
@@ -160,7 +162,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-muted-foreground border-border/60"
         >
-          <Link2 className="h-3 w-3" /> Skipped
+          <Link2 className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.skipped")}
         </Badge>
       );
     case "error":
@@ -170,7 +172,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-destructive border-destructive/40"
         >
-          <XCircle className="h-3 w-3" /> Failed
+          <XCircle className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.failed")}
         </Badge>
       );
   }
@@ -338,6 +340,7 @@ export function ImportFromVaultDialog({
   onImportComplete,
   onManageVaults,
 }: ImportFromVaultDialogProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const toast = useToastActions();
   const awsVaults = useMemo(() => awsVaultOptions(providerConfigs), [providerConfigs]);
@@ -655,10 +658,10 @@ export function ImportFromVaultDialog({
         <header className="flex items-start justify-between gap-3 border-b border-border/60 px-5 py-4">
           <div className="flex flex-col gap-1">
             <DialogTitle className="text-base font-semibold">
-              Import from AWS Secrets Manager
+              {t("pages.secrets.importFromVaultDialog.importFromAwsSecretsManager")}
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground">
-              Bring AWS-managed secrets into Paperclip as external references.
+              {t("pages.secrets.importFromVaultDialog.bringAwsManagedSecretsIntoPaperclip")}
             </DialogDescription>
             <Stepper step={step} />
           </div>
@@ -666,7 +669,7 @@ export function ImportFromVaultDialog({
             type="button"
             className="rounded-sm text-muted-foreground transition-opacity hover:opacity-100 opacity-70"
             onClick={() => handleClose()}
-            aria-label="Close import dialog"
+            aria-label={t("pages.secrets.importFromVaultDialog.closeImportDialog")}
           >
             <X className="h-4 w-4" />
           </button>
@@ -730,7 +733,7 @@ export function ImportFromVaultDialog({
           <div className="flex items-center gap-2">
             {step !== "result" && (
               <Button variant="ghost" size="sm" onClick={() => handleClose()}>
-                Cancel
+                {t("pages.secrets.importFromVaultDialog.cancel")}
               </Button>
             )}
             {step === "review" && (
@@ -740,7 +743,7 @@ export function ImportFromVaultDialog({
                 onClick={() => setStep("select")}
                 disabled={importMutation.isPending}
               >
-                Back
+                {t("pages.secrets.importFromVaultDialog.back")}
               </Button>
             )}
             {step === "select" && (
@@ -749,7 +752,7 @@ export function ImportFromVaultDialog({
                 onClick={() => setStep("review")}
                 disabled={totalSelected === 0}
               >
-                Continue → Review
+                {t("pages.secrets.importFromVaultDialog.continueReview")}
               </Button>
             )}
             {step === "review" && (
@@ -764,7 +767,7 @@ export function ImportFromVaultDialog({
               >
                 {importMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Importing…
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> {t("pages.secrets.importFromVaultDialog.importing")}
                   </>
                 ) : (
                   `Import ${draftList.length}`
@@ -773,7 +776,7 @@ export function ImportFromVaultDialog({
             )}
             {step === "result" && (
               <Button size="sm" onClick={() => handleClose(true)}>
-                Done
+                {t("pages.secrets.importFromVaultDialog.done")}
               </Button>
             )}
           </div>
@@ -851,6 +854,7 @@ interface SelectStepProps {
 }
 
 function SelectStep(props: SelectStepProps) {
+  const { t } = useTranslation();
   const {
     awsVaults,
     eligible,
@@ -897,7 +901,7 @@ function SelectStep(props: SelectStepProps) {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex flex-wrap items-center gap-2 border-b border-border/60 px-5 py-3">
-        <label className="text-xs uppercase tracking-wide text-muted-foreground">Vault</label>
+        <label className="text-xs uppercase tracking-wide text-muted-foreground">{t("pages.secrets.importFromVaultDialog.vault")}</label>
         {awsVaults.length === 1 && eligible.length === 1 ? (
           <span className="text-xs font-medium" data-testid="vault-static-label">
             {eligible[0].displayName}
@@ -907,8 +911,8 @@ function SelectStep(props: SelectStepProps) {
             value={vaultId ?? undefined}
             onValueChange={onVaultChange}
           >
-            <SelectTrigger size="sm" className="text-xs" aria-label="Select AWS vault">
-              <SelectValue placeholder="Select an AWS vault" />
+            <SelectTrigger size="sm" className="text-xs" aria-label={t("pages.secrets.importFromVaultDialog.selectAwsVault")}>
+              <SelectValue placeholder={t("pages.secrets.importFromVaultDialog.selectAnAwsVault")} />
             </SelectTrigger>
             <SelectContent>
               {awsVaults.map((vault) => {
@@ -946,9 +950,9 @@ function SelectStep(props: SelectStepProps) {
           <Input
             value={searchInput}
             onChange={(event) => onSearchInput(event.target.value)}
-            placeholder="Search by name, ARN, tag"
+            placeholder={t("pages.secrets.importFromVaultDialog.searchByNameArnTag")}
             className="pl-7 pr-7 text-xs"
-            aria-label="Search remote secrets"
+            aria-label={t("pages.secrets.importFromVaultDialog.searchRemoteSecrets")}
             data-testid="vault-search"
           />
           {showSearchSpinner && (
@@ -961,7 +965,7 @@ function SelectStep(props: SelectStepProps) {
           size="sm"
           onClick={onRefresh}
           disabled={previewLoading || !vaultId}
-          aria-label="Refresh remote secrets"
+          aria-label={t("pages.secrets.importFromVaultDialog.refreshRemoteSecrets")}
         >
           <RefreshCw className={cn("h-3.5 w-3.5", previewLoading && "animate-spin")} />
         </Button>
@@ -1002,11 +1006,11 @@ function SelectStep(props: SelectStepProps) {
                     disabled={selectableInLoaded.length === 0}
                   />
                 </th>
-                <th className="px-2 py-2 text-left font-medium">Remote name</th>
-                <th className="px-2 py-2 text-left font-medium">Reference</th>
-                <th className="px-2 py-2 text-left font-medium">Last changed</th>
-                <th className="px-2 py-2 text-left font-medium">Suggested name</th>
-                <th className="px-2 py-2 text-left font-medium">State</th>
+                <th className="px-2 py-2 text-left font-medium">{t("pages.secrets.importFromVaultDialog.remoteName")}</th>
+                <th className="px-2 py-2 text-left font-medium">{t("pages.secrets.importFromVaultDialog.reference")}</th>
+                <th className="px-2 py-2 text-left font-medium">{t("pages.secrets.importFromVaultDialog.lastChanged")}</th>
+                <th className="px-2 py-2 text-left font-medium">{t("pages.secrets.importFromVaultDialog.suggestedName")}</th>
+                <th className="px-2 py-2 text-left font-medium">{t("pages.secrets.importFromVaultDialog.state")}</th>
               </tr>
             </thead>
             <tbody data-testid="vault-table-body">
@@ -1103,7 +1107,7 @@ function SelectStep(props: SelectStepProps) {
             >
               {pageLoading ? (
                 <>
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Loading…
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> {t("pages.secrets.importFromVaultDialog.loading")}
                 </>
               ) : (
                 `Load ${PAGE_SIZE} more`
@@ -1117,6 +1121,7 @@ function SelectStep(props: SelectStepProps) {
 }
 
 function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () => void }) {
+  const { t } = useTranslation();
   const isPermission = isPermissionError(error);
   const isThrottling = isThrottlingError(error);
   const message = readableErrorMessage(error);
@@ -1142,7 +1147,7 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
         </div>
         <div className="mt-2 flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={onRetry}>
-            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Retry
+            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> {t("pages.secrets.importFromVaultDialog.retry")}
           </Button>
           {isPermission && (
             <a
@@ -1151,7 +1156,7 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium underline"
             >
-              IAM reference <ExternalLink className="h-3 w-3" />
+              {t("pages.secrets.importFromVaultDialog.iamReference")} <ExternalLink className="h-3 w-3" />
             </a>
           )}
         </div>
@@ -1326,6 +1331,7 @@ interface ResultStepProps {
 }
 
 function ResultStep({ result, draftList }: ResultStepProps) {
+  const { t } = useTranslation();
   const grouped = useMemo(() => {
     const created: RemoteSecretImportRowResult[] = [];
     const skipped: RemoteSecretImportRowResult[] = [];
@@ -1363,13 +1369,13 @@ function ResultStep({ result, draftList }: ResultStepProps) {
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
         {grouped.created.length > 0 && (
-          <ResultGroup label="Created" rows={grouped.created} draftLookup={draftLookup} />
+          <ResultGroup label={t("pages.secrets.importFromVaultDialog.created")} rows={grouped.created} draftLookup={draftLookup} />
         )}
         {grouped.skipped.length > 0 && (
-          <ResultGroup label="Skipped" rows={grouped.skipped} draftLookup={draftLookup} />
+          <ResultGroup label={t("pages.secrets.importFromVaultDialog.skipped")} rows={grouped.skipped} draftLookup={draftLookup} />
         )}
         {grouped.failed.length > 0 && (
-          <ResultGroup label="Failed" rows={grouped.failed} draftLookup={draftLookup} />
+          <ResultGroup label={t("pages.secrets.importFromVaultDialog.failed")} rows={grouped.failed} draftLookup={draftLookup} />
         )}
       </div>
     </div>

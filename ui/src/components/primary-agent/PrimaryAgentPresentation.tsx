@@ -5,6 +5,7 @@ import { AgentAvatar } from "@/components/AgentAvatar";
 import { Button } from "@/components/ui/button";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTranslation } from "@/i18n";
 
 /** Shared presentation for the application and the approved review stories. */
 export interface PrimaryAgentPresentation {
@@ -27,25 +28,27 @@ export function usePrimaryAgentPresentation(companyId?: string | null) {
 }
 
 export function PrimaryAgentIndicator({ agentId, companyId }: { agentId: string; companyId?: string }) {
+  const { t } = useTranslation();
   const primary = usePrimaryAgentPresentation(companyId);
   if (!primary || primary.loading || primary.primaryAgentId !== agentId) return null;
   return <Tooltip>
     <TooltipTrigger asChild>
-      <span role="img" aria-label="My primary agent" className="inline-flex shrink-0 text-primary">
+      <span role="img" aria-label={t("components.primaryagent.primaryAgentPresentation.myPrimaryAgent")} className="inline-flex shrink-0 text-primary">
         <Crown aria-hidden="true" className="size-3.5" />
       </span>
     </TooltipTrigger>
-    <TooltipContent>My primary agent</TooltipContent>
+    <TooltipContent>{t("components.primaryagent.primaryAgentPresentation.myPrimaryAgent")}</TooltipContent>
   </Tooltip>;
 }
 
 export function SetPrimaryAgentButton({ agent }: {
   agent: Agent;
 }) {
+  const { t } = useTranslation();
   const primary = usePrimaryAgentPresentation(agent.companyId);
   if (!primary || agent.status === "terminated" || agent.status === "pending_approval") return null;
   if (primary.error) return <Button type="button" variant="link" size="sm" onClick={primary.onRetry}
-    className="h-auto justify-start p-0 text-xs text-destructive">Retry loading primary agent</Button>;
+    className="h-auto justify-start p-0 text-xs text-destructive">{t("components.primaryagent.primaryAgentPresentation.retryLoadingPrimaryAgent")}</Button>;
   const selected = primary.primaryAgentId === agent.id;
   const pending = primary.pendingAgentId === agent.id;
   if (selected && !pending && !primary.loading) return null;
@@ -73,21 +76,21 @@ export function SetPrimaryAgentButton({ agent }: {
             className="rounded-xl ring-1 ring-primary ring-offset-2 ring-offset-background" />
           <span className="flex max-w-full items-center justify-center gap-1.5 text-sm font-medium">
             <span className="min-w-0 break-words">{agent.name}</span>
-            <span role="img" aria-label="New primary agent" className="inline-flex shrink-0 text-primary">
+            <span role="img" aria-label={t("components.primaryagent.primaryAgentPresentation.newPrimaryAgent")} className="inline-flex shrink-0 text-primary">
               <Crown aria-hidden="true" className="size-3.5" />
             </span>
           </span>
         </div>
       </div>
       <AlertDialogHeader>
-        <AlertDialogTitle>Change your primary agent?</AlertDialogTitle>
+        <AlertDialogTitle>{t("components.primaryagent.primaryAgentPresentation.changeYourPrimaryAgent")}</AlertDialogTitle>
         <AlertDialogDescription className="break-words">
           This will make {agent.name} your primary agent, do you want to do this?
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter className="flex-row justify-between sm:justify-between">
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction disabled={disabled} onClick={() => primary.onChange(agent.id)}>Set as my primary</AlertDialogAction>
+        <AlertDialogCancel>{t("components.primaryagent.primaryAgentPresentation.cancel")}</AlertDialogCancel>
+        <AlertDialogAction disabled={disabled} onClick={() => primary.onChange(agent.id)}>{t("components.primaryagent.primaryAgentPresentation.setAsMyPrimary")}</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>;

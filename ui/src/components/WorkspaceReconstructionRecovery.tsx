@@ -8,10 +8,12 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { NativeSelect } from "./ui/select";
+import { useTranslation } from "@/i18n";
 
 export function WorkspaceReconstructionRecovery({ issueId, blocker, canManage, onRecorded }: {
   issueId: string; blocker: ExecutionBlocker; canManage: boolean; onRecorded: () => void;
 }) {
+  const { t } = useTranslation();
   const id = useId();
   const [selected, setSelected] = useState<string[]>([]);
   const [missingWork, setMissingWork] = useState("");
@@ -28,32 +30,32 @@ export function WorkspaceReconstructionRecovery({ issueId, blocker, canManage, o
     }), onSuccess: onRecorded,
   });
   return <details className="w-full">
-    <summary className="cursor-pointer">Continue from saved sources</summary>
-    <p>The original workspace was destroyed before its edits were saved. Its last run will remain failed.</p>
+    <summary className="cursor-pointer">{t("components.workspaceReconstructionRecovery.continueFromSavedSources")}</summary>
+    <p>{t("components.workspaceReconstructionRecovery.theOriginalWorkspaceWasDestroyedBefore")}</p>
     {canManage ? <div className="flex flex-col gap-2">
-      <p>Select task attachments to rebuild from and record what remains missing. Paperclip starts a fresh session through its normal execution checks. Existing work limits still apply.</p>
+      <p>{t("components.workspaceReconstructionRecovery.selectTaskAttachmentsToRebuildFrom")}</p>
       <fieldset disabled={submit.isPending} className="flex flex-col gap-2">
-        <legend>Saved source attachments</legend>
+        <legend>{t("components.workspaceReconstructionRecovery.savedSourceAttachments")}</legend>
         {files.data?.map(file => <div key={file.id} className="flex items-center gap-2">
           <Checkbox id={`${id}-${file.id}`} checked={selected.includes(file.id)} onCheckedChange={checked =>
             setSelected(current => checked === true ? [...current, file.id] : current.filter(value => value !== file.id))} />
           <Label htmlFor={`${id}-${file.id}`}>{file.originalFilename ?? "Attachment"} ({file.byteSize} bytes)</Label>
         </div>)}
-        {files.isPending && <p>Loading saved attachments…</p>}
-        {files.data?.length === 0 && <p>Attach the surviving source files to this task first.</p>}
-        <Label htmlFor={`${id}-missing`}>Missing work and reconstruction plan</Label>
+        {files.isPending && <p>{t("components.workspaceReconstructionRecovery.loadingSavedAttachments")}</p>}
+        {files.data?.length === 0 && <p>{t("components.workspaceReconstructionRecovery.attachTheSurvivingSourceFilesTo")}</p>}
+        <Label htmlFor={`${id}-missing`}>{t("components.workspaceReconstructionRecovery.missingWorkAndReconstructionPlan")}</Label>
         <Textarea id={`${id}-missing`} maxLength={12000} value={missingWork} onChange={event => setMissingWork(event.target.value)} />
-        <Label htmlFor={`${id}-outcome`}>Previously completed external actions</Label>
+        <Label htmlFor={`${id}-outcome`}>{t("components.workspaceReconstructionRecovery.previouslyCompletedExternalActions")}</Label>
         <NativeSelect id={`${id}-outcome`} value={actionOutcome} onChange={event => setActionOutcome(event.target.value as typeof actionOutcome)}>
-          <option value="mixed">Some completed, some not performed</option>
-          <option value="not_performed">None performed</option>
-          <option value="completed">All completed</option>
+          <option value="mixed">{t("components.workspaceReconstructionRecovery.someCompletedSomeNotPerformed")}</option>
+          <option value="not_performed">{t("components.workspaceReconstructionRecovery.nonePerformed")}</option>
+          <option value="completed">{t("components.workspaceReconstructionRecovery.allCompleted")}</option>
         </NativeSelect>
-        <Label htmlFor={`${id}-evidence`}>Evidence and actions that must not be repeated</Label>
+        <Label htmlFor={`${id}-evidence`}>{t("components.workspaceReconstructionRecovery.evidenceAndActionsThatMustNot")}</Label>
         <Textarea id={`${id}-evidence`} maxLength={12000} value={outcomeEvidence} onChange={event => setOutcomeEvidence(event.target.value)} />
         <div className="flex items-center gap-2">
           <Checkbox id={`${id}-ack`} checked={acknowledged} onCheckedChange={checked => setAcknowledged(checked === true)} />
-          <Label htmlFor={`${id}-ack`}>Continue from these sources. The missing edits have not been recovered.</Label>
+          <Label htmlFor={`${id}-ack`}>{t("components.workspaceReconstructionRecovery.continueFromTheseSourcesTheMissing")}</Label>
         </div>
       </fieldset>
       <div className="flex justify-end">
@@ -62,6 +64,6 @@ export function WorkspaceReconstructionRecovery({ issueId, blocker, canManage, o
       </div>
       {files.isError && <p role="alert" className="text-destructive">{files.error.message}</p>}
       {submit.isError && <p role="alert" className="text-destructive">{submit.error.message}</p>}
-    </div> : <p>A board member with runtime access can continue from the surviving task attachments.</p>}
+    </div> : <p>{t("components.workspaceReconstructionRecovery.aBoardMemberWithRuntimeAccess")}</p>}
   </details>;
 }

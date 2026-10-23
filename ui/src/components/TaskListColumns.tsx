@@ -9,6 +9,7 @@ import { allTaskListColumns, defaultTaskListColumns, reorderTaskListColumns, tas
 import { CellMarquee } from "./CellMarquee";
 import { FlyoutAppearanceProvider, FlyoutHeader, FlyoutOptions } from "./ui/flyout";
 import { useHorizontalScrollEdges } from "@/hooks/useHorizontalScrollEdges";
+import { useTranslation } from "@/i18n";
 
 export { taskListColumns } from "../lib/task-list";
 export type { TaskListColumnId, TaskListSort } from "../lib/task-list";
@@ -38,13 +39,14 @@ export function TaskListViewport({ children, visibleColumns = defaultTaskListCol
   columnOrder?: readonly TaskListColumnId[];
   controls?: ReactNode;
 }) {
+  const { t } = useTranslation();
   const { scrollRef, contentRef, edges } = useHorizontalScrollEdges();
   const orderedColumns = columnOrder.filter(id => visibleColumns.includes(id));
 
   return (
     <ColumnContext.Provider value={{ columns: orderedColumns, order: columnOrder }}>
-      <div role="table" aria-label="Task list" data-slot="task-list-viewport" data-overflow-left={edges.left} data-overflow-right={edges.right} className="task-list-viewport" style={columnLayout(orderedColumns, Boolean(controls))}>
-        <div ref={scrollRef} role="region" aria-label="Task list columns" tabIndex={0} className="task-list-columns-scroll">
+      <div role="table" aria-label={t("components.taskListColumns.taskList")} data-slot="task-list-viewport" data-overflow-left={edges.left} data-overflow-right={edges.right} className="task-list-viewport" style={columnLayout(orderedColumns, Boolean(controls))}>
+        <div ref={scrollRef} role="region" aria-label={t("components.taskListColumns.taskListColumns")} tabIndex={0} className="task-list-columns-scroll">
           <div ref={contentRef} className="task-list-columns-content">{children}</div>
         </div>
         {controls ? <div className="task-list-header-controls">{controls}</div> : null}
@@ -121,6 +123,7 @@ export function TaskListColumnHeader({ sort, onSortChange, onColumnOrderChange }
   onSortChange?: (sort: TaskListSort) => void;
   onColumnOrderChange?: (columns: readonly TaskListColumnId[]) => void;
 }) {
+  const { t } = useTranslation();
   const { columns, order } = useContext(ColumnContext);
   const helpId = useId();
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
@@ -131,10 +134,10 @@ export function TaskListColumnHeader({ sort, onSortChange, onColumnOrderChange }
     }} onDragEnd={({ active, over }) => {
       if (over) onColumnOrderChange?.(reorderTaskListColumns(order, active.id as TaskListColumnId, over.id as TaskListColumnId));
     }} accessibility={{ screenReaderInstructions: { draggable: "Click to sort. Drag horizontally to reorder, or use Alt plus Left or Right Arrow." } }}>
-      <span id={helpId} className="sr-only">Drag to reorder columns, or use Alt plus Left or Right Arrow. Click to sort.</span>
+      <span id={helpId} className="sr-only">{t("components.taskListColumns.dragToReorderColumnsOrUse")}</span>
       <SortableContext items={[...columns]} strategy={horizontalListSortingStrategy}>
         <div role="row" data-slot="task-list-column-header" className="task-list-column-header">
-          {!columns.includes("task") ? <span role="columnheader" aria-label="Task hierarchy" /> : null}
+          {!columns.includes("task") ? <span role="columnheader" aria-label={t("components.taskListColumns.taskHierarchy")} /> : null}
           {columns.map(id => <SortableColumnHeader key={id} id={id} label={taskListColumns.find(column => column.id === id)!.label} start={taskListColumnStart(columns, id)} sort={sort} onSortChange={onSortChange} onColumnOrderChange={onColumnOrderChange} helpId={helpId} />)}
         </div>
       </SortableContext>
@@ -149,14 +152,15 @@ export function TaskListColumnSettings({ visibleColumns, onVisibleColumnsChange,
   onColumnOrderChange?: (columns: readonly TaskListColumnId[]) => void;
   onResetDefaults?: () => void;
 }) {
+  const { t } = useTranslation();
   const { order } = useContext(ColumnContext);
   return (
     <FlyoutAppearanceProvider><DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button type="button" variant="ghost" size="icon-xs" className="task-list-settings-trigger" aria-label="Columns"><Ellipsis aria-hidden /></Button>
+        <Button type="button" variant="ghost" size="icon-xs" className="task-list-settings-trigger" aria-label={t("components.taskListColumns.columns")}><Ellipsis aria-hidden /></Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="task-list-options" aria-label="Columns">
-        <DropdownMenuLabel asChild><FlyoutHeader className="task-list-options-heading">Columns</FlyoutHeader></DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="task-list-options" aria-label={t("components.taskListColumns.columns")}>
+        <DropdownMenuLabel asChild><FlyoutHeader className="task-list-options-heading">{t("components.taskListColumns.columns")}</FlyoutHeader></DropdownMenuLabel>
         <FlyoutOptions className="task-list-options-items">
           {order.map(id => (
             <DropdownMenuCheckboxItem
@@ -170,7 +174,7 @@ export function TaskListColumnSettings({ visibleColumns, onVisibleColumnsChange,
               {taskListColumns.find(column => column.id === id)!.label}
             </DropdownMenuCheckboxItem>
           ))}
-          <DropdownMenuItem className="task-list-options-reset" onSelect={event => { event.preventDefault(); onColumnOrderChange?.(allTaskListColumns); onVisibleColumnsChange(defaultTaskListColumns); onResetDefaults?.(); }}>Reset defaults</DropdownMenuItem>
+          <DropdownMenuItem className="task-list-options-reset" onSelect={event => { event.preventDefault(); onColumnOrderChange?.(allTaskListColumns); onVisibleColumnsChange(defaultTaskListColumns); onResetDefaults?.(); }}>{t("components.taskListColumns.resetDefaults")}</DropdownMenuItem>
         </FlyoutOptions>
       </DropdownMenuContent>
     </DropdownMenu></FlyoutAppearanceProvider>

@@ -5,6 +5,7 @@ import { agentsApi } from "@/api/agents";
 import { ApiError } from "@/api/client";
 import { secretsApi } from "@/api/secrets";
 import { queryKeys } from "@/lib/queryKeys";
+import { useTranslation } from "@/i18n";
 import {
   savedProviderKeys,
   savedManagedProviderAccounts,
@@ -87,6 +88,7 @@ export function SavedProviderKeySelect({
   disabled?: boolean;
   kind?: "api" | "subscription";
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-2">
       {options.length > 0 && (
@@ -114,12 +116,12 @@ export function SavedProviderKeySelect({
       )}
       {loading && (
         <p role="status" className="text-sm text-muted-foreground">
-          Checking saved API keys…
+          {t("components.onboarding.savedProviderKeySelect.checkingSavedApiKeys")}
         </p>
       )}
       {error && (
         <p role="alert" className="text-sm text-destructive">
-          Some saved keys could not be loaded. You can still enter a new key.
+          {t("components.onboarding.savedProviderKeySelect.someSavedKeysCouldNotBe")}
         </p>
       )}
       {value && (

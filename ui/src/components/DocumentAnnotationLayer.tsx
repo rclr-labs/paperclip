@@ -20,6 +20,7 @@ import {
   recordSelectionChange,
 } from "@/lib/document-annotation-debug";
 import type { DocumentAnnotationAnchorSelector } from "@paperclipai/shared";
+import { useTranslation } from "@/i18n";
 
 export interface AnnotationOverlayThread {
   id: string;
@@ -252,6 +253,7 @@ export function DocumentAnnotationLayer({
   captureSelectionRequestId,
   pendingHighlightText = null,
 }: AnnotationLayerProps) {
+  const { t } = useTranslation();
   const [highlightRects, setHighlightRects] = useState<HighlightRect[]>([]);
   const [hoveredThreadId, setHoveredThreadId] = useState<string | null>(null);
   const [toolbarPosition, setToolbarPosition] = useState<ToolbarPosition | null>(null);
@@ -595,7 +597,7 @@ export function DocumentAnnotationLayer({
             <div
               data-testid="document-annotation-selection-toolbar"
               role="toolbar"
-              aria-label="Selection actions"
+              aria-label={t("components.documentAnnotationLayer.selectionActions")}
               className="paperclip-doc-annotation-selection-toolbar pointer-events-auto absolute z-10 flex items-center gap-1 rounded-md border border-border bg-popover px-1 py-1 shadow-md"
               style={{ top: toolbarPosition.top, left: toolbarPosition.left }}
               onMouseDown={(event) => event.preventDefault()}
@@ -612,7 +614,7 @@ export function DocumentAnnotationLayer({
                   : "Add comment on selection (⌘⇧M)"}
               >
                 <MessageSquarePlus className="h-3.5 w-3.5" aria-hidden="true" />
-                Comment
+                {t("components.documentAnnotationLayer.comment")}
               </Button>
             </div>
           ) : null}

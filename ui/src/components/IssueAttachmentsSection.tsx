@@ -21,6 +21,7 @@ import {
 import { queryKeys } from "@/lib/queryKeys";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "@/i18n";
 
 interface IssueAttachmentsSectionProps {
   attachments: IssueAttachment[];
@@ -57,6 +58,7 @@ function AttachmentActions({
   deletePending?: boolean;
   onPreview?: (attachment: IssueAttachment) => void;
 }) {
+  const { t } = useTranslation();
   const openText = useContext(TextAttachmentContext);
   const openInPanel = (event: React.MouseEvent) => {
     if (openText && isTextAttachment(attachment) && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); openText(attachment.id, attachmentFilename(attachment)); }
@@ -68,19 +70,19 @@ function AttachmentActions({
         <Button
           variant="ghost"
           size="icon-sm"
-          title="Browse gallery"
+          title={t("components.issueAttachmentsSection.browseGallery")}
           aria-label={`Browse ${filename} in gallery`}
           onClick={() => onPreview(attachment)}
         >
           <Maximize2 className="h-4 w-4" />
         </Button>
       ) : null}
-      <Button asChild variant="ghost" size="icon-sm" title="Open in new tab">
+      <Button asChild variant="ghost" size="icon-sm" title={t("components.issueAttachmentsSection.openInNewTab")}>
         <a href={attachmentOpenPath(attachment)} onClick={openInPanel} target="_blank" rel="noreferrer" aria-label={`Open ${filename}`}>
           <ExternalLink className="h-4 w-4" />
         </a>
       </Button>
-      <Button asChild variant="ghost" size="icon-sm" title="Download">
+      <Button asChild variant="ghost" size="icon-sm" title={t("components.issueAttachmentsSection.download")}>
         <a href={attachmentDownloadPath(attachment)} aria-label={`Download ${filename}`}>
           <Download className="h-4 w-4" />
         </a>
@@ -89,7 +91,7 @@ function AttachmentActions({
         <Button
           variant="ghost"
           size="icon-sm"
-          title="Delete attachment"
+          title={t("components.issueAttachmentsSection.deleteAttachment")}
           className="text-muted-foreground hover:text-destructive"
           onClick={() => onDelete(attachment.id)}
           disabled={deletePending}
@@ -118,6 +120,7 @@ function MarkdownAttachmentCard({
   onDelete?: (attachmentId: string) => void;
   deletePending?: boolean;
 }) {
+  const { t } = useTranslation();
   const openText = useContext(TextAttachmentContext);
   const openInPanel = (event: React.MouseEvent) => {
     if (openText && isTextAttachment(attachment) && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) { event.preventDefault(); openText(attachment.id, attachmentFilename(attachment)); }
@@ -142,9 +145,9 @@ function MarkdownAttachmentCard({
       </div>
       <div className="mt-3 rounded-md hover:bg-accent/10">
         {isLoading ? (
-          <p className="px-1 py-2 text-xs text-muted-foreground">Loading preview...</p>
+          <p className="px-1 py-2 text-xs text-muted-foreground">{t("components.issueAttachmentsSection.loadingPreview")}</p>
         ) : error ? (
-          <p className="px-1 py-2 text-xs text-destructive">Could not load markdown preview.</p>
+          <p className="px-1 py-2 text-xs text-destructive">{t("components.issueAttachmentsSection.couldNotLoadMarkdownPreview")}</p>
         ) : (
           <FoldCurtain>
             <MarkdownBody className="paperclip-edit-in-place-content min-h-(--sz-220px) text-sm leading-7" softBreaks={false}>
@@ -237,6 +240,7 @@ export function IssueAttachmentsSection({
   onDragLeave,
   onDrop,
 }: IssueAttachmentsSectionProps) {
+  const { t } = useTranslation();
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const { imageAttachments, markdownAttachments, videoAttachments, genericAttachments } = useMemo(() => {
     const images: IssueAttachment[] = [];
@@ -280,7 +284,7 @@ export function IssueAttachmentsSection({
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <Paperclip className="h-3.5 w-3.5 text-muted-foreground" aria-hidden="true" />
-          <h3 className="text-sm font-medium text-muted-foreground">Attachments</h3>
+          <h3 className="text-sm font-medium text-muted-foreground">{t("components.issueAttachmentsSection.attachments")}</h3>
           <span className="text-xs text-muted-foreground">{attachments.length}</span>
         </div>
         {uploadButton}
@@ -396,10 +400,10 @@ export function IssueAttachmentsSection({
 
       {onDelete && confirmDeleteId && !imageAttachments.some((attachment) => attachment.id === confirmDeleteId) ? (
         <div className="flex items-center justify-between gap-3 rounded-md border border-destructive/20 bg-destructive/5 px-4 py-3">
-          <p className="text-sm font-medium text-destructive">Delete this attachment? This cannot be undone.</p>
+          <p className="text-sm font-medium text-destructive">{t("components.issueAttachmentsSection.deleteThisAttachmentThisCannotBe")}</p>
           <div className="flex shrink-0 items-center gap-2">
             <Button variant="ghost" size="sm" onClick={() => setConfirmDeleteId(null)} disabled={deletePending}>
-              Cancel
+              {t("components.issueAttachmentsSection.cancel")}
             </Button>
             <Button variant="destructive" size="sm" onClick={() => confirmDelete(confirmDeleteId)} disabled={deletePending}>
               {deletePending ? "Deleting..." : "Delete"}

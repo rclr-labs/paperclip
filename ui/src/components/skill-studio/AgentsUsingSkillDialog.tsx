@@ -29,6 +29,7 @@ import {
   type SearchableSelectOption,
 } from "@/components/SearchableSelect";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 const LATEST_VALUE = "__latest__";
 
@@ -318,6 +319,7 @@ function AgentRow({
   onRemove: () => void;
   onPin: (versionId: string | null) => void;
 }) {
+  const { t } = useTranslation();
   const behindLatest =
     pinnedRevision !== null && latestRevision !== null && latestRevision > pinnedRevision
       ? latestRevision - pinnedRevision
@@ -390,7 +392,7 @@ function AgentRow({
               {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Remove"}
             </Button>
             <Button variant="ghost" size="sm" onClick={onCancelRemove} disabled={busy}>
-              Cancel
+              {t("components.skillstudio.agentsUsingSkillDialog.cancel")}
             </Button>
           </div>
         ) : (
@@ -421,6 +423,7 @@ function AddAgentPicker({
   disabled: boolean;
   onSelect: (agent: Agent) => void;
 }) {
+  const { t } = useTranslation();
   type AgentOption = SearchableSelectOption<string> & { agent: Agent };
   const groups = useMemo<readonly SearchableSelectGroup<string, AgentOption>[]>(() => {
     const options: AgentOption[] = agents.map((agent) => ({
@@ -440,7 +443,7 @@ function AddAgentPicker({
       groups={groups}
       loading={loading}
       loadingMessage="Loading agents..."
-      placeholder="Add agent…"
+      placeholder={t("components.skillstudio.agentsUsingSkillDialog.addAgent")}
       searchPlaceholder="Search agents..."
       emptyMessage="All eligible agents already have this skill."
       disabled={disabled}

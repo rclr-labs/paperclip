@@ -7,6 +7,7 @@ import { CEO, DESIGNER, TASKS, THREAD_ATTACHMENTS, THREAD_WORK_PRODUCTS } from "
 import { SupportButton } from "./AppShell";
 import { Slot } from "./Slot";
 import { AgentIdentity, ComposerShell, Mention, MessageFooter, Prose, ProseLink, TaskRef, WorkedRow } from "./thread-parts";
+import { useTranslation } from "@/i18n";
 
 /**
  * Static mock of the task thread in the task-chat shell (the default).
@@ -19,6 +20,7 @@ import { AgentIdentity, ComposerShell, Mention, MessageFooter, Prose, ProseLink,
 
 /** BreadcrumbBar.tsx:128-189 with `taskDetailLayout`; crumbs from IssueDetail.tsx:5530-5540. */
 function TaskTopBar({ panelOpen }: { panelOpen: boolean }) {
+  const { t } = useTranslation();
   const Toggle = panelOpen ? PanelRightClose : PanelRightOpen;
   return (
     <div className="relative h-(--sz-60px) shrink-0 flex items-center border-b border-border px-4 md:px-6">
@@ -26,7 +28,7 @@ function TaskTopBar({ panelOpen }: { panelOpen: boolean }) {
         <Breadcrumb className="min-w-0 overflow-hidden">
           <BreadcrumbList className="flex-nowrap">
             <BreadcrumbItem className="shrink-0">
-              <span className="min-w-0 truncate font-semibold uppercase tracking-wider text-muted-foreground">Tasks</span>
+              <span className="min-w-0 truncate font-semibold uppercase tracking-wider text-muted-foreground">{t("artifactdirections.frames.threadFrame.tasks")}</span>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem className="min-w-0">
@@ -70,6 +72,7 @@ function Row({ kit, artifact }: { kit: DirectionKit; artifact: LabArtifact }) {
 }
 
 export function ThreadFrame({ kit, panelOpen }: { kit: DirectionKit; panelOpen: boolean }) {
+  const { t } = useTranslation();
   const [critique, guide, pptx, pdf, image, source] = THREAD_WORK_PRODUCTS;
   const attachments = (
     <Slot kit={kit} className="flex w-full flex-col gap-1">
@@ -88,25 +91,23 @@ export function ThreadFrame({ kit, panelOpen }: { kit: DirectionKit; panelOpen: 
             <Bubble>
               <AgentIdentity name={DESIGNER} />
               <Prose>
-                <p>Interface Craft revision complete.</p>
+                <p>{t("artifactdirections.frames.threadFrame.interfaceCraftRevisionComplete")}</p>
                 <ul>
                   <li>
                     Applied Josh Puckett’s saved critique method and recorded{" "}
-                    <ProseLink to="document-interface-craft-critique">findings and before/after changes</ProseLink>. Added a cap-led cover,
+                    <ProseLink to="document-interface-craft-critique">{t("artifactdirections.frames.threadFrame.findingsAndBeforeAfterChanges")}</ProseLink>. Added a cap-led cover,
                     simplified strategy hierarchy, matched A/B comparison fields and applications, and separated founder decisions.
                     Retained the supplied logo, Paperclip reference, proposed audience and claim labels.
                   </li>
                   <li>
-                    Uploaded and registered <ProseLink to="work-product-ic-pptx">editable PowerPoint</ProseLink>,{" "}
-                    <ProseLink to="work-product-ic-pdf">matching PDF</ProseLink>,{" "}
-                    <ProseLink to="work-product-ic-image">slide overview</ProseLink>,{" "}
+                    Uploaded and registered <ProseLink to="work-product-ic-pptx">{t("artifactdirections.frames.threadFrame.editablePowerpoint")}</ProseLink>,{" "}
+                    <ProseLink to="work-product-ic-pdf">{t("artifactdirections.frames.threadFrame.matchingPdf")}</ProseLink>,{" "}
+                    <ProseLink to="work-product-ic-image">{t("artifactdirections.frames.threadFrame.slideOverview")}</ProseLink>,{" "}
                     <ProseLink to="work-product-ic-guide">guide</ProseLink> and{" "}
-                    <ProseLink to="work-product-ic-zip">editing source</ProseLink>. Prior revisions preserved.
+                    <ProseLink to="work-product-ic-zip">{t("artifactdirections.frames.threadFrame.editingSource")}</ProseLink>. Prior revisions preserved.
                   </li>
                   <li>
-                    <ProseLink to="document-interface-craft-deck-guide">Checks</ProseLink>: both files reopen with 12 slides/pages; visible
-                    text matches; all PDF pages visually inspected with no clipping or unintended overlap. Text and shapes are editable;
-                    supplied logo remains raster. Native PowerPoint rendering remains untested; PDF is the inspected reference.
+                    <ProseLink to="document-interface-craft-deck-guide">{t("artifactdirections.frames.threadFrame.checks")}</ProseLink>{t("artifactdirections.frames.threadFrame.bothFilesReopenWith12Slides")}
                   </li>
                   <li>
                     Next: <Mention name={CEO} /> checks coherence and claims, then presents this pass for founder acceptance through{" "}
@@ -127,12 +128,11 @@ export function ThreadFrame({ kit, panelOpen }: { kit: DirectionKit; panelOpen: 
               <AgentIdentity name={CEO} />
               <Prose>
                 <p>
-                  The revised <ProseLink to="work-product-ic-pdf">deck PDF</ProseLink> is saved.{" "}
+                  The revised <ProseLink to="work-product-ic-pdf">{t("artifactdirections.frames.threadFrame.deckPdf")}</ProseLink> is saved.{" "}
                   <TaskRef identifier="ACM-3" status="done" /> remains complete.
                 </p>
                 <p>
-                  An ownership conflict prevented my review there. I’ve routed it to <TaskRef identifier="ACM-1" status="in_review" />;
-                  CEO review and founder acceptance remain pending.
+                  {t("artifactdirections.frames.threadFrame.anOwnershipConflictPreventedMyReview")} <TaskRef identifier="ACM-1" status="in_review" />{t("artifactdirections.frames.threadFrame.ceoReviewAndFounderAcceptanceRemain")}
                 </p>
               </Prose>
               <MessageFooter timestamp="11:12 AM" />

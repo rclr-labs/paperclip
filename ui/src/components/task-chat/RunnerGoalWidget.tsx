@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import type { RunnerGoalComposerCommand } from "./TaskChatComposer";
+import { useTranslation } from "@/i18n";
 
 const PENDING_LABELS: Record<string, string> = {
   starting: "Starting",
@@ -181,6 +182,7 @@ export function useRunnerGoalControl(issueId: string | null, agentId: string | n
 export type RunnerGoalControl = ReturnType<typeof useRunnerGoalControl>;
 
 export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
+  const { t } = useTranslation();
   const projection = control.data;
   const goal = projection?.goal ?? null;
   const capability = projection?.capability;
@@ -200,14 +202,14 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
   return (
     <section
       className="rounded-xl border border-border/80 bg-card/95 px-3 py-2 shadow-sm"
-      aria-label="Agent session goal"
+      aria-label={t("components.taskchat.runnerGoalWidget.agentSessionGoal")}
       data-testid="runner-goal-widget"
     >
       <div className="flex items-start gap-2">
         <Flag className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-xs font-semibold">Session goal</span>
+            <span className="text-xs font-semibold">{t("components.taskchat.runnerGoalWidget.sessionGoal")}</span>
             {goal ? (
               <span className="rounded-full bg-muted px-1.5 py-0.5 text-xs font-medium capitalize" role="status">
                 {goal.status.replaceAll("_", " ")}
@@ -215,7 +217,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             ) : null}
             {goal?.workingNow ? (
               <span className="inline-flex items-center gap-1 text-xs text-primary" role="status">
-                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> Working now
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" /> {t("components.taskchat.runnerGoalWidget.workingNow")}
               </span>
             ) : null}
             {pendingLabel ? (
@@ -247,22 +249,22 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
         </div>
         <div className="flex shrink-0 items-center gap-1">
           {goal && can("set") ? (
-            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.edit().catch(() => {})} aria-label="Edit goal">
+            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.edit().catch(() => {})} aria-label={t("components.taskchat.runnerGoalWidget.editGoal")}>
               <Pencil className="h-3.5 w-3.5" aria-hidden />
             </Button>
           ) : null}
           {goal?.status === "active" && can("pause") ? (
-            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.executeAction("pause").catch(() => {})} aria-label="Pause goal">
+            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.executeAction("pause").catch(() => {})} aria-label={t("components.taskchat.runnerGoalWidget.pauseGoal")}>
               <Pause className="h-3.5 w-3.5" aria-hidden />
             </Button>
           ) : null}
           {resumable && can("resume") ? (
-            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.executeAction("resume").catch(() => {})} aria-label="Resume goal">
+            <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => void control.executeAction("resume").catch(() => {})} aria-label={t("components.taskchat.runnerGoalWidget.resumeGoal")}>
               <Play className="h-3.5 w-3.5" aria-hidden />
             </Button>
           ) : null}
           {goal && can("clear") ? (
-            <Button size="icon" variant="ghost" className={cn("h-7 w-7", "text-muted-foreground hover:text-destructive")} onClick={() => void control.executeAction("clear").catch(() => {})} aria-label="Clear goal">
+            <Button size="icon" variant="ghost" className={cn("h-7 w-7", "text-muted-foreground hover:text-destructive")} onClick={() => void control.executeAction("clear").catch(() => {})} aria-label={t("components.taskchat.runnerGoalWidget.clearGoal")}>
               <Trash2 className="h-3.5 w-3.5" aria-hidden />
             </Button>
           ) : null}
@@ -288,7 +290,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
               </DialogDescription>
             </DialogHeader>
             <label className="block space-y-2">
-              <span className="text-sm font-medium">Goal objective</span>
+              <span className="text-sm font-medium">{t("components.taskchat.runnerGoalWidget.goalObjective")}</span>
               <Textarea
                 value={control.dialog?.objective ?? ""}
                 maxLength={4_000}
@@ -308,7 +310,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             </label>
             {mutationError ? <p className="text-sm text-destructive" role="alert">{mutationError}</p> : null}
             <DialogFooter>
-              <Button type="button" variant="outline" disabled={control.mutation?.isPending} onClick={() => control.setDialog(null)}>Cancel</Button>
+              <Button type="button" variant="outline" disabled={control.mutation?.isPending} onClick={() => control.setDialog(null)}>{t("components.taskchat.runnerGoalWidget.cancel")}</Button>
               <Button type="submit" disabled={!control.dialog?.objective.trim() || control.mutation?.isPending}>
                 {control.mutation?.isPending ? "Saving…" : control.dialog?.action === "replace" ? "Replace goal" : "Save goal"}
               </Button>

@@ -18,6 +18,7 @@ import { useToastActions } from "@/context/ToastContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { cn } from "@/lib/utils";
 import { IssueShareSheet, type ShareSheetImplicitPrincipal } from "./IssueShareSheet";
+import { useTranslation } from "@/i18n";
 
 const MENU_ITEM_CLASS =
   "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent";
@@ -52,6 +53,7 @@ export function IssuePrivacyActions({
   implicitPrincipals?: ShareSheetImplicitPrincipal[];
   children: (menuItems: React.ReactNode) => React.ReactNode;
 }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [shareOpen, setShareOpen] = useState(false);
@@ -119,7 +121,7 @@ export function IssuePrivacyActions({
                 setShareOpen(true);
               }}
             >
-              <Users className="h-4 w-4" aria-hidden="true" /> Share…
+              <Users className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.share")}
             </button>,
           )}
           {withTooltip(
@@ -132,14 +134,14 @@ export function IssuePrivacyActions({
                 setMakePublicOpen(true);
               }}
             >
-              <Globe className="h-4 w-4" aria-hidden="true" /> Make public
+              <Globe className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.makePublic")}
             </button>,
             publicBlockedReason,
           )}
           {canManage && constraintsQuery.isError ? (
             <button type="button" className={MENU_ITEM_CLASS} onClick={() => {
               void constraintsQuery.refetch();
-            }}>Retry access check</button>
+            }}>{t("components.issuePrivacyActions.retryAccessCheck")}</button>
           ) : null}
         </>
       ) : (
@@ -153,7 +155,7 @@ export function IssuePrivacyActions({
               visibilityMutation.mutate("private");
             }}
           >
-            <Lock className="h-4 w-4" aria-hidden="true" /> Make private
+            <Lock className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.makePrivate")}
           </button>,
         )
       ))}
@@ -170,17 +172,17 @@ export function IssuePrivacyActions({
       <AlertDialog open={makePublicOpen} onOpenChange={setMakePublicOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Make this task public?</AlertDialogTitle>
+            <AlertDialogTitle>{t("components.issuePrivacyActions.makeThisTaskPublic")}</AlertDialogTitle>
             <AlertDialogDescription>
               Everyone in the company will be able to read this task, its comments, documents, and
               run history. Existing private subtasks keep their privacy.{" "}
               {constraintsQuery.data?.leavesPersonalProject
                 ? "This task will also leave its personal project. " : null}
-              <span className="font-semibold text-foreground">Content already seen by others cannot be taken back.</span>
+              <span className="font-semibold text-foreground">{t("components.issuePrivacyActions.contentAlreadySeenByOthersCannot")}</span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep private</AlertDialogCancel>
+            <AlertDialogCancel>{t("components.issuePrivacyActions.keepPrivate")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={(event) => {

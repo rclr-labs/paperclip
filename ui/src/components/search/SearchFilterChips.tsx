@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { buildFilterChips, type FilterChipLookups, type SearchFilters } from "@/lib/search-filters";
+import { useTranslation } from "@/i18n";
 
 export function SearchFilterChips({
   filters,
@@ -13,6 +14,7 @@ export function SearchFilterChips({
   onChange: (next: SearchFilters) => void;
   onClearAll: () => void;
 }) {
+  const { t } = useTranslation();
   const chips = buildFilterChips(filters, lookups);
   if (chips.length === 0) return null;
 
@@ -36,7 +38,7 @@ export function SearchFilterChips({
         className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
         onClick={onClearAll}
       >
-        Clear all
+        {t("components.search.searchFilterChips.clearAll")}
       </button>
     </div>
   );

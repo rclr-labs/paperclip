@@ -18,6 +18,7 @@ import { ErrorState, RelativeTime } from "@/pages/tools/shared";
 import { CopyableGatewayUrl } from "./CopyableGatewayUrl";
 import { NewGatewayDialog, gatewaysQueryKey } from "./NewGatewayDialog";
 import { gatewayTabHref } from "./gateway-tabs";
+import { useTranslation } from "@/i18n";
 import {
   activeTokenCount,
   allowedToolsLabel,
@@ -29,6 +30,7 @@ import {
 } from "./gateway-helpers";
 
 export function GatewaysList() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { pushToast } = useToast();
@@ -114,7 +116,7 @@ export function GatewaysList() {
   });
 
   if (!selectedCompanyId) {
-    return <div className="p-6 text-sm text-muted-foreground">Select an organization to manage gateways.</div>;
+    return <div className="p-6 text-sm text-muted-foreground">{t("pages.apps.gateways.gatewaysList.selectAnOrganizationToManageGateways")}</div>;
   }
 
   const gateways = gatewaysQuery.data?.gateways ?? [];
@@ -133,10 +135,9 @@ export function GatewaysList() {
   return (
     <div className="max-w-5xl space-y-5">
       <header className="space-y-1">
-        <h1 className="text-2xl font-bold tracking-tight">Apps</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("pages.apps.gateways.gatewaysList.apps")}</h1>
         <p className="text-sm text-muted-foreground">
-          A gateway is one safe MCP endpoint that exposes only the apps you assign. Hand it to a client
-          like Cursor or Claude Desktop.
+          {t("pages.apps.gateways.gatewaysList.aGatewayIsOneSafeMcp")}
         </p>
       </header>
 
@@ -157,14 +158,14 @@ export function GatewaysList() {
               <Input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Search by name, app, or owner"
+                placeholder={t("pages.apps.gateways.gatewaysList.searchByNameAppOrOwner")}
                 className="pl-9"
-                aria-label="Search gateways"
+                aria-label={t("pages.apps.gateways.gatewaysList.searchGateways")}
               />
             </div>
             <Button onClick={() => setCreating(true)}>
               <Plus className="mr-1.5 h-4 w-4" />
-              New gateway
+              {t("pages.apps.gateways.gatewaysList.newGateway")}
             </Button>
           </div>
 
@@ -289,10 +290,9 @@ export function GatewaysList() {
           })()}
 
           <div className="rounded-lg border border-border bg-muted/30 px-4 py-3">
-            <div className="text-sm font-semibold text-foreground">Why a gateway?</div>
+            <div className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.gatewaysList.whyAGateway")}</div>
             <p className="mt-1 text-sm text-muted-foreground">
-              You pick which apps go through it, who can use it, and how. Revoke the token, the whole
-              gateway goes silent — no app-by-app cleanup.
+              {t("pages.apps.gateways.gatewaysList.youPickWhichAppsGoThrough")}
             </p>
           </div>
         </div>
@@ -319,16 +319,16 @@ function MobileField({ label, value }: { label: string; value: ReactNode }) {
 }
 
 function EmptyGateways({ onCreate }: { onCreate: () => void }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-2xl border border-dashed border-border p-12 text-center">
-      <h2 className="text-lg font-semibold text-foreground">No gateways yet</h2>
+      <h2 className="text-lg font-semibold text-foreground">{t("pages.apps.gateways.gatewaysList.noGatewaysYet")}</h2>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">
-        Group your connected apps into one safe endpoint you can hand to a client, then revoke it in one
-        move.
+        {t("pages.apps.gateways.gatewaysList.groupYourConnectedAppsIntoOne")}
       </p>
       <Button className="mt-5" onClick={onCreate}>
         <Plus className="mr-1.5 h-4 w-4" />
-        New gateway
+        {t("pages.apps.gateways.gatewaysList.newGateway")}
       </Button>
     </div>
   );

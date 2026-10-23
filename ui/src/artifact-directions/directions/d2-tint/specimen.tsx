@@ -12,6 +12,7 @@ import { FoldedPreview, KindWell, Lead } from "./Lead";
 import { MetaLine } from "./MetaLine";
 import { StateMark } from "./StateMark";
 import { glyphLabel, metaParts } from "./kinds";
+import { useTranslation } from "@/i18n";
 
 /**
  * Builder's aid: every primitive of the direction at every size, for all ten
@@ -49,9 +50,10 @@ function Preview({ artifact }: { artifact: LabArtifact }) {
 }
 
 function Specimen() {
+  const { t } = useTranslation();
   return (
     <main data-direction="d2-tint" className="flex min-h-screen flex-col gap-10 bg-background p-8 text-foreground">
-      <Block title="Kind glyph — mini · xs · sm · md · lg · tuck (the folder face), on the page and on a slab. A task document has no extension: pictogram alone.">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.kindGlyphMiniXsSmMd")}>
         <div className="flex flex-col gap-4">
           {[false, true].map((onSlab) => (
             <div key={String(onSlab)} className={onSlab ? "flex flex-wrap gap-6 rounded-lg bg-(--tint-slab) p-4" : "flex flex-wrap gap-6 p-4"}>
@@ -67,7 +69,7 @@ function Specimen() {
         </div>
       </Block>
 
-      <Block title="Lead — the thread row's one box (72×46): a picture, or the xs glyph on its kind well">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.leadTheThreadRowSOne")}>
         <div className="flex flex-wrap items-center gap-3 rounded-lg bg-(--tint-slab) p-4">
           {glyphs.map((a) => (
             <div key={a.id} data-kind={a.kind}>
@@ -77,7 +79,7 @@ function Specimen() {
         </div>
       </Block>
 
-      <Block title="Folded preview — sm · md · lg">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.foldedPreviewSmMdLg")}>
         <div className="flex flex-wrap items-end gap-6 rounded-lg bg-(--tint-slab) p-4">
           {previews.map((a) => (
             <div key={a.id} data-kind={a.kind} className="flex items-end gap-3">
@@ -89,7 +91,7 @@ function Specimen() {
         </div>
       </Block>
 
-      <Block title="Kind well — md glyph on the kind's quiet fill, all ten kinds side by side">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.kindWellMdGlyphOnThe")}>
         <div className="grid grid-cols-5 gap-3">
           {byKind.map((a) => (
             <div key={a.id} data-kind={a.kind} className="flex flex-col gap-2 rounded-lg bg-(--tint-slab) p-2">
@@ -100,7 +102,7 @@ function Specimen() {
         </div>
       </Block>
 
-      <Block title="Gallery preview — picture, text sheet (neutral) or kind well (tinted), one per kind">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.galleryPreviewPictureTextSheetNeutral")}>
         <div className="grid grid-cols-4 gap-3">
           {glyphs.map((a) => (
             <Preview key={a.id} artifact={a} />
@@ -108,11 +110,11 @@ function Specimen() {
         </div>
       </Block>
 
-      <Block title="Stack — a single artifact, three, and a pile; kind tally and review tally">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.stackASingleArtifactThreeAnd")}>
         <GalleryStacks groups={STACK_SPECIMENS} />
       </Block>
 
-      <Block title="State mark — sm · md, on a slab and on the page">
+      <Block title={t("artifactdirections.directions.d2tint.specimen.stateMarkSmMdOnA")}>
         <div className="flex flex-wrap items-center gap-4">
           <div className="flex items-center gap-3 rounded-lg bg-(--tint-slab) p-3">
             <StateMark review="needs_review" />

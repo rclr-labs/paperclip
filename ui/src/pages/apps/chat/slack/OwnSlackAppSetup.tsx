@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SetupWizardFooter } from "@/components/SetupWizard";
 import { sanitizedSetupErrorMessage } from "../chat-setup-error";
 import { SlackSetupAdvanced } from "../SlackAppDetails";
+import { useTranslation } from "@/i18n";
 
 /** Uses ordinary request-local state: configuration tokens never enter a query/mutation cache. */
 export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSaved, onBusy,
@@ -23,6 +24,7 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
   onContinue: () => void;
   onSaveExit: () => void;
 }) {
+  const { t } = useTranslation();
   const [configurationToken, setConfigurationToken] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -131,43 +133,43 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
     </p> : null}
     {(stage === "app" && !created && !creating || configurationPending) && <>
       {uncertain && <div className="space-y-3 text-sm">
-        <a href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">Open Slack app settings <ExternalLink className="inline size-3" /></a>
+        <a href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4">{t("pages.apps.chat.slack.ownSlackAppSetup.openSlackAppSettings")} <ExternalLink className="inline size-3" /></a>
         <label className="flex items-center gap-2">
           <Checkbox checked={checkedNoApp} disabled={busy} onCheckedChange={value => setCheckedNoApp(value === true)} />
-          I checked Slack and no app was created. Create a new app.
+          {t("pages.apps.chat.slack.ownSlackAppSetup.iCheckedSlackAndNoApp")}
         </label>
       </div>}
       {(!uncertain || checkedNoApp) && <div className="space-y-2">
         <Button asChild size="lg" className="mb-4 h-auto w-full whitespace-normal py-4">
-          <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer">Get your App configuration access token <ExternalLink className="size-4" /></a>
+          <a href="https://api.slack.com/apps" target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.slack.ownSlackAppSetup.getYourAppConfigurationAccessToken")} <ExternalLink className="size-4" /></a>
         </Button>
         <div id="slack-configuration-token-help" className="space-y-3 pb-3 text-sm">
           <ol className="list-decimal space-y-2 pl-5">
-            <li>In Slack app settings, find <strong>Your App Configuration Tokens</strong> and choose <strong>Generate Token</strong>.</li>
-            <li>Select the workspace where you want to install your bot.</li>
-            <li>Copy the <strong>Access Token</strong> and paste it below.</li>
+            <li>{t("pages.apps.chat.slack.ownSlackAppSetup.inSlackAppSettingsFind")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.yourAppConfigurationTokens")}</strong> {t("pages.apps.chat.slack.ownSlackAppSetup.andChoose")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.generateToken")}</strong>.</li>
+            <li>{t("pages.apps.chat.slack.ownSlackAppSetup.selectTheWorkspaceWhereYouWant")}</li>
+            <li>{t("pages.apps.chat.slack.ownSlackAppSetup.copyThe")} <strong>{t("pages.apps.chat.slack.ownSlackAppSetup.accessToken")}</strong> {t("pages.apps.chat.slack.ownSlackAppSetup.andPasteItBelow")}</li>
           </ol>
-          <p className="text-muted-foreground">Paperclip uses this token to create your app</p>
+          <p className="text-muted-foreground">{t("pages.apps.chat.slack.ownSlackAppSetup.paperclipUsesThisTokenToCreate")}</p>
         </div>
-        <label htmlFor="slack-configuration-token" className="text-sm font-medium">App configuration access token</label>
+        <label htmlFor="slack-configuration-token" className="text-sm font-medium">{t("pages.apps.chat.slack.ownSlackAppSetup.appConfigurationAccessToken")}</label>
         <Input id="slack-configuration-token" type="password" autoComplete="off" spellCheck={false}
           value={configurationToken} disabled={busy} onChange={event => setConfigurationToken(event.target.value)}
           aria-describedby="slack-configuration-token-help" />
       </div>}
     </>}
-    {creating && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> Creating your Slack app. You can return to this saved setup.</p>}
+    {creating && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> {t("pages.apps.chat.slack.ownSlackAppSetup.creatingYourSlackAppYouCan")}</p>}
     {created && <p className="text-sm">
       <strong>{endpoint.setup?.slackApp?.appName ?? "Your Slack app"}</strong> is created.
       {stage === "credentials" && " Approve installation with your Slack account. Paperclip will link it to your signed-in Paperclip account and send you a welcome DM."}
     </p>}
     {stage === "credentials" && registration?.status === "credentials_saved" && <div className="space-y-2">
-      <p className="text-sm text-muted-foreground">Your installation credentials are saved. Retry connecting to finish setup. If Slack access has changed, authorize the same app again.</p>
-      <Button variant="link" className="h-auto p-0" disabled={busy || disabled} onClick={() => void run(authorize)}>Authorize in Slack again</Button>
+      <p className="text-sm text-muted-foreground">{t("pages.apps.chat.slack.ownSlackAppSetup.yourInstallationCredentialsAreSavedRetry")}</p>
+      <Button variant="link" className="h-auto p-0" disabled={busy || disabled} onClick={() => void run(authorize)}>{t("pages.apps.chat.slack.ownSlackAppSetup.authorizeInSlackAgain")}</Button>
     </div>}
     {stage === "app" && <SlackSetupAdvanced><div className="flex flex-wrap gap-4 text-sm">
-      {onManaged && !registration && <Button variant="link" className="h-auto p-0" disabled={busy} onClick={() => void run(onManaged)}>Use managed setup</Button>}
-      <Button variant="link" className="h-auto p-0" disabled={busy || creating} onClick={() => void run(() => onManual(false))}>Create manually</Button>
-      <Button variant="link" className="h-auto p-0" disabled={busy || creating} onClick={() => void run(() => onManual(true))}>Use an existing app</Button>
+      {onManaged && !registration && <Button variant="link" className="h-auto p-0" disabled={busy} onClick={() => void run(onManaged)}>{t("pages.apps.chat.slack.ownSlackAppSetup.useManagedSetup")}</Button>}
+      <Button variant="link" className="h-auto p-0" disabled={busy || creating} onClick={() => void run(() => onManual(false))}>{t("pages.apps.chat.slack.ownSlackAppSetup.createManually")}</Button>
+      <Button variant="link" className="h-auto p-0" disabled={busy || creating} onClick={() => void run(() => onManual(true))}>{t("pages.apps.chat.slack.ownSlackAppSetup.useAnExistingApp")}</Button>
     </div></SlackSetupAdvanced>}
     <SetupWizardFooter onSaveExit={onSaveExit} disabled={busy}>
       {configurationPending ? <Button disabled={busy || disabled || !configurationToken.trim()} onClick={() => void run(create)}>

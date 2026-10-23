@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n";
 import {
   OnboardingCardField,
   OnboardingLoginCodeRow,
@@ -49,6 +50,7 @@ function AuthAttempt({
   onCancel,
   onDone,
 }: AiConnectionAuthProps) {
+  const { t } = useTranslation();
   const [value, setValue] = useState("");
   const info = AI_PROVIDERS[provider];
   const busy = state.phase === "starting" || state.phase === "submitting";
@@ -75,9 +77,9 @@ function AuthAttempt({
       {state.phase === "connected" ? (
         <>
           <p role="status" className="text-sm">
-            Connected. This account is saved in Connections and can be reused.
+            {t("components.aiconnections.aiConnectionAuth.connectedThisAccountIsSavedIn")}
           </p>
-          <Button onClick={onDone}>Use connection</Button>
+          <Button onClick={onDone}>{t("components.aiconnections.aiConnectionAuth.useConnection")}</Button>
         </>
       ) : (
         <>
@@ -96,7 +98,7 @@ function AuthAttempt({
               )}
               {state.phase === "cancelled" && (
                 <p role="status" className="text-sm text-muted-foreground">
-                  Sign-in cancelled. No connection was created.
+                  {t("components.aiconnections.aiConnectionAuth.signInCancelledNoConnectionWas")}
                 </p>
               )}
               {method === "api_key" ? (
@@ -105,7 +107,7 @@ function AuthAttempt({
                   value={value}
                   onChange={setValue}
                   onSubmit={submit}
-                  placeholder="Enter API key here"
+                  placeholder={t("components.aiconnections.aiConnectionAuth.enterApiKeyHere")}
                   disabled={busy}
                   autoFocus
                 />
@@ -156,7 +158,7 @@ function AuthAttempt({
                 onCancel();
               }}
             >
-              Cancel
+              {t("components.aiconnections.aiConnectionAuth.cancel")}
             </Button>
             {!unsupported &&
               (method === "api_key" ? (
@@ -166,11 +168,11 @@ function AuthAttempt({
               ) : state.phase === "waiting" ? (
                 provider === "anthropic" ? (
                   <Button disabled={!value.trim()} onClick={submit}>
-                    Submit code
+                    {t("components.aiconnections.aiConnectionAuth.submitCode")}
                   </Button>
                 ) : (
                   <span role="status" className="text-sm text-muted-foreground">
-                    Waiting for sign-in…
+                    {t("components.aiconnections.aiConnectionAuth.waitingForSignIn")}
                   </span>
                 )
               ) : (

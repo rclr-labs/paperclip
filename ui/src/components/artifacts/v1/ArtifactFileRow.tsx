@@ -12,6 +12,7 @@ import { isImageLikeOutput, isVideoLikeOutput } from "@/lib/issue-output";
 import type { FileRowSource } from "./adapters";
 import { ArtifactRow } from "./ArtifactRow";
 import type { ArtifactSubject } from "./kinds";
+import { useTranslation } from "@/i18n";
 
 /** A small control beside a row, as the shipped rows draw theirs. */
 export const ROW_ACTION_CLASS = "shrink-0 rounded-md px-1.5 py-1.5 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring";
@@ -40,6 +41,7 @@ export function ArtifactFileRow({
   now?: Date;
   testId?: string;
 }) {
+  const { t } = useTranslation();
   const { id, attachmentId, filename, contentType, contentPath, openPath, downloadPath, byteSize } = source;
   const openGallery = useContext(IssueGalleryContext);
   const openTextAttachment = useContext(TextAttachmentContext);
@@ -67,12 +69,12 @@ export function ArtifactFileRow({
         </Button>
       ) : null}
       {openPath ? (
-        <a href={openPath} target="_blank" rel="noreferrer" aria-label={`Open raw ${filename}`} title="Open raw" className={ROW_ACTION_CLASS}>
+        <a href={openPath} target="_blank" rel="noreferrer" aria-label={`Open raw ${filename}`} title={t("components.artifacts.v1.artifactFileRow.openRaw")} className={ROW_ACTION_CLASS}>
           <ExternalLink className="h-3 w-3" aria-hidden />
         </a>
       ) : null}
       {downloadPath ? (
-        <a href={downloadPath} download={filename} aria-label={`Download ${filename}`} title="Download" className={ROW_ACTION_CLASS}>
+        <a href={downloadPath} download={filename} aria-label={`Download ${filename}`} title={t("components.artifacts.v1.artifactFileRow.download")} className={ROW_ACTION_CLASS}>
           <Download className="h-3 w-3" aria-hidden />
         </a>
       ) : null}
@@ -101,7 +103,7 @@ export function ArtifactFileRow({
           {tooLarge ? "CSV is too large to preview. Download the file to view it." : data.error?.message}
           {data.isError ? (
             <Button variant="ghost" size="sm" onClick={() => void data.refetch()}>
-              Retry preview
+              {t("components.artifacts.v1.artifactFileRow.retryPreview")}
             </Button>
           ) : null}
         </div>

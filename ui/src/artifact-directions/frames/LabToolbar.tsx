@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { DIRECTION_IDS, KIT_KEYS, KIT_META, type DirectionId } from "../kit";
 import { LAB_VIEWS, type LabState, type LabTheme, type LabView } from "../lab-state";
+import { useTranslation } from "@/i18n";
 
 /**
  * The lab's own chrome (`chrome=1`). Deliberately not the product's look —
@@ -78,26 +79,27 @@ const TITLE = "font-medium uppercase tracking-(--tracking-label) text-foreground
  * column. Theme and animation keep to the first row's right edge.
  */
 export function LabToolbar({ state, onChange }: { state: LabState; onChange: (patch: Partial<LabState>) => void }) {
+  const { t } = useTranslation();
   return (
     <div
       className="sticky top-0 z-50 grid items-center gap-x-4 gap-y-2 border-b border-border bg-background px-4 py-2 font-mono text-(length:--text-micro) text-muted-foreground"
       style={{ gridTemplateColumns: "max-content 1fr" }}
     >
-      <span className={TITLE}>Artifact directions</span>
+      <span className={TITLE}>{t("artifactdirections.frames.labToolbar.artifactDirections")}</span>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <Segmented label="Kit" options={KIT_OPTIONS} value={state.direction} onChange={(direction) => onChange({ direction })} />
+        <Segmented label={t("artifactdirections.frames.labToolbar.kit")} options={KIT_OPTIONS} value={state.direction} onChange={(direction) => onChange({ direction })} />
         <div className="ml-auto flex items-center gap-4">
-          <Segmented label="Theme" options={THEME_OPTIONS} value={state.theme} onChange={(theme) => onChange({ theme })} />
+          <Segmented label={t("artifactdirections.frames.labToolbar.theme")} options={THEME_OPTIONS} value={state.theme} onChange={(theme) => onChange({ theme })} />
           <span className="flex items-center gap-1.5">
             <span>animation</span>
-            <Segmented label="Animation" options={ANIM_OPTIONS} value={state.anim ? "on" : "off"} onChange={(value) => onChange({ anim: value === "on" })} />
+            <Segmented label={t("artifactdirections.frames.labToolbar.animation")} options={ANIM_OPTIONS} value={state.anim ? "on" : "off"} onChange={(value) => onChange({ anim: value === "on" })} />
           </span>
         </div>
       </div>
-      <span className={TITLE}>Artifact surfaces</span>
+      <span className={TITLE}>{t("artifactdirections.frames.labToolbar.artifactSurfaces")}</span>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-        <Segmented label="Surface" options={VIEW_OPTIONS} value={state.view} onChange={(view) => onChange({ view })} />
-        <span className="ml-auto hidden lg:inline">0–5 kit · t theme · a animation</span>
+        <Segmented label={t("artifactdirections.frames.labToolbar.surface")} options={VIEW_OPTIONS} value={state.view} onChange={(view) => onChange({ view })} />
+        <span className="ml-auto hidden lg:inline">{t("artifactdirections.frames.labToolbar.05KitTThemeA")}</span>
       </div>
     </div>
   );

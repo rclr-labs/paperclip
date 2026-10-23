@@ -24,6 +24,7 @@ import {
 import { endpointHost } from "@/pages/apps/generic-mcp-connect";
 import { McpConfigHelpDialog } from "./McpConfigHelpDialog";
 import { ErrorState } from "./shared";
+import { useTranslation } from "@/i18n";
 
 const SAMPLE_CONFIG = `{
   "mcpServers": {
@@ -101,6 +102,7 @@ function askFirstLevelsFrom(result: ConnectToolAppResult): string[] {
  * of the two M8 screens where "MCP" vocabulary is allowed (PAP-10827 vocab map).
  */
 export function PasteConfigTab({ companyId }: { companyId: string }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [draftText, setDraftText] = useState("");
   const [preview, setPreview] = useState<McpJsonImportPreview | null>(null);
@@ -255,14 +257,14 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
     <div className="space-y-5">
       <div className="flex max-w-2xl items-start gap-1.5">
         <p className="text-sm text-muted-foreground">
-          Paste the MCP config snippet from the tool's README and we'll turn it into a friendly setup.
+          {t("pages.tools.pasteConfigTab.pasteTheMcpConfigSnippetFrom")}
         </p>
         <McpConfigHelpDialog />
       </div>
       <p className="text-xs text-muted-foreground">
         Just a URL?{" "}
         <Link to="/apps" className="text-primary hover:underline">
-          Browse planned app connections
+          {t("pages.tools.pasteConfigTab.browsePlannedAppConnections")}
         </Link>{" "}
         instead.
       </p>
@@ -285,7 +287,7 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
           <p className="text-xs text-amber-600">{localParseError}</p>
         ) : (
           <p className="text-xs text-muted-foreground">
-            Paste an MCP config — the snippet a README tells you to copy.
+            {t("pages.tools.pasteConfigTab.pasteAnMcpConfigTheSnippet")}
           </p>
         )}
       </div>
@@ -298,7 +300,7 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
           {importMutation.isPending ? "Checking…" : "Check config"}
         </Button>
         <span className="text-xs text-muted-foreground">
-          We'll read it and show what we found before anything is saved.
+          {t("pages.tools.pasteConfigTab.weLlReadItAndShow")}
         </span>
       </div>
 
@@ -307,7 +309,7 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
       {preview ? (
         drafts.length === 0 ? (
           <div className="rounded-lg border border-dashed border-border p-6 text-sm text-muted-foreground">
-            We couldn't find an app in that config. Double-check you pasted the whole snippet.
+            {t("pages.tools.pasteConfigTab.weCouldnTFindAnApp")}
           </div>
         ) : (
           <div className="space-y-3">
@@ -338,13 +340,11 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
             })}
             {drafts.some((d) => draftConnectUrl(d)) ? (
               <p className="text-xs text-muted-foreground">
-                Checking a remote app creates a draft connection, stores any header replacements as Paperclip secrets,
-                and runs health/catalog discovery before activation.
+                {t("pages.tools.pasteConfigTab.checkingARemoteAppCreatesA")}
               </p>
             ) : (
               <p className="text-xs text-muted-foreground">
-                We humanized the field names from the config. These run-in-your-workspace tools stay as drafts until an
-                admin maps them to an approved template.
+                {t("pages.tools.pasteConfigTab.weHumanizedTheFieldNamesFrom")}
               </p>
             )}
           </div>
@@ -393,6 +393,7 @@ function DraftCard({
   canCheck: boolean;
   onCheck?: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-lg border border-border bg-card p-4">
       <div className="flex items-center justify-between gap-3">
@@ -410,7 +411,7 @@ function DraftCard({
 
       {onCheck ? (
         <label className="mt-4 block max-w-sm space-y-1 text-xs font-medium text-foreground">
-          Connection name
+          {t("pages.tools.pasteConfigTab.connectionName")}
           <Input
             value={connectionName}
             onChange={(event) => onConnectionNameChange(event.target.value)}
@@ -445,10 +446,10 @@ function DraftCard({
         </div>
       ) : draft.credentialRefs.length > 0 ? (
         <p className="mt-3 text-xs text-muted-foreground">
-          Keys from this config stay draft-only until an admin maps them to an approved template.
+          {t("pages.tools.pasteConfigTab.keysFromThisConfigStayDraft")}
         </p>
       ) : (
-        <p className="mt-3 text-xs text-muted-foreground">No keys needed for this one.</p>
+        <p className="mt-3 text-xs text-muted-foreground">{t("pages.tools.pasteConfigTab.noKeysNeededForThisOne")}</p>
       )}
 
       {draft.warnings.length > 0 ? (
@@ -481,6 +482,7 @@ function CatalogReview({
   activatedName: string | null;
   onFinish: () => void;
 }) {
+  const { t } = useTranslation();
   const askFirstLevels = askFirstLevelsFrom(result);
   const enabledCount = Object.values(enabled).filter(Boolean).length;
   const total = result.actions.readOnly.length + result.actions.canMakeChanges.length;
@@ -493,7 +495,7 @@ function CatalogReview({
             Review actions for {result.application.name}
           </h3>
           <p className="mt-1 text-xs text-muted-foreground">
-            Health and catalog checks passed. Every discovered action starts allowed; you can narrow access after activation.
+            {t("pages.tools.pasteConfigTab.healthAndCatalogChecksPassedEvery")}
           </p>
         </div>
         <Button size="sm" onClick={onFinish} disabled={finishing || enabledCount === 0 || Boolean(activatedName)}>
@@ -502,7 +504,7 @@ function CatalogReview({
         </Button>
       </div>
       <ActionGroup
-        title="Read-only"
+        title={t("pages.tools.pasteConfigTab.readOnly")}
         actions={result.actions.readOnly}
         enabled={enabled}
         onToggle={onToggle}
@@ -510,7 +512,7 @@ function CatalogReview({
         askFirstLevels={askFirstLevels}
       />
       <ActionGroup
-        title="Can make changes"
+        title={t("pages.tools.pasteConfigTab.canMakeChanges")}
         actions={result.actions.canMakeChanges}
         enabled={enabled}
         onToggle={onToggle}
@@ -539,6 +541,7 @@ function ActionGroup({
   onBulk: (on: boolean) => void;
   askFirstLevels: string[];
 }) {
+  const { t } = useTranslation();
   if (actions.length === 0) return null;
   return (
     <div className="space-y-1">
@@ -546,10 +549,10 @@ function ActionGroup({
         <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{title}</div>
         <div className="flex gap-2">
           <Button type="button" size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => onBulk(true)}>
-            Turn all on
+            {t("pages.tools.pasteConfigTab.turnAllOn")}
           </Button>
           <Button type="button" size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => onBulk(false)}>
-            Turn all off
+            {t("pages.tools.pasteConfigTab.turnAllOff")}
           </Button>
         </div>
       </div>

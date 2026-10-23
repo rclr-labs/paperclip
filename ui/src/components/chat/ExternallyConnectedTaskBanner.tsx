@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { queryKeys } from "@/lib/queryKeys";
 import { useChatConnectorsEnabled, chatProviderVisible } from "@/hooks/useChatConnectorsEnabled";
 import { issuesApi } from "@/api/issues";
+import { useTranslation } from "@/i18n";
 import {
   boardSendDraftKey,
   clearBoardSendDraft,
@@ -154,6 +155,7 @@ function ConnectedTaskComposer({
   issueCacheRefs,
   binding,
 }: ConnectedTaskProps & { binding: ExternalChannelBindingSummary }) {
+  const { t } = useTranslation();
   const { pushToast } = useToast();
   const queryClient = useQueryClient();
   const [composing, setComposing] = useState(false);
@@ -485,7 +487,7 @@ function ConnectedTaskComposer({
   const activityPath = `/apps/chat/${binding.endpointId}/activity`;
   return (
     <section
-      aria-label="External conversation"
+      aria-label={t("components.chat.externallyConnectedTaskBanner.externalConversation")}
       className={cn("task-context-notice space-y-3", className)}
     >
       <div className="flex flex-wrap items-center gap-3">
@@ -515,11 +517,11 @@ function ConnectedTaskComposer({
             variant="outline"
             onClick={() => setComposing((value) => !value)}
           >
-            Send to channel
+            {t("components.chat.externallyConnectedTaskBanner.sendToChannel")}
           </Button>
           <Button asChild size="sm" variant="ghost">
             <Link to={`/apps/chat/${binding.endpointId}/conversations`}>
-              Connection
+              {t("components.chat.externallyConnectedTaskBanner.connection")}
             </Link>
           </Button>
         </div>
@@ -530,7 +532,7 @@ function ConnectedTaskComposer({
             className="text-xs font-medium"
             htmlFor="external-board-update"
           >
-            Board update
+            {t("components.chat.externallyConnectedTaskBanner.boardUpdate")}
           </label>
           <Textarea
             id="external-board-update"
@@ -548,11 +550,11 @@ function ConnectedTaskComposer({
               idempotencyKey.current = null;
               publish.reset();
             }}
-            placeholder="Write only what should be visible in the provider conversation."
+            placeholder={t("components.chat.externallyConnectedTaskBanner.writeOnlyWhatShouldBeVisible")}
           />
           {selectedAttachmentIds.length > 0 && !body.trim() && (
             <p className="text-xs text-muted-foreground">
-              Add a message to send with your files.
+              {t("components.chat.externallyConnectedTaskBanner.addAMessageToSendWith")}
             </p>
           )}
           <div className="flex flex-wrap items-center gap-2">
@@ -560,7 +562,7 @@ function ConnectedTaskComposer({
               ref={fileInput}
               type="file"
               className="hidden"
-              aria-label="Attach file to channel update"
+              aria-label={t("components.chat.externallyConnectedTaskBanner.attachFileToChannelUpdate")}
               disabled={uploadDisabled}
               onChange={(event) => {
                 const file = event.target.files?.[0];
@@ -579,7 +581,7 @@ function ConnectedTaskComposer({
               {uploading ? "Uploading…" : "Attach file"}
             </Button>
             <p className="text-xs text-muted-foreground">
-              Files stay on this task until you send them to the channel.
+              {t("components.chat.externallyConnectedTaskBanner.filesStayOnThisTaskUntil")}
             </p>
           </div>
           {uploadError && (
@@ -589,9 +591,7 @@ function ConnectedTaskComposer({
           )}
           {selectionNotice && (
             <p role="status" className="text-xs text-muted-foreground">
-              A file already attached to another comment was removed from this
-              selection. Attach a new copy or share the task link; your message
-              is unchanged.
+              {t("components.chat.externallyConnectedTaskBanner.aFileAlreadyAttachedToAnother")}
             </p>
           )}
           {visibleAttachments.length > 0 && (
@@ -661,11 +661,9 @@ function ConnectedTaskComposer({
               role="alert"
               className="space-y-1 rounded-md border border-border bg-background p-3 text-xs"
             >
-              <p className="font-medium">Update was not sent</p>
+              <p className="font-medium">{t("components.chat.externallyConnectedTaskBanner.updateWasNotSent")}</p>
               <p className="text-muted-foreground">
-                A selected file already belongs to another comment. This request
-                was rejected before any channel message was queued. Your exact
-                draft is kept.
+                {t("components.chat.externallyConnectedTaskBanner.aSelectedFileAlreadyBelongsTo")}
               </p>
               <Button
                 size="sm"
@@ -700,7 +698,7 @@ function ConnectedTaskComposer({
                   publish.reset();
                 }}
               >
-                Edit rejected send
+                {t("components.chat.externallyConnectedTaskBanner.editRejectedSend")}
               </Button>
             </div>
           )}
@@ -712,17 +710,15 @@ function ConnectedTaskComposer({
                 role="alert"
                 className="space-y-1 rounded-md border border-border bg-background p-3 text-xs"
               >
-                <p className="font-medium">Delivery result not confirmed</p>
+                <p className="font-medium">{t("components.chat.externallyConnectedTaskBanner.deliveryResultNotConfirmed")}</p>
                 <p className="text-muted-foreground">
-                  Your exact draft and request identity are kept. Retry safely
-                  to learn the authoritative publication state without creating
-                  a duplicate.
+                  {t("components.chat.externallyConnectedTaskBanner.yourExactDraftAndRequestIdentity")}
                 </p>
                 <Link
                   className="inline-block font-medium underline underline-offset-4"
                   to={activityPath}
                 >
-                  Open Activity
+                  {t("components.chat.externallyConnectedTaskBanner.openActivity")}
                 </Link>
               </div>
             )}
@@ -763,7 +759,7 @@ function ConnectedTaskComposer({
               {batch?.parts?.some((part) => part.fileTransfer) && (
                 <ul
                   className="space-y-1 text-muted-foreground"
-                  aria-label="File delivery outcomes"
+                  aria-label={t("components.chat.externallyConnectedTaskBanner.fileDeliveryOutcomes")}
                 >
                   {batch.parts
                     .filter((part) => part.fileTransfer)
@@ -777,8 +773,7 @@ function ConnectedTaskComposer({
               )}
               {publicationStatus.isError && (
                 <p role="alert" className="text-muted-foreground">
-                  Delivery status could not be refreshed. Your draft is kept;
-                  Paperclip will check again without sending another update.
+                  {t("components.chat.externallyConnectedTaskBanner.deliveryStatusCouldNotBeRefreshed")}
                 </p>
               )}
               {currentPublication.redactedError && (
@@ -790,7 +785,7 @@ function ConnectedTaskComposer({
                 className="inline-block font-medium underline underline-offset-4"
                 to={activityPath}
               >
-                Open Activity
+                {t("components.chat.externallyConnectedTaskBanner.openActivity")}
               </Link>
               {dismissible && (
                 <Button
@@ -820,7 +815,7 @@ function ConnectedTaskComposer({
                     publish.reset();
                   }}
                 >
-                  Dismiss delivery receipt
+                  {t("components.chat.externallyConnectedTaskBanner.dismissDeliveryReceipt")}
                 </Button>
               )}
             </div>

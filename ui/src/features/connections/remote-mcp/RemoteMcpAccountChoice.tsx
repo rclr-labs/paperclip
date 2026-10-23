@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { InlineBanner } from "@/components/InlineBanner";
 import { ConnectionChoiceList } from "../ConnectionChoiceList";
+import { useTranslation } from "@/i18n";
 
 /** Shared presentation for account reuse, including the requested external app. */
 export function RemoteMcpAccountChoice({
@@ -22,6 +23,7 @@ export function RemoteMcpAccountChoice({
   onCancel?: () => void;
   onConnectNew: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-5">
       <div>
@@ -31,8 +33,7 @@ export function RemoteMcpAccountChoice({
             : `Connect ${providerName}`}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Use an existing connection or connect a new account. Existing access
-          stays unchanged.
+          {t("features.connections.remotemcp.remoteMcpAccountChoice.useAnExistingConnectionOrConnect")}
         </p>
       </div>
       {upstreamServiceName && (
@@ -62,10 +63,10 @@ export function RemoteMcpAccountChoice({
           disabled={Boolean(pendingId)}
           onClick={onCancel}
         >
-          Cancel
+          {t("features.connections.remotemcp.remoteMcpAccountChoice.cancel")}
         </Button>
         <Button disabled={Boolean(pendingId)} onClick={onConnectNew}>
-          Connect new
+          {t("features.connections.remotemcp.remoteMcpAccountChoice.connectNew")}
         </Button>
       </div>
     </div>

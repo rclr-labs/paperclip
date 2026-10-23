@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { aiConnectionProblem, personalAiDefault } from "./model";
 import type { AiConnectionPickerProps } from "./AiConnectionPicker";
 import type { AiConnectionSummary } from "./model";
+import { useTranslation } from "@/i18n";
 
 function ConnectionLabel({ connection, label }: { connection: AiConnectionSummary; label?: string }) {
   return (
@@ -43,6 +44,7 @@ export function AiConnectionSelect({
   adapterType,
   model,
 }: AiConnectionPickerProps & { adapterType: string; model?: string }) {
+  const { t } = useTranslation();
   const selectId = useId();
   const personal = personalAiDefault(connections, requirement, currentUserId);
   const selected =
@@ -108,7 +110,7 @@ export function AiConnectionSelect({
   return (
     <div className="space-y-2">
       <label className="text-xs text-muted-foreground" htmlFor={selectId}>
-        Connection
+        {t("components.aiconnections.aiConnectionSelect.connection")}
       </label>
       <Select
         value={
@@ -119,7 +121,7 @@ export function AiConnectionSelect({
         onValueChange={change}
         disabled={readOnly || loading || Boolean(error)}
       >
-        <SelectTrigger id={selectId} aria-label="Connection" className="w-full">
+        <SelectTrigger id={selectId} aria-label={t("components.aiconnections.aiConnectionSelect.connection")} className="w-full">
           <SelectValue
             placeholder={
               loading ? "Loading connections…" : "Choose a connection"
@@ -150,17 +152,17 @@ export function AiConnectionSelect({
           {(canUseDefault || value?.mode === "responsible_user") && (
             <SelectItem value="responsible_user" disabled={!canUseDefault}>
               <span className="flex size-5 shrink-0 items-center justify-center"><UserRound className="size-4" /></span>
-              Responsible user’s default
+              {t("components.aiconnections.aiConnectionSelect.responsibleUserSDefault")}
             </SelectItem>
           )}
           <SelectItem value="connect">
             <span className="flex size-5 shrink-0 items-center justify-center"><Plus className="size-4" /></span>
-            Connect an account…
+            {t("components.aiconnections.aiConnectionSelect.connectAnAccount")}
           </SelectItem>
         </SelectContent>
       </Select>
       {!readOnly && onReconnect && !loading && !error && (
-        <Button type="button" variant="outline" onClick={onReconnect}>Reconnect account</Button>
+        <Button type="button" variant="outline" onClick={onReconnect}>{t("components.aiconnections.aiConnectionSelect.reconnectAccount")}</Button>
       )}
       {error && (
         <div className="space-y-2">
@@ -168,22 +170,21 @@ export function AiConnectionSelect({
             {error}
           </p>
           <Button type="button" variant="outline" onClick={onRetry}>
-            Retry connections
+            {t("components.aiconnections.aiConnectionSelect.retryConnections")}
           </Button>
         </div>
       )}
       {value?.mode === "responsible_user" && !personal && !loading && !error ? (
         <p role="alert" className="text-sm text-destructive">
-          You have no default account for this provider. Connect an account or choose another connection.
+          {t("components.aiconnections.aiConnectionSelect.youHaveNoDefaultAccountFor")}
         </p>
       ) : unavailable ? (
         <p role="alert" className="text-sm text-destructive">
-          This connection is unavailable. Choose another connection.
+          {t("components.aiconnections.aiConnectionSelect.thisConnectionIsUnavailableChooseAnother")}
         </p>
       ) : incompatible ? (
         <p role="alert" className="text-sm text-destructive">
-          This connection does not support the selected harness. Choose a
-          compatible connection.
+          {t("components.aiconnections.aiConnectionSelect.thisConnectionDoesNotSupportThe")}
         </p>
       ) : selected && aiConnectionProblem(selected) ? (
         <p role="alert" className="text-sm text-destructive">

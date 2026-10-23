@@ -22,21 +22,26 @@ import { createRequire } from "node:module";
 
 const require_ = createRequire(import.meta.url);
 
+// Resolved from this file so the tool works from any cwd.
+const UI_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
+const LOCALES_DIR = path.join(UI_ROOT, "src/i18n/locales");
+
 /** The repo ships TypeScript 7 (native), which exposes no JS AST API, and pnpm
  *  isolation hides transitive deps from the root. Resolve the parser by path. */
 function loadParser() {
   try {
     return require_("@babel/parser");
   } catch {}
-  const base = "node_modules/.pnpm";
+  const base = path.join(UI_ROOT, "..", "node_modules/.pnpm");
   const dir = fs.readdirSync(base).find((d) => d.startsWith("@babel+parser@"));
   if (!dir) throw new Error("@babel/parser not found; run pnpm install");
   return require_(path.resolve(base, dir, "node_modules/@babel/parser"));
 }
 const parser = loadParser();
 
+import { isTranslatable } from "./translatable.mjs";
+
 const UI_ATTRS = new Set(["placeholder", "title", "aria-label", "alt", "label"]);
-const LOCALES_DIR = "ui/src/i18n/locales";
 const EN = path.join(LOCALES_DIR, "en.json");
 
 const args = process.argv.slice(2);
@@ -49,17 +54,6 @@ const LIMIT = Number(opt("limit", "0")) || 0;
 
 const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
 
-function isTranslatable(raw) {
-  const s = raw.trim();
-  if (s.length < 2) return false;
-  if (!/[A-Za-z]{2}/.test(s)) return false;
-  if (/^[a-z0-9_.-]+$/.test(s)) return false;
-  if (/^https?:\/\//.test(s)) return false;
-  if (/^\d+([.,]\d+)?\s*\S{0,3}$/.test(s)) return false;
-  if (s.includes("{{") || s.includes("${")) return false;
-  return true;
-}
-
 function slugKey(text) {
   const words = text.trim().toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean).slice(0, 6);
   if (!words.length) return "text";
@@ -67,7 +61,7 @@ function slugKey(text) {
 }
 
 function namespaceFor(file) {
-  const rel = path.relative("ui/src", file).replace(/\.tsx$/, "");
+  const rel = path.relative(path.join(UI_ROOT, "src"), path.resolve(file)).replace(/\.tsx$/, "");
   return rel.split(path.sep).map((p) => p.replace(/[^A-Za-z0-9]/g, "")).map((p, i) => (i === 0 ? p : p[0].toLowerCase() + p.slice(1))).filter(Boolean);
 }
 
@@ -130,8 +124,18 @@ function collect(file) {
     if (node.type === "JSXText") {
       if (!isTranslatable(node.value)) return;
       const parent = ancestors[ancestors.length - 1];
-      // Composite sentence: needs <Trans>, not a fragment key.
-      if (parent?.children?.some((c) => c.type === "JSXExpressionContainer")) {
+      // A composite sentence needs <Trans>, not fragment keys. Text is split
+      // by nested ELEMENTS as much as by expressions: `<p>Use the <code>x</code>
+      // now</p>` yields "Use the " and " now", and translating those apart
+      // produces nonsense in any language that reorders the clause. So the text
+      // must be the element's only content.
+      const hasSiblingContent = parent?.children?.some(
+        (c) =>
+          c !== node &&
+          (c.type === "JSXExpressionContainer" || c.type === "JSXElement" || c.type === "JSXFragment" ||
+            (c.type === "JSXText" && c.value.trim().length > 0)),
+      );
+      if (hasSiblingContent) {
         stats.needsTrans++;
         return;
       }
@@ -206,7 +210,7 @@ else {
       else if (e.name.endsWith(".tsx") && !e.name.includes(".test.") && !e.name.includes(".stories.")) files.push(p);
     }
   };
-  walkDir(opt("dir", "ui/src"));
+  walkDir(opt("dir", path.join(UI_ROOT, "src")));
 }
 files.sort();
 

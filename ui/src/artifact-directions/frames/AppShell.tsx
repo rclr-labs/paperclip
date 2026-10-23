@@ -20,6 +20,7 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { COMPANY, TASKS } from "../fixtures";
+import { useTranslation } from "@/i18n";
 
 /**
  * Static mock of the streamlined app shell (Layout.tsx:618-795): the primary
@@ -95,9 +96,10 @@ function Section({ label, children }: { label: string; children: ReactNode }) {
 }
 
 function Sidebar({ nav }: { nav: ShellNav }) {
+  const { t } = useTranslation();
   return (
     // SidebarShell.tsx:15 (240px), Sidebar.tsx:128 — no right border; the edge is the surface change.
-    <aside className="flex w-60 shrink-0 flex-col primary-sidebar-surface" aria-label="Primary">
+    <aside className="flex w-60 shrink-0 flex-col primary-sidebar-surface" aria-label={t("artifactdirections.frames.appShell.primary")}>
       {/* Sidebar.tsx:142 + SidebarCompanyMenu.tsx:268-291 */}
       <div className="flex h-(--sz-60px) shrink-0 items-center gap-1 px-3">
         <span className="flex h-9 min-w-0 flex-1 items-center justify-start gap-2 rounded-md px-4 text-left">
@@ -120,17 +122,17 @@ function Sidebar({ nav }: { nav: ShellNav }) {
             <NavItem key={entry.label} {...entry} />
           ))}
         </div>
-        <Section label="Work">
+        <Section label={t("artifactdirections.frames.appShell.work")}>
           {WORK.map((entry) => (
             <NavItem key={entry.label} {...entry} active={entry.nav === nav} />
           ))}
         </Section>
-        <Section label="Org">
+        <Section label={t("artifactdirections.frames.appShell.org")}>
           {ORG.map((entry) => (
             <NavItem key={entry.label} {...entry} />
           ))}
         </Section>
-        <Section label="Recent Tasks">
+        <Section label={t("artifactdirections.frames.appShell.recentTasks")}>
           {RECENT.map((title) => (
             <NavItem key={title} label={title} />
           ))}
@@ -141,7 +143,7 @@ function Sidebar({ nav }: { nav: ShellNav }) {
         <div className="flex items-center gap-0.5 px-2">
           <span className="flex min-w-0 flex-1 items-center gap-2.5 rounded-lg px-2 py-1.5 text-left text-(length:--text-compact) font-medium text-foreground/80">
             <Avatar size="sm">
-              <AvatarFallback>TO</AvatarFallback>
+              <AvatarFallback>{t("artifactdirections.frames.appShell.to")}</AvatarFallback>
             </Avatar>
             <span className="min-w-0 flex-1 truncate">tonio+canary62@paperclip.example</span>
           </span>
@@ -157,11 +159,12 @@ function Sidebar({ nav }: { nav: ShellNav }) {
  * screenshots as a ghost button.
  */
 export function SupportButton() {
+  const { t } = useTranslation();
   return (
     <span className="ml-auto flex shrink-0 items-center gap-1 pl-2">
       <span className="inline-flex h-9 items-center gap-2 rounded-md px-3 text-sm font-medium text-muted-foreground">
         <LifeBuoy className="size-4" />
-        Support
+        {t("artifactdirections.frames.appShell.support")}
       </span>
     </span>
   );

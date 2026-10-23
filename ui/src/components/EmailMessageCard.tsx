@@ -8,6 +8,7 @@ import type {
 } from "@paperclipai/shared";
 import { useEmailThread } from "@/hooks/useEmailThread";
 import { issuesApi } from "@/api/issues";
+import { useTranslation } from "@/i18n";
 const EmailContext = createContext<EmailThreadSummary | null>(null);
 export function EmailThreadProvider({
   companyId,
@@ -49,6 +50,7 @@ export function EmailMessageCard({
   publication?: EmailPublicationSummary;
   issueId: string;
 }) {
+  const { t } = useTranslation();
   const attachments = useQuery({
     queryKey: ["email-attachments", issueId],
     queryFn: () => issuesApi.listAttachments(issueId),
@@ -75,7 +77,7 @@ export function EmailMessageCard({
           {message.from}
           {message.direction === "inbound" && (
             <span className="ml-2 rounded-md bg-muted px-2 py-1 text-xs text-muted-foreground">
-              External
+              {t("components.emailMessageCard.external")}
             </span>
           )}
         </p>
@@ -112,7 +114,7 @@ export function EmailMessageCard({
         </div>
       )}
       <details className="text-xs text-muted-foreground">
-        <summary className="cursor-pointer">Email details</summary>
+        <summary className="cursor-pointer">{t("components.emailMessageCard.emailDetails")}</summary>
         <div className="space-y-2 pt-3">
           {!!message.bcc?.length && <p>Bcc: {message.bcc.join(", ")}</p>}
           <p className="break-all">Message ID: {message.providerMessageId}</p>
@@ -139,7 +141,7 @@ export function EmailMessageCard({
       )}
       {attachments.error && (
         <p role="alert" className="text-xs text-destructive">
-          Attachments could not be loaded.
+          {t("components.emailMessageCard.attachmentsCouldNotBeLoaded")}
         </p>
       )}
     </article>

@@ -8,6 +8,7 @@ import {
   type ChatEndpointSetupAction,
 } from "@/api/chatEndpoints";
 import { sanitizedSetupErrorMessage } from "./chat-setup-error";
+import { useTranslation } from "@/i18n";
 
 export function PhotonConnectStep({
   endpoint,
@@ -25,6 +26,7 @@ export function PhotonConnectStep({
     values?: Record<string, string>,
   ): void;
 }) {
+  const { t } = useTranslation();
   const [projectId, setProjectId] = useState(endpoint.providerAccountId ?? "");
   const [projectSecret, setProjectSecret] = useState("");
   const [lineId, setLineId] = useState("");
@@ -46,7 +48,7 @@ export function PhotonConnectStep({
   return (
     <div className="space-y-5">
       <div className="space-y-2">
-        <h1 className="text-xl font-bold">Connect iMessage Photon</h1>
+        <h1 className="text-xl font-bold">{t("pages.apps.chat.photonConnectStep.connectImessagePhoton")}</h1>
         <p className="text-sm text-muted-foreground">
           Connect {agentName} to Photon Cloud. Pro supports direct messages through
           a shared line. Dedicated numbers also support individually enabled groups.
@@ -58,7 +60,7 @@ export function PhotonConnectStep({
             target="_blank"
             rel="noreferrer"
           >
-            Photon dashboard
+            {t("pages.apps.chat.photonConnectStep.photonDashboard")}
           </a>
           {" · "}
           <a
@@ -67,7 +69,7 @@ export function PhotonConnectStep({
             target="_blank"
             rel="noreferrer"
           >
-            Photon line setup
+            {t("pages.apps.chat.photonConnectStep.photonLineSetup")}
           </a>
         </p>
       </div>
@@ -79,7 +81,7 @@ export function PhotonConnectStep({
         </p>
       )}
       <label className="grid gap-2 text-sm font-medium">
-        Project ID
+        {t("pages.apps.chat.photonConnectStep.projectId")}
         <Input
           value={projectId}
           autoComplete="off"
@@ -91,7 +93,7 @@ export function PhotonConnectStep({
         />
       </label>
       <label className="grid gap-2 text-sm font-medium">
-        Project secret
+        {t("pages.apps.chat.photonConnectStep.projectSecret")}
         <Input
           type="password"
           value={projectSecret}
@@ -131,9 +133,7 @@ export function PhotonConnectStep({
           )}
           {inspection.data.allocation === "shared" && inspection.data.eligible && (
             <p className="text-sm text-muted-foreground">
-              Direct messages only. Enroll each test sender in your Photon project's Users page,
-              then use the number Photon assigns to that sender. Paperclip identity linking is
-              still required. Groups cannot be enabled on this channel.
+              {t("pages.apps.chat.photonConnectStep.directMessagesOnlyEnrollEachTest")}
             </p>
           )}
           {inspection.data.lines.map((line) => (

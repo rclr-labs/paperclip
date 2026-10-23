@@ -42,6 +42,7 @@ import { MarkdownEditor } from "@/components/MarkdownEditor";
 import { Label } from "@/components/ui/label";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { Link } from "@/lib/router";
+import { useTranslation } from "@/i18n";
 import {
   Tooltip,
   TooltipContent,
@@ -172,6 +173,7 @@ function GitHubPassingScore({
   onChange: (value: GitHubReviewPolicy["ratingThreshold"]) => void;
   onValidityChange?: (valid: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const id = useId();
   const [localText, setLocalText] = useState(String(value ?? 5));
   const text = controlledText ?? localText;
@@ -182,7 +184,7 @@ function GitHubPassingScore({
   useEffect(() => { onValidityChange?.(valid); }, [valid, onValidityChange]);
   return (
     <div className="space-y-3 py-3">
-      <Label htmlFor={id}>Passing score</Label>
+      <Label htmlFor={id}>{t("pages.apps.chat.gitHubBotConfiguration.passingScore")}</Label>
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
           <Input id={id} type="number" min={1} max={5} step={1} required
@@ -195,25 +197,25 @@ function GitHubPassingScore({
               if (next.trim() && Number.isInteger(score) && score >= 1 && score <= 5)
                 onChange(score as 1 | 2 | 3 | 4 | 5);
             }} />
-          <span className="text-sm text-muted-foreground">out of 5</span>
+          <span className="text-sm text-muted-foreground">{t("pages.apps.chat.gitHubBotConfiguration.outOf5")}</span>
         </div>
         <Label className="flex items-center gap-2 text-sm font-normal">
-          <Checkbox aria-label="Report only" checked={value === null}
+          <Checkbox aria-label={t("pages.apps.chat.gitHubBotConfiguration.reportOnly")} checked={value === null}
             onCheckedChange={(checked) => { setText("5"); onChange(checked === true ? null : 5); }} />
-          Report only
+          {t("pages.apps.chat.gitHubBotConfiguration.reportOnly")}
         </Label>
       </div>
-      {!valid && <p id={`${id}-error`} role="alert" className="text-xs text-destructive">Enter a whole number from 1 to 5.</p>}
+      {!valid && <p id={`${id}-error`} role="alert" className="text-xs text-destructive">{t("pages.apps.chat.gitHubBotConfiguration.enterAWholeNumberFrom1")}</p>}
       <p id={`${id}-help`} className="text-xs text-muted-foreground">
         {value === null
           ? "Publishes a neutral check without a score requirement. GitHub can accept neutral checks for merging."
           : "Paperclip passes the check when a complete review of the latest commit meets this score. Lower scores fail. This does not approve the PR."}
       </p>
       <p className="text-xs text-muted-foreground">
-        To block merging, require the <strong>Paperclip Review</strong> check from this App in your GitHub branch rules.{" "}
+        To block merging, require the <strong>{t("pages.apps.chat.gitHubBotConfiguration.paperclipReview")}</strong> check from this App in your GitHub branch rules.{" "}
         <a className="underline hover:text-foreground"
           href="https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository"
-          target="_blank" rel="noreferrer">Configure on GitHub</a>
+          target="_blank" rel="noreferrer">{t("pages.apps.chat.gitHubBotConfiguration.configureOnGithub")}</a>
       </p>
     </div>
   );
@@ -238,6 +240,7 @@ export function GitHubPolicyEditor({
   onChange: (policy: GitHubReviewPolicy) => void;
   onValidityChange?: (valid: boolean) => void;
 }) {
+  const { t } = useTranslation();
   const id = useId();
   const automaticMode = useRef<"linked_authors" | "allowed_authors">(
     "linked_authors",
@@ -283,24 +286,23 @@ export function GitHubPolicyEditor({
           id={`${id}-github-instructions-heading`}
           className="text-base font-semibold"
         >
-          Instructions
+          {t("pages.apps.chat.gitHubBotConfiguration.instructions")}
         </h2>
         <MarkdownEditor
           readOnly={readOnly}
           ariaLabel="Agent instructions"
           contentClassName="min-h-32"
           value={policy.instructions}
-          placeholder="What should this agent do on GitHub?"
+          placeholder={t("pages.apps.chat.gitHubBotConfiguration.whatShouldThisAgentDoOn")}
           onChange={(value) => set("instructions", value)}
         />
         <p className="text-xs text-muted-foreground">
-          Included in every GitHub task. Type / to select a skill for the agent
-          to use.
+          {t("pages.apps.chat.gitHubBotConfiguration.includedInEveryGithubTaskType")}
         </p>
-        <GitHubSettingsDisclosure title="Event-specific instructions">
+        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.eventSpecificInstructions")}>
           <div className="grid gap-3 pt-3">
             <Label htmlFor={`${id}-github-prompt-event`} className="sr-only">
-              Event
+              {t("pages.apps.chat.gitHubBotConfiguration.event")}
             </Label>
             <select
               id={`${id}-github-prompt-event`}
@@ -313,7 +315,7 @@ export function GitHubPolicyEditor({
                   {eventLabels[event]}
                 </option>
               ))}
-              <option value="issue_opened">New issue</option>
+              <option value="issue_opened">{t("pages.apps.chat.gitHubBotConfiguration.newIssue")}</option>
             </select>
             <MarkdownEditor
               key={prompt}
@@ -335,7 +337,7 @@ export function GitHubPolicyEditor({
               }
             />
             <p className="text-xs text-muted-foreground">
-              Added to the main instructions for this event. Type / to select a skill for the agent to use.
+              {t("pages.apps.chat.gitHubBotConfiguration.addedToTheMainInstructionsFor")}
             </p>
           </div>
         </GitHubSettingsDisclosure>
@@ -348,24 +350,24 @@ export function GitHubPolicyEditor({
           id={`${id}-github-triggers-heading`}
           className="text-base font-semibold"
         >
-          When to run
+          {t("pages.apps.chat.gitHubBotConfiguration.whenToRun")}
         </h2>
         <div className="flex items-start gap-3 py-2">
           <AtSign className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
           <div className="space-y-1">
-            <p className="text-sm font-medium">When mentioned</p>
+            <p className="text-sm font-medium">{t("pages.apps.chat.gitHubBotConfiguration.whenMentioned")}</p>
             <p className="text-xs text-muted-foreground">
               Authorized people can always @mention this bot.{" "}
               {accessHref && (
                 <Link className="underline underline-offset-4" to={accessHref}>
-                  Manage people in Access
+                  {t("pages.apps.chat.gitHubBotConfiguration.managePeopleInAccess")}
                 </Link>
               )}
             </p>
           </div>
         </div>
         <GitHubToggle
-          label="Run automatically"
+          label={t("pages.apps.chat.gitHubBotConfiguration.runAutomatically")}
           description="Start work without a mention when an allowed person creates an issue or updates a pull request."
           checked={policy.invocation !== "mentions_only"}
           onChange={(enabled) =>
@@ -376,7 +378,7 @@ export function GitHubPolicyEditor({
           <div className="space-y-4">
             <div
               className="grid gap-x-6 gap-y-3 sm:grid-cols-2"
-              aria-label="Automatic events"
+              aria-label={t("pages.apps.chat.gitHubBotConfiguration.automaticEvents")}
             >
               {GITHUB_REVIEW_EVENTS.slice(0, 4).map((event) => (
                 <Label
@@ -404,27 +406,27 @@ export function GitHubPolicyEditor({
                     set("issueOpened", enabled === true)
                   }
                 />
-                New issues
+                {t("pages.apps.chat.gitHubBotConfiguration.newIssues")}
               </Label>
             </div>
             <p className="text-xs text-muted-foreground">
-              Runs for authorized authors in Access. Use the author filters below to limit whose issues and PRs start work.
+              {t("pages.apps.chat.gitHubBotConfiguration.runsForAuthorizedAuthorsInAccess")}
             </p>
-            <GitHubSettingsDisclosure title="Automatic review filters">
+            <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.automaticReviewFilters")}>
               <div>
                 <GitHubToggle
-                  label="Include draft PRs"
+                  label={t("pages.apps.chat.gitHubBotConfiguration.includeDraftPrs")}
                   checked={policy.reviewDrafts}
                   onChange={(value) => set("reviewDrafts", value)}
                 />
                 <GitHubToggle
-                  label="Include bot authors"
+                  label={t("pages.apps.chat.gitHubBotConfiguration.includeBotAuthors")}
                   description="The account also needs a sponsor and external-contributor automatic runs enabled in Access."
                   checked={policy.reviewBotAuthors}
                   onChange={(value) => set("reviewBotAuthors", value)}
                 />
               </div>
-              <GitHubSettingsDisclosure title="Authors">
+              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.authors")}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "includeAuthors",
@@ -438,7 +440,7 @@ export function GitHubPolicyEditor({
                   )}
                 </div>
               </GitHubSettingsDisclosure>
-              <GitHubSettingsDisclosure title="Branches">
+              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.branches")}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "targetBranches",
@@ -452,7 +454,7 @@ export function GitHubPolicyEditor({
                   )}
                 </div>
               </GitHubSettingsDisclosure>
-              <GitHubSettingsDisclosure title="Labels">
+              <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.labels")}>
                 <div className="grid gap-4 sm:grid-cols-2">
                   {filterField(
                     "requiredLabels",
@@ -467,8 +469,7 @@ export function GitHubPolicyEditor({
                 </div>
               </GitHubSettingsDisclosure>
               <p className="text-xs text-muted-foreground">
-                Reviews requested by @mention bypass these scheduling filters.
-                Repository access and ignored files still apply.
+                {t("pages.apps.chat.gitHubBotConfiguration.reviewsRequestedByMentionBypassThese")}
               </p>
             </GitHubSettingsDisclosure>
           </div>
@@ -482,16 +483,16 @@ export function GitHubPolicyEditor({
           id={`${id}-github-results-heading`}
           className="text-base font-semibold"
         >
-          Review results
+          {t("pages.apps.chat.gitHubBotConfiguration.reviewResults")}
         </h2>
         <div className="grid gap-x-8 sm:grid-cols-2">
           <GitHubToggle
-            label="Post a review summary"
+            label={t("pages.apps.chat.gitHubBotConfiguration.postAReviewSummary")}
             checked={policy.publishSummary}
             onChange={(value) => set("publishSummary", value)}
           />
           <GitHubToggle
-            label="Post inline findings"
+            label={t("pages.apps.chat.gitHubBotConfiguration.postInlineFindings")}
             checked={policy.publishInline}
             onChange={(value) => set("publishInline", value)}
           />
@@ -500,18 +501,18 @@ export function GitHubPolicyEditor({
           onChange={(value) => set("ratingThreshold", value)} onValidityChange={onValidityChange} />
       </section>
       <div className="divide-y divide-border">
-        <GitHubSettingsDisclosure title="Ignored files">
+        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.ignoredFiles")}>
           {filterField(
             "ignoredPaths",
             "File patterns",
             "Excluded from all reviews, including @mentions. One pattern per line; supports * and **.",
           )}
         </GitHubSettingsDisclosure>
-        <GitHubSettingsDisclosure title="Inline comment options">
+        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.inlineCommentOptions")}>
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor={`${id}-github-categories`}>
-                Finding categories
+                {t("pages.apps.chat.gitHubBotConfiguration.findingCategories")}
               </Label>
               <GitHubListInput
                 id={`${id}-github-categories`}
@@ -522,7 +523,7 @@ export function GitHubPolicyEditor({
             </div>
             <div className="space-y-2">
               <Label htmlFor={`${id}-github-severity`}>
-                Minimum inline severity
+                {t("pages.apps.chat.gitHubBotConfiguration.minimumInlineSeverity")}
               </Label>
               <select
                 id={`${id}-github-severity`}
@@ -536,30 +537,29 @@ export function GitHubPolicyEditor({
                   )
                 }
               >
-                <option value="info">Info</option>
-                <option value="warning">Warning</option>
-                <option value="error">Error</option>
+                <option value="info">{t("pages.apps.chat.gitHubBotConfiguration.info")}</option>
+                <option value="warning">{t("pages.apps.chat.gitHubBotConfiguration.warning")}</option>
+                <option value="error">{t("pages.apps.chat.gitHubBotConfiguration.error")}</option>
               </select>
               <p className="text-xs text-muted-foreground">
-                Hidden findings still count in the assessment.
+                {t("pages.apps.chat.gitHubBotConfiguration.hiddenFindingsStillCountInThe")}
               </p>
             </div>
           </div>
         </GitHubSettingsDisclosure>
-        <GitHubSettingsDisclosure title="Approvals and change requests">
+        <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.approvalsAndChangeRequests")}>
           <p className="text-xs text-muted-foreground">
-            Optional formal decisions on GitHub. Scores, comments, and checks
-            still work when these are off.
+            {t("pages.apps.chat.gitHubBotConfiguration.optionalFormalDecisionsOnGithubScores")}
           </p>
           <div>
             <GitHubToggle
-              label="Allow approvals"
+              label={t("pages.apps.chat.gitHubBotConfiguration.allowApprovals")}
               help="Lets the agent submit an Approve review on GitHub after a complete assessment. The agent must explicitly choose it; a 5/5 score or passing check does not approve the PR. Off still allows scores, comments, and checks."
               checked={policy.allowApprove}
               onChange={(value) => set("allowApprove", value)}
             />
             <GitHubToggle
-              label="Allow request changes"
+              label={t("pages.apps.chat.gitHubBotConfiguration.allowRequestChanges")}
               help="Lets the agent submit a Request changes review on GitHub after a complete assessment. This is a formal review decision and may prevent merging under your repository rules. Off still allows findings, comments, and a failing check."
               checked={policy.allowRequestChanges}
               onChange={(value) => set("allowRequestChanges", value)}
@@ -582,6 +582,7 @@ export function GitHubAccessEditor({
   configuration: GitHubChatConfiguration;
   onChange: (configuration: GitHubChatConfiguration) => void;
 }) {
+  const { t } = useTranslation();
   const company = useOptionalCompany()?.companies.find((item) => item.id === companyId);
   const accountLink = useRef<HTMLAnchorElement>(null);
   const [linkCopied, setLinkCopied] = useState(false);
@@ -764,17 +765,16 @@ export function GitHubAccessEditor({
     </div>
   );
   return (
-    <section className="space-y-6" aria-label="People">
+    <section className="space-y-6" aria-label={t("pages.apps.chat.gitHubBotConfiguration.people")}>
       <div className="space-y-1">
-        <h2 className="text-base font-semibold">People</h2>
+        <h2 className="text-base font-semibold">{t("pages.apps.chat.gitHubBotConfiguration.people")}</h2>
         <p className="text-sm text-muted-foreground">
-          Choose who can mention this bot and whose activity can start work
-          automatically.
+          {t("pages.apps.chat.gitHubBotConfiguration.chooseWhoCanMentionThisBot")}
         </p>
       </div>
-      <section className="space-y-2" aria-label="Company members">
+      <section className="space-y-2" aria-label={t("pages.apps.chat.gitHubBotConfiguration.companyMembers")}>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold">Company members</h3>
+          <h3 className="text-sm font-semibold">{t("pages.apps.chat.gitHubBotConfiguration.companyMembers")}</h3>
           <Button
             variant="outline"
             size="sm"
@@ -785,11 +785,11 @@ export function GitHubAccessEditor({
             }}
           >
             <Plus className="size-4" />
-            Link a member
+            {t("pages.apps.chat.gitHubBotConfiguration.linkAMember")}
           </Button>
         </div>
         <GitHubToggle
-          label="Allow mentions from all linked members"
+          label={t("pages.apps.chat.gitHubBotConfiguration.allowMentionsFromAllLinkedMembers")}
           description={
             configuration.memberAccess === "all_linked"
               ? `Includes members from ${company?.name ?? "this company"} who link their GitHub account later.`
@@ -806,12 +806,12 @@ export function GitHubAccessEditor({
         {peopleRows(memberRows)}
         {links.isPending && (
           <p role="status" className="py-4 text-sm text-muted-foreground">
-            Loading linked accounts…
+            {t("pages.apps.chat.gitHubBotConfiguration.loadingLinkedAccounts")}
           </p>
         )}
         {!links.isPending && !links.isError && memberRows.length === 0 && (
           <p className="py-4 text-sm text-muted-foreground">
-            No members linked yet. Link an account to get started.
+            {t("pages.apps.chat.gitHubBotConfiguration.noMembersLinkedYetLinkAn")}
           </p>
         )}
         <p className="text-xs text-muted-foreground">
@@ -822,7 +822,7 @@ export function GitHubAccessEditor({
                 className="underline underline-offset-4"
                 to={`/apps/chat/${endpointId}/settings`}
               >
-                Settings
+                {t("pages.apps.chat.gitHubBotConfiguration.settings")}
               </Link>
               .
             </>
@@ -833,7 +833,7 @@ export function GitHubAccessEditor({
                 className="underline underline-offset-4"
                 to={`/apps/chat/${endpointId}/settings`}
               >
-                Settings
+                {t("pages.apps.chat.gitHubBotConfiguration.settings")}
               </Link>
               . Authorized @mentions still work.
             </>
@@ -842,10 +842,10 @@ export function GitHubAccessEditor({
       </section>
       <section
         className="space-y-2 border-t border-border pt-6"
-        aria-label="External contributors"
+        aria-label={t("pages.apps.chat.gitHubBotConfiguration.externalContributors")}
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="text-sm font-semibold">External contributors</h3>
+          <h3 className="text-sm font-semibold">{t("pages.apps.chat.gitHubBotConfiguration.externalContributors")}</h3>
           <Button
             variant="outline"
             size="sm"
@@ -855,18 +855,16 @@ export function GitHubAccessEditor({
             }}
           >
             <Plus className="size-4" />
-            Add external contributor
+            {t("pages.apps.chat.gitHubBotConfiguration.addExternalContributor")}
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Allow specific GitHub users with a member as their sponsor. They
-          receive restricted access, without company membership or the sponsor’s
-          personal credentials.
+          {t("pages.apps.chat.gitHubBotConfiguration.allowSpecificGithubUsersWithA")}
         </p>
         {peopleRows(guests)}
         {guests.length > 0 && (
           <GitHubToggle
-            label="Allow automatic runs for external contributors"
+            label={t("pages.apps.chat.gitHubBotConfiguration.allowAutomaticRunsForExternalContributors")}
             description={
               automatic
                 ? "Authorized contributors can trigger the events and author filters configured in Settings."
@@ -886,7 +884,7 @@ export function GitHubAccessEditor({
           />
         )}
       </section>
-      <GitHubSettingsDisclosure title="Automatic task responsibility">
+      <GitHubSettingsDisclosure title={t("pages.apps.chat.gitHubBotConfiguration.automaticTaskResponsibility")}>
         <div className="space-y-2">
           {activeMembers.length === 1 && responsible ? (
             <p className="text-sm">
@@ -894,7 +892,7 @@ export function GitHubAccessEditor({
             </p>
           ) : (
             <>
-              <Label htmlFor="github-responsible">Responsible member</Label>
+              <Label htmlFor="github-responsible">{t("pages.apps.chat.gitHubBotConfiguration.responsibleMember")}</Label>
               <select
                 id="github-responsible"
                 className={githubSelectClass}
@@ -922,9 +920,7 @@ export function GitHubAccessEditor({
             </>
           )}
           <p className="text-xs text-muted-foreground">
-            The member accountable for automatically created Paperclip tasks.
-            GitHub authors remain recorded separately. This grants no access to
-            the member’s personal credentials.
+            {t("pages.apps.chat.gitHubBotConfiguration.theMemberAccountableForAutomaticallyCreated")}
           </p>
         </div>
       </GitHubSettingsDisclosure>
@@ -936,7 +932,7 @@ export function GitHubAccessEditor({
       {(members.error || links.error) && (
         <div className="flex flex-wrap items-center gap-2">
           <p role="alert" className="text-sm text-destructive">
-            Could not load members or linked accounts.
+            {t("pages.apps.chat.gitHubBotConfiguration.couldNotLoadMembersOrLinked")}
           </p>
           <Button
             variant="link"
@@ -946,7 +942,7 @@ export function GitHubAccessEditor({
               void links.refetch();
             }}
           >
-            Try again
+            {t("pages.apps.chat.gitHubBotConfiguration.tryAgain")}
           </Button>
         </div>
       )}
@@ -973,7 +969,7 @@ export function GitHubAccessEditor({
             <>
               <Button
                 variant="outline"
-                aria-label="Copy account linking URL"
+                aria-label={t("pages.apps.chat.gitHubBotConfiguration.copyAccountLinkingUrl")}
                 onClick={() => {
                   if (accountLink.current)
                     void copyTextToClipboard(accountLink.current.href).then(
@@ -993,7 +989,7 @@ export function GitHubAccessEditor({
                 to={`/apps/chat/connect?provider=github&resume=${endpointId}&stage=identity`}
                 className="text-sm underline underline-offset-4"
               >
-                Link your account
+                {t("pages.apps.chat.gitHubBotConfiguration.linkYourAccount")}
               </Link>
               {error && (
                 <p role="alert" className="text-sm text-destructive">
@@ -1004,7 +1000,7 @@ export function GitHubAccessEditor({
           ) : (
             <>
               <div className="space-y-2">
-                <Label htmlFor="github-guest-login">GitHub username</Label>
+                <Label htmlFor="github-guest-login">{t("pages.apps.chat.gitHubBotConfiguration.githubUsername")}</Label>
                 <div className="flex gap-2">
                   <Input
                     id="github-guest-login"
@@ -1042,7 +1038,7 @@ export function GitHubAccessEditor({
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="github-guest-sponsor">Sponsor</Label>
+                <Label htmlFor="github-guest-sponsor">{t("pages.apps.chat.gitHubBotConfiguration.sponsor")}</Label>
                 <select
                   id="github-guest-sponsor"
                   className={githubSelectClass}
@@ -1051,7 +1047,7 @@ export function GitHubAccessEditor({
                 >
                   {!activeMembers.some(
                     (member) => member.principalId === sponsor,
-                  ) && <option value={sponsor}>Select a member</option>}
+                  ) && <option value={sponsor}>{t("pages.apps.chat.gitHubBotConfiguration.selectAMember")}</option>}
                   {activeMembers.map((member) => (
                     <option key={member.principalId} value={member.principalId}>
                       {member.user?.name ?? member.principalId}
@@ -1078,7 +1074,7 @@ export function GitHubAccessEditor({
               )}
               <DialogFooter className="flex-row justify-between sm:justify-between">
                 <Button variant="ghost" onClick={() => setDialog(null)}>
-                  Cancel
+                  {t("pages.apps.chat.gitHubBotConfiguration.cancel")}
                 </Button>
                 <Button
                   disabled={
@@ -1107,7 +1103,7 @@ export function GitHubAccessEditor({
                     }
                   }}
                 >
-                  Add contributor
+                  {t("pages.apps.chat.gitHubBotConfiguration.addContributor")}
                 </Button>
               </DialogFooter>
             </>

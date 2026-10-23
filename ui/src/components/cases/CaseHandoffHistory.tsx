@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { formatDateTime, relativeTime } from "@/lib/utils";
 import { queryKeys } from "@/lib/queryKeys";
 import type { CaseAgentMap } from "./CaseWorkSummary";
+import { useTranslation } from "@/i18n";
 
 function HandoffActor({ id, name, fallback, agents }: {
   id: string | null;
@@ -20,6 +21,7 @@ function HandoffActor({ id, name, fallback, agents }: {
 }
 
 export function CaseHandoffHistory({ caseId, task, agents }: { caseId: string; task?: CaseWorkIssue | null; agents?: CaseAgentMap }) {
+  const { t } = useTranslation();
   const history = useInfiniteQuery({
     queryKey: queryKeys.cases.handoffs(caseId),
     initialPageParam: null as string | null,
@@ -27,17 +29,18 @@ export function CaseHandoffHistory({ caseId, task, agents }: { caseId: string; t
     getNextPageParam: page => page.nextCursor ?? undefined,
   });
   const handoffs = history.data?.pages.flatMap(page => page.items) ?? [];
-  return <section className="space-y-3" aria-label="Case handoffs">
-    <h2 className="text-sm font-semibold">Handoffs</h2>
-    {history.isLoading ? <p className="text-sm text-muted-foreground">Loading handoffs…</p> : null}
-    {history.isError ? <p role="alert" className="text-sm text-destructive">Handoffs couldn’t be loaded.</p> : null}
-    {!history.isLoading && !history.isError && handoffs.length === 0 ? <p className="text-sm text-muted-foreground">No handoffs yet.</p> : null}
+  return <section className="space-y-3" aria-label={t("components.cases.caseHandoffHistory.caseHandoffs")}>
+    <h2 className="text-sm font-semibold">{t("components.cases.caseHandoffHistory.handoffs")}</h2>
+    {history.isLoading ? <p className="text-sm text-muted-foreground">{t("components.cases.caseHandoffHistory.loadingHandoffs")}</p> : null}
+    {history.isError ? <p role="alert" className="text-sm text-destructive">{t("components.cases.caseHandoffHistory.handoffsCouldnTBeLoaded")}</p> : null}
+    {!history.isLoading && !history.isError && handoffs.length === 0 ? <p className="text-sm text-muted-foreground">{t("components.cases.caseHandoffHistory.noHandoffsYet")}</p> : null}
     <ol className="divide-y divide-border">{handoffs.map(handoff => <HandoffRow key={handoff.id} handoff={handoff} task={task} agents={agents} />)}</ol>
-    {history.hasNextPage ? <Button variant="ghost" size="sm" disabled={history.isFetchingNextPage} onClick={() => void history.fetchNextPage()}>Load older handoffs</Button> : null}
+    {history.hasNextPage ? <Button variant="ghost" size="sm" disabled={history.isFetchingNextPage} onClick={() => void history.fetchNextPage()}>{t("components.cases.caseHandoffHistory.loadOlderHandoffs")}</Button> : null}
   </section>;
 }
 
 function HandoffRow({ handoff, task, agents }: { handoff: CaseHandoffView; task?: CaseWorkIssue | null; agents?: CaseAgentMap }) {
+  const { t } = useTranslation();
   const createdAt = new Date(handoff.createdAt).toISOString();
   const terminal = handoff.destinationKind === "done";
   const settled = handoff.state === "delivered" || handoff.state === "completed";
@@ -59,7 +62,7 @@ function HandoffRow({ handoff, task, agents }: { handoff: CaseHandoffView; task?
           <span className="flex flex-wrap items-center gap-2 text-muted-foreground">
             <HandoffActor id={handoff.fromAgentId} name={handoff.fromAgentName} fallback={handoff.actorType === "user" ? "User" : "System"} agents={agents} />
             <ArrowRight aria-hidden className="size-3" />
-            {terminal ? <span className="text-xs">Done</span>
+            {terminal ? <span className="text-xs">{t("components.cases.caseHandoffHistory.done")}</span>
               : <HandoffActor id={handoff.toAgentId} name={handoff.toAgentName} fallback="Agent" agents={agents} />}
           </span>
         </span>

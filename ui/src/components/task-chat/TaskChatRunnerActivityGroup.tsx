@@ -24,6 +24,7 @@ import {
 import { TaskChatUsageReadout } from "./TaskChatUsageReadout";
 import { toolActivityPresentation } from "./tool-taxonomy";
 import { useTaskChatShimmer } from "./TaskChatShimmer";
+import { useTranslation } from "@/i18n";
 
 type Activity = TaskChatActivityPhaseItem["items"][number];
 
@@ -315,6 +316,7 @@ export function TaskChatRunnerActivityGroup({
   item: TaskChatActivityPhaseItem;
   defaultExpanded?: boolean;
 }) {
+  const { t } = useTranslation();
   const [expanded, setExpanded] = useTaskChatExpansion(
     item.id,
     defaultExpanded,
@@ -390,7 +392,7 @@ export function TaskChatRunnerActivityGroup({
             <ol
               id={historyId}
               className="flex min-w-0 flex-col gap-1"
-              aria-label="Activity history"
+              aria-label={t("components.taskchat.taskChatRunnerActivityGroup.activityHistory")}
               data-testid="task-chat-runner-activity-list"
             >
               {activities.map((activity, index) => (

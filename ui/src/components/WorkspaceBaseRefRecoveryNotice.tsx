@@ -6,6 +6,7 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { SystemNoticeMetadataSections } from "./SystemNotice";
 import { cn } from "../lib/utils";
+import { useTranslation } from "@/i18n";
 
 export interface WorkspaceBaseRefRecoveryNoticeProps {
   requestedRef: string;
@@ -27,6 +28,7 @@ export function WorkspaceBaseRefRecoveryNotice({
   requestedRef, repository, defaultBranch, agentName, configuredBy,
   taskOverride = true, failureKind = "unresolved_ref", unavailableReason, onRepair,
 }: WorkspaceBaseRefRecoveryNoticeProps) {
+  const { t } = useTranslation();
   const id = useId();
   const [editing, setEditing] = useState(!defaultBranch);
   const [branch, setBranch] = useState(defaultBranch ?? "");
@@ -66,28 +68,28 @@ export function WorkspaceBaseRefRecoveryNotice({
       <div className="flex min-w-0 flex-1 flex-col gap-3">
         <div className="flex flex-col gap-1" role="status" aria-live="polite">
           <h2 id={`${id}-title`} className="break-words text-sm font-semibold">
-            {repairedBranch ? "Branch updated · retry requested" : failureKind === "missing_branch" ? <>Branch <code className="font-mono">{requestedRef}</code> was not found</> : <>Couldn’t use branch <code className="font-mono">{requestedRef}</code></>}
+            {repairedBranch ? "Branch updated · retry requested" : failureKind === "missing_branch" ? <>{t("components.workspaceBaseRefRecoveryNotice.branch")} <code className="font-mono">{requestedRef}</code> {t("components.workspaceBaseRefRecoveryNotice.wasNotFound")}</> : <>{t("components.workspaceBaseRefRecoveryNotice.couldnTUseBranch")} <code className="font-mono">{requestedRef}</code></>}
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
             {repairedBranch
               ? <>This task now starts from <code className="font-mono text-foreground">{repairedBranch}</code>. A retry has been requested for {agentName}.</>
-              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> has no branch named <code className="font-mono text-foreground">{requestedRef}</code>.</> : " could not resolve the starting branch. Check the branch name and repository access."} {agentName} hasn’t started.</>}
+              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> {t("components.workspaceBaseRefRecoveryNotice.hasNoBranchNamed")} <code className="font-mono text-foreground">{requestedRef}</code>.</> : " could not resolve the starting branch. Check the branch name and repository access."} {agentName} hasn’t started.</>}
           </p>
         </div>
         {!repairedBranch && (
           <>
-            {defaultBranch && !editing && <p className="flex flex-wrap items-center gap-1.5 text-sm"><GitBranch aria-hidden className="size-4 text-muted-foreground" /><code className="font-mono">{defaultBranch}</code><span className="text-muted-foreground">is the repository’s default branch.</span></p>}
-            <p className="text-xs text-muted-foreground">Changes only this task’s starting branch.</p>
+            {defaultBranch && !editing && <p className="flex flex-wrap items-center gap-1.5 text-sm"><GitBranch aria-hidden className="size-4 text-muted-foreground" /><code className="font-mono">{defaultBranch}</code><span className="text-muted-foreground">{t("components.workspaceBaseRefRecoveryNotice.isTheRepositorySDefaultBranch")}</span></p>}
+            <p className="text-xs text-muted-foreground">{t("components.workspaceBaseRefRecoveryNotice.changesOnlyThisTaskSStarting")}</p>
             {unavailableReason && <p id={`${id}-unavailable`} className="text-sm text-muted-foreground">{unavailableReason}</p>}
             {error && <p role="alert" id={`${id}-error`} className="text-sm text-destructive">Couldn’t confirm the repair. {error}</p>}
             {editing ? (
               <form className="flex flex-col gap-3" onSubmit={event => { event.preventDefault(); void repair(branch); }}>
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor={`${id}-branch`}>Starting branch</Label>
-                  <Input id={`${id}-branch`} autoFocus value={branch} disabled={pending || Boolean(unavailableReason)} onChange={event => setBranch(event.target.value)} placeholder="Branch name" className="font-mono" aria-describedby={error ? `${id}-error` : undefined} autoComplete="off" spellCheck={false} />
+                  <Label htmlFor={`${id}-branch`}>{t("components.workspaceBaseRefRecoveryNotice.startingBranch")}</Label>
+                  <Input id={`${id}-branch`} autoFocus value={branch} disabled={pending || Boolean(unavailableReason)} onChange={event => setBranch(event.target.value)} placeholder={t("components.workspaceBaseRefRecoveryNotice.branchName")} className="font-mono" aria-describedby={error ? `${id}-error` : undefined} autoComplete="off" spellCheck={false} />
                 </div>
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  {defaultBranch ? <Button type="button" variant="ghost" size="sm" disabled={pending} onClick={() => { setEditing(false); setError(null); }}>Cancel</Button> : <span />}
+                  {defaultBranch ? <Button type="button" variant="ghost" size="sm" disabled={pending} onClick={() => { setEditing(false); setError(null); }}>{t("components.workspaceBaseRefRecoveryNotice.cancel")}</Button> : <span />}
                   <Button type="submit" size="sm" disabled={pending || !changed || Boolean(unavailableReason)} aria-describedby={unavailableReason ? `${id}-unavailable` : undefined}>
                     {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? "Saving & requesting retry…" : "Save branch & retry"}
                   </Button>
@@ -95,7 +97,7 @@ export function WorkspaceBaseRefRecoveryNotice({
               </form>
             ) : (
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <Button type="button" variant="ghost" size="sm" disabled={pending || Boolean(unavailableReason)} onClick={() => setEditing(true)}>Choose another branch</Button>
+                <Button type="button" variant="ghost" size="sm" disabled={pending || Boolean(unavailableReason)} onClick={() => setEditing(true)}>{t("components.workspaceBaseRefRecoveryNotice.chooseAnotherBranch")}</Button>
                 <Button type="button" size="sm" disabled={pending || Boolean(unavailableReason) || defaultBranch === requestedRef} aria-describedby={unavailableReason ? `${id}-unavailable` : undefined} onClick={() => void repair(defaultBranch!)}>
                   {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? "Saving & requesting retry…" : `Use ${defaultBranch} & retry`}
                 </Button>

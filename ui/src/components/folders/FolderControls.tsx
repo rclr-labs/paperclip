@@ -47,6 +47,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 import {
   reservedRootLabel,
   treeFromResult,
@@ -176,6 +177,7 @@ export function FolderRail({
   onEdit: (folder: FolderListItem) => void;
   onDelete: (folder: FolderListItem) => void;
 }) {
+  const { t } = useTranslation();
   const folders = result?.folders ?? [];
   const [renamingFolderId, setRenamingFolderId] = useState<string | null>(null);
   const [renameDraft, setRenameDraft] = useState("");
@@ -224,8 +226,8 @@ export function FolderRail({
   return (
     <nav aria-label={`${itemLabelPlural} folders`} className="hidden w-(--sz-folder-rail) shrink-0 border-r border-border pr-3 md:block">
       <div className="mb-2 flex items-center justify-between gap-2">
-        <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">Folders</div>
-        <Button variant="ghost" size="icon-sm" title="New folder" onClick={onCreate}>
+        <div className="text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">{t("components.folders.folderControls.folders")}</div>
+        <Button variant="ghost" size="icon-sm" title={t("components.folders.folderControls.newFolder2")} onClick={onCreate}>
           <Plus className="h-3.5 w-3.5" />
         </Button>
       </div>
@@ -255,7 +257,7 @@ export function FolderRail({
             />
           ))}
           <div className="px-2 pb-1 pt-3 text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
-            System
+            {t("components.folders.folderControls.system")}
           </div>
           {renderVirtualRow("unfiled", "Unfiled", result?.unfiledCount ?? 0, <FolderSwatch color={null} className="mt-0.5" />)}
         </div>
@@ -294,6 +296,7 @@ export function FolderRailItem({
   onEdit: () => void;
   onDelete: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
@@ -340,12 +343,12 @@ export function FolderRailItem({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={onStartRename}>Rename</DropdownMenuItem>
-          <DropdownMenuItem onSelect={onEdit}>Edit color</DropdownMenuItem>
+          <DropdownMenuItem onSelect={onStartRename}>{t("components.folders.folderControls.rename")}</DropdownMenuItem>
+          <DropdownMenuItem onSelect={onEdit}>{t("components.folders.folderControls.editColor")}</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onSelect={onDelete}>
             <Trash2 className="h-3.5 w-3.5" />
-            Delete
+            {t("components.folders.folderControls.delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -366,6 +369,7 @@ export function AllUnfiledBanner({
   itemLabelPlural: string;
   onCreateFolder: () => void;
 }) {
+  const { t } = useTranslation();
   const [dismissed, setDismissed] = useState(() => {
     try {
       return window.localStorage.getItem(storageKey) === "1";
@@ -392,9 +396,9 @@ export function AllUnfiledBanner({
         Group these {itemLabelPlural} into folders to keep things tidy.
       </span>
       <Button size="sm" variant="outline" onClick={onCreateFolder}>
-        Create your first folder
+        {t("components.folders.folderControls.createYourFirstFolder")}
       </Button>
-      <Button size="icon-sm" variant="ghost" aria-label="Dismiss folder suggestion" onClick={dismiss}>
+      <Button size="icon-sm" variant="ghost" aria-label={t("components.folders.folderControls.dismissFolderSuggestion")} onClick={dismiss}>
         <X className="h-3.5 w-3.5" />
       </Button>
     </div>
@@ -420,6 +424,7 @@ export function MobileFolderSheet({
   onSelect: (selection: FolderSelection) => void;
   onCreate: () => void;
 }) {
+  const { t } = useTranslation();
   function select(next: FolderSelection) {
     onSelect(next);
     onOpenChange(false);
@@ -466,7 +471,7 @@ export function MobileFolderSheet({
             <>
               {model.my ? renderBranch(model.my, "My Skills") : null}
               <div className="px-2 pb-0.5 pt-2 text-(length:--text-micro) font-medium uppercase tracking-wide text-muted-foreground">
-                Organization
+                {t("components.folders.folderControls.organization")}
               </div>
               {model.company.map((node) => renderBranch(node))}
               {model.projects ? renderBranch(model.projects, "Projects") : null}
@@ -477,7 +482,7 @@ export function MobileFolderSheet({
           )}
           <MobileFolderRow
             id="unfiled"
-            label="Unfiled"
+            label={t("components.folders.folderControls.unfiled")}
             count={result?.unfiledCount ?? 0}
             selected={selection === "unfiled"}
             onSelect={select}
@@ -486,7 +491,7 @@ export function MobileFolderSheet({
         <div className="border-t border-border px-4 pt-3">
           <Button size="sm" variant="outline" className="w-full" onClick={onCreate}>
             <Plus className="mr-2 h-3.5 w-3.5" />
-            New folder
+            {t("components.folders.folderControls.newFolder2")}
           </Button>
         </div>
       </SheetContent>
@@ -536,9 +541,10 @@ export function MoveToMenu({
   onMove: (folderId: string | null) => void;
   onCreateAndMove: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <DropdownMenuSub>
-      <DropdownMenuSubTrigger>Move to...</DropdownMenuSubTrigger>
+      <DropdownMenuSubTrigger>{t("components.folders.folderControls.moveTo")}</DropdownMenuSubTrigger>
       <DropdownMenuSubContent className="w-56">
         <MoveToMenuItems
           folders={folders}
@@ -562,6 +568,7 @@ function MoveToMenuItems({
   onMove: (folderId: string | null) => void;
   onCreateAndMove: () => void;
 }) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const visibleFolders = useMemo(() => {
     const lowered = query.trim().toLowerCase();
@@ -577,7 +584,7 @@ function MoveToMenuItems({
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={(event) => event.stopPropagation()}
-            placeholder="Search folders"
+            placeholder={t("components.folders.folderControls.searchFolders")}
             className="h-7 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
@@ -595,12 +602,12 @@ function MoveToMenuItems({
           </DropdownMenuItem>
         ))}
         {visibleFolders.length === 0 ? (
-          <div className="px-2 py-2 text-xs text-muted-foreground">No folders match.</div>
+          <div className="px-2 py-2 text-xs text-muted-foreground">{t("components.folders.folderControls.noFoldersMatch")}</div>
         ) : null}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={onCreateAndMove}>
           <Plus className="h-3.5 w-3.5" />
-          New folder...
+          {t("components.folders.folderControls.newFolder")}
         </DropdownMenuItem>
     </>
   );
@@ -621,6 +628,7 @@ export function FolderFormDialog({
   onSubmit: (payload: { name: string; color: string | null }) => void;
   pending?: boolean;
 }) {
+  const { t } = useTranslation();
   const [name, setName] = useState("");
   const [color, setColor] = useState<string | null>(FOLDER_COLORS[0] ?? null);
   const isEdit = Boolean(folder);
@@ -642,7 +650,7 @@ export function FolderFormDialog({
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium" htmlFor="folder-name">Name</label>
+            <label className="text-sm font-medium" htmlFor="folder-name">{t("components.folders.folderControls.name")}</label>
             <Input
               id="folder-name"
               value={name}
@@ -654,7 +662,7 @@ export function FolderFormDialog({
             />
           </div>
           <div className="space-y-2">
-            <div className="text-sm font-medium">Color</div>
+            <div className="text-sm font-medium">{t("components.folders.folderControls.color")}</div>
             <div className="flex flex-wrap gap-2">
               {FOLDER_COLORS.map((swatch) => (
                 <button
@@ -677,14 +685,14 @@ export function FolderFormDialog({
                 )}
                 onClick={() => setColor(null)}
               >
-                None
+                {t("components.folders.folderControls.none")}
               </button>
             </div>
           </div>
         </div>
         <DialogFooter>
           <Button variant="ghost" onClick={() => onOpenChange(false)} disabled={pending}>
-            Cancel
+            {t("components.folders.folderControls.cancel")}
           </Button>
           <Button onClick={() => onSubmit({ name: name.trim(), color })} disabled={pending || !name.trim()}>
             {pending ? "Saving..." : isEdit ? "Save" : "Create folder"}
@@ -710,17 +718,18 @@ export function DeleteFolderDialog({
   onConfirm: () => void;
   pending?: boolean;
 }) {
+  const { t } = useTranslation();
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete folder</AlertDialogTitle>
+          <AlertDialogTitle>{t("components.folders.folderControls.deleteFolder")}</AlertDialogTitle>
           <AlertDialogDescription>
             The {folder?.itemCount ?? 0} {itemLabelPlural} in this folder won't be deleted. They'll move to Unfiled.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={pending}>{t("components.folders.folderControls.cancel")}</AlertDialogCancel>
           <AlertDialogAction
             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             disabled={pending || !folder}
@@ -752,13 +761,14 @@ export function BulkBar({
   onClear: () => void;
   onDone: () => void;
 }) {
+  const { t } = useTranslation();
   if (selectedCount === 0) return null;
   return (
     <div className="sticky top-2 z-10 flex flex-wrap items-center gap-2 rounded-md border border-border bg-background/95 px-3 py-2 shadow-sm backdrop-blur">
       <span className="mr-auto text-sm text-muted-foreground">{selectedCount} selected</span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="outline">Move to...</Button>
+          <Button size="sm" variant="outline">{t("components.folders.folderControls.moveTo")}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
           <MoveToMenuItems
@@ -769,8 +779,8 @@ export function BulkBar({
           />
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button size="sm" variant="ghost" onClick={onClear}>Deselect all</Button>
-      <Button size="sm" onClick={onDone}>Done</Button>
+      <Button size="sm" variant="ghost" onClick={onClear}>{t("components.folders.folderControls.deselectAll")}</Button>
+      <Button size="sm" onClick={onDone}>{t("components.folders.folderControls.done")}</Button>
     </div>
   );
 }

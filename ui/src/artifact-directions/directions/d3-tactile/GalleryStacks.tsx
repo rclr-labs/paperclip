@@ -9,6 +9,7 @@ import { MetaLine } from "./MetaLine";
 import { ArtifactObject } from "./objects/ArtifactObject";
 import { Folder } from "./objects/Folder";
 import { StateFlag } from "./StateFlag";
+import { useTranslation } from "@/i18n";
 
 /**
  * GALLERY — the shelf: one folder per task.
@@ -55,13 +56,14 @@ function FolderContents({ artifacts }: { artifacts: LabArtifact[] }) {
 const FOCUS = cn(RING, RING_ON.canvas, "focus-visible:ring-offset-4");
 
 function Count({ group, className }: { group: LabGroup; className?: string }) {
+  const { t } = useTranslation();
   return (
     <span className={className}>
       <span className="whitespace-nowrap">
         <span className="font-mono text-(length:--tac-mono-scale)">{group.count}</span> {countLabel(group.count)}
       </span>
       <span className="whitespace-nowrap">
-        Updated <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
+        {t("artifactdirections.directions.d3tactile.galleryStacks.updated")} <span className="font-mono text-(length:--tac-mono-scale)">{group.updatedLabel}</span>
       </span>
     </span>
   );
@@ -162,7 +164,8 @@ function StackLone({ group }: { group: LabGroup }) {
 }
 
 export function GalleryStacks({ groups }: { groups: LabGroup[] }) {
-  if (groups.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">No artifact stacks yet.</p>;
+  const { t } = useTranslation();
+  if (groups.length === 0) return <p className="py-16 text-center text-sm font-medium text-foreground">{t("artifactdirections.directions.d3tactile.galleryStacks.noArtifactStacksYet")}</p>;
   return (
     // The shelf, measured: under 40rem it keeps two columns of compact folders (tokens-gallery.css).
     <div className="@container/shelf">

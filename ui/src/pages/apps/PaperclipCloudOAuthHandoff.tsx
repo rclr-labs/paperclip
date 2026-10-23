@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navigateTopLevel } from "@/lib/browserNavigation";
+import { useTranslation } from "@/i18n";
 import {
   clearPendingCloudHandoff,
   prepareOAuthNavigation,
@@ -21,6 +22,7 @@ export function ManagedOAuthHandoffState({
   onRetry: () => void;
   onCancel: () => void;
 }) {
+  const { t } = useTranslation();
   const failed = phase === "error";
   return (
     <main className="flex min-h-screen items-center justify-center bg-background p-6">
@@ -45,8 +47,8 @@ export function ManagedOAuthHandoffState({
           </p>
           {failed ? (
             <div className="mt-6 flex items-center gap-2">
-              <Button type="button" onClick={onRetry}>Try again</Button>
-              <Button type="button" variant="ghost" onClick={onCancel}>Return to Paperclip</Button>
+              <Button type="button" onClick={onRetry}>{t("pages.apps.paperclipCloudOAuthHandoff.tryAgain")}</Button>
+              <Button type="button" variant="ghost" onClick={onCancel}>{t("pages.apps.paperclipCloudOAuthHandoff.returnToPaperclip")}</Button>
             </div>
           ) : null}
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { Agent, ToolCatalogEntry, ToolPolicy, ToolProfileWithDetails } from "@paperclipai/shared";
 import { AgentAvatar } from "@/components/AgentAvatar";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n";
 
 export function AgentConnectionAccess({ connectionId, profiles, policies, catalog, agents, canManage, onRemove }: {
   connectionId: string;
@@ -12,6 +13,7 @@ export function AgentConnectionAccess({ connectionId, profiles, policies, catalo
   canManage: boolean;
   onRemove: (profileId: string) => Promise<unknown>;
 }) {
+  const { t } = useTranslation();
   const [pending, setPending] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const grants = profiles.filter(profile => {
@@ -39,8 +41,8 @@ export function AgentConnectionAccess({ connectionId, profiles, policies, catalo
 
   return <section className="space-y-4 border-t border-border pt-8">
     <div className="space-y-2">
-      <h2 className="text-sm font-semibold">Additional agent access</h2>
-      <p className="text-sm text-muted-foreground">These agents can use the listed actions in addition to the permissions above. Removing a grant restores their other permissions.</p>
+      <h2 className="text-sm font-semibold">{t("pages.apps.appdetail.agentConnectionAccess.additionalAgentAccess")}</h2>
+      <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.agentConnectionAccess.theseAgentsCanUseTheListed")}</p>
     </div>
     {grants.map(profile => {
       const agentId = profile.metadata!.agentId as string;

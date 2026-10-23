@@ -5,6 +5,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { RoutineActivityRow } from "@/components/RoutineActivityRow";
 import { Button } from "@/components/ui/button";
 import { queryKeys } from "@/lib/queryKeys";
+import { useTranslation } from "@/i18n";
 
 export function RoutineAuditActivity({
   companyId,
@@ -13,6 +14,7 @@ export function RoutineAuditActivity({
   companyId: string;
   routineId: string;
 }) {
+  const { t } = useTranslation();
   const activity = useQuery({
     queryKey: [...queryKeys.routines.activity(companyId, routineId), "audit"],
     queryFn: async () => {
@@ -30,7 +32,7 @@ export function RoutineAuditActivity({
   if (activity.isLoading) {
     return (
       <div className="border-y border-border py-14 text-center text-sm text-muted-foreground">
-        Loading routine activity…
+        {t("pages.audit.routineAuditActivity.loadingRoutineActivity")}
       </div>
     );
   }
@@ -42,7 +44,7 @@ export function RoutineAuditActivity({
           {activity.error instanceof Error ? activity.error.message : "Failed to load routine activity."}
         </p>
         <Button variant="outline" size="sm" onClick={() => activity.refetch()}>
-          Try again
+          {t("pages.audit.routineAuditActivity.tryAgain")}
         </Button>
       </div>
     );
@@ -54,7 +56,7 @@ export function RoutineAuditActivity({
   }
 
   return (
-    <div className="border-y border-border" aria-label="Routine activity">
+    <div className="border-y border-border" aria-label={t("pages.audit.routineAuditActivity.routineActivity")}>
       {events.map((event) => (
         <RoutineActivityRow key={event.id} event={event} />
       ))}

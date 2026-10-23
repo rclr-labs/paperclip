@@ -3,28 +3,30 @@ import { CostAmount } from "./CostAmount";
 import { Identity } from "./Identity";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { formatTokens } from "../lib/utils";
+import { useTranslation } from "@/i18n";
 
 export function CostByUserTable({ report }: { report: CostByUserReport }) {
+  const { t } = useTranslation();
   return (
     <Card className="gap-3 py-4">
       <CardHeader className="gap-0 px-5">
-        <CardTitle className="text-base">By user</CardTitle>
+        <CardTitle className="text-base">{t("components.costByUserTable.byUser")}</CardTitle>
       </CardHeader>
       <CardContent className="px-5">
         <div className="overflow-x-auto">
-          <table aria-label="Costs by user" className="w-full text-sm">
+          <table aria-label={t("components.costByUserTable.costsByUser")} className="w-full text-sm">
             <thead className="text-muted-foreground">
               <tr className="border-b border-border">
-                <th scope="col" className="py-2 pr-4 text-left font-medium">User</th>
-                <th scope="col" className="px-4 py-2 text-right font-medium">Runs</th>
-                <th scope="col" className="px-4 py-2 text-right font-medium">Input</th>
-                <th scope="col" className="px-4 py-2 text-right font-medium">Output</th>
-                <th scope="col" className="py-2 pl-4 text-right font-medium">Cost</th>
+                <th scope="col" className="py-2 pr-4 text-left font-medium">{t("components.costByUserTable.user")}</th>
+                <th scope="col" className="px-4 py-2 text-right font-medium">{t("components.costByUserTable.runs")}</th>
+                <th scope="col" className="px-4 py-2 text-right font-medium">{t("components.costByUserTable.input")}</th>
+                <th scope="col" className="px-4 py-2 text-right font-medium">{t("components.costByUserTable.output")}</th>
+                <th scope="col" className="py-2 pl-4 text-right font-medium">{t("components.costByUserTable.cost")}</th>
               </tr>
             </thead>
             <tbody>
               {report.rows.length === 0 && (
-                <tr><td colSpan={5} className="py-3 text-muted-foreground">No user-attributed costs yet.</td></tr>
+                <tr><td colSpan={5} className="py-3 text-muted-foreground">{t("components.costByUserTable.noUserAttributedCostsYet")}</td></tr>
               )}
               {report.rows.map(row => (
                 <tr key={row.userId ?? "unattributed"} className="border-b border-border last:border-0">
@@ -47,7 +49,7 @@ export function CostByUserTable({ report }: { report: CostByUserReport }) {
           </table>
         </div>
         {report.rows.some(row => row.userId === null) && (
-          <p className="mt-3 text-xs text-muted-foreground">Unattributed costs have no recorded user in this organization.</p>
+          <p className="mt-3 text-xs text-muted-foreground">{t("components.costByUserTable.unattributedCostsHaveNoRecordedUser")}</p>
         )}
       </CardContent>
     </Card>

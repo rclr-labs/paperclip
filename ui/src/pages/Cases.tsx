@@ -18,6 +18,7 @@ import { useCompany } from "@/context/CompanyContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { useSearchParams } from "@/lib/router";
 import { caseListView, DEFAULT_CASE_COLUMNS } from "@/lib/case-list-view";
+import { useTranslation } from "@/i18n";
 
 const PAGE_SIZE = 50;
 const ALL = "all";
@@ -39,6 +40,7 @@ function CaseFilter({ label, value, options, onChange, disabled }: {
 }
 
 export function Cases() {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
   const [params, setParams] = useSearchParams();
@@ -139,7 +141,7 @@ export function Cases() {
       <CollectionToolbar ariaLabel="Case controls" search={<div className="flex min-w-0 items-center gap-3">
         <div className="relative min-w-0 flex-1 sm:max-w-xs">
           <Search aria-hidden className="pointer-events-none absolute left-2 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-          <Input aria-label="Search cases" placeholder="Search cases…" value={query}
+          <Input aria-label={t("pages.cases.searchCases2")} placeholder={t("pages.cases.searchCases")} value={query}
             data-page-search-target="true" onChange={event => setFilter("q", event.target.value)} className="h-8 pl-8" />
         </div>
         <p role="status" className="whitespace-nowrap text-xs text-muted-foreground">
@@ -154,16 +156,16 @@ export function Cases() {
         onSortChange={(field, dir) => setView({ sort: field === "updated" ? "" : field, dir: dir === "desc" ? "" : dir })}
         groupBy={view.groupBy} onGroupChange={group => setView({ group: group === "none" ? "" : group })}
         filters={<>
-        <CaseFilter label="Status" value={status} onChange={value => setFilter("status", value)} options={[
+        <CaseFilter label={t("pages.cases.status")} value={status} onChange={value => setFilter("status", value)} options={[
           { value: ALL, label: "All statuses" },
           ...CASE_STATUSES.map(value => ({ value, label: CASE_STATUS_LABELS[value] })),
         ]} />
-        <CaseFilter label="Type" value={type} disabled={typesQuery.isPending || typesQuery.isError}
+        <CaseFilter label={t("pages.cases.type")} value={type} disabled={typesQuery.isPending || typesQuery.isError}
           onChange={value => setFilter("type", value)} options={[
             { value: ALL, label: "All types" },
             ...typeOptions.map(value => ({ value, label: value })),
           ]} />
-        <CaseFilter label="Project" value={project} disabled={projectsQuery.isPending || projectsQuery.isError}
+        <CaseFilter label={t("pages.cases.project")} value={project} disabled={projectsQuery.isPending || projectsQuery.isError}
           onChange={value => setFilter("project", value)} options={[
             { value: ALL, label: "All projects" },
             { value: "none", label: "No project" },
@@ -172,27 +174,27 @@ export function Cases() {
               ? [{ value: project, label: "Selected project" }] : []),
           ]} />
         </>} />}
-        feedback={hasFilters ? <Button variant="ghost" size="sm" onClick={clearFilters}>Clear filters</Button> : undefined} />
+        feedback={hasFilters ? <Button variant="ghost" size="sm" onClick={clearFilters}>{t("pages.cases.clearFilters")}</Button> : undefined} />
 
       {typesQuery.isError || projectsQuery.isError ? <div role="alert" className="flex flex-wrap items-center gap-3 text-sm">
-        <p>Some case filters couldn’t be loaded.</p>
+        <p>{t("pages.cases.someCaseFiltersCouldnTBe")}</p>
         <Button variant="ghost" size="sm" onClick={() => {
           if (typesQuery.isError) void typesQuery.refetch();
           if (projectsQuery.isError) void projectsQuery.refetch();
-        }}>Retry filters</Button>
+        }}>{t("pages.cases.retryFilters")}</Button>
       </div> : null}
 
       {casesQuery.isPending ? <div aria-hidden="true" className="space-y-2">
         {Array.from({ length: 6 }, (_, index) => <Skeleton key={index} className="h-16 w-full rounded-none" />)}
       </div> : casesQuery.isError ? <div role="alert" className="flex flex-wrap items-center gap-3 py-6 text-sm">
-        <p>Cases couldn’t be loaded.</p>
-        <Button variant="outline" size="sm" onClick={() => void casesQuery.refetch()}>Try again</Button>
+        <p>{t("pages.cases.casesCouldnTBeLoaded")}</p>
+        <Button variant="outline" size="sm" onClick={() => void casesQuery.refetch()}>{t("pages.cases.tryAgain")}</Button>
       </div> : records.length === 0 ? (
         <EmptyState icon={hasFilters ? Search : FolderOpen}
           message={page > 1 ? "No cases on this page" : hasFilters ? "No cases match these filters" : "No cases yet"}
           action={page > 1 ? "First page" : hasFilters ? "Clear filters" : undefined} hideActionIcon
           onAction={() => page > 1 ? setPage(1) : clearFilters()} />
-      ) : <section aria-label="Case list" aria-busy={casesQuery.isFetching} inert={casesQuery.isPlaceholderData} className="border-t border-border">
+      ) : <section aria-label={t("pages.cases.caseList")} aria-busy={casesQuery.isFetching} inert={casesQuery.isPlaceholderData} className="border-t border-border">
         {[...groups].map(([key, group]) => <div key={key}>
           {view.groupBy !== "none" && <IssueGroupHeader label={group.label} className="border-b border-border px-3 pt-4" />}
           {group.records.map(record => <CaseListRow key={record.id} caseData={record} columns={view.columns}
@@ -201,9 +203,9 @@ export function Cases() {
         </div>)}
       </section>}
 
-      {page > 1 || hasNext ? <nav aria-label="Case list pages" className="flex items-center justify-end gap-2">
-        <Button variant="outline" size="sm" disabled={page === 1 || casesQuery.isFetching} onClick={() => setPage(page - 1)}>Previous</Button>
-        <Button variant="outline" size="sm" disabled={!hasNext || casesQuery.isFetching} onClick={() => setPage(page + 1)}>Next</Button>
+      {page > 1 || hasNext ? <nav aria-label={t("pages.cases.caseListPages")} className="flex items-center justify-end gap-2">
+        <Button variant="outline" size="sm" disabled={page === 1 || casesQuery.isFetching} onClick={() => setPage(page - 1)}>{t("pages.cases.previous")}</Button>
+        <Button variant="outline" size="sm" disabled={!hasNext || casesQuery.isFetching} onClick={() => setPage(page + 1)}>{t("pages.cases.next")}</Button>
       </nav> : null}
     </div>
   );

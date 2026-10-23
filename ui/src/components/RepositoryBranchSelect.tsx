@@ -1,6 +1,7 @@
 import { GitBranch, LoaderCircle } from 'lucide-react';
 import { SearchableSelect, type SearchableSelectGroup, type SearchableSelectOption } from '@/components/SearchableSelect';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from "@/i18n";
 
 export interface RepositoryBranch {
   name: string;
@@ -21,6 +22,7 @@ export function RepositoryBranchSelect({ value, branches, loading, error, disabl
   onChange: (branch: string) => void;
   onRetry?: () => void;
 }) {
+  const { t } = useTranslation();
   const uniqueBranches = [...new Map(branches.map(branch => [branch.name, branch])).values()];
   const options: BranchOption[] = uniqueBranches.map(branch => ({ key: branch.name, value: branch.name, label: branch.name, searchText: branch.isDefault ? 'default branch' : undefined, isDefault: branch.isDefault }));
   if (value && !options.some(option => option.value === value)) options.push({ key: value, value, label: value });
@@ -31,7 +33,7 @@ export function RepositoryBranchSelect({ value, branches, loading, error, disabl
   return <div className="flex min-w-0 flex-col gap-2">
     <SearchableSelect<string, BranchOption>
       value={value} groups={groups} disabled={disabled} triggerAriaLabel="Branch" mobileTitle="Choose a branch"
-      placeholder="Choose a branch" searchPlaceholder="Search or enter a branch name…"
+      placeholder={t("components.repositoryBranchSelect.chooseABranch")} searchPlaceholder="Search or enter a branch name…"
       emptyMessage={loading ? 'Branches are loading. You can still enter a name.' : 'No matching branches. Enter a branch name to use it.'}
       onValueChange={branch => onChange(branch)}
       deriveGroups={(query, current) => {
@@ -46,9 +48,9 @@ export function RepositoryBranchSelect({ value, branches, loading, error, disabl
         {option.isDefault && <span className="text-xs text-muted-foreground">Default</span>}
       </>}
     />
-    {loading && <p role="status" className="flex items-center gap-2 text-xs text-muted-foreground"><LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" />Loading branches…</p>}
+    {loading && <p role="status" className="flex items-center gap-2 text-xs text-muted-foreground"><LoaderCircle className="size-3.5 animate-spin motion-reduce:animate-none" />{t("components.repositoryBranchSelect.loadingBranches")}</p>}
     {error && <div className="flex flex-wrap items-center gap-2"><p role="alert" className="text-sm text-destructive">{error} You can still enter a branch name.</p>
-      {onRetry && <Button type="button" size="sm" variant="ghost" disabled={loading || disabled} onClick={onRetry}>Try again</Button>}
+      {onRetry && <Button type="button" size="sm" variant="ghost" disabled={loading || disabled} onClick={onRetry}>{t("components.repositoryBranchSelect.tryAgain")}</Button>}
     </div>}
   </div>;
 }

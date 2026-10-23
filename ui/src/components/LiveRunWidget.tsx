@@ -11,6 +11,7 @@ import { Identity } from "./Identity";
 import { RunChatSurface } from "./RunChatSurface";
 import { StatusBadge } from "./StatusBadge";
 import { useLiveRunTranscripts } from "./transcript/useLiveRunTranscripts";
+import { useTranslation } from "@/i18n";
 
 interface LiveRunWidgetProps {
   issueId: string;
@@ -27,6 +28,7 @@ function isRunActive(status: string): boolean {
 }
 
 export function LiveRunWidget({ issueId, companyId }: LiveRunWidgetProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [cancellingRunIds, setCancellingRunIds] = useState(new Set<string>());
 
@@ -98,10 +100,10 @@ export function LiveRunWidget({ issueId, companyId }: LiveRunWidgetProps) {
     <div className="overflow-hidden rounded-xl border border-blue-500/25 bg-background/80 shadow-(--shadow-extract-11)">
       <div className="border-b border-border/60 bg-blue-500/[0.04] px-4 py-3">
         <div className="text-xs font-semibold uppercase tracking-(--tracking-caps) text-blue-700 dark:text-blue-300">
-          Live Runs
+          {t("components.liveRunWidget.liveRuns")}
         </div>
         <div className="mt-1 text-xs text-muted-foreground">
-          Uses the shared chat-style run surface from task activity.
+          {t("components.liveRunWidget.usesTheSharedChatStyleRun")}
         </div>
       </div>
 

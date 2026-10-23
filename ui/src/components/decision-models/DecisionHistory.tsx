@@ -4,11 +4,13 @@ import { decisionModelsApi } from "@/api/decision-models";
 import { Link } from "@/lib/router";
 import { formatDateTime, formatTokens, formatDetailedCents } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n";
 
 export function DecisionHistoryTable({ entries, fastResponse = false, fastResponsesEnabled = true }: { entries: (DecisionHistoryEntry & { publicationStatus?: string; connectionName?: string | null })[]; fastResponse?: boolean; fastResponsesEnabled?: boolean }) {
+  const { t } = useTranslation();
   if (!entries.length) return <p className="text-sm text-muted-foreground">{fastResponse ? "No fast responses in this period." : "No decision requests in this period."} <Link to={fastResponse && !fastResponsesEnabled ? "/company/settings/instance/experimental" : "/company/settings/connections"} className="underline underline-offset-4">{fastResponse ? fastResponsesEnabled ? "Configure fast response" : "Enable experimental fast responses" : "Configure a decision model"}</Link> to run a test.</p>;
   return <div className="space-y-3">
-    <p className="text-xs text-muted-foreground">Recent requests. Inputs are not retained.</p>
+    <p className="text-xs text-muted-foreground">{t("components.decisionmodels.decisionHistory.recentRequestsInputsAreNotRetained")}</p>
     <div className="overflow-x-auto"><table className="w-full text-sm" aria-label={fastResponse ? "Fast responses" : "Decision requests"}>
       <thead><tr className="border-b border-border text-muted-foreground">{["When / feature", "Responsible", "Task", ...(fastResponse ? ["Connection"] : []), "Model", "Status", "Duration", "Tokens in / out", "Cost"].map(label => <th key={label} className="px-3 py-2 text-left font-medium">{label}</th>)}</tr></thead>
       <tbody>{entries.map(row => <tr key={row.id} className="border-b border-border last:border-0">
@@ -26,8 +28,9 @@ export function DecisionHistoryTable({ entries, fastResponse = false, fastRespon
   </div>;
 }
 export function DecisionHistory({ companyId, from, to }: { companyId: string; from?: string | null; to?: string | null }) {
+  const { t } = useTranslation();
   const query = useQuery({ queryKey: ["decision-history", companyId, from, to], queryFn: () => decisionModelsApi.history(companyId, from, to), refetchInterval: q => q.state.data?.some(row => row.status === "running") ? 5000 : false });
-  if (query.isPending) return <p className="text-sm text-muted-foreground">Loading decision requests…</p>;
-  if (query.error) return <div role="alert" className="space-y-2"><p className="text-sm text-destructive">Could not load decision requests.</p><Button variant="outline" onClick={() => void query.refetch()}>Try again</Button></div>;
+  if (query.isPending) return <p className="text-sm text-muted-foreground">{t("components.decisionmodels.decisionHistory.loadingDecisionRequests")}</p>;
+  if (query.error) return <div role="alert" className="space-y-2"><p className="text-sm text-destructive">{t("components.decisionmodels.decisionHistory.couldNotLoadDecisionRequests")}</p><Button variant="outline" onClick={() => void query.refetch()}>{t("components.decisionmodels.decisionHistory.tryAgain")}</Button></div>;
   return <DecisionHistoryTable entries={query.data ?? []} />;
 }

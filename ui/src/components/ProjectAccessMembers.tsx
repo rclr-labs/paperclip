@@ -14,8 +14,10 @@ import { queryKeys } from "@/lib/queryKeys";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SearchableSelect, type SearchableSelectGroup } from "@/components/SearchableSelect";
+import { useTranslation } from "@/i18n";
 
 export function ProjectAccessMembers({ project, canManage }: { project: Project; canManage: boolean }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [selection, setSelection] = useState("");
   const queryClient = useQueryClient();
@@ -95,14 +97,14 @@ export function ProjectAccessMembers({ project, canManage }: { project: Project;
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Private project access</DialogTitle>
+            <DialogTitle>{t("components.projectAccessMembers.privateProjectAccess")}</DialogTitle>
             <DialogDescription>
-              Members can discover this project and read every task in it. A task can still be shared directly.
+              {t("components.projectAccessMembers.membersCanDiscoverThisProjectAnd")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-3">
             {directoryQuery.isError || agentsQuery.isError ? (
-              <p className="text-sm text-destructive">Couldn&apos;t load the company access directory.</p>
+              <p className="text-sm text-destructive">{t("components.projectAccessMembers.couldnTLoadTheCompanyAccess")}</p>
             ) : null}
             <div className="flex items-end gap-2">
               <SearchableSelect
@@ -111,20 +113,19 @@ export function ProjectAccessMembers({ project, canManage }: { project: Project;
                 renderValue={(option) => option ? renderAccessIdentity(option) : "Add a person or agent"}
                 renderOption={renderAccessIdentity}
                 onValueChange={(value) => setSelection(value)}
-                placeholder="Add a person or agent"
+                placeholder={t("components.projectAccessMembers.addAPersonOrAgent")}
                 searchPlaceholder="Search people and agents"
                 emptyMessage="No more company members to add"
                 loading={directoryQuery.isLoading || agentsQuery.isLoading}
                 className="min-w-0 flex-1"
               />
               <Button size="sm" disabled={!canManage || !selection || addMember.isPending} onClick={() => addMember.mutate()}>
-                <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add
+                <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.projectAccessMembers.add")}
               </Button>
             </div>
             {sharingWithSharedAgent ? (
               <p className="rounded-md border border-border bg-muted px-3 py-2 text-sm text-foreground">
-                This agent can retain private project context in its memory and workspace for later runs.
-                Removing access cannot erase what it has already learned.
+                {t("components.projectAccessMembers.thisAgentCanRetainPrivateProject")}
               </p>
             ) : null}
             <div className="divide-y divide-border/60">
@@ -152,9 +153,9 @@ export function ProjectAccessMembers({ project, canManage }: { project: Project;
                   </div>
                 );
               })}
-              {membersQuery.isLoading ? <p className="py-3 text-sm text-muted-foreground">Loading access…</p> : null}
+              {membersQuery.isLoading ? <p className="py-3 text-sm text-muted-foreground">{t("components.projectAccessMembers.loadingAccess")}</p> : null}
               {membersQuery.isError ? (
-                <p className="py-3 text-sm text-destructive">Couldn&apos;t load project access members.</p>
+                <p className="py-3 text-sm text-destructive">{t("components.projectAccessMembers.couldnTLoadProjectAccessMembers")}</p>
               ) : null}
             </div>
           </div>

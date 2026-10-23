@@ -2,6 +2,7 @@ import type { ToolProfileWithDetails } from "@paperclipai/shared";
 import { Link } from "@/lib/router";
 import { cn } from "@/lib/utils";
 import { allowedToolsLabel, type GatewayAppRow, gatewayAppDisplayName } from "../gateway-helpers";
+import { useTranslation } from "@/i18n";
 
 /**
  * Apps & tools tab — which apps this gateway exposes and how many tools each
@@ -15,6 +16,7 @@ export function AppsToolsPanel({
   apps: GatewayAppRow[];
   profile: ToolProfileWithDetails | undefined;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-4">
       <p className="text-sm text-muted-foreground">
@@ -25,16 +27,16 @@ export function AppsToolsPanel({
 
       {apps.length === 0 ? (
         <div className="rounded-md border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-          No apps are assigned to this gateway’s profile yet.
+          {t("pages.apps.gateways.panels.appsToolsPanel.noAppsAreAssignedToThis")}
         </div>
       ) : (
         <div className="overflow-x-auto rounded-lg border border-border">
           <table className="w-full min-w-(--sz-32rem) text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/40 text-left text-(length:--text-micro) font-semibold uppercase tracking-wide text-muted-foreground">
-                <th className="px-4 py-2.5">App</th>
-                <th className="px-4 py-2.5">Tools</th>
-                <th className="px-4 py-2.5">Status</th>
+                <th className="px-4 py-2.5">{t("pages.apps.gateways.panels.appsToolsPanel.app")}</th>
+                <th className="px-4 py-2.5">{t("pages.apps.gateways.panels.appsToolsPanel.tools")}</th>
+                <th className="px-4 py-2.5">{t("pages.apps.gateways.panels.appsToolsPanel.status")}</th>
                 <th className="px-4 py-2.5 text-right" />
               </tr>
             </thead>

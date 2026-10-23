@@ -9,6 +9,7 @@ import {
   rememberIssueDetailLocationState,
 } from "@/lib/issueDetailBreadcrumb";
 import { Link } from "@/lib/router";
+import { useTranslation } from "@/i18n";
 
 export interface TaskDetailRelationItem {
   id: string;
@@ -124,22 +125,23 @@ export function TaskDetailSubtasksPanel({
   onAddSubtask?: () => void;
   issueLinkState?: unknown;
 }) {
+  const { t } = useTranslation();
   const completed = items.filter((item) => item.status === "done").length;
   const progress = items.length > 0 ? Math.round((completed / items.length) * 100) : 0;
   const { nextAction, rootBlocker, remainingItems } = resolveTaskDetailSubtaskState(items);
   const allCompleted = items.length > 0 && completed === items.length;
 
   return (
-    <section className="flex flex-col gap-4" aria-label="Subtasks">
+    <section className="flex flex-col gap-4" aria-label={t("components.taskdetail.taskDetailRelationsPanel.subtasks")}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-          <span>Progress</span>
+          <span>{t("components.taskdetail.taskDetailRelationsPanel.progress")}</span>
           <span className="font-mono">{completed} of {items.length} complete</span>
         </div>
         <div
           className="h-1.5 overflow-hidden rounded-full bg-muted"
           role="progressbar"
-          aria-label="Subtask completion"
+          aria-label={t("components.taskdetail.taskDetailRelationsPanel.subtaskCompletion")}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={progress}
@@ -154,7 +156,7 @@ export function TaskDetailSubtasksPanel({
       {rootBlocker ? (
         <section className="flex flex-col gap-1.5" aria-labelledby="task-root-blocker-heading">
           <h3 id="task-root-blocker-heading" className="text-xs font-medium text-muted-foreground">
-            Root blocker
+            {t("components.taskdetail.taskDetailRelationsPanel.rootBlocker")}
           </h3>
           <RelationNavigationList
             items={[rootBlocker]}
@@ -181,7 +183,7 @@ export function TaskDetailSubtasksPanel({
           {allCompleted ? "All subtasks are complete." : "No remaining subtask actions."}
         </p>
       ) : (
-        <p className="py-6 text-center text-sm text-muted-foreground">No subtasks yet.</p>
+        <p className="py-6 text-center text-sm text-muted-foreground">{t("components.taskdetail.taskDetailRelationsPanel.noSubtasksYet")}</p>
       )}
 
       {remainingItems.length > 0 ? (
@@ -200,7 +202,7 @@ export function TaskDetailSubtasksPanel({
       {onAddSubtask ? (
         <Button type="button" variant="outline" size="sm" className="self-start" onClick={onAddSubtask}>
           <Plus className="h-3.5 w-3.5" />
-          Add subtask
+          {t("components.taskdetail.taskDetailRelationsPanel.addSubtask")}
         </Button>
       ) : null}
     </section>
@@ -216,11 +218,12 @@ export function TaskDetailReferencesPanel({
   mentionedIn: TaskDetailRelationItem[];
   issueLinkState?: unknown;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-2" aria-labelledby="task-referenced-heading">
         <h3 id="task-referenced-heading" className="text-xs font-medium text-muted-foreground">
-          Referenced
+          {t("components.taskdetail.taskDetailRelationsPanel.referenced")}
         </h3>
         <RelationNavigationList
           items={referenced}
@@ -231,7 +234,7 @@ export function TaskDetailReferencesPanel({
       </section>
       <section className="flex flex-col gap-2" aria-labelledby="task-mentioned-in-heading">
         <h3 id="task-mentioned-in-heading" className="text-xs font-medium text-muted-foreground">
-          Mentioned in
+          {t("components.taskdetail.taskDetailRelationsPanel.mentionedIn")}
         </h3>
         <RelationNavigationList
           items={mentionedIn}

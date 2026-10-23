@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { copyTextToClipboard } from "@/lib/clipboard";
 import { AgentSetupPrompt } from "@/components/AgentSetupPrompt";
+import { useTranslation } from "@/i18n";
 
 export function CopyField({
   label,
@@ -14,6 +15,7 @@ export function CopyField({
   value: string;
   help?: string;
 }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(false);
   return (
@@ -49,7 +51,7 @@ export function CopyField({
       {error && (
         <div className="space-y-2">
           <p role="alert" className="text-xs text-destructive">
-            Copy failed. Select and copy the text below.
+            {t("components.routinetriggers.webhookFields.copyFailedSelectAndCopyThe")}
           </p>
           <textarea
             readOnly
@@ -65,22 +67,22 @@ export function CopyField({
 }
 
 export function AgentInstructions({ value }: { value: string }) {
+  const { t } = useTranslation();
   return (
     <section
-      aria-label="Agent instructions"
+      aria-label={t("components.routinetriggers.webhookFields.agentInstructions")}
       className="space-y-3 rounded-md bg-muted/40 p-4"
     >
       <div className="space-y-1">
-        <h2 className="text-sm font-medium">Agent instructions</h2>
+        <h2 className="text-sm font-medium">{t("components.routinetriggers.webhookFields.agentInstructions")}</h2>
         <p className="text-sm text-muted-foreground">
-          Give your agent everything it needs to connect this webhook: the URL,
-          authentication key, and step-by-step instructions.
+          {t("components.routinetriggers.webhookFields.giveYourAgentEverythingItNeeds")}
         </p>
       </div>
       <AgentSetupPrompt
         prompt={value}
-        label="Copy for your agent"
-        title="Webhook setup"
+        label={t("components.routinetriggers.webhookFields.copyForYourAgent")}
+        title={t("components.routinetriggers.webhookFields.webhookSetup")}
         description="Paste this into your agent to connect this webhook to your routine."
       />
     </section>

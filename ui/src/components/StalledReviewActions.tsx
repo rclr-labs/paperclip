@@ -10,6 +10,7 @@ import { cn } from "../lib/utils";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import { useTranslation } from "@/i18n";
 
 interface StalledReviewActionsProps {
   issueId: string;
@@ -51,6 +52,7 @@ export function StalledReviewActions({
   reviewPolicy,
   className,
 }: StalledReviewActionsProps) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [note, setNote] = useState("");
@@ -104,7 +106,7 @@ export function StalledReviewActions({
       <Textarea
         value={note}
         onChange={(event) => setNote(event.target.value)}
-        placeholder="Add a note — required to request changes, optional otherwise…"
+        placeholder={t("components.stalledReviewActions.addANoteRequiredToRequest")}
         className="min-h-16 text-sm"
         data-testid="stalled-review-note"
         disabled={pending}

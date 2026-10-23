@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { Link } from "@/lib/router";
 import { formatDateTime } from "@/lib/utils";
 import { AppLogo } from "../AppLogo";
+import { useTranslation } from "@/i18n";
 
 export function conversationDestination(
   row: ChatConversation,
@@ -34,6 +35,7 @@ export function ChatConversationList({
   rows: ChatConversation[];
   provider: ChatProvider;
 }) {
+  const { t } = useTranslation();
   if (!rows.length)
     return (
       <EmptyState
@@ -50,7 +52,7 @@ export function ChatConversationList({
     );
   return (
     <ul
-      aria-label="Conversations"
+      aria-label={t("pages.apps.chat.chatConversationList.conversations")}
       className="divide-y divide-border border-y border-border"
     >
       {rows.map((row) => (

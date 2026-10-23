@@ -19,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { SelectPopover } from "../ui/select";
+import { useTranslation } from "@/i18n";
 import {
   Dialog,
   DialogContent,
@@ -58,6 +59,7 @@ export function AgentBasicsDialog({
   setupAgentId?: string;
   onInvite?: () => void;
 }) {
+  const { t } = useTranslation();
   const id = useId();
   const { selectedCompanyId: companyId } = useCompany();
   const cache = useQueryClient();
@@ -180,18 +182,18 @@ export function AgentBasicsDialog({
       >
         <div
           className="flex items-center gap-2 px-6 py-5 text-xs text-muted-foreground"
-          aria-label="New agent progress"
+          aria-label={t("components.newagent.agentBasicsDialog.newAgentProgress")}
         >
           <span
             className={cn(step === "name" && "font-medium text-foreground")}
           >
-            1. Name
+            {t("components.newagent.agentBasicsDialog.1Name")}
           </span>
           <ChevronRight className="size-3" />
           <span
             className={cn(step === "adapter" && "font-medium text-foreground")}
           >
-            2. Adapter
+            {t("components.newagent.agentBasicsDialog.2Adapter")}
           </span>
         </div>
         <form
@@ -220,14 +222,14 @@ export function AgentBasicsDialog({
             {step === "name" ? (
               <div className="space-y-2">
                 <label htmlFor={id} className="text-sm font-medium">
-                  Agent name
+                  {t("components.newagent.agentBasicsDialog.agentName")}
                 </label>
                 <Input
                   id={id}
                   autoFocus
                   disabled={saving}
                   maxLength={100}
-                  placeholder="e.g. Darnold"
+                  placeholder={t("components.newagent.agentBasicsDialog.eGDarnold")}
                   value={name}
                   onChange={(event) => setName(event.target.value)}
                   className="h-12 text-base"
@@ -239,16 +241,16 @@ export function AgentBasicsDialog({
                     className="px-0 text-muted-foreground"
                     onClick={onInvite}
                   >
-                    Invite an external agent
+                    {t("components.newagent.agentBasicsDialog.inviteAnExternalAgent")}
                   </Button>
                 )}
               </div>
             ) : (
               <fieldset className="space-y-4">
-                <legend className="sr-only">Adapter</legend>
+                <legend className="sr-only">{t("components.newagent.agentBasicsDialog.adapter")}</legend>
                 {isPending && (
                   <p role="status" className="text-sm text-muted-foreground">
-                    Loading adapters…
+                    {t("components.newagent.agentBasicsDialog.loadingAdapters")}
                   </p>
                 )}
                 {error && (
@@ -294,12 +296,12 @@ export function AgentBasicsDialog({
                   })}
                 </div>
                 {experimentalRunnerAvailable && <details className="space-y-3">
-                  <summary className="cursor-pointer text-sm text-muted-foreground">Advanced</summary>
+                  <summary className="cursor-pointer text-sm text-muted-foreground">{t("components.newagent.agentBasicsDialog.advanced")}</summary>
                   <div className="space-y-2">
-                    <label className="text-sm text-muted-foreground">Experimental harness</label>
-                    <SelectPopover aria-label="Experimental harness"
+                    <label className="text-sm text-muted-foreground">{t("components.newagent.agentBasicsDialog.experimentalHarness")}</label>
+                    <SelectPopover aria-label={t("components.newagent.agentBasicsDialog.experimentalHarness")}
                       value={adapterType === "paperclip_runner" ? runnerProvider : ""}
-                      placeholder="Choose a native harness…"
+                      placeholder={t("components.newagent.agentBasicsDialog.chooseANativeHarness")}
                       onValueChange={provider => { setRunnerProvider(provider); setAdapterType("paperclip_runner"); }}
                       options={[
                         { value: "grok", label: "Grok Build (Paperclip Runner)" },
@@ -323,7 +325,7 @@ export function AgentBasicsDialog({
               ) : (
                 <>
                   <ArrowLeft className="size-4" />
-                  Back
+                  {t("components.newagent.agentBasicsDialog.back")}
                 </>
               )}
             </Button>
