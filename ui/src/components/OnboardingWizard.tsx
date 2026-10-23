@@ -143,7 +143,7 @@ import { OnboardingHeading } from "./onboarding/OnboardingPrimitives";
 import { DEFAULT_AGENT_ROLE } from "../lib/onboarding-agent-role";
 import { capsuleHeroMotion, capsuleRoomEnter, capsuleRoomExit, heroRoomArrival, heroRoomMotion, ledeMotion, stepContentMotion, titleSwapMotion } from "./onboarding/onboarding-motion";
 import { Badge } from "@/components/ui/badge";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 import {
   ArrowLeft,
   ArrowRight,
@@ -3325,12 +3325,12 @@ function OnboardingWizardInner({
 
                       {shouldSuggestUnsetAnthropicApiKey && (
                         <div className="rounded-md border border-amber-300/60 bg-amber-50/40 px-2.5 py-2 space-y-2">
-                          <p className="text-(length:--text-micro) text-amber-900/90 leading-relaxed">
+                          <p className="text-(length:--text-micro) text-amber-900/90 leading-relaxed"><Trans i18nKey="components.onboardingWizard.claudeFailedWhileAnthropicApiKey">
                             Claude failed while{" "}
                             <span className="font-mono">ANTHROPIC_API_KEY</span>{" "}
                             is set. You can clear it in this adapter config
                             and retry the probe.
-                          </p>
+                          </Trans></p>
                           <Button
                             size="sm"
                             variant="outline"

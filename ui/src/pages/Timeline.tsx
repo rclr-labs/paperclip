@@ -32,7 +32,7 @@ import { formatDuration, TIMELINE_COLORS } from "@/lib/timeline/layout";
 import { cn } from "@/lib/utils";
 import { useLocation } from "@/lib/router";
 import { useStreamlinedUiEnabled } from "@/hooks/useStreamlinedUiEnabled";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 type RangePreset = "today" | "7d" | "30d" | "custom";
 const TIMELINE_PAGE_LIMIT = 500;
@@ -399,7 +399,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
   const summary = data ? timelineSummary(data, visibleWindow ?? dataWindow(data)) : null;
 
   const rangeControls = (
-    <label className="flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
+    <label className="flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground"><Trans i18nKey="pages.timeline.rangeTo">
       Range
       <Segmented
         value={rangePreset}
@@ -435,7 +435,7 @@ export function Timeline({ embedded = false }: { embedded?: boolean } = {}) {
         className="h-8 w-(--sz-150px) text-xs"
         aria-label={t("pages.timeline.timelineEndDate")}
       />
-    </label>
+    </Trans></label>
   );
 
   const toolbar = (

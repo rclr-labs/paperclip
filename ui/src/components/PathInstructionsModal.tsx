@@ -8,7 +8,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 type Platform = "mac" | "windows" | "linux";
 
@@ -72,11 +72,11 @@ export function PathInstructionsModal({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-base">{t("components.pathInstructionsModal.howToGetAFullPath")}</DialogTitle>
-          <DialogDescription>
+          <DialogDescription><Trans i18nKey="components.pathInstructionsModal.pasteTheAbsolutePathEG">
             Paste the absolute path (e.g.{" "}
             <code className="text-xs bg-muted px-1 py-0.5 rounded">/Users/you/project</code>
             ) into the input field.
-          </DialogDescription>
+          </Trans></DialogDescription>
         </DialogHeader>
 
         {/* Platform tabs */}

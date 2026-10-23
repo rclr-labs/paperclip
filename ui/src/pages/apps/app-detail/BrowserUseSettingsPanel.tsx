@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 function CredentialSettings({
   companyId,
@@ -68,7 +68,7 @@ function CredentialSettings({
       </div>
       <fieldset className="space-y-2">
         <legend className="text-sm font-medium">{t("pages.apps.appdetail.browserUseSettingsPanel.allowedSavedProfiles")}</legend>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground"><Trans i18nKey="pages.apps.appdetail.browserUseSettingsPanel.freshBrowsersAreTheDefaultSelected">
           Fresh browsers are the default. Selected profiles let agents use their
           saved website logins. Manage profiles in{" "}
           <a
@@ -80,7 +80,7 @@ function CredentialSettings({
             Browser Use Cloud
           </a>
           .
-        </p>
+        </Trans></p>
         {profiles.data?.map((p) => (
           <Label key={p.id} className="flex items-center gap-2">
             <Checkbox

@@ -37,7 +37,7 @@ import {
 } from "lucide-react";
 import { Identity } from "./Identity";
 import { agentUrl, projectUrl } from "../lib/utils";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 import {
   SEARCH_OPERATOR_QUICK_FILTERS,
   buildSearchPathFromQuery,
@@ -323,22 +323,22 @@ export function CommandPalette() {
               setOpen(false);
               openNewIssue();
             }}
-          >
+          ><Trans i18nKey="components.commandPalette.createNewTaskC">
             <SquarePen className="mr-2 h-4 w-4" />
             Create new task
             <span className="ml-auto text-xs text-muted-foreground">C</span>
-          </CommandItem>
+          </Trans></CommandItem>
           {onIssueDetail && fileViewerEnabled && (
             <CommandItem
               onSelect={() => {
                 setOpen(false);
                 window.dispatchEvent(new CustomEvent("paperclip:open-file-viewer"));
               }}
-            >
+            ><Trans i18nKey="components.commandPalette.openFileInThisIssueG">
               <FileCode2 className="mr-2 h-4 w-4" />
               Open file in this issue...
               <span className="ml-auto text-xs text-muted-foreground">g f</span>
-            </CommandItem>
+            </Trans></CommandItem>
           )}
           <CommandItem
             onSelect={() => {

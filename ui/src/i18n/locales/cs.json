@@ -483,7 +483,9 @@
       "tasks": "Tasks",
       "dashboard": "Dashboard",
       "createNewProject": "Create new project",
-      "createNewAgent": "Create new agent"
+      "createNewAgent": "Create new agent",
+      "openFileInThisIssueG": "<1></1> Open file in this issue... <3>g f</3>",
+      "createNewTaskC": "<1></1> Create new task <3>C</3>"
     },
     "commentThread": {
       "responsible": "Responsible",
@@ -603,7 +605,8 @@
       "autoRestartWillTriggerWhenThe": "Auto-restart will trigger when the instance is idle",
       "autoRestartOn": "Auto-Restart On",
       "restartRequired": "Restart Required",
-      "waitingForToFinish": "Waiting for {{activeRunLabel}} to finish"
+      "waitingForToFinish": "Waiting for {{activeRunLabel}} to finish",
+      "restartPnpmDevOnceAfterThe": "Restart <1>pnpm dev:once</1> after the active work is safe to interrupt"
     },
     "dispositionRecoveryNotice": {
       "technicalReason": "Technical reason",
@@ -1086,7 +1089,8 @@
       "addSomeone": "Add someone",
       "retry": "Retry",
       "couldnTLoadAccess": "Couldn't load access.",
-      "whoCanAccessThisTask": "Who can access this task"
+      "whoCanAccessThisTask": "Who can access this task",
+      "thisRemovesThisGrantAndThe": "This removes this grant and the access it supplies to this task's descendants. Ownership, current assignment, project membership, inherited access, or another grant can still provide access. Revoking access does <1>not</1> erase content already seen or retained in an agent's memory."
     },
     "issueSiblingNavigation": {
       "subTaskNavigation": "Sub-task navigation"
@@ -1336,7 +1340,8 @@
       "agentName": "Agent name",
       "eGNorthwindLabs": "e.g. Northwind Labs",
       "name": "Name",
-      "unavailable": "{{model}} (unavailable)"
+      "unavailable": "{{model}} (unavailable)",
+      "claudeFailedWhileAnthropicApiKey": "Claude failed while <3>ANTHROPIC_API_KEY</3> is set. You can clear it in this adapter config and retry the probe."
     },
     "outputFeedbackButtons": {
       "readOurTermsOfService": "Read our terms of service",
@@ -1357,7 +1362,8 @@
     },
     "pathInstructionsModal": {
       "choose": "Choose",
-      "howToGetAFullPath": "How to get a full path"
+      "howToGetAFullPath": "How to get a full path",
+      "pasteTheAbsolutePathEG": "Paste the absolute path (e.g. <3>/Users/you/project</3> ) into the input field."
     },
     "pluginAppShellOverlays": {
       "applicationExtensions": "Application extensions"
@@ -1649,7 +1655,8 @@
       "downloadExactTrace": "Download exact trace",
       "revealExactFrame": "Reveal exact frame",
       "exactUnredactedFrame": "Exact unredacted frame",
-      "reRunWithProviderTrace": "Re-run with provider trace"
+      "reRunWithProviderTrace": "Re-run with provider trace",
+      "environmentConstraintWasModelAuthoredTool": "<1>environment_constraint</1> was model-authored tool payload data, not a Codex app-server event. It was normalized into a non-blocking verification caveat."
     },
     "runtimeTestCard": {
       "runtimeTest": "Runtime test",
@@ -1966,7 +1973,9 @@
       "macosFinder": "macOS (Finder)",
       "browserSecurityBlocksAppsFromReading": "Browser security blocks apps from reading full local paths via a file picker. Copy the absolute path and paste it into the input.",
       "specifyPathManually": "Specify path manually",
-      "choose": "Choose"
+      "choose": "Choose",
+      "runPwd": "Run <1>pwd</1>.",
+      "runCdPathToFolder": "Run <1>cd /path/to/folder</1>."
     },
     "aiconnections": {
       "aiConnectionAccountControls": {
@@ -2703,7 +2712,8 @@
         "editInstructions": "Edit instructions",
         "newTrigger": "New trigger",
         "viewAllActivity": "View all activity",
-        "previewAssumesThePreviousRunIs": "Preview assumes the previous run is still in flight when the next fires. Times shown in {{timeZone}}."
+        "previewAssumesThePreviousRunIs": "Preview assumes the previous run is still in flight when the next fires. Times shown in {{timeZone}}.",
+        "routineSecretsApplyToEveryTask": "Routine secrets apply to every task this routine creates. They override matching keys in project and agent env. <1>PAPERCLIP_*</1> names are reserved."
       },
       "editablesections": {
         "noEnabledScheduleTriggerToPreview": "No enabled schedule trigger to preview. Add a schedule in Triggers to see how this policy treats upcoming fires.",
@@ -2722,7 +2732,8 @@
         "for": "For",
         "editInstructions": "Edit instructions",
         "viewAllActivity": "View all activity",
-        "previewAssumesThePreviousRunIs": "Preview assumes the previous run is still in flight when the next fires. Times shown in {{timeZone}}."
+        "previewAssumesThePreviousRunIs": "Preview assumes the previous run is still in flight when the next fires. Times shown in {{timeZone}}.",
+        "routineSecretsApplyToEveryTask": "Routine secrets apply to every task this routine creates. They override matching keys in project and agent env. <1>PAPERCLIP_*</1> names are reserved."
       },
       "operatesections": {
         "loadingActivity": "Loading activity…"
@@ -3523,7 +3534,8 @@
       "installedFromLocalPath": "Installed from local path",
       "localPath": "Local path",
       "installAdapter": "Install Adapter",
-      "overriddenBy": "Overridden by {{overriddenBy}}"
+      "overriddenBy": "Overridden by {{overriddenBy}}",
+      "addAnAdapterFromNpmOr": "Add an adapter from npm or a local path. The adapter package must export <1>createServerAdapter()</1>."
     },
     "agentChat": {
       "loadingConversation": "Loading conversation…",
@@ -3804,7 +3816,8 @@
       "approvalConfirmed": "Approval confirmed",
       "approvalNotFound": "Approval not found.",
       "seeFullRequest": "See full request",
-      "decisionNote": "Decision note: {{decisionNote}}"
+      "decisionNote": "Decision note: {{decisionNote}}",
+      "resolveThisBudgetStopFromThe": "Resolve this budget stop from the budget controls on <1>/costs</1>."
     },
     "approvals": {
       "selectAnOrganizationFirst": "Select an organization first."
@@ -4459,7 +4472,8 @@
       "censorUsernameInLogs": "Censor username in logs",
       "deploymentAndAuth": "Deployment and auth",
       "general": "General",
-      "loadingGeneralSettings": "Loading general settings..."
+      "loadingGeneralSettings": "Loading general settings...",
+      "toRetestTheFirstUsePrompt": "To retest the first-use prompt in local dev, remove the <3>feedbackDataSharingPreference</3> key from the <7>instance_settings.general</7> JSON row for this instance, or set it back to <11>\"prompt\"</11>. Unset and <13>\"prompt\"</13> both mean no default has been chosen yet."
     },
     "inviteLanding": {
       "password": "Password",
@@ -4816,7 +4830,10 @@
       "search": "Search",
       "createTaskFromThisQuery": "Create task from this query",
       "noResultsFor": "No results for “{{trimmedQuery}}”",
-      "searchingFor": "Searching for “{{trimmedQuery}}”…"
+      "searchingFor": "Searching for “{{trimmedQuery}}”…",
+      "useAnIdentifierShortcutLikePap": "Use an identifier shortcut like <1>PAP-123</1>.",
+      "kReopensTheCommandPalettePre": "<1>⌘K:</1> reopens the command palette pre-seeded with your current query.",
+      "tryStatusTodoAssigneeMeOr": "Try <1>status:todo</1>, <5>assignee:me</5>, or <9>updated:>7d</9>."
     },
     "secrets": {
       "noAccessEventsRecordedYetEach": "No access events recorded yet. Each runtime resolution writes a redacted entry here.",
@@ -5301,7 +5318,8 @@
       "now": "Now",
       "cancelled": "Cancelled",
       "automation": "Automation",
-      "delegated": "Delegated"
+      "delegated": "Delegated",
+      "rangeTo": "Range <1></1> <3></3> <5>to</5> <7></7>"
     },
     "userProfile": {
       "noDirectUserActionsRecordedYet": "No direct user actions recorded yet.",
@@ -5415,7 +5433,8 @@
         "arcadeUserId": "Arcade user ID",
         "projectApiKey": "Project API key",
         "syncArcadeAccounts": "Sync Arcade accounts",
-        "seeAppsAvailableThroughYourGateway": "See apps available through “{{name}}”. Your gateway works without account sync."
+        "seeAppsAvailableThroughYourGateway": "See apps available through “{{name}}”. Your gateway works without account sync.",
+        "createAKeyInArcadeFor": "Create a key in <1>Arcade</1> for the same project as this gateway. The key is stored securely and used only for account sync."
       },
       "assistantConnection": {
         "backToConnections": "Back to Connections",
@@ -5619,7 +5638,8 @@
           "allowedSavedProfiles": "Allowed saved profiles",
           "theAgentCanChooseALower": "The agent can choose a lower limit. Paperclip also applies any remaining hard budget limit.",
           "useTheRemainingPaperclipBudget": "Use the remaining Paperclip budget",
-          "maximumCostPerBrowserRunUsd": "Maximum cost per browser run (USD)"
+          "maximumCostPerBrowserRunUsd": "Maximum cost per browser run (USD)",
+          "freshBrowsersAreTheDefaultSelected": "Fresh browsers are the default. Selected profiles let agents use their saved website logins. Manage profiles in <3>Browser Use Cloud</3> ."
         },
         "connectedAggregatorApps": {
           "loadingApps": "Loading apps…",
@@ -5868,7 +5888,12 @@
           "openAChannelAndInviteIf": "Open a channel and invite {{botMention}} if needed.",
           "connectToMicrosoftTeams": "Connect {{agentName}} to Microsoft Teams",
           "createInTelegram": "Create {{agentName}} in Telegram",
-          "connectToDiscord": "Connect {{agentName}} to Discord"
+          "connectToDiscord": "Connect {{agentName}} to Discord",
+          "paperclipDoesNotUseTeamsSingle": "Paperclip does not use Teams single sign-on in this release. The copied <1>webApplicationInfo</1> entry only associates the RSC permissions with the same Entra Application ID. Its nonempty resource is an RSC placeholder; you do not need to register an Entra Application ID URI or add delegated Microsoft Graph permissions.",
+          "microsoftTeamsAppsManageYourApps": "<1>Microsoft Teams · Apps · Manage your apps</1>: select <5>Upload an app · Upload a custom app</5>, choose the downloaded package, and install it in each intended personal chat, group chat, or team. One team install covers its standard channels. Private and shared channels require a separate app installation and are not supported by this release. If upload is unavailable, a Teams administrator must enable or approve custom apps.",
+          "paperclipWorksWithTelegramSDefault": "Paperclip works with Telegram's default bot privacy mode and registers its command menu automatically. In a group, ordinary mentions are not delivered to bots: start or continue work with <3>/task@bot_username <request></3>, or reply directly to a message from the bot.",
+          "chooseAnAvailableUsernameEndingIn": "Choose an available username ending in <1>bot</1>.",
+          "openBotfatherAndSendNewbot": "Open BotFather and send <1>/newbot</1>."
         },
         "chatExecutionDefaults": {
           "savedForNewTasks": "Saved for new tasks.",
@@ -6094,7 +6119,8 @@
           "reconnectThisBotToRestoreGithub": "Reconnect this bot to restore GitHub reviews and @mentions. Start with the App already saved in Paperclip.",
           "githubConnectionNeedsRepair": "GitHub connection needs repair",
           "githubSPrivateKeyInstructions": "GitHub’s private key instructions",
-          "openGithubAppSettings": "Open GitHub App settings"
+          "openGithubAppSettings": "Open GitHub App settings",
+          "uploadTheDownloadedPemFileBelow": "Upload the downloaded <1>.pem</1> file below, or paste its entire contents."
         },
         "photonConnectStep": {
           "directMessagesOnlyEnrollEachTest": "Direct messages only. Enroll each test sender in your Photon project's Users page, then use the number Photon assigns to that sender. Paperclip identity linking is still required. Groups cannot be enabled on this channel.",
@@ -6155,7 +6181,8 @@
           "slackAppSettings": "Slack app settings",
           "addPermissionsToUnlockMoreTools": "Add permissions to unlock more tools",
           "checkingSlackPermissions": "Checking Slack permissions…",
-          "readSearchAndActInSlack": "Read, search, and act in Slack. Some actions require approval."
+          "readSearchAndActInSlack": "Read, search, and act in Slack. Some actions require approval.",
+          "inSlackAppSettingsAddThis": "In Slack app settings, add this redirect URL under OAuth & Permissions. Add user scopes <1>search:read.public</1>, <5>search:read.private</5> and <9>search:read.files</9>. Find Client ID and Client Secret under Basic Information."
         },
         "slack": {
           "managedSlackSetup": {
@@ -6370,7 +6397,8 @@
         "activity": "Activity",
         "agentAuditIsAPaperclipEnterprise": "Agent audit is a Paperclip Enterprise view",
         "viewRun": "View run",
-        "onBehalfOf": "on behalf of {{responsibleLabel}}"
+        "onBehalfOf": "on behalf of {{responsibleLabel}}",
+        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <3>audit:view_agent_actions</3> permission to view it."
       },
       "auditFeed": {
         "recordedByPaperclipEntriesCanT": "Recorded by Paperclip — entries can't be edited. Sensitive values are never stored.",
@@ -6396,7 +6424,8 @@
         "agentAuditIsAPaperclipEnterprise": "Agent audit is a Paperclip Enterprise view",
         "viewRun": "View run",
         "theConnection": "the connection",
-        "onBehalfOf": "on behalf of {{responsibleLabel}}"
+        "onBehalfOf": "on behalf of {{responsibleLabel}}",
+        "theAgentAuditLogGivesYou": "The agent audit log gives you a searchable, exportable record of everything your agents did — every comment, task change, approval, and run — with the responsible person for each action. Ask an administrator to grant you the <3>audit:view_agent_actions</3> permission to view it."
       },
       "auditHub": {
         "audit": "Audit"
@@ -6599,7 +6628,8 @@
         "selector": "Selector",
         "entry": "Entry",
         "edit": "Edit",
-        "newProfile": "New profile"
+        "newProfile": "New profile",
+        "toolsMarkedPatternWerePulledIn": "<1></1> Tools marked <3>pattern</3> were pulled in by a wildcard, application, connection, or risk selector rather than named explicitly — review them when the catalog changes."
       },
       "toolsAccess": {
         "openDeveloperTools": "Open developer tools",

@@ -40,7 +40,7 @@ import { useToastActions } from "@/context/ToastContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { timeAgo } from "@/lib/timeAgo";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 import {
   agentVisibilityFromPermissions,
   grantIsRevocable,
@@ -481,12 +481,12 @@ export function IssueShareSheet({
             <AlertDialogTitle>
               Remove {revokeTarget?.subjectDisplayName ?? "this subject"}'s saved grant?
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription><Trans i18nKey="components.issueShareSheet.thisRemovesThisGrantAndThe">
               This removes this grant and the access it supplies to this task's descendants.
               Ownership, current assignment, project membership, inherited access, or another grant
               can still provide access. Revoking access does <span className="font-semibold">not</span> erase
               content already seen or retained in an agent's memory.
-            </AlertDialogDescription>
+            </Trans></AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("components.issueShareSheet.cancel")}</AlertDialogCancel>

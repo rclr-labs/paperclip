@@ -65,7 +65,7 @@ export const help: Record<string, string> = {
 };
 
 import { getAdapterLabels } from "../adapters/adapter-display-registry";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 export const adapterLabels = getAdapterLabels();
 
@@ -430,8 +430,8 @@ export function ChoosePathButton() {
             <section className="space-y-1.5">
               <p className="font-medium">{t("components.agentconfigprimitives.terminalFallbackMacosLinux")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Run <code>cd /path/to/folder</code>.</li>
-                <li>Run <code>pwd</code>.</li>
+                <li><Trans i18nKey="components.agentconfigprimitives.runCdPathToFolder">Run <code>cd /path/to/folder</code>.</Trans></li>
+                <li><Trans i18nKey="components.agentconfigprimitives.runPwd">Run <code>pwd</code>.</Trans></li>
                 <li>{t("components.agentconfigprimitives.copyTheOutputAndPasteIt")}</li>
               </ol>
             </section>

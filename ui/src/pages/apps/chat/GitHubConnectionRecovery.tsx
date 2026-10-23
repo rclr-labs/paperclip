@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Link } from "@/lib/router";
 import { gitHubAppSettingsUrl } from "./GitHubAppIdentity";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 export function GitHubConnectionRecoveryNotice({ endpoint }: { endpoint: ChatEndpoint }) {
   const { t } = useTranslation();
@@ -98,7 +98,7 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
         <CredentialLabel id="github-private-key" label="Private key" help="Upload the .pem file downloaded from this GitHub App, or paste its entire contents, including the BEGIN and END lines." />
         <ol id="github-private-key-help" className="list-decimal space-y-2 pl-5 text-sm text-muted-foreground">
           <li>In the same App’s settings, open <strong>{t("pages.apps.chat.gitHubConnectionRecovery.credentialsKeyPairsNewKey")}</strong>. On the older settings page, use <strong>{t("pages.apps.chat.gitHubConnectionRecovery.privateKeysGenerateAPrivateKey")}</strong>.</li>
-          <li>Upload the downloaded <strong>.pem</strong> file below, or paste its entire contents.</li>
+          <li><Trans i18nKey="pages.apps.chat.gitHubConnectionRecovery.uploadTheDownloadedPemFileBelow">Upload the downloaded <strong>.pem</strong> file below, or paste its entire contents.</Trans></li>
         </ol>
         <p className="text-sm text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.youCanReuseAPemFile")}</p>
         <Input type="file" accept=".pem" aria-label={t("pages.apps.chat.gitHubConnectionRecovery.uploadPrivateKeyPemFile")} disabled={pending} onChange={async event => {

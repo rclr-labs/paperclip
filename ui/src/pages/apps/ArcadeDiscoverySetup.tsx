@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import type { ToolConnection } from "@paperclipai/shared";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 export function ArcadeDiscoverySetup({ connection, onClose }: { connection: ToolConnection; onClose: () => void }) {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ export function ArcadeDiscoverySetup({ connection, onClose }: { connection: Tool
     </DialogHeader>
     <form className="space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(); }}>
       <div className="space-y-2"><Label htmlFor="arcade-discovery-key">{t("pages.apps.arcadeDiscoverySetup.projectApiKey")}</Label>
-        <p className="text-xs text-muted-foreground">Create a key in <a className="underline" href="https://app.arcade.dev" target="_blank" rel="noopener noreferrer">Arcade</a> for the same project as this gateway. The key is stored securely and used only for account sync.</p>
+        <p className="text-xs text-muted-foreground"><Trans i18nKey="pages.apps.arcadeDiscoverySetup.createAKeyInArcadeFor">Create a key in <a className="underline" href="https://app.arcade.dev" target="_blank" rel="noopener noreferrer">Arcade</a> for the same project as this gateway. The key is stored securely and used only for account sync.</Trans></p>
         <Input id="arcade-discovery-key" type="password" autoComplete="off" required value={apiKey} onChange={event => setApiKey(event.target.value)} />
       </div>
       <div className="space-y-2"><Label htmlFor="arcade-discovery-user">{t("pages.apps.arcadeDiscoverySetup.arcadeUserId")}</Label>

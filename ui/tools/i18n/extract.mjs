@@ -43,6 +43,7 @@ import { isTranslatable } from "./translatable.mjs";
 import { isExcludedFile } from "./excluded.mjs";
 import { classifyTextNode } from "./composite.mjs";
 import { buildInterpolation } from "./interpolate.mjs";
+import { buildTrans } from "./trans.mjs";
 
 /** Attributes that are DOM passthroughs on any element. */
 const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
@@ -71,7 +72,7 @@ const opt = (n, d = null) => {
 const APPLY = args.includes("--apply");
 const LIMIT = Number(opt("limit", "0")) || 0;
 
-const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
+const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, trans: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
 
 /**
  * JSX collapses any whitespace run containing a newline into a single space
@@ -200,6 +201,22 @@ function collect(file) {
       }
     }
 
+    // A clause holding an inline element becomes <Trans>, which keeps the
+    // children exactly as they are and reads the numbered tags from the
+    // message. No hook is needed, so this does not require a component.
+    if (node.type === "JSXElement" || node.type === "JSXFragment") {
+      const trans = buildTrans(node.children ?? []);
+      if (trans && isTranslatable(trans.message.replace(/<\/?\d+>/g, " ").trim(), { composed: true })) {
+        const kids = node.children;
+        hits.push({
+          kind: "trans",
+          start: kids[0].start,
+          end: kids[kids.length - 1].end,
+          text: trans.message,
+        });
+      }
+    }
+
     if (node.type === "JSXAttribute" && node.name?.name && node.value?.type === "StringLiteral") {
       const attr = node.name.name;
       const owner = ancestors[ancestors.length - 2]; // JSXOpeningElement -> JSXElement
@@ -215,6 +232,19 @@ function collect(file) {
     }
   });
   return { src, hits };
+}
+
+/** Adds Trans to the @/i18n import, or creates it. */
+function ensureTransImport(src) {
+  if (/import\s*\{[^}]*\bTrans\b[^}]*\}\s*from\s*"@\/i18n"/.test(src)) return src;
+  if (/from\s+"@\/i18n"/.test(src)) {
+    return src.replace(/import\s*\{([^}]*)\}\s*from\s*"@\/i18n"/, (m, inner) => `import {${inner.trimEnd()}, Trans } from "@/i18n"`);
+  }
+  const imports = [...src.matchAll(/^import [^\n]*?;$/gm)];
+  const last = imports[imports.length - 1];
+  if (!last) return `import { Trans } from "@/i18n";\n` + src;
+  const at = last.index + last[0].length;
+  return src.slice(0, at) + `\nimport { Trans } from "@/i18n";` + src.slice(at);
 }
 
 function ensureImport(src) {
@@ -287,7 +317,13 @@ for (const file of files) {
   const used = new Map();
   const edits = [];
   for (const hit of hits) {
-    const base = slugKey(hit.kind === "interp" ? hit.text.replace(/\{\{[^}]*\}\}/g, " ") : hit.text);
+    const base = slugKey(
+      hit.kind === "interp"
+        ? hit.text.replace(/\{\{[^}]*\}\}/g, " ")
+        : hit.kind === "trans"
+          ? hit.text.replace(/<\/?\d+>/g, " ")
+          : hit.text,
+    );
     let key = base;
     let n = 2;
     while (used.has(key) && used.get(key) !== hit.text) key = `${base}${n++}`;
@@ -311,6 +347,10 @@ for (const file of files) {
       });
       replacement = `{t("${full.join(".")}", { ${entries.join(", ")} })}`;
       stats.interpolated++;
+    } else if (hit.kind === "trans") {
+      const children = src.slice(hit.start, hit.end);
+      replacement = `<Trans i18nKey="${full.join(".")}">${children}</Trans>`;
+      stats.trans++;
     } else replacement = `{${call}}`;
     edits.push({ start: hit.start, end: hit.end, replacement });
   }
@@ -349,6 +389,7 @@ for (const file of files) {
     const indent = text.match(/\n(\s+)\S/)?.[1] ?? "  ";
     src = src.slice(0, body.start + 1) + `\n${indent}const { t } = useTranslation();` + src.slice(body.start + 1);
   }
+  if (/<Trans i18nKey=/.test(src)) src = ensureTransImport(src);
   src = ensureImport(src);
 
   // Final gate: the file must still parse before it is written.
@@ -381,6 +422,7 @@ console.log(`com string extraivel:           ${stats.withStrings}`);
 console.log(`${APPLY ? "alterados" : "alteraveis"}:${" ".repeat(APPLY ? 23 : 22)}${stats.changed}`);
 console.log(`chaves novas:                   ${stats.keys}`);
 console.log(`  das quais com interpolacao:   ${stats.interpolated}`);
+console.log(`  das quais com <Trans>:        ${stats.trans}`);
 console.log(`recusados — exige <Trans>:      ${stats.needsTrans}`);
 console.log(`recusados — fora de componente: ${stats.noComponent}`);
 console.log(`recusados — corpo sem bloco:    ${stats.exprBody}`);

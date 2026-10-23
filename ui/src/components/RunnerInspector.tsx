@@ -56,7 +56,7 @@ import {
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { useCopyAction } from "@/lib/use-copy-action";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 type TraceEntry = Record<string, unknown>;
 type InspectorView = "overview" | "pipeline" | "trace";
@@ -1202,9 +1202,9 @@ export function RunnerInspector({
                               {t("components.runnerInspector.providerNativeTransportAndModelAuthored")}
                             </p>
                             {ignoredAttentionRequests.some((candidate) => record(candidate).sourceKind === "environment_constraint") ? (
-                              <p className="mt-2 text-xs">
+                              <p className="mt-2 text-xs"><Trans i18nKey="components.runnerInspector.environmentConstraintWasModelAuthoredTool">
                                 <code>environment_constraint</code> was model-authored tool payload data, not a Codex app-server event. It was normalized into a non-blocking verification caveat.
-                              </p>
+                              </Trans></p>
                             ) : null}
                             <dl className="mt-2 grid grid-cols-(--gtc-runner-inspector-fields) gap-x-3 gap-y-1 text-xs">
                               <dt className="text-muted-foreground">{t("components.runnerInspector.policy")}</dt><dd><code>{text(runResultJson.finalizationPolicyVersion) || "unknown"}</code></dd>

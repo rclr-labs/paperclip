@@ -32,7 +32,7 @@ import { cn } from "@/lib/utils";
 import { ChoosePathButton } from "@/components/PathInstructionsModal";
 import { invalidateDynamicParser } from "@/adapters/dynamic-loader";
 import { invalidateConfigSchemaCache } from "@/adapters/schema-config-fields";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 function AdapterRow({
   adapter,
@@ -419,9 +419,9 @@ export function AdapterManager() {
           <DialogContent>
             <DialogHeader>
               <DialogTitle>{t("pages.adapterManager.installExternalAdapter")}</DialogTitle>
-              <DialogDescription>
+              <DialogDescription><Trans i18nKey="pages.adapterManager.addAnAdapterFromNpmOr">
                 Add an adapter from npm or a local path. The adapter package must export <code className="text-xs bg-muted px-1 py-0.5 rounded">createServerAdapter()</code>.
-              </DialogDescription>
+              </Trans></DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               {/* Source toggle */}

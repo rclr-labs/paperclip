@@ -7,7 +7,7 @@ import type {
 import { slackToolsApi } from "@/api/slackTools";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 export function SlackCapabilitiesView({
   capabilities,
@@ -148,13 +148,13 @@ export function SlackSearchView({
               });
             }}
           >
-            <p className="text-sm">
+            <p className="text-sm"><Trans i18nKey="pages.apps.chat.slackToolSettings.inSlackAppSettingsAddThis">
               In Slack app settings, add this redirect URL under OAuth &amp;
               Permissions. Add user scopes <code>search:read.public</code>,{" "}
               <code>search:read.private</code> and{" "}
               <code>search:read.files</code>. Find Client ID and Client Secret
               under Basic Information.
-            </p>
+            </Trans></p>
             <p className="text-xs font-mono break-all">
               {status.redirectUri ?? "Configure a public HTTPS URL first."}
             </p>

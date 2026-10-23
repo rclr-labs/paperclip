@@ -25,7 +25,7 @@ import { agentsApi } from "@/api/agents";
 import { accessApi } from "@/api/access";
 import { ApiError } from "@/api/client";
 import { useToastActions } from "@/context/ToastContext";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 const PAGE_SIZE = 50;
 const ALL = "__all";
@@ -245,13 +245,13 @@ function AuditUpsell() {
         <ShieldAlert className="h-10 w-10 text-muted-foreground/50" />
         <div>
           <p className="text-sm font-medium text-foreground">{t("pages.audit.auditFeedproduction.agentAuditIsAPaperclipEnterprise")}</p>
-          <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground">
+          <p className="mx-auto mt-1 max-w-md text-sm text-muted-foreground"><Trans i18nKey="pages.audit.auditFeedproduction.theAgentAuditLogGivesYou">
             The agent audit log gives you a searchable, exportable record of everything your agents
             did — every comment, task change, approval, and run — with the responsible person for
             each action. Ask an administrator to grant you the{" "}
             <span className="font-mono text-(length:--text-micro)">audit:view_agent_actions</span>{" "}
             permission to view it.
-          </p>
+          </Trans></p>
         </div>
       </CardContent>
     </Card>

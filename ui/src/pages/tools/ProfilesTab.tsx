@@ -50,7 +50,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/context/ToastContext";
 import { EmptyState } from "@/components/EmptyState";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 import {
   CapabilityBadges,
   ErrorState,
@@ -631,11 +631,11 @@ function AllowList({ rows, catalogLoading }: { rows: AllowListRow[]; catalogLoad
         </Card>
       )}
       {patternCount > 0 ? (
-        <p className="flex items-start gap-1.5 text-xs text-muted-foreground">
+        <p className="flex items-start gap-1.5 text-xs text-muted-foreground"><Trans i18nKey="pages.tools.profilesTab.toolsMarkedPatternWerePulledIn">
           <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-amber-500" />
           Tools marked <span className="font-medium">pattern</span> were pulled in by a wildcard, application,
           connection, or risk selector rather than named explicitly — review them when the catalog changes.
-        </p>
+        </Trans></p>
       ) : null}
     </div>
   );

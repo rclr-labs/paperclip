@@ -48,7 +48,7 @@ import { copyTextToClipboard } from "@/lib/clipboard";
 import { useCopyAction } from "@/lib/use-copy-action";
 import { isAgentStatusInvokable, slackAppConfigurationSchema, type SlackAppConfiguration } from "@paperclipai/shared";
 import { sanitizedSetupErrorMessage } from "./chat-setup-error";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 import {
   createGitHubPrivateKeyReadGuard,
   readGitHubPrivateKeyFile,
@@ -1011,21 +1011,21 @@ function ProviderConnectStep({
           </p>
         </div>
         <ol className="list-decimal space-y-2 pl-5 text-sm">
-          <li>
+          <li><Trans i18nKey="pages.apps.chat.chatEndpointSetup.openBotfatherAndSendNewbot">
             Open BotFather and send <code>/newbot</code>.
-          </li>
+          </Trans></li>
           <li>{t("pages.apps.chat.chatEndpointSetup.enterTheBotDisplayName")}</li>
-          <li>
+          <li><Trans i18nKey="pages.apps.chat.chatEndpointSetup.chooseAnAvailableUsernameEndingIn">
             Choose an available username ending in <code>bot</code>.
-          </li>
+          </Trans></li>
         </ol>
-        <p className="rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
+        <p className="rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground"><Trans i18nKey="pages.apps.chat.chatEndpointSetup.paperclipWorksWithTelegramSDefault">
           Paperclip works with Telegram&apos;s default bot privacy mode and
           registers its command menu automatically. In a group, ordinary
           mentions are not delivered to bots: start or continue work with{" "}
           <code>/task@bot_username &lt;request&gt;</code>, or reply directly to
           a message from the bot.
-        </p>
+        </Trans></p>
         <Button
           variant="outline"
           onClick={() => openProviderSetup("https://t.me/BotFather")}
@@ -1161,7 +1161,7 @@ function ProviderConnectStep({
               every message in an installed team or group chat, then download
               the app package.
             </li>
-            <li>
+            <li><Trans i18nKey="pages.apps.chat.chatEndpointSetup.microsoftTeamsAppsManageYourApps">
               <strong>Microsoft Teams · Apps · Manage your apps</strong>: select{" "}
               <strong>Upload an app · Upload a custom app</strong>, choose the
               downloaded package, and install it in each intended personal chat,
@@ -1170,7 +1170,7 @@ function ProviderConnectStep({
               installation and are not supported by this release. If upload is
               unavailable, a Teams administrator must enable or approve custom
               apps.
-            </li>
+            </Trans></li>
           </ol>
         </section>
         <label className="grid gap-2 text-sm font-medium">
@@ -1200,13 +1200,13 @@ function ProviderConnectStep({
         <p className="text-sm text-muted-foreground">
           {t("pages.apps.chat.chatEndpointSetup.enterTheApplicationClientIdAbove")}
         </p>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground"><Trans i18nKey="pages.apps.chat.chatEndpointSetup.paperclipDoesNotUseTeamsSingle">
           Paperclip does not use Teams single sign-on in this release. The
           copied <code>webApplicationInfo</code> entry only associates the RSC
           permissions with the same Entra Application ID. Its nonempty resource
           is an RSC placeholder; you do not need to register an Entra
           Application ID URI or add delegated Microsoft Graph permissions.
-        </p>
+        </Trans></p>
         <p className="text-sm text-muted-foreground">
           {t("pages.apps.chat.chatEndpointSetup.theTwoApplicationRscPermissionsLet")}
         </p>

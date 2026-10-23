@@ -17,7 +17,7 @@ import { queryKeys } from "../lib/queryKeys";
 import { ToggleSwitch } from "@/components/ui/toggle-switch";
 import { cn } from "../lib/utils";
 import { useSignOut } from "@/hooks/useSignOut";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 const FEEDBACK_TERMS_URL = import.meta.env.VITE_FEEDBACK_TERMS_URL?.trim() || "https://paperclip.ing/tos";
 
@@ -342,13 +342,13 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
               );
             })}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground"><Trans i18nKey="pages.instanceGeneralSettings.toRetestTheFirstUsePrompt">
             To retest the first-use prompt in local dev, remove the{" "}
             <code>feedbackDataSharingPreference</code> key from the{" "}
             <code>instance_settings.general</code> JSON row for this instance, or set it back to{" "}
             <code>"prompt"</code>. Unset and <code>"prompt"</code> both mean no default has been
             chosen yet.
-          </p>
+          </Trans></p>
         </div>
       </section>
 

@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, ChevronRight, Sparkles } from "lucide-react";
 import type { ApprovalComment } from "@paperclipai/shared";
 import { MarkdownBody } from "../components/MarkdownBody";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 export function ApprovalDetail() {
   const { t } = useTranslation();
@@ -285,9 +285,9 @@ export function ApprovalDetail() {
             </>
           )}
           {isBudgetApproval && approval.status === "pending" && (
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground"><Trans i18nKey="pages.approvalDetail.resolveThisBudgetStopFromThe">
               Resolve this budget stop from the budget controls on <Link to="/costs" className="underline underline-offset-2">/costs</Link>.
-            </p>
+            </Trans></p>
           )}
           {approval.status === "pending" && (
             <Button

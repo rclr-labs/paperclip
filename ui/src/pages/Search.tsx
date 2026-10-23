@@ -53,7 +53,7 @@ import {
 } from "../lib/search-filters";
 import type { ReactNode } from "react";
 import type { Agent, IssueLabel, Project } from "@paperclipai/shared";
-import { useTranslation } from "@/i18n";
+import { useTranslation, Trans } from "@/i18n";
 
 const SEARCH_DEBOUNCE_MS = 250;
 const IDENTIFIER_PATTERN = /^[A-Z]+-\d+$/;
@@ -618,11 +618,11 @@ export function Search() {
               ))}
             </div>
           ) : (
-            <span className="truncate">
+            <span className="truncate"><Trans i18nKey="pages.search.tryStatusTodoAssigneeMeOr">
               Try <code className="rounded bg-muted px-1 py-0.5 text-(length:--text-micro)">status:todo</code>,{" "}
               <code className="rounded bg-muted px-1 py-0.5 text-(length:--text-micro)">assignee:me</code>,{" "}
               or <code className="rounded bg-muted px-1 py-0.5 text-(length:--text-micro)">updated:&gt;7d</code>.
-            </span>
+            </Trans></span>
           )}
         </div>
       </div>
@@ -801,10 +801,10 @@ function SearchTabContent({
             <span className="font-medium text-foreground">{t("pages.search.quotedPhrases")}</span> wrap a phrase in quotes to match the
             exact sequence.
           </li>
-          <li>
+          <li><Trans i18nKey="pages.search.kReopensTheCommandPalettePre">
             <span className="font-medium text-foreground">⌘K:</span> reopens the command palette pre-seeded with your
             current query.
-          </li>
+          </Trans></li>
         </ul>
       </div>
     );
@@ -882,9 +882,9 @@ function SearchTabContent({
         </div>
         <ul className="mt-2 space-y-0.5 text-xs text-muted-foreground">
           <li>{t("pages.search.tryFewerTokensOrASingle")}</li>
-          <li>
+          <li><Trans i18nKey="pages.search.useAnIdentifierShortcutLikePap">
             Use an identifier shortcut like <code className="rounded bg-muted px-1 py-0.5">PAP-123</code>.
-          </li>
+          </Trans></li>
           <li>{t("pages.search.wrapMultiWordPhrasesInQuotes")}</li>
         </ul>
       </div>
