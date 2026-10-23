@@ -984,7 +984,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                               })}
                             immediate
                             className="w-full rounded border border-border bg-transparent px-2 py-1 text-xs font-mono outline-none"
-                            placeholder={t("components.projectProperties.bashScriptsProvisionWorktreeSh")}
+                            placeholder="bash ./scripts/provision-worktree.sh"
                           />
                         </div>
                         <div>
@@ -1008,7 +1008,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                               })}
                             immediate
                             className="w-full rounded border border-border bg-transparent px-2 py-1 text-xs font-mono outline-none"
-                            placeholder={t("components.projectProperties.bashScriptsProvisionWorktreeRuntimeSh")}
+                            placeholder="bash ./scripts/provision-worktree-runtime.sh"
                           />
                           <p className="mt-1 text-xs text-muted-foreground">
                             {t("components.projectProperties.runsOnceBeforeTheFirstRuntime")}
@@ -1035,7 +1035,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                               })}
                             immediate
                             className="w-full rounded border border-border bg-transparent px-2 py-1 text-xs font-mono outline-none"
-                            placeholder={t("components.projectProperties.bashScriptsTeardownWorktreeSh")}
+                            placeholder="bash ./scripts/teardown-worktree.sh"
                           />
                         </div>
                         <p className="text-(length:--text-micro) text-muted-foreground">

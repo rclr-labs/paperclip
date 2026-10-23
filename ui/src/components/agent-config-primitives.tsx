@@ -430,7 +430,7 @@ export function ChoosePathButton() {
             <section className="space-y-1.5">
               <p className="font-medium">{t("components.agentconfigprimitives.terminalFallbackMacosLinux")}</p>
               <ol className="list-decimal space-y-1 pl-5 text-muted-foreground">
-                <li>Run <code>{t("components.agentconfigprimitives.cdPathToFolder")}</code>.</li>
+                <li>Run <code>{"cd /path/to/folder"}</code>.</li>
                 <li>Run <code>pwd</code>.</li>
                 <li>{t("components.agentconfigprimitives.copyTheOutputAndPasteIt")}</li>
               </ol>

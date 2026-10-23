@@ -1676,13 +1676,13 @@ export function DesignGuide() {
       {/* ============================================================ */}
       <Section title={t("pages.designGuide.logViewer")}>
         <div className="bg-neutral-950 rounded-lg p-3 font-mono text-xs max-h-80 overflow-y-auto">
-          <div className="text-foreground">{t("pages.designGuide.120001InfoAgentStarted")}</div>
-          <div className="text-foreground">{t("pages.designGuide.120002InfoProcessingTask")}</div>
-          <div className="text-yellow-400">{t("pages.designGuide.120005WarnRateLimit")}</div>
-          <div className="text-foreground">{t("pages.designGuide.120008InfoTaskPap")}</div>
-          <div className="text-red-400">{t("pages.designGuide.120012ErrorConnectionTimeout")}</div>
-          <div className="text-blue-300">{t("pages.designGuide.120012SysRetryingConnection")}</div>
-          <div className="text-foreground">{t("pages.designGuide.120017InfoReconnectedSuccessfully")}</div>
+          <div className="text-foreground">{"[12:00:01] INFO  Agent started successfully"}</div>
+          <div className="text-foreground">{"[12:00:02] INFO  Processing task PAP-001"}</div>
+          <div className="text-yellow-400">{"[12:00:05] WARN  Rate limit approaching (80%)"}</div>
+          <div className="text-foreground">{"[12:00:08] INFO  Task PAP-001 completed"}</div>
+          <div className="text-red-400">{"[12:00:12] ERROR Connection timeout to upstream service"}</div>
+          <div className="text-blue-300">{"[12:00:12] SYS   Retrying connection in 5s..."}</div>
+          <div className="text-foreground">{"[12:00:17] INFO  Reconnected successfully"}</div>
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-1.5 w-1.5">
               <span className="absolute inline-flex h-full w-full rounded-full bg-blue-400 animate-pulse" />

@@ -239,7 +239,7 @@ export function HermesGatewayConfigFields({
           }}
           rows={3}
           className={inputClass}
-          placeholder={t("adapters.hermesgateway.configfields.xCustomHeaderValue")}
+          placeholder={"{\"x-custom-header\": \"value\"}"}
         />
       </Field>
 

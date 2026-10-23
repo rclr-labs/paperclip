@@ -1237,7 +1237,7 @@ export function ExecutionWorkspaceDetail() {
                           className="min-h-20 font-mono"
                           value={form.provisionCommand}
                           onChange={(event) => setForm((current) => current ? { ...current, provisionCommand: event.target.value } : current)}
-                          placeholder={t("pages.executionWorkspaceDetail.bashScriptsProvisionWorktreeSh")}
+                          placeholder="bash ./scripts/provision-worktree.sh"
                         />
                       </Field>
 
@@ -1249,7 +1249,7 @@ export function ExecutionWorkspaceDetail() {
                           className="min-h-20 font-mono"
                           value={form.runtimeProvisionCommand}
                           onChange={(event) => setForm((current) => current ? { ...current, runtimeProvisionCommand: event.target.value } : current)}
-                          placeholder={t("pages.executionWorkspaceDetail.bashScriptsProvisionWorktreeRuntimeSh")}
+                          placeholder="bash ./scripts/provision-worktree-runtime.sh"
                         />
                       </Field>
 
@@ -1258,7 +1258,7 @@ export function ExecutionWorkspaceDetail() {
                           className="min-h-20 font-mono"
                           value={form.teardownCommand}
                           onChange={(event) => setForm((current) => current ? { ...current, teardownCommand: event.target.value } : current)}
-                          placeholder={t("pages.executionWorkspaceDetail.bashScriptsTeardownWorktreeSh")}
+                          placeholder="bash ./scripts/teardown-worktree.sh"
                         />
                       </Field>
 

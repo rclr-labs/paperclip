@@ -56,7 +56,7 @@ function HeadersJsonTextarea({
       }}
       rows={3}
       className={inputClass}
-      placeholder={t("adapters.openclawgateway.configfields.xCustomHeaderValue")}
+      placeholder={"{\"x-custom-header\": \"value\"}"}
     />
   );
 }

@@ -215,7 +215,7 @@ export function PluginManager() {
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="packageName">{t("pages.pluginManager.npmPackageName")}</Label>
+                <Label htmlFor="packageName">{"npm Package Name"}</Label>
                 <Input
                   id="packageName"
                   placeholder="@paperclipai/plugin-example"

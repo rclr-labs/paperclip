@@ -31,6 +31,13 @@ export function isTranslatable(raw) {
   if (/^\d+([.,]\d+)?\s*\S{0,3}$/.test(s)) return false;      // numbers and units
   if (s.includes("{{") || s.includes("${")) return false;     // already interpolated
 
+  if (/^[{[]/.test(s)) return false;                            // JSON snippet
+  if (s.includes("./") || s.includes("../")) return false;      // relative paths
+  // A command invocation, not prose about one. Prose ends in sentence
+  // punctuation ("npm packages will be cleaned up from disk."); a command
+  // does not ("bash ./scripts/provision-worktree.sh").
+  if (/^(bash|sh|npm|npx|pnpm|yarn|git|sudo|docker|curl|cd)\s/.test(s) && !/[.?!]$/.test(s)) return false;
+
   // A fragment that opens with punctuation is the tail of a split sentence.
   if (/^[,.;:·—–]/.test(s)) return false;
 

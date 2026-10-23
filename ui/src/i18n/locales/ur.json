@@ -104,7 +104,6 @@
     "hermesgateway": {
       "configfields": {
         "instructions": "Instructions",
-        "xCustomHeaderValue": "{\"x-custom-header\": \"value\"}",
         "extraHeaders": "Extra headers",
         "dangerouslyAllowRemoteHttp": "Dangerously allow remote HTTP",
         "eventReconnectMs": "Event reconnect ms",
@@ -153,8 +152,7 @@
         "agentId": "Agent ID",
         "openclawGatewayToken": "OpenClaw gateway token",
         "gatewayAuthToken": "Gateway auth token",
-        "gatewayUrl": "Gateway URL",
-        "xCustomHeaderValue": "{\"x-custom-header\": \"value\"}"
+        "gatewayUrl": "Gateway URL"
       }
     },
     "opencodelocal": {
@@ -927,7 +925,6 @@
       "globalSearch": "Global search"
     },
     "devRestartBanner": {
-      "pnpmDevOnce": "pnpm dev:once",
       "autoRestartWillTriggerWhenThe": "Auto-restart will trigger when the instance is idle",
       "autoRestartOn": "Auto-Restart On",
       "restartRequired": "Restart Required"
@@ -1702,12 +1699,9 @@
       "created": "Created",
       "dangerZone": "Danger Zone",
       "provisionRunsInsideTheDerivedWorktree": "Provision runs inside the derived worktree before agent execution. Teardown is stored here for future cleanup flows.",
-      "bashScriptsTeardownWorktreeSh": "bash ./scripts/teardown-worktree.sh",
       "teardownCommand": "Teardown command",
       "runsOnceBeforeTheFirstRuntime": "Runs once before the first runtime-service start (heavy setup, e.g. DB seed). Leave empty to keep eager provisioning.",
-      "bashScriptsProvisionWorktreeRuntimeSh": "bash ./scripts/provision-worktree-runtime.sh",
       "runtimeProvisionCommand": "Runtime provision command",
-      "bashScriptsProvisionWorktreeSh": "bash ./scripts/provision-worktree.sh",
       "provisionCommand": "Provision command",
       "worktreeParentDir": "Worktree parent dir",
       "branchTemplate": "Branch template",
@@ -2374,7 +2368,6 @@
     },
     "agentconfigprimitives": {
       "copyTheOutputAndPasteIt": "Copy the output and paste it into the path input.",
-      "cdPathToFolder": "cd /path/to/folder",
       "terminalFallbackMacosLinux": "Terminal fallback (macOS/Linux)",
       "pasteTheResultIntoThePath": "Paste the result into the path input.",
       "clickCopyAsPath": "Click \"Copy as path\".",
@@ -4956,13 +4949,6 @@
       "status": "Status",
       "propertyRowPattern": "Property Row Pattern",
       "live": "Live",
-      "120017InfoReconnectedSuccessfully": "[12:00:17] INFO  Reconnected successfully",
-      "120012SysRetryingConnection": "[12:00:12] SYS   Retrying connection in 5s...",
-      "120012ErrorConnectionTimeout": "[12:00:12] ERROR Connection timeout to upstream service",
-      "120008InfoTaskPap": "[12:00:08] INFO  Task PAP-001 completed",
-      "120005WarnRateLimit": "[12:00:05] WARN  Rate limit approaching (80%)",
-      "120002InfoProcessingTask": "[12:00:02] INFO  Processing task PAP-001",
-      "120001InfoAgentStarted": "[12:00:01] INFO  Agent started successfully",
       "logViewer": "Log Viewer",
       "progressBarsBudget": "Progress Bars (Budget)",
       "emptyState2": "Empty State",
@@ -5206,11 +5192,8 @@
       "runtimeConfigSource": "Runtime config source",
       "runtimeConfig": "Runtime config",
       "cleanupCommand": "Cleanup command",
-      "bashScriptsTeardownWorktreeSh": "bash ./scripts/teardown-worktree.sh",
       "teardownCommand": "Teardown command",
-      "bashScriptsProvisionWorktreeRuntimeSh": "bash ./scripts/provision-worktree-runtime.sh",
       "runtimeProvisionCommand": "Runtime provision command",
-      "bashScriptsProvisionWorktreeSh": "bash ./scripts/provision-worktree.sh",
       "provisionCommand": "Provision command",
       "lifecycleCommands": "Lifecycle commands",
       "providerPathRef": "Provider path / ref",
@@ -5606,7 +5589,6 @@
       "availablePlugins": "Available Plugins",
       "thePluginRuntimeAndApiSurface": "The plugin runtime and API surface are still changing. Expect breaking changes while this feature settles.",
       "pluginsAreAlpha": "Plugins are alpha.",
-      "npmPackageName": "npm Package Name",
       "enterTheNpmPackageNameOf": "Enter the npm package name of the plugin you wish to install.",
       "installPlugin": "Install Plugin",
       "pluginManager": "Plugin Manager",

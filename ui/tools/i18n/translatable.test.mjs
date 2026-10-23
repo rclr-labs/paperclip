@@ -27,6 +27,9 @@ describe("isTranslatable", () => {
     ["a screaming short token", "KEY"],
     ["a comma-led fragment", ", click"],
     ["a bullet-led fragment", "\u00b7 agent"],
+    ["a JSON snippet", '{"x-custom-header": "value"}'],
+    ["a shell invocation", "bash ./scripts/provision-worktree.sh"],
+    ["a relative path in prose position", "./scripts/teardown.sh"],
   ])("refuses %s", (_label, value) => {
     expect(isTranslatable(value)).toBe(false);
   });
