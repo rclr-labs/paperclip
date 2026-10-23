@@ -239,7 +239,7 @@ export function InvitesSection() {
                 {latestInviteCopied ? (
                   <div className="inline-flex items-center gap-1 text-xs font-medium text-foreground">
                     <Check className="h-3.5 w-3.5" />
-                    Copied
+                    {t("components.access.invitesSection.copied")}
                   </div>
                 ) : null}
               </div>
@@ -270,7 +270,7 @@ export function InvitesSection() {
                 }}
               >
                 <Copy className="h-4 w-4" />
-                Copy link
+                {t("components.access.invitesSection.copyLink")}
               </Button>
             </div>
           </div>

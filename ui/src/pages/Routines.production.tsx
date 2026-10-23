@@ -818,7 +818,7 @@ export function Routines() {
         </div>
         <Button onClick={openCreateRoutine}>
           <Plus className="mr-2 h-4 w-4" />
-          Create routine
+          {t("pages.routinesproduction.createRoutine")}
         </Button>
       </div>
 
@@ -913,7 +913,7 @@ export function Routines() {
               {routineViewState.groupBy === "folder" && !hasRoutineFolders ? (
                 <Button variant="outline" size="sm" onClick={() => openCreateFolder()}>
                   <Plus className="mr-2 h-3.5 w-3.5" />
-                  New folder
+                  {t("pages.routinesproduction.newFolder")}
                 </Button>
               ) : null}
               {showFolderRail ? (
@@ -1300,7 +1300,7 @@ export function Routines() {
                 <div className="mt-3 flex justify-center">
                   <Button size="sm" onClick={openCreateRoutine}>
                     <Plus className="mr-2 h-3.5 w-3.5" />
-                    New routine in this folder
+                    {t("pages.routinesproduction.newRoutineInThisFolder")}
                   </Button>
                 </div>
               ) : null}

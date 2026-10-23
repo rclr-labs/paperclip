@@ -202,7 +202,7 @@ function GitHubPassingScore({
         <Label className="flex items-center gap-2 text-sm font-normal">
           <Checkbox aria-label={t("pages.apps.chat.gitHubBotConfiguration.reportOnly")} checked={value === null}
             onCheckedChange={(checked) => { setText("5"); onChange(checked === true ? null : 5); }} />
-          Report only
+          {t("pages.apps.chat.gitHubBotConfiguration.reportOnly")}
         </Label>
       </div>
       {!valid && <p id={`${id}-error`} role="alert" className="text-xs text-destructive">{t("pages.apps.chat.gitHubBotConfiguration.enterAWholeNumberFrom1")}</p>}
@@ -406,7 +406,7 @@ export function GitHubPolicyEditor({
                     set("issueOpened", enabled === true)
                   }
                 />
-                New issues
+                {t("pages.apps.chat.gitHubBotConfiguration.newIssues")}
               </Label>
             </div>
             <p className="text-xs text-muted-foreground">
@@ -785,7 +785,7 @@ export function GitHubAccessEditor({
             }}
           >
             <Plus className="size-4" />
-            Link a member
+            {t("pages.apps.chat.gitHubBotConfiguration.linkAMember")}
           </Button>
         </div>
         <GitHubToggle
@@ -855,7 +855,7 @@ export function GitHubAccessEditor({
             }}
           >
             <Plus className="size-4" />
-            Add external contributor
+            {t("pages.apps.chat.gitHubBotConfiguration.addExternalContributor")}
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">

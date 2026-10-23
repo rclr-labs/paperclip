@@ -415,7 +415,7 @@ export function AdapterManager() {
           <DialogTrigger asChild>
             <Button size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
-              Install Adapter
+              {t("pages.adapterManager.installAdapter")}
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -452,7 +452,7 @@ export function AdapterManager() {
                   onClick={() => setIsLocalPath(true)}
                 >
                   <FolderOpen className="h-3.5 w-3.5" />
-                  Local path
+                  {t("pages.adapterManager.localPath")}
                 </button>
               </div>
 

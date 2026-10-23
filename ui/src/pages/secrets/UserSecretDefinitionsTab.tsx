@@ -165,7 +165,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
 
       <div className="flex items-center justify-end">
         <Button size="sm" onClick={openCreate}>
-          <Plus className="mr-1 h-3.5 w-3.5" /> New user secret
+          <Plus className="mr-1 h-3.5 w-3.5" /> {t("pages.secrets.userSecretDefinitionsTab.newUserSecret")}
         </Button>
       </div>
 

@@ -121,7 +121,7 @@ export function IssuePrivacyActions({
                 setShareOpen(true);
               }}
             >
-              <Users className="h-4 w-4" aria-hidden="true" /> Share…
+              <Users className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.share")}
             </button>,
           )}
           {withTooltip(
@@ -134,7 +134,7 @@ export function IssuePrivacyActions({
                 setMakePublicOpen(true);
               }}
             >
-              <Globe className="h-4 w-4" aria-hidden="true" /> Make public
+              <Globe className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.makePublic")}
             </button>,
             publicBlockedReason,
           )}
@@ -155,7 +155,7 @@ export function IssuePrivacyActions({
               visibilityMutation.mutate("private");
             }}
           >
-            <Lock className="h-4 w-4" aria-hidden="true" /> Make private
+            <Lock className="h-4 w-4" aria-hidden="true" /> {t("components.issuePrivacyActions.makePrivate")}
           </button>,
         )
       ))}

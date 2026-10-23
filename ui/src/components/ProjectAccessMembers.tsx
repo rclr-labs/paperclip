@@ -120,7 +120,7 @@ export function ProjectAccessMembers({ project, canManage }: { project: Project;
                 className="min-w-0 flex-1"
               />
               <Button size="sm" disabled={!canManage || !selection || addMember.isPending} onClick={() => addMember.mutate()}>
-                <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add
+                <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.projectAccessMembers.add")}
               </Button>
             </div>
             {sharingWithSharedAgent ? (

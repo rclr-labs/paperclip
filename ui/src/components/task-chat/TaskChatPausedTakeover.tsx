@@ -57,7 +57,7 @@ export function TaskChatPausedTakeover({
         ) : null}
         {resumeHref ? (
           <Button asChild size="sm" className="bg-(--status-agent-paused) text-foreground hover:bg-(--status-agent-paused)/80 dark:text-background">
-            <Link to={resumeHref}><Play aria-hidden="true" />Resume subtree</Link>
+            <Link to={resumeHref}><Play aria-hidden="true" />{t("components.taskchat.taskChatPausedTakeover.resumeSubtree")}</Link>
           </Button>
         ) : (
           <Button

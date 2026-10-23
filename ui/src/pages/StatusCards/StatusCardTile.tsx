@@ -168,7 +168,7 @@ export function StatusCardTile({
                 className="mt-2 inline-flex items-center gap-1.5 font-medium text-foreground underline-offset-2 hover:underline"
               >
                 <ExternalLink className="h-3.5 w-3.5" />
-                View setup task
+                {t("pages.statusCards.statusCardTile.viewSetupTask")}
               </Link>
             ) : (
               // The first run stalled (agent run died mid-setup) and the card
@@ -203,7 +203,7 @@ export function StatusCardTile({
                   className="inline-flex shrink-0 items-center gap-1 font-medium underline-offset-2 hover:underline"
                 >
                   <ExternalLink className="h-3.5 w-3.5" />
-                  View update task
+                  {t("pages.statusCards.statusCardTile.viewUpdateTask")}
                 </Link>
               ) : null}
             </div>
@@ -228,7 +228,7 @@ export function StatusCardTile({
           <div className="flex items-center justify-between gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-1.5 text-xs">
             <span className="flex items-center gap-1.5 text-destructive">
               <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
-              Last update failed
+              {t("pages.statusCards.statusCardTile.lastUpdateFailed")}
             </span>
             <span className="flex shrink-0 items-center gap-3">
               <button type="button" onClick={stopClick(onRefresh)} disabled={refreshPending} className="font-medium text-destructive hover:underline disabled:opacity-60">

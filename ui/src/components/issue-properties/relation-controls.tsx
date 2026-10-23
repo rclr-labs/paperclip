@@ -92,13 +92,13 @@ export function RemovableIssueReferencePill({
                 <DropdownMenuItem asChild>
                   <Link to={`/issues/${issue.identifier}`}>
                     <ArrowUpRight className="h-4 w-4" />
-                    Visit task
+                    {t("components.issueproperties.relationcontrols.visitTask")}
                   </Link>
                 </DropdownMenuItem>
               ) : null}
               <DropdownMenuItem variant="destructive" onSelect={openRemoveConfirmation}>
                 <X className="h-4 w-4" />
-                Remove blocker
+                {t("components.issueproperties.relationcontrols.removeBlocker")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

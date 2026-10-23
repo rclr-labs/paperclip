@@ -477,6 +477,7 @@ function ActionRow({
   canConfigure: boolean;
   onSetPermission: (ids: string[], next: ActionPermission) => void;
 }) {
+  const { t } = useTranslation();
   const rowRef = useRef<HTMLDivElement | null>(null);
   const [testOpen, setTestOpen] = useState(false);
   const title = action.title ?? action.toolName;
@@ -558,7 +559,7 @@ function ActionRow({
           )}
           <Button type="button" size="sm" variant="outline" onClick={() => setTestOpen(true)}>
             <FlaskConical className="mr-1.5 h-3.5 w-3.5" />
-            Test
+            {t("pages.apps.appdetail.permissionsPanel.test")}
           </Button>
         </div>
       </div>

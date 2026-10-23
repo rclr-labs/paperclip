@@ -236,11 +236,12 @@ function InteractionActionError({ message }: { message: string | null }) {
 }
 
 function Details({ children }: { children?: ReactNode }) {
+  const { t } = useTranslation();
   if (!children) return null;
   return (
     <details className="mt-2">
       <summary className="flex cursor-pointer list-none items-center gap-1 text-xs font-medium text-muted-foreground">
-        <ChevronDown aria-hidden className="h-3.5 w-3.5" /> Details
+        <ChevronDown aria-hidden className="h-3.5 w-3.5" /> {t("components.taskchat.taskChatCompactInteractionCard.details")}
       </summary>
       <div className="mt-2 rounded-sm bg-muted/40 px-2.5 py-2 text-sm text-muted-foreground">
         {children}

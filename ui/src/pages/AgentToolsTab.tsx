@@ -669,7 +669,7 @@ export function AgentToolsTab({ agent, companyId }: { agent: AgentDetailRecord; 
           <div className="rounded-lg border border-border bg-background/60 p-3">
             <h3 className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
               <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
-              Why these tools?
+              {t("pages.agentToolsTab.whyTheseTools")}
             </h3>
 
             {/* Access profiles */}

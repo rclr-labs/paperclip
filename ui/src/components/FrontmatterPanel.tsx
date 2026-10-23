@@ -387,7 +387,7 @@ export function FrontmatterPanel({
           ) : !readOnly ? (
             <Button variant="ghost" size="sm" onClick={addFrontmatter} data-testid="add-frontmatter">
               <Plus className="mr-1 h-3.5 w-3.5" />
-              Add frontmatter
+              {t("components.frontmatterPanel.addFrontmatter")}
             </Button>
           ) : null}
 
@@ -578,6 +578,7 @@ function MetadataRows({
   readOnly: boolean;
   onChange: (rows: ScalarRow[]) => void;
 }) {
+  const { t } = useTranslation();
   const update = (index: number, patch: Partial<ScalarRow>) => {
     const next = rows.slice();
     next[index] = { ...next[index]!, ...patch, edited: true };
@@ -629,7 +630,7 @@ function MetadataRows({
       {!readOnly ? (
         <Button variant="ghost" size="sm" onClick={add} className="text-xs">
           <Plus className="mr-1 h-3.5 w-3.5" />
-          add field
+          {t("components.frontmatterPanel.addField")}
         </Button>
       ) : null}
     </div>

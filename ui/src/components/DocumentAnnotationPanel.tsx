@@ -401,11 +401,11 @@ export function ThreadCard(props: {
               >
                 {thread.status === "resolved" ? (
                   <>
-                    <RotateCcw className="h-3 w-3" /> Reopen
+                    <RotateCcw className="h-3 w-3" /> {t("components.documentAnnotationPanel.reopen")}
                   </>
                 ) : (
                   <>
-                    <Check className="h-3 w-3" /> Resolve
+                    <Check className="h-3 w-3" /> {t("components.documentAnnotationPanel.resolve")}
                   </>
                 )}
               </Button>
@@ -438,7 +438,7 @@ export function ThreadCard(props: {
                     }}
                   >
                     <Copy className="h-3.5 w-3.5" />
-                    Copy link
+                    {t("components.documentAnnotationPanel.copyLink")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

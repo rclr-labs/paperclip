@@ -876,7 +876,7 @@ function SearchTabContent({
           ) : null}
           <Button onClick={openNewIssue} size="sm" variant="default">
             <Plus className="mr-1.5 h-4 w-4" />
-            Create task from this query
+            {t("pages.search.createTaskFromThisQuery")}
           </Button>
           <Button onClick={navigateIssuesFallback} size="sm" variant="ghost">
             {t("pages.search.openTasksFilterView")}

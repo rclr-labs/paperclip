@@ -2259,7 +2259,7 @@ export function CompanyImport() {
                 }}
                 className="accent-foreground"
               />
-              Start imported agents and routines paused
+              {t("pages.companyImport.startImportedAgentsAndRoutinesPaused")}
             </label>
             <Button
               size="sm"

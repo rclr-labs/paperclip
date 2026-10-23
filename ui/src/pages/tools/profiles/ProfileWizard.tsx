@@ -532,7 +532,7 @@ export function StepName({
       <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
         <CollapsibleTrigger className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
           <ChevronDown className={cn("h-4 w-4 transition-transform", advancedOpen && "rotate-180")} />
-          Advanced
+          {t("pages.tools.profiles.profileWizard.advanced")}
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-2">
           <div className="space-y-1.5">

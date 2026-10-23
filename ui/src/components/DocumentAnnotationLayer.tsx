@@ -614,7 +614,7 @@ export function DocumentAnnotationLayer({
                   : "Add comment on selection (⌘⇧M)"}
               >
                 <MessageSquarePlus className="h-3.5 w-3.5" aria-hidden="true" />
-                Comment
+                {t("components.documentAnnotationLayer.comment")}
               </Button>
             </div>
           ) : null}

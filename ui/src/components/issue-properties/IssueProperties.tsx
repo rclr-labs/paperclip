@@ -143,6 +143,7 @@ function splitMiddleTruncation(value: string): { prefix: string; suffix: string 
 }
 
 function TruncatedCopyable({ value, icon: Icon }: { value: string; icon: ComponentType<{ className?: string }> }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -182,7 +183,7 @@ function TruncatedCopyable({ value, icon: Icon }: { value: string; icon: Compone
       {copied && (
         <span className={cn("inline-flex items-center gap-1 text-xs shrink-0", issueStatusText.done)} role="status">
           <Check className="h-3 w-3 shrink-0" />
-          Copied
+          {t("components.issueproperties.issueProperties.copied")}
         </span>
       )}
     </div>
@@ -1190,7 +1191,7 @@ export function IssueProperties({
       title={t("components.issueproperties.issueProperties.addLabel")}
     >
       <Plus className="h-3 w-3" />
-      Add label
+      {t("components.issueproperties.issueProperties.addLabel")}
     </button>
   ) : undefined;
   const watchdogContent = (
@@ -1541,7 +1542,7 @@ export function IssueProperties({
           {retryNow.isPending ? (
             <span className="inline-flex items-center gap-1.5">
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
-              Retrying…
+              {t("components.issueproperties.issueProperties.retrying")}
             </span>
           ) : scheduledRetryRetryNowSuccess ? (
             <span className="inline-flex items-center gap-1.5">
@@ -1551,7 +1552,7 @@ export function IssueProperties({
           ) : (
             <span className="inline-flex items-center gap-1.5">
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
-              Retry now
+              {t("components.issueproperties.issueProperties.retryNow")}
             </span>
           )}
         </Button>
@@ -2326,7 +2327,7 @@ export function IssueProperties({
             }}
           >
             <Plus className="h-3 w-3" />
-            Add subtask
+            {t("components.issueproperties.issueProperties.addSubtask")}
           </button>
         </div>
       ) : null}
@@ -2569,7 +2570,7 @@ export function IssueProperties({
                   onClick={onAddSubIssue}
                 >
                   <Plus className="h-3 w-3" />
-                  Add sub-task
+                  {t("components.issueproperties.issueProperties.addSubTask")}
                 </button>
               ) : null}
             </div>
@@ -2804,7 +2805,7 @@ export function IssueProperties({
                       aria-label={t("components.issueproperties.issueProperties.backToWorkspaceOptions")}
                     >
                       <ChevronLeft className="h-3.5 w-3.5" />
-                      Workspace mode
+                      {t("components.issueproperties.issueProperties.workspaceMode")}
                     </button>
                     <input
                       className="block w-full bg-transparent px-2 py-1.5 text-xs outline-none placeholder:text-muted-foreground/50"
@@ -2856,7 +2857,7 @@ export function IssueProperties({
                 className="text-sm text-primary hover:underline inline-flex min-w-0 items-center gap-1.5"
               >
                 <HardDrive className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                View workspace
+                {t("components.issueproperties.issueProperties.viewWorkspace")}
                 <ArrowUpRight className="h-3 w-3 shrink-0" />
               </Link>
             </PropertyRow>

@@ -129,11 +129,11 @@ export function ProfilesIndex({
         <>
           <Button variant="outline" onClick={() => setResolverOpen(true)}>
             <ShieldCheck className="mr-1.5 h-4 w-4" />
-            Check an agent's access
+            {t("pages.tools.profiles.profilesIndex.checkAnAgentSAccess")}
           </Button>
           <Button onClick={() => navigate(newProfileHref())}>
             <Plus className="mr-1.5 h-4 w-4" />
-            New profile
+            {t("pages.tools.profiles.profilesIndex.newProfile")}
           </Button>
         </>
       }
@@ -358,7 +358,7 @@ function RowMenu({
         {onRestore ? (
           <DropdownMenuItem onSelect={onRestore}>
             <ArchiveRestore className="mr-1.5 h-4 w-4" />
-            Restore
+            {t("pages.tools.profiles.profilesIndex.restore")}
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem onSelect={onArchive}>{t("pages.tools.profiles.profilesIndex.archive")}</DropdownMenuItem>

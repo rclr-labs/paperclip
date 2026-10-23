@@ -72,7 +72,7 @@ export function AggregatorConnectDialog({ app, connections, initialProvider, onC
       {selected?.provider !== "composio" ? <DialogFooter className="sm:items-center sm:justify-between">
         <Button variant="ghost" onClick={selected && canChooseProvider ? () => setSelected(null) : onClose}>{selected && canChooseProvider ? "Back" : "Cancel"}</Button>
         {selected ? <div className="flex flex-wrap items-center gap-3">
-          {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer" onClick={onClose}>Continue<ExternalLink className="size-4" /></a></Button> : null}
+          {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer" onClick={onClose}>{t("pages.apps.aggregatorConnectDialog.continue")}<ExternalLink className="size-4" /></a></Button> : null}
           <Button variant="link" size="sm" className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground" onClick={() => { onNavigate(`${aggregatorAppConnectHref(selected)}&new=1`); onClose(); }}>{t("pages.apps.aggregatorConnectDialog.connectANewAccount")}</Button>
         </div> : null}
       </DialogFooter> : null}

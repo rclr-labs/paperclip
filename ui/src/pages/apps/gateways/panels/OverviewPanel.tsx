@@ -120,7 +120,7 @@ export function OverviewPanel({
           <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.overviewPanel.howClientsConnect")}</h3>
           <Button variant="outline" size="sm" onClick={() => void copy(snippet, "Client config")}>
             <Copy className="mr-1 h-3.5 w-3.5" />
-            Copy
+            {t("pages.apps.gateways.panels.overviewPanel.copy")}
           </Button>
         </div>
         <pre className="mt-3 overflow-auto whitespace-pre-wrap break-words rounded bg-background p-3 font-mono text-xs text-muted-foreground">

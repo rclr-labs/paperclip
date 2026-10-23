@@ -830,7 +830,7 @@ function ZeroState() {
       <p className="text-lg font-semibold text-foreground">{t("pages.whatNeedsMe.youReAllCaughtUp")}</p>
       <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Inbox className="h-4 w-4" />
-        Nothing needs a decision from you right now.
+        {t("pages.whatNeedsMe.nothingNeedsADecisionFromYou")}
       </p>
     </div>
   );

@@ -1052,7 +1052,7 @@ export function WorkspaceFileBrowser({
             disabled={!queriesEnabled}
             onClick={() => void listQuery.refetch()}
           >
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.workspaceFileBrowser.retry")}
           </Button>
         ) : null}
       />

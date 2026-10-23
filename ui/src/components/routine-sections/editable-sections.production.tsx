@@ -377,7 +377,7 @@ export function OverviewSection({
               onClick={() => navigateToSection("activity")}
               className="flex items-center gap-1 pt-2 text-xs text-muted-foreground hover:text-foreground"
             >
-              View all activity <ArrowRight className="h-3 w-3" />
+              {t("components.routinesections.editablesectionsproduction.viewAllActivity")} <ArrowRight className="h-3 w-3" />
             </button>
           </div>
         )}
@@ -454,12 +454,12 @@ export function TriggersSection() {
           {addOpen ? (
             <>
               <X className="mr-1.5 h-3.5 w-3.5" />
-              Cancel
+              {t("components.routinesections.editablesectionsproduction.cancel")}
             </>
           ) : (
             <>
               <Plus className="mr-1.5 h-3.5 w-3.5" />
-              New trigger
+              {t("components.routinesections.editablesectionsproduction.newTrigger")}
             </>
           )}
         </Button>
@@ -617,6 +617,7 @@ export function TriggersSection() {
 }
 
 export function VariablesSection() {
+  const { t } = useTranslation();
   const ctx = useRoutineDetail();
   const { editDraft, setEditDraft, navigateToSection } = ctx;
   const hasVariables = editDraft.variables.length > 0;
@@ -631,7 +632,7 @@ export function VariablesSection() {
         </span>
         <Button variant="secondary" size="sm" onClick={() => navigateToSection("overview")}>
           <Edit3 className="mr-1.5 h-3.5 w-3.5" />
-          Edit instructions
+          {t("components.routinesections.editablesectionsproduction.editInstructions")}
         </Button>
       </div>
 

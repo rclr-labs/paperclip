@@ -27,7 +27,7 @@ export function AgentsToolbar({ query, onQueryChange, tab, items, onTabChange, v
           <Button type="button" size="icon-sm" variant={view === "org" ? "secondary" : "ghost"} className="design-toolbar-icon" onClick={() => onViewChange("org")} title="Org chart view" aria-label={t("components.agentsToolbar.orgChartView")} aria-pressed={view === "org"}><Network aria-hidden /></Button>
       </div>}
       <div className="design-toolbar-actions">
-        <Button size="sm" variant="outline" data-toolbar-primary onClick={onNewAgent}><Plus aria-hidden />New Agent</Button>
+        <Button size="sm" variant="outline" data-toolbar-primary onClick={onNewAgent}><Plus aria-hidden />{t("components.agentsToolbar.newAgent")}</Button>
       </div>
     </div>
     <div className="collection-toolbar-tabs">

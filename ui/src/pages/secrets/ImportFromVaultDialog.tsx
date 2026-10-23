@@ -145,6 +145,7 @@ function StatusBadge({
 }
 
 function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["status"] }) {
+  const { t } = useTranslation();
   switch (status) {
     case "imported":
       return (
@@ -152,7 +153,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-emerald-600 border-emerald-500/40 dark:text-emerald-400"
         >
-          <CheckCircle2 className="h-3 w-3" /> Created
+          <CheckCircle2 className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.created")}
         </Badge>
       );
     case "skipped":
@@ -161,7 +162,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-muted-foreground border-border/60"
         >
-          <Link2 className="h-3 w-3" /> Skipped
+          <Link2 className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.skipped")}
         </Badge>
       );
     case "error":
@@ -171,7 +172,7 @@ function RowResultBadge({ status }: { status: RemoteSecretImportRowResult["statu
           variant="outline"
           className="gap-1 px-1.5 py-0 font-normal text-destructive border-destructive/40"
         >
-          <XCircle className="h-3 w-3" /> Failed
+          <XCircle className="h-3 w-3" /> {t("pages.secrets.importFromVaultDialog.failed")}
         </Badge>
       );
   }
@@ -766,7 +767,7 @@ export function ImportFromVaultDialog({
               >
                 {importMutation.isPending ? (
                   <>
-                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Importing…
+                    <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> {t("pages.secrets.importFromVaultDialog.importing")}
                   </>
                 ) : (
                   `Import ${draftList.length}`
@@ -1106,7 +1107,7 @@ function SelectStep(props: SelectStepProps) {
             >
               {pageLoading ? (
                 <>
-                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> Loading…
+                  <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" /> {t("pages.secrets.importFromVaultDialog.loading")}
                 </>
               ) : (
                 `Load ${PAGE_SIZE} more`
@@ -1120,6 +1121,7 @@ function SelectStep(props: SelectStepProps) {
 }
 
 function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () => void }) {
+  const { t } = useTranslation();
   const isPermission = isPermissionError(error);
   const isThrottling = isThrottlingError(error);
   const message = readableErrorMessage(error);
@@ -1145,7 +1147,7 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
         </div>
         <div className="mt-2 flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={onRetry}>
-            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Retry
+            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> {t("pages.secrets.importFromVaultDialog.retry")}
           </Button>
           {isPermission && (
             <a
@@ -1154,7 +1156,7 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
               rel="noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium underline"
             >
-              IAM reference <ExternalLink className="h-3 w-3" />
+              {t("pages.secrets.importFromVaultDialog.iamReference")} <ExternalLink className="h-3 w-3" />
             </a>
           )}
         </div>

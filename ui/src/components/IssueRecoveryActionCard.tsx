@@ -548,7 +548,7 @@ function BreakGlassOverride({
           className="border-red-400/60 text-red-700 hover:bg-red-500/10 dark:border-red-500/40 dark:text-red-300"
         >
           <OctagonAlert className="h-3.5 w-3.5" aria-hidden />
-          I&apos;ve verified this — reconcile anyway
+          {t("components.issueRecoveryActionCard.iVeVerifiedThisReconcileAnyway")}
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -563,7 +563,7 @@ function BreakGlassOverride({
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-red-700 dark:text-red-300"
           >
             <OctagonAlert className="h-3.5 w-3.5" aria-hidden />
-            Break-glass reconciliation
+            {t("components.issueRecoveryActionCard.breakGlassReconciliation")}
           </div>
           <p className="text-xs leading-5 text-muted-foreground">
             This overrides Paperclip&apos;s safety check and points the recorded workspace at the live
@@ -701,7 +701,7 @@ function RepairWorkspace({
             className="flex items-center gap-1.5 text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-sky-700 dark:text-sky-300"
           >
             <Wrench className="h-3.5 w-3.5" aria-hidden />
-            Repair workspace
+            {t("components.issueRecoveryActionCard.repairWorkspace")}
           </div>
           <p className="text-xs leading-5 text-muted-foreground">
             {t("components.issueRecoveryActionCard.thisIsLosslessNoReasonRequired")}

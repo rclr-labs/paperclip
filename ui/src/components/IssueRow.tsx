@@ -125,7 +125,7 @@ export function InboxArchiveButton({
       aria-label={t("components.issueRow.archive")}
     >
       <Archive className="h-3.5 w-3.5" />
-      Archive
+      {t("components.issueRow.archive")}
     </button>
   );
 }
@@ -235,7 +235,7 @@ export function IssueRow({
       title="Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee."
     >
       <Flag className="h-2.5 w-2.5" aria-hidden />
-      Blocked by parked work
+      {t("components.issueRow.blockedByParkedWork")}
     </Badge>
   ) : null;
 

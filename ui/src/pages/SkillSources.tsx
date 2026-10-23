@@ -89,7 +89,7 @@ export function SkillSources() {
     <header className="flex flex-wrap items-start justify-between gap-4">
       <div><h1 className="text-xl font-semibold">{t("pages.skillSources.skillSources")}</h1><p className="mt-1 text-sm text-muted-foreground">{t("pages.skillSources.skillsFromYourRepositoriesStayUp")}</p></div>
       <div className="flex items-center gap-2">
-        <Button onClick={() => navigate('/skills/sources/new')}><Plus className="size-4" />Import from GitHub</Button>
+        <Button onClick={() => navigate('/skills/sources/new')}><Plus className="size-4" />{t("pages.skillSources.importFromGithub")}</Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" aria-label={t("pages.skillSources.moreSourceActions")}><MoreVertical className="size-4" /></Button>
@@ -327,7 +327,7 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
               <span className="text-xs text-muted-foreground">{availableRepositories.length} {availableRepositories.length === 1 ? 'repository' : 'repositories'}</span>
               <Button type="button" variant="ghost" size="icon-xs" aria-label={t("pages.skillSources.refreshRepositories")} title="Refresh repositories" disabled={busy || repositories.isFetching} onClick={() => void repositories.refetch()}><RefreshCw className={repositories.isFetching ? 'size-3 animate-spin' : 'size-3'} /></Button>
             </div>
-            <Button asChild variant="outline" size="sm"><Link onClick={rememberReturn} to={connectHref}><Plus className="size-4" />Add repos</Link></Button>
+            <Button asChild variant="outline" size="sm"><Link onClick={rememberReturn} to={connectHref}><Plus className="size-4" />{t("pages.skillSources.addRepos")}</Link></Button>
           </div>}
           {repositories.isPending && <p role="status" className="text-sm text-muted-foreground">{t("pages.skillSources.loadingYourGithubRepositories")}</p>}
           {availableRepositories.length > 0 && <Command className="h-auto border border-border" label="Source repositories">
@@ -353,16 +353,16 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
             <Link to="/apps" className="underline">{t("pages.skillSources.manageConnections")}</Link>
           </p>}
           {!repositories.isPending && availableRepositories.length === 0 && <Button asChild variant="outline" className="h-28 w-full flex-col gap-3 whitespace-normal text-center">
-            <Link onClick={rememberReturn} to={connectHref}><GithubIcon className="size-6" />Connect GitHub to see your repos</Link>
+            <Link onClick={rememberReturn} to={connectHref}><GithubIcon className="size-6" />{t("pages.skillSources.connectGithubToSeeYourRepos")}</Link>
           </Button>}
           <Button type="button" variant="link" size="sm" className="h-auto self-end p-0 text-xs font-normal text-muted-foreground underline" disabled={busy} aria-expanded={showRepositoryUrl} aria-controls="source-repository-url" onClick={() => setShowRepositoryUrl(true)}>... or add public repo by URL</Button>
         </div>
-        {showRepositoryUrl && <label id="source-repository-url" className="flex flex-col gap-2 text-sm">Repository URL<Input autoFocus value={repositoryUrl} onChange={event => { setRepositoryUrl(event.target.value); clearScan(); }} placeholder="https://github.com/owner/repository" disabled={busy} /></label>}
+        {showRepositoryUrl && <label id="source-repository-url" className="flex flex-col gap-2 text-sm">{t("pages.skillSources.repositoryUrl")}<Input autoFocus value={repositoryUrl} onChange={event => { setRepositoryUrl(event.target.value); clearScan(); }} placeholder="https://github.com/owner/repository" disabled={busy} /></label>}
       </div>}
       {ready && !save.isPending && <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
         {!source && <span className="break-all">{discovery?.fullName}</span>}
         <span className="inline-flex items-center gap-1.5"><GitBranch className="size-3.5" /><span className="font-mono">{source?.trackingRef === 'HEAD' ? 'Default branch' : source?.trackingRef ?? discovery?.trackingRef}</span></span>
-        <a href={source?.repositoryUrl ?? discovery?.repositoryUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">View on GitHub<ExternalLink className="size-3" /></a>
+        <a href={source?.repositoryUrl ?? discovery?.repositoryUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">{t("pages.skillSources.viewOnGithub")}<ExternalLink className="size-3" /></a>
       </div>}
       {source?.lastError && <p role="alert" className="text-sm text-destructive">{source.lastError}{' '}<Link onClick={rememberReturn} to={source.connectionId ? `/apps/${source.connectionId}/permissions` : connectHref} className="underline">{t("pages.skillSources.manageGithubConnection")}</Link></p>}
       {ready && !save.isPending && !scan.isPending && <div className="space-y-3">

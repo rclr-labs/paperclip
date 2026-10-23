@@ -47,7 +47,7 @@ export function HoneycombRunLink({
         title={t("components.honeycombRunLink.openThisRunSTaskRun")}
       >
         <ExternalLink />
-        View in Honeycomb
+        {t("components.honeycombRunLink.viewInHoneycomb")}
       </a>
     </Button>
   );

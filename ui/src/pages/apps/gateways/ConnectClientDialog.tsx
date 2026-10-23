@@ -245,7 +245,7 @@ export function ConnectClientDialog({
               onClick={() => void copyText(`Authorization: Bearer ${selectedToken.token}`, "Authorization header")}
             >
               <Copy className="mr-1 h-3.5 w-3.5" />
-              Copy header
+              {t("pages.apps.gateways.connectClientDialog.copyHeader")}
             </Button>
           ) : null}
         </div>
@@ -290,7 +290,7 @@ export function ConnectClientDialog({
               )}
             >
               <LinkIcon className="h-4 w-4 shrink-0" />
-              Raw URL
+              {t("pages.apps.gateways.connectClientDialog.rawUrl")}
             </button>
           </nav>
 
@@ -305,7 +305,7 @@ export function ConnectClientDialog({
                     </code>
                     <Button variant="outline" size="sm" onClick={() => void copyText(endpoint, "Endpoint URL")}>
                       <Copy className="mr-1 h-3.5 w-3.5" />
-                      Copy
+                      {t("pages.apps.gateways.connectClientDialog.copy")}
                     </Button>
                   </div>
                 </div>
@@ -327,7 +327,7 @@ export function ConnectClientDialog({
                     onClick={() => copyConfigText && void copyText(copyConfigText, `${activeSnippet.label} config`)}
                   >
                     <Copy className="mr-1 h-3.5 w-3.5" />
-                    Copy
+                    {t("pages.apps.gateways.connectClientDialog.copy")}
                   </Button>
                 </div>
                 <pre className="max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-3 font-mono text-xs text-muted-foreground">
@@ -352,7 +352,7 @@ export function ConnectClientDialog({
         <DialogFooter>
           <Button onClick={() => onOpenChange(false)}>
             <Check className="mr-1.5 h-4 w-4" />
-            Done
+            {t("pages.apps.gateways.connectClientDialog.done")}
           </Button>
         </DialogFooter>
       </DialogContent>

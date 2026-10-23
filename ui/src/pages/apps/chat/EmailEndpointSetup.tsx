@@ -435,7 +435,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       {error && <p role="alert" className="text-sm text-destructive">{error.message}</p>}
       {inspected.isPending && <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.loadingEmailOptions")}</p>}
       <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
-        <Button type="button" variant="ghost" disabled={busy} onClick={() => { setup.reset(); setStep(0); }}><ArrowLeft className="size-4" />Back</Button>
+        <Button type="button" variant="ghost" disabled={busy} onClick={() => { setup.reset(); setStep(0); }}><ArrowLeft className="size-4" />{t("pages.apps.chat.emailEndpointSetup.back")}</Button>
         <Button disabled={!canCreate}>
           {setup.isPending ? "Connecting…" : pendingAddress ? "Finish connecting" : addressMode === "new" ? "Create email address" : "Connect email address"}<ArrowRight className="size-4" />
         </Button>
@@ -652,7 +652,7 @@ export function EmailEndpointSettings({
             <a href={`https://console.agentmail.to/dashboard/inboxes/${encodeURIComponent(inbox.address)}`}
               target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground">
-              View inbox <ExternalLink aria-hidden="true" className="size-3" />
+              {t("pages.apps.chat.emailEndpointSetup.viewInbox")} <ExternalLink aria-hidden="true" className="size-3" />
             </a>
           )}
         </div>

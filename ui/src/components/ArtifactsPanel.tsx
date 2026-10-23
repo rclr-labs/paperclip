@@ -159,7 +159,7 @@ export function ArtifactsPanel({ taskId, isAgentWorking, openDocKey, openDocTitl
         {isLoading ? (
           <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Loading...
+            {t("components.artifactsPanel.loading")}
           </div>
         ) : filtered.length === 0 ? (
           <div className="px-4 py-8 text-center">
@@ -286,7 +286,7 @@ function DocumentViewer({
         {isLoading ? (
           <div className="flex items-center justify-center py-8 text-muted-foreground text-sm">
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Loading document...
+            {t("components.artifactsPanel.loadingDocument")}
           </div>
         ) : error ? (
           <p className="text-sm text-muted-foreground">{t("components.artifactsPanel.documentNotAvailableYet")}</p>

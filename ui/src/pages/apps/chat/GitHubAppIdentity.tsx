@@ -74,7 +74,7 @@ export function GitHubAppBranding({
               rel="noreferrer"
               aria-label={t("pages.apps.chat.gitHubAppIdentity.editAppNameAndLogoOn")}
             >
-              Edit on GitHub <ExternalLink className="size-4" />
+              {t("pages.apps.chat.gitHubAppIdentity.editOnGithub")} <ExternalLink className="size-4" />
             </a>
           </Button>
         </div>
@@ -119,7 +119,7 @@ export function GitHubAppIdentityActions({
           aria-label={t("pages.apps.chat.gitHubAppIdentity.editAppNameAndLogoOn")}
           title={t("pages.apps.chat.gitHubAppIdentity.changeTheAppNameOrUpload")}
         >
-          Edit App <ExternalLink className="size-3.5" />
+          {t("pages.apps.chat.gitHubAppIdentity.editApp")} <ExternalLink className="size-3.5" />
         </a>
       </Button>
       <Button variant="ghost" size="icon" asChild>

@@ -919,7 +919,7 @@ function SuggestTasksCard({
                 {working === "accept" ? (
                   <>
                     <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                    Accepting...
+                    {t("components.issueThreadInteractionCard.accepting")}
                   </>
                 ) : (
                   selectedCount === totalTasks ? "Accept drafts" : "Accept selected drafts"
@@ -964,7 +964,7 @@ function SuggestTasksCard({
                   {working === "reject" ? (
                     <>
                       <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                      Saving...
+                      {t("components.issueThreadInteractionCard.saving2")}
                     </>
                   ) : (
                     "Save rejection"
@@ -1192,7 +1192,7 @@ function AskUserQuestionsCard({
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         <Badge variant="outline" className="border-border/70 bg-background/70 px-2.5 py-1 uppercase tracking-(--tracking-eyebrow) text-foreground/70">
           <MessageSquareQuote className="h-3 w-3" />
-          Ask user questions
+          {t("components.issueThreadInteractionCard.askUserQuestions")}
         </Badge>
         <span>
           {questions.length === 1
@@ -1373,7 +1373,7 @@ function AskUserQuestionsCard({
                   {cancelling ? (
                     <>
                       <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                      Cancelling...
+                      {t("components.issueThreadInteractionCard.cancelling")}
                     </>
                   ) : (
                     "Cancel question"
@@ -1388,7 +1388,7 @@ function AskUserQuestionsCard({
                 {working ? (
                   <>
                     <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                    Submitting...
+                    {t("components.issueThreadInteractionCard.submitting")}
                   </>
                 ) : (
                   interaction.payload.submitLabel ?? "Submit answers"
@@ -1695,6 +1695,7 @@ function ToolActionResolution({
   state: ToolActionCardState;
   interaction: RequestConfirmationInteraction;
 }) {
+  const { t } = useTranslation();
   const result = interaction.result?.toolAction;
   const [resultOpen, setResultOpen] = useState(false);
   const output = state === "executed" ? result?.resultSummary?.trim() : null;
@@ -1736,7 +1737,7 @@ function ToolActionResolution({
       ) : <p className="flex items-center gap-1.5">{status}</p>}
       {detail ? <p className={cn("break-words", state === "failed" && "text-destructive")}>{detail}</p> : null}
       {state === "executed" && result?.resultHref?.trim() ? (
-        <a className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-foreground" href={result.resultHref} target="_blank" rel="noreferrer">View result<ExternalLink className="h-3 w-3" /></a>
+        <a className="inline-flex items-center gap-1 underline underline-offset-4 hover:text-foreground" href={result.resultHref} target="_blank" rel="noreferrer">{t("components.issueThreadInteractionCard.viewResult")}<ExternalLink className="h-3 w-3" /></a>
       ) : null}
     </div>
   );
@@ -2223,7 +2224,7 @@ function ConfirmationActionRow({
           {working === "accept" ? (
             <>
               <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-              Approving…
+              {t("components.issueThreadInteractionCard.approving")}
             </>
           ) : (
             approveLabel
@@ -2254,7 +2255,7 @@ function ConfirmationActionRow({
             {working === "reject" && !revising ? (
               <>
                 <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                Rejecting…
+                {t("components.issueThreadInteractionCard.rejecting")}
               </>
             ) : (
               rejectLabel
@@ -2300,7 +2301,7 @@ function ConfirmationActionRow({
               {working === "reject" ? (
                 <>
                   <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                  Sending…
+                  {t("components.issueThreadInteractionCard.sending")}
                 </>
               ) : (
                 "Send revision"
@@ -2412,6 +2413,7 @@ function RequestConnectionAuthorizationCard({
     reason?: string,
   ) => Promise<void> | void;
 }) {
+  const { t } = useTranslation();
   const [working, setWorking] = useState(false);
   const [actionError, setActionError] = useState<string | null>(null);
   const resolutionErrorMessage = useResolutionErrorMessage();
@@ -2485,7 +2487,7 @@ function RequestConnectionAuthorizationCard({
                 {working ? (
                   <>
                     <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                    Saving…
+                    {t("components.issueThreadInteractionCard.saving")}
                   </>
                 ) : (
                   "Not now"
@@ -2593,6 +2595,7 @@ function RequestConfirmationCard({
   onUploadImage?: (file: File) => Promise<string>;
   externalReferences?: MarkdownExternalReferenceMap;
 }) {
+  const { t } = useTranslation();
   const [working, setWorking] = useState<"accept" | "reject" | null>(null);
   const [actionError, setActionError] = useState<string | null>(null);
   const resolutionErrorMessage = useResolutionErrorMessage();
@@ -2760,12 +2763,12 @@ function RequestConfirmationCard({
                   {uploading ? (
                     <>
                       <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
-                      Uploading...
+                      {t("components.issueThreadInteractionCard.uploading")}
                     </>
                   ) : (
                     <>
                       <ImagePlus className="mr-2 h-3.5 w-3.5" />
-                      Attach screenshots
+                      {t("components.issueThreadInteractionCard.attachScreenshots")}
                     </>
                   )}
                 </Button>
@@ -3554,7 +3557,7 @@ function RequestItemVerdictsCard({
                 onClick={handleApproveAll}
               >
                 <ThumbsUp className="h-4 w-4" aria-hidden />
-                Approve all
+                {t("components.issueThreadInteractionCard.approveAll")}
               </Button>
             ) : null}
             <Button
@@ -3568,7 +3571,7 @@ function RequestItemVerdictsCard({
               {working ? (
                 <>
                   <Loader2 className="h-4 w-4 motion-safe:animate-spin" aria-hidden />
-                  Applying…
+                  {t("components.issueThreadInteractionCard.applying")}
                 </>
               ) : (
                 applyLabel
@@ -3590,6 +3593,7 @@ function VerdictProgressBadge({
   progress: ReturnType<typeof getItemVerdictProgress>;
   pendingReason: boolean;
 }) {
+  const { t } = useTranslation();
   const pct = progress.total > 0 ? Math.round((progress.decided / progress.total) * 100) : 0;
   return (
     <div className="flex items-center gap-2">
@@ -3597,7 +3601,7 @@ function VerdictProgressBadge({
       {pendingReason ? (
         <span className="inline-flex items-center gap-1 rounded-sm border border-amber-500/60 bg-amber-500/10 px-1.5 py-0.5 text-(length:--text-nano) font-semibold uppercase tracking-(--tracking-eyebrow) text-amber-900 dark:text-amber-100">
           <AlertTriangle className="h-3 w-3" aria-hidden />
-          Reason needed
+          {t("components.issueThreadInteractionCard.reasonNeeded")}
         </span>
       ) : null}
       <div
@@ -4018,7 +4022,7 @@ function ResolvedByAgentChip() {
           data-testid="interaction-resolved-by-agent-chip"
         >
           <Bot className="h-3 w-3" />
-          Agent
+          {t("components.issueThreadInteractionCard.agent")}
         </Badge>
       </TooltipTrigger>
       <TooltipContent side="bottom" className="max-w-xs text-xs">

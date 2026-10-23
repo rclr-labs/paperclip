@@ -307,7 +307,7 @@ export function IssueShareSheet({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            Who can access this task
+            {t("components.issueShareSheet.whoCanAccessThisTask")}
           </DialogTitle>
           <DialogDescription>{aclDescription}</DialogDescription>
         </DialogHeader>
@@ -333,10 +333,10 @@ export function IssueShareSheet({
               >
                 <span className="flex items-center gap-1.5">
                   <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  Couldn't load access.
+                  {t("components.issueShareSheet.couldnTLoadAccess")}
                 </span>
                 <Button variant="ghost" size="sm" onClick={() => grantsQuery.refetch()}>
-                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> Retry
+                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.retry")}
                 </Button>
               </div>
             ) : isEmpty ? (
@@ -414,7 +414,7 @@ export function IssueShareSheet({
                   onClick={() => setView("add")}
                   disabled={isLoading}
                 >
-                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add someone
+                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.addSomeone")}
                 </Button>
               </div>
             ) : null}

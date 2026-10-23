@@ -318,7 +318,7 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
                 {onSnooze && <SnoozeSubmenu onSnooze={(iso) => onSnooze(item, iso)} />}
                 <DropdownMenuItem onClick={() => onDismiss(item)}>
                   <X className="h-4 w-4" />
-                  Dismiss
+                  {t("components.attentionQueueRow.dismiss")}
                 </DropdownMenuItem>
                 {href && (
                   <>
@@ -615,6 +615,7 @@ function ThumbnailStack({ images }: { images: AttentionDetailImage[] }) {
  * links through to the issue where the full set lives.
  */
 function ExpandedImages({ images, issueHref }: { images: AttentionDetailImage[]; issueHref: string | null }) {
+  const { t } = useTranslation();
   const visible = images.slice(0, 3);
   const extra = images.length - visible.length;
   return (
@@ -661,7 +662,7 @@ function ExpandedImages({ images, issueHref }: { images: AttentionDetailImage[];
         >
           <span className="text-base font-semibold">{extra} more</span>
           <span className="mt-0.5 inline-flex items-center gap-1 text-(length:--text-nano)">
-            View issue
+            {t("components.attentionQueueRow.viewIssue")}
             <ExternalLink className="h-3 w-3" />
           </span>
         </Link>
@@ -688,7 +689,7 @@ function SnoozeSubmenu({ onSnooze }: { onSnooze: (snoozedUntil: string) => void 
     <DropdownMenuSub>
       <DropdownMenuSubTrigger>
         <AlarmClock className="h-4 w-4" />
-        Snooze
+        {t("components.attentionQueueRow.snooze")}
       </DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
         {SNOOZE_PRESETS.map((preset) => (

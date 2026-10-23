@@ -109,7 +109,7 @@ export function TaskBrowserFooter({
             className="size-3 animate-spin motion-reduce:animate-none"
             aria-hidden="true"
           />
-          Resizing…
+          {t("components.tasksidepanel.taskBrowserFooter.resizing")}
         </span>
       ) : (
         browser.status === "running" && <span>{t("components.tasksidepanel.taskBrowserFooter.browsing")}</span>
@@ -142,7 +142,7 @@ export function TaskBrowserFooter({
                 disabled={disabled}
                 onClick={() => onControl("cancel")}
               >
-                <Square aria-hidden="true" /> Stop browsing
+                <Square aria-hidden="true" /> {t("components.tasksidepanel.taskBrowserFooter.stopBrowsing")}
               </Button>
             </TooltipTrigger>
             <TooltipContent>

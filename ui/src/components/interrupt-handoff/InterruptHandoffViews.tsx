@@ -325,7 +325,7 @@ export function PauseAffectsSummaryView({
     >
       <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
         <PauseCircle className="h-3.5 w-3.5" aria-hidden />
-        What this affects
+        {t("components.interrupthandoff.interruptHandoffViews.whatThisAffects")}
       </div>
       {summary.nothingLive ? (
         <p role="status" className="text-xs text-muted-foreground" data-testid="pause-nothing-live">

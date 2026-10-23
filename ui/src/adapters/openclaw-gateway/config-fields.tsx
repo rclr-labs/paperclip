@@ -427,7 +427,7 @@ export function OpenClawGatewayConfigFields({
                 : mark("adapterConfig", "disableDeviceAuth", e.target.checked || undefined)
             }
           />
-          Skip device key authentication
+          {t("adapters.openclawgateway.configfields.skipDeviceKeyAuthentication")}
         </label>
       </Field>
 
@@ -446,7 +446,7 @@ export function OpenClawGatewayConfigFields({
                 : mark("adapterConfig", "autoPairOnFirstConnect", e.target.checked)
             }
           />
-          Automatically approve device pairing
+          {t("adapters.openclawgateway.configfields.automaticallyApproveDevicePairing")}
         </label>
       </Field>
 

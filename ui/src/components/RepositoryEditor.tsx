@@ -57,7 +57,7 @@ export function RepositoryEditor({ selected, onChange, state = "ready", availabl
             <div className="flex flex-col gap-3">
               <GithubIcon className="size-5" />
               <div className="flex flex-col gap-1"><p className="text-sm font-medium">{t("components.repositoryEditor.connectGithubToPickARepo")}</p><p className="text-xs text-muted-foreground">{t("components.repositoryEditor.chooseFromReposYouCanAccess")}</p></div>
-              <Button type="button" onClick={onConnect}><GithubIcon className="size-4" />Connect GitHub</Button>
+              <Button type="button" onClick={onConnect}><GithubIcon className="size-4" />{t("components.repositoryEditor.connectGithub")}</Button>
             </div>
           </PopoverContent>
         </Popover>

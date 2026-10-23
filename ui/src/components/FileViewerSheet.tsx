@@ -786,7 +786,7 @@ export function FileViewerSheet({
                   aria-label={t("components.fileViewerSheet.backToFiles")}
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  Back to files
+                  {t("components.fileViewerSheet.backToFiles")}
                 </Button>
               ) : null}
               {contentQuery.data?.resource.previewKind === "text" && contentQuery.data.content.encoding === "utf8"
@@ -998,7 +998,7 @@ export function FileViewerBody({
                 </Button>
               ) : null}
               <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
               </Button>
             </>
           }
@@ -1022,7 +1022,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
           </Button>
         }
       />
@@ -1061,7 +1061,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
           </Button>
         }
       />

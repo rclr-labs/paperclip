@@ -111,7 +111,7 @@ export function SkillsToolbar({ viewTitle, viewDescription, searchLabel, search,
       {onCreateFolder ? (
         <Button variant="outline" size="sm" onClick={onCreateFolder}>
           <Plus className="mr-1 h-3.5 w-3.5" />
-          New folder
+          {t("components.skillstudio.skillsToolbar.newFolder")}
         </Button>
       ) : null}
       {onToggleSelectMode ? (
@@ -123,28 +123,28 @@ export function SkillsToolbar({ viewTitle, viewDescription, searchLabel, search,
         <DropdownMenuTrigger asChild>
           <Button size="sm" variant="default" data-toolbar-primary>
             <Plus className="mr-1 h-3.5 w-3.5" />
-            New
+            {t("components.skillstudio.skillsToolbar.new")}
             <ChevronDown className="ml-1 h-3.5 w-3.5" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={onCreate}>
             <Pencil className="mr-2 h-4 w-4" />
-            Create new skill
+            {t("components.skillstudio.skillsToolbar.createNewSkill")}
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={onBrowseDiscover}>
             <Compass className="mr-2 h-4 w-4" />
-            Discover skills
+            {t("components.skillstudio.skillsToolbar.discoverSkills")}
           </DropdownMenuItem>
-          <DropdownMenuItem asChild><Link to="/skills/sources/new"><GithubIcon className="mr-2 h-4 w-4" />Import from GitHub</Link></DropdownMenuItem>
+          <DropdownMenuItem asChild><Link to="/skills/sources/new"><GithubIcon className="mr-2 h-4 w-4" />{t("components.skillstudio.skillsToolbar.importFromGithub")}</Link></DropdownMenuItem>
           <DropdownMenuItem asChild><Link to="/skills/sources">{t("components.skillstudio.skillsToolbar.manageSources")}</Link></DropdownMenuItem>
           <DropdownMenuItem onSelect={onImport}>
             <Globe className="mr-2 h-4 w-4" />
-            Import from path or URL
+            {t("components.skillstudio.skillsToolbar.importFromPathOrUrl")}
           </DropdownMenuItem>
           <DropdownMenuItem onSelect={onImportFromProject}>
             <FolderSearch className="mr-2 h-4 w-4" />
-            Import skills from project
+            {t("components.skillstudio.skillsToolbar.importSkillsFromProject")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

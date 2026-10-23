@@ -348,7 +348,7 @@ export function StatusCardDetailDrawer({
                       className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground underline-offset-2 hover:underline"
                     >
                       <ExternalLink className="h-3.5 w-3.5" />
-                      View setup task
+                      {t("pages.statusCards.statusCardDetailDrawer.viewSetupTask")}
                     </Link>
                   ) : null}
                 </div>
@@ -378,7 +378,7 @@ export function StatusCardDetailDrawer({
                   every recorded update (each update is one summary revision). */}
               {updatesQuery.isLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Loading history…
+                  <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.statusCardDetailDrawer.loadingHistory")}
                 </div>
               ) : updates.length === 0 ? (
                 <p className="text-sm text-muted-foreground">{t("pages.statusCards.statusCardDetailDrawer.noUpdatesRecordedYet")}</p>
@@ -424,7 +424,7 @@ export function StatusCardDetailDrawer({
                 </div>
               ) : dryRunQuery.isLoading ? (
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" /> Matching issues…
+                  <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.statusCardDetailDrawer.matchingIssues")}
                 </div>
               ) : dryRunQuery.isError ? (
                 <InlineBanner tone="danger" title="Could not load matched issues">

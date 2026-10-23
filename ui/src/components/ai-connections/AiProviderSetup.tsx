@@ -327,7 +327,7 @@ export function AiProviderSetup({
           {(provider === "gateway" || provider === "local") && (
             <>
               <label className="block space-y-2 text-xs text-muted-foreground">
-                Provider URL
+                {t("components.aiconnections.aiProviderSetup.providerUrl")}
                 <Input
                   aria-label={t("components.aiconnections.aiProviderSetup.providerUrl")}
                   placeholder={
@@ -371,7 +371,7 @@ export function AiProviderSetup({
           )}
           {provider === "bedrock" && (
             <label className="block space-y-2 text-xs text-muted-foreground">
-              AWS region
+              {t("components.aiconnections.aiProviderSetup.awsRegion")}
               <Input
                 aria-label={t("components.aiconnections.aiProviderSetup.awsRegion")}
                 value={region}
@@ -414,7 +414,7 @@ export function AiProviderSetup({
           {
             auth !== "none" && (
               <label className="block space-y-2 text-xs text-muted-foreground">
-                API key
+                {t("components.aiconnections.aiProviderSetup.apiKey")}
                 <Input
                   aria-label={t("components.aiconnections.aiProviderSetup.apiKey")}
                   type="password"

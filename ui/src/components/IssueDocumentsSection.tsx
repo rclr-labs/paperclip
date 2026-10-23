@@ -960,7 +960,7 @@ export function IssueDocumentsSection({
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline" size="sm" onClick={cancelDraft}>
               <X className="mr-1.5 h-3.5 w-3.5" />
-              Cancel
+              {t("components.issueDocumentsSection.cancel")}
             </Button>
             <Button
               size="sm"

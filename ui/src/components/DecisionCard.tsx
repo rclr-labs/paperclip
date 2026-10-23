@@ -335,7 +335,7 @@ export function DecisionCard({
         <div className="flex shrink-0 items-center gap-1.5">
           {open && hasCancelTree && (
             <span className={cn("inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-(length:--text-micro) font-semibold uppercase tracking-wide", BADGE.destructive)}>
-              <ShieldAlert className="h-3 w-3" aria-hidden /> Destructive
+              <ShieldAlert className="h-3 w-3" aria-hidden /> {t("components.decisionCard.destructive")}
             </span>
           )}
           <span className={cn("inline-flex items-center rounded-full border px-2 py-0.5 text-(length:--text-micro) font-semibold uppercase tracking-wide", BADGE[tone])}>
@@ -579,7 +579,7 @@ export function DecisionCard({
           {decision.status === "expired" && (
             <div className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
               <div className="flex items-center gap-2 font-medium text-foreground">
-                <Clock className="h-4 w-4" aria-hidden /> The decision window closed
+                <Clock className="h-4 w-4" aria-hidden /> {t("components.decisionCard.theDecisionWindowClosed")}
               </div>
               <p className="mt-1">
                 {expiredReason === "target_gone"

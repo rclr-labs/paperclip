@@ -30,7 +30,7 @@ export function DesignSidebar({ onNewTask, recentTasks = [] }: { onNewTask: () =
         </div>
         <nav className="design-sidebar-navigation" aria-label={t("components.designSidebar.mainNavigation")}>
           <div className="design-sidebar-primary">
-            <Button variant="ghost" className="design-sidebar-new-task" onClick={onNewTask}><CirclePlus aria-hidden />New Task</Button>
+            <Button variant="ghost" className="design-sidebar-new-task" onClick={onNewTask}><CirclePlus aria-hidden />{t("components.designSidebar.newTask")}</Button>
             <SidebarNavItem className="design-sidebar-item" to={`${root}/dashboard`} label="Dashboard" icon={LayoutDashboard} />
             <SidebarNavItem className="design-sidebar-item" to={`${root}/chats`} label="Chat" icon={MessageCircle} />
           </div>

@@ -140,7 +140,7 @@ export function ActionTestDialog({
         {testAgentsQuery.isLoading ? (
           <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Loading agents…
+            {t("pages.apps.appdetail.actionTestDialog.loadingAgents")}
           </div>
         ) : testAgentsQuery.isError ? (
           <TestLoadError
@@ -157,7 +157,7 @@ export function ActionTestDialog({
         ) : !selectedAgent ? (
           <div className="flex items-center gap-2 py-6 text-sm text-muted-foreground" role="status">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Loading agent permissions…
+            {t("pages.apps.appdetail.actionTestDialog.loadingAgentPermissions")}
           </div>
         ) : (
           <div className="space-y-5">
@@ -554,7 +554,7 @@ function ActionTester({
         <Button onClick={onRun} disabled={running || !!outcome?.result.upstreamPending?.resumeTool || outcome?.result.decision === "ask_first"} size="sm">
           {running ? (
             <>
-              <Loader2 className="h-3.5 w-3.5 animate-spin" /> Running…
+              <Loader2 className="h-3.5 w-3.5 animate-spin" /> {t("pages.apps.appdetail.actionTestDialog.running")}
             </>
           ) : (
             <>

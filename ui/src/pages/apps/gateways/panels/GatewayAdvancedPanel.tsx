@@ -90,7 +90,7 @@ export function GatewayAdvancedPanel({
           </code>
           <Button variant="outline" size="sm" onClick={() => void copy(endpoint, "Endpoint URL")}>
             <Copy className="mr-1 h-3.5 w-3.5" />
-            Copy
+            {t("pages.apps.gateways.panels.gatewayAdvancedPanel.copy")}
           </Button>
         </div>
       </section>
@@ -100,7 +100,7 @@ export function GatewayAdvancedPanel({
           <h3 className="text-sm font-semibold text-foreground">{t("pages.apps.gateways.panels.gatewayAdvancedPanel.rawConfiguration")}</h3>
           <Button variant="outline" size="sm" onClick={() => void copy(rawConfig, "Gateway config JSON")}>
             <Copy className="mr-1 h-3.5 w-3.5" />
-            Copy JSON
+            {t("pages.apps.gateways.panels.gatewayAdvancedPanel.copyJson")}
           </Button>
         </div>
         <pre className="max-h-96 overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-3 font-mono text-xs text-muted-foreground">

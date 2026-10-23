@@ -186,23 +186,23 @@ export function ProfileDetail({
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" disabled={archived} onClick={() => setDialog("edit")}>
               <Pencil className="mr-1.5 h-4 w-4" />
-              Edit
+              {t("pages.tools.profiles.profileDetail.edit")}
             </Button>
             <Button variant="outline" disabled={archived} onClick={() => setDialog("duplicate")}>
               <Copy className="mr-1.5 h-4 w-4" />
-              Duplicate
+              {t("pages.tools.profiles.profileDetail.duplicate")}
             </Button>
             {archived ? (
               <Button variant="outline" onClick={() => setDialog("restore")}>
                 <ArchiveRestore className="mr-1.5 h-4 w-4" />
-                Restore
+                {t("pages.tools.profiles.profileDetail.restore")}
               </Button>
             ) : (
               <Button variant="outline" onClick={() => setDialog("archive")}>{t("pages.tools.profiles.profileDetail.archive")}</Button>
             )}
             <Button variant="outline" className="text-destructive hover:text-destructive" onClick={() => setDialog("delete")}>
               <Trash2 className="mr-1.5 h-4 w-4" />
-              Delete
+              {t("pages.tools.profiles.profileDetail.delete")}
             </Button>
           </div>
         }
@@ -210,7 +210,7 @@ export function ProfileDetail({
 
       <div className="flex flex-wrap items-center gap-3 text-sm">
         <Badge variant={archived ? "outline" : "default"}>{STATUS_LABEL[profile.status]}</Badge>
-        <span className="text-muted-foreground">Updated <RelativeTime value={profile.updatedAt} /></span>
+        <span className="text-muted-foreground">{t("pages.tools.profiles.profileDetail.updated")} <RelativeTime value={profile.updatedAt} /></span>
         <span className="text-muted-foreground">{allowsLabel(profile.summary)}</span>
       </div>
 
@@ -285,7 +285,7 @@ export function ProfileDetail({
 
       <Button variant="link" className="h-auto px-0" onClick={() => navigate("/apps/advanced/profiles?check=1")}>
         <ShieldCheck className="mr-1.5 h-4 w-4" />
-        Check what an agent can actually do
+        {t("pages.tools.profiles.profileDetail.checkWhatAnAgentCanActually")}
       </Button>
 
       <ProfileDialogs
@@ -693,7 +693,7 @@ function ProfileDialogs({
             </div>
             <label className="flex items-center gap-2 text-sm">
               <input type="checkbox" checked={copyAssignments} onChange={(e) => setCopyAssignments(e.target.checked)} />
-              Also copy assignments?
+              {t("pages.tools.profiles.profileDetail.alsoCopyAssignments")}
             </label>
           </div>
           <DialogFooter>

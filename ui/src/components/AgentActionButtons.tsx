@@ -373,7 +373,7 @@ export function AgentActionButtons({
           title={t("components.agentActionButtons.exactProviderTrafficWillBeCaptured")}
         >
           <Bug className="h-3.5 w-3.5" />
-          Raw tracing on
+          {t("components.agentActionButtons.rawTracingOn")}
         </span>
       ) : null}
       <Button
@@ -469,7 +469,7 @@ export function AgentActionButtons({
             }}
           >
             <Copy className="h-3 w-3" />
-            Copy Agent ID
+            {t("components.agentActionButtons.copyAgentId")}
           </button>
           <button
             className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
@@ -479,7 +479,7 @@ export function AgentActionButtons({
             }}
           >
             <RotateCcw className="h-3 w-3" />
-            Reset Sessions
+            {t("components.agentActionButtons.resetSessions")}
           </button>
           {!hideTerminate && (
             <button
@@ -491,7 +491,7 @@ export function AgentActionButtons({
               }}
             >
               <Trash2 className="h-3 w-3" />
-              Terminate
+              {t("components.agentActionButtons.terminate")}
             </button>
           )}
         </PopoverContent>

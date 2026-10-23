@@ -62,10 +62,11 @@ function formatActivationTimestamp(iso: string): string {
 const SHOW_CONFERENCE_ROOM_EXPERIMENTAL_SETTING = false;
 
 function ManagedByCloudBadge() {
+  const { t } = useTranslation();
   return (
     <Badge variant="outline" className="text-muted-foreground">
       <Lock aria-hidden="true" />
-      Managed by Paperclip Cloud
+      {t("pages.instanceExperimentalSettings.managedByPaperclipCloud")}
     </Badge>
   );
 }

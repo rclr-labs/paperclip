@@ -983,6 +983,7 @@ function IssueDetailLoadingState({
 }: {
   headerSeed: ReturnType<typeof readIssueDetailHeaderSeed>;
 }) {
+  const { t } = useTranslation();
   const identifier =
     headerSeed?.identifier ?? headerSeed?.id.slice(0, 8) ?? null;
   const { taskChatShellEnabled } = useTaskDetailInterfaceMode();
@@ -1022,7 +1023,7 @@ function IssueDetailLoadingState({
                   title={`Routine execution from routine ${headerSeed.originId}`}
                 >
                   <Repeat className="h-3 w-3" />
-                  Routine
+                  {t("pages.issueDetail.routine")}
                 </Badge>
               ) : null}
               {/* Seeded header — same anatomy as the resolved one below, so the
@@ -1037,7 +1038,7 @@ function IssueDetailLoadingState({
               ) : (
                 <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
                   <ProjectTile size="xs" />
-                  No project
+                  {t("pages.issueDetail.noProject")}
                 </span>
               )}
             </>
@@ -1171,7 +1172,7 @@ function InboxMobileToolbar({
               }}
             >
               <Copy className="h-3 w-3" />
-              Copy as markdown
+              {t("pages.issueDetail.copyAsMarkdown")}
             </button>
             <button
               className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
@@ -1181,7 +1182,7 @@ function InboxMobileToolbar({
               }}
             >
               <SlidersHorizontal className="h-3 w-3" />
-              Properties
+              {t("pages.issueDetail.properties")}
             </button>
             {issueIdProp && (
               <button
@@ -1192,7 +1193,7 @@ function InboxMobileToolbar({
                 }}
               >
                 <EyeOff className="h-3 w-3" />
-                Hide this task
+                {t("pages.issueDetail.hideThisTask")}
               </button>
             )}
           </PopoverContent>
@@ -7330,7 +7331,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500" />
             </span>
-            Live
+            {t("pages.issueDetail.live")}
           </Badge>
         )}
 
@@ -7341,7 +7342,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title={`Routine execution from routine ${issue.originId}`}
           >
             <Repeat className="h-3 w-3" />
-            Routine
+            {t("pages.issueDetail.routine")}
           </Link>
         )}
 
@@ -7352,7 +7353,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title="This task is a generated watchdog task. It verifies whether stopped work in the watched task tree is legitimate."
           >
             <ScanEye className="h-3 w-3" />
-            Watchdog
+            {t("pages.issueDetail.watchdog")}
           </Badge>
         ) : null}
 
@@ -7389,7 +7390,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
             title="Blocked by parked work — at least one assigned blocker is in backlog and will not wake its assignee."
           >
             <Flag className="h-3 w-3" />
-            Blocked by parked work
+            {t("pages.issueDetail.blockedByParkedWork")}
           </Badge>
         ) : null}
 
@@ -7418,7 +7419,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
         ) : (
           <span className="inline-flex items-center gap-1 text-xs text-muted-foreground opacity-50 px-1 -mx-1 py-0.5">
             <ProjectTile size="xs" />
-            No project
+            {t("pages.issueDetail.noProject")}
           </span>
         )}
 
@@ -7837,7 +7838,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               )}
             >
               <EyeOff className="h-4 w-4 shrink-0" />
-              This task is hidden
+              {t("pages.issueDetail.thisTaskIsHidden")}
             </div>
           )}
           {treeControlWakeWarning ? (
@@ -7906,7 +7907,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                 className="shrink-0 shadow-none"
               >
                 <Plus className="mr-1.5 h-3.5 w-3.5" />
-                New Sub-task
+                {t("pages.issueDetail.newSubTask")}
               </Button>
             </div>
           )}
@@ -8092,15 +8093,15 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
               >
                 <TabsTrigger value="chat" className="gap-1.5">
                   <MessageSquare className="h-3.5 w-3.5" />
-                  Chat
+                  {t("pages.issueDetail.chat")}
                 </TabsTrigger>
                 <TabsTrigger value="activity" className="gap-1.5">
                   <ActivityIcon className="h-3.5 w-3.5" />
-                  Activity
+                  {t("pages.issueDetail.activity")}
                 </TabsTrigger>
                 <TabsTrigger value="related-work" className="gap-1.5">
                   <ListTree className="h-3.5 w-3.5" />
-                  Related work
+                  {t("pages.issueDetail.relatedWork")}
                 </TabsTrigger>
                 {issuePluginTabItems.map((item) => (
                   <TabsTrigger key={item.value} value={item.value}>

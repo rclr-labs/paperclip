@@ -23,7 +23,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground" role="status">
         <Loader2 className="size-4 animate-spin" aria-hidden />
-        Loading skill…
+        {t("components.tasksidepanel.taskSkillPanel.loadingSkill")}
       </div>
     );
   }
@@ -63,7 +63,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
             onClick={() => navigate(`/skills/studio/${encodeURIComponent(skill.id)}`)}
           >
             <ExternalLink className="mr-1.5 size-3.5" aria-hidden />
-            Open in Skill Studio
+            {t("components.tasksidepanel.taskSkillPanel.openInSkillStudio")}
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
@@ -74,7 +74,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
       <section className="space-y-2">
         <h3 className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
           <FileText className="size-3.5" aria-hidden />
-          Skill instructions
+          {t("components.tasksidepanel.taskSkillPanel.skillInstructions")}
         </h3>
         <MarkdownBody>{previewMarkdown || "Skill instructions are empty."}</MarkdownBody>
       </section>

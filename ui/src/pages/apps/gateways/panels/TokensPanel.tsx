@@ -73,7 +73,7 @@ function ExpiryValue({ token }: { token: ToolMcpGatewayToken }) {
   if (expiresAt.getTime() <= Date.now()) {
     return <><span className="font-medium text-foreground">{t("pages.apps.gateways.panels.tokensPanel.expired")}</span> <RelativeTime value={token.expiresAt} /></>;
   }
-  return <>Expires <RelativeTime value={token.expiresAt} /></>;
+  return <>{t("pages.apps.gateways.panels.tokensPanel.expires")} <RelativeTime value={token.expiresAt} /></>;
 }
 
 export function TokensPanel({
@@ -201,7 +201,7 @@ export function TokensPanel({
         </div>
         <Button size="sm" onClick={startIssuing}>
           <Plus className="mr-1.5 h-3.5 w-3.5" />
-          Issue token
+          {t("pages.apps.gateways.panels.tokensPanel.issueToken")}
         </Button>
       </div>
 
@@ -257,7 +257,7 @@ export function TokensPanel({
             {revealed ? (
               <Button variant="outline" size="sm" onClick={() => void copyToken(created.token)}>
                 <Copy className="mr-1 h-3.5 w-3.5" />
-                Copy
+                {t("pages.apps.gateways.panels.tokensPanel.copy")}
               </Button>
             ) : (
               <Button variant="outline" size="sm" onClick={() => setRevealed(true)}>{t("pages.apps.gateways.panels.tokensPanel.show")}</Button>

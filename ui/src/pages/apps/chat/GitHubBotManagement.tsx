@@ -98,13 +98,13 @@ export function GitHubRepositoryAccess({
           <DropdownMenuContent align="end">
             <DropdownMenuItem asChild>
               <a href={managementUrl} target="_blank" rel="noreferrer">
-                Manage on GitHub
+                {t("pages.apps.chat.gitHubBotManagement.manageOnGithub")}
                 <ExternalLink className="size-4" />
               </a>
             </DropdownMenuItem>
             <DropdownMenuItem disabled={pending} onClick={onRefresh}>
               <RefreshCw className="size-4" />
-              Refresh repositories
+              {t("pages.apps.chat.gitHubBotManagement.refreshRepositories")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

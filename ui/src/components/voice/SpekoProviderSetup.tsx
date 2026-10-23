@@ -41,8 +41,8 @@ export function SpekoProviderSetup({ agentName, onSaveExit, credentials, onChang
       <li>{t("components.voice.spekoProviderSetup.reviewRecordingAndRetentionSettingsIn")}</li>
     </ol>
     <Button asChild variant="outline"><a href="https://platform.speko.ai/agents" target="_blank" rel="noreferrer">{t("components.voice.spekoProviderSetup.openSpekoAgents")}</a></Button>
-    <label className="grid gap-2 text-sm font-medium">Speko agent ID<Input autoComplete="off" value={credentials.agentId ?? ""} placeholder={repairing ? "Leave blank to keep the current persona" : "agent_…"} onChange={(event) => onChange({ ...credentials, agentId: event.target.value })} /></label>
-    <label className="grid gap-2 text-sm font-medium">Speko API key<Input type="password" autoComplete="new-password" value={credentials.apiKey ?? ""} placeholder={repairing ? "Leave blank to keep the saved key" : "Paste your Speko API key"} onChange={(event) => onChange({ ...credentials, apiKey: event.target.value })} /></label>
+    <label className="grid gap-2 text-sm font-medium">{t("components.voice.spekoProviderSetup.spekoAgentId")}<Input autoComplete="off" value={credentials.agentId ?? ""} placeholder={repairing ? "Leave blank to keep the current persona" : "agent_…"} onChange={(event) => onChange({ ...credentials, agentId: event.target.value })} /></label>
+    <label className="grid gap-2 text-sm font-medium">{t("components.voice.spekoProviderSetup.spekoApiKey")}<Input type="password" autoComplete="new-password" value={credentials.apiKey ?? ""} placeholder={repairing ? "Leave blank to keep the saved key" : "Paste your Speko API key"} onChange={(event) => onChange({ ...credentials, apiKey: event.target.value })} /></label>
     {!reachable && <p role="alert" className="text-sm text-destructive">{t("components.voice.spekoProviderSetup.configureAPublicHttpsCallbackOrigin")}</p>}
     {reachable && <p className="break-all text-xs text-muted-foreground">Callback: {callbackUrl}</p>}
     <p className="text-sm text-muted-foreground">{t("components.voice.spekoProviderSetup.credentialsAndAGeneratedCallbackSigning")}</p>

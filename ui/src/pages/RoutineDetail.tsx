@@ -851,7 +851,7 @@ export function RoutineDetail() {
                 onClick={() => navigate(routineDetailHref(routine.id, "history"))}
               >
                 <History className="h-3.5 w-3.5" />
-                History
+                {t("pages.routineDetail.history")}
               </Button>
             )}
             {section === "overview" ? (
@@ -865,12 +865,12 @@ export function RoutineDetail() {
                   }}
                 >
                   <X className="h-3.5 w-3.5" />
-                  Cancel editing
+                  {t("pages.routineDetail.cancelEditing")}
                 </Button>
               ) : (
                 <Button variant="outline" size="sm" onClick={() => setOverviewEditing(true)}>
                   <Pencil className="h-3.5 w-3.5" />
-                  Edit routine
+                  {t("pages.routineDetail.editRoutine")}
                 </Button>
               )
             ) : null}

@@ -303,7 +303,7 @@ export function ChatEndpointDetail() {
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        Loading connection…
+        {t("pages.apps.chat.chatEndpointDetail.loadingConnection")}
       </div>
     );
   if (endpointQuery.isError || !endpoint)
@@ -351,15 +351,15 @@ export function ChatEndpointDetail() {
               <Button variant="ghost" size="sm" aria-label={t("pages.apps.chat.chatEndpointDetail.copyDedicatedNumber")} onClick={async () => {
                 try { await copyTextToClipboard(endpoint.botExternalId!); setCopyStatus("Number copied"); }
                 catch { setCopyStatus("Could not copy the number. Select and copy it manually."); }
-              }}><Copy className="size-4" />Copy number</Button>
+              }}><Copy className="size-4" />{t("pages.apps.chat.chatEndpointDetail.copyNumber")}</Button>
               <span role="status" className="text-muted-foreground">{copyStatus}</span>
             </div>
           )}
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {endpoint.provider === "speko" && <a href="https://platform.speko.ai/agents" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline">Open Speko<ExternalLink className="size-3.5" aria-hidden="true" /></a>}
-          {slackUrl && <Button asChild variant="outline"><a href={slackUrl} target="_blank" rel="noopener noreferrer">Open Slack configuration <ExternalLink className="size-4" /></a></Button>}
+          {endpoint.provider === "speko" && <a href="https://platform.speko.ai/agents" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-sm text-primary underline">{t("pages.apps.chat.chatEndpointDetail.openSpeko")}<ExternalLink className="size-3.5" aria-hidden="true" /></a>}
+          {slackUrl && <Button asChild variant="outline"><a href={slackUrl} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatEndpointDetail.openSlackConfiguration")} <ExternalLink className="size-4" /></a></Button>}
           {setupIncomplete ? (
             <Button
               variant="outline"
@@ -787,7 +787,7 @@ function Access({
             }}
           >
             <Copy />
-            Copy link
+            {t("pages.apps.chat.chatEndpointDetail.copyLink")}
           </Button>
         </div>
       )}
@@ -1173,7 +1173,7 @@ function Activity({
               onClick={() => setRemoveOpen(true)}
             >
               <Trash2 />
-              Remove connection
+              {t("pages.apps.chat.chatEndpointDetail.removeConnection")}
             </Button>
           </div>
           {status !== "draft" && status !== "verifying" && (
@@ -1200,7 +1200,7 @@ function Activity({
           {(query.isLoading || calls.loading) && (
             <div className="flex items-center gap-2 py-5 text-sm text-muted-foreground">
               <Loader2 className="h-4 w-4 animate-spin" />
-              Loading activity…
+              {t("pages.apps.chat.chatEndpointDetail.loadingActivity")}
             </div>
           )}
           {query.isError && (

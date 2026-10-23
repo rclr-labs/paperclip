@@ -249,7 +249,7 @@ export function DecisionTriageStrip({ item, companyId, agents }: DecisionTriageS
             <DropdownMenuTrigger asChild>
               <Button type="button" variant="outline" size="xs" className="h-7 gap-1" disabled={pending}>
                 <AlarmClock className="h-3.5 w-3.5" />
-                Snooze
+                {t("components.decisionTriageStrip.snooze")}
                 <ChevronDown className="h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -351,7 +351,7 @@ function QueuePicker({
       <PopoverTrigger asChild>
         <Button type="button" variant="outline" size="xs" className="h-7 gap-1" disabled={disabled}>
           <Plus className="h-3.5 w-3.5" />
-          Queue
+          {t("components.decisionTriageStrip.queue")}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="w-56 p-1">
@@ -408,7 +408,7 @@ function QueuePicker({
               onClick={() => setCreating(true)}
             >
               <Plus className="h-3.5 w-3.5" />
-              New queue…
+              {t("components.decisionTriageStrip.newQueue")}
             </button>
           </div>
         )}
@@ -438,6 +438,7 @@ function AskAgentPicker({
   disabledReason?: string;
   onRoute: (agent: Agent) => void;
 }) {
+  const { t } = useTranslation();
   const active = agents.filter((agent) => agent.status !== "terminated");
   return (
     <DropdownMenu>
@@ -451,7 +452,7 @@ function AskAgentPicker({
           title={disabledReason}
         >
           <UserPlus className="h-3.5 w-3.5" />
-          Ask agent for recommendation
+          {t("components.decisionTriageStrip.askAgentForRecommendation")}
           <ChevronDown className="h-3 w-3" />
         </Button>
       </DropdownMenuTrigger>

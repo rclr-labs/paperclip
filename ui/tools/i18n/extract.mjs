@@ -41,6 +41,7 @@ const parser = loadParser();
 
 import { isTranslatable } from "./translatable.mjs";
 import { isExcludedFile } from "./excluded.mjs";
+import { classifyTextNode } from "./composite.mjs";
 
 /** Attributes that are DOM passthroughs on any element. */
 const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
@@ -152,18 +153,11 @@ function collect(file) {
     if (node.type === "JSXText") {
       if (!isTranslatable(normalizeJsxText(node.value))) return;
       const parent = ancestors[ancestors.length - 1];
-      // A composite sentence needs <Trans>, not fragment keys. Text is split
-      // by nested ELEMENTS as much as by expressions: `<p>Use the <code>x</code>
-      // now</p>` yields "Use the " and " now", and translating those apart
-      // produces nonsense in any language that reorders the clause. So the text
-      // must be the element's only content.
-      const hasSiblingContent = parent?.children?.some(
-        (c) =>
-          c !== node &&
-          (c.type === "JSXExpressionContainer" || c.type === "JSXElement" || c.type === "JSXFragment" ||
-            (c.type === "JSXText" && c.value.trim().length > 0)),
-      );
-      if (hasSiblingContent) {
+      // composite.mjs decides whether this text stands alone or is part of a
+      // sentence split across siblings. An icon beside a label is fine; a
+      // second text run, an expression, or a sibling that carries its own text
+      // means the clause cannot be keyed in pieces.
+      if (classifyTextNode(parent, node) === "split") {
         stats.needsTrans++;
         return;
       }

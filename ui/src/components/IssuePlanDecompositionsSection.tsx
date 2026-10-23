@@ -15,18 +15,19 @@ interface IssuePlanDecompositionsSectionProps {
 }
 
 function StatusBadge({ status }: { status: AcceptedPlanDecompositionSummary["status"] }) {
+  const { t } = useTranslation();
   if (status === "completed") {
     return (
       <span className="inline-flex items-center gap-1 rounded-sm border border-emerald-500/50 bg-emerald-500/10 px-2 py-0.5 text-(length:--text-micro) font-medium text-emerald-900 dark:text-emerald-100">
         <CheckCircle2 className="h-3 w-3" />
-        Completed
+        {t("components.issuePlanDecompositionsSection.completed")}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1 rounded-sm border border-amber-500/50 bg-amber-500/10 px-2 py-0.5 text-(length:--text-micro) font-medium text-amber-900 dark:text-amber-100">
       <Loader2 className="h-3 w-3 animate-spin" />
-      In flight
+      {t("components.issuePlanDecompositionsSection.inFlight")}
     </span>
   );
 }

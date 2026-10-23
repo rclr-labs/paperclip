@@ -63,7 +63,7 @@ function ComposioAccountObservations({ app, connection, onClose }: { app: Aggreg
     </div>
     <DialogFooter className="sm:items-center sm:justify-between"><Button variant="ghost" onClick={onClose}>{t("pages.apps.composioAppManager.close")}</Button>
       <div className="flex items-center gap-2"><Button variant="ghost" disabled={busy} onClick={() => void refresh()}>{busy ? "Checking…" : "Refresh"}</Button>
-        <Button asChild><a href={COMPOSIO_APP_MANAGEMENT_URL} target="_blank" rel="noopener noreferrer">Open in Composio<ExternalLink className="size-4" /></a></Button></div>
+        <Button asChild><a href={COMPOSIO_APP_MANAGEMENT_URL} target="_blank" rel="noopener noreferrer">{t("pages.apps.composioAppManager.openInComposio")}<ExternalLink className="size-4" /></a></Button></div>
     </DialogFooter>
   </>;
 }

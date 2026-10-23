@@ -80,7 +80,7 @@ function SubscriptionConnectionStep({ companyId, provider, initialMethod, fixedM
   const error = environmentError ?? [envs, caps, settings, experimental, general].find((query) => query.error)?.error?.message;
   const intent: AiConnectionLoginIntent = { provider: provider as AiConnectionLoginIntent["provider"], method: "subscription", name, ownership, agentIds, allAgents, connectionId };
   return <div className="mx-auto w-full min-w-0 max-w-xl space-y-6">
-    {!hideName && <label className="block space-y-2 text-sm">Connection name<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
+    {!hideName && <label className="block space-y-2 text-sm">{t("components.aiconnections.aiConnectionCredentialStep.connectionName")}<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
     {!suppliedEnvironmentId && !forced.forced && loginEnvironments.length > 1 && <Select value={environmentId ?? ""} onValueChange={setChosenEnvironment}>
       <SelectTrigger aria-label={t("components.aiconnections.aiConnectionCredentialStep.signInEnvironment")}><SelectValue placeholder={t("components.aiconnections.aiConnectionCredentialStep.signInEnvironment")} /></SelectTrigger>
       <SelectContent>{loginEnvironments.map((env) => <SelectItem key={env.id} value={env.id}>{env.name}</SelectItem>)}</SelectContent>
@@ -120,7 +120,7 @@ function ApiKeyConnectionStep({ companyId, provider, connectionId, name: initial
     onSettled: () => setApiKey(""),
   });
   return <div className="mx-auto w-full min-w-0 max-w-xl space-y-4">
-    {!hideName && <label className="block space-y-2 text-sm">Connection name<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
+    {!hideName && <label className="block space-y-2 text-sm">{t("components.aiconnections.aiConnectionCredentialStep.connectionName")}<Input value={name} onChange={(event) => setName(event.target.value)} disabled={Boolean(connectionId)} /></label>}
     {save.error && <p role="alert" className="text-sm text-destructive">{save.error.message}</p>}
     {copilot && <p className="text-sm text-muted-foreground">Use a personal fine-grained token with Copilot Requests permission. <a className="underline" href="https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli" target="_blank" rel="noreferrer">{t("components.aiconnections.aiConnectionCredentialStep.githubTokenInstructions")}</a>. Verification discovers models in the selected environment and sends no model prompt. Repository access uses a separate connection.</p>}
     {copilot && !suppliedEnvironmentId && <Select value={environmentId ?? ""} onValueChange={setChosenEnvironment} disabled={preparing || save.isPending}>

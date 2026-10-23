@@ -742,7 +742,7 @@ export function TeamDetailPane({
               <ProvenanceBadge team={team} />
               {isInstalled && !outOfDate && (
                 <Badge variant="secondary" className="gap-1 text-(length:--text-nano)">
-                  <CheckCircle2 className="h-3 w-3" /> Installed
+                  <CheckCircle2 className="h-3 w-3" /> {t("pages.teamCatalog.installed")}
                 </Badge>
               )}
               {outOfDate && (
@@ -750,7 +750,7 @@ export function TeamDetailPane({
                   variant="outline"
                   className="gap-1 border-amber-500/40 bg-amber-500/10 text-(length:--text-nano) text-amber-600 dark:text-amber-300"
                 >
-                  <ChevronUp className="h-3 w-3" /> Update available
+                  <ChevronUp className="h-3 w-3" /> {t("pages.teamCatalog.updateAvailable")}
                 </Badge>
               )}
             </div>
@@ -1418,7 +1418,7 @@ export function TeamInstallerDialog({
             needsScriptsConfirm && confirmScripts ? (
               <Button variant="destructive" onClick={submitInstall} disabled={installBlocked || previewMutation.isPending}>
                 <AlertTriangle className="h-4 w-4" />
-                Confirm — install with executables
+                {t("pages.teamCatalog.confirmInstallWithExecutables")}
               </Button>
             ) : (
               <Button onClick={submitInstall} disabled={installBlocked || previewMutation.isPending || !previewResult}>
@@ -1546,7 +1546,7 @@ export function StepTargetManager({
             checked={fullCompany}
             onChange={(e) => onToggleFullCompany(e.target.checked)}
           />
-          Use this team as a full-organization package (no target manager)
+          {t("pages.teamCatalog.useThisTeamAsAFull")}
         </label>
       )}
     </div>
@@ -1810,7 +1810,7 @@ export function StepPreview({
   if (loading && !result) {
     return (
       <div className="flex items-center gap-2 py-12 text-sm text-muted-foreground">
-        <Loader2 className="h-4 w-4 animate-spin" /> Preparing preview…
+        <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.teamCatalog.preparingPreview")}
       </div>
     );
   }
@@ -1822,7 +1822,7 @@ export function StepPreview({
           {error}
         </div>
         <Button variant="outline" onClick={onRetry}>
-          <RotateCcw className="h-4 w-4" /> Retry
+          <RotateCcw className="h-4 w-4" /> {t("pages.teamCatalog.retry")}
         </Button>
       </div>
     );
@@ -2480,7 +2480,7 @@ export function TeamCatalog() {
                   className="flex w-full items-center gap-1.5 px-2 py-1.5 text-xs text-muted-foreground hover:text-foreground"
                   onClick={() => setSearchParams(new URLSearchParams())}
                 >
-                  <RotateCcw className="h-3 w-3" /> Reset filters
+                  <RotateCcw className="h-3 w-3" /> {t("pages.teamCatalog.resetFilters")}
                 </button>
               </>
             )}
@@ -2514,7 +2514,7 @@ export function TeamCatalog() {
                 {t("pages.teamCatalog.failedToLoadTeamCatalog")}
               </div>
               <Button variant="outline" size="sm" className="mt-3" onClick={() => catalogQuery.refetch()}>
-                <RotateCcw className="h-3.5 w-3.5" /> Retry
+                <RotateCcw className="h-3.5 w-3.5" /> {t("pages.teamCatalog.retry")}
               </Button>
             </div>
           ) : teams.length === 0 ? (
@@ -2592,7 +2592,7 @@ export function TeamCatalog() {
                 onClick={() => navigate(withFilters(TEAM_CATALOG_ROUTE_ROOT))}
                 className="flex items-center gap-1.5 border-b border-border px-4 py-2 text-sm text-muted-foreground hover:text-foreground"
               >
-                <ChevronLeft className="h-4 w-4" /> Back to catalog
+                <ChevronLeft className="h-4 w-4" /> {t("pages.teamCatalog.backToCatalog")}
               </button>
             )}
             {selectedTeam ? (

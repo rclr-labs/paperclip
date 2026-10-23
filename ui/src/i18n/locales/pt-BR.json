@@ -66,7 +66,9 @@
         "perRun": "Por execução",
         "perIssue": "Por issue",
         "fixed": "Fixo",
-        "openclawGatewayToken": "Token do gateway OpenClaw"
+        "openclawGatewayToken": "Token do gateway OpenClaw",
+        "automaticallyApproveDevicePairing": "Aprovar automaticamente o pareamento de dispositivo",
+        "skipDeviceKeyAuthentication": "Pular autenticação por chave de dispositivo"
       }
     },
     "process": {
@@ -99,7 +101,8 @@
       "preparingBrowserSignIn": "Preparando entrada pelo navegador…",
       "useADifferentAccount": "Usar uma conta diferente",
       "copied": "Copiado!",
-      "preparingTheSignIn": "Preparando a entrada"
+      "preparingTheSignIn": "Preparando a entrada",
+      "preparingSignIn": "Preparando a entrada…"
     },
     "agentActionButtons": {
       "pauseAnyway": "Pausar mesmo assim",
@@ -109,7 +112,11 @@
       "clearError": "Limpar erro",
       "clearErrorAndReturnAgentTo": "Limpar o erro e devolver o agente ao ócio",
       "pause": "Pausar",
-      "resume": "Retomar"
+      "resume": "Retomar",
+      "terminate": "Encerrar",
+      "resetSessions": "Redefinir sessões",
+      "copyAgentId": "Copiar ID do agente",
+      "rawTracingOn": "Tracing bruto ligado"
     },
     "agentAvatarDownload": {
       "couldnTDownloadTheAvatarTry": "Não foi possível baixar o avatar. Tente baixar de novo.",
@@ -128,7 +135,8 @@
       "whatCouldHaveBeenBetter": "O que poderia ter sido melhor?",
       "needsWork": "Precisa de ajuste",
       "helpful": "Útil",
-      "moreActions": "Mais ações"
+      "moreActions": "Mais ações",
+      "copyMessage": "Copiar mensagem"
     },
     "agentChatPicker": {
       "createAnAgentFromTheAgents": "Crie um agente na página Agentes para começar a conversar.",
@@ -197,7 +205,9 @@
       "upgradedToPaperclipRunner": "Atualizado para o Paperclip Runner.",
       "yourUnsavedChangesWillBeIncluded": "Suas alterações não salvas serão incluídas.",
       "upgradeToPaperclipRunner": "Atualizar para o Paperclip Runner",
-      "secretAccess": "Acesso ao segredo"
+      "secretAccess": "Acesso ao segredo",
+      "debugging": "Depuração",
+      "runPolicy": "Política de execução"
     },
     "agentContextualSidebar": {
       "loadingAuditLinks": "Carregando links de auditoria…",
@@ -216,7 +226,8 @@
       "findAnAgent": "Encontrar um agente",
       "searchAgents": "Buscar agentes",
       "addChat": "Adicionar conversa",
-      "chat": "Chat"
+      "chat": "Chat",
+      "browseAllAgents": "Explorar todos os agentes"
     },
     "agentIconPicker": {
       "noIconsMatch": "Nenhum ícone corresponde",
@@ -239,7 +250,10 @@
       "getAgentsMeSecrets": "GET /agents/me/secrets",
       "apiAccessNoEnvVar": "Acesso por API (sem variável de ambiente)",
       "proposedAccess": "Acesso proposto",
-      "noSecretsAreBoundToThis": "Nenhum segredo está vinculado a este agente ainda."
+      "noSecretsAreBoundToThis": "Nenhum segredo está vinculado a este agente ainda.",
+      "addApiAccess": "Adicionar acesso por API",
+      "apiAccess": "Acesso por API",
+      "envVar": "Variável de ambiente"
     },
     "agentSetupPrompt": {
       "couldNotCopyAutomaticallySelectAnd": "Não foi possível copiar automaticamente. Selecione e copie o prompt acima, ou tente de novo.",
@@ -252,7 +266,8 @@
       "listView": "Visão em lista",
       "agentView": "Visão do agente",
       "searchAgents": "Buscar agentes…",
-      "agentsControls": "Controles de agentes"
+      "agentsControls": "Controles de agentes",
+      "newAgent": "Novo agente"
     },
     "animatedPaperclipIcon": {
       "loading": "Carregando…"
@@ -304,10 +319,13 @@
       "thisDocumentNeedsYourReview": "Este documento precisa da sua revisão.",
       "documentIsEmpty": "O documento está vazio.",
       "documentNotAvailableYet": "Documento ainda não disponível.",
-      "artifacts": "Artefatos"
+      "artifacts": "Artefatos",
+      "loadingDocument": "Carregando documento...",
+      "loading": "Carregando..."
     },
     "attentionInteractionResolver": {
-      "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar."
+      "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar.",
+      "loadingDecision": "Carregando decisão…"
     },
     "attentionQueueRow": {
       "optionalDecisionNote": "Nota de decisão opcional…",
@@ -316,7 +334,10 @@
       "custom": "Personalizado",
       "decisionActions": "Ações da decisão",
       "openSource": "Código aberto",
-      "rowActions": "Ações da linha"
+      "rowActions": "Ações da linha",
+      "snooze": "Adiar",
+      "viewIssue": "Ver issue",
+      "dismiss": "Dispensar"
     },
     "billerSpendCard": {
       "upstreamProviders": "Provedores upstream",
@@ -364,7 +385,8 @@
       "updateReservation": "Atualizar reserva",
       "anEstimateHeldBeforeEachRun": "Uma estimativa reservada antes de cada execução. Zero desativa a estimativa. As cobranças reais do provedor podem excedê-la.",
       "enterAValidAmountOfZero": "Informe um valor válido de zero ou mais.",
-      "reservePerRunUsd": "Reserva por execução (USD)"
+      "reservePerRunUsd": "Reserva por execução (USD)",
+      "blockNewWorkWhenUsageHas": "Bloquear trabalho novo quando o uso não tem preço confiável"
     },
     "builtInAgentGate": {
       "viewAgent": "Ver agente"
@@ -391,7 +413,8 @@
       "noFieldsSet": "Nenhum campo definido",
       "fromTheSkillSSchemaRendered": "do schema da skill — renderizado genericamente",
       "fields": "Campos",
-      "caseFields": "Campos do caso"
+      "caseFields": "Campos do caso",
+      "copied": "Copiado"
     },
     "caseRevisionRail": {
       "thisRevisionHasNoBody": "Esta revisão não tem corpo.",
@@ -406,10 +429,12 @@
       "selectTwoRevisionsToCompare": "Selecione duas revisões para comparar.",
       "selectRevision": "Selecionar revisão",
       "newRevision": "Nova revisão",
-      "oldRevision": "Revisão antiga"
+      "oldRevision": "Revisão antiga",
+      "diff": "Diff"
     },
     "chatComposer": {
-      "attachFiles": "Anexar arquivos"
+      "attachFiles": "Anexar arquivos",
+      "dropToAttach": "Solte para anexar"
     },
     "chatConnectorsExperimentalGate": {
       "retry": "Repetir"
@@ -437,7 +462,16 @@
     "commandPalette": {
       "openFullSearch": "abrir busca completa",
       "searchAll": "buscar em tudo",
-      "searchTasksAgentsProjects": "Buscar tarefas, agentes, projetos..."
+      "searchTasksAgentsProjects": "Buscar tarefas, agentes, projetos...",
+      "activity": "Atividade",
+      "costs": "Custos",
+      "agents": "Agentes",
+      "goals": "Metas",
+      "projects": "Projetos",
+      "tasks": "Tarefas",
+      "dashboard": "Painel",
+      "createNewProject": "Criar novo projeto",
+      "createNewAgent": "Criar novo agente"
     },
     "commentThread": {
       "responsible": "Responsável",
@@ -457,7 +491,10 @@
     "companySwitcher": {
       "noOrganizations": "Nenhuma organização",
       "couldnTLoadOrganizations": "Não foi possível carregar as organizações",
-      "organizations": "Organizações"
+      "organizations": "Organizações",
+      "manageOrganizations": "Gerenciar organizações",
+      "settings": "Configurações",
+      "tryAgain": "Tentar novamente"
     },
     "configureBuiltInAgentModal": {
       "notNow": "Agora não",
@@ -497,7 +534,9 @@
       "dismissNoEffects": "Dispensar — sem efeitos",
       "notNow": "Agora não?",
       "optionsThatRequireAnUnchangedTarget": "Opções que exigem um destino inalterado estão desativadas abaixo.",
-      "viewRun": "ver execução"
+      "viewRun": "ver execução",
+      "theDecisionWindowClosed": "A janela de decisão fechou",
+      "destructive": "Destrutivo"
     },
     "decisionDateChips": {
       "clear": "Limpar",
@@ -508,7 +547,8 @@
       "decisionQueues": "Filas de decisão"
     },
     "decisionResolver": {
-      "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar."
+      "thisDecisionIsNoLongerAvailable": "Esta decisão não está mais disponível — ela pode ter sido resolvida em outro lugar.",
+      "loadingDecision": "Carregando decisão…"
     },
     "decisionTriageStrip": {
       "noOtherQueuesYet": "Nenhuma outra fila ainda.",
@@ -516,7 +556,11 @@
       "newQueueName": "Novo nome de fila…",
       "clear": "Limpar",
       "queues": "Filas",
-      "whenToDecide": "Quando decidir"
+      "whenToDecide": "Quando decidir",
+      "askAgentForRecommendation": "Pedir recomendação ao agente",
+      "newQueue": "Nova fila…",
+      "queue": "Fila",
+      "snooze": "Adiar"
     },
     "decisionsToolbar": {
       "clear": "Limpar",
@@ -539,7 +583,8 @@
       "recentTasks": "Tarefas recentes",
       "mainNavigation": "Navegação principal",
       "searchTasksAgentsProjects": "Buscar tarefas, agentes, projetos",
-      "globalSearch": "Busca global"
+      "globalSearch": "Busca global",
+      "newTask": "Nova tarefa"
     },
     "devRestartBanner": {
       "autoRestartWillTriggerWhenThe": "O reinício automático dispara quando a instância estiver ociosa",
@@ -556,14 +601,18 @@
       "retryUnavailable": "Repetição indisponível."
     },
     "documentAnnotationLayer": {
-      "selectionActions": "Ações da seleção"
+      "selectionActions": "Ações da seleção",
+      "comment": "Comentário"
     },
     "documentAnnotationPanel": {
       "moreThreadActions": "Mais ações da thread",
       "reply": "Responder…",
       "cancel": "Cancelar",
       "writeAComment": "Escreva um comentário…",
-      "closeAnnotationPanel": "Fechar painel de anotações"
+      "closeAnnotationPanel": "Fechar painel de anotações",
+      "copyLink": "Copiar link",
+      "resolve": "Resolver",
+      "reopen": "Reabrir"
     },
     "documentAnnotationPopover": {
       "cancel": "Cancelar",
@@ -631,7 +680,8 @@
       "takingLongerThanUsual": "Está levando mais tempo que o normal…"
     },
     "executionParticipantPicker": {
-      "executionPolicyUnavailableRefreshToTry": "Política de execução indisponível. Atualize para tentar de novo."
+      "executionPolicyUnavailableRefreshToTry": "Política de execução indisponível. Atualize para tentar de novo.",
+      "assignToMe": "Atribuir a mim"
     },
     "executionWorkspaceCloseDialog": {
       "cancel": "Cancelar",
@@ -649,7 +699,8 @@
       "gitStatus": "Status do git",
       "warnings": "Avisos",
       "blockingReasons": "Motivos do bloqueio",
-      "blockingTasks": "Tarefas bloqueadoras"
+      "blockingTasks": "Tarefas bloqueadoras",
+      "checkingWhetherThisWorkspaceIsSafe": "Verificando se é seguro fechar este workspace..."
     },
     "feedCard": {
       "review": "Revisar →"
@@ -668,7 +719,8 @@
       "downloadFile": "Baixar arquivo",
       "backToFiles": "Voltar para arquivos",
       "loadingFilePreview": "Carregando pré-visualização do arquivo",
-      "loadingFileDetails": "Carregando detalhes do arquivo"
+      "loadingFileDetails": "Carregando detalhes do arquivo",
+      "retry": "Repetir"
     },
     "filterBar": {
       "clearAll": "Limpar tudo"
@@ -693,11 +745,14 @@
       "switchToYamlToEditThis": "Mude para YAML para editar. Este frontmatter usa recursos de YAML que o formulário não reproduz com segurança (ex.: comentários, âncoras ou ordenação própria). Editar aqui preserva byte a byte.",
       "fields": "Campos",
       "none": "Nenhum",
-      "frontmatter": "Frontmatter"
+      "frontmatter": "Frontmatter",
+      "addField": "adicionar campo",
+      "addFrontmatter": "Adicionar frontmatter"
     },
     "gitHubAgentTrustWarning": {
       "continuingKeepsThisAgentSCurrent": "Continuar mantém as permissões atuais deste agente. Um perfil de convidado restrito não substitui as configurações de confiança e runtime do agente.",
-      "githubCommentsAndPullRequestsCan": "Comentários e pull requests do GitHub podem conter instruções maliciosas. Recomendamos um agente de baixa confiança com fronteira de trabalho delimitada e runtime em sandbox isolado."
+      "githubCommentsAndPullRequestsCan": "Comentários e pull requests do GitHub podem conter instruções maliciosas. Recomendamos um agente de baixa confiança com fronteira de trabalho delimitada e runtime em sandbox isolado.",
+      "learnAboutLowTrustAgents": "Saiba mais sobre agentes de baixa confiança"
     },
     "goalProperties": {
       "none": "Nenhum"
@@ -738,7 +793,8 @@
       "showsPaperclipReportedActivityOpenThe": "Mostra a atividade reportada pelo Paperclip. Abra o app desktop do Grok Bot para inspecionar a atividade completa dele."
     },
     "honeycombRunLink": {
-      "openThisRunSTaskRun": "Abrir a consulta de trace task.run desta execução no Honeycomb"
+      "openThisRunSTaskRun": "Abrir a consulta de trace task.run desta execução no Honeycomb",
+      "viewInHoneycomb": "Ver no Honeycomb"
     },
     "imageGalleryModal": {
       "next": "Próximo",
@@ -797,7 +853,10 @@
       "nowRunning": "Em execução agora",
       "thisTaskResumesAutomaticallyWhenThe": "Esta tarefa — retoma automaticamente quando a cadeia terminar",
       "blockerChainProgress": "Progresso da cadeia de bloqueio",
-      "waitingOnLiveWork": "Aguardando trabalho ao vivo"
+      "waitingOnLiveWork": "Aguardando trabalho ao vivo",
+      "blockedByParkedWork": "Bloqueado por trabalho estacionado",
+      "retryNow": "Repetir agora",
+      "retrying": "Repetindo..."
     },
     "issueCasesPanel": {
       "cases": "Casos"
@@ -856,7 +915,9 @@
       "input": "Entrada",
       "copy": "Copiar",
       "showingASafeFallbackTranscriptInstead": "Mostrando uma transcrição de fallback segura em vez de derrubar a página de tarefas.",
-      "chatRendererHitAnInternalState": "O renderizador da conversa encontrou um erro interno de estado."
+      "chatRendererHitAnInternalState": "O renderizador da conversa encontrou um erro interno de estado.",
+      "running": "Em execução",
+      "viewRun": "Ver execução"
     },
     "issueColumns": {
       "live": "Ao vivo",
@@ -871,7 +932,8 @@
       "documentKey": "Chave do documento",
       "new": "Novo",
       "newDocument": "Novo documento",
-      "documents": "Documentos"
+      "documents": "Documentos",
+      "cancel": "Cancelar"
     },
     "issueFilterPanel": {
       "noAssigneesMatch": "Nenhum responsável corresponde.",
@@ -908,13 +970,18 @@
       "cancelMonitor2": "Cancelar monitor"
     },
     "issuePlanDecompositionsSection": {
-      "planDecomposition": "Decomposição do plano"
+      "planDecomposition": "Decomposição do plano",
+      "inFlight": "Em andamento",
+      "completed": "Concluído"
     },
     "issuePrivacyActions": {
       "keepPrivate": "Manter privado",
       "contentAlreadySeenByOthersCannot": "Conteúdo que outros já viram não pode ser retirado.",
       "makeThisTaskPublic": "Tornar esta tarefa pública?",
-      "retryAccessCheck": "Repetir verificação de acesso"
+      "retryAccessCheck": "Repetir verificação de acesso",
+      "makePrivate": "Tornar privado",
+      "makePublic": "Tornar público",
+      "share": "Compartilhar…"
     },
     "issueRecoveryActionCard": {
       "theCardStaysOpenUntilAn": "O cartão fica aberto até uma decisão explícita ser registrada.",
@@ -949,7 +1016,10 @@
       "ancestryVerdict": "Veredito de ascendência",
       "withoutAnAncestryProof": "sem prova de ascendência",
       "divergenceDiagnosis": "Diagnóstico de divergência",
-      "detachedUnknown": "desanexado / desconhecido"
+      "detachedUnknown": "desanexado / desconhecido",
+      "repairWorkspace": "Reparar workspace",
+      "breakGlassReconciliation": "Reconciliação de emergência",
+      "iVeVerifiedThisReconcileAnyway": "Eu verifiquei — reconciliar mesmo assim"
     },
     "issueRelatedWorkPanel": {
       "thisIssueDoesNotReferenceAny": "Esta issue ainda não referencia nenhum objeto externo.",
@@ -960,7 +1030,8 @@
     },
     "issueRow": {
       "markAsRead": "Marcar como lida",
-      "archive": "Arquivar"
+      "archive": "Arquivar",
+      "blockedByParkedWork": "Bloqueado por trabalho estacionado"
     },
     "issueRunLedger": {
       "markFalsePositive": "Marcar como falso positivo",
@@ -974,7 +1045,9 @@
     "issueScheduledRetryCard": {
       "tryAgain": "Tentar novamente",
       "couldnTRetryNow": "Não foi possível repetir agora",
-      "anotherTaskIsUsingThisWorkspace": "Outra tarefa está usando este workspace. O trabalho começa automaticamente quando ele liberar."
+      "anotherTaskIsUsingThisWorkspace": "Outra tarefa está usando este workspace. O trabalho começa automaticamente quando ele liberar.",
+      "retryNow": "Repetir agora",
+      "retrying": "Repetindo…"
     },
     "issueShareSheet": {
       "cancel": "Cancelar",
@@ -982,7 +1055,11 @@
       "sharedAgent": "Agente compartilhado.",
       "sharedAgentCaution": "Cuidado com agente compartilhado",
       "chooseAPersonOrAgent": "Escolha uma pessoa ou agente…",
-      "onlyYouCanSeeThisTask": "Somente você pode ver esta tarefa."
+      "onlyYouCanSeeThisTask": "Somente você pode ver esta tarefa.",
+      "addSomeone": "Adicionar alguém",
+      "retry": "Repetir",
+      "couldnTLoadAccess": "Não foi possível carregar o acesso.",
+      "whoCanAccessThisTask": "Quem pode acessar esta tarefa"
     },
     "issueSiblingNavigation": {
       "subTaskNavigation": "Navegação de subtarefas"
@@ -1024,11 +1101,31 @@
       "rejectionReason": "Motivo da rejeição",
       "resolutionSummary": "Resumo da resolução",
       "skipped": "Ignorado",
-      "childTask": "Tarefa filha"
+      "childTask": "Tarefa filha",
+      "agent": "Agente",
+      "reasonNeeded": "Motivo necessário",
+      "applying": "Aplicando…",
+      "approveAll": "Aprovar todos",
+      "attachScreenshots": "Anexar capturas de tela",
+      "uploading": "Enviando...",
+      "saving": "Salvando…",
+      "sending": "Enviando…",
+      "rejecting": "Rejeitando…",
+      "approving": "Aprovando…",
+      "viewResult": "Ver resultado",
+      "submitting": "Enviando...",
+      "cancelling": "Cancelando...",
+      "askUserQuestions": "Fazer perguntas ao usuário",
+      "saving2": "Salvando...",
+      "accepting": "Aceitando..."
     },
     "issueWorkspaceCard": {
       "viewWorkspaceDetails": "Ver detalhes do workspace →",
-      "save": "Salvar"
+      "save": "Salvar",
+      "openFileByPath": "Abrir arquivo por caminho…",
+      "browseFiles": "Explorar arquivos…",
+      "edit": "Editar",
+      "cancel": "Cancelar"
     },
     "issueWriteDenialNotice": {
       "tryThis": "Tente isto:",
@@ -1056,7 +1153,8 @@
       "selectAnOption": "Selecione uma opção"
     },
     "kanbanBoard": {
-      "needsNextStep": "Precisa do próximo passo"
+      "needsNextStep": "Precisa do próximo passo",
+      "nextStep": "Próximo passo"
     },
     "keyboardShortcutsCheatsheet": {
       "keyboardShortcuts": "Atalhos de teclado",
@@ -1137,7 +1235,10 @@
       "disconnectedPaperclipCredentialsAndExecutionAuthority": "Desconectado. As credenciais e a autoridade de execução do Paperclip foram revogadas.",
       "anAuthenticatedInstanceWithAPublic": "É necessária uma instância autenticada com URL HTTPS pública para conectar o Muse.",
       "museIsDisabledInExperimentalSettings": "O Muse está desativado nas configurações experimentais. A limpeza da conexão e a evidência de parada continuam disponíveis.",
-      "museUsesItsOwnToolsAnd": "O Muse usa as próprias ferramentas e permissões. O Paperclip coordena tarefas e perguntas da empresa. Uso e custo do provedor ficam indisponíveis."
+      "museUsesItsOwnToolsAnd": "O Muse usa as próprias ferramentas e permissões. O Paperclip coordena tarefas e perguntas da empresa. Uso e custo do provedor ficam indisponíveis.",
+      "observedAtUtc": "Observado em (UTC)",
+      "observationSha256": "SHA-256 da observação",
+      "registeredHookId": "ID do hook registrado"
     },
     "newGoalDialog": {
       "noParent": "Sem pai",
@@ -1169,7 +1270,9 @@
       "yesGetStarted": "Sim, vamos começar!",
       "letSDiscussFirst": "Vamos discutir primeiro",
       "iMReadyToPutTogether": "Estou pronto para montar um plano de quem devemos trazer. Quer que eu comece?",
-      "reviewItMakeEditsThenApprove": "Revise, edite e então aprove."
+      "reviewItMakeEditsThenApprove": "Revise, edite e então aprove.",
+      "reviewPlan": "Revisar plano",
+      "loadingConversation": "Carregando conversa..."
     },
     "onboardingWizard": {
       "ifLoginIsRequiredConnectThe": "Se for necessário entrar, conecte o provedor acima e tente de novo.",
@@ -1201,7 +1304,9 @@
       "saveYourFeedbackSharingPreference": "Salvar sua preferência de compartilhamento de feedback",
       "dismiss": "Dispensar",
       "addAShortNote": "Adicione uma nota curta",
-      "whatCouldHaveBeenBetter": "O que poderia ter sido melhor?"
+      "whatCouldHaveBeenBetter": "O que poderia ter sido melhor?",
+      "needsWork": "Precisa de ajuste",
+      "helpful": "Útil"
     },
     "pageTabBar": {
       "pageSection": "Seção da página"
@@ -1223,7 +1328,8 @@
       "addAPersonOrAgent": "Adicionar uma pessoa ou agente",
       "couldnTLoadTheCompanyAccess": "Não foi possível carregar o diretório de acesso da empresa.",
       "membersCanDiscoverThisProjectAnd": "Os membros podem descobrir este projeto e ler todas as tarefas dele. Uma tarefa ainda pode ser compartilhada diretamente.",
-      "privateProjectAccess": "Acesso ao projeto privado"
+      "privateProjectAccess": "Acesso ao projeto privado",
+      "add": "Adicionar"
     },
     "projectProperties": {
       "dangerZone": "Zona de perigo",
@@ -1264,7 +1370,10 @@
       "keepPrivate": "Manter privado",
       "everyoneInTheCompanyWillBe": "Todos na empresa vão poder descobrir este projeto. As tarefas privadas dele seguem privadas. Membros que só têm acesso por este projeto vão perder o acesso a essas tarefas. Compartilhe as tarefas diretamente antes, se quiser que eles mantenham o acesso.",
       "openThisProjectToTheCompany": "Abrir este projeto para a empresa?",
-      "confirm": "Confirmar"
+      "confirm": "Confirmar",
+      "failed": "Falhou",
+      "saved": "Salvo",
+      "saving": "Salvando"
     },
     "projectRepositories": {
       "connectGithub": "Conectar o GitHub",
@@ -1287,7 +1396,8 @@
     },
     "projectsToolbar": {
       "searchProjects": "Buscar projetos…",
-      "projectsControls": "Controles de projetos"
+      "projectsControls": "Controles de projetos",
+      "addProject": "Adicionar projeto"
     },
     "propertiesPanel": {
       "resizePanel": "Redimensionar painel",
@@ -1305,14 +1415,16 @@
     },
     "repositoryBranchSelect": {
       "tryAgain": "Tentar novamente",
-      "chooseABranch": "Escolha uma branch"
+      "chooseABranch": "Escolha uma branch",
+      "loadingBranches": "Carregando branches…"
     },
     "repositoryEditor": {
       "cancel": "Cancelar",
       "chooseFromReposYouCanAccess": "Escolha entre repositórios acessíveis pelas suas conexões do GitHub.",
       "connectGithubToPickARepo": "Conecte o GitHub para escolher um repositório",
       "sourceRepos": "Repositórios de origem",
-      "privateRepository": "Repositório privado"
+      "privateRepository": "Repositório privado",
+      "connectGithub": "Conectar o GitHub"
     },
     "routineContextualSidebar": {
       "operate": "Operar",
@@ -1347,7 +1459,11 @@
       "returnToCurrent": "Voltar para o atual",
       "revision1IsTheOnlyHistory": "A revisão 1 é todo o histórico desta rotina. Salvar uma edição cria a primeira revisão adicional.",
       "retry": "Repetir",
-      "couldNotLoadRevisions": "Não foi possível carregar as revisões"
+      "couldNotLoadRevisions": "Não foi possível carregar as revisões",
+      "previousRunHistoryIsPreserved": "O histórico de execuções anteriores é preservado.",
+      "routineFieldValuesVariablesAndSchedule": "Valores de campo, variáveis e o cron do agendamento da rotina vão reverter.",
+      "compareWithCurrent": "Comparar com o atual",
+      "restoreAsNewRevision": "Restaurar como nova revisão"
     },
     "routineOverview": {
       "viewRoutineActivity": "Ver atividade da rotina",
@@ -1389,7 +1505,10 @@
       "schedule": "Agendamento",
       "label": "Etiqueta",
       "sendAPostRequestWithContent": "Envie uma requisição POST com Content-Type: application/json. Mantenha esta URL privada quando a assinatura estiver desativada.",
-      "webhookUrl": "URL do webhook"
+      "webhookUrl": "URL do webhook",
+      "saveTrigger": "Salvar disparo",
+      "rotateSecret": "Rotacionar segredo",
+      "delete": "Excluir"
     },
     "routineVariablesEditor": {
       "description": "Descrição",
@@ -1412,7 +1531,9 @@
       "group": "Grupo",
       "sort": "Ordenar",
       "searchRoutines": "Buscar rotinas…",
-      "routinesControls": "Controles de rotinas"
+      "routinesControls": "Controles de rotinas",
+      "createRoutine": "Criar rotina",
+      "newFolder": "Nova pasta"
     },
     "runWorkspaceRecoverySurface": {
       "workspaceRecovery": "Recuperação do workspace"
@@ -1471,10 +1592,16 @@
       "outputPath": "Caminho de saída",
       "providerPath": "Caminho do provedor",
       "action": "Ação",
-      "noFieldsMatch": "Nenhum campo corresponde."
+      "noFieldsMatch": "Nenhum campo corresponde.",
+      "deleteTrace": "Excluir trace",
+      "downloadExactTrace": "Baixar o trace exato",
+      "revealExactFrame": "Revelar o frame exato",
+      "exactUnredactedFrame": "Frame exato sem redação",
+      "reRunWithProviderTrace": "Executar de novo com trace do provedor"
     },
     "runtimeTestCard": {
-      "runtimeTest": "Teste de runtime"
+      "runtimeTest": "Teste de runtime",
+      "testDetails": "Detalhes do teste"
     },
     "scheduleEditor": {
       "onDay": "no dia",
@@ -1500,7 +1627,9 @@
       "name": "Nome",
       "createNewSecret": "Criar novo segredo",
       "createSecret": "Criar segredo",
-      "version": "Versão"
+      "version": "Versão",
+      "thePreviouslySelectedSecretIsNo": "O segredo selecionado antes não está mais disponível. Escolha outro ou remova o vínculo.",
+      "clear": "Limpar"
     },
     "setupWizard": {
       "saveExit": "Salvar e sair"
@@ -1529,13 +1658,15 @@
       "createOrganization": "Criar organização",
       "noCompanies": "Nenhuma empresa",
       "couldnTLoadCompanies": "Não foi possível carregar as empresas",
-      "organizations": "Organizações"
+      "organizations": "Organizações",
+      "tryAgain": "Tentar novamente"
     },
     "sidebarCompanyMenu": {
       "createOrganization": "Criar organização",
       "noOrganizations": "Nenhuma organização",
       "couldnTLoadOrganizations": "Não foi possível carregar as organizações",
-      "organizations": "Organizações"
+      "organizations": "Organizações",
+      "tryAgain": "Tentar novamente"
     },
     "sidebarProjects": {
       "privateProject": "Projeto privado"
@@ -1650,10 +1781,13 @@
       "searchTasks": "Buscar tarefas…",
       "views": "Visões",
       "taskViews": "Visões de tarefa",
-      "taskListControls": "Controles da lista de tarefas"
+      "taskListControls": "Controles da lista de tarefas",
+      "newTask": "Nova tarefa"
     },
     "taskTreeControls": {
-      "retryPreview": "Repetir pré-visualização"
+      "retryPreview": "Repetir pré-visualização",
+      "restoreSubtree": "Restaurar subárvore...",
+      "cancelSubtree": "Cancelar subárvore..."
     },
     "toastViewport": {
       "dismissNotification": "Dispensar notificação"
@@ -1687,7 +1821,8 @@
       "searchWorkspaceFiles": "Buscar arquivos do workspace",
       "searchFilesByNameOrPath": "Buscar arquivos por nome ou caminho…",
       "workspaceFiles": "Arquivos do workspace",
-      "currentFolder": "Pasta atual"
+      "currentFolder": "Pasta atual",
+      "retry": "Repetir"
     },
     "workspaceReconstructionRecovery": {
       "aBoardMemberWithRuntimeAccess": "Um membro do conselho com acesso de runtime pode continuar dos anexos da tarefa que sobreviveram.",
@@ -1746,7 +1881,9 @@
         "inviteAPerson": "Convidar uma pessoa",
         "invitePeopleToRequestAccessTo": "Convide pessoas a solicitar acesso a esta organização. Novos links de convite são copiados para a área de transferência quando gerados.",
         "loadingInvites": "Carregando convites…",
-        "selectAnOrganizationToManageInvites": "Selecione uma organização para gerenciar convites."
+        "selectAnOrganizationToManageInvites": "Selecione uma organização para gerenciar convites.",
+        "copyLink": "Copiar link",
+        "copied": "Copiado"
       }
     },
     "actions": {
@@ -1754,7 +1891,8 @@
         "whyIMAsking": "Por que estou perguntando",
         "input": "Entrada",
         "deny": "Negar",
-        "approve": "Aprovar"
+        "approve": "Aprovar",
+        "editReSign": "Editar e reassinar"
       }
     },
     "agentconfigprimitives": {
@@ -1777,7 +1915,9 @@
       "aiConnectionAccountControls": {
         "notDefault": "Não padrão",
         "makeDefault": "Tornar padrão",
-        "aiAccountSettings": "Configurações da conta de IA"
+        "aiAccountSettings": "Configurações da conta de IA",
+        "revokeIdentity": "Revogar identidade",
+        "reconnect": "Reconectar"
       },
       "aiConnectionAuth": {
         "waitingForSignIn": "Aguardando a entrada…",
@@ -1794,7 +1934,8 @@
         "copilotExecutionEnvironment": "Ambiente de execução do Copilot",
         "githubTokenInstructions": "Instruções do token do GitHub",
         "preparingSignIn": "Preparando a entrada…",
-        "signInEnvironment": "Ambiente de entrada"
+        "signInEnvironment": "Ambiente de entrada",
+        "connectionName": "Nome da conexão"
       },
       "aiConnectionDesignExamples": {
         "enterApiKeyHere": "Informe a chave de API aqui",
@@ -1811,7 +1952,8 @@
         "newTasksRotateExistingTasksKeep": "Novas tarefas rotacionam. Tarefas existentes mantêm a conta delas.",
         "poolUnavailableEnableRoutingAndThe": "Pool indisponível — habilite o roteamento e o pool",
         "individualAccount": "Conta individual",
-        "thisConnectionDoesNotSupportThe": "Esta conexão não suporta o harness e o modelo atuais. Escolha uma conexão compatível antes de salvar."
+        "thisConnectionDoesNotSupportThe": "Esta conexão não suporta o harness e o modelo atuais. Escolha uma conexão compatível antes de salvar.",
+        "allowAllAgentsInThisCompany": "Permitir que todos os agentes desta empresa usem esta conta nas minhas tarefas"
       },
       "aiConnectionManagement": {
         "chooseAManagedConnection": "Escolha uma conexão gerenciada",
@@ -1849,7 +1991,12 @@
         "thisConnectionPoolIsNoLonger": "Este pool de conexões não está mais disponível.",
         "tryAgain": "Tentar novamente",
         "aConnectionManagerCanViewAnd": "Um gerenciador de conexões pode ver e editar pools de conexão.",
-        "selectACompanyToContinue": "Selecione uma empresa para continuar."
+        "selectACompanyToContinue": "Selecione uma empresa para continuar.",
+        "connectANewAccount": "Conectar uma nova conta",
+        "skipConnectionsNearTheirUsageLimit": "Pular conexões perto do limite de uso",
+        "enableThisPool": "Habilitar este pool",
+        "removeConnection": "Remover conexão",
+        "loadingConnections": "Carregando conexões…"
       },
       "aiConnectionSelect": {
         "thisConnectionDoesNotSupportThe": "Esta conexão não suporta o harness selecionado. Escolha uma conexão compatível.",
@@ -1857,7 +2004,9 @@
         "youHaveNoDefaultAccountFor": "Você não tem conta padrão para este provedor. Conecte uma conta ou escolha outra conexão.",
         "retryConnections": "Repetir conexões",
         "reconnectAccount": "Reconectar conta",
-        "connection": "Conexão"
+        "connection": "Conexão",
+        "connectAnAccount": "Conectar uma conta…",
+        "responsibleUserSDefault": "Padrão do usuário responsável"
       },
       "aiConnectionUsagePanel": {
         "overage": "Excedente",
@@ -1926,7 +2075,8 @@
         "downloadCsv": "Baixar CSV",
         "noRows": "Nenhuma linha",
         "viewCommit": "Ver commit",
-        "openPullRequest": "Abrir pull request"
+        "openPullRequest": "Abrir pull request",
+        "linkPreview": "Pré-visualização do link"
       },
       "v1": {
         "artifactFileRow": {
@@ -1980,7 +2130,8 @@
         "noChannelsConnected": "Nenhum canal conectado",
         "loadingChannels": "Carregando canais…",
         "chatAndEmailIdentitiesConnectedTo": "Identidades de conversa e e-mail conectadas a este agente.",
-        "channels": "Canais"
+        "channels": "Canais",
+        "connectAChannel": "Conectar um canal"
       },
       "agentWorkPanels": {
         "agentArtifacts": "Artefatos do agente",
@@ -2085,7 +2236,11 @@
         "unsavedChanges": "Alterações não salvas",
         "noEnvironmentVariables": "Nenhuma variável de ambiente",
         "value": "Valor",
-        "name": "Nome"
+        "name": "Nome",
+        "save": "Salvar",
+        "revert": "Reverter",
+        "recentlyUsed": "Usado recentemente:",
+        "addVariable": "Adicionar variável"
       }
     },
     "fastresponses": {
@@ -2130,7 +2285,10 @@
         "editColor": "Editar cor",
         "rename": "Renomear",
         "system": "Sistema",
-        "folders": "Pastas"
+        "folders": "Pastas",
+        "newFolder": "Nova pasta...",
+        "newFolder2": "Nova pasta",
+        "delete": "Excluir"
       },
       "skillFolderTree": {
         "add": "Adicionar",
@@ -2146,7 +2304,12 @@
         "resizeSkillFolders": "Redimensionar pastas de skills",
         "system": "Sistema",
         "noOrganizationFoldersYet": "Nenhuma pasta da organização ainda.",
-        "skillFolders": "Pastas de skills"
+        "skillFolders": "Pastas de skills",
+        "newTopLevelFolder": "Nova pasta de primeiro nível…",
+        "allSkills": "Todas as skills",
+        "delete": "Excluir",
+        "newSubfolder": "Nova subpasta",
+        "tags": "Tags"
       }
     },
     "interrupthandoff": {
@@ -2159,7 +2322,8 @@
         "wake": "Acordar",
         "noResponsible": "Sem responsável —",
         "user": "Usuário",
-        "agent": "Agente"
+        "agent": "Agente",
+        "whatThisAffects": "O que isto afeta"
       }
     },
     "issueoutput": {
@@ -2170,7 +2334,10 @@
       },
       "outputPrimaryCard": {
         "primary": "Principal",
-        "outputMetadataIsUnavailableThisFile": "Os metadados de saída estão indisponíveis — este arquivo não pode ser reproduzido nem baixado aqui."
+        "outputMetadataIsUnavailableThisFile": "Os metadados de saída estão indisponíveis — este arquivo não pode ser reproduzido nem baixado aqui.",
+        "download": "Baixar",
+        "open": "Abrir",
+        "browse": "Explorar"
       }
     },
     "issueproperties": {
@@ -2235,7 +2402,14 @@
         "defaultModel": "Modelo padrão",
         "model": "Modelo",
         "taskLevelModelOverrideReplacesThe": "Sobreposição de modelo no nível da tarefa — substitui o modelo principal do agente nesta issue.",
-        "modelLane": "Faixa de modelo"
+        "modelLane": "Faixa de modelo",
+        "viewWorkspace": "Ver workspace",
+        "workspaceMode": "Modo do workspace",
+        "addSubTask": "Adicionar subtarefa",
+        "addSubtask": "Adicionar subtarefa",
+        "retryNow": "Repetir agora",
+        "retrying": "Repetindo…",
+        "copied": "Copiado"
       },
       "issuePropertiesArtifactsTab": {
         "noArtifactsYetWorkProductsDocuments": "Nenhum artefato ainda. Produtos de trabalho, documentos e arquivos produzidos por agentes aparecerão aqui.",
@@ -2258,7 +2432,8 @@
       "relationcontrols": {
         "removeBlocker": "Remover bloqueador",
         "cancel": "Cancelar",
-        "removeBlocker2": "Remover bloqueador?"
+        "removeBlocker2": "Remover bloqueador?",
+        "visitTask": "Ir para a tarefa"
       }
     },
     "newagent": {
@@ -2271,7 +2446,8 @@
         "inviteAnExternalAgent": "Convidar um agente externo",
         "eGDarnold": "e.g. Darnold",
         "agentName": "Nome do agente",
-        "newAgentProgress": "Progresso do novo agente"
+        "newAgentProgress": "Progresso do novo agente",
+        "back": "Voltar"
       },
       "agentProviderConnection": {
         "couldNotPrepareSignInReload": "Não foi possível preparar a entrada. Recarregue esta página para tentar de novo.",
@@ -2297,7 +2473,8 @@
         "loadingMuseInvitation": "Carregando convite do Muse…",
         "tryAgain": "Tentar novamente",
         "museConnectionChecks": "Verificações de conexão do Muse",
-        "dotConnectionChecks": "Verificações de conexão do Dot"
+        "dotConnectionChecks": "Verificações de conexão do Dot",
+        "back": "Voltar"
       },
       "grokBotSetupContent": {
         "reviewApproval": "Revisar aprovação",
@@ -2353,7 +2530,9 @@
         "noManagedEnvironmentIsAvailableConfigure": "Nenhum ambiente gerenciado disponível. Configure um ambiente antes de continuar.",
         "thisAdapterIsUnavailableChooseAn": "Este adaptador está indisponível. Escolha um adaptador habilitado.",
         "retry": "Repetir",
-        "selectAnOrganizationToCreateAn": "Selecione uma organização para criar um agente."
+        "selectAnOrganizationToCreateAn": "Selecione uma organização para criar um agente.",
+        "connectModel": "Conectar modelo",
+        "connection": "Conexão"
       }
     },
     "observability": {
@@ -2392,6 +2571,9 @@
       "savedProviderKeySelect": {
         "someSavedKeysCouldNotBe": "Não foi possível carregar algumas chaves salvas. Você ainda pode informar uma nova.",
         "checkingSavedApiKeys": "Verificando chaves de API salvas…"
+      },
+      "footerNav": {
+        "back": "Voltar"
       }
     },
     "primaryagent": {
@@ -2444,7 +2626,10 @@
         "defaultAgentRequiredThisRoutineCan": "Agente padrão obrigatório. Esta rotina pode continuar como rascunho e ainda rodar manualmente, mas a automação fica pausada até você definir um agente padrão.",
         "project": "Projeto",
         "responsible": "Responsável",
-        "for": "Para"
+        "for": "Para",
+        "editInstructions": "Editar instruções",
+        "newTrigger": "Novo disparo",
+        "viewAllActivity": "Ver toda a atividade"
       },
       "editablesections": {
         "noEnabledScheduleTriggerToPreview": "Nenhum disparo por agendamento habilitado para pré-visualizar. Adicione um agendamento em Disparos para ver como esta política trata os próximos disparos.",
@@ -2460,7 +2645,9 @@
         "defaultAgentRequiredThisRoutineCan": "Agente padrão obrigatório. Esta rotina pode continuar como rascunho e ainda rodar manualmente, mas a automação fica pausada até você definir um agente padrão.",
         "project": "Projeto",
         "responsible": "Responsável",
-        "for": "Para"
+        "for": "Para",
+        "editInstructions": "Editar instruções",
+        "viewAllActivity": "Ver toda a atividade"
       },
       "operatesections": {
         "loadingActivity": "Carregando atividade…"
@@ -2482,7 +2669,9 @@
         "runThisRoutineOnASchedule": "Execute esta rotina por agendamento ou quando outro aplicativo enviar um webhook.",
         "done": "Pronto",
         "connectionStatusIsUnavailableRetrying": "O status da conexão está indisponível. Tentando de novo…",
-        "backToTriggers": "Voltar para disparos"
+        "backToTriggers": "Voltar para disparos",
+        "timeZone": "Fuso horário",
+        "addTrigger": "Adicionar disparo"
       },
       "triggerWizard": {
         "checkConnection": "Verificar conexão",
@@ -2540,7 +2729,8 @@
       },
       "zeroResultsRecovery": {
         "loosenAFilter": "Afrouxe um filtro",
-        "noResultsWithTheseFilters": "Nenhum resultado com estes filtros"
+        "noResultsWithTheseFilters": "Nenhum resultado com estes filtros",
+        "clearAllFilters": "Limpar todos os filtros"
       }
     },
     "sidepanel": {
@@ -2596,7 +2786,14 @@
         "allSources": "Todas as origens",
         "source": "Origem",
         "sort": "Ordenar",
-        "skillsControls": "Controles de skills"
+        "skillsControls": "Controles de skills",
+        "importSkillsFromProject": "Importar skills do projeto",
+        "importFromPathOrUrl": "Importar de caminho ou URL",
+        "importFromGithub": "Importar do GitHub",
+        "discoverSkills": "Descobrir skills",
+        "createNewSkill": "Criar nova skill",
+        "new": "Novo",
+        "newFolder": "Nova pasta"
       }
     },
     "taskchat": {
@@ -2656,7 +2853,8 @@
         "pauseGoal": "Pausar meta",
         "editGoal": "Editar meta",
         "sessionGoal": "Meta da sessão",
-        "agentSessionGoal": "Meta da sessão do agente"
+        "agentSessionGoal": "Meta da sessão do agente",
+        "workingNow": "Trabalhando agora"
       },
       "taskChatBlockerLinks": {
         "tasksWaitingOnLiveWork": "Tarefas aguardando trabalho ao vivo",
@@ -2692,7 +2890,8 @@
         "argumentsAndAuditHash": "Argumentos e hash de auditoria",
         "viewOriginalRequestAndResolution": "Ver pedido original e resolução",
         "noTasksCreated": "Nenhuma tarefa criada",
-        "noVerdictsSubmitted": "Nenhum veredito enviado"
+        "noVerdictsSubmitted": "Nenhum veredito enviado",
+        "details": "Detalhes"
       },
       "taskChatComposer": {
         "cancel": "Cancelar",
@@ -2719,7 +2918,8 @@
         "changeAiConnection": "Alterar conexão de IA"
       },
       "taskChatPausedTakeover": {
-        "yourDraftIsSaved": "Seu rascunho está salvo."
+        "yourDraftIsSaved": "Seu rascunho está salvo.",
+        "resumeSubtree": "Retomar subárvore"
       },
       "taskChatPlanView": {
         "plan": "Plano"
@@ -2756,12 +2956,14 @@
         "outputTruncatedTo8Kib": "Saída truncada em 8 KiB.",
         "researchSources": "Fontes de pesquisa",
         "delegatedAgents": "Agentes delegados",
-        "planSteps": "Etapas do plano"
+        "planSteps": "Etapas do plano",
+        "details": "Detalhes"
       },
       "taskChatQueuedMessages": {
         "queuedMessages": "Mensagens na fila",
         "queuedMessageActions": "Ações da mensagem na fila",
-        "discardQueuedMessage": "Descartar mensagem na fila"
+        "discardQueuedMessage": "Descartar mensagem na fila",
+        "editMessage": "Editar mensagem"
       },
       "taskChatRichInput": {
         "orDropPasteAnImageInto": "ou solte/cole uma imagem na nota"
@@ -2789,7 +2991,8 @@
       },
       "tweakPanel": {
         "resetAll": "Redefinir tudo",
-        "motionTweakPanel": "Painel de ajuste de movimento"
+        "motionTweakPanel": "Painel de ajuste de movimento",
+        "copyAsTheme": "Copiar como @theme"
       }
     },
     "taskdetail": {
@@ -2803,7 +3006,8 @@
         "rootBlocker": "Bloqueador raiz",
         "subtaskCompletion": "Conclusão da subtarefa",
         "progress": "Progresso",
-        "subtasks": "Subtarefas"
+        "subtasks": "Subtarefas",
+        "addSubtask": "Adicionar subtarefa"
       },
       "taskDetailTasksPanel": {
         "noTasksYet": "Nenhuma tarefa ainda.",
@@ -2837,7 +3041,9 @@
         "keepBrowsing": "Continuar navegando",
         "browsing": "Navegando",
         "sizeFollowsAnotherViewer": "O tamanho segue outro visualizador",
-        "browserSession": "Sessão do navegador"
+        "browserSession": "Sessão do navegador",
+        "stopBrowsing": "Parar de navegar",
+        "resizing": "Redimensionando…"
       },
       "taskBrowserPanel": {
         "couldNotKeepThisBrowserOpen": "Não foi possível manter este navegador aberto. Verifique sua conexão antes do tempo acabar.",
@@ -2851,7 +3057,8 @@
         "documentIsEmpty": "O documento está vazio.",
         "thisTabIsPreservedSoThe": "Esta aba é preservada para que o recurso ausente fique explícito. Feche-a ou escolha outro documento.",
         "documentNoLongerAvailable": "Documento não está mais disponível",
-        "theDocumentCouldNotBeLoaded": "Não foi possível carregar o documento. Tente de novo pelo lançador de abas ou atualize a tarefa."
+        "theDocumentCouldNotBeLoaded": "Não foi possível carregar o documento. Tente de novo pelo lançador de abas ou atualize a tarefa.",
+        "loadingDocument": "Carregando documento…"
       },
       "taskSidePanel": {
         "closeSidePanel": "Fechar painel lateral",
@@ -2860,7 +3067,10 @@
       "taskSkillPanel": {
         "skillNoLongerAvailable": "Skill não está mais disponível.",
         "theSkillCouldNotBeLoaded": "Não foi possível carregar a skill.",
-        "youDoNotHaveAccessTo": "Você não tem acesso a esta skill."
+        "youDoNotHaveAccessTo": "Você não tem acesso a esta skill.",
+        "skillInstructions": "Instruções da skill",
+        "openInSkillStudio": "Abrir no Skill Studio",
+        "loadingSkill": "Carregando skill…"
       },
       "taskWorkspaceFilePanel": {
         "downloadFile": "Baixar arquivo",
@@ -2875,7 +3085,8 @@
         "decision": "Decisão",
         "user": "Usuário",
         "effective": "Efetivo",
-        "requested": "Solicitado"
+        "requested": "Solicitado",
+        "streaming": "Streaming"
       }
     },
     "ui": {
@@ -2926,11 +3137,14 @@
         "endCall": "Encerrar chamada",
         "thisCallerIsTalkingToThe": "Quem ligou está falando com o agente em uma nova tarefa de baixa confiança.",
         "openConversationTask": "Abrir tarefa da conversa",
-        "incomingConversation": "Conversa recebida"
+        "incomingConversation": "Conversa recebida",
+        "codeSpokenOnYourCall": "Código falado na sua chamada"
       },
       "spekoPhoneCallback": {
         "useAnInternationalNumberBeginningWith": "Use um número internacional começando com + e o código do país.",
-        "callMyPhone": "Ligar para o meu telefone"
+        "callMyPhone": "Ligar para o meu telefone",
+        "allowThisAgentToCallMe": "Permitir que este agente me ligue sobre minhas tarefas",
+        "yourCallbackNumber": "Seu número de callback"
       },
       "spekoPhoneLine": {
         "chooseAnAvailableCompanyPhoneNumber": "Escolha um telefone disponível da empresa.",
@@ -2944,7 +3158,9 @@
         "loadingSpekoNumbers": "Carregando números Speko…",
         "letCallersStartAConversationIn": "Deixe quem liga iniciar uma conversa em uma nova tarefa, ou exija aprovação para tratar de uma tarefa existente.",
         "refreshNumbers": "Atualizar números",
-        "incomingCalls": "Chamadas recebidas"
+        "incomingCalls": "Chamadas recebidas",
+        "letCallersStartNewLowTrust": "Deixar quem liga abrir novas tarefas de baixa confiança sem entrar",
+        "enableIncomingCallsOnThisNumber": "Habilitar chamadas recebidas neste número"
       },
       "spekoProviderSetup": {
         "credentialsAndAGeneratedCallbackSigning": "As credenciais e um segredo de assinatura de callback gerado são salvos no cofre da empresa. O Speko cobra o uso de voz separadamente do trabalho de agente. Chamadas de saída são experimentais. Depois de conectar, salve seu número de callback para este agente poder te ligar sobre suas tarefas.",
@@ -2952,7 +3168,9 @@
         "openSpekoAgents": "Abrir agentes Speko",
         "reviewRecordingAndRetentionSettingsIn": "Revise as configurações de gravação e retenção no seu workspace do Speko antes de testar.",
         "copyItsAgentIdAndA": "Copie o ID do agente e uma chave de API do Speko abaixo.",
-        "createADedicatedAgentInSpeko": "Crie um agente dedicado no Speko e escolha a voz dele. Mantenha só as ferramentas padrão do Speko; o Paperclip adiciona a conexão da tarefa."
+        "createADedicatedAgentInSpeko": "Crie um agente dedicado no Speko e escolha a voz dele. Mantenha só as ferramentas padrão do Speko; o Paperclip adiciona a conexão da tarefa.",
+        "spekoApiKey": "Chave de API do Speko",
+        "spekoAgentId": "ID do agente Speko"
       },
       "taskVoiceLauncher": {
         "voicePersona": "Persona de voz",
@@ -2965,7 +3183,9 @@
         "currentVoiceCall": "Chamada de voz atual"
       },
       "voiceControls": {
-        "endingTheCallKeepsYourTask": "Encerrar a chamada mantém sua tarefa rodando. As cobranças de voz do Speko são separadas dos custos de agente."
+        "endingTheCallKeepsYourTask": "Encerrar a chamada mantém sua tarefa rodando. As cobranças de voz do Speko são separadas dos custos de agente.",
+        "enableAudio": "Habilitar áudio",
+        "repeatAnswer": "Repetir resposta"
       },
       "voiceConversationPanel": {
         "voiceTranscriptHistory": "Histórico de transcrição de voz"
@@ -2975,6 +3195,15 @@
         "yourConversationWillAppearHere": "Sua conversa vai aparecer aqui.",
         "theTranscriptIsUnavailableYourTask": "A transcrição está indisponível. Seu histórico de tarefas continua disponível."
       }
+    },
+    "caseIdentifierKey": {
+      "copied": "Copiado"
+    },
+    "interactionPreparationNotice": {
+      "preparingApproval": "Preparando aprovação…"
+    },
+    "swipeToArchive": {
+      "archive": "Arquivar"
     }
   },
   "connectflowpreviewmain": {
@@ -3011,7 +3240,9 @@
         "couldnTLoadConnectionSetup": "Não foi possível carregar a configuração da conexão",
         "connectionManagerRequired": "É necessário um gerenciador de conexões.",
         "toolPermissions": "Permissões da ferramenta",
-        "onlyTheAddressedPersonCanChoose": "Somente a pessoa endereçada pode escolher uma identidade ou autorizar esta conexão."
+        "onlyTheAddressedPersonCanChoose": "Somente a pessoa endereçada pode escolher uma identidade ou autorizar esta conexão.",
+        "authorizationDidnTFinishYourPrevious": "A autorização não concluiu. Suas escolhas anteriores estão seguras; tente de novo.",
+        "loadingConnectionOptions": "Carregando opções de conexão…"
       },
       "connectionSetupFlow": {
         "viewConnection": "Ver conexão",
@@ -3078,7 +3309,11 @@
         "loadingConnectionSettings": "Carregando configurações da conexão…",
         "couldNotLoadConnectorAvailabilityRefresh": "Não foi possível carregar a disponibilidade do conector. Atualize para tentar de novo.",
         "couldNotLoadThisConnectionYour": "Não foi possível carregar esta conexão. Seu acesso salvo e suas credenciais não mudaram.",
-        "loadingConnection": "Carregando conexão…"
+        "loadingConnection": "Carregando conexão…",
+        "openVercelConnect": "Abrir o Vercel Connect",
+        "reviewRequirements": "Revisar requisitos",
+        "advancedAuthentication": "Autenticação avançada",
+        "installPaperclipOnGithub": "Instalar o Paperclip no GitHub"
       },
       "connectionSetupHeader": {
         "setupProgress": "Progresso da configuração",
@@ -3127,7 +3362,9 @@
           "connectionSettings": "Configurações da conexão",
           "theUrlOfYourExecutorOrganization": "A URL da página de integrações da sua organização no Executor. Usada para abrir e gerenciar contas importadas.",
           "consoleUrlOptional": "URL do console (opcional)",
-          "mcpServerUrl": "URL do servidor MCP"
+          "mcpServerUrl": "URL do servidor MCP",
+          "connectingAndDiscoveringTools": "Conectando e descobrindo ferramentas…",
+          "addHeader": "Adicionar cabeçalho"
         },
         "remoteMcpManagement": {
           "cancel": "Cancelar",
@@ -3169,7 +3406,9 @@
       "reinstallAdapter": "Reinstalar adaptador",
       "overridesBuiltIn": "Sobrepõe o nativo",
       "installedFromNpm": "Instalado pelo npm",
-      "installedFromLocalPath": "Instalado de caminho local"
+      "installedFromLocalPath": "Instalado de caminho local",
+      "localPath": "Caminho local",
+      "installAdapter": "Instalar adaptador"
     },
     "agentChat": {
       "loadingConversation": "Carregando conversa…",
@@ -3262,7 +3501,11 @@
       "prompt": "Prompt",
       "commandNotes": "Notas do comando",
       "workingDir": "Diretório de trabalho:",
-      "invocation": "Invocação"
+      "invocation": "Invocação",
+      "createApiKey": "Criar chave de API",
+      "backToRuns": "Voltar para execuções",
+      "advanced": "Avançado",
+      "details": "Detalhes"
     },
     "agentDetail": {
       "revokedKeys": "Chaves revogadas",
@@ -3358,7 +3601,12 @@
       "prompt": "Prompt",
       "commandNotes": "Notas do comando",
       "workingDir": "Diretório de trabalho:",
-      "invocation": "Invocação"
+      "invocation": "Invocação",
+      "createApiKey": "Criar chave de API",
+      "inspectRun": "Inspecionar execução",
+      "backToRuns": "Voltar para execuções",
+      "advanced": "Avançado",
+      "details": "Detalhes"
     },
     "agentDetailPage": {
       "loadingAgentView": "Carregando visão do agente…",
@@ -3399,7 +3647,8 @@
       "paperclipCouldNotVerifyThisAgent": "O Paperclip não conseguiu verificar a conexão atual deste agente. Sua configuração existente não foi alterada.",
       "couldNotLoadGithubIdentity": "Não foi possível carregar a identidade do GitHub",
       "checkingGithubIdentity": "Verificando identidade do GitHub…",
-      "githubIdentity": "Identidade do GitHub"
+      "githubIdentity": "Identidade do GitHub",
+      "whyTheseTools": "Por que estas ferramentas?"
     },
     "agentsproduction": {
       "setUp": "Configurar",
@@ -3408,7 +3657,8 @@
       "noAgentsMatchTheSelectedStatus": "Nenhum agente corresponde ao status selecionado.",
       "orgChartView": "Visão de organograma",
       "listView": "Visão em lista",
-      "viewMode": "Modo de visualização"
+      "viewMode": "Modo de visualização",
+      "newAgent": "Novo agente"
     },
     "agents": {
       "setUp": "Configurar",
@@ -3428,7 +3678,8 @@
       "requestedBy": "Solicitado por",
       "requestingAgentWasNotifiedToReview": "O agente solicitante foi avisado para revisar esta aprovação e as tarefas vinculadas.",
       "approvalConfirmed": "Aprovação confirmada",
-      "approvalNotFound": "Aprovação não encontrada."
+      "approvalNotFound": "Aprovação não encontrada.",
+      "seeFullRequest": "Ver pedido completo"
     },
     "approvals": {
       "selectAnOrganizationFirst": "Selecione uma organização primeiro."
@@ -3514,7 +3765,8 @@
       "invalidCliAuthUrl": "URL de autenticação da CLI inválida."
     },
     "companies": {
-      "loadingOrganizations": "Carregando organizações..."
+      "loadingOrganizations": "Carregando organizações...",
+      "newOrganization": "Nova organização"
     },
     "companyAccess": {
       "openInvites": "Abrir convites",
@@ -3548,7 +3800,8 @@
       "thisAccountCanManageAccessHere": "Esta conta pode gerenciar o acesso aqui por privilégios de administrador da instância, mas no momento não tem participação ativa em organização.",
       "organizationMembers": "Membros da organização",
       "loadingOrganizationAccess": "Carregando acesso da organização…",
-      "selectAnOrganizationToManageAccess": "Selecione uma organização para gerenciar o acesso."
+      "selectAnOrganizationToManageAccess": "Selecione uma organização para gerenciar o acesso.",
+      "invitePeople": "Convidar pessoas"
     },
     "companyConnections": {
       "connections": "Conexões",
@@ -3583,7 +3836,15 @@
       "loadingTemplateSetup": "Carregando configuração do modelo...",
       "customImageBrowserTerminal": "Terminal do navegador com imagem personalizada",
       "disconnect": "Desconectar",
-      "browserTerminal": "Terminal do navegador"
+      "browserTerminal": "Terminal do navegador",
+      "environments": "Ambientes",
+      "managedByPaperclip": "Gerenciado pelo Paperclip",
+      "configureImage": "Configurar imagem",
+      "disable": "Desativar",
+      "rollback": "Reverter",
+      "relink": "Revincular",
+      "refresh": "Atualizar",
+      "finished": "Concluído"
     },
     "companyExport": {
       "exportPreviewFailed": "A pré-visualização da exportação falhou",
@@ -3596,7 +3857,9 @@
       "whatToInclude": "O que incluir",
       "packageFiles": "Arquivos do pacote",
       "notIncludedInThisExport": "Não incluído nesta exportação",
-      "binaryAssetPreviewIsNotAvailable": "A pré-visualização de ativo binário não está disponível para este tipo de arquivo."
+      "binaryAssetPreviewIsNotAvailable": "A pré-visualização de ativo binário não está disponível para este tipo de arquivo.",
+      "retryPreview": "Repetir pré-visualização",
+      "cancelUpdate": "Cancelar atualização"
     },
     "companyImport": {
       "packageFiles": "Arquivos do pacote",
@@ -3625,7 +3888,8 @@
       "importCompleted": "Importação concluída",
       "adapters": "Adaptadores",
       "renames": "Renomeações",
-      "binaryAssetPreviewIsNotAvailable": "A pré-visualização de ativo binário não está disponível para este tipo de arquivo."
+      "binaryAssetPreviewIsNotAvailable": "A pré-visualização de ativo binário não está disponível para este tipo de arquivo.",
+      "startImportedAgentsAndRoutinesPaused": "Iniciar agentes e rotinas importados pausados"
     },
     "companySettings": {
       "archiveThisOrganizationToHideIt": "Arquive esta organização para ocultá-la da barra lateral. Isso persiste no banco de dados.",
@@ -3747,7 +4011,27 @@
       "allCategories": "Todas as categorias",
       "category": "Categoria",
       "optional": "Opcional",
-      "type": "Tipo"
+      "type": "Tipo",
+      "backToStore": "Voltar para a loja",
+      "code": "Código",
+      "view": "Ver",
+      "locallyModified": "Modificado localmente",
+      "checkForUpdates": "Verificar atualizações",
+      "openInStudio": "Abrir no Studio",
+      "tags": "Tags",
+      "move": "Mover",
+      "compatible": "Compatível",
+      "updateAvailable": "Atualização disponível",
+      "updateFromCatalog": "Atualizar pelo catálogo",
+      "installSkill": "Instalar skill",
+      "browseCatalog": "Explorar catálogo",
+      "refresh": "Atualizar",
+      "newFolder": "Nova pasta",
+      "importSkillsFromProject": "Importar skills do projeto",
+      "importFromPathOrUrl": "Importar de caminho ou URL",
+      "createNewSkill": "Criar nova skill",
+      "forked": "Bifurcado",
+      "moveToFolder": "Mover para pasta…"
     },
     "companySkills": {
       "files": "Arquivos",
@@ -3847,7 +4131,23 @@
       "installedFromTheAppShippedSkills": "Instalado pelo catálogo de skills que vem com o app. A procedência é assinada pela versão do pacote e pelo hash do conteúdo.",
       "allCategories": "Todas as categorias",
       "category": "Categoria",
-      "type": "Tipo"
+      "type": "Tipo",
+      "backToStore": "Voltar para a loja",
+      "code": "Código",
+      "view": "Ver",
+      "locallyModified": "Modificado localmente",
+      "checkForUpdates": "Verificar atualizações",
+      "openInStudio": "Abrir no Studio",
+      "tags": "Tags",
+      "move": "Mover",
+      "compatible": "Compatível",
+      "updateAvailable": "Atualização disponível",
+      "updateFromCatalog": "Atualizar pelo catálogo",
+      "installSkill": "Instalar skill",
+      "discoverSkills": "Descobrir skills",
+      "refresh": "Atualizar",
+      "forked": "Bifurcado",
+      "moveToFolder": "Mover para pasta…"
     },
     "costs": {
       "noFinanceEventsYet": "Nenhum evento financeiro ainda.",
@@ -3900,7 +4200,8 @@
     },
     "dashboardLive": {
       "activeRunsFirstFollowedByThe": "Execuções ativas primeiro, seguidas das concluídas mais recentes.",
-      "liveAgentRuns": "Execuções de agente ao vivo"
+      "liveAgentRuns": "Execuções de agente ao vivo",
+      "dashboard": "Painel"
     },
     "decisionQueuePage": {
       "cancel": "Cancelar",
@@ -3910,7 +4211,8 @@
       "noDecisionsMatchYourSearchOr": "Nenhuma decisão corresponde à sua busca ou filtros.",
       "decisionsLandHereWhenTheyMatch": "Decisões chegam aqui quando atendem às regras da fila ou quando um agente as adiciona.",
       "thisQueueIsEmpty": "Esta fila está vazia.",
-      "selectAnOrganizationFirst": "Selecione uma organização primeiro."
+      "selectAnOrganizationFirst": "Selecione uma organização primeiro.",
+      "exclude": "Excluir da seleção"
     },
     "executionWorkspaceDetail": {
       "loadingWorkspacePlugin": "Carregando plugin do workspace...",
@@ -3949,12 +4251,14 @@
       "workspaceRoutines": "Rotinas do workspace",
       "viewRuntimeLogs": "Ver logs de runtime",
       "runsOnceBeforeTheFirstRuntime": "Executa uma vez antes do primeiro início do serviço de runtime.",
-      "deferred": "Adiado"
+      "deferred": "Adiado",
+      "provisioning": "Provisionando…"
     },
     "goalDetail": {
       "noLinkedProjects": "Nenhum projeto vinculado.",
       "noSubGoals": "Nenhuma submeta.",
-      "addADescription": "Adicione uma descrição..."
+      "addADescription": "Adicione uma descrição...",
+      "subGoal": "Submeta"
     },
     "inbox": {
       "dismiss": "Dispensar",
@@ -3996,7 +4300,8 @@
       "experimentalFeaturesMayBreakAtAny": "Funcionalidades experimentais podem quebrar a qualquer momento.",
       "optIntoFeaturesThatAreStill": "Opte por funcionalidades ainda em avaliação antes de virarem comportamento padrão.",
       "experimental": "Experimental",
-      "loadingExperimentalSettings": "Carregando configurações experimentais..."
+      "loadingExperimentalSettings": "Carregando configurações experimentais...",
+      "managedByPaperclipCloud": "Gerenciado pelo Paperclip Cloud"
     },
     "instanceGeneralSettings": {
       "signOutOfThisPaperclipInstance": "Sair desta instância do Paperclip. Você será redirecionado para a página de login.",
@@ -4063,7 +4368,20 @@
       "runsInGrokBotUsageNot": "Executa no Grok Bot · Uso não reportado. Parar o trabalho do Paperclip revoga a autoridade desta sessão; a execução remota pode continuar. Abra o app desktop do Grok Bot para inspecionar.",
       "moreActions": "Mais ações",
       "backToInbox": "Voltar para a caixa de entrada",
-      "taskPeople": "Pessoas da tarefa"
+      "taskPeople": "Pessoas da tarefa",
+      "relatedWork": "Trabalho relacionado",
+      "activity": "Atividade",
+      "chat": "Chat",
+      "newSubTask": "Nova subtarefa",
+      "thisTaskIsHidden": "Esta tarefa está oculta",
+      "noProject": "Sem projeto",
+      "blockedByParkedWork": "Bloqueado por trabalho estacionado",
+      "watchdog": "Watchdog",
+      "routine": "Rotina",
+      "live": "Ao vivo",
+      "hideThisTask": "Ocultar esta tarefa",
+      "properties": "Propriedades",
+      "copyAsMarkdown": "Copiar como markdown"
     },
     "issues": {
       "newTask": "Nova tarefa"
@@ -4131,19 +4449,24 @@
       "connectYourAssistantToPaperclip": "Conecte seu assistente ao Paperclip"
     },
     "notFound": {
-      "goHome": "Ir para o início"
+      "goHome": "Ir para o início",
+      "openDashboard": "Abrir painel"
     },
     "orgChartproduction": {
       "fitChartToScreen": "Ajustar gráfico à tela",
       "fitToScreen": "Ajustar à tela",
       "zoomOut": "Diminuir zoom",
-      "zoomIn": "Aumentar zoom"
+      "zoomIn": "Aumentar zoom",
+      "exportCompany": "Exportar empresa",
+      "importCompany": "Importar empresa"
     },
     "orgChart": {
       "fitChartToScreen": "Ajustar gráfico à tela",
       "fitToScreen": "Ajustar à tela",
       "zoomOut": "Diminuir zoom",
-      "zoomIn": "Aumentar zoom"
+      "zoomIn": "Aumentar zoom",
+      "exportOrganization": "Exportar organização",
+      "importOrganization": "Importar organização"
     },
     "pluginManager": {
       "close": "Fechar",
@@ -4171,7 +4494,8 @@
     },
     "pluginPage": {
       "loading": "Carregando…",
-      "selectAnOrganizationToViewThis": "Selecione uma organização para ver esta página."
+      "selectAnOrganizationToViewThis": "Selecione uma organização para ver esta página.",
+      "back": "Voltar"
     },
     "pluginSettings": {
       "configuredRootWasNotInspected": "A raiz configurada não foi inspecionada.",
@@ -4210,7 +4534,19 @@
       "author": "Autor",
       "description": "Descrição",
       "about": "Sobre",
-      "loadingPluginDetails": "Carregando detalhes do plugin..."
+      "loadingPluginDetails": "Carregando detalhes do plugin...",
+      "testing": "Testando...",
+      "saving": "Salvando...",
+      "loadingConfiguration": "Carregando configuração...",
+      "loadingLocalFolders": "Carregando pastas locais...",
+      "permissions": "Permissões",
+      "healthStatus": "Status de saúde",
+      "recentLogs": "Logs recentes",
+      "recentWebhookDeliveries": "Entregas de webhook recentes",
+      "recentJobRuns": "Execuções de job recentes",
+      "crashes": "Quedas",
+      "workerProcess": "Processo worker",
+      "runtimeDashboard": "Painel de runtime"
     },
     "profileSettings": {
       "emailIsManagedByYourAuth": "O e-mail é gerenciado pela sua sessão de autenticação e aqui é somente leitura.",
@@ -4232,7 +4568,8 @@
       "noIconsMatch": "Nenhum ícone corresponde",
       "searchIcons": "Buscar ícones...",
       "icon": "Ícone",
-      "changeProjectIconAndColor": "Alterar ícone e cor do projeto"
+      "changeProjectIconAndColor": "Alterar ícone e cor do projeto",
+      "pausedByBudgetHardStop": "Pausado por parada rígida de orçamento"
     },
     "projectWorkspaceDetail": {
       "longRunningServicesStaySupervisedHere": "Serviços de longa duração ficam supervisionados aqui, enquanto jobs de disparo único rodam sob demanda contra este workspace. Workspaces de execução herdam esta configuração, a menos que a sobreponham.",
@@ -4248,7 +4585,9 @@
       "configureTheConcreteWorkspacePaperclipAttaches": "Configure o workspace concreto que o Paperclip anexa a este projeto. Estes valores determinam o comportamento de checkout por workspace, os serviços de runtime padrão para workspaces de execução filhos, e permitem sobrepor comandos de configuração ou limpeza quando um workspace precisa de tratamento especial.",
       "projectWorkspace": "Workspace do projeto",
       "workspaceNotFoundForThisProject": "Workspace não encontrado para este projeto.",
-      "loadingWorkspace": "Carregando workspace…"
+      "loadingWorkspace": "Carregando workspace…",
+      "thisIsTheProjectSPrimary": "Este é o workspace principal de código do projeto.",
+      "backToWorkspaces": "Voltar para workspaces"
     },
     "projects": {
       "noProjectsMatchYourSearch": "Nenhum projeto corresponde à sua busca."
@@ -4260,7 +4599,10 @@
     "routineDetail": {
       "backToOverview": "Voltar para a visão geral",
       "routineTitle": "Título da rotina",
-      "skipToSection": "Ir para a seção"
+      "skipToSection": "Ir para a seção",
+      "editRoutine": "Editar rotina",
+      "cancelEditing": "Cancelar edição",
+      "history": "Histórico"
     },
     "routinesproduction": {
       "afterCreationPaperclipTakesYouStraight": "Após a criação, o Paperclip leva você direto à configuração do disparo. Rotinas em rascunho ficam pausadas até você definir um agente padrão.",
@@ -4281,7 +4623,10 @@
       "group": "Grupo",
       "sort": "Ordenar",
       "recurringWorkDefinitionsThatMaterializeInto": "Definições de trabalho recorrente que se materializam em tarefas de execução auditáveis.",
-      "routines": "Rotinas"
+      "routines": "Rotinas",
+      "newRoutineInThisFolder": "Nova rotina nesta pasta",
+      "newFolder": "Nova pasta",
+      "createRoutine": "Criar rotina"
     },
     "routines": {
       "afterCreationPaperclipTakesYouStraight": "Após a criação, o Paperclip leva você direto à configuração do disparo. Rotinas em rascunho ficam pausadas até você definir um agente padrão.",
@@ -4300,7 +4645,9 @@
       "defineTheRecurringWorkFirstDefault": "Defina primeiro o trabalho recorrente. Projeto e agente padrão são opcionais para rotinas em rascunho.",
       "newRoutine": "Nova rotina",
       "recurringWorkDefinitionsThatMaterializeInto": "Definições de trabalho recorrente que se materializam em tarefas de execução auditáveis.",
-      "routines": "Rotinas"
+      "routines": "Rotinas",
+      "newRoutineInThisFolder": "Nova rotina nesta pasta",
+      "createRoutine": "Criar rotina"
     },
     "search": {
       "updating": "Atualizando…",
@@ -4318,7 +4665,8 @@
       "clearSearch": "Limpar busca",
       "searchQuery": "Consulta de busca",
       "searchTasksCommentsDocumentsArtifactsAgents": "Buscar tarefas, comentários, documentos, artefatos, agentes, projetos…",
-      "search": "Buscar"
+      "search": "Buscar",
+      "createTaskFromThisQuery": "Criar tarefa a partir desta consulta"
     },
     "secrets": {
       "noAccessEventsRecordedYetEach": "Nenhum evento de acesso registrado ainda. Cada resolução de runtime escreve uma entrada redigida aqui.",
@@ -4428,7 +4776,14 @@
         "cancel": "Cancelar",
         "closeImportDialog": "Fechar diálogo de importação",
         "bringAwsManagedSecretsIntoPaperclip": "Traga segredos gerenciados pela AWS para o Paperclip como referências externas.",
-        "importFromAwsSecretsManager": "Importar do AWS Secrets Manager"
+        "importFromAwsSecretsManager": "Importar do AWS Secrets Manager",
+        "iamReference": "Referência IAM",
+        "retry": "Repetir",
+        "loading": "Carregando…",
+        "importing": "Importando…",
+        "failed": "Falhou",
+        "skipped": "Ignorado",
+        "created": "Criado"
       },
       "missingUserSecretsBanner": {
         "manageAllMySecrets": "Gerenciar todos os meus segredos"
@@ -4437,7 +4792,9 @@
         "retry": "Repetir"
       },
       "proposalsTab": {
-        "agentsProposeCredentialsAndAccessBindings": "Os agentes propõem credenciais e vínculos de acesso; você aprova ou rejeita aqui. Os valores propostos nunca são exibidos — só uma impressão digital e o tamanho."
+        "agentsProposeCredentialsAndAccessBindings": "Os agentes propõem credenciais e vínculos de acesso; você aprova ou rejeita aqui. Os valores propostos nunca são exibidos — só uma impressão digital e o tamanho.",
+        "loadingProposals": "Carregando propostas…",
+        "couldnTLoadProposalsTryAgain": "Não foi possível carregar as propostas. Tente de novo."
       },
       "setMyUserSecretDialog": {
         "cancel": "Cancelar",
@@ -4464,7 +4821,8 @@
         "name": "Nome",
         "membersSupplyTheirOwnValueFor": "Os membros fornecem o próprio valor para esta credencial. Nenhum valor é informado aqui.",
         "retry": "Repetir",
-        "eachMemberSuppliesForThemselves": "cada membro fornece a sua"
+        "eachMemberSuppliesForThemselves": "cada membro fornece a sua",
+        "newUserSecret": "Novo segredo de usuário"
       },
       "proposalreview": {
         "reject": "Rejeitar",
@@ -4485,8 +4843,27 @@
         "name": "Nome",
         "folder": "Pasta",
         "proposedBy": "Proposto por",
-        "reasonGivenByTheAgent": "Motivo dado pelo agente"
-      }
+        "reasonGivenByTheAgent": "Motivo dado pelo agente",
+        "proposed": "Proposto"
+      },
+      "searchingAwsSecretsManagerMetadata": "Buscando metadados do AWS Secrets Manager",
+      "remove": "Remover",
+      "disable": "Desativar",
+      "makeDefault": "Tornar padrão",
+      "refreshSecrets": "Atualizar segredos",
+      "default": "Padrão",
+      "loadingProviderVaults": "Carregando cofres do provedor",
+      "importFromVault": "Importar do cofre",
+      "awsVaultDisabledManage": "Cofre da AWS desativado — gerenciar",
+      "clear": "Limpar",
+      "edit": "Editar",
+      "deleteDefinition": "Excluir definição",
+      "editDefinition": "Editar definição",
+      "more": "Mais",
+      "copy": "Copiar",
+      "copyLink": "Copiar link",
+      "newSecret": "Novo segredo",
+      "newFolder": "Nova pasta"
     },
     "skillSources": {
       "connectAGithubAccount": "Conectar uma conta do GitHub",
@@ -4508,7 +4885,11 @@
       "moreSourceActions": "Mais ações da origem",
       "skillsFromYourRepositoriesStayUp": "Skills dos seus repositórios se mantêm atualizadas automaticamente.",
       "skillSources": "Origens de skills",
-      "selectACompanyToManageSkill": "Selecione uma empresa para gerenciar origens de skills."
+      "selectACompanyToManageSkill": "Selecione uma empresa para gerenciar origens de skills.",
+      "viewOnGithub": "Ver no GitHub",
+      "repositoryUrl": "URL do repositório",
+      "connectGithubToSeeYourRepos": "Conecte o GitHub para ver seus repositórios",
+      "addRepos": "Adicionar repositórios"
     },
     "skillStudio": {
       "runs": "Execuções",
@@ -4589,7 +4970,16 @@
       "codeReview": "Revisão de código",
       "nameTheSkillAndSetThe": "Nomeie a skill e defina o slug seguro para rota.",
       "basics": "Básico",
-      "createAnEditableOrganizationSkillAnd": "Crie uma skill editável da organização e abra direto no Studio."
+      "createAnEditableOrganizationSkillAnd": "Crie uma skill editável da organização e abra direto no Studio.",
+      "back": "Voltar",
+      "reRun": "Executar de novo",
+      "workingOutputWillAppearHere": "Trabalhando… a saída vai aparecer aqui.",
+      "run": "Executar",
+      "newInputNotSaved": "Nova entrada (não salva)",
+      "makeACopy": "Fazer uma cópia",
+      "shareLink": "Compartilhar link",
+      "newSkill": "Nova skill",
+      "forkSourceNotFoundYouCan": "Origem da bifurcação não encontrada. Você ainda pode criar uma skill vazia."
     },
     "statusCards": {
       "archivedStatusCardRow": {
@@ -4622,7 +5012,10 @@
         "history": "Histórico",
         "watchedIssues": "Issues observadas",
         "settings": "Configurações",
-        "summary": "Resumo"
+        "summary": "Resumo",
+        "matchingIssues": "Buscando issues correspondentes…",
+        "loadingHistory": "Carregando histórico…",
+        "viewSetupTask": "Ver tarefa de configuração"
       },
       "statusCardSettingsForm": {
         "roughEstimateFromTypicalUpdateSizes": "Estimativa aproximada a partir de tamanhos típicos de atualização; o custo real é acompanhado por atualização.",
@@ -4643,7 +5036,8 @@
         "checkInterval": "Intervalo de verificação",
         "checkEvery": "Verificar a cada",
         "default": "Padrão",
-        "autoUpdatePolicy": "Política de atualização automática"
+        "autoUpdatePolicy": "Política de atualização automática",
+        "advanced": "Avançado"
       },
       "statusCardTile": {
         "refreshCard": "Atualizar cartão",
@@ -4659,13 +5053,19 @@
         "runNow": "Executar agora",
         "refreshNow": "Atualizar agora",
         "openDetail": "Abrir detalhe",
-        "cardActions": "Ações do cartão"
+        "cardActions": "Ações do cartão",
+        "lastUpdateFailed": "A última atualização falhou",
+        "viewUpdateTask": "Ver tarefa de atualização",
+        "viewSetupTask": "Ver tarefa de configuração"
       },
       "summarizerAgentSelect": {
         "summarizerDefault": "Summarizer (padrão)"
       },
       "index": {
-        "status": "Status"
+        "status": "Status",
+        "loadingCards": "Carregando cartões…",
+        "newCard": "Novo cartão",
+        "experimental": "Experimental"
       }
     },
     "teamCatalog": {
@@ -4725,7 +5125,13 @@
       "secretsEnvInputs": "Segredos e entradas de ambiente",
       "noRequiredSkills": "Nenhuma skill obrigatória.",
       "noAgentsInThisTeam": "Nenhum agente neste time.",
-      "catalogPackageProvenance": "Procedência do pacote do catálogo"
+      "catalogPackageProvenance": "Procedência do pacote do catálogo",
+      "backToCatalog": "Voltar para o catálogo",
+      "retry": "Repetir",
+      "preparingPreview": "Preparando pré-visualização…",
+      "useThisTeamAsAFull": "Usar este time como pacote de organização inteira (sem gerente de destino)",
+      "confirmInstallWithExecutables": "Confirmar — instalar com executáveis",
+      "installed": "Instalado"
     },
     "timeline": {
       "resetZoom": "Redefinir zoom",
@@ -4733,7 +5139,11 @@
       "zoomOut": "Diminuir zoom",
       "timelineZoomControls": "Controles de zoom da linha do tempo",
       "timelineEndDate": "Data final da linha do tempo",
-      "timelineStartDate": "Data inicial da linha do tempo"
+      "timelineStartDate": "Data inicial da linha do tempo",
+      "now": "Agora",
+      "cancelled": "Cancelado",
+      "automation": "Automação",
+      "delegated": "Delegado"
     },
     "userProfile": {
       "noDirectUserActionsRecordedYet": "Nenhuma ação direta de usuário registrada ainda.",
@@ -4745,7 +5155,9 @@
       "open": "Abrir",
       "created": "Criado",
       "spend": "Gasto",
-      "tokens": "Tokens"
+      "tokens": "Tokens",
+      "editProfile": "Editar perfil",
+      "tokensDay": "tokens / dia"
     },
     "whatNeedsMe": {
       "youReAllCaughtUp": "Você está em dia",
@@ -4755,7 +5167,8 @@
       "noDecidedDecisions": "Nenhuma decisão tomada.",
       "loadingDecidedDecisions": "Carregando decisões tomadas…",
       "decisions": "Decisões",
-      "selectAnOrganizationFirst": "Selecione uma organização primeiro."
+      "selectAnOrganizationFirst": "Selecione uma organização primeiro.",
+      "nothingNeedsADecisionFromYou": "Nada precisa de decisão sua agora."
     },
     "workspaces": {
       "noWorkspaceActivityYet": "Nenhuma atividade de workspace ainda.",
@@ -4773,7 +5186,12 @@
         "noSkillsInTheOrganizationLibrary": "Nenhuma skill na biblioteca da organização",
         "noDetectedSkillsMatchYourSearch": "Nenhuma skill detectada corresponde à sua busca.",
         "automaticAndDetectedSkillsReadOnly": "Skills automáticas e detectadas (somente leitura)",
-        "searchSkills": "Buscar skills"
+        "searchSkills": "Buscar skills",
+        "browseSkillsStore": "Explorar a loja de skills",
+        "saved": "Salvo",
+        "savingSoon": "Salvando em breve…",
+        "couldnTSave": "Não foi possível salvar",
+        "saving": "Salvando…"
       }
     },
     "apps": {
@@ -4785,7 +5203,8 @@
         "connection": "Conexão"
       },
       "aggregatorConnectDialog": {
-        "connectANewAccount": "Conectar uma nova conta"
+        "connectANewAccount": "Conectar uma nova conta",
+        "continue": "Continuar"
       },
       "appDetail": {
         "tryAgain": "Tentar novamente",
@@ -4854,7 +5273,8 @@
         "selectAnOrganizationToConnectAn": "Selecione uma organização para conectar um assistente.",
         "couldnTLoadYourConnectionStatus": "Não foi possível carregar o status da sua conexão.",
         "checkingYourConnectionStatus": "Verificando o status da sua conexão…",
-        "useYourPaperclipOrganizationFromCodex": "Use sua organização do Paperclip pelo Codex, Claude, OpenCode ou outro assistente."
+        "useYourPaperclipOrganizationFromCodex": "Use sua organização do Paperclip pelo Codex, Claude, OpenCode ou outro assistente.",
+        "setupDocumentation": "Documentação de configuração"
       },
       "browse": {
         "addACustomMcpServerOr": "Adicione um servidor MCP personalizado ou cole uma configuração existente.",
@@ -4872,7 +5292,8 @@
         "couldnTRefreshTheGatewayLast": "Não foi possível atualizar o gateway. As últimas contas conhecidas são exibidas.",
         "tryAgain": "Tentar novamente",
         "couldnTLoadEveryConnectorExisting": "Não foi possível carregar todos os conectores. As contas existentes aparecem quando disponíveis.",
-        "selectAnOrganizationToManageConnectors": "Selecione uma organização para gerenciar conectores."
+        "selectAnOrganizationToManageConnectors": "Selecione uma organização para gerenciar conectores.",
+        "removeConnection": "Remover conexão"
       },
       "composioAppManager": {
         "close": "Fechar",
@@ -4880,7 +5301,8 @@
         "loadingAccounts": "Carregando contas…",
         "thisComposioConnectionIsNoLonger": "Esta conexão do Composio não está mais disponível.",
         "composioAccount": "Conta Composio",
-        "accountsAndSignInAreManaged": "Contas e entrada são gerenciadas no Composio."
+        "accountsAndSignInAreManaged": "Contas e entrada são gerenciadas no Composio.",
+        "openInComposio": "Abrir no Composio"
       },
       "composioAppSetup": {
         "getANewLink": "Obter um novo link",
@@ -4974,7 +5396,9 @@
           "tryAgain": "Tentar novamente",
           "actAs": "Agir como",
           "noAgentsAreAvailableToTest": "Nenhum agente disponível para testar como.",
-          "runARealActionWithThe": "Execute uma ação real com as mesmas permissões e credenciais que um agente usaria."
+          "runARealActionWithThe": "Execute uma ação real com as mesmas permissões e credenciais que um agente usaria.",
+          "loadingAgentPermissions": "Carregando permissões do agente…",
+          "loadingAgents": "Carregando agentes…"
         },
         "activityPanel": {
           "noActivityYet": "Nenhuma atividade ainda.",
@@ -4996,7 +5420,8 @@
           "pasteYourNewKey": "Cole sua nova chave",
           "appKey": "Chave do app",
           "credentialsForThisConnectionAreManaged": "As credenciais desta conexão são gerenciadas no Vercel Connect.",
-          "addSupportedConnection": "Adicionar conexão suportada"
+          "addSupportedConnection": "Adicionar conexão suportada",
+          "manageInVercel": "Gerenciar na Vercel"
         },
         "agentConnectionAccess": {
           "theseAgentsCanUseTheListed": "Estes agentes podem usar as ações listadas além das permissões acima. Remover uma concessão restaura as outras permissões deles.",
@@ -5049,7 +5474,8 @@
           "actions": "Ações",
           "noAgentsCanUseThisConnection": "Nenhum agente pode usar esta conexão.",
           "anyAgentCanUseThisConnection": "Qualquer agente pode usar esta conexão.",
-          "whichAgentsCanUseThisConnection": "Quais agentes podem usar esta conexão?"
+          "whichAgentsCanUseThisConnection": "Quais agentes podem usar esta conexão?",
+          "test": "Testar"
         },
         "railwayAccessPanel": {
           "removeContainerKey": "Remover chave do contêiner",
@@ -5136,7 +5562,14 @@
           "privateVoiceAccess": "Acesso privado de voz",
           "continueSetup": "Continuar configuração",
           "copyDedicatedNumber": "Copiar número dedicado",
-          "thisChatConnectionCouldNotBe": "Não foi possível carregar esta conexão de conversa."
+          "thisChatConnectionCouldNotBe": "Não foi possível carregar esta conexão de conversa.",
+          "loadingActivity": "Carregando atividade…",
+          "removeConnection": "Remover conexão",
+          "copyLink": "Copiar link",
+          "openSlackConfiguration": "Abrir configuração do Slack",
+          "openSpeko": "Abrir o Speko",
+          "copyNumber": "Copiar número",
+          "loadingConnection": "Carregando conexão…"
         },
         "chatEndpointSetup": {
           "couldnTCopySelectAndCopy": "Não foi possível copiar. Selecione e copie o comando acima.",
@@ -5233,7 +5666,19 @@
           "thisChatProviderIsNotSupported": "Este provedor de conversa não é suportado.",
           "useThisConnectionAsAnAgent": "Usar esta conexão como ferramenta de agente",
           "chatWithAnAgent": "Conversar com um agente",
-          "chooseHowToConnect": "Escolha como conectar"
+          "chooseHowToConnect": "Escolha como conectar",
+          "openSlackAppSettings": "Abrir configurações do app do Slack",
+          "createSlackApp": "Criar app do Slack",
+          "openSlack": "Abrir o Slack",
+          "requiredTeamsAppManifestBlock": "Bloco obrigatório do manifesto do app do Teams",
+          "openTeamsDeveloperPortal": "Abrir o Teams Developer Portal",
+          "createAzureBot": "Criar Azure Bot",
+          "openMicrosoftEntra": "Abrir o Microsoft Entra",
+          "openBotfather": "Abrir o BotFather",
+          "installBotInThisServer": "Instalar o bot neste servidor",
+          "openDiscordDeveloperPortal": "Abrir o Discord Developer Portal",
+          "success": "Sucesso",
+          "loadingSlack": "Carregando Slack…"
         },
         "chatExecutionDefaults": {
           "savedForNewTasks": "Salvo para novas tarefas.",
@@ -5265,7 +5710,8 @@
           "identityLinked": "Identidade vinculada",
           "theLinkIsInvalidExpiredAlready": "O link é inválido, expirou, já foi usado ou pertence a outra organização do Paperclip.",
           "thisIdentityLinkIsUnavailable": "Este vínculo de identidade está indisponível",
-          "couldnTLoadYourAccountRefresh": "Não foi possível carregar sua conta. Atualize para tentar de novo."
+          "couldnTLoadYourAccountRefresh": "Não foi possível carregar sua conta. Atualize para tentar de novo.",
+          "checkingIdentityLink": "Verificando vínculo de identidade…"
         },
         "emailEndpointSetup": {
           "disconnectInbox": "Desconectar caixa de entrada",
@@ -5305,14 +5751,18 @@
           "chooseAnAgent": "Escolha um agente",
           "agent": "Agente",
           "thisEmailSetupCouldNotBe": "Não foi possível encontrar esta configuração de e-mail. Volte a Conectores e inicie uma nova conexão.",
-          "loadingEmailSetup": "Carregando configuração de e-mail…"
+          "loadingEmailSetup": "Carregando configuração de e-mail…",
+          "viewInbox": "Ver caixa de entrada",
+          "back": "Voltar"
         },
         "gitHubAppIdentity": {
           "refreshGithubAppIdentity": "Atualizar identidade do app do GitHub",
           "changeTheAppNameOrUpload": "Altere o nome do app ou envie o logo dele no GitHub",
           "editAppNameAndLogoOn": "Editar nome e logo do app no GitHub",
           "reconnectAfterward": "Reconectar depois",
-          "changeTheNameOrUploadA": "Altere o nome ou envie um logo nas configurações de Informações de exibição do app no GitHub."
+          "changeTheNameOrUploadA": "Altere o nome ou envie um logo nas configurações de Informações de exibição do app no GitHub.",
+          "editApp": "Editar app",
+          "editOnGithub": "Editar no GitHub"
         },
         "gitHubBotConfiguration": {
           "addContributor": "Adicionar colaborador",
@@ -5359,7 +5809,10 @@
           "enterAWholeNumberFrom1": "Informe um número inteiro de 1 a 5.",
           "reportOnly": "Somente relatar",
           "outOf5": "de 5",
-          "passingScore": "Nota de aprovação"
+          "passingScore": "Nota de aprovação",
+          "addExternalContributor": "Adicionar colaborador externo",
+          "linkAMember": "Vincular um membro",
+          "newIssues": "Novas issues"
         },
         "gitHubBotManagement": {
           "allReviews": "Todas as revisões",
@@ -5386,7 +5839,9 @@
           "repositories": "Repositórios",
           "searchRepositories": "Buscar repositórios",
           "chooseWhereTheBotCanReceive": "Escolha onde o bot pode receber mensagens e usar ferramentas. Alterações de repositório salvam na hora.",
-          "manageRepositories": "Gerenciar repositórios"
+          "manageRepositories": "Gerenciar repositórios",
+          "refreshRepositories": "Atualizar repositórios",
+          "manageOnGithub": "Gerenciar no GitHub"
         },
         "gitHubChatSetup": {
           "iAlreadyHaveAnApp": "Já tenho um app",
@@ -5410,7 +5865,8 @@
           "loadingYourDraft": "Carregando seu rascunho…",
           "couldNotLoadThisConnectionTry": "Não foi possível carregar esta conexão. Tente de novo para retomar seu rascunho.",
           "resumeGithubSetup": "Retomar configuração do GitHub",
-          "continueToGithub": "Continuar para o GitHub"
+          "continueToGithub": "Continuar para o GitHub",
+          "continueInstallationOnGithub": "Continuar a instalação no GitHub"
         },
         "gitHubConnectionComplete": {
           "done": "Pronto",
@@ -5434,13 +5890,17 @@
           "connectionDetails": "Detalhes da conexão",
           "reconnectGithub": "Reconectar o GitHub",
           "reconnectThisBotToRestoreGithub": "Reconecte este bot para restaurar as revisões e @menções do GitHub. Comece pelo app já salvo no Paperclip.",
-          "githubConnectionNeedsRepair": "A conexão do GitHub precisa de reparo"
+          "githubConnectionNeedsRepair": "A conexão do GitHub precisa de reparo",
+          "githubSPrivateKeyInstructions": "Instruções de chave privada do GitHub",
+          "openGithubAppSettings": "Abrir configurações do app do GitHub"
         },
         "photonConnectStep": {
           "directMessagesOnlyEnrollEachTest": "Somente mensagens diretas. Inscreva cada remetente de teste na página Users do seu projeto Photon e use o número que o Photon atribuir a ele. A vinculação de identidade no Paperclip continua obrigatória. Grupos não podem ser habilitados neste canal.",
           "photonLineSetup": "Configuração da linha Photon",
           "photonDashboard": "Painel do Photon",
-          "connectImessagePhoton": "Conectar iMessage Photon"
+          "connectImessagePhoton": "Conectar iMessage Photon",
+          "projectSecret": "Segredo do projeto",
+          "projectId": "ID do projeto"
         },
         "slackAvatarStep": {
           "agentAvatar": "Avatar do agente",
@@ -5461,7 +5921,9 @@
           "couldnTCheckForYourSlack": "Não foi possível verificar sua conta do Slack. Vamos continuar tentando.",
           "couldnTCopyTheCommandSelect": "Não foi possível copiar o comando. Selecione e copie acima.",
           "sendThisCommandInSlackSo": "Envie este comando no Slack para identificarmos sua conta. Isso não inicia trabalho de agente.",
-          "connectYourSlackAccount": "Conecte sua conta do Slack"
+          "connectYourSlackAccount": "Conecte sua conta do Slack",
+          "waitingForYourConnectCommand": "Aguardando seu comando de conexão…",
+          "openSlack": "Abrir o Slack"
         },
         "slackTestMessageButton": {
           "cancel": "Cancelar",
@@ -5497,7 +5959,8 @@
             "openSlackAppSettings": "Abrir configurações do app do Slack",
             "chooseASlackWorkspace": "Escolha um workspace do Slack",
             "slackWorkspace": "Workspace do Slack",
-            "managedSlackSetupIsUnavailableTry": "A configuração gerenciada do Slack está indisponível. Tente mais tarde."
+            "managedSlackSetupIsUnavailableTry": "A configuração gerenciada do Slack está indisponível. Tente mais tarde.",
+            "iCheckedSlackAndNoApp": "Verifiquei no Slack e nenhum app foi criado. Criar um novo app."
           },
           "ownSlackAppSetup": {
             "useAnExistingApp": "Usar um app existente",
@@ -5510,7 +5973,11 @@
             "accessToken": "Token de acesso",
             "selectTheWorkspaceWhereYouWant": "Selecione o workspace onde você quer instalar seu bot.",
             "generateToken": "Gerar token",
-            "yourAppConfigurationTokens": "Seus tokens de configuração do app"
+            "yourAppConfigurationTokens": "Seus tokens de configuração do app",
+            "creatingYourSlackAppYouCan": "Criando seu app do Slack. Você pode voltar a esta configuração salva.",
+            "getYourAppConfigurationAccessToken": "Obtenha seu token de acesso de configuração do app",
+            "iCheckedSlackAndNoApp": "Verifiquei no Slack e nenhum app foi criado. Criar um novo app.",
+            "openSlackAppSettings": "Abrir configurações do app do Slack"
           }
         }
       },
@@ -5529,7 +5996,11 @@
           "authorization": "Autorização",
           "chooseAClientAndCopyA": "Escolha um cliente e copie uma configuração completa e autenticada.",
           "giveThisMcpGatewayConfigurationTo": "Entregue esta configuração do gateway MCP à sua ferramenta. Ela não dá acesso ao Paperclip nem às skills; só intermedia as chamadas entre o cliente e as ferramentas expostas aqui.",
-          "aboutClientSnippets": "Sobre os trechos de cliente"
+          "aboutClientSnippets": "Sobre os trechos de cliente",
+          "done": "Pronto",
+          "copy": "Copiar",
+          "rawUrl": "URL bruta",
+          "copyHeader": "Copiar cabeçalho"
         },
         "copyableGatewayUrl": {
           "copyGatewayUrl": "Copiar URL do gateway"
@@ -5547,7 +6018,9 @@
           "gatewayTabs": "Abas do gateway",
           "backToGateways": "Voltar para gateways",
           "weCouldnTFindThatGateway": "Não encontramos esse gateway.",
-          "selectAnOrganizationToManageGateways": "Selecione uma organização para gerenciar gateways."
+          "selectAnOrganizationToManageGateways": "Selecione uma organização para gerenciar gateways.",
+          "clientSnippets": "Trechos de cliente",
+          "edit": "Editar"
         },
         "gatewaysList": {
           "groupYourConnectedAppsIntoOne": "Agrupe seus aplicativos conectados em um endpoint seguro que você pode entregar a um cliente e revogar de uma vez.",
@@ -5558,7 +6031,8 @@
           "searchByNameAppOrOwner": "Buscar por nome, aplicativo ou dono",
           "aGatewayIsOneSafeMcp": "Um gateway é um endpoint MCP seguro que expõe apenas os aplicativos que você atribui. Entregue-o a um cliente como o Cursor ou o Claude Desktop.",
           "apps": "Aplicativos",
-          "selectAnOrganizationToManageGateways": "Selecione uma organização para gerenciar gateways."
+          "selectAnOrganizationToManageGateways": "Selecione uma organização para gerenciar gateways.",
+          "newGateway": "Novo gateway"
         },
         "newGatewayDialog": {
           "cancel": "Cancelar",
@@ -5592,7 +6066,9 @@
             "archivingTakesTheGatewayOfflineFor": "Arquivar derruba o gateway para todos os clientes. Os tokens existentes param de funcionar. Digite o nome do gateway para confirmar.",
             "dangerZone": "Zona de perigo",
             "rawConfiguration": "Configuração bruta",
-            "transport": "Transporte"
+            "transport": "Transporte",
+            "copyJson": "Copiar JSON",
+            "copy": "Copiar"
           },
           "overviewPanel": {
             "howClientsConnect": "Como os clientes se conectam",
@@ -5601,7 +6077,8 @@
             "anyoneHoldingAnActiveTokenBelow": "Qualquer pessoa com um token ativo abaixo, limitada pelas regras do perfil vinculado.",
             "whoCanUseIt": "Quem pode usar",
             "toggleTheWholeGatewayOffHere": "Desligue o gateway inteiro aqui.",
-            "toggleGateway": "Alternar gateway"
+            "toggleGateway": "Alternar gateway",
+            "copy": "Copiar"
           },
           "tokensPanel": {
             "cancel": "Cancelar",
@@ -5629,9 +6106,17 @@
             "paperclipCreatesAFreshOneHour": "O Paperclip cria um token de runtime novo de uma hora quando uma execução de agente começa e o revoga quando ela termina. O Codex pode receber o mesmo gateway tanto por uma conexão de aplicativo quanto pelo caminho de gateway gerenciado, então uma execução pode deixar duas linhas revogadas. Isso é histórico de auditoria, não tokens manuais repetidos.",
             "issueAReusableTokenForAn": "Emita um token reutilizável para um cliente externo. O nome dele também é usado como etiqueta do cliente.",
             "expired": "Expirado",
-            "noExpiry": "Sem validade"
+            "noExpiry": "Sem validade",
+            "copy": "Copiar",
+            "issueToken": "Emitir token"
           }
         }
+      },
+      "connectionProvenanceChip": {
+        "viaVercelConnect": "via Vercel Connect"
+      },
+      "unverifiedServerBadge": {
+        "unverifiedServer": "Servidor não verificado"
       }
     },
     "audit": {
@@ -5656,7 +6141,10 @@
         "searchCommentary": "Buscar comentários",
         "suggestionsAndComplaintsFromYourAgents": "Sugestões e reclamações dos seus agentes.",
         "commentary": "Comentário",
-        "loadingMessage": "Carregando mensagem…"
+        "loadingMessage": "Carregando mensagem…",
+        "next": "Próximo",
+        "previous": "Anterior",
+        "viewRun": "Ver execução"
       },
       "auditFeedproduction": {
         "recordedByPaperclipEntriesCanT": "Registrado pelo Paperclip — entradas não podem ser editadas. Valores sensíveis nunca são armazenados.",
@@ -5752,7 +6240,17 @@
         "selectAll": "Selecionar todos",
         "closeImportDialog": "Fechar diálogo de importação",
         "pickAProjectScanItsWorkspaces": "Escolha um projeto, varra os workspaces dele em busca de skills e importe-as como referências.",
-        "importSkillsFromProject": "Importar skills do projeto"
+        "importSkillsFromProject": "Importar skills do projeto",
+        "browseFolders": "Explorar pastas",
+        "loadingFolder": "Carregando pasta…",
+        "discoveredSkills": "Skills descobertas",
+        "importing": "Importando…",
+        "back": "Voltar",
+        "filesStayInTheProjectStudio": "Os arquivos ficam no projeto — edições no Studio salvam direto nele.",
+        "new": "Novo",
+        "skipped": "Ignorado",
+        "conflict": "Conflito",
+        "imported": "Importado"
       },
       "skillImportProgress": {
         "scanStages": "Etapas da varredura",
@@ -5770,7 +6268,9 @@
         "loadingPreview": "Carregando pré-visualização…",
         "packageReferenceWarnings": "Avisos de referência do pacote",
         "runtimeRequirements": "Requisitos de runtime",
-        "refreshThisSourceToInspectIts": "Atualize esta origem para inspecionar o conteúdo completo do pacote."
+        "refreshThisSourceToInspectIts": "Atualize esta origem para inspecionar o conteúdo completo do pacote.",
+        "openOnGithub": "Abrir no GitHub",
+        "filesNotIncluded": "Arquivos não incluídos"
       },
       "skillSourceTree": {
         "selectWholeSkillPackagesExpandA": "Selecione pacotes de skill inteiros. Expanda uma skill para ver os arquivos dela. Skills aninhadas são selecionadas separadamente.",
@@ -5806,7 +6306,8 @@
         "description": "Descrição",
         "accessProfile": "Perfil de acesso",
         "engineeringLaptops": "Notebooks de engenharia",
-        "gatewayName": "Nome do gateway"
+        "gatewayName": "Nome do gateway",
+        "createGateway": "Criar gateway"
       },
       "mcpConfigHelpDialog": {
         "promptToSend": "Prompt a enviar",
@@ -5826,7 +6327,8 @@
         "weLlReadItAndShow": "Vamos ler e mostrar o que encontramos antes de salvar qualquer coisa.",
         "pasteAnMcpConfigTheSnippet": "Cole uma configuração MCP — o trecho que um README manda copiar.",
         "browsePlannedAppConnections": "Explorar conexões de aplicativo planejadas",
-        "pasteTheMcpConfigSnippetFrom": "Cole o trecho de configuração MCP do README da ferramenta e transformamos numa configuração amigável."
+        "pasteTheMcpConfigSnippetFrom": "Cole o trecho de configuração MCP do README da ferramenta e transformamos numa configuração amigável.",
+        "connectionName": "Nome da conexão"
       },
       "profilesTab": {
         "noSelectors": "Nenhum seletor.",
@@ -5881,7 +6383,10 @@
         "exclude": "Excluir da seleção",
         "include": "Incluir",
         "effect": "Efeito",
-        "selector": "Seletor"
+        "selector": "Seletor",
+        "entry": "Entrada",
+        "edit": "Editar",
+        "newProfile": "Novo perfil"
       },
       "toolsAccess": {
         "openDeveloperTools": "Abrir ferramentas de desenvolvedor",
@@ -5966,7 +6471,13 @@
           "dismiss": "Dispensar",
           "profileSaved": "Perfil salvo",
           "archive": "Arquivar",
-          "backToProfiles": "Voltar para perfis"
+          "backToProfiles": "Voltar para perfis",
+          "alsoCopyAssignments": "Copiar também as atribuições?",
+          "checkWhatAnAgentCanActually": "Verifique o que um agente pode de fato fazer",
+          "updated": "Atualizado",
+          "delete": "Excluir",
+          "restore": "Restaurar",
+          "edit": "Editar"
         },
         "profileDetailRoute": {
           "selectAnOrganizationAndProfile": "Selecione uma organização e um perfil."
@@ -5988,7 +6499,8 @@
           "startFrom": "Começar de",
           "cancel": "Cancelar",
           "back": "Voltar",
-          "saveFinishLater": "Salvar e terminar depois"
+          "saveFinishLater": "Salvar e terminar depois",
+          "advanced": "Avançado"
         },
         "profileWizardRoute": {
           "chooseWhichToolsThisProfileAllows": "Escolha quais ferramentas este perfil permite e atribua-o aos agentes que precisam delas.",
@@ -6009,7 +6521,9 @@
           "profile": "Perfil",
           "noArchivedProfiles": "Nenhum perfil arquivado.",
           "seeExactlyWhichToolsAnAgent": "Veja exatamente quais ferramentas um agente pode usar agora, e qual perfil permite cada uma.",
-          "checkAnAgentSAccess": "Verificar o acesso de um agente"
+          "checkAnAgentSAccess": "Verificar o acesso de um agente",
+          "restore": "Restaurar",
+          "newProfile": "Novo perfil"
         },
         "toolsAdminGate": {
           "yourApps": "seus aplicativos",
@@ -6029,13 +6543,20 @@
           "searchTools": "Buscar ferramentas…",
           "browseAppConnections": "Explorar conexões de aplicativo",
           "profilesWillBeAvailableOnceApp": "Os perfis ficam disponíveis quando as conexões de aplicativo estiverem prontas. Até então, explore as integrações planejadas.",
-          "appConnectionsAreComingSoon": "Conexões de aplicativo em breve"
+          "appConnectionsAreComingSoon": "Conexões de aplicativo em breve",
+          "addRule": "Adicionar regra"
         }
       },
       "shared": {
         "retry": "Repetir",
         "couldNotLoadThisView": "Não foi possível carregar esta visão"
       }
+    },
+    "artifacts": {
+      "allStacks": "Todas as pilhas"
+    },
+    "goals": {
+      "newGoal": "Nova meta"
     }
   },
   "plugins": {

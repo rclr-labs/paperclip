@@ -1145,7 +1145,7 @@ function EnvironmentImageTemplatePanel({
               disabled={isMutating || session.status !== "waiting_for_user"}
             >
               <Check className="mr-1.5 h-3.5 w-3.5" />
-              Finished
+              {t("pages.companyEnvironments.finished")}
             </Button>
             <Button
               size="sm"
@@ -1154,7 +1154,7 @@ function EnvironmentImageTemplatePanel({
               disabled={isMutating}
             >
               <X className="mr-1.5 h-3.5 w-3.5" />
-              Cancel
+              {t("pages.companyEnvironments.cancel")}
             </Button>
           </div>
         </div>
@@ -1230,7 +1230,7 @@ function EnvironmentImageTemplatePanel({
               disabled={isMutating}
             >
               <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-              Refresh
+              {t("pages.companyEnvironments.refresh")}
             </Button>
             <Button
               size="sm"
@@ -1240,7 +1240,7 @@ function EnvironmentImageTemplatePanel({
               data-testid={`custom-image-template-relink-${environment.id}`}
             >
               <Link2 className="mr-1.5 h-3.5 w-3.5" />
-              Relink
+              {t("pages.companyEnvironments.relink")}
             </Button>
             <Button
               size="sm"
@@ -1249,7 +1249,7 @@ function EnvironmentImageTemplatePanel({
               disabled={isMutating}
             >
               <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-              Rollback
+              {t("pages.companyEnvironments.rollback")}
             </Button>
             <Button
               size="sm"
@@ -1258,7 +1258,7 @@ function EnvironmentImageTemplatePanel({
               disabled={isMutating}
             >
               <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-              Disable
+              {t("pages.companyEnvironments.disable")}
             </Button>
           </div>
         </div>
@@ -1287,7 +1287,7 @@ function EnvironmentImageTemplatePanel({
           disabled={isMutating}
         >
           <Play className="mr-1.5 h-3.5 w-3.5" />
-          Configure image
+          {t("pages.companyEnvironments.configureImage")}
         </Button>
       </div>
     </div>
@@ -2121,7 +2121,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
               <Button size="sm" variant="ghost" asChild>
                 <Link to={ENVIRONMENTS_PATH}>
                   <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                  Environments
+                  {t("pages.companyEnvironments.environments")}
                 </Link>
               </Button>
             </div>
@@ -2129,7 +2129,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
               <h1 className="text-lg font-semibold">{editingEnvironment.name}</h1>
               <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground">
                 <Lock className="h-3 w-3" aria-hidden />
-                Managed by Paperclip
+                {t("pages.companyEnvironments.managedByPaperclip")}
               </span>
             </div>
             <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
@@ -2190,7 +2190,7 @@ export function CompanyEnvironments({ mode = "list" }: CompanyEnvironmentsProps)
               <Button size="sm" variant="ghost" asChild>
                 <Link to={ENVIRONMENTS_PATH}>
                   <ArrowLeft className="mr-1.5 h-3.5 w-3.5" />
-                  Environments
+                  {t("pages.companyEnvironments.environments")}
                 </Link>
               </Button>
               {editingEnvironment ? (

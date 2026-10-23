@@ -94,7 +94,7 @@ export function AgentConversationSidebar({ agents, existingChatAgentIds, availab
     </div>
     <div className="shrink-0 px-3 py-4">
       <Button variant="ghost" size="sm" className="w-full justify-start gap-2 px-2 text-muted-foreground" asChild={!onBrowse} onClick={onBrowse}>
-        {onBrowse ? <><Users className="size-4" />Browse all agents</> : <Link to="/agents/all"><Users className="size-4" />Browse all agents</Link>}
+        {onBrowse ? <><Users className="size-4" />{t("components.agentConversationSidebar.browseAllAgents")}</> : <Link to="/agents/all"><Users className="size-4" />{t("components.agentConversationSidebar.browseAllAgents")}</Link>}
       </Button>
     </div>
     <AgentChatPicker agents={availableAgents} open={pickerOpen} onOpenChange={setPickerOpen}

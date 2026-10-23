@@ -83,7 +83,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
       </>}
     {uncertain && <div className="space-y-3 text-sm">
       <a className="underline underline-offset-4" href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.slack.managedSlackSetup.openSlackAppSettings")}</a>
-      <label className="flex items-center gap-2"><Checkbox checked={confirmed} onCheckedChange={value => setConfirmed(value === true)} disabled={busy} />I checked Slack and no app was created. Create a new app.</label>
+      <label className="flex items-center gap-2"><Checkbox checked={confirmed} onCheckedChange={value => setConfirmed(value === true)} disabled={busy} />{t("pages.apps.chat.slack.managedSlackSetup.iCheckedSlackAndNoApp")}</label>
     </div>}
     <SetupWizardFooter onSaveExit={onSaveExit} disabled={busy}>
       {choices.isError || !choices.isPending && !choices.data?.managedAvailable ? <Button disabled={busy || choices.isFetching} onClick={() => void choices.refetch()}>{t("pages.apps.chat.slack.managedSlackSetup.retry")}</Button> : <Button disabled={busy || disabled || creating || choices.isPending || !choices.data?.managedAvailable || (workspaces.length > 1 && !grantId) || (uncertain && !confirmed)} onClick={() => void run(connect)}>

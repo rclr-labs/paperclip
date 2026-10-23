@@ -221,7 +221,7 @@ function ActionSlots({
         title="Start"
       >
         <Play className="size-3" />
-        Start
+        {t("components.workspaceServiceControlBar.start")}
       </Button>
     );
   }

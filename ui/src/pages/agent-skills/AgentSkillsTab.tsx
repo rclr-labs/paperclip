@@ -435,7 +435,7 @@ export function AgentSkillsTab({ agent, companyId }: { agent: Agent; companyId?:
             <Button asChild variant="outline" size="sm" className="shrink-0">
               <Link to="/skills" className="no-underline">
                 <Store className="h-3.5 w-3.5" />
-                Browse skills store
+                {t("pages.agentskills.agentSkillsTab.browseSkillsStore")}
               </Link>
             </Button>
           </div>
@@ -555,11 +555,12 @@ function SaveStatusChip({
   unsaved: boolean;
   error: boolean;
 }) {
+  const { t } = useTranslation();
   if (pending) {
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        Saving…
+        {t("pages.agentskills.agentSkillsTab.saving")}
       </span>
     );
   }
@@ -567,7 +568,7 @@ function SaveStatusChip({
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-destructive">
         <AlertCircle className="h-3.5 w-3.5" />
-        Couldn’t save
+        {t("pages.agentskills.agentSkillsTab.couldnTSave")}
       </span>
     );
   }
@@ -575,14 +576,14 @@ function SaveStatusChip({
     return (
       <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        Saving soon…
+        {t("pages.agentskills.agentSkillsTab.savingSoon")}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1.5 text-xs text-(--status-task-done)">
       <CheckCircle2 className="h-3.5 w-3.5" />
-      Saved
+      {t("pages.agentskills.agentSkillsTab.saved")}
     </span>
   );
 }
@@ -625,7 +626,7 @@ function EmptyLibraryCard() {
       <Button asChild variant="outline" size="sm">
         <Link to="/skills" className="no-underline">
           <Store className="h-3.5 w-3.5" />
-          Browse skills store
+          {t("pages.agentskills.agentSkillsTab.browseSkillsStore")}
         </Link>
       </Button>
     </div>

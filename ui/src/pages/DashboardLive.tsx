@@ -39,7 +39,7 @@ export function DashboardLive() {
             className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            Dashboard
+            {t("pages.dashboardLive.dashboard")}
           </Link>
           <h1 className="mt-2 text-2xl font-semibold tracking-normal text-foreground">{t("pages.dashboardLive.liveAgentRuns")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">

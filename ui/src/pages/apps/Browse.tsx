@@ -1425,7 +1425,7 @@ function ConnectionAccountRow({
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive" onSelect={onRemove}>
               <Trash2 />
-              Remove connection
+              {t("pages.apps.browse.removeConnection")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

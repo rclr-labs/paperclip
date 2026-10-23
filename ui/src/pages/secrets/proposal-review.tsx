@@ -157,6 +157,7 @@ export function DeliveryBadge({ configPath }: { configPath: string | null }) {
 
 /** Distinct "Proposed" pill used wherever a proposal is inlined among live rows. */
 export function ProposedBadge({ className }: { className?: string }) {
+  const { t } = useTranslation();
   return (
     <Badge
       variant="outline"
@@ -166,7 +167,7 @@ export function ProposedBadge({ className }: { className?: string }) {
         className,
       )}
     >
-      <ShieldAlert className="size-3" /> Proposed
+      <ShieldAlert className="size-3" /> {t("pages.secrets.proposalreview.proposed")}
     </Badge>
   );
 }

@@ -85,7 +85,7 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
     {replace && <div className="space-y-6">
       <div className="space-y-2 text-sm">
         <h2 className="text-base font-semibold">{reconnect ? "Replace credentials for the same App" : "Connect your existing GitHub App"}</h2>
-        <p><a href={gitHubAppSettingsUrl(endpoint)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline">Open GitHub App settings<ExternalLink className="size-3.5" /></a> and choose <strong>{appName}</strong>.</p>
+        <p><a href={gitHubAppSettingsUrl(endpoint)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline">{t("pages.apps.chat.gitHubConnectionRecovery.openGithubAppSettings")}<ExternalLink className="size-3.5" /></a> and choose <strong>{appName}</strong>.</p>
         <p className="text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.ifItSOwnedByAn")}</p>
       </div>
       <div className="space-y-2">
@@ -117,7 +117,7 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
         {keyLoaded && <p role="status" className="text-sm">{t("pages.apps.chat.gitHubConnectionRecovery.privateKeyLoadedPasteOrUpload")}</p>}
         {keyInvalid && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.gitHubConnectionRecovery.useAPemPrivateKeyIncluding")}</p>}
         {fileError && <p role="alert" className="text-sm text-destructive">{fileError}</p>}
-        <a className="inline-flex items-center gap-1 text-sm underline" href="https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps" target="_blank" rel="noreferrer">GitHub’s private key instructions<ExternalLink className="size-3.5" /></a>
+        <a className="inline-flex items-center gap-1 text-sm underline" href="https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/managing-private-keys-for-github-apps" target="_blank" rel="noreferrer">{t("pages.apps.chat.gitHubConnectionRecovery.githubSPrivateKeyInstructions")}<ExternalLink className="size-3.5" /></a>
       </div>
       {needsWebhookSecret && <div className="space-y-2">
         <CredentialLabel id="github-webhook-secret" label="Webhook secret" help="The secret configured for this App’s webhook. It must match GitHub exactly." />

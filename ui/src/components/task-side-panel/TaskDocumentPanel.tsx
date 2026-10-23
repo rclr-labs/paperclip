@@ -40,7 +40,7 @@ export function TaskDocumentPanel({
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground" role="status">
         <Loader2 className="size-4 animate-spin" aria-hidden />
-        Loading document…
+        {t("components.tasksidepanel.taskDocumentPanel.loadingDocument")}
       </div>
     );
   }

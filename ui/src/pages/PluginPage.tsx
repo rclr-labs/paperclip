@@ -172,7 +172,7 @@ export function PluginPage() {
           <Button variant="ghost" size="sm" asChild>
             <Link to={companyPrefix ? `/${companyPrefix}/dashboard` : "/dashboard"}>
               <ArrowLeft className="h-4 w-4 mr-1" />
-              Back
+              {t("pages.pluginPage.back")}
             </Link>
           </Button>
         </div>

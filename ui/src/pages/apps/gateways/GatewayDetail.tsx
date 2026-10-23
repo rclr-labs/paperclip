@@ -180,11 +180,11 @@ export function GatewayDetail() {
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={() => setEditing(true)}>
             <Pencil className="mr-1.5 h-4 w-4" />
-            Edit
+            {t("pages.apps.gateways.gatewayDetail.edit")}
           </Button>
           <Button onClick={() => setSnippetOpen(true)}>
             <Send className="mr-1.5 h-4 w-4" />
-            Client snippets
+            {t("pages.apps.gateways.gatewayDetail.clientSnippets")}
           </Button>
         </div>
       </div>

@@ -2515,7 +2515,7 @@ function IssueChatAssistantMessage({
             }}
           >
             <Copy className="mr-2 h-3.5 w-3.5" />
-            Copy message
+            {t("components.issueChatThread.copyMessage")}
           </DropdownMenuItem>
           {canStopRun && onStopRun && runId ? (
             <DropdownMenuItem
@@ -2541,7 +2541,7 @@ function IssueChatAssistantMessage({
             <DropdownMenuItem asChild>
               <Link to={runHref} target="_blank" rel="noreferrer noopener">
                 <Search className="mr-2 h-3.5 w-3.5" />
-                View run
+                {t("components.issueChatThread.viewRun")}
               </Link>
             </DropdownMenuItem>
           ) : null}
@@ -2693,7 +2693,7 @@ function IssueChatAssistantMessage({
                   )}
                 >
                   <Loader2 className="h-3 w-3 animate-spin" />
-                  Running
+                  {t("components.issueChatThread.running")}
                 </Badge>
               ) : null}
             </div>

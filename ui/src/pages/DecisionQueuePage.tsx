@@ -470,7 +470,7 @@ function QueueItemRow({
           <PopoverTrigger asChild>
             <Button type="button" variant="ghost" size="xs" className="h-7 gap-1 text-muted-foreground">
               <X className="h-3.5 w-3.5" />
-              Exclude
+              {t("pages.decisionQueuePage.exclude")}
             </Button>
           </PopoverTrigger>
           <PopoverContent align="end" className="w-64 space-y-2 p-3">

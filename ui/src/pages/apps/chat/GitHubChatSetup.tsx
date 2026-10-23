@@ -510,7 +510,7 @@ export function GitHubChatSetup() {
               className="inline-flex items-center gap-1 text-sm underline"
               href={state.installationUrl}
             >
-              Continue installation on GitHub
+              {t("pages.apps.chat.gitHubChatSetup.continueInstallationOnGithub")}
               <ExternalLink className="size-3" />
             </a>
           )}

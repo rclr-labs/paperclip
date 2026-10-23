@@ -348,7 +348,7 @@ export function FolderRailItem({
           <DropdownMenuSeparator />
           <DropdownMenuItem variant="destructive" onSelect={onDelete}>
             <Trash2 className="h-3.5 w-3.5" />
-            Delete
+            {t("components.folders.folderControls.delete")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -491,7 +491,7 @@ export function MobileFolderSheet({
         <div className="border-t border-border px-4 pt-3">
           <Button size="sm" variant="outline" className="w-full" onClick={onCreate}>
             <Plus className="mr-2 h-3.5 w-3.5" />
-            New folder
+            {t("components.folders.folderControls.newFolder2")}
           </Button>
         </div>
       </SheetContent>
@@ -607,7 +607,7 @@ function MoveToMenuItems({
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={onCreateAndMove}>
           <Plus className="h-3.5 w-3.5" />
-          New folder...
+          {t("components.folders.folderControls.newFolder")}
         </DropdownMenuItem>
     </>
   );

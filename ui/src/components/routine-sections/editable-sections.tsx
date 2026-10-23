@@ -352,7 +352,7 @@ export function OverviewSection({
               onClick={() => navigateToSection("activity")}
               className="flex items-center gap-1 pt-2 text-xs text-muted-foreground hover:text-foreground"
             >
-              View all activity <ArrowRight className="h-3 w-3" />
+              {t("components.routinesections.editablesections.viewAllActivity")} <ArrowRight className="h-3 w-3" />
             </button>
           </div>
         )}
@@ -396,6 +396,7 @@ function SummaryCard({
 export { RoutineTriggers as TriggersSection } from "../routine-triggers/RoutineTriggers";
 
 export function VariablesSection() {
+  const { t } = useTranslation();
   const ctx = useRoutineDetail();
   const { editDraft, setEditDraft, navigateToSection } = ctx;
   const hasVariables = editDraft.variables.length > 0;
@@ -410,7 +411,7 @@ export function VariablesSection() {
         </span>
         <Button variant="secondary" size="sm" onClick={() => navigateToSection("overview")}>
           <Edit3 className="mr-1.5 h-3.5 w-3.5" />
-          Edit instructions
+          {t("components.routinesections.editablesections.editInstructions")}
         </Button>
       </div>
 

@@ -121,7 +121,7 @@ export function StatusCards() {
           <h1 className="text-xl font-bold">{t("pages.statusCards.index.status")}</h1>
           <Badge variant="secondary" className="gap-1">
             <FlaskConical className="h-3 w-3" />
-            Experimental
+            {t("pages.statusCards.index.experimental")}
           </Badge>
         </div>
         <div className="flex items-center gap-4">
@@ -132,7 +132,7 @@ export function StatusCards() {
           ) : null}
           <Button onClick={() => setCreateOpen(true)} disabled={!selectedCompanyId}>
             <Plus className="h-4 w-4" />
-            New card
+            {t("pages.statusCards.index.newCard")}
           </Button>
         </div>
       </div>
@@ -141,7 +141,7 @@ export function StatusCards() {
 
       {activeQuery.isLoading ? (
         <div className="flex items-center gap-2 py-12 text-sm text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" /> Loading cards…
+          <Loader2 className="h-4 w-4 animate-spin" /> {t("pages.statusCards.index.loadingCards")}
         </div>
       ) : activeQuery.isError ? (
         <InlineBanner tone="danger" title="Could not load status cards">

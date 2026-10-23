@@ -203,7 +203,7 @@ export function PluginManager() {
           <DialogTrigger asChild>
             <Button size="sm" className="gap-2">
               <Plus className="h-4 w-4" />
-              Install Plugin
+              {t("pages.pluginManager.installPlugin")}
             </Button>
           </DialogTrigger>
           <DialogContent>

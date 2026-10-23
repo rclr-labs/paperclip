@@ -182,12 +182,12 @@ export function RoutineTriggerCard({
             onClick={() => onDelete(trigger.id)}
           >
             <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-            Delete
+            {t("components.routineTriggerCard.delete")}
           </Button>
           {trigger.kind === "webhook" && (
             <Button variant="outline" size="sm" onClick={() => onRotate(trigger.id)}>
               <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
-              Rotate secret
+              {t("components.routineTriggerCard.rotateSecret")}
             </Button>
           )}
           <Button
@@ -198,7 +198,7 @@ export function RoutineTriggerCard({
             }
           >
             <Save className="mr-1.5 h-3.5 w-3.5" />
-            Save trigger
+            {t("components.routineTriggerCard.saveTrigger")}
           </Button>
         </div>
       )}

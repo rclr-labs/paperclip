@@ -172,13 +172,14 @@ export interface AgentSecretAccessEditorProps {
 }
 
 function DeliveryBadge({ mode }: { mode: "env" | "api" }) {
+  const { t } = useTranslation();
   if (mode === "env") {
     return (
       <Badge
         variant="outline"
         className="h-5 gap-1 px-1.5 text-(length:--text-nano) font-normal border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-300"
       >
-        <Variable className="size-3" /> Env var
+        <Variable className="size-3" /> {t("components.agentSecretAccessEditor.envVar")}
       </Badge>
     );
   }
@@ -187,7 +188,7 @@ function DeliveryBadge({ mode }: { mode: "env" | "api" }) {
       variant="outline"
       className="h-5 gap-1 px-1.5 text-(length:--text-nano) font-normal border-violet-500/30 bg-violet-500/10 text-violet-700 dark:text-violet-300"
     >
-      <ServerCog className="size-3" /> API access
+      <ServerCog className="size-3" /> {t("components.agentSecretAccessEditor.apiAccess")}
     </Badge>
   );
 }
@@ -498,7 +499,7 @@ export function AgentSecretAccessEditor({
           className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:pointer-events-none disabled:opacity-50"
         >
           <Plus className="size-3.5" />
-          Add API access
+          {t("components.agentSecretAccessEditor.addApiAccess")}
         </button>
       </div>
 

@@ -539,7 +539,7 @@ function StudioNewSkillPanel({
       ) : forkError ? (
         <div className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
           <AlertTriangle className="h-4 w-4" />
-          Fork source not found. You can still create a blank skill.
+          {t("pages.skillStudio.forkSourceNotFoundYouCan")}
         </div>
       ) : null}
 
@@ -767,6 +767,7 @@ function StudioLanding({
   onSelectSkill: (skillId: string) => void;
   onCreateNew: () => void;
 }) {
+  const { t } = useTranslation();
   // Recency-sorted list, enriched with the last human editor (PAP-13149) — the
   // source for both landing sections. Kept separate from the alphabetical
   // switcher list so each cache stays sorted the way its consumer expects.
@@ -811,7 +812,7 @@ function StudioLanding({
           />
           <Button variant="ghost" size="sm" className="ml-auto" onClick={onCreateNew}>
             <Plus className="mr-1.5 h-3.5 w-3.5" />
-            New skill
+            {t("pages.skillStudio.newSkill")}
           </Button>
         </header>
         <SkillsPageNavigation activeView="authored" />
@@ -1182,7 +1183,7 @@ function StudioHeader({
       <div className="ml-auto flex items-center gap-1">
         <Button variant="ghost" size="sm" onClick={onOpenVersions}>
           <History className="mr-1.5 h-3.5 w-3.5" />
-          Version history
+          {t("pages.skillStudio.versionHistory")}
         </Button>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -1192,7 +1193,7 @@ function StudioHeader({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuItem onClick={copyShareLink}>
-              <Share2 className="mr-2 h-4 w-4" /> Share link
+              <Share2 className="mr-2 h-4 w-4" /> {t("pages.skillStudio.shareLink")}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -1503,7 +1504,7 @@ function SkillPane({
                 onClick={onEditACopy}
               >
                 <GitFork className="mr-1.5 h-3.5 w-3.5" />
-                Make a copy
+                {t("pages.skillStudio.makeACopy")}
               </Button>
             </div>
           </div>
@@ -2080,7 +2081,7 @@ function InputPane({
                 <>
                   {adHocMode && (
                     <div className="flex items-center gap-2 rounded px-2 py-1.5 text-sm italic text-muted-foreground">
-                      <FilePlus className="h-3.5 w-3.5" /> New input (not saved)
+                      <FilePlus className="h-3.5 w-3.5" /> {t("pages.skillStudio.newInputNotSaved")}
                     </div>
                   )}
                   <FileTree
@@ -2539,7 +2540,7 @@ function RunsPane({
                   disabled={gate.disabled || Boolean(templateGateReason) || createRunMutation.isPending}
                   onClick={() => createRunMutation.mutate()}
                 >
-                  <Play className="mr-1.5 h-3.5 w-3.5" /> Run
+                  <Play className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skillStudio.run")}
                 </Button>
               </span>
             </TooltipTrigger>
@@ -3184,7 +3185,7 @@ function RunDetailView({
           </section>
         ) : outputMode === "pending" ? (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Clock className="h-3.5 w-3.5" /> Working… output will appear here.
+            <Clock className="h-3.5 w-3.5" /> {t("pages.skillStudio.workingOutputWillAppearHere")}
           </div>
         ) : null}
 
@@ -3244,7 +3245,7 @@ function RunDetailView({
             disabled={reRunMutation.isPending}
             onClick={() => reRunMutation.mutate()}
           >
-            <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> Re-run
+            <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skillStudio.reRun")}
           </Button>
           {nonTerminal ? (
             <Button
@@ -3263,7 +3264,7 @@ function RunDetailView({
               disabled={deleteMutation.isPending}
               onClick={() => deleteMutation.mutate()}
             >
-              <Trash2 className="mr-1.5 h-3.5 w-3.5" /> Delete
+              <Trash2 className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skillStudio.delete")}
             </Button>
           )}
           {taskLink.enabled && detail.harnessIssue ? (
@@ -3599,9 +3600,10 @@ function PropRow({ label, value }: { label: string; value: string }) {
 }
 
 function BackButton({ onBack }: { onBack: () => void }) {
+  const { t } = useTranslation();
   return (
     <Button variant="ghost" size="sm" onClick={onBack}>
-      <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Back
+      <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> {t("pages.skillStudio.back")}
     </Button>
   );
 }

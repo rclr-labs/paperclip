@@ -921,7 +921,7 @@ export function ProfilesTab({ companyId }: { companyId: string }) {
         actions={
           <Button size="sm" onClick={() => setCreateOpen(true)}>
             <Plus className="mr-1 h-4 w-4" />
-            New profile
+            {t("pages.tools.profilesTab.newProfile")}
           </Button>
         }
       />
@@ -1289,15 +1289,15 @@ function ProfileDetail({
           <div className="flex shrink-0 flex-wrap gap-1.5">
             <Button size="sm" variant="outline" onClick={onEdit}>
               <Pencil className="mr-1 h-3.5 w-3.5" />
-              Edit
+              {t("pages.tools.profilesTab.edit")}
             </Button>
             <Button size="sm" variant="outline" onClick={onAddEntry}>
               <Plus className="mr-1 h-3.5 w-3.5" />
-              Entry
+              {t("pages.tools.profilesTab.entry")}
             </Button>
             <Button size="sm" variant="outline" onClick={onBind}>
               <Link2 className="mr-1 h-3.5 w-3.5" />
-              Bind
+              {t("pages.tools.profilesTab.bind")}
             </Button>
           </div>
         </div>

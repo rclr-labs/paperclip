@@ -256,7 +256,7 @@ export const ChatComposer = forwardRef<ChatComposerHandle, ChatComposerProps>(fu
         >
           <span className="inline-flex items-center gap-2">
             <Paperclip className="h-3.5 w-3.5" />
-            Drop to attach
+            {t("components.chatComposer.dropToAttach")}
           </span>
         </div>
       ) : null}
