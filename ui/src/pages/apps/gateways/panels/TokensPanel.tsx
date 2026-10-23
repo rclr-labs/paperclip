@@ -231,7 +231,7 @@ export function TokensPanel({
               {t("pages.apps.gateways.panels.tokensPanel.cancel")}
             </Button>
             <Button type="submit" size="sm" disabled={createMutation.isPending || !name.trim()}>
-              {createMutation.isPending ? "Issuing…" : "Issue token"}
+              {createMutation.isPending ? t("pages.apps.gateways.panels.tokensPanel.issuing") : t("pages.apps.gateways.panels.tokensPanel.issueToken")}
             </Button>
           </div>
         </form>
@@ -429,7 +429,7 @@ export function TokensPanel({
                 disabled={revokeName.trim() !== confirmToken.name || revokeMutation.isPending}
                 onClick={() => revokeMutation.mutate(confirmToken.id)}
               >
-                {revokeMutation.isPending ? "Revoking…" : "Revoke token"}
+                {revokeMutation.isPending ? t("pages.apps.gateways.panels.tokensPanel.revoking") : t("pages.apps.gateways.panels.tokensPanel.revokeToken")}
               </Button>
             </div>
           </div>

@@ -278,8 +278,8 @@ export function AiProviderSetup({
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">
           {step === "provider"
-            ? "Connect a model provider"
-            : `${reconnect ? "Reconnect" : "Connect"} ${label}`}
+            ? t("components.aiconnections.aiProviderSetup.connectAModelProvider")
+            : `${reconnect ? t("components.aiconnections.aiProviderSetup.reconnect") : t("components.aiconnections.aiProviderSetup.connect")} ${label}`}
         </h2>
       </div>
       {agents.isError && <p role="alert" className="text-sm text-destructive">Could not load agents. <Button type="button" variant="ghost" onClick={() => void agents.refetch()}>{t("components.aiconnections.aiProviderSetup.retry")}</Button></p>}
@@ -394,8 +394,8 @@ export function AiProviderSetup({
                 <SelectContent>
                   <SelectItem value="bearer">
                     {provider === "bedrock"
-                      ? "Bedrock API key"
-                      : "Bearer token"}
+                      ? t("components.aiconnections.aiProviderSetup.bedrockApiKey")
+                      : t("components.aiconnections.aiProviderSetup.bearerToken")}
                   </SelectItem>
                   {provider !== "bedrock" && (
                     <>
@@ -432,7 +432,7 @@ export function AiProviderSetup({
           {save.error && (
             <p role="alert" className="text-sm text-destructive">
               {save.error instanceof Error && save.error.name === "ZodError"
-                ? "Check the URL, API format, and authentication fields."
+                ? t("components.aiconnections.aiProviderSetup.checkTheUrlApiFormatAnd")
                 : save.error.message}
             </p>
           )}
@@ -455,10 +455,10 @@ export function AiProviderSetup({
               }
             >
               {save.isPending
-                ? "Connecting…"
+                ? t("components.aiconnections.aiProviderSetup.connecting")
                 : reconnect
-                  ? "Reconnect"
-                  : "Connect"}
+                  ? t("components.aiconnections.aiProviderSetup.reconnect")
+                  : t("components.aiconnections.aiProviderSetup.connect")}
             </Button>
           </div>
         </form>

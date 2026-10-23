@@ -958,11 +958,11 @@ function SelectStep({
             )}
           </div>
           <p className="text-base font-semibold">
-            {grant ? "You can't import skills here" : "Scan failed"}
+            {grant ? t("pages.skills.importSkillsFromProjectDialog.youCanTImportSkillsHere") : t("pages.skills.importSkillsFromProjectDialog.scanFailed")}
           </p>
           <p className="mt-1.5 text-sm text-muted-foreground">
             {grant
-              ? "Your account doesn't have permission to add skills to this organization. Ask an owner to grant the skills permission, then try again."
+              ? t("pages.skills.importSkillsFromProjectDialog.yourAccountDoesnTHavePermission")
               : readableErrorMessage(scanError)}
           </p>
           {!grant && (

@@ -195,11 +195,11 @@ export function SecretBindingPicker({
             }}
             disabled={disabled || secretsQuery.isPending}
           >
-            <option value="">{secretsQuery.isPending ? "Loading…" : placeholder}</option>
+            <option value="">{secretsQuery.isPending ? t("components.secretBindingPicker.loading") : placeholder}</option>
             {selectedMissing && value ? (
               <option value={value.secretId}>
                 {missingHint
-                  ? `${missingHint.name} — ${missingHint.companyName ?? "another organization"}`
+                  ? `${missingHint.name} — ${missingHint.companyName ?? t("components.secretBindingPicker.anotherOrganization")}`
                   : hintsPending
                     ? `Secret (${value.secretId.slice(0, 8)}…)`
                     : `Missing secret (${value.secretId.slice(0, 8)}…)`}
@@ -259,21 +259,21 @@ export function SecretBindingPicker({
       ) : crossCompanyHint ? (
         <p className="text-(length:--text-micro) text-muted-foreground flex items-center gap-1">
           <AlertCircle className="h-3 w-3" />
-          Owned by {crossCompanyHint.companyName ? `the ${crossCompanyHint.companyName} organization` : "another organization"}. The binding keeps working; selecting a secret from this list re-points it here.
+          Owned by {crossCompanyHint.companyName ? `the ${crossCompanyHint.companyName} organization` : t("components.secretBindingPicker.anotherOrganization")}. The binding keeps working; selecting a secret from this list re-points it here.
         </p>
       ) : missingHint ? (
         <p className="text-(length:--text-micro) text-destructive flex items-center gap-1">
           <AlertCircle className="h-3 w-3" />
           {missingHint.status === "deleted"
-            ? "The previously selected secret was deleted. Pick another or remove the binding."
+            ? t("components.secretBindingPicker.thePreviouslySelectedSecretWasDeleted")
             : `This secret is ${missingHint.status}; runs cannot resolve it until it is active again.`}
         </p>
       ) : hintsPending ? (
         <p className="text-(length:--text-micro) text-muted-foreground flex items-center gap-1">
           <AlertCircle className="h-3 w-3" />
           {hintsContext?.status === "error"
-            ? "Could not load this secret reference's details."
-            : "Checking this secret reference…"}
+            ? t("components.secretBindingPicker.couldNotLoadThisSecretReference")
+            : t("components.secretBindingPicker.checkingThisSecretReference")}
         </p>
       ) : selectedMissing ? (
         <p className="text-(length:--text-micro) text-destructive flex items-center gap-1">

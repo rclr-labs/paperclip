@@ -230,7 +230,7 @@ export function PluginManager() {
                 onClick={() => installMutation.mutate({ packageName: installPackage })}
                 disabled={!installPackage || installMutation.isPending}
               >
-                {installMutation.isPending ? "Installing..." : "Install"}
+                {installMutation.isPending ? t("pages.pluginManager.installing") : t("pages.pluginManager.install")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -522,7 +522,7 @@ export function PluginManager() {
                 }
               }}
             >
-              {uninstallMutation.isPending ? "Uninstalling..." : "Uninstall"}
+              {uninstallMutation.isPending ? t("pages.pluginManager.uninstalling") : t("pages.pluginManager.uninstall")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -536,7 +536,7 @@ export function PluginManager() {
           <DialogHeader>
             <DialogTitle>{t("pages.pluginManager.errorDetails")}</DialogTitle>
             <DialogDescription>
-              {errorDetailsPlugin?.manifestJson.displayName ?? errorDetailsPlugin?.packageName ?? "Plugin"} hit an error state.
+              {errorDetailsPlugin?.manifestJson.displayName ?? errorDetailsPlugin?.packageName ?? t("pages.pluginManager.plugin")} hit an error state.
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
@@ -548,7 +548,7 @@ export function PluginManager() {
                     {t("pages.pluginManager.whatErrored")}
                   </p>
                   <p className="text-red-700/90 dark:text-red-200/90 break-words">
-                    {errorDetailsPlugin ? getPluginErrorSummary(errorDetailsPlugin) : "No error summary available."}
+                    {errorDetailsPlugin ? getPluginErrorSummary(errorDetailsPlugin) : t("pages.pluginManager.noErrorSummaryAvailable")}
                   </p>
                 </div>
               </div>
@@ -556,7 +556,7 @@ export function PluginManager() {
             <div className="space-y-2">
               <p className="text-sm font-medium">{t("pages.pluginManager.fullErrorOutput")}</p>
               <pre className="max-h-(--sz-50vh) overflow-auto rounded-md border bg-muted/40 p-3 text-xs leading-5 whitespace-pre-wrap break-words">
-                {errorDetailsPlugin?.lastError ?? "No stored error message."}
+                {errorDetailsPlugin?.lastError ?? t("pages.pluginManager.noStoredErrorMessage")}
               </pre>
             </div>
           </div>

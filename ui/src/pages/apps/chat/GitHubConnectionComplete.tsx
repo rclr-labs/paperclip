@@ -77,7 +77,7 @@ export function GitHubConnectionComplete({
                   </>}
                 </p>
                 <Link to={`/apps/chat/${endpoint.id}/access`} className="inline-block text-xs text-muted-foreground underline underline-offset-4">
-                  {repositories.isError ? "Repository access unavailable" : count === undefined ? "Repository access" : count === 0 ? "No repositories enabled" : `${count} ${count === 1 ? "repository" : "repositories"} enabled`}
+                  {repositories.isError ? t("pages.apps.chat.gitHubConnectionComplete.repositoryAccessUnavailable") : count === undefined ? t("pages.apps.chat.gitHubConnectionComplete.repositoryAccess") : count === 0 ? t("pages.apps.chat.gitHubConnectionComplete.noRepositoriesEnabled") : `${count} ${count === 1 ? "repository" : "repositories"} enabled`}
                 </Link>
               </div>
             </div>
@@ -95,8 +95,8 @@ export function GitHubConnectionComplete({
               <h2 className="text-base font-semibold">{t("pages.apps.chat.gitHubConnectionComplete.tryYourBot")}</h2>
               <p className="text-sm text-muted-foreground">
                 {count === 0
-                  ? "Enable a repository in Access to try your bot."
-                  : "Post this on a pull request in an enabled repository."}
+                  ? t("pages.apps.chat.gitHubConnectionComplete.enableARepositoryInAccessTo")
+                  : t("pages.apps.chat.gitHubConnectionComplete.postThisOnAPullRequest")}
               </p>
             </div>
             <CopyText

@@ -41,7 +41,7 @@ export function RoutineAuditActivity({
     return (
       <div className="flex flex-col items-center gap-3 border-y border-border py-14 text-center">
         <p className="text-sm text-muted-foreground">
-          {activity.error instanceof Error ? activity.error.message : "Failed to load routine activity."}
+          {activity.error instanceof Error ? activity.error.message : t("pages.audit.routineAuditActivity.failedToLoadRoutineActivity")}
         </p>
         <Button variant="outline" size="sm" onClick={() => activity.refetch()}>
           {t("pages.audit.routineAuditActivity.tryAgain")}

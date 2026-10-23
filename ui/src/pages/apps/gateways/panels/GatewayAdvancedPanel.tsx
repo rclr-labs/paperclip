@@ -128,7 +128,7 @@ export function GatewayAdvancedPanel({
                 disabled={confirmName.trim() !== gateway.name || archiveMutation.isPending}
                 onClick={() => archiveMutation.mutate()}
               >
-                {archiveMutation.isPending ? "Archiving…" : "Archive gateway"}
+                {archiveMutation.isPending ? t("pages.apps.gateways.panels.gatewayAdvancedPanel.archiving") : t("pages.apps.gateways.panels.gatewayAdvancedPanel.archiveGateway")}
               </Button>
               <Button variant="ghost" size="sm" onClick={() => { setConfirming(false); setConfirmName(""); }}>
                 {t("pages.apps.gateways.panels.gatewayAdvancedPanel.cancel")}

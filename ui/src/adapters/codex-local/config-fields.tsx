@@ -528,7 +528,7 @@ export function CodexLocalConfigFields({
             <SelectTrigger aria-label={t("adapters.codexlocal.configfields.permissionMode")} className="w-full font-sans">
               <SelectValue>
                 {runnerPermissionModeUnsupported
-                  ? "Unsupported saved mode — select a qualified mode"
+                  ? t("adapters.codexlocal.configfields.unsupportedSavedModeSelectAQualified")
                   : runnerPermissionCapability.options.find((option) => option.value === runnerPermissionMode)?.label}
               </SelectValue>
             </SelectTrigger>

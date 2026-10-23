@@ -21,11 +21,13 @@ const PAGE_SIZE = 50;
 const ALL = "all";
 
 function MessageKind({ kind }: { kind: AgentCommentaryKind }) {
+  const { t } = useTranslation();
   const Icon = kind === "suggestion" ? Lightbulb : MessageSquareWarning;
-  return <Badge variant="outline" className="gap-1.5 font-normal"><Icon className="size-3" />{kind === "suggestion" ? "Suggestion" : "Complaint"}</Badge>;
+  return <Badge variant="outline" className="gap-1.5 font-normal"><Icon className="size-3" />{kind === "suggestion" ? t("pages.audit.agentCommentary.suggestion") : t("pages.audit.agentCommentary.complaint")}</Badge>;
 }
 
 function CommentaryRow({ entry, onOpen }: { entry: AgentCommentaryEntry; onOpen: (trigger: HTMLButtonElement) => void }) {
+  const { t } = useTranslation();
   return (
     <li>
       <button type="button" onClick={(event) => onOpen(event.currentTarget)} aria-label={`Read ${entry.kind} from ${entry.agent.name}`}
@@ -34,7 +36,7 @@ function CommentaryRow({ entry, onOpen }: { entry: AgentCommentaryEntry; onOpen:
         <div className="hidden md:col-span-2 md:block"><MessageKind kind={entry.kind} /></div>
         <div className="flex min-w-0 flex-col gap-2 md:col-span-6">
           <p className="line-clamp-2 whitespace-pre-line break-words text-sm leading-relaxed text-foreground">{entry.preview.trim()}{entry.preview.length >= 280 ? "…" : ""}</p>
-          {entry.task && <span className="truncate text-xs text-muted-foreground"><span className="font-mono">{entry.task.identifier ?? "Task"}</span> · {entry.task.title}</span>}
+          {entry.task && <span className="truncate text-xs text-muted-foreground"><span className="font-mono">{entry.task.identifier ?? t("pages.audit.agentCommentary.task")}</span> · {entry.task.title}</span>}
         </div>
         <time dateTime={entry.createdAt} title={new Date(entry.createdAt).toLocaleString()} className="font-mono text-xs text-muted-foreground md:col-span-2 md:text-right">{relativeTime(entry.createdAt)}</time>
       </button>
@@ -59,8 +61,8 @@ function CommentaryDetail({ companyId, id, onClose, triggerRef }: { companyId: s
         }
       }}>
         <DialogHeader className="shrink-0 pr-6">
-          <DialogTitle>{entry?.kind === "complaint" ? "Complaint" : entry ? "Suggestion" : "Commentary"}</DialogTitle>
-          <DialogDescription>{entry ? `Submitted ${new Date(entry.createdAt).toLocaleString()}` : "Message details and source context."}</DialogDescription>
+          <DialogTitle>{entry?.kind === "complaint" ? t("pages.audit.agentCommentary.complaint") : entry ? t("pages.audit.agentCommentary.suggestion") : t("pages.audit.agentCommentary.commentary")}</DialogTitle>
+          <DialogDescription>{entry ? `Submitted ${new Date(entry.createdAt).toLocaleString()}` : t("pages.audit.agentCommentary.messageDetailsAndSourceContext")}</DialogDescription>
         </DialogHeader>
         {detail.isPending ? <p role="status" className="text-sm text-muted-foreground">{t("pages.audit.agentCommentary.loadingMessage")}</p> : detail.error ? (
           <div role="alert" className="flex flex-col items-start gap-3"><p className="text-sm text-destructive">{detail.error.message}</p><Button variant="outline" size="sm" onClick={() => void detail.refetch()}>{t("pages.audit.agentCommentary.tryAgain")}</Button></div>
@@ -68,7 +70,7 @@ function CommentaryDetail({ companyId, id, onClose, triggerRef }: { companyId: s
           <div className="flex shrink-0 flex-wrap items-center gap-3"><Link to={`/agents/${entry.agent.id}`}><AgentIdentity agent={entry.agent} size="sm" /></Link><MessageKind kind={entry.kind} /></div>
           <div className="min-h-0 overflow-y-auto overscroll-contain break-words pr-2"><MarkdownBody>{entry.body}</MarkdownBody></div>
           <div className="flex shrink-0 flex-wrap items-center gap-4 border-t border-border pt-4 text-sm">
-            {entry.task && <Link to={`/issues/${entry.task.identifier ?? entry.task.id}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"><span className="font-mono">{entry.task.identifier ?? "Source task"}</span><ArrowUpRight className="size-3.5" /></Link>}
+            {entry.task && <Link to={`/issues/${entry.task.identifier ?? entry.task.id}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"><span className="font-mono">{entry.task.identifier ?? t("pages.audit.agentCommentary.sourceTask")}</span><ArrowUpRight className="size-3.5" /></Link>}
             <Link to={`/agents/${entry.agent.id}/runs/${entry.runId}`} className="inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground">{t("pages.audit.agentCommentary.viewRun")}<ArrowUpRight className="size-3.5" /></Link>
           </div>
         </> : null}

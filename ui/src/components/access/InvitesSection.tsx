@@ -226,7 +226,7 @@ export function InvitesSection() {
 
         <div className="flex flex-wrap items-center gap-3">
           <Button onClick={() => createInviteMutation.mutate()} disabled={createInviteMutation.isPending}>
-            {createInviteMutation.isPending ? "Creating…" : "Create invite"}
+            {createInviteMutation.isPending ? t("components.access.invitesSection.creating") : t("components.access.invitesSection.createInvite")}
           </Button>
           <span className="text-sm text-muted-foreground">{t("components.access.invitesSection.inviteHistoryBelowKeepsTheAudit")}</span>
         </div>
@@ -362,7 +362,7 @@ export function InvitesSection() {
                   onClick={() => invitesQuery.fetchNextPage()}
                   disabled={invitesQuery.isFetchingNextPage}
                 >
-                  {invitesQuery.isFetchingNextPage ? "Loading more…" : "View more"}
+                  {invitesQuery.isFetchingNextPage ? t("components.access.invitesSection.loadingMore") : t("components.access.invitesSection.viewMore")}
                 </Button>
               </div>
             ) : null}

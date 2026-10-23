@@ -25,7 +25,7 @@ export function SpekoPhoneLineForm({configuration, loading, saving, saved, error
       {guestIntake && <label className="grid min-w-0 gap-2 text-sm font-medium">Execution sandbox<select aria-label={t("components.voice.spekoPhoneLine.executionSandbox")} disabled={loading || saving} className="min-w-0 w-full rounded-md border border-input bg-background p-2 text-sm" value={environmentId} onChange={event => setEnvironmentId(event.target.value)}><option value="">{t("components.voice.spekoPhoneLine.useThisAgentSSandbox")}</option>{configuration?.sandboxEnvironments?.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select><span className="text-sm font-normal text-muted-foreground">{t("components.voice.spekoPhoneLine.onlyNewIncomingTasksUseThis")}</span></label>}
       {invalid && <p role="alert" className="text-sm text-destructive">{t("components.voice.spekoPhoneLine.chooseAnAvailableCompanyPhoneNumber")}</p>}
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-      <div className="flex items-center justify-between gap-3"><p role="status" className="text-sm text-muted-foreground">{saved ? "Incoming call setting saved" : ""}</p><Button type="submit" disabled={loading || saving}>{saving ? "Saving…" : "Save incoming call setting"}</Button></div>
+      <div className="flex items-center justify-between gap-3"><p role="status" className="text-sm text-muted-foreground">{saved ? t("components.voice.spekoPhoneLine.incomingCallSettingSaved") : ""}</p><Button type="submit" disabled={loading || saving}>{saving ? t("components.voice.spekoPhoneLine.saving") : t("components.voice.spekoPhoneLine.saveIncomingCallSetting")}</Button></div>
     </form>
   </section>;
 }

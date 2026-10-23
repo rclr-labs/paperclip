@@ -125,7 +125,7 @@ export function MemberMultiSelect({
             <span className="flex min-w-0 items-center">
               <span className="truncate">
                 {triggerLabel ?? (selectedCount === 0
-                  ? "Select people"
+                  ? t("components.memberMultiSelect.selectPeople")
                   : `${selectedCount} ${selectedCount === 1 ? "person" : "people"} selected`)}
               </span>
             </span>
@@ -186,7 +186,7 @@ export function MemberMultiSelect({
           )}
           <div className="flex items-center justify-between border-t border-border px-3 py-2">
             <span className="text-xs text-muted-foreground" aria-live="polite">
-              {workingUserIds.size === 0 ? "No people selected" : `${workingUserIds.size} selected`}
+              {workingUserIds.size === 0 ? t("components.memberMultiSelect.noPeopleSelected") : `${workingUserIds.size} selected`}
             </span>
             <div className="flex items-center gap-2">
               {staged ? (
@@ -203,7 +203,7 @@ export function MemberMultiSelect({
                 }}
                 disabled={pending}
               >
-                {staged ? (pending ? "Saving…" : "Save") : "Done"}
+                {staged ? (pending ? t("components.memberMultiSelect.saving") : t("components.memberMultiSelect.save")) : t("components.memberMultiSelect.done")}
               </Button>
             </div>
           </div>

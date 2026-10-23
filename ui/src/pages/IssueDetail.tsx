@@ -2491,8 +2491,8 @@ const IssueDetailChatTab = memo(function IssueDetailChatTab({
         onClick={onLoadOlderComments}
       >
         {commentsLoadingOlder
-          ? "Loading earlier comments..."
-          : "Load earlier comments"}
+          ? t("pages.issueDetail.loadingEarlierComments")
+          : t("pages.issueDetail.loadEarlierComments")}
       </Button>
     </div>
   ) : null;
@@ -7177,7 +7177,7 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
       >
         <Paperclip className="h-3.5 w-3.5 mr-1.5" />
         {uploadAttachment.isPending || importMarkdownDocument.isPending ? (
-          "Uploading..."
+          t("pages.issueDetail.uploading")
         ) : (
           <>
             <span className="hidden sm:inline">{t("pages.issueDetail.uploadAttachment")}</span>
@@ -8618,8 +8618,8 @@ export function TaskDetailSurface({ conversation, tasksTab }: { tasksTab?: TaskS
                   <SheetHeader>
                     <SheetTitle className="text-sm">
                       {documentDeepLink?.documentKey === "plan"
-                        ? "Plan"
-                        : "Properties"}
+                        ? t("pages.issueDetail.plan")
+                        : t("pages.issueDetail.properties")}
                     </SheetTitle>
                   </SheetHeader>
                   <ScrollArea className="flex-1 overflow-y-auto">

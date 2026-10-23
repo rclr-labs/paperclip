@@ -47,7 +47,7 @@ export function SidePanelMobileTabs({ tabs, activeTabId, onActiveTabChange, onCl
             aria-label={`Switch tabs, ${tabs.length} open`}
             disabled={tabs.length === 0}
           >
-            <span id={activeTab ? `side-panel-tab-${activeTab.id}` : undefined} className="min-w-0 flex-1 truncate text-left">{activeTab?.label ?? "Choose a tab"}</span>
+            <span id={activeTab ? `side-panel-tab-${activeTab.id}` : undefined} className="min-w-0 flex-1 truncate text-left">{activeTab?.label ?? t("components.sidepanel.sidePanelMobileTabs.chooseATab")}</span>
             <span className="shrink-0 rounded-md bg-muted px-1.5 py-0.5 text-xs text-muted-foreground">{tabs.length}</span>
             <ChevronDown aria-hidden className="shrink-0" />
           </Button>

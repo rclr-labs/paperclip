@@ -42,7 +42,7 @@ export function ConnectionInstructionsEditor({ provider, template, value, onChan
       : <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">{value.text}</p>}
     {!value.text.trim() && <p role="alert" className="text-sm text-destructive">{t("features.connections.connectionInstructions.enterInstructions")}</p>}
     <div className="flex items-center gap-3">
-      <Button variant="ghost" size="sm" disabled={disabled} onClick={() => setEditing(!editing)}>{editing ? "Done editing" : "Edit instructions"}</Button>
+      <Button variant="ghost" size="sm" disabled={disabled} onClick={() => setEditing(!editing)}>{editing ? t("features.connections.connectionInstructions.doneEditing") : t("features.connections.connectionInstructions.editInstructions")}</Button>
       {changed && <Button variant="ghost" size="sm" disabled={disabled} onClick={() => onChange({ ...defaultConnectionAgentInstructions(template)!, enabled: value.enabled })}>{t("features.connections.connectionInstructions.resetToDefault")}</Button>}
     </div>
   </section>;
@@ -70,10 +70,10 @@ export function ConnectionInstructionsSettings({ connection, provider, template,
   const dirty = JSON.stringify(value) !== JSON.stringify(saved);
   return <div className="space-y-4">
     <ConnectionInstructionsEditor provider={provider} template={template} value={value} onChange={setDraft} disabled={!canConfigure || mutation.isPending} />
-    {mutation.isError && <div role="alert"><InlineBanner tone="danger">{mutation.error instanceof Error ? mutation.error.message : "Couldn’t save instructions. Try again."}</InlineBanner></div>}
+    {mutation.isError && <div role="alert"><InlineBanner tone="danger">{mutation.error instanceof Error ? mutation.error.message : t("features.connections.connectionInstructions.couldnTSaveInstructionsTryAgain")}</InlineBanner></div>}
     {dirty && <div className="flex items-center justify-between">
       <Button variant="ghost" disabled={mutation.isPending} onClick={() => { setDraft(null); mutation.reset(); }}>{t("features.connections.connectionInstructions.cancel")}</Button>
-      <Button disabled={!canConfigure || mutation.isPending || !value.text.trim()} onClick={() => mutation.mutate()}>{mutation.isPending ? "Saving…" : "Save instructions"}</Button>
+      <Button disabled={!canConfigure || mutation.isPending || !value.text.trim()} onClick={() => mutation.mutate()}>{mutation.isPending ? t("features.connections.connectionInstructions.saving") : t("features.connections.connectionInstructions.saveInstructions")}</Button>
     </div>}
   </div>;
 }

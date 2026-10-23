@@ -120,7 +120,7 @@ export function InstructionHistory({
                 {diff.data.added && `Added:\n${diff.data.added}`}
                 {!diff.data.removed &&
                   !diff.data.added &&
-                  "No content changes."}
+                  t("components.instructionHistory.noContentChanges")}
               </pre>
               <Button
                 type="button"

@@ -47,13 +47,13 @@ export function VoiceControls({ state, agentName, muted = false, busy = false, p
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <div className="flex flex-wrap gap-2">
         {inactive ? (
-          <Button ref={startButton} size="sm" disabled={busy} onClick={onStart}><Phone aria-hidden="true" />{state === "failed" ? "Try again" : "Start voice"}</Button>
+          <Button ref={startButton} size="sm" disabled={busy} onClick={onStart}><Phone aria-hidden="true" />{state === "failed" ? t("components.voice.voiceControls.tryAgain") : t("components.voice.voiceControls.startVoice")}</Button>
         ) : (
           <>
             <Button size="sm" variant="outline" aria-pressed={muted} disabled={busy || connecting || state === "ending" || state === "cleanup_failed"} onClick={onMute}>
-              {muted ? <MicOff aria-hidden="true" /> : <Mic aria-hidden="true" />}{muted ? "Unmute" : "Mute"}
+              {muted ? <MicOff aria-hidden="true" /> : <Mic aria-hidden="true" />}{muted ? t("components.voice.voiceControls.unmute") : t("components.voice.voiceControls.mute")}
             </Button>
-            <Button size="sm" variant="outline" disabled={state === "ending"} onClick={() => { restoreFocus.current = true; onEnd(); }}><PhoneOff aria-hidden="true" />{state === "cleanup_failed" ? "Retry ending call" : "End call"}</Button>
+            <Button size="sm" variant="outline" disabled={state === "ending"} onClick={() => { restoreFocus.current = true; onEnd(); }}><PhoneOff aria-hidden="true" />{state === "cleanup_failed" ? t("components.voice.voiceControls.retryEndingCall") : t("components.voice.voiceControls.endCall")}</Button>
           </>
         )}
         {canRepeat && onRepeat && !inactive && <Button size="sm" variant="outline" disabled={busy || connecting || state === "ending" || state === "cleanup_failed"} onClick={onRepeat}><RotateCcw aria-hidden="true" />{t("components.voice.voiceControls.repeatAnswer")}</Button>}

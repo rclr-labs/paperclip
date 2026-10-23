@@ -384,7 +384,7 @@ function CommentCard({
             />
           ) : null}
           {isPending ? (
-            <span className="text-xs text-muted-foreground">{isQueued ? "Queueing..." : "Sending..."}</span>
+            <span className="text-xs text-muted-foreground">{isQueued ? t("components.commentThread.queueing") : t("components.commentThread.sending")}</span>
           ) : (
             <a
               href={`#comment-${comment.id}`}
@@ -1002,7 +1002,7 @@ export function CommentThread({
                 disabled={interruptingQueuedRunId === queuedComments[0].queueTargetRunId}
                 onClick={() => void onInterruptQueued(queuedComments[0]!.queueTargetRunId!)}
               >
-                {interruptingQueuedRunId === queuedComments[0].queueTargetRunId ? "Interrupting..." : "Interrupt"}
+                {interruptingQueuedRunId === queuedComments[0].queueTargetRunId ? t("components.commentThread.interrupting") : t("components.commentThread.interrupt")}
               </Button>
             ) : null}
           </div>
@@ -1099,7 +1099,7 @@ export function CommentThread({
               />
             )}
             <Button size="sm" disabled={!canSubmit} onClick={handleSubmit}>
-              {submitting ? "Posting..." : "Comment"}
+              {submitting ? t("components.commentThread.posting") : t("components.commentThread.comment")}
             </Button>
           </div>
         </div>

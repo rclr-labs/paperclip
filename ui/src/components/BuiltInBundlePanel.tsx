@@ -119,7 +119,7 @@ function ResourceActionButton({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="outline" size="sm" disabled={pending}>
-          {pending ? "Working…" : copy.triggerLabel}
+          {pending ? t("components.builtInBundlePanel.working") : copy.triggerLabel}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -156,7 +156,7 @@ function ConfirmActionButton({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="outline" size="sm" disabled={pending}>
-          {pending ? "Working…" : triggerLabel}
+          {pending ? t("components.builtInBundlePanel.working") : triggerLabel}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

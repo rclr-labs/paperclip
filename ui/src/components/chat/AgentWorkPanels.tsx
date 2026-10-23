@@ -219,7 +219,7 @@ export function AgentTasksPanel({
         <PanelMessage>
           {capped
             ? `No tasks match these filters among the ${AGENT_TASK_LIMIT} most recently updated.`
-            : "No tasks match these filters."}
+            : t("components.chat.agentWorkPanels.noTasksMatchTheseFilters")}
         </PanelMessage>
       ) : (
         <div className="flex flex-col gap-2">

@@ -499,8 +499,8 @@ function ConnectedTaskComposer({
             </p>
             <p className="truncate text-xs text-muted-foreground">
               {binding.externalLabel} · {binding.provider === "slack"
-                ? "Messages you send here and agent replies are also posted to Slack."
-                : "Agent assignment is fixed for this external task."}
+                ? t("components.chat.externallyConnectedTaskBanner.messagesYouSendHereAndAgent")
+                : t("components.chat.externallyConnectedTaskBanner.agentAssignmentIsFixedForThis")}
             </p>
           </div>
         </div>
@@ -578,7 +578,7 @@ function ConnectedTaskComposer({
               onClick={() => fileInput.current?.click()}
             >
               <Paperclip />
-              {uploading ? "Uploading…" : "Attach file"}
+              {uploading ? t("components.chat.externallyConnectedTaskBanner.uploading") : t("components.chat.externallyConnectedTaskBanner.attachFile")}
             </Button>
             <p className="text-xs text-muted-foreground">
               {t("components.chat.externallyConnectedTaskBanner.filesStayOnThisTaskUntil")}
@@ -608,18 +608,18 @@ function ConnectedTaskComposer({
             >
               <legend className="px-1 text-xs font-medium">
                 {showingRetainedFiles
-                  ? "Files in this send"
-                  : "Include task files"}
+                  ? t("components.chat.externallyConnectedTaskBanner.filesInThisSend")
+                  : t("components.chat.externallyConnectedTaskBanner.includeTaskFiles")}
               </legend>
               <p className="text-xs text-muted-foreground">
                 {binding.provider === "github"
-                  ? "GitHub Apps cannot upload file bytes in comments. Checked files stay on the Paperclip task; GitHub receives an authenticated task link when this Board has a public URL, or a private-task notice otherwise."
+                  ? t("components.chat.externallyConnectedTaskBanner.githubAppsCannotUploadFileBytes")
                   : binding.provider === "microsoft-teams" &&
                       !showingRetainedFiles
-                    ? "In personal Teams chats, recipients accept each file before upload. Channels and group chats receive supported images directly; other files stay on the task, with a task link or private-task notice."
+                    ? t("components.chat.externallyConnectedTaskBanner.inPersonalTeamsChatsRecipientsAccept")
                     : showingRetainedFiles
-                      ? "These are the files selected for this send. Selection is locked until delivery is resolved."
-                      : "Only checked files will be published to the external conversation."}
+                      ? t("components.chat.externallyConnectedTaskBanner.theseAreTheFilesSelectedFor")
+                      : t("components.chat.externallyConnectedTaskBanner.onlyCheckedFilesWillBePublished")}
               </p>
               <div className="space-y-2">
                 {visibleAttachments.map((attachment) => {
@@ -821,8 +821,8 @@ function ConnectedTaskComposer({
           <div className="flex items-center justify-between gap-3">
             <p className="text-xs text-muted-foreground">
               {binding.provider === "slack"
-                ? "Your message is posted to Slack with your name and starts the agent."
-                : "Ordinary board comments remain Paperclip-only."}
+                ? t("components.chat.externallyConnectedTaskBanner.yourMessageIsPostedToSlack")
+                : t("components.chat.externallyConnectedTaskBanner.ordinaryBoardCommentsRemainPaperclipOnly")}
             </p>
             <Button
               size="sm"
@@ -875,10 +875,10 @@ function ConnectedTaskComposer({
               }}
             >
               {publish.isPending
-                ? "Sending…"
+                ? t("components.chat.externallyConnectedTaskBanner.sending")
                 : !rejection && (publish.isError || unconfirmedRequest)
-                  ? "Retry safely"
-                  : "Send to channel"}
+                  ? t("components.chat.externallyConnectedTaskBanner.retrySafely")
+                  : t("components.chat.externallyConnectedTaskBanner.sendToChannel")}
             </Button>
           </div>
         </div>

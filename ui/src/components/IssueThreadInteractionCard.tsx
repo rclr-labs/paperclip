@@ -686,7 +686,7 @@ function TaskTreeNode({
             <GitBranch className="h-3.5 w-3.5 shrink-0" />
             <span>
               {hiddenChildCount === 1
-                ? "1 follow-on task hidden in preview"
+                ? t("components.issueThreadInteractionCard.1FollowOnTaskHiddenIn")
                 : `${hiddenChildCount} follow-on tasks hidden in preview`}
             </span>
           </div>
@@ -889,7 +889,7 @@ function SuggestTasksCard({
             "mt-1 leading-6",
             !interaction.result?.rejectionReason && "text-rose-900/75",
           )}>
-            {interaction.result?.rejectionReason || "No reason provided."}
+            {interaction.result?.rejectionReason || t("components.issueThreadInteractionCard.noReasonProvided")}
           </p>
         </div>
       ) : null}
@@ -922,7 +922,7 @@ function SuggestTasksCard({
                     {t("components.issueThreadInteractionCard.accepting")}
                   </>
                 ) : (
-                  selectedCount === totalTasks ? "Accept drafts" : "Accept selected drafts"
+                  selectedCount === totalTasks ? t("components.issueThreadInteractionCard.acceptDrafts") : t("components.issueThreadInteractionCard.acceptSelectedDrafts")
                 )}
               </Button>
               <Button
@@ -967,7 +967,7 @@ function SuggestTasksCard({
                       {t("components.issueThreadInteractionCard.saving2")}
                     </>
                   ) : (
-                    "Save rejection"
+                    t("components.issueThreadInteractionCard.saveRejection")
                   )}
                 </Button>
               </div>
@@ -1376,7 +1376,7 @@ function AskUserQuestionsCard({
                       {t("components.issueThreadInteractionCard.cancelling")}
                     </>
                   ) : (
-                    "Cancel question"
+                    t("components.issueThreadInteractionCard.cancelQuestion")
                   )}
                   </Button>
                 ) : null}
@@ -1391,7 +1391,7 @@ function AskUserQuestionsCard({
                     {t("components.issueThreadInteractionCard.submitting")}
                   </>
                 ) : (
-                  interaction.payload.submitLabel ?? "Submit answers"
+                  interaction.payload.submitLabel ?? t("components.issueThreadInteractionCard.submitAnswers")
                 )}
               </Button>
             </div>
@@ -1403,8 +1403,8 @@ function AskUserQuestionsCard({
         <div className="rounded-2xl border border-rose-300/60 bg-rose-50/85 p-4 text-sm leading-6 text-rose-950 dark:border-rose-500/40 dark:bg-rose-500/10 dark:text-rose-100">
           <div className="font-semibold">
             {interaction.result?.outcome === "withdrawn"
-              ? questions.length === 1 ? "Question withdrawn" : "Questions withdrawn"
-              : "Question cancelled"}
+              ? questions.length === 1 ? t("components.issueThreadInteractionCard.questionWithdrawn") : t("components.issueThreadInteractionCard.questionsWithdrawn")
+              : t("components.issueThreadInteractionCard.questionCancelled")}
           </div>
           {interaction.result?.cancellationReason ? (
             <p className="mt-1">{interaction.result.cancellationReason}</p>
@@ -1420,16 +1420,16 @@ function AskUserQuestionsCard({
             <AlertTriangle className="h-4 w-4" />
             {interaction.result?.outcome === "issue_closed"
               ? questions.length === 1
-                ? "Question expired when the issue closed"
-                : "Questions expired when the issue closed"
+                ? t("components.issueThreadInteractionCard.questionExpiredWhenTheIssueClosed")
+                : t("components.issueThreadInteractionCard.questionsExpiredWhenTheIssueClosed")
               : questions.length === 1
-                ? "Question expired by comment"
-                : "Questions expired by comment"}
+                ? t("components.issueThreadInteractionCard.questionExpiredByComment")
+                : t("components.issueThreadInteractionCard.questionsExpiredByComment")}
           </div>
           <p className="mt-1">
             {interaction.result?.outcome === "issue_closed"
-              ? "This question request expired automatically when the issue reached a terminal state."
-              : "A later board/user comment superseded this question request. Create a fresh request if answers are still needed."}
+              ? t("components.issueThreadInteractionCard.thisQuestionRequestExpiredAutomaticallyWhen")
+              : t("components.issueThreadInteractionCard.aLaterBoardUserCommentSuperseded")}
           </p>
           {interaction.result?.commentId ? (
             <a
@@ -1582,7 +1582,7 @@ function RequestConfirmationResolution({
             <p className="mt-1 leading-6">
               {resumeFailure.status === "retrying"
                 ? `Paperclip is retrying the agent resume after approval (attempt ${resumeFailure.attempt}/${resumeFailure.maxAttempts}).`
-                : "Paperclip needs attention before the agent can resume this approved work."}
+                : t("components.issueThreadInteractionCard.paperclipNeedsAttentionBeforeTheAgent")}
             </p>
             {resumeFailure.errorCode ? (
               <p className="mt-1 leading-6">
@@ -1644,15 +1644,15 @@ function RequestConfirmationResolution({
          */}
         {expiredByIssueClosed ? null : (
           <div className="text-(length:--text-micro) font-semibold uppercase tracking-(--tracking-eyebrow) text-amber-700">
-            {expiredByComment ? "Expired by comment" : "Expired by target change"}
+            {expiredByComment ? t("components.issueThreadInteractionCard.expiredByComment") : t("components.issueThreadInteractionCard.expiredByTargetChange")}
           </div>
         )}
         <p className="leading-6">
           {expiredByComment
-            ? "A board comment superseded this confirmation before it was resolved."
+            ? t("components.issueThreadInteractionCard.aBoardCommentSupersededThisConfirmation")
             : expiredByIssueClosed
-              ? "This confirmation expired automatically when the issue reached a terminal state."
-              : "The requested target changed before this confirmation was resolved."}
+              ? t("components.issueThreadInteractionCard.thisConfirmationExpiredAutomaticallyWhenThe")
+              : t("components.issueThreadInteractionCard.theRequestedTargetChangedBeforeThis")}
         </p>
         {expiredByComment && interaction.result?.commentId ? (
           <Button asChild size="sm" variant="ghost" className="h-7 px-2 text-amber-950 hover:bg-amber-500/15 dark:text-amber-50">
@@ -1795,11 +1795,11 @@ function RequestToolActionCard({
       {isPending ? (
         <div className="mt-3 flex justify-end gap-2">
           <Button size="sm" variant="ghost" disabled={!onRejectInteraction || working !== null} onClick={() => void decide("reject")}>
-            {working === "reject" ? "Declining…" : "Decline"}
+            {working === "reject" ? t("components.issueThreadInteractionCard.declining") : t("components.issueThreadInteractionCard.decline")}
           </Button>
           <div className="inline-flex" role="group" aria-label={t("components.issueThreadInteractionCard.approveRequest")}>
             <Button size="sm" variant={variant} className={payload.rememberActionScope ? "rounded-r-none" : undefined} disabled={!onAcceptInteraction || working !== null} onClick={() => void decide("accept")}>
-              {working === "accept" || working === "always" ? <><Loader2 className="h-3.5 w-3.5 animate-spin" />{working === "always" ? "Saving…" : "Approving…"}</> : "Approve & run"}
+              {working === "accept" || working === "always" ? <><Loader2 className="h-3.5 w-3.5 animate-spin" />{working === "always" ? t("components.issueThreadInteractionCard.saving") : t("components.issueThreadInteractionCard.approving")}</> : t("components.issueThreadInteractionCard.approveRun")}
             </Button>
             {payload.rememberActionScope ? (
               <DropdownMenu>
@@ -2304,7 +2304,7 @@ function ConfirmationActionRow({
                   {t("components.issueThreadInteractionCard.sending")}
                 </>
               ) : (
-                "Send revision"
+                t("components.issueThreadInteractionCard.sendRevision")
               )}
             </Button>
           </div>
@@ -2490,7 +2490,7 @@ function RequestConnectionAuthorizationCard({
                     {t("components.issueThreadInteractionCard.saving")}
                   </>
                 ) : (
-                  "Not now"
+                  t("components.issueThreadInteractionCard.notNow")
                 )}
               </Button>
             </div>
@@ -2817,7 +2817,7 @@ function RequestCheckboxConfirmationResolution({
         <div className="flex flex-wrap items-center gap-2 text-sm leading-6 text-foreground">
           <span className="font-medium">
             {selectedCount === 0
-              ? "Confirmed with no options selected"
+              ? t("components.issueThreadInteractionCard.confirmedWithNoOptionsSelected")
               : `Confirmed ${selectedCount} of ${totalOptions} ${totalOptions === 1 ? "option" : "options"}`}
           </span>
           <RequestConfirmationTargetChip interaction={interaction} target={target} />
@@ -2837,7 +2837,7 @@ function RequestCheckboxConfirmationResolution({
                 )}
                 aria-expanded={expanded}
               >
-                {expanded ? "Show less" : `+${hiddenCount} more`}
+                {expanded ? t("components.issueThreadInteractionCard.showLess") : `+${hiddenCount} more`}
               </button>
             ) : null}
           </div>
@@ -3421,10 +3421,10 @@ function RequestItemVerdictsCard({
           <div className="flex items-center gap-2 font-medium">
             <AlertTriangle className="h-4 w-4" aria-hidden />
             {interaction.result?.outcome === "superseded_by_comment"
-              ? "This review expired after a later comment."
+              ? t("components.issueThreadInteractionCard.thisReviewExpiredAfterALater")
               : interaction.result?.outcome === "stale_target"
-                ? "This review expired after the target changed."
-                : "This review expired."}
+                ? t("components.issueThreadInteractionCard.thisReviewExpiredAfterTheTarget")
+                : t("components.issueThreadInteractionCard.thisReviewExpired")}
           </div>
           {progress.decided > 0 ? (
             <p className="mt-1 text-xs leading-5">
@@ -3545,7 +3545,7 @@ function RequestItemVerdictsCard({
           <div className="text-xs text-muted-foreground">
             {draftCount > 0
               ? `${draftCount} draft verdict${draftCount === 1 ? "" : "s"} ready to apply`
-              : "Mark verdicts, then apply them in one pass."}
+              : t("components.issueThreadInteractionCard.markVerdictsThenApplyThemIn")}
           </div>
           <div className="flex flex-wrap items-center gap-2">
             {allowBulkApprove ? (
@@ -3813,7 +3813,7 @@ export function IssueThreadInteractionCard({
                   <span>{statusText}</span>
                 ) : (
                   <>
-                    {isPlan ? "Plan" : interactionKindLabel(interaction.kind)}
+                    {isPlan ? t("components.issueThreadInteractionCard.plan") : interactionKindLabel(interaction.kind)}
                     <span className="text-current/60">/</span>
                     {statusText}
                   </>
@@ -3839,27 +3839,27 @@ export function IssueThreadInteractionCard({
             <div className="mt-3 text-lg font-bold text-foreground">
               {interaction.title
                 ?? (interaction.kind === "suggest_tasks"
-                  ? "Suggested task tree"
+                  ? t("components.issueThreadInteractionCard.suggestedTaskTree")
                   : interaction.kind === "ask_user_questions"
                     // Only a human-only card is genuinely "for the operator";
                     // an open card is answerable by any teammate (PAP-17280).
                     ? interaction.payload.title
                       ?? (audience.policy === "human_only"
-                        ? "Questions for the operator"
-                        : "Questions to answer")
+                        ? t("components.issueThreadInteractionCard.questionsForTheOperator")
+                        : t("components.issueThreadInteractionCard.questionsToAnswer"))
                   : interaction.kind === "request_checkbox_confirmation"
-                    ? "Checkbox confirmation requested"
+                    ? t("components.issueThreadInteractionCard.checkboxConfirmationRequested")
                     : isSecretProposal
-                      ? "Secret binding requested"
+                      ? t("components.issueThreadInteractionCard.secretBindingRequested")
                     : connectionAuthorization
                       ? `Connect your ${connectionAuthorization.providerName} to continue`
                     : isToolAction
-                      ? "Tool approval requested"
+                      ? t("components.issueThreadInteractionCard.toolApprovalRequested")
                       : interaction.kind === "request_item_verdicts"
-                        ? "Review these items"
+                        ? t("components.issueThreadInteractionCard.reviewTheseItems")
                         : isPlan
-                          ? "Plan review"
-                          : "Confirmation requested")}
+                          ? t("components.issueThreadInteractionCard.planReview")
+                          : t("components.issueThreadInteractionCard.confirmationRequested"))}
             </div>
             {/* A connection-authorization card composes its own single body
                 below, because the closing sentence depends on whether the
@@ -3968,7 +3968,7 @@ export function IssueThreadInteractionCard({
           >
             <div>
               Withdrawn by{" "}
-              <span className="font-medium text-foreground">{resolvedByLabel ?? "an agent"}</span>
+              <span className="font-medium text-foreground">{resolvedByLabel ?? t("components.issueThreadInteractionCard.anAgent")}</span>
               {resolvedByAgent ? <ResolvedByAgentChip /> : null}
               {interaction.resolvedAt ? ` on ${formatShortDate(interaction.resolvedAt)}` : ""}
             </div>

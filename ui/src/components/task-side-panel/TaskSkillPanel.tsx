@@ -39,7 +39,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
       <div className="space-y-3 py-8 text-sm text-muted-foreground" role="alert">
         <p>{t("components.tasksidepanel.taskSkillPanel.theSkillCouldNotBeLoaded")}</p>
         <Button variant="outline" size="sm" onClick={() => void query.refetch()} disabled={query.isFetching}>
-          {query.isFetching ? "Retrying…" : "Retry"}
+          {query.isFetching ? t("components.tasksidepanel.taskSkillPanel.retrying") : t("components.tasksidepanel.taskSkillPanel.retry")}
         </Button>
       </div>
     );
@@ -67,7 +67,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          {skill.slug} · {skill.currentVersion ? `Revision ${skill.currentVersion.revisionNumber}` : "Current version"}
+          {skill.slug} · {skill.currentVersion ? `Revision ${skill.currentVersion.revisionNumber}` : t("components.tasksidepanel.taskSkillPanel.currentVersion")}
         </p>
       </header>
       {skill.description ? <p className="text-sm text-muted-foreground">{skill.description}</p> : null}
@@ -76,7 +76,7 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
           <FileText className="size-3.5" aria-hidden />
           {t("components.tasksidepanel.taskSkillPanel.skillInstructions")}
         </h3>
-        <MarkdownBody>{previewMarkdown || "Skill instructions are empty."}</MarkdownBody>
+        <MarkdownBody>{previewMarkdown || t("components.tasksidepanel.taskSkillPanel.skillInstructionsAreEmpty")}</MarkdownBody>
       </section>
     </article>
   );

@@ -115,7 +115,7 @@ export function EditGatewayDialog({
               {t("pages.apps.gateways.editGatewayDialog.cancel")}
             </Button>
             <Button type="submit" disabled={updateMutation.isPending || !name.trim() || !profileId}>
-              {updateMutation.isPending ? "Saving…" : "Save changes"}
+              {updateMutation.isPending ? t("pages.apps.gateways.editGatewayDialog.saving") : t("pages.apps.gateways.editGatewayDialog.saveChanges")}
             </Button>
           </DialogFooter>
         </form>

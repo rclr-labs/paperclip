@@ -79,7 +79,7 @@ function AdapterRow({
                   external adapter ever provides one. */}
               {adapter.label && adapter.label !== adapter.type ? adapter.label : getAdapterLabel(adapter.type)}
             </span>
-            <Badge variant="outline">{adapter.source === "external" ? "External" : "Built-in"}</Badge>
+            <Badge variant="outline">{adapter.source === "external" ? t("pages.adapterManager.external") : t("pages.adapterManager.builtIn")}</Badge>
             {adapter.source === "external" && (
               adapter.isLocalPath
                 ? <span title={t("pages.adapterManager.installedFromLocalPath")}><FolderOpen className="h-4 w-4 text-amber-500" /></span>
@@ -100,7 +100,7 @@ function AdapterRow({
             )}
             {adapter.disabled && (
               <Badge variant="secondary" className="text-amber-600 border-amber-400">
-                {disabledBadgeLabel ?? "Hidden from menus"}
+                {disabledBadgeLabel ?? t("pages.adapterManager.hiddenFromMenus")}
               </Badge>
             )}
           </div>
@@ -247,7 +247,7 @@ function ReinstallDialog({
             {t("pages.adapterManager.cancel")}
           </Button>
           <Button disabled={isReinstalling} onClick={onConfirm}>
-            {isReinstalling ? "Reinstalling..." : "Reinstall"}
+            {isReinstalling ? t("pages.adapterManager.reinstalling") : t("pages.adapterManager.reinstall")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -508,7 +508,7 @@ export function AdapterManager() {
                 }
                 disabled={!installPackage || installMutation.isPending}
               >
-                {installMutation.isPending ? "Installing..." : "Install"}
+                {installMutation.isPending ? t("pages.adapterManager.installing") : t("pages.adapterManager.install")}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -667,7 +667,7 @@ export function AdapterManager() {
                 }
               }}
             >
-              {removeMutation.isPending ? "Removing..." : "Remove"}
+              {removeMutation.isPending ? t("pages.adapterManager.removing") : t("pages.adapterManager.remove")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -59,7 +59,7 @@ export function DecisionModelSettingsView({ settings, choices, saving, testing, 
     {draft.connectionId && !selected && <p role="status" className="text-sm text-muted-foreground">{t("components.decisionmodels.decisionModelSettings.theSavedConnectionIsUnavailableTo")}</p>}
     <div className="flex flex-wrap items-center gap-3">
       <Button variant="outline" size="sm" onClick={onAdd} disabled={saving || testing}>{t("components.decisionmodels.decisionModelSettings.addConnection")}</Button>
-      {selected && <Link to={`/apps/${selected.id}/permissions`} className="text-sm underline underline-offset-4">{selected.status === "connected" ? "Manage connection" : "Reconnect connection"}</Link>}
+      {selected && <Link to={`/apps/${selected.id}/permissions`} className="text-sm underline underline-offset-4">{selected.status === "connected" ? t("components.decisionmodels.decisionModelSettings.manageConnection") : t("components.decisionmodels.decisionModelSettings.reconnectConnection")}</Link>}
     </div>
     {draft.connectionId && <fieldset disabled={saving || testing} className="space-y-4">
       <ToggleField label="Enable decisions" checked={draft.enabled} onChange={enabled => setDraft(value => ({ ...value, enabled }))} />
@@ -80,10 +80,10 @@ export function DecisionModelSettingsView({ settings, choices, saving, testing, 
     </div>}
     <div className="flex flex-wrap items-center justify-between gap-3">
       <div className="space-y-1">
-        <Button variant="outline" size="sm" disabled={!settings.enabled || dirty || saving || testing || selected?.status !== "connected"} onClick={onTest}>{testing ? "Running test…" : "Run test"}</Button>
-        <p className="text-xs text-muted-foreground">{dirty ? "Save changes before testing." : "Runs a small sample with an API charge."}</p>
+        <Button variant="outline" size="sm" disabled={!settings.enabled || dirty || saving || testing || selected?.status !== "connected"} onClick={onTest}>{testing ? t("components.decisionmodels.decisionModelSettings.runningTest") : t("components.decisionmodels.decisionModelSettings.runTest")}</Button>
+        <p className="text-xs text-muted-foreground">{dirty ? t("components.decisionmodels.decisionModelSettings.saveChangesBeforeTesting") : t("components.decisionmodels.decisionModelSettings.runsASmallSampleWithAn")}</p>
       </div>
-      {dirty && <Button onClick={() => onSave(draft)} disabled={saving || testing || (draft.enabled && selected?.status !== "connected")}>{saving ? "Saving…" : "Save decision model"}</Button>}
+      {dirty && <Button onClick={() => onSave(draft)} disabled={saving || testing || (draft.enabled && selected?.status !== "connected")}>{saving ? t("components.decisionmodels.decisionModelSettings.saving") : t("components.decisionmodels.decisionModelSettings.saveDecisionModel")}</Button>}
     </div>
   </section>;
 }

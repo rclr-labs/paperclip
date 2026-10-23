@@ -64,7 +64,7 @@ export function MyUserSecretsTab({ companyId }: { companyId: string }) {
           {missingCount > 0 ? (
             <span className="font-medium">
               {" "}
-              {missingCount} required secret{missingCount === 1 ? " still needs" : "s still need"} your
+              {missingCount} required secret{missingCount === 1 ? t("pages.secrets.myUserSecretsTab.stillNeeds") : t("pages.secrets.myUserSecretsTab.sStillNeed")} your
               value.
             </span>
           ) : null}
@@ -124,6 +124,7 @@ function MyUserSecretRow({
   onClear: () => void;
   clearing: boolean;
 }) {
+  const { t } = useTranslation();
   const { definition, secret } = entry;
   const state = myValueState(definition, secret);
   const disabledDefinition = definition.status !== "active";
@@ -163,7 +164,7 @@ function MyUserSecretRow({
         </Badge>
         {!disabledDefinition ? (
           <Button size="sm" variant={secret ? "outline" : "default"} onClick={onSet}>
-            {secret ? "Update" : "Set value"}
+            {secret ? t("pages.secrets.myUserSecretsTab.update") : t("pages.secrets.myUserSecretsTab.setValue")}
           </Button>
         ) : null}
         {secret ? (

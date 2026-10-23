@@ -942,8 +942,8 @@ function ProviderConnectStep({
           <h1 className="text-xl font-bold">{t("pages.apps.chat.chatEndpointSetup.connectToDiscord", { agentName })}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {repairing
-              ? "Reconnect verifies this same Discord application and server installation. It does not add or remove the bot from the server. Leave fields blank to reuse saved credentials."
-              : "Create one dedicated Discord application and bot for this Paperclip agent."}
+              ? t("pages.apps.chat.chatEndpointSetup.reconnectVerifiesThisSameDiscordApplication")
+              : t("pages.apps.chat.chatEndpointSetup.createOneDedicatedDiscordApplicationAnd")}
           </p>
         </div>
       <ol className="list-decimal space-y-2 pl-5 text-sm">
@@ -994,7 +994,7 @@ function ProviderConnectStep({
           }
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {repairing ? "Reconnect Discord bot" : "Connect Discord bot"}
+          {repairing ? t("pages.apps.chat.chatEndpointSetup.reconnectDiscordBot") : t("pages.apps.chat.chatEndpointSetup.connectDiscordBot")}
         </Button>
       </div>
     );
@@ -1006,8 +1006,8 @@ function ProviderConnectStep({
           <h1 className="text-xl font-bold">{t("pages.apps.chat.chatEndpointSetup.createInTelegram", { agentName })}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {repairing
-              ? "Reconnect verifies this same BotFather bot and automatically refreshes its Paperclip webhook and command menu. It does not recreate the bot or change its chat memberships. Leave the token blank to reuse the saved credential."
-              : "Create a bot with BotFather, then paste the token it gives you."}
+              ? t("pages.apps.chat.chatEndpointSetup.reconnectVerifiesThisSameBotfatherBot")
+              : t("pages.apps.chat.chatEndpointSetup.createABotWithBotfatherThen")}
           </p>
         </div>
         <ol className="list-decimal space-y-2 pl-5 text-sm">
@@ -1049,7 +1049,7 @@ function ProviderConnectStep({
           }
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {repairing ? "Reconnect bot" : "Connect bot"}
+          {repairing ? t("pages.apps.chat.chatEndpointSetup.reconnectBot") : t("pages.apps.chat.chatEndpointSetup.connectBot")}
         </Button>
       </div>
     );
@@ -1060,8 +1060,8 @@ function ProviderConnectStep({
           <h1 className="text-xl font-bold">{t("pages.apps.chat.chatEndpointSetup.connectToMicrosoftTeams", { agentName })}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {repairing
-              ? "Reconnect verifies this same Microsoft app, tenant, and bot identity. It does not upload or reinstall the Teams app. Leave fields blank to reuse saved credentials."
-              : "Use your own Microsoft app credentials for this bot."}
+              ? t("pages.apps.chat.chatEndpointSetup.reconnectVerifiesThisSameMicrosoftApp")
+              : t("pages.apps.chat.chatEndpointSetup.useYourOwnMicrosoftAppCredentials")}
           </p>
         </div>
         <p className="rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
@@ -1193,8 +1193,8 @@ function ProviderConnectStep({
             }}
           >
             {manifestCopied
-              ? "Manifest settings copied"
-              : "Copy manifest settings"}
+              ? t("pages.apps.chat.chatEndpointSetup.manifestSettingsCopied")
+              : t("pages.apps.chat.chatEndpointSetup.copyManifestSettings")}
           </Button>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -1237,8 +1237,8 @@ function ProviderConnectStep({
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
           {repairing
-            ? "Reconnect Microsoft app"
-            : "Verify Microsoft credentials"}
+            ? t("pages.apps.chat.chatEndpointSetup.reconnectMicrosoftApp")
+            : t("pages.apps.chat.chatEndpointSetup.verifyMicrosoftCredentials")}
         </Button>
       </div>
     );
@@ -1248,13 +1248,13 @@ function ProviderConnectStep({
         <div>
           <h1 className="text-xl font-bold">
             {repairing
-              ? "Reconnect GitHub App"
-              : "Create or connect a GitHub App"}
+              ? t("pages.apps.chat.chatEndpointSetup.reconnectGithubApp")
+              : t("pages.apps.chat.chatEndpointSetup.createOrConnectAGithubApp")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {repairing
-              ? "Reconnect verifies this same App and installation, then updates its webhook URL, secret, and secure delivery settings. It does not reinstall the App or change repository access. Leave App ID and private key blank to reuse saved credentials. Keep Webhooks · Active enabled in GitHub; send a test conversation after reconnecting."
-              : "Configure its webhook and permissions, then verify the App with Paperclip."}
+              ? t("pages.apps.chat.chatEndpointSetup.reconnectVerifiesThisSameAppAnd")
+              : t("pages.apps.chat.chatEndpointSetup.configureItsWebhookAndPermissionsThen")}
           </p>
         </div>
         {!repairing && (
@@ -1307,7 +1307,7 @@ function ProviderConnectStep({
             )
           }
         >
-          {repairing ? "Open GitHub App settings" : "Open new GitHub App form"}{" "}
+          {repairing ? t("pages.apps.chat.chatEndpointSetup.openGithubAppSettings") : t("pages.apps.chat.chatEndpointSetup.openNewGithubAppForm")}{" "}
           <ExternalLink />
         </Button>
         {field("appId", "GitHub App ID", "text")}
@@ -1416,10 +1416,10 @@ function ProviderConnectStep({
                   }}
                 >
                   {webhookSecretCopy.copied
-                    ? "Webhook secret copied"
+                    ? t("pages.apps.chat.chatEndpointSetup.webhookSecretCopied")
                     : webhookSecretCopy.failed
-                      ? "Couldn’t copy — select it manually"
-                      : "Copy webhook secret"}
+                      ? t("pages.apps.chat.chatEndpointSetup.couldnTCopySelectItManually")
+                      : t("pages.apps.chat.chatEndpointSetup.copyWebhookSecret")}
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground">
@@ -1429,8 +1429,8 @@ function ProviderConnectStep({
           ) : (
             <p className="text-sm text-muted-foreground">
               {endpoint.setup?.webhookSecretConfigured
-                ? "A webhook secret is configured and cannot be shown again."
-                : "Generate the secret in Paperclip, then paste it into the GitHub App."}
+                ? t("pages.apps.chat.chatEndpointSetup.aWebhookSecretIsConfiguredAnd")
+                : t("pages.apps.chat.chatEndpointSetup.generateTheSecretInPaperclipThen")}
             </p>
           )}
           <div>
@@ -1444,15 +1444,15 @@ function ProviderConnectStep({
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
               {endpoint.setup?.webhookSecretConfigured
-                ? "Regenerate webhook secret"
-                : "Generate webhook secret"}
+                ? t("pages.apps.chat.chatEndpointSetup.regenerateWebhookSecret")
+                : t("pages.apps.chat.chatEndpointSetup.generateWebhookSecret")}
             </Button>
           </div>
           {endpoint.setup?.webhookSecretConfigured && (
             <p className="text-sm text-muted-foreground">
               {endpoint.providerAccountId || endpoint.botExternalId
-                ? "Regenerating immediately invalidates GitHub webhook signatures until you replace the secret in the GitHub App settings."
-                : "Generating another secret replaces the previous value. Paste the newest value into GitHub before continuing."}
+                ? t("pages.apps.chat.chatEndpointSetup.regeneratingImmediatelyInvalidatesGithubWebhookSignatures")
+                : t("pages.apps.chat.chatEndpointSetup.generatingAnotherSecretReplacesThePrevious")}
             </p>
           )}
           {endpoint.setup?.webhookSecretConfigured && (
@@ -1460,8 +1460,8 @@ function ProviderConnectStep({
               className={`text-sm ${endpoint.setup.webhookVerifiedAt ? "text-foreground" : "text-muted-foreground"}`}
             >
               {endpoint.setup.webhookVerifiedAt
-                ? "GitHub has verified this webhook."
-                : "Waiting for GitHub to deliver its signed webhook ping…"}
+                ? t("pages.apps.chat.chatEndpointSetup.githubHasVerifiedThisWebhook")
+                : t("pages.apps.chat.chatEndpointSetup.waitingForGithubToDeliverIts")}
             </p>
           )}
         </div>
@@ -1485,7 +1485,7 @@ function ProviderConnectStep({
           }
         >
           {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-          {repairing ? "Reconnect and verify" : "Connect and verify"}
+          {repairing ? t("pages.apps.chat.chatEndpointSetup.reconnectAndVerify") : t("pages.apps.chat.chatEndpointSetup.connectAndVerify")}
         </Button>
       </div>
     );
@@ -1498,20 +1498,20 @@ function ProviderConnectStep({
     return (
       <div className="space-y-5">
         <div>
-          <h1 className="text-xl font-bold">{automaticSlack ? "Send a message to your agent" : "Verify Slack connection"}</h1>
+          <h1 className="text-xl font-bold">{automaticSlack ? t("pages.apps.chat.chatEndpointSetup.sendAMessageToYourAgent") : t("pages.apps.chat.chatEndpointSetup.verifySlackConnection")}</h1>
           {!automaticSlack && <p className="mt-1 text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointSetup.slackNeedsToConfirmThatIt")}</p>}
         </div>
         {automaticSlack ? <Button asChild variant="outline"><a href={endpoint.setup?.slackAccount?.dmChannelId && endpoint.providerAccountId ? `https://app.slack.com/client/${encodeURIComponent(endpoint.providerAccountId)}/${encodeURIComponent(endpoint.setup.slackAccount.dmChannelId)}` : endpoint.setup?.providerUrl ?? "https://app.slack.com"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.chatEndpointSetup.openSlack")} <ExternalLink className="size-4" /></a></Button> : slackRequestUrlInstructions}
         {endpoint.setup?.webhookVerifiedAt ? (
           <p role="status" className="flex items-center gap-2 text-sm">
             <CheckCircle2 className="size-4 text-(--status-task-done)" />
-            Your Slack connection is working.{pending ? automaticSlack ? " Finishing setup…" : " Opening the message test…" : ""}
+            Your Slack connection is working.{pending ? automaticSlack ? t("pages.apps.chat.chatEndpointSetup.finishingSetup") : t("pages.apps.chat.chatEndpointSetup.openingTheMessageTest") : ""}
           </p>
         ) : slackVerificationError ? (
           <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.chatEndpointSetup.couldnTCheckVerificationWeLl")}</p>
         ) : (
           <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="size-4 animate-spin" /> {automaticSlack ? "Waiting for your message…" : "Waiting for Slack. We’ll continue automatically."}
+            <Loader2 className="size-4 animate-spin" /> {automaticSlack ? t("pages.apps.chat.chatEndpointSetup.waitingForYourMessage") : t("pages.apps.chat.chatEndpointSetup.waitingForSlackWeLlContinue")}
           </p>
         )}
         <SlackSetupAdvanced label={automaticSlack ? "Didn’t work?" : "Troubleshooting"}>
@@ -1553,7 +1553,7 @@ function ProviderConnectStep({
         </div>
       )}
       <div>
-        <h1 className="text-xl font-bold">{endpoint.setup?.slackSetupMethod === "managed" ? "Connect to Slack" : slackStage === "app" ? automaticSlack ? "App configuration access token" : "Create a Slack app" : automaticSlack ? "Install Slack app" : "Add Slack credentials"}</h1>
+        <h1 className="text-xl font-bold">{endpoint.setup?.slackSetupMethod === "managed" ? t("pages.apps.chat.chatEndpointSetup.connectToSlack") : slackStage === "app" ? automaticSlack ? t("pages.apps.chat.chatEndpointSetup.appConfigurationAccessToken") : t("pages.apps.chat.chatEndpointSetup.createASlackApp") : automaticSlack ? t("pages.apps.chat.chatEndpointSetup.installSlackApp") : t("pages.apps.chat.chatEndpointSetup.addSlackCredentials")}</h1>
         {repairing && !automaticSlack && (
           <p className="mt-1 text-sm text-muted-foreground">
             {t("pages.apps.chat.chatEndpointSetup.reconnectVerifiesOrReplacesCredentialsFor")}
@@ -1593,7 +1593,7 @@ function ProviderConnectStep({
                       );
                     }}
                   >
-                    {manifestCopied ? "Manifest copied" : "Copy manifest"}
+                    {manifestCopied ? t("pages.apps.chat.chatEndpointSetup.manifestCopied") : t("pages.apps.chat.chatEndpointSetup.copyManifest")}
                   </Button>
                 </DialogFooter>
               </DialogContent>
@@ -1716,7 +1716,7 @@ function ProviderConnectStep({
               : onAction(repairing || slackCredentialsSaved ? "reconnect" : "configure", credentials)}
           >
             {pending && <Loader2 className="h-4 w-4 animate-spin" />}
-            {continueWithSavedSlackCredentials ? "Continue" : repairing || slackCredentialsSaved ? "Reconnect Slack app" : "Connect Slack app"}
+            {continueWithSavedSlackCredentials ? t("pages.apps.chat.chatEndpointSetup.continue") : repairing || slackCredentialsSaved ? t("pages.apps.chat.chatEndpointSetup.reconnectSlackApp") : t("pages.apps.chat.chatEndpointSetup.connectSlackApp")}
           </Button>
         </div>
       </div>}
@@ -1898,17 +1898,17 @@ function TryStep({
           </Button>
         </div>
       ) : null}
-      {provider === "imessage-photon" && botUsername && <div className="space-y-2"><Button variant="outline" onClick={() => { void copyTextToClipboard(botUsername).then(() => { setNumberCopied(true); setCopyError(null); }, () => setCopyError("Could not copy the number. Select it in the instructions below.")); }}>{numberCopied ? "Number copied" : `Copy ${botUsername}`}</Button>{copyError && <p role="alert" className="text-sm text-destructive">{copyError}</p>}</div>}
+      {provider === "imessage-photon" && botUsername && <div className="space-y-2"><Button variant="outline" onClick={() => { void copyTextToClipboard(botUsername).then(() => { setNumberCopied(true); setCopyError(null); }, () => setCopyError("Could not copy the number. Select it in the instructions below.")); }}>{numberCopied ? t("pages.apps.chat.chatEndpointSetup.numberCopied") : `Copy ${botUsername}`}</Button>{copyError && <p role="alert" className="text-sm text-destructive">{copyError}</p>}</div>}
       {provider === "slack" ? (
         <>
           <ol className="list-decimal space-y-4 pl-5 text-sm">
-            <li>{slackAccount?.status === "linked" ? <Button asChild variant="outline"><a href={providerUrl ?? "https://app.slack.com"} target="_blank" rel="noopener noreferrer">{slackAccount.dmChannelId ? "Open your Slack DM" : "Open Slack"}<ExternalLink /></a></Button> : <>{t("pages.apps.chat.chatEndpointSetup.openAChannelAndInviteIf", { botMention })}</>}</li>
+            <li>{slackAccount?.status === "linked" ? <Button asChild variant="outline"><a href={providerUrl ?? "https://app.slack.com"} target="_blank" rel="noopener noreferrer">{slackAccount.dmChannelId ? t("pages.apps.chat.chatEndpointSetup.openYourSlackDm") : t("pages.apps.chat.chatEndpointSetup.openSlack")}<ExternalLink /></a></Button> : <>{t("pages.apps.chat.chatEndpointSetup.openAChannelAndInviteIf", { botMention })}</>}</li>
             <li>
               <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border p-3">
                 <code>{slackTestMessage}</code>
                 <Button size="sm" variant="ghost" onClick={() => {
                   void copyTextToClipboard(slackTestMessage).then(() => { setCommandCopied(true); setCommandCopyError(false); }, () => setCommandCopyError(true));
-                }}><Copy className="size-4" />{commandCopied ? "Copied" : "Copy message"}</Button>
+                }}><Copy className="size-4" />{commandCopied ? t("pages.apps.chat.chatEndpointSetup.copied") : t("pages.apps.chat.chatEndpointSetup.copyMessage")}</Button>
               </div>
               {slackAccount?.status !== "linked" && <p className="mt-2 text-muted-foreground">{t("pages.apps.chat.chatEndpointSetup.selectTheBotFromSlackS")}</p>}
             </li>

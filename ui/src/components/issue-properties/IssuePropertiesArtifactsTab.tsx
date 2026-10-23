@@ -216,8 +216,8 @@ function MarkdownWorkProductRow({
       <div className="flex flex-col items-start gap-1.5">
         <p className="text-sm text-muted-foreground">
           {unsupportedError
-            ? "This file can't be previewed as Markdown. Use Raw or Download instead."
-            : "Preview failed to load."}
+            ? t("components.issueproperties.issuePropertiesArtifactsTab.thisFileCanTBePreviewed")
+            : t("components.issueproperties.issuePropertiesArtifactsTab.previewFailedToLoad")}
         </p>
         {!unsupportedError ? (
           <button

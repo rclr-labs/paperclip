@@ -159,8 +159,8 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
     </>}
     {creating && <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" /> {t("pages.apps.chat.slack.ownSlackAppSetup.creatingYourSlackAppYouCan")}</p>}
     {created && <p className="text-sm">
-      <strong>{endpoint.setup?.slackApp?.appName ?? "Your Slack app"}</strong> is created.
-      {stage === "credentials" && " Approve installation with your Slack account. Paperclip will link it to your signed-in Paperclip account and send you a welcome DM."}
+      <strong>{endpoint.setup?.slackApp?.appName ?? t("pages.apps.chat.slack.ownSlackAppSetup.yourSlackApp")}</strong> is created.
+      {stage === "credentials" && t("pages.apps.chat.slack.ownSlackAppSetup.approveInstallationWithYourSlackAccount")}
     </p>}
     {stage === "credentials" && registration?.status === "credentials_saved" && <div className="space-y-2">
       <p className="text-sm text-muted-foreground">{t("pages.apps.chat.slack.ownSlackAppSetup.yourInstallationCredentialsAreSavedRetry")}</p>
@@ -176,7 +176,7 @@ export function OwnSlackAppSetup({ endpoint, stage, disabled, saveDetails, onSav
         {busy && <Loader2 className="size-4 animate-spin" />}Retry app configuration
       </Button> : stage === "app" ? <Button disabled={busy || disabled || creating || (!created && (!configurationToken.trim() || uncertain && !checkedNoApp))}
         onClick={() => created ? onContinue() : void run(create)}>
-        {busy && <Loader2 className="size-4 animate-spin" />}{created ? "Continue to installation" : "Create Slack app"}
+        {busy && <Loader2 className="size-4 animate-spin" />}{created ? t("pages.apps.chat.slack.ownSlackAppSetup.continueToInstallation") : t("pages.apps.chat.slack.ownSlackAppSetup.createSlackApp")}
       </Button> : registration?.status === "credentials_saved" ? <Button disabled={busy} onClick={() => void run(async () => onSaved(await chatEndpointsApi.resumeSlackInstallation(endpoint.id)))}>
         {busy && <Loader2 className="size-4 animate-spin" />}Retry connecting
       </Button> : <Button disabled={busy || !created || disabled} onClick={() => void run(authorize)}>

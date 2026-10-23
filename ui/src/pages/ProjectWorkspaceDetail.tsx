@@ -397,7 +397,7 @@ export function ProjectWorkspaceDetail() {
   if (projectQuery.error) {
     return (
       <p className="text-sm text-destructive">
-        {projectQuery.error instanceof Error ? projectQuery.error.message : "Failed to load workspace"}
+        {projectQuery.error instanceof Error ? projectQuery.error.message : t("pages.projectWorkspaceDetail.failedToLoadWorkspace")}
       </p>
     );
   }
@@ -688,7 +688,7 @@ export function ProjectWorkspaceDetail() {
             </DetailRow>
             {hideHostPaths ? null : (
               <DetailRow label="Local path">
-                <span className="break-all font-mono text-xs">{workspace.cwd ?? "None"}</span>
+                <span className="break-all font-mono text-xs">{workspace.cwd ?? t("pages.projectWorkspaceDetail.none")}</span>
               </DetailRow>
             )}
             <DetailRow label="Repo">
@@ -699,9 +699,9 @@ export function ProjectWorkspaceDetail() {
                 </a>
               ) : workspace.repoUrl ? (
                 <span className="break-all font-mono text-xs">{workspace.repoUrl}</span>
-              ) : "None"}
+              ) : t("pages.projectWorkspaceDetail.none")}
             </DetailRow>
-            <DetailRow label="Default ref">{workspace.defaultRef ?? "None"}</DetailRow>
+            <DetailRow label="Default ref">{workspace.defaultRef ?? t("pages.projectWorkspaceDetail.none")}</DetailRow>
             <DetailRow label="Updated">{new Date(workspace.updatedAt).toLocaleString()}</DetailRow>
           </Card>
 
@@ -749,7 +749,7 @@ export function ProjectWorkspaceDetail() {
           />
         ) : pluginDetailSlotsLoading || pluginDetailSlotsError ? (
           <div className="rounded-lg border border-dashed border-border bg-background px-4 py-8 text-sm text-muted-foreground">
-            {pluginDetailSlotsError ? pluginDetailSlotsError : "Loading workspace plugin..."}
+            {pluginDetailSlotsError ? pluginDetailSlotsError : t("pages.projectWorkspaceDetail.loadingWorkspacePlugin")}
           </div>
         ) : (
           <MissingPluginTabPlaceholder

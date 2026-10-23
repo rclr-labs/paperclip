@@ -440,7 +440,7 @@ function ReceiptDisclosure({
             Answer:{" "}
             {selectedLabels.length > 0
               ? selectedLabels.join(", ")
-              : "No options selected"}
+              : t("components.taskchat.taskChatCompactInteractionCard.noOptionsSelected")}
           </p>
         ) : null}
         {interaction.payload.detailsMarkdown ? (
@@ -868,7 +868,7 @@ function ConfirmationCard({
         <div className="space-y-2">
           <p className="whitespace-pre-line break-words text-sm leading-5 text-foreground">
             {isPlanConfirmation
-              ? "Do you accept this plan?"
+              ? t("components.taskchat.taskChatCompactInteractionCard.doYouAcceptThisPlan")
               : interaction.payload.prompt}
           </p>
           {!isPlanConfirmation ? (
@@ -953,8 +953,8 @@ function ConfirmationCard({
             id={`${interaction.id}-reject-reason-label`}
             className="text-xs font-medium leading-4 text-foreground"
           >
-            {interaction.payload.rejectReasonLabel ?? "What should change?"}
-            {interaction.payload.rejectRequiresReason ? "" : " (optional)"}
+            {interaction.payload.rejectReasonLabel ?? t("components.taskchat.taskChatCompactInteractionCard.whatShouldChange")}
+            {interaction.payload.rejectRequiresReason ? "" : t("components.taskchat.taskChatCompactInteractionCard.optional")}
           </p>
           {isPlanConfirmation ? (
             <TaskChatRichInput
@@ -1023,7 +1023,7 @@ function ConfirmationCard({
               {working === "reject" ? (
                 <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
               ) : null}
-              {interaction.payload.rejectLabel ?? "Reject"}
+              {interaction.payload.rejectLabel ?? t("components.taskchat.taskChatCompactInteractionCard.reject")}
             </Button>
           </>
         ) : (
@@ -1039,7 +1039,7 @@ function ConfirmationCard({
                   : void resolve("reject")
               }
             >
-              {interaction.payload.rejectLabel ?? "Reject"}
+              {interaction.payload.rejectLabel ?? t("components.taskchat.taskChatCompactInteractionCard.reject")}
             </Button>
             <Button
               type="button"
@@ -1050,7 +1050,7 @@ function ConfirmationCard({
               {working === "accept" ? (
                 <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
               ) : null}
-              {interaction.payload.acceptLabel ?? "Approve"}
+              {interaction.payload.acceptLabel ?? t("components.taskchat.taskChatCompactInteractionCard.approve")}
             </Button>
           </>
         )}
@@ -1218,8 +1218,8 @@ function CheckboxConfirmationCard({
             htmlFor={`${interaction.id}-reject-reason`}
             className="text-xs font-medium text-foreground"
           >
-            {interaction.payload.rejectReasonLabel ?? "What should change?"}
-            {interaction.payload.rejectRequiresReason ? "" : " (optional)"}
+            {interaction.payload.rejectReasonLabel ?? t("components.taskchat.taskChatCompactInteractionCard.whatShouldChange")}
+            {interaction.payload.rejectRequiresReason ? "" : t("components.taskchat.taskChatCompactInteractionCard.optional")}
           </label>
           <Textarea
             id={`${interaction.id}-reject-reason`}
@@ -1262,7 +1262,7 @@ function CheckboxConfirmationCard({
               {working === "reject" ? (
                 <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
               ) : null}
-              {interaction.payload.rejectLabel ?? "Decline"}
+              {interaction.payload.rejectLabel ?? t("components.taskchat.taskChatCompactInteractionCard.decline")}
             </Button>
           </>
         ) : (
@@ -1278,7 +1278,7 @@ function CheckboxConfirmationCard({
                   : void resolve("reject")
               }
             >
-              {interaction.payload.rejectLabel ?? "Decline"}
+              {interaction.payload.rejectLabel ?? t("components.taskchat.taskChatCompactInteractionCard.decline")}
             </Button>
             <Button
               type="button"
@@ -1289,7 +1289,7 @@ function CheckboxConfirmationCard({
               {working === "accept" ? (
                 <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
               ) : null}
-              {interaction.payload.acceptLabel ?? "Confirm selection"}
+              {interaction.payload.acceptLabel ?? t("components.taskchat.taskChatCompactInteractionCard.confirmSelection")}
             </Button>
           </>
         )}
@@ -1830,7 +1830,7 @@ function ItemVerdictsCard({
             htmlFor={`${interaction.id}-${item.id}-reason`}
             className="text-xs font-medium text-foreground"
           >
-            {interaction.payload.reasonLabel ?? "Reason"}
+            {interaction.payload.reasonLabel ?? t("components.taskchat.taskChatCompactInteractionCard.reason")}
           </label>
           <Textarea
             id={`${interaction.id}-${item.id}-reason`}
@@ -1872,7 +1872,7 @@ function ItemVerdictsCard({
           {working ? (
             <Loader2 aria-hidden className="h-4 w-4 animate-spin" />
           ) : null}
-          {drafts.size > 0 ? `Apply ${drafts.size}` : "Apply decisions"}
+          {drafts.size > 0 ? `Apply ${drafts.size}` : t("components.taskchat.taskChatCompactInteractionCard.applyDecisions")}
         </Button>
       </ActionRow>
     </div>

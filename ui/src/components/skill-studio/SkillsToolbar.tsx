@@ -79,8 +79,8 @@ export function SkillsToolbar({ viewTitle, viewDescription, searchLabel, search,
               <span className="text-muted-foreground">{t("components.skillstudio.skillsToolbar.source")}</span>
               <span>
                 {sourceBadgeFilter === "all"
-                  ? "All"
-                  : availableSources.find((source) => source.value === sourceBadgeFilter)?.label ?? "All"}
+                  ? t("components.skillstudio.skillsToolbar.all")
+                  : availableSources.find((source) => source.value === sourceBadgeFilter)?.label ?? t("components.skillstudio.skillsToolbar.all")}
               </span>
               <ChevronDown className="ml-1 h-3.5 w-3.5" />
             </Button>
@@ -116,7 +116,7 @@ export function SkillsToolbar({ viewTitle, viewDescription, searchLabel, search,
       ) : null}
       {onToggleSelectMode ? (
         <Button variant="outline" size="sm" aria-pressed={selectMode} onClick={onToggleSelectMode}>
-          {selectMode ? "Done" : "Select"}
+          {selectMode ? t("components.skillstudio.skillsToolbar.done") : t("components.skillstudio.skillsToolbar.select")}
         </Button>
       ) : null}
       <DropdownMenu>

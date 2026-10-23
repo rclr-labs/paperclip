@@ -3,6 +3,7 @@ import { Lightbulb, Maximize2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTaskChatShimmer } from "./TaskChatShimmer";
 import type { TaskChatProviderActivityItem } from "./task-chat-model";
+import { useTranslation } from "@/i18n";
 
 const PLAN_PREVIEW_LINE_COUNT = 3;
 
@@ -83,6 +84,7 @@ export function TaskChatPlanPreviewCard({
   testId = "task-chat-plan-preview",
   className,
 }: TaskChatPlanPreviewCardProps) {
+  const { t } = useTranslation();
   const shimmer = useTaskChatShimmer(source.kind === "live" ? source.activity.id : "saved-plan");
   const revision = planRevision(source);
   const content = source.kind === "saved" && source.document
@@ -102,7 +104,7 @@ export function TaskChatPlanPreviewCard({
           className={cn("h-4 w-4 shrink-0", live && "text-(--status-agent-running)")}
         />
         <span className={cn("font-medium", live && shimmer && "shimmer-text shimmer-text-muted")} data-testid={live ? "task-chat-plan-streaming-status" : undefined}>
-          {live ? "Writing plan" : "Plan"}
+          {live ? t("components.taskchat.taskChatPlanPreviewCard.writingPlan") : t("components.taskchat.taskChatPlanPreviewCard.plan")}
         </span>
         {headerDetail ? (
           <span
@@ -131,7 +133,7 @@ export function TaskChatPlanPreviewCard({
           </ul>
         ) : (
           <p className="mt-1 text-sm text-muted-foreground">
-            {live ? "Waiting for the first plan step…" : "Open the synchronized plan to review it."}
+            {live ? t("components.taskchat.taskChatPlanPreviewCard.waitingForTheFirstPlanStep") : t("components.taskchat.taskChatPlanPreviewCard.openTheSynchronizedPlanToReview")}
           </p>
         )}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-linear-to-b from-transparent to-card/95" />

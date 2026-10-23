@@ -83,7 +83,7 @@ function EmailDelivery({
           aria-label={t("components.emailTaskActivity.emailSendIntent")}
           className="task-context-notice space-y-3"
         >
-          <p className="font-semibold">{p.request.subject ?? "Email reply"}</p>
+          <p className="font-semibold">{p.request.subject ?? t("components.emailTaskActivity.emailReply")}</p>
           {p.request.to && <p>To: {p.request.to.join(", ")}</p>}
           <div className="whitespace-pre-wrap break-words text-sm text-foreground">
             {p.request.text}

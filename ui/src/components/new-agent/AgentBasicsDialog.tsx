@@ -209,12 +209,12 @@ export function AgentBasicsDialog({
               <div className="space-y-2">
                 <DialogTitle className="text-3xl font-semibold tracking-tight">
                   {step === "name"
-                    ? "Meet your next agent"
-                    : "Choose an adapter"}
+                    ? t("components.newagent.agentBasicsDialog.meetYourNextAgent")
+                    : t("components.newagent.agentBasicsDialog.chooseAnAdapter")}
                 </DialogTitle>
                 <DialogDescription className="text-base">
                   {step === "name"
-                    ? "Start with a name. Make them your own."
+                    ? t("components.newagent.agentBasicsDialog.startWithANameMakeThem")
                     : `How should ${name.trim()} work?`}
                 </DialogDescription>
               </div>
@@ -321,7 +321,7 @@ export function AgentBasicsDialog({
               onClick={() => (step === "name" ? onClose() : setStep("name"))}
             >
               {step === "name" ? (
-                "Cancel"
+                t("components.newagent.agentBasicsDialog.cancel")
               ) : (
                 <>
                   <ArrowLeft className="size-4" />
@@ -333,7 +333,7 @@ export function AgentBasicsDialog({
               type="submit"
               disabled={saving || !name.trim() || (step === "adapter" && !validAdapter)}
             >
-              {saving ? "Saving…" : step === "name" ? "Choose adapter" : "Configure agent"}
+              {saving ? t("components.newagent.agentBasicsDialog.saving") : step === "name" ? t("components.newagent.agentBasicsDialog.chooseAdapter") : t("components.newagent.agentBasicsDialog.configureAgent")}
               <ArrowRight className="size-4" />
             </Button>
           </div>

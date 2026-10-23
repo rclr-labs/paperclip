@@ -307,8 +307,8 @@ export function SummarySlotCard({
               <div className="space-y-1 text-sm">
                 <p className="font-medium text-foreground">
                   {needsSetup.status === "pending_approval"
-                    ? "Summarizer setup is pending approval"
-                    : "Set up the Summarizer"}
+                    ? t("components.summarySlotCard.summarizerSetupIsPendingApproval")
+                    : t("components.summarySlotCard.setUpTheSummarizer")}
                 </p>
                 <p className="text-muted-foreground">
                   {t("components.summarySlotCard.summariesAreGeneratedByPaperclipS")}
@@ -344,7 +344,7 @@ export function SummarySlotCard({
               onClick={() => summarizerState.agent && resumeSummarizer.mutate(summarizerState.agent.id)}
               disabled={resumeSummarizer.isPending}
             >
-              {resumeSummarizer.isPending ? "Resuming..." : "Resume agent"}
+              {resumeSummarizer.isPending ? t("components.summarySlotCard.resuming") : t("components.summarySlotCard.resumeAgent")}
             </Button>
           }
         >
@@ -368,7 +368,7 @@ export function SummarySlotCard({
             </Button>
           }
         >
-          {slotQuery.error instanceof Error ? slotQuery.error.message : "Try loading the summary again."}
+          {slotQuery.error instanceof Error ? slotQuery.error.message : t("components.summarySlotCard.tryLoadingTheSummaryAgain")}
         </InlineBanner>
       ) : null}
 
@@ -383,11 +383,11 @@ export function SummarySlotCard({
               onClick={startGeneration}
               disabled={!selector || generateMutation.isPending}
             >
-              {generateMutation.isPending ? "Retrying..." : "Retry"}
+              {generateMutation.isPending ? t("components.summarySlotCard.retrying") : t("components.summarySlotCard.retry")}
             </Button>
           }
         >
-          {slotQuery.data?.slot?.failureReason ?? "The generation task ended before writing a summary."}
+          {slotQuery.data?.slot?.failureReason ?? t("components.summarySlotCard.theGenerationTaskEndedBeforeWriting")}
         </InlineBanner>
       ) : null}
 
@@ -448,7 +448,7 @@ export function SummarySlotCard({
             disabled={!selector || generateMutation.isPending}
           >
             {generateMutation.isPending ? <Loader2 className="animate-spin" /> : <Sparkles />}
-            {generateMutation.isPending ? "Generating..." : "Generate summary"}
+            {generateMutation.isPending ? "Generating..." : t("components.summarySlotCard.generateSummary")}
           </Button>
         </div>
       ) : null}

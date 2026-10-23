@@ -148,7 +148,7 @@ export function IssueScheduledRetryCard({
             ) : isSuccessTransient ? (
               <span className="inline-flex items-center gap-1.5">
                 <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
-                {retryNow.data?.outcome === "already_promoted" ? "Already promoted" : "Promoted"}
+                {retryNow.data?.outcome === "already_promoted" ? t("components.issueScheduledRetryCard.alreadyPromoted") : t("components.issueScheduledRetryCard.promoted")}
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5">
@@ -159,11 +159,11 @@ export function IssueScheduledRetryCard({
           </Button>
           <span className="text-right text-xs text-muted-foreground sm:max-w-(--sz-12rem)">
             {retryNow.isPending
-              ? "Promoting scheduled retry"
+              ? t("components.issueScheduledRetryCard.promotingScheduledRetry")
               : isSuccessTransient
                 ? retryNow.data?.outcome === "already_promoted"
-                  ? "Already promoted — run starting"
-                  : "Promoted — run starting"
+                  ? t("components.issueScheduledRetryCard.alreadyPromotedRunStarting")
+                  : t("components.issueScheduledRetryCard.promotedRunStarting")
                 : retryNow.data?.outcome === "waiting" && retryNow.data.scheduledRetry?.runId === scheduledRetry.runId
                   ? retryNow.data.message
                   : helperIdle}

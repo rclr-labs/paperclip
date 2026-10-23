@@ -346,7 +346,7 @@ export function DecisionCard({
 
       {/* Provenance */}
       <p className="mt-1 text-xs text-muted-foreground">
-        Proposed by <span className="font-medium text-foreground">{originAgentName ?? "an agent"}</span>
+        Proposed by <span className="font-medium text-foreground">{originAgentName ?? t("components.decisionCard.anAgent")}</span>
         {originIssue && (
           <>
             {" "}while running{" "}
@@ -583,11 +583,11 @@ export function DecisionCard({
               </div>
               <p className="mt-1">
                 {expiredReason === "target_gone"
-                  ? "A target issue was cancelled before this was decided."
+                  ? t("components.decisionCard.aTargetIssueWasCancelledBefore")
                   : expiredReason === "target_completed"
-                    ? "All target issues were completed before this was decided."
-                    : "No response before the expiry deadline."}
-                {decision.continuationPolicy === "wake_origin_agent" && " The proposer was re-woken."}
+                    ? t("components.decisionCard.allTargetIssuesWereCompletedBefore")
+                    : t("components.decisionCard.noResponseBeforeTheExpiryDeadline")}
+                {decision.continuationPolicy === "wake_origin_agent" && t("components.decisionCard.theProposerWasReWoken")}
               </p>
             </div>
           )}

@@ -58,7 +58,7 @@ export function DotRunnerConnection({ companyId, agentId, bindingId, onBinding }
     {state.data && !state.data.enabled && <p className="text-sm text-muted-foreground">{t("components.dotRunnerConnection.enableOpenaiDotAndAssistantConnections")}</p>}
     {state.data?.resourceUrl && <p className="text-sm break-all">Private plugin MCP URL: <code>{state.data.resourceUrl}</code></p>}
     {b && <p className="text-sm">Connection: {b.status}. Event subscription: {b.subscriptionVerified ? "verified" : "required"}.</p>}
-    {b?.assignment && <p className="text-sm">Assignment: {b.assignment.status === "offered" ? "waiting for Dot to accept" : "accepted by Dot"}.</p>}
+    {b?.assignment && <p className="text-sm">Assignment: {b.assignment.status === "offered" ? t("components.dotRunnerConnection.waitingForDotToAccept") : t("components.dotRunnerConnection.acceptedByDot")}.</p>}
     {b?.assignment?.attentionRequired && <p className="text-sm text-destructive" role="alert">{t("components.dotRunnerConnection.dotHasNotReportedUsefulActivity")}</p>}
     {pairing && setupPrompt && b?.status === "pairing" && <div className="space-y-2">
       <AgentSetupPrompt
@@ -79,6 +79,6 @@ export function DotRunnerConnection({ companyId, agentId, bindingId, onBinding }
       {b && <Button type="button" variant="outline" disabled={revoke.isPending} onClick={() => revoke.mutate()}>{t("components.dotRunnerConnection.revokeConnection")}</Button>}
     </div>
     {b?.hasPendingChallenge && <p className="text-sm text-muted-foreground">{t("components.dotRunnerConnection.waitingForDotToReadAnd")}</p>}
-    {error && <p className="text-sm text-destructive" role="alert">{error instanceof Error ? error.message : "Connection failed"}</p>}
+    {error && <p className="text-sm text-destructive" role="alert">{error instanceof Error ? error.message : t("components.dotRunnerConnection.connectionFailed")}</p>}
   </div>;
 }

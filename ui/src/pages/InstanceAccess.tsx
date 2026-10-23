@@ -176,7 +176,7 @@ export function InstanceAccess() {
             <div className="text-sm text-muted-foreground">{t("pages.instanceAccess.loadingUserAccess")}</div>
           ) : userAccessQuery.error ? (
             <div className="text-sm text-destructive">
-              {userAccessQuery.error instanceof Error ? userAccessQuery.error.message : "Failed to load user access."}
+              {userAccessQuery.error instanceof Error ? userAccessQuery.error.message : t("pages.instanceAccess.failedToLoadUserAccess")}
             </div>
           ) : (
             <>
@@ -194,7 +194,7 @@ export function InstanceAccess() {
                   onClick={() => setAdminMutation.mutate(!(selectedUser?.isInstanceAdmin ?? false))}
                   disabled={setAdminMutation.isPending}
                 >
-                  {selectedUser?.isInstanceAdmin ? "Remove instance admin" : "Promote to instance admin"}
+                  {selectedUser?.isInstanceAdmin ? t("pages.instanceAccess.removeInstanceAdmin") : t("pages.instanceAccess.promoteToInstanceAdmin")}
                 </Button>
               </div>
 
@@ -234,7 +234,7 @@ export function InstanceAccess() {
                     onClick={() => updateCompanyAccessMutation.mutate()}
                     disabled={updateCompanyAccessMutation.isPending}
                   >
-                    {updateCompanyAccessMutation.isPending ? "Saving…" : "Save organization access"}
+                    {updateCompanyAccessMutation.isPending ? t("pages.instanceAccess.saving") : t("pages.instanceAccess.saveOrganizationAccess")}
                   </Button>
                 </div>
               </div>

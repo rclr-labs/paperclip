@@ -780,11 +780,12 @@ export function DecisionBundleHeader({
   originIssue: AttentionSubject | null;
   count: number;
 }) {
+  const { t } = useTranslation();
   const noun = count === 1 ? "decision" : "decisions";
   return (
     <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 rounded-sm border-l-2 border-violet-500/60 bg-violet-500/5 px-3 py-1.5 text-xs">
       <span className="font-semibold text-violet-800 dark:text-violet-200">
-        {agentName ?? "An agent"} proposed {count} {noun}
+        {agentName ?? t("pages.whatNeedsMe.anAgent")} proposed {count} {noun}
       </span>
       {originIssue && (originIssue.identifier || originIssue.title) && (
         <span className="text-muted-foreground">
@@ -809,7 +810,7 @@ function CaughtUpNote({ filtered }: { filtered: boolean }) {
   return (
     <div className="rounded-xl border border-dashed border-border py-10 text-center">
       <p className="text-sm font-medium text-foreground">
-        {filtered ? "No decisions match your search or filters." : "You're all caught up."}
+        {filtered ? t("pages.whatNeedsMe.noDecisionsMatchYourSearchOr") : "You're all caught up."}
       </p>
       {filtered && (
         <p className="mt-1 text-xs text-muted-foreground">{t("pages.whatNeedsMe.adjustOrClearYourSearchAnd")}</p>

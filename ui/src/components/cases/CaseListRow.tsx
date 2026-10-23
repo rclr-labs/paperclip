@@ -29,7 +29,7 @@ export function CaseListRow({
   const work = task ? <>
     {show.has("phase") && caseData.phase ? <span className="text-xs text-muted-foreground">{caseData.phase}</span> : null}
     {show.has("assignee") && (assignee ? <AgentIdentity agent={assignee} size="xs" /> : <span className="text-xs text-muted-foreground">{t("components.cases.caseListRow.unassigned")}</span>)}
-  </> : <span className="text-xs text-muted-foreground">{caseData.workIssueId ? "Task unavailable" : "No task linked"}</span>;
+  </> : <span className="text-xs text-muted-foreground">{caseData.workIssueId ? t("components.cases.caseListRow.taskUnavailable") : t("components.cases.caseListRow.noTaskLinked")}</span>;
   const subtitle = [show.has("identifier") ? caseData.identifier : null, show.has("type") ? caseData.caseType : null,
     show.has("project") ? projectName : null].filter(Boolean);
 

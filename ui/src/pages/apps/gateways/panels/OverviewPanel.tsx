@@ -66,7 +66,7 @@ export function OverviewPanel({
     <div className="space-y-5">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-border p-4">
-          <div className="text-xs font-medium text-muted-foreground">{on ? "On" : "Off"}</div>
+          <div className="text-xs font-medium text-muted-foreground">{on ? "On" : t("pages.apps.gateways.panels.overviewPanel.off")}</div>
           <div className="mt-2">
             <ToggleSwitch checked={on} disabled={toggleDisabled} onCheckedChange={onToggle} aria-label={t("pages.apps.gateways.panels.overviewPanel.toggleGateway")} />
           </div>
@@ -80,7 +80,7 @@ export function OverviewPanel({
           {active} active{expiring > 0 ? ` · ${expiring} expiring` : ""}
         </StatCard>
         <StatCard label="Health">
-          {needsAttention.length === 0 ? "All green" : `${needsAttention.length} needs attention`}
+          {needsAttention.length === 0 ? t("pages.apps.gateways.panels.overviewPanel.allGreen") : `${needsAttention.length} needs attention`}
         </StatCard>
       </div>
 
@@ -95,7 +95,7 @@ export function OverviewPanel({
         </div>
         <div className="mt-3 flex flex-wrap gap-2">
           <Chip>Scope · {formatScope(gateway, projectNames, agentNames)}</Chip>
-          <Chip>Profile · {profile?.name ?? "Unavailable"}</Chip>
+          <Chip>Profile · {profile?.name ?? t("pages.apps.gateways.panels.overviewPanel.unavailable")}</Chip>
           <Chip>{active} active {active === 1 ? "token" : "tokens"}</Chip>
         </div>
       </section>
@@ -149,6 +149,7 @@ function Chip({ children }: { children: React.ReactNode }) {
 }
 
 function AppRow({ app }: { app: GatewayAppRow }) {
+  const { t } = useTranslation();
   const href = app.connection
     ? `/apps/${app.connection.id}/permissions`
     : `/apps/app/${app.application.id}/permissions`;
@@ -171,7 +172,7 @@ function AppRow({ app }: { app: GatewayAppRow }) {
             : "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
         )}
       >
-        {app.needsAttention ? "Needs attention" : "Healthy"}
+        {app.needsAttention ? t("pages.apps.gateways.panels.overviewPanel.needsAttention") : t("pages.apps.gateways.panels.overviewPanel.healthy")}
       </span>
     </li>
   );

@@ -44,6 +44,7 @@ import { isExcludedFile } from "./excluded.mjs";
 import { classifyTextNode } from "./composite.mjs";
 import { buildInterpolation } from "./interpolate.mjs";
 import { buildTrans } from "./trans.mjs";
+import { isRenderedBranch, jsxPosition } from "./expression-literal.mjs";
 
 /** Attributes that are DOM passthroughs on any element. */
 const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
@@ -72,7 +73,7 @@ const opt = (n, d = null) => {
 const APPLY = args.includes("--apply");
 const LIMIT = Number(opt("limit", "0")) || 0;
 
-const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, trans: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
+const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, trans: 0, literals: 0, litAttribute: 0, litCall: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
 
 /**
  * JSX collapses any whitespace run containing a newline into a single space
@@ -166,6 +167,26 @@ function collect(file) {
   }
   const hits = [];
   walk(ast.program, [], (node, ancestors) => {
+    // Nothing inside a <Trans> is rewritten: its children are the fallback the
+    // wrapper renders when a key is missing.
+    if (insideTrans(ancestors)) return;
+
+    // A rendered ternary or && branch holding a string literal is display
+    // text: `{ready ? "Ready" : "Not ready"}` is two complete labels. Position
+    // decides, never content — an attribute may be a typed union and a call
+    // argument may be CSS.
+    if (node.type === "StringLiteral" && isRenderedBranch(ancestors) && isTranslatable(node.value)) {
+      const where = jsxPosition(ancestors);
+      if (where === "attribute") stats.litAttribute++;
+      else if (where === "call") stats.litCall++;
+      else if (where === "child") {
+        const { component, reason } = enclosingComponent([...ancestors, node]);
+        if (!component) stats[reason]++;
+        else hits.push({ kind: "literal", start: node.start, end: node.end, text: node.value, component });
+      }
+      return;
+    }
+
     if (node.type === "JSXText") {
       if (!isTranslatable(normalizeJsxText(node.value))) return;
       const parent = ancestors[ancestors.length - 1];
@@ -365,6 +386,10 @@ for (const file of files) {
       const children = src.slice(hit.start, hit.end);
       replacement = `<Trans i18nKey="${full.join(".")}">${children}</Trans>`;
       stats.trans++;
+    } else if (hit.kind === "literal") {
+      // Already inside an expression, so no braces.
+      replacement = call;
+      stats.literals++;
     } else replacement = `{${call}}`;
     edits.push({ start: hit.start, end: hit.end, replacement });
   }
@@ -437,6 +462,9 @@ console.log(`${APPLY ? "alterados" : "alteraveis"}:${" ".repeat(APPLY ? 23 : 22)
 console.log(`chaves novas:                   ${stats.keys}`);
 console.log(`  das quais com interpolacao:   ${stats.interpolated}`);
 console.log(`  das quais com <Trans>:        ${stats.trans}`);
+console.log(`  das quais literal em ramo:    ${stats.literals}`);
+console.log(`recusados — literal em atributo: ${stats.litAttribute}`);
+console.log(`recusados — literal em chamada:  ${stats.litCall}`);
 console.log(`recusados — exige <Trans>:      ${stats.needsTrans}`);
 console.log(`recusados — fora de componente: ${stats.noComponent}`);
 console.log(`recusados — corpo sem bloco:    ${stats.exprBody}`);

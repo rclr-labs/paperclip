@@ -47,11 +47,11 @@ export function IssueFilterPanel({ state, onChange, activeFilterCount, agents = 
       </FilterGroup>
       <FilterGroup title="Project" optionsKey="projects" searchLabel="projects" query={queries.projects} onQueryChange={search("projects")}>
         {visibleProjects.map(project => <FilterRow key={project.id} label={project.name} checked={state.projects.includes(project.id)} onToggle={() => onChange({ projects: toggleIssueFilterValue(state.projects, project.id) })} />)}
-        {!visibleProjects.length ? <p className="task-filter-empty">{queries.projects ? "No projects match." : "No projects available."}</p> : null}
+        {!visibleProjects.length ? <p className="task-filter-empty">{queries.projects ? t("components.issueFilterPanel.noProjectsMatch") : t("components.issueFilterPanel.noProjectsAvailable")}</p> : null}
       </FilterGroup>
       <FilterGroup title="Creator" optionsKey="creators" searchLabel="creators" query={queries.creators} onQueryChange={search("creators")}>
         {visibleCreators.map(creator => <FilterRow key={creator.id} label={creator.label} checked={state.creators.includes(creator.id)} onToggle={() => onChange({ creators: toggleIssueFilterValue(state.creators, creator.id) })} icon={creator.kind === "agent" ? <Bot /> : <User />} />)}
-        {!visibleCreators.length ? <p className="task-filter-empty">{queries.creators ? "No creators match." : "No creators available."}</p> : null}
+        {!visibleCreators.length ? <p className="task-filter-empty">{queries.creators ? t("components.issueFilterPanel.noCreatorsMatch") : t("components.issueFilterPanel.noCreatorsAvailable")}</p> : null}
       </FilterGroup>
       <FilterGroup title="Assignee" optionsKey="responsible" searchLabel="assignees" query={queries.assignees} onQueryChange={search("assignees")}>
         {visibleAssignees.map(assignee => <FilterRow key={assignee.id} label={assignee.name} checked={state.assignees.includes(assignee.id)} onToggle={() => onChange({ assignees: toggleIssueFilterValue(state.assignees, assignee.id) })} icon={assignee.icon} />)}
@@ -59,7 +59,7 @@ export function IssueFilterPanel({ state, onChange, activeFilterCount, agents = 
       </FilterGroup>
       <FilterGroup title="Label" optionsKey="labels" searchLabel="labels" query={queries.labels} onQueryChange={search("labels")}>
         {visibleLabels.map(label => <FilterRow key={label.id} label={label.name} checked={state.labels.includes(label.id)} onToggle={() => onChange({ labels: toggleIssueFilterValue(state.labels, label.id) })} icon={<span className="task-filter-label-dot" style={{ "--task-filter-label-color": label.color } as CSSProperties} />} />)}
-        {!visibleLabels.length ? <p className="task-filter-empty">{queries.labels ? "No labels match." : "No labels available."}</p> : null}
+        {!visibleLabels.length ? <p className="task-filter-empty">{queries.labels ? t("components.issueFilterPanel.noLabelsMatch") : t("components.issueFilterPanel.noLabelsAvailable")}</p> : null}
       </FilterGroup>
     </div>
   </>;

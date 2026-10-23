@@ -71,7 +71,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
   const message = error ?? (endpoint.setup?.slackManagerError ? setupError(endpoint.setup.slackManagerError) : null) ?? (choices.isError ? "Couldn't load your Slack workspaces. Try again." : registration?.errorCode ? setupError(registration.errorCode) : null);
   return <div className="space-y-5">
     {message && <p role="alert" className="text-sm text-destructive">{message}</p>}
-    {busy || choices.isPending || creating ? <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{busy ? needsAuthorization ? "Opening Slack…" : "Connecting your agent…" : creating ? "Setting up your Slack app…" : "Loading Slack…"}</p>
+    {busy || choices.isPending || creating ? <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{busy ? needsAuthorization ? t("pages.apps.chat.slack.managedSlackSetup.openingSlack") : t("pages.apps.chat.slack.managedSlackSetup.connectingYourAgent") : creating ? t("pages.apps.chat.slack.managedSlackSetup.settingUpYourSlackApp") : t("pages.apps.chat.slack.managedSlackSetup.loadingSlack")}</p>
       : !choices.data?.managedAvailable ? <p className="text-sm">{t("pages.apps.chat.slack.managedSlackSetup.managedSlackSetupIsUnavailableTry")}</p>
       : <>
         {workspaces.length === 1 && <p className="text-sm">Add <strong>{endpoint.assignedAgentName}</strong> to <strong>{workspaces[0]!.workspaceName}</strong>.</p>}
@@ -79,7 +79,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
           <SelectTrigger aria-label={t("pages.apps.chat.slack.managedSlackSetup.slackWorkspace")}><SelectValue placeholder={t("pages.apps.chat.slack.managedSlackSetup.chooseASlackWorkspace")} /></SelectTrigger>
           <SelectContent>{workspaces.map(workspace => <SelectItem key={workspace.grantId} value={workspace.grantId}>{workspace.workspaceName}</SelectItem>)}</SelectContent>
         </Select>}
-        {(!started || registration?.errorCode === "slack_manager_reauthorize") && workspaces.length > 0 && <div><Button variant="link" className="h-auto p-0" disabled={busy} onClick={() => void run(authorize)}>{started ? "Reconnect Slack workspace" : "Connect another Slack workspace"}</Button></div>}
+        {(!started || registration?.errorCode === "slack_manager_reauthorize") && workspaces.length > 0 && <div><Button variant="link" className="h-auto p-0" disabled={busy} onClick={() => void run(authorize)}>{started ? t("pages.apps.chat.slack.managedSlackSetup.reconnectSlackWorkspace") : t("pages.apps.chat.slack.managedSlackSetup.connectAnotherSlackWorkspace")}</Button></div>}
       </>}
     {uncertain && <div className="space-y-3 text-sm">
       <a className="underline underline-offset-4" href={registration?.managementUrl ?? "https://api.slack.com/apps"} target="_blank" rel="noopener noreferrer">{t("pages.apps.chat.slack.managedSlackSetup.openSlackAppSettings")}</a>
@@ -87,7 +87,7 @@ export function ManagedSlackSetup({ endpoint, disabled, saveDetails, onSaved, on
     </div>}
     <SetupWizardFooter onSaveExit={onSaveExit} disabled={busy}>
       {choices.isError || !choices.isPending && !choices.data?.managedAvailable ? <Button disabled={busy || choices.isFetching} onClick={() => void choices.refetch()}>{t("pages.apps.chat.slack.managedSlackSetup.retry")}</Button> : <Button disabled={busy || disabled || creating || choices.isPending || !choices.data?.managedAvailable || (workspaces.length > 1 && !grantId) || (uncertain && !confirmed)} onClick={() => void run(connect)}>
-        {busy && <Loader2 className="size-4 animate-spin" />}{needsAuthorization && started ? "Reconnect Slack" : registration?.appId ? "Continue in Slack" : "Continue"}
+        {busy && <Loader2 className="size-4 animate-spin" />}{needsAuthorization && started ? t("pages.apps.chat.slack.managedSlackSetup.reconnectSlack") : registration?.appId ? t("pages.apps.chat.slack.managedSlackSetup.continueInSlack") : t("pages.apps.chat.slack.managedSlackSetup.continue")}
       </Button>}
     </SetupWizardFooter>
   </div>;

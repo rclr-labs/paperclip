@@ -61,14 +61,14 @@ export function ComposioAppSetup({ name, toolkit, connections, onClose, onBack, 
       <a href={result.authorizationUrl} target="_blank" rel="noopener noreferrer">Connect {name} in Composio<ExternalLink className="size-4" /></a>
     </Button> : null}
     <div className="flex items-center justify-between gap-2">
-      <Button variant="ghost" disabled={busy} onClick={onBack ?? onClose}>{onBack ? "Back" : "Cancel"}</Button>
+      <Button variant="ghost" disabled={busy} onClick={onBack ?? onClose}>{onBack ? t("pages.apps.composioAppSetup.back") : t("pages.apps.composioAppSetup.cancel")}</Button>
       <div className="flex items-center gap-2">
       {result && result.status !== "connected" ? <Button variant="ghost" disabled={busy} onClick={() => void submit({ action: "start" })}>{t("pages.apps.composioAppSetup.getANewLink")}</Button> : null}
       <Button disabled={!settled || busy || (!connection && connectionId !== "__new__")} onClick={() => {
         if (connectionId === "__new__") onConnectNew();
         else void submit(result ? { action: "complete" } : { action: "start" });
       }}>
-        {busy ? "Checking…" : connectionId === "__new__" ? "Connect new account" : result ? "I’ve connected it" : "Continue"}
+        {busy ? t("pages.apps.composioAppSetup.checking") : connectionId === "__new__" ? t("pages.apps.composioAppSetup.connectNewAccount") : result ? t("pages.apps.composioAppSetup.iVeConnectedIt") : t("pages.apps.composioAppSetup.continue")}
       </Button>
       </div>
     </div>

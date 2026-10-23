@@ -38,7 +38,7 @@ export function ProjectRepositories({ project }: { project: Project }) {
       {save.isError && <p role="alert" className="mr-auto text-sm text-destructive">{save.error.message}</p>}
       {save.isSuccess && <span role="status" className="mr-auto text-sm text-muted-foreground">{t("components.projectRepositories.changesSaved")}</span>}
       {draft && <Button type="button" variant="ghost" disabled={save.isPending} onClick={() => { setDraft(null); save.reset(); }}>{t("components.projectRepositories.discardChanges")}</Button>}
-      <Button type="button" disabled={!draft || save.isPending} onClick={() => save.mutate()}>{save.isPending ? "Saving…" : "Save changes"}</Button>
+      <Button type="button" disabled={!draft || save.isPending} onClick={() => save.mutate()}>{save.isPending ? t("components.projectRepositories.saving") : t("components.projectRepositories.saveChanges")}</Button>
     </div>
     <Dialog open={connecting} onOpenChange={setConnecting}><DialogContent showCloseButton={false} aria-describedby={undefined} className="max-h-(--sz-calc-18) overflow-y-auto sm:max-w-2xl">
       <DialogTitle className="sr-only">{t("components.projectRepositories.connectGithub")}</DialogTitle>

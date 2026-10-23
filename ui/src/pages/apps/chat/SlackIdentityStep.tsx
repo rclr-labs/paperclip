@@ -56,7 +56,7 @@ export function SlackIdentityStep({ endpointId, command, testStartedAt, onConnec
         <code className="text-sm">{connectCommand}</code>
         <Button variant="ghost" size="sm" onClick={() => {
           void copyTextToClipboard(connectCommand).then(() => { setCopied(true); setCopyError(false); }, () => setCopyError(true));
-        }}><Copy className="size-4" />{copied ? "Copied" : "Copy command"}</Button>
+        }}><Copy className="size-4" />{copied ? t("pages.apps.chat.slackIdentityStep.copied") : t("pages.apps.chat.slackIdentityStep.copyCommand")}</Button>
       </div>
       {copyError && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.slackIdentityStep.couldnTCopyTheCommandSelect")}</p>}
       <p className="text-sm">
@@ -70,7 +70,7 @@ export function SlackIdentityStep({ endpointId, command, testStartedAt, onConnec
         <div className={`space-y-3 rounded-lg border p-4 ${linkedToMe
           ? "border-(--status-task-done)/30 bg-(--status-task-done)/10"
           : "border-(--status-task-todo)/30 bg-(--status-task-todo)/10"}`}>
-          <p className="text-sm">Choose your Slack account below to link it to <strong>{userLabel ?? "your Paperclip account"}</strong>. Only confirm an account that belongs to you. Future messages will use your Paperclip permissions.</p>
+          <p className="text-sm">Choose your Slack account below to link it to <strong>{userLabel ?? t("pages.apps.chat.slackIdentityStep.yourPaperclipAccount")}</strong>. Only confirm an account that belongs to you. Future messages will use your Paperclip permissions.</p>
           {candidates.map((identity) => {
             const mine = identity.status === "linked" && identity.paperclipUserId === userId;
             return (

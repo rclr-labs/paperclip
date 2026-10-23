@@ -269,7 +269,7 @@ export function PluginSettings() {
                 <div className="rounded-md border border-border/60 bg-muted/20 px-4 py-3 text-sm">
                   <p className="font-medium text-foreground">{t("pages.pluginSettings.configureThisPluginFromSettingsEnvironments")}</p>
                   <p className="mt-1 text-muted-foreground">
-                    {driverLabel || "This plugin"} registers environment runtime settings there so the execution target
+                    {driverLabel || t("pages.pluginSettings.thisPlugin")} registers environment runtime settings there so the execution target
                     stays instance-scoped while secret bindings still resolve through the selected organization context.
                   </p>
                   <div className="mt-3">
@@ -619,7 +619,7 @@ function PluginLocalFoldersSettings({ pluginId, companyId, declarations }: Plugi
       </div>
       {error ? (
         <div className="rounded-md border border-destructive/20 bg-destructive/10 px-3 py-2 text-sm text-destructive">
-          {(error as Error).message || "Failed to load local folder settings."}
+          {(error as Error).message || t("pages.pluginSettings.failedToLoadLocalFolderSettings")}
         </div>
       ) : null}
       {isLoading ? (
@@ -712,7 +712,7 @@ function PluginLocalFolderRow({ pluginId, companyId, declaration, status }: Plug
               {declaration.folderKey}
             </Badge>
             <Badge variant={status?.healthy ? "default" : "secondary"}>
-              {status?.healthy ? "Healthy" : "Needs attention"}
+              {status?.healthy ? t("pages.pluginSettings.healthy") : t("pages.pluginSettings.needsAttention")}
             </Badge>
           </div>
           {declaration.description ? (
@@ -722,7 +722,7 @@ function PluginLocalFolderRow({ pluginId, companyId, declaration, status }: Plug
           ) : null}
         </div>
         <Badge variant={access === "readWrite" ? "default" : "outline"}>
-          {access === "readWrite" ? "Read/write" : "Read only"}
+          {access === "readWrite" ? "Read/write" : t("pages.pluginSettings.readOnly")}
         </Badge>
       </div>
 
@@ -1115,7 +1115,7 @@ function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoadin
               {t("pages.pluginSettings.saving")}
             </>
           ) : (
-            "Save Configuration"
+            t("pages.pluginSettings.saveConfiguration")
           )}
         </Button>
         {pluginStatus === "ready" && supportsConfigTest && (
@@ -1131,7 +1131,7 @@ function PluginConfigForm({ pluginId, companyId, schema, initialValues, isLoadin
                 {t("pages.pluginSettings.testing")}
               </>
             ) : (
-              "Test Configuration"
+              t("pages.pluginSettings.testConfiguration")
             )}
           </Button>
         )}

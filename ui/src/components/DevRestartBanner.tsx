@@ -126,7 +126,7 @@ export function DevRestartBanner({ devServer }: { devServer?: DevServerHealthSta
             disabled={restartPending}
           >
             <RotateCcw className="h-3.5 w-3.5" />
-            <span>{restartPending ? "Restart requested" : "Restart now"}</span>
+            <span>{restartPending ? t("components.devRestartBanner.restartRequested") : t("components.devRestartBanner.restartNow")}</span>
           </button>
         </div>
       </div>

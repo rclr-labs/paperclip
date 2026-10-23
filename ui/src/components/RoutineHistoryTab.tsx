@@ -206,7 +206,7 @@ export function RoutineHistoryTab({
           <p className="text-xs text-muted-foreground">
             {revisionsQuery.error instanceof Error
               ? revisionsQuery.error.message
-              : "Unknown error loading revisions."}
+              : t("components.routineHistoryTab.unknownErrorLoadingRevisions")}
           </p>
         </div>
         <Button size="sm" variant="outline" onClick={() => revisionsQuery.refetch()}>
@@ -756,7 +756,7 @@ function RestoreConfirmDialog({
           </Button>
           <Button onClick={onConfirm} disabled={pending}>
             <RotateCcw className="mr-1.5 h-3.5 w-3.5" />
-            {pending ? "Restoring…" : `Restore as revision ${newRevisionNumber}`}
+            {pending ? t("components.routineHistoryTab.restoring") : `Restore as revision ${newRevisionNumber}`}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -65,7 +65,7 @@ export function NewProjectForm({ companyId, onClose }: { companyId: string; onCl
         {create.isError && <p role="alert" className="px-5 pt-3 text-sm text-destructive">{create.error.message}</p>}
         <div className="flex shrink-0 justify-end gap-2 px-5 py-5">
           <Button type="button" variant="ghost" disabled={create.isPending} onClick={onClose}>{t("components.newProjectDialog.cancel")}</Button>
-          <Button type="submit" disabled={!name.trim() || create.isPending}>{create.isPending ? "Creating…" : "Create project"}</Button>
+          <Button type="submit" disabled={!name.trim() || create.isPending}>{create.isPending ? t("components.newProjectDialog.creating") : t("components.newProjectDialog.createProject")}</Button>
         </div>
       </form>}
     </DialogContent>

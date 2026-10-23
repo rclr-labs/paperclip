@@ -311,7 +311,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
             }}
             className="rounded px-1.5 py-0.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
-            {isEditingOrder ? "Done" : "Edit"}
+            {isEditingOrder ? t("components.sidebarCompanyMenuproduction.done") : t("components.sidebarCompanyMenuproduction.edit")}
           </button>
         </div>
         <div className="flex max-h-96 flex-col gap-0.5 overflow-y-auto px-2.5 pb-2 pt-1">
@@ -394,7 +394,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
                 <span className="min-w-0 flex-1 truncate">
                   {currentName
                     ? `Invite people to ${currentName}`
-                    : "Invite people"}
+                    : t("components.sidebarCompanyMenuproduction.invitePeople")}
                 </span>
               </Link>
             </DropdownMenuItem>
@@ -409,7 +409,7 @@ function BuiltinCompanyMenu({ open: controlledOpen, onOpenChange }: SidebarCompa
                 <LogOut className="size-4" />
               </span>
               <span className="min-w-0 flex-1 truncate">
-                {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+                {signOutMutation.isPending ? t("components.sidebarCompanyMenuproduction.signingOut") : t("components.sidebarCompanyMenuproduction.signOut")}
               </span>
             </DropdownMenuItem>
           ) : null}

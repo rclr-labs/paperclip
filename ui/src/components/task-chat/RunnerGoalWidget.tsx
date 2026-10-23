@@ -230,7 +230,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             <p className={cn("mt-1 text-sm leading-snug", control.expanded ? "max-h-40 overflow-auto" : "line-clamp-2")}>{goal.objective}</p>
           ) : (
             <p className="mt-1 text-xs text-muted-foreground">
-              {capability?.reason ?? "Type /goal followed by an objective to pursue work across turns."}
+              {capability?.reason ?? t("components.taskchat.runnerGoalWidget.typeGoalFollowedByAnObjective")}
             </p>
           )}
           {goal ? (
@@ -282,11 +282,11 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             void control.submitDialog();
           }}>
             <DialogHeader>
-              <DialogTitle>{control.dialog?.action === "replace" ? "Replace session goal?" : "Edit session goal"}</DialogTitle>
+              <DialogTitle>{control.dialog?.action === "replace" ? t("components.taskchat.runnerGoalWidget.replaceSessionGoal") : t("components.taskchat.runnerGoalWidget.editSessionGoal")}</DialogTitle>
               <DialogDescription>
                 {control.dialog?.action === "replace"
-                  ? "This clears the unfinished goal and starts a new goal with the objective below."
-                  : "Update the objective without clearing the goal's progress."}
+                  ? t("components.taskchat.runnerGoalWidget.thisClearsTheUnfinishedGoalAnd")
+                  : t("components.taskchat.runnerGoalWidget.updateTheObjectiveWithoutClearingThe")}
               </DialogDescription>
             </DialogHeader>
             <label className="block space-y-2">
@@ -312,7 +312,7 @@ export function RunnerGoalWidget({ control }: { control: RunnerGoalControl }) {
             <DialogFooter>
               <Button type="button" variant="outline" disabled={control.mutation?.isPending} onClick={() => control.setDialog(null)}>{t("components.taskchat.runnerGoalWidget.cancel")}</Button>
               <Button type="submit" disabled={!control.dialog?.objective.trim() || control.mutation?.isPending}>
-                {control.mutation?.isPending ? "Saving…" : control.dialog?.action === "replace" ? "Replace goal" : "Save goal"}
+                {control.mutation?.isPending ? t("components.taskchat.runnerGoalWidget.saving") : control.dialog?.action === "replace" ? t("components.taskchat.runnerGoalWidget.replaceGoal") : t("components.taskchat.runnerGoalWidget.saveGoal")}
               </Button>
             </DialogFooter>
           </form>

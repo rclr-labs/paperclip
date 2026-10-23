@@ -967,7 +967,7 @@ export function IssueDocumentsSection({
               onClick={() => void commitDraft(draft, { clearAfterSave: false, trackAutosave: false })}
               disabled={upsertDocument.isPending}
             >
-              {upsertDocument.isPending ? "Saving..." : "Create document"}
+              {upsertDocument.isPending ? t("components.issueDocumentsSection.saving") : t("components.issueDocumentsSection.createDocument")}
             </Button>
           </div>
         </div>

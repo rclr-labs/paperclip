@@ -61,11 +61,11 @@ export function ConnectedAggregatorApps({ connection }: { connection: ToolConnec
         disabled={!settled || query.isLoading || syncing || Boolean(unavailable)}
         onClick={() => refresh.mutate(userId)}>
         <RefreshCw className={syncing ? "size-4 animate-spin" : "size-4"} aria-hidden="true" />
-        {syncing ? "Refreshing…" : `Refresh ${providerName}`}
+        {syncing ? t("pages.apps.appdetail.connectedAggregatorApps.refreshing") : `Refresh ${providerName}`}
       </Button>
     </div>
     {loadFailed || syncFailed ? <p role="alert" className="text-sm text-destructive">
-      Couldn’t refresh {providerName} apps.{apps.length ? " Last known apps are shown." : " Try refreshing again."}
+      Couldn’t refresh {providerName} apps.{apps.length ? t("pages.apps.appdetail.connectedAggregatorApps.lastKnownAppsAreShown") : t("pages.apps.appdetail.connectedAggregatorApps.tryRefreshingAgain")}
     </p> : null}
     {syncing ? <p role="status" className="text-sm text-muted-foreground">
       Refreshing apps…{data?.sync.total ? ` ${data.sync.checked} of ${data.sync.total}` : ""}

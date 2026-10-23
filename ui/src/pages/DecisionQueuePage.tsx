@@ -372,6 +372,7 @@ function SeedRulesCard({
   pending: boolean;
   onToggle: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="rounded-xl border border-border bg-muted/20 p-3">
       <div className="flex items-start justify-between gap-3">
@@ -381,8 +382,8 @@ function SeedRulesCard({
             <p className="text-sm font-medium text-foreground">Auto-seeding is {enabled ? "on" : "off"}</p>
             <p className="text-xs text-muted-foreground">
               {enabled
-                ? "This queue fills itself automatically. Decisions are added the moment they match any of its rules:"
-                : "Automatic adds are paused. These rules would add decisions to the queue when on:"}
+                ? t("pages.decisionQueuePage.thisQueueFillsItselfAutomaticallyDecisions")
+                : t("pages.decisionQueuePage.automaticAddsArePausedTheseRules")}
             </p>
             <ul className="mt-0.5 space-y-0.5">
               {rules.map((rule) => (
@@ -394,14 +395,14 @@ function SeedRulesCard({
             </ul>
             <p className="text-(length:--text-nano) text-muted-foreground">
               {enabled
-                ? "Turning it off stops new automatic adds only — decisions already here stay, and you can still add or remove decisions by hand."
-                : "Adding or removing decisions by hand still works while automatic seeding is off."}
+                ? t("pages.decisionQueuePage.turningItOffStopsNewAutomatic")
+                : t("pages.decisionQueuePage.addingOrRemovingDecisionsByHand")}
             </p>
           </div>
         </div>
         <Button type="button" variant="outline" size="xs" className="h-7 shrink-0" disabled={pending} onClick={onToggle}>
           {pending && <Loader2 className="h-3 w-3 animate-spin" />}
-          {enabled ? "Disable" : "Enable"}
+          {enabled ? t("pages.decisionQueuePage.disable") : t("pages.decisionQueuePage.enable")}
         </Button>
       </div>
     </div>

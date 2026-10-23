@@ -307,7 +307,7 @@ export function AnnotationPanelBody(props: AnnotationPanelProps) {
               }
               onClick={() => createThread.mutate(composerValue.trim())}
             >
-              {createThread.isPending ? "Posting…" : "Comment"}
+              {createThread.isPending ? t("components.documentAnnotationPanel.posting") : t("components.documentAnnotationPanel.comment")}
             </Button>
           </div>
         </div>
@@ -414,7 +414,7 @@ export function ThreadCard(props: {
                 disabled={!props.replyDraft.trim() || props.pendingReply}
                 onClick={props.onSubmitReply}
               >
-                {props.pendingReply ? "Sending…" : "Reply"}
+                {props.pendingReply ? t("components.documentAnnotationPanel.sending") : "Reply"}
               </Button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

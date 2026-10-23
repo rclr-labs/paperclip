@@ -111,7 +111,7 @@ export function DocumentAnnotationPopover(props: DocumentAnnotationPopoverProps)
           <div className="mt-2 flex justify-end gap-2">
             <Button type="button" size="sm" variant="ghost" onClick={props.onClose}>{t("components.documentAnnotationPopover.cancel")}</Button>
             <Button type="button" size="sm" disabled={!composer.trim() || createThread.isPending || props.newCommentDisabled || !props.baseRevisionId} onClick={submitComposer}>
-              {createThread.isPending ? "Posting…" : "Comment"}
+              {createThread.isPending ? t("components.documentAnnotationPopover.posting") : t("components.documentAnnotationPopover.comment")}
             </Button>
           </div>
         </div>

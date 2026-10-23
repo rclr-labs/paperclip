@@ -119,7 +119,7 @@ function KeySection({
           <div>
             <h2 className="text-sm font-medium text-foreground">{t("pages.apps.appdetail.advancedPanel.reconnect")}</h2>
             <p className="mt-0.5 text-xs text-muted-foreground">
-              {canReplace ? "Replace the stored credential." : unavailableMessage}
+              {canReplace ? t("pages.apps.appdetail.advancedPanel.replaceTheStoredCredential") : unavailableMessage}
             </p>
           </div>
         </div>
@@ -216,20 +216,20 @@ export function ReconnectCard({
     <div className="flex flex-col gap-4 rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3">
       <div className="min-w-0">
         <h2 className="text-sm font-semibold text-amber-900 dark:text-amber-100">
-          {methodUnavailable ? "Connection no longer supported" : oauth ? "Reconnect required" : "This app needs reconnecting"}
+          {methodUnavailable ? t("pages.apps.appdetail.advancedPanel.connectionNoLongerSupported") : oauth ? t("pages.apps.appdetail.advancedPanel.reconnectRequired") : t("pages.apps.appdetail.advancedPanel.thisAppNeedsReconnecting")}
         </h2>
         <p className="mt-0.5 text-sm text-amber-800 dark:text-amber-200">
           {methodUnavailable
-            ? "Add a supported connection from Connectors, then remove this connection."
+            ? t("pages.apps.appdetail.advancedPanel.addASupportedConnectionFromConnectors")
             : connection.healthMessage?.trim() || (oauth
-            ? "Authorization expired or was revoked. Sign in again to restore access."
-            : "The key stopped working. Paste a new one to get it back online.")}
+            ? t("pages.apps.appdetail.advancedPanel.authorizationExpiredOrWasRevokedSign")
+            : t("pages.apps.appdetail.advancedPanel.theKeyStoppedWorkingPasteA"))}
         </p>
       </div>
       <div className="shrink-0">
         {!canReconnect ? (
           <p className="text-sm text-amber-800 dark:text-amber-200">
-            {reconnectUnavailableMessage ?? "You don't have permission to reconnect this identity."}
+            {reconnectUnavailableMessage ?? t("pages.apps.appdetail.advancedPanel.youDonTHavePermissionTo")}
           </p>
         ) : methodUnavailable ? (
           <Button size="sm" variant="outline" asChild>
@@ -264,7 +264,7 @@ export function ReconnectCard({
             onClick={() => reconnectOAuth.mutate()}
           >
             {reconnectOAuth.isPending && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
-            {reconnectOAuth.isPending ? "Opening sign-in…" : "Reconnect"}
+            {reconnectOAuth.isPending ? t("pages.apps.appdetail.advancedPanel.openingSignIn") : t("pages.apps.appdetail.advancedPanel.reconnect")}
           </Button>
         ) : (
           <ReconnectForm connection={connection} galleryEntry={galleryEntry} onReconnected={onReconnected} />
@@ -396,7 +396,7 @@ function ReconnectForm({
       <div className="flex items-center gap-2">
         <Button size="sm" disabled={!filled || reconnect.isPending} onClick={() => reconnect.mutate()}>
           {reconnect.isPending && <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />}
-          {reconnect.isPending ? "Checking..." : "Check & reconnect"}
+          {reconnect.isPending ? t("pages.apps.appdetail.advancedPanel.checking") : t("pages.apps.appdetail.advancedPanel.checkReconnect")}
         </Button>
         {onCancel && (
           <Button size="sm" variant="ghost" onClick={onCancel} disabled={reconnect.isPending}>

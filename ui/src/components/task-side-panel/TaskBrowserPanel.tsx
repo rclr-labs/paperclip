@@ -249,14 +249,14 @@ export function TaskBrowserPanel({
               {message ??
                 (browser?.status === "closed"
                   ? onOpenActiveBrowser
-                    ? "Another browser is still open on this task."
-                    : "Send a task message to ask the agent to open another browser."
+                    ? t("components.tasksidepanel.taskBrowserPanel.anotherBrowserIsStillOpenOn")
+                    : t("components.tasksidepanel.taskBrowserPanel.sendATaskMessageToAsk")
                   : browser?.status === "starting"
-                    ? "The live view will appear here when it is ready."
+                    ? t("components.tasksidepanel.taskBrowserPanel.theLiveViewWillAppearHere")
                     : browser?.status === "stopping"
-                      ? "Waiting for Browser Use to confirm shutdown."
+                      ? t("components.tasksidepanel.taskBrowserPanel.waitingForBrowserUseToConfirm")
                       : !viewable
-                        ? "Ask the agent to browse a website in a task message."
+                        ? t("components.tasksidepanel.taskBrowserPanel.askTheAgentToBrowseA")
                         : null)}
             </p>
           </div>

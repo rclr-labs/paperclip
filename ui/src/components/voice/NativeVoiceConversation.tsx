@@ -26,11 +26,12 @@ export interface NativeVoiceConversationProps {
 }
 
 export function NativeVoiceConversation(props: NativeVoiceConversationProps) {
+  const { t } = useTranslation();
   const host = useContext(VoiceCallContext);
   const [newConversation, setNewConversation] = useState(false);
   if (host && !props.managed) return <div className="flex flex-col gap-2">
     {!props.issueId && <ConversationChoice value={newConversation} disabled={host.active} onChange={setNewConversation} />}
-    <Button size="sm" variant="outline" disabled={host.active} onClick={() => host.open({ ...props, newConversation })}>{host.active ? "Voice panel open" : "Start voice"}</Button>
+    <Button size="sm" variant="outline" disabled={host.active} onClick={() => host.open({ ...props, newConversation })}>{host.active ? t("components.voice.nativeVoiceConversation.voicePanelOpen") : t("components.voice.nativeVoiceConversation.startVoice")}</Button>
   </div>;
   return <VoiceSessionView {...props} />;
 }
@@ -85,7 +86,7 @@ export function VoiceSessionView({ companyId, endpointId, issueId, agentName, au
       {!issueId && !sessionId && !autoStart && <ConversationChoice value={newConversation} disabled={starting} onChange={setNewConversation} />}
       {boundIssueId && <Link className="text-sm text-primary underline" to={`/issues/${encodeURIComponent(boundIssueId)}`}>{t("components.voice.nativeVoiceConversation.viewConversationTask")}</Link>}
       <VoiceConversationPanel agentName={agentName} autoStart={autoStart} accessRevoked={accessRevoked} onEndedChange={onEndedChange} dependencies={dependencies} notification={notification.data ?? undefined} />
-      {(notification.isError || accessLost) && <p role="alert" className="text-sm text-destructive">{accessRevoked ? "Access to this call is no longer available. The call is being closed." : "Task updates are temporarily unavailable. The connection will retry; end the call if the problem continues."}</p>}
+      {(notification.isError || accessLost) && <p role="alert" className="text-sm text-destructive">{accessRevoked ? t("components.voice.nativeVoiceConversation.accessToThisCallIsNo") : t("components.voice.nativeVoiceConversation.taskUpdatesAreTemporarilyUnavailableThe")}</p>}
       <p className="text-xs text-muted-foreground">{t("components.voice.nativeVoiceConversation.spekoHandlesTheAudioAndMay")}</p>
     </div>
   );

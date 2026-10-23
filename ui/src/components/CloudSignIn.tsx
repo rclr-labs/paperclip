@@ -25,8 +25,8 @@ export function CloudSignIn({ cloud, returnTo }: { cloud: CloudInstanceHealthSta
       <h1 className="text-xl font-semibold">{t("components.cloudSignIn.signInToPaperclipCloud")}</h1>
       <p role="alert" className="text-sm text-muted-foreground">
         {entryUrl
-          ? "We couldn't restore your session. Continue to Paperclip Cloud to try again."
-          : "Cloud sign-in is unavailable for this workspace. Please contact your administrator."}
+          ? t("components.cloudSignIn.weCouldnTRestoreYourSession")
+          : t("components.cloudSignIn.cloudSignInIsUnavailableFor")}
       </p>
       {entryUrl && (
         <Button asChild>

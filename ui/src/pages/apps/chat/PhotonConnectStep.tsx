@@ -73,7 +73,7 @@ export function PhotonConnectStep({
       {repairing && (
         <p className="text-sm text-muted-foreground">
           Reconnect keeps this project and{" "}
-          {endpoint.photonAllocation === "shared" ? "shared DM allocation" : endpoint.botExternalId ?? "dedicated number"}. Leave the secret blank
+          {endpoint.photonAllocation === "shared" ? t("pages.apps.chat.photonConnectStep.sharedDmAllocation") : endpoint.botExternalId ?? t("pages.apps.chat.photonConnectStep.dedicatedNumber")}. Leave the secret blank
           to reuse the saved connection.
         </p>
       )}
@@ -109,7 +109,7 @@ export function PhotonConnectStep({
         }
         onClick={() => inspection.mutate()}
       >
-        {inspection.isPending ? "Inspecting Photon…" : "Inspect Photon project"}
+        {inspection.isPending ? t("pages.apps.chat.photonConnectStep.inspectingPhoton") : t("pages.apps.chat.photonConnectStep.inspectPhotonProject")}
       </Button>
       {inspection.isError && (
         <p role="alert" className="text-sm text-destructive">
@@ -119,13 +119,13 @@ export function PhotonConnectStep({
       {inspection.data && (
         <fieldset className="space-y-3">
           <legend className="text-sm font-medium">
-            {inspection.data.allocation === "shared" ? "Shared DMs" : "Dedicated numbers"} in {inspection.data.projectName}
+            {inspection.data.allocation === "shared" ? t("pages.apps.chat.photonConnectStep.sharedDms") : t("pages.apps.chat.photonConnectStep.dedicatedNumbers")} in {inspection.data.projectName}
           </legend>
           {!inspection.data.eligible && (
             <p role="alert" className="text-sm text-destructive">
               {inspection.data.allocation === "shared"
-                ? "This shared project already belongs to another channel. Use a separate Photon project for each agent."
-                : "No eligible dedicated number is available. Check the line allocation in Photon and existing Paperclip channels."}
+                ? t("pages.apps.chat.photonConnectStep.thisSharedProjectAlreadyBelongsTo")
+                : t("pages.apps.chat.photonConnectStep.noEligibleDedicatedNumberIsAvailable")}
             </p>
           )}
           {inspection.data.allocation === "shared" && inspection.data.eligible && (
@@ -178,10 +178,10 @@ export function PhotonConnectStep({
           }
         >
           {pending
-            ? "Connecting…"
+            ? t("pages.apps.chat.photonConnectStep.connecting")
             : repairing
-              ? "Reconnect Photon"
-              : inspection.data?.allocation === "shared" ? "Connect shared DMs" : "Connect selected number"}
+              ? t("pages.apps.chat.photonConnectStep.reconnectPhoton")
+              : inspection.data?.allocation === "shared" ? t("pages.apps.chat.photonConnectStep.connectSharedDms") : t("pages.apps.chat.photonConnectStep.connectSelectedNumber")}
         </Button>
       </div>
     </div>

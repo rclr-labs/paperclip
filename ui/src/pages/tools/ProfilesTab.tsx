@@ -581,8 +581,8 @@ function AllowList({ rows, catalogLoading }: { rows: AllowListRow[]; catalogLoad
       {rows.length === 0 ? (
         <div className="rounded-md border border-dashed border-border px-3 py-6 text-center text-sm text-muted-foreground">
           {catalogLoading
-            ? "Resolving allowed tools…"
-            : "No tools resolved for this profile. Add an include selector or refresh the tool catalog."}
+            ? t("pages.tools.profilesTab.resolvingAllowedTools")
+            : t("pages.tools.profilesTab.noToolsResolvedForThisProfile")}
         </div>
       ) : (
         <Card>
@@ -1016,7 +1016,7 @@ export function ProfilesTab({ companyId }: { companyId: string }) {
       }}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>{editProfile ? "Edit profile" : "New profile"}</DialogTitle>
+            <DialogTitle>{editProfile ? t("pages.tools.profilesTab.editProfile") : t("pages.tools.profilesTab.newProfile")}</DialogTitle>
             <DialogDescription>
               {t("pages.tools.profilesTab.profileRulesAreEnforcedByThe")}
             </DialogDescription>
@@ -1107,7 +1107,7 @@ export function ProfilesTab({ companyId }: { companyId: string }) {
               {t("pages.tools.profilesTab.cancel")}
             </Button>
             <Button disabled={!name.trim() || createProfile.isPending || updateProfile.isPending} onClick={saveProfile}>
-              {editProfile ? "Save" : createProfile.isPending ? "Creating..." : "Create"}
+              {editProfile ? t("pages.tools.profilesTab.save") : createProfile.isPending ? t("pages.tools.profilesTab.creating") : t("pages.tools.profilesTab.create")}
             </Button>
           </DialogFooter>
         </DialogContent>

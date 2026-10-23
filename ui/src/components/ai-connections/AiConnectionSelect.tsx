@@ -130,8 +130,8 @@ export function AiConnectionSelect({
             {selected
               ? <ConnectionLabel connection={selected} label={value?.mode === "responsible_user" ? "Responsible user’s default" : undefined} />
               : value?.mode === "responsible_user"
-                ? "Responsible user’s default"
-                : value ? "Unavailable connection" : undefined}
+                ? t("components.aiconnections.aiConnectionSelect.responsibleUserSDefault")
+                : value ? t("components.aiconnections.aiConnectionSelect.unavailableConnection") : undefined}
           </SelectValue>
         </SelectTrigger>
         <SelectContent>

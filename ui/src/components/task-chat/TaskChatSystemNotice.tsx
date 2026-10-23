@@ -23,6 +23,7 @@ import { mapCommentMetadataToSystemNoticeSections } from "@/lib/system-notice-co
 import { timeAgo } from "@/lib/timeAgo";
 import type { TaskChatMessageItem } from "./task-chat-model";
 import { isNoLiveExecutionPathNotice } from "./adjacent-errors";
+import { useTranslation } from "@/i18n";
 
 const TONE_ICON: Record<SystemNoticeTone, LucideIcon> = {
   neutral: Info,
@@ -58,6 +59,7 @@ export function TaskChatSystemNotice({
   onTryAgainNoLiveExecutionPath?: () => Promise<void> | void;
   tryAgainNoLiveExecutionPathPending?: boolean;
 }) {
+  const { t } = useTranslation();
   const recoverySnapshot = useDispositionRecoverySnapshot(item.metadata);
   const branchRecovery = useWorkspaceBaseRefRecovery(item.metadata);
   const workspaceRetry = useWorkspaceRetry(item.metadata);
@@ -133,7 +135,7 @@ export function TaskChatSystemNotice({
             disabled={tryAgainNoLiveExecutionPathPending}
             data-testid="task-chat-no-live-path-try-again"
           >
-            {tryAgainNoLiveExecutionPathPending ? "Trying again..." : "Try again"}
+            {tryAgainNoLiveExecutionPathPending ? t("components.taskchat.taskChatSystemNotice.tryingAgain") : t("components.taskchat.taskChatSystemNotice.tryAgain")}
           </Button>
         ) : null}
       </div>
@@ -169,7 +171,7 @@ export function TaskChatSystemNotice({
                 disabled={tryAgainNoLiveExecutionPathPending}
                 data-testid="task-chat-no-live-path-try-again"
               >
-                {tryAgainNoLiveExecutionPathPending ? "Trying again..." : "Try again"}
+                {tryAgainNoLiveExecutionPathPending ? t("components.taskchat.taskChatSystemNotice.tryingAgain") : t("components.taskchat.taskChatSystemNotice.tryAgain")}
               </Button>
             </div>
           ) : null}

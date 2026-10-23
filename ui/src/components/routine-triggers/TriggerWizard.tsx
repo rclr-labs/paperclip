@@ -491,12 +491,12 @@ export function RoutineTriggerWizard({
             </div>
             <div className="space-y-2">
               <p className="text-sm font-medium">
-                Send an event from {github ? "GitHub" : "your app"}
+                Send an event from {github ? "GitHub" : t("components.routinetriggers.triggerWizard.yourApp")}
               </p>
               <p className="text-sm text-muted-foreground">
                 {github
-                  ? "Open this webhook in your repository settings. Under Recent Deliveries, choose Redeliver on an event."
-                  : "Look for “Send test” in your app’s webhook settings. If it doesn’t have one, do the action that should trigger the webhook—for example, complete a deployment."}
+                  ? t("components.routinetriggers.triggerWizard.openThisWebhookInYourRepository")
+                  : t("components.routinetriggers.triggerWizard.lookForSendTestInYour")}
               </p>
               <p className="text-xs text-muted-foreground">
                 {t("components.routinetriggers.triggerWizard.keepThisPageOpenToSee")}
@@ -518,17 +518,17 @@ export function RoutineTriggerWizard({
                   {checkResult === "received"
                     ? "Test event received · Connection working"
                     : checkResult === "rejected"
-                      ? "Event arrived, but the key was rejected"
+                      ? t("components.routinetriggers.triggerWizard.eventArrivedButTheKeyWas")
                       : checkResult === "no_event"
-                        ? "No event received yet"
-                        : "Waiting for an event from your app…"}
+                        ? t("components.routinetriggers.triggerWizard.noEventReceivedYet")
+                        : t("components.routinetriggers.triggerWizard.waitingForAnEventFromYour")}
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {checkResult === "received"
-                    ? "Authentication passed. No routine run or task was created."
+                    ? t("components.routinetriggers.triggerWizard.authenticationPassedNoRoutineRunOr")
                     : checkResult === "rejected"
-                      ? "Go back to Connect your app, update the key in your sending app, and resend. No task was created."
-                      : "Waiting to verify delivery and authentication. The routine is not running."}
+                      ? t("components.routinetriggers.triggerWizard.goBackToConnectYourApp")
+                      : t("components.routinetriggers.triggerWizard.waitingToVerifyDeliveryAndAuthentication")}
                 </p>
               </div>
             </div>
@@ -548,8 +548,8 @@ export function RoutineTriggerWizard({
         {!schedule && draft.step === 2 && (
           <p className="text-xs text-muted-foreground">
             {routineActive
-              ? "Finish setup to enable this webhook. Future events will start the routine; this test event won’t be replayed."
-              : "Finish setup to save this webhook. The routine is paused; enable its automatic triggers when you’re ready. This test event won’t be replayed."}
+              ? t("components.routinetriggers.triggerWizard.finishSetupToEnableThisWebhook")
+              : t("components.routinetriggers.triggerWizard.finishSetupToSaveThisWebhook")}
           </p>
         )}
         {schedule && draft.step === 2 && !routineActive && (
@@ -583,8 +583,8 @@ export function RoutineTriggerWizard({
           ) : (
             <Button onClick={() => void perform(() => onFinish(draft))}>
               {checkResult === "received"
-                ? "Finish setup"
-                : "Finish without checking"}
+                ? t("components.routinetriggers.triggerWizard.finishSetup")
+                : t("components.routinetriggers.triggerWizard.finishWithoutChecking")}
             </Button>
           )}
         </SetupWizardFooter>

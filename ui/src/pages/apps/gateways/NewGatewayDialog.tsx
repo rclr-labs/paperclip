@@ -120,7 +120,7 @@ export function NewGatewayDialog({
               disabled={noProfiles}
             >
               <option value="" disabled>
-                {profilesLoading ? "Loading profiles…" : "Choose a profile"}
+                {profilesLoading ? t("pages.apps.gateways.newGatewayDialog.loadingProfiles") : t("pages.apps.gateways.newGatewayDialog.chooseAProfile")}
               </option>
               {activeProfiles.map((profile) => (
                 <option key={profile.id} value={profile.id}>
@@ -154,7 +154,7 @@ export function NewGatewayDialog({
               type="submit"
               disabled={createMutation.isPending || noProfiles || !name.trim() || !profileId}
             >
-              {createMutation.isPending ? "Creating…" : "Create gateway"}
+              {createMutation.isPending ? t("pages.apps.gateways.newGatewayDialog.creating") : t("pages.apps.gateways.newGatewayDialog.createGateway")}
             </Button>
           </DialogFooter>
         </form>

@@ -51,10 +51,10 @@ export function TaskChatMarker({
         <div className="flex min-w-0 flex-1 flex-col gap-2">
           <p className="font-semibold text-destructive">{t("components.taskchat.taskChatMarker.couldnTStart", { agentName })}</p>
           <p className="break-words font-medium text-foreground">
-            {agentName} is configured to use {credentialName || "an AI credential"}, but {deniedUser === "you" ? "you don’t" : `${deniedUser} doesn’t`} have access to that credential.
+            {agentName} is configured to use {credentialName || t("components.taskchat.taskChatMarker.anAiCredential")}, but {deniedUser === "you" ? t("components.taskchat.taskChatMarker.youDonT") : `${deniedUser} doesn’t`} have access to that credential.
           </p>
           <p className="text-muted-foreground">
-            Choose an AI connection {deniedUser === "you" ? "you can" : `${deniedUser} can`} use, or ask an administrator to update {agentName}’s connection. Then try again.
+            Choose an AI connection {deniedUser === "you" ? t("components.taskchat.taskChatMarker.youCan") : `${deniedUser} can`} use, or ask an administrator to update {agentName}’s connection. Then try again.
           </p>
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <Button asChild variant="outline" size="sm"><Link to={settingsHref}>{t("components.taskchat.taskChatMarker.changeAiConnection")}</Link></Button>
@@ -107,7 +107,7 @@ export function TaskChatMarker({
               disabled={tryAgainPending}
               data-testid="task-chat-run-failed-try-again"
             >
-              {tryAgainPending ? "Trying again..." : "Try again"}
+              {tryAgainPending ? t("components.taskchat.taskChatMarker.tryingAgain") : t("components.taskchat.taskChatMarker.tryAgain")}
             </Button>
           ) : null}
         </div>
@@ -142,7 +142,7 @@ export function TaskChatMarker({
                     disabled={tryAgainPending}
                     data-testid="task-chat-run-failed-try-again"
                   >
-                    {tryAgainPending ? "Trying again..." : "Try again"}
+                    {tryAgainPending ? t("components.taskchat.taskChatMarker.tryingAgain") : t("components.taskchat.taskChatMarker.tryAgain")}
                   </Button>
                 ) : null}
               </div>
@@ -181,7 +181,7 @@ export function TaskChatMarker({
             disabled={tryAgainPending}
             data-testid="task-chat-run-failed-try-again"
           >
-            {tryAgainPending ? "Trying again..." : "Try again"}
+            {tryAgainPending ? t("components.taskchat.taskChatMarker.tryingAgain") : t("components.taskchat.taskChatMarker.tryAgain")}
           </Button>
         ) : null}
       </span>

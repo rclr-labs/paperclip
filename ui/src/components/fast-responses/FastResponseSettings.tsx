@@ -225,8 +225,8 @@ export function FastResponseSettingsView({
         ) : (
           <p role="alert" className="text-sm text-destructive">
             {result.reason === "timeout"
-              ? "The model did not respond within three seconds. Try a faster model."
-              : "Could not generate a response. Check the connection and model, then try again."}
+              ? t("components.fastresponses.fastResponseSettings.theModelDidNotRespondWithin")
+              : t("components.fastresponses.fastResponseSettings.couldNotGenerateAResponseCheck")}
           </p>
         ))}
       <div className="flex items-center justify-between gap-3">
@@ -237,12 +237,12 @@ export function FastResponseSettingsView({
             onClick={onTest}
             disabled={dirty || !settings.enabled || saving || testing}
           >
-            {testing ? "Testing…" : "Test response"}
+            {testing ? t("components.fastresponses.fastResponseSettings.testing") : t("components.fastresponses.fastResponseSettings.testResponse")}
           </Button>
           <p className="text-xs text-muted-foreground">
             {dirty
-              ? "Save changes before testing."
-              : "Runs a small sample with an API charge."}
+              ? t("components.fastresponses.fastResponseSettings.saveChangesBeforeTesting")
+              : t("components.fastresponses.fastResponseSettings.runsASmallSampleWithAn")}
           </p>
         </div>
         {dirty && (
@@ -255,7 +255,7 @@ export function FastResponseSettingsView({
             }
             onClick={() => onSave(draft)}
           >
-            {saving ? "Saving…" : "Save fast response"}
+            {saving ? t("components.fastresponses.fastResponseSettings.saving") : t("components.fastresponses.fastResponseSettings.saveFastResponse")}
           </Button>
         )}
       </div>

@@ -208,8 +208,8 @@ function GitHubPassingScore({
       {!valid && <p id={`${id}-error`} role="alert" className="text-xs text-destructive">{t("pages.apps.chat.gitHubBotConfiguration.enterAWholeNumberFrom1")}</p>}
       <p id={`${id}-help`} className="text-xs text-muted-foreground">
         {value === null
-          ? "Publishes a neutral check without a score requirement. GitHub can accept neutral checks for merging."
-          : "Paperclip passes the check when a complete review of the latest commit meets this score. Lower scores fail. This does not approve the PR."}
+          ? t("pages.apps.chat.gitHubBotConfiguration.publishesANeutralCheckWithoutA")
+          : t("pages.apps.chat.gitHubBotConfiguration.paperclipPassesTheCheckWhenA")}
       </p>
       <p className="text-xs text-muted-foreground">
         To block merging, require the <strong>{t("pages.apps.chat.gitHubBotConfiguration.paperclipReview")}</strong> check from this App in your GitHub branch rules.{" "}
@@ -906,7 +906,7 @@ export function GitHubAccessEditor({
               >
                 {!responsible && (
                   <option value={configuration.responsibleUserId}>
-                    {configuration.responsibleUserId || "Select a member"}
+                    {configuration.responsibleUserId || t("pages.apps.chat.gitHubBotConfiguration.selectAMember")}
                   </option>
                 )}
                 {activeMembers.map((member) => (
@@ -956,13 +956,13 @@ export function GitHubAccessEditor({
           <DialogHeader>
             <DialogTitle>
               {dialog === "member"
-                ? "Link a company member"
-                : "Add external contributor"}
+                ? t("pages.apps.chat.gitHubBotConfiguration.linkACompanyMember")
+                : t("pages.apps.chat.gitHubBotConfiguration.addExternalContributor")}
             </DialogTitle>
             <DialogDescription>
               {dialog === "member"
-                ? "Each member confirms their own GitHub identity. Share this link with an existing company member, or link your own account."
-                : "Allow a GitHub user to mention this bot. A company member must sponsor their restricted access."}
+                ? t("pages.apps.chat.gitHubBotConfiguration.eachMemberConfirmsTheirOwnGithub")
+                : t("pages.apps.chat.gitHubBotConfiguration.allowAGithubUserToMention")}
             </DialogDescription>
           </DialogHeader>
           {dialog === "member" ? (
@@ -982,7 +982,7 @@ export function GitHubAccessEditor({
                 }}
               >
                 <Copy className="size-4" />
-                {linkCopied ? "Copied" : "Copy invitation link"}
+                {linkCopied ? t("pages.apps.chat.gitHubBotConfiguration.copied") : t("pages.apps.chat.gitHubBotConfiguration.copyInvitationLink")}
               </Button>
               <Link
                 ref={accountLink}
@@ -1033,7 +1033,7 @@ export function GitHubAccessEditor({
                       }
                     }}
                   >
-                    {busy ? "Looking up…" : "Look up"}
+                    {busy ? t("pages.apps.chat.gitHubBotConfiguration.lookingUp") : t("pages.apps.chat.gitHubBotConfiguration.lookUp")}
                   </Button>
                 </div>
               </div>

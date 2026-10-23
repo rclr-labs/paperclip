@@ -604,6 +604,7 @@ function WorkspaceRoutineRow({
   runningRoutineId: string | null;
   onRunNow: (routine: RoutineListItem) => void;
 }) {
+  const { t } = useTranslation();
   const isArchived = routine.status === "archived";
   const isRunning = runningRoutineId === routine.id;
 
@@ -619,7 +620,7 @@ function WorkspaceRoutineRow({
           ) : null}
         </div>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
-          <span>{routine.assigneeAgentId ? "Default agent set" : "Choose agent when running"}</span>
+          <span>{routine.assigneeAgentId ? t("pages.executionWorkspaceDetail.defaultAgentSet") : t("pages.executionWorkspaceDetail.chooseAgentWhenRunning")}</span>
           <span>Last run {formatOptionalDateTime(routine.lastRun?.triggeredAt ?? routine.lastTriggeredAt)}</span>
           <span className="flex flex-wrap gap-1">
             {variableNames.map((name) => (
@@ -638,7 +639,7 @@ function WorkspaceRoutineRow({
         onClick={() => onRunNow(routine)}
       >
         {isRunning ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Play className="mr-2 h-4 w-4" />}
-        {isRunning ? "Running..." : "Run now"}
+        {isRunning ? t("pages.executionWorkspaceDetail.running") : t("pages.executionWorkspaceDetail.runNow")}
       </Button>
     </div>
   );
@@ -728,7 +729,7 @@ function ExecutionWorkspaceRoutinesList({
             <p className="text-sm text-muted-foreground">{t("pages.executionWorkspaceDetail.loadingRoutines")}</p>
           ) : error ? (
             <p className="text-sm text-destructive">
-              {error instanceof Error ? error.message : "Failed to load routines."}
+              {error instanceof Error ? error.message : t("pages.executionWorkspaceDetail.failedToLoadRoutines")}
             </p>
           ) : workspaceRoutines.length === 0 ? (
             <div className="flex flex-col items-center gap-2 py-10 text-center">
@@ -987,7 +988,7 @@ export function ExecutionWorkspaceDetail() {
   if (workspaceQuery.error) {
     return (
       <p className="text-sm text-destructive">
-        {workspaceQuery.error instanceof Error ? workspaceQuery.error.message : "Failed to load workspace"}
+        {workspaceQuery.error instanceof Error ? workspaceQuery.error.message : t("pages.executionWorkspaceDetail.failedToLoadWorkspace")}
       </p>
     );
   }
@@ -1133,7 +1134,7 @@ export function ExecutionWorkspaceDetail() {
                     onClick={() => setCloseDialogOpen(true)}
                     disabled={workspace.status === "archived"}
                   >
-                    {workspace.status === "cleanup_failed" ? "Retry close" : "Close workspace"}
+                    {workspace.status === "cleanup_failed" ? t("pages.executionWorkspaceDetail.retryClose") : t("pages.executionWorkspaceDetail.closeWorkspace")}
                   </Button>
                 </CardAction>
               </CardHeader>
@@ -1286,10 +1287,10 @@ export function ExecutionWorkspaceDetail() {
                         </div>
                         <p className="text-sm text-muted-foreground">
                           {runtimeConfigSource === "execution_workspace"
-                            ? "This execution workspace currently overrides the project workspace runtime config."
+                            ? t("pages.executionWorkspaceDetail.thisExecutionWorkspaceCurrentlyOverridesThe")
                             : runtimeConfigSource === "project_workspace"
-                              ? "This execution workspace is inheriting the project workspace runtime config."
-                              : "No runtime config is currently defined on this execution workspace or its project workspace."}
+                              ? t("pages.executionWorkspaceDetail.thisExecutionWorkspaceIsInheritingThe")
+                              : t("pages.executionWorkspaceDetail.noRuntimeConfigIsCurrentlyDefined")}
                         </p>
                       </div>
                       <Button
@@ -1438,7 +1439,7 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.projectWorkspaceId ? (
                   <MonoValue value={workspace.projectWorkspaceId} />
                 ) : (
-                  "None"
+                  t("pages.executionWorkspaceDetail.none")
                 )}
               </DetailRow>
               <DetailRow label="Source task">
@@ -1449,7 +1450,7 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.sourceIssueId ? (
                   <MonoValue value={workspace.sourceIssueId} />
                 ) : (
-                  "None"
+                  t("pages.executionWorkspaceDetail.none")
                 )}
               </DetailRow>
               <DetailRow label="Derived from">
@@ -1460,7 +1461,7 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.derivedFromExecutionWorkspaceId ? (
                   <MonoValue value={workspace.derivedFromExecutionWorkspaceId} />
                 ) : (
-                  "None"
+                  t("pages.executionWorkspaceDetail.none")
                 )}
               </DetailRow>
               <DetailRow label="Runtime provisioning">
@@ -1482,10 +1483,10 @@ export function ExecutionWorkspaceDetail() {
               </CardHeader>
               <CardContent>
               <DetailRow label="Working dir">
-                {workspace.cwd ? <MonoValue value={workspace.cwd} copy /> : "None"}
+                {workspace.cwd ? <MonoValue value={workspace.cwd} copy /> : t("pages.executionWorkspaceDetail.none")}
               </DetailRow>
               <DetailRow label="Provider ref">
-                {workspace.providerRef ? <MonoValue value={workspace.providerRef} copy /> : "None"}
+                {workspace.providerRef ? <MonoValue value={workspace.providerRef} copy /> : t("pages.executionWorkspaceDetail.none")}
               </DetailRow>
               <DetailRow label="Repo URL">
                 {workspace.repoUrl && isSafeExternalUrl(workspace.repoUrl) ? (
@@ -1501,21 +1502,21 @@ export function ExecutionWorkspaceDetail() {
                 ) : workspace.repoUrl ? (
                   <MonoValue value={workspace.repoUrl} copy />
                 ) : (
-                  "None"
+                  t("pages.executionWorkspaceDetail.none")
                 )}
               </DetailRow>
               <DetailRow label="Base ref">
-                {workspace.baseRef ? <MonoValue value={workspace.baseRef} copy /> : "None"}
+                {workspace.baseRef ? <MonoValue value={workspace.baseRef} copy /> : t("pages.executionWorkspaceDetail.none")}
               </DetailRow>
               <DetailRow label="Branch">
-                {workspace.branchName ? <MonoValue value={workspace.branchName} copy /> : "None"}
+                {workspace.branchName ? <MonoValue value={workspace.branchName} copy /> : t("pages.executionWorkspaceDetail.none")}
               </DetailRow>
               <DetailRow label="Opened">{formatDateTime(workspace.openedAt)}</DetailRow>
               <DetailRow label="Last used">{formatDateTime(workspace.lastUsedAt)}</DetailRow>
               <DetailRow label="Cleanup">
                 {workspace.cleanupEligibleAt
                   ? `${formatDateTime(workspace.cleanupEligibleAt)}${workspace.cleanupReason ? ` · ${workspace.cleanupReason}` : ""}`
-                  : "Not scheduled"}
+                  : t("pages.executionWorkspaceDetail.notScheduled")}
               </DetailRow>
               </CardContent>
             </Card>
@@ -1533,7 +1534,7 @@ export function ExecutionWorkspaceDetail() {
               <p className="text-sm text-destructive">
                 {workspaceOperationsQuery.error instanceof Error
                   ? workspaceOperationsQuery.error.message
-                  : "Failed to load workspace operations."}
+                  : t("pages.executionWorkspaceDetail.failedToLoadWorkspaceOperations")}
               </p>
             ) : workspaceOperationsQuery.data && workspaceOperationsQuery.data.length > 0 ? (
               <div className="space-y-3">

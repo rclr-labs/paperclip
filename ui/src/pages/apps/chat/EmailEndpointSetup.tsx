@@ -327,12 +327,12 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
   };
   return <div className="mx-auto max-w-xl space-y-6 p-6">
     <header className="space-y-2">
-      <h1 className="text-xl font-bold">{step === 2 ? "Your agent’s email is ready" : "Give an agent an email address"}</h1>
+      <h1 className="text-xl font-bold">{step === 2 ? t("pages.apps.chat.emailEndpointSetup.yourAgentSEmailIsReady") : t("pages.apps.chat.emailEndpointSetup.giveAnAgentAnEmailAddress")}</h1>
     </header>
     {step < 2 && inboxes.isError && <div role="alert" className="space-y-2 text-sm">
       <p className="text-destructive">{t("pages.apps.chat.emailEndpointSetup.couldNotLoadEmailSetupProgress", { message: inboxes.error.message })}</p>
       <Button type="button" variant="outline" size="sm" disabled={busy || inboxes.isFetching} onClick={() => { void inboxes.refetch(); }}>
-        {inboxes.isFetching ? "Loading…" : "Retry loading inboxes"}
+        {inboxes.isFetching ? t("pages.apps.chat.emailEndpointSetup.loading") : t("pages.apps.chat.emailEndpointSetup.retryLoadingInboxes")}
       </Button>
     </div>}
     {step < 2 && resumeId === requestId && inboxes.isSuccess && !pendingEndpoint && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.emailEndpointSetup.thisEmailSetupCouldNotBe")}</p>}
@@ -360,7 +360,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       {error && <p role="alert" className="text-sm text-destructive">{error.message}</p>}
       <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
         <Button type="button" variant="ghost" disabled={busy} onClick={cancel}>{t("pages.apps.chat.emailEndpointSetup.cancel")}</Button>
-        <Button disabled={!canContinue}>{connect.isPending ? "Connecting…" : "Continue"}<ArrowRight className="size-4" /></Button>
+        <Button disabled={!canContinue}>{connect.isPending ? t("pages.apps.chat.emailEndpointSetup.connecting") : t("pages.apps.chat.emailEndpointSetup.continue")}<ArrowRight className="size-4" /></Button>
       </div>
     </form>}
     {step === 1 && <form className="space-y-6" onSubmit={event => { event.preventDefault(); if (canCreate) setup.mutate(); }}>
@@ -394,8 +394,8 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
           onClick={() => { setAllowInboxKey(false); setStep(0); }}>{t("pages.apps.chat.emailEndpointSetup.chooseAKeyForANew")}</Button>}
         {addressError && <p id="email-address-error" role="alert" className="text-sm text-destructive">{addressError}</p>}
         {checkingNewAddress && !addressError && <p id="email-address-status" role="status" className="text-sm text-muted-foreground">
-          {addressCheck.checking ? "Checking address…" : addressCheck.error ? `Could not check this address. ${addressCheck.error}`
-            : addressCheck.result?.status === "unknown" ? "AgentMail confirms availability when you create the address." : null}
+          {addressCheck.checking ? t("pages.apps.chat.emailEndpointSetup.checkingAddress") : addressCheck.error ? `Could not check this address. ${addressCheck.error}`
+            : addressCheck.result?.status === "unknown" ? t("pages.apps.chat.emailEndpointSetup.agentmailConfirmsAvailabilityWhenYouCreate") : null}
         </p>}
         {suggestions.length > 0 && <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm" aria-label={t("pages.apps.chat.emailEndpointSetup.suggestedEmailAddresses")}>
           <span className="text-muted-foreground">Try:</span>
@@ -404,7 +404,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
         </div>}
         {!scopedKey && !pendingAddress && <Button type="button" variant="link" size="sm" className="h-auto p-0" disabled={busy}
           onClick={() => { setAddressMode(addressMode === "new" ? "existing" : "new"); setup.reset(); }}>
-          {addressMode === "new" ? "Use an existing inbox" : "Create a new address"}
+          {addressMode === "new" ? t("pages.apps.chat.emailEndpointSetup.useAnExistingInbox") : t("pages.apps.chat.emailEndpointSetup.createANewAddress")}
         </Button>}
       </div>
       <Card className="py-4">
@@ -427,7 +427,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
           </div>
           <EmailSafetyNotice />
           <div className="space-y-2 text-sm">
-            <p>{lowTrust && scoped ? "Low-trust review configured" : "Manage which tasks and tools this agent can access."}</p>
+            <p>{lowTrust && scoped ? t("pages.apps.chat.emailEndpointSetup.lowTrustReviewConfigured") : t("pages.apps.chat.emailEndpointSetup.manageWhichTasksAndToolsThis")}</p>
             <Button type="button" variant="outline" size="sm" onClick={openTrust}>{t("pages.apps.chat.emailEndpointSetup.reviewTrustSettings")}</Button>
           </div>
         </div>
@@ -437,7 +437,7 @@ function EmailEndpointSetupForm({ companyId }: { companyId: string }) {
       <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
         <Button type="button" variant="ghost" disabled={busy} onClick={() => { setup.reset(); setStep(0); }}><ArrowLeft className="size-4" />{t("pages.apps.chat.emailEndpointSetup.back")}</Button>
         <Button disabled={!canCreate}>
-          {setup.isPending ? "Connecting…" : pendingAddress ? "Finish connecting" : addressMode === "new" ? "Create email address" : "Connect email address"}<ArrowRight className="size-4" />
+          {setup.isPending ? t("pages.apps.chat.emailEndpointSetup.connecting") : pendingAddress ? t("pages.apps.chat.emailEndpointSetup.finishConnecting") : addressMode === "new" ? t("pages.apps.chat.emailEndpointSetup.createEmailAddress") : t("pages.apps.chat.emailEndpointSetup.connectEmailAddress")}<ArrowRight className="size-4" />
         </Button>
       </div>
     </form>}
@@ -631,7 +631,7 @@ export function EmailEndpointSettings({
   if (!inbox)
     return (
       <p role={query.error ? "alert" : undefined}>
-        {query.error?.message ?? "Loading email inbox…"}
+        {query.error?.message ?? t("pages.apps.chat.emailEndpointSetup.loadingEmailInbox")}
       </p>
     );
   return (
@@ -646,7 +646,7 @@ export function EmailEndpointSettings({
                 <span className="min-w-0 break-all">{inbox.address}</span>
                 <Copy aria-hidden="true" className="size-4 shrink-0 text-muted-foreground" />
               </CopyText>
-            ) : "Email inbox"}
+            ) : t("pages.apps.chat.emailEndpointSetup.emailInbox")}
           </h1>
           {inbox.address && (
             <a href={`https://console.agentmail.to/dashboard/inboxes/${encodeURIComponent(inbox.address)}`}
@@ -678,7 +678,7 @@ export function EmailEndpointSettings({
           {["active", "paused"].includes(inbox.status) && (
             <Button variant="outline" size="sm" disabled={control.isPending}
               onClick={() => control.mutate(inbox.status === "active" ? "pause" : "resume")}>
-              {inbox.status === "active" ? "Pause" : "Resume"}
+              {inbox.status === "active" ? t("pages.apps.chat.emailEndpointSetup.pause") : t("pages.apps.chat.emailEndpointSetup.resume")}
             </Button>
           )}
         </div>
@@ -688,11 +688,11 @@ export function EmailEndpointSettings({
         <dl className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
             <dt className="text-xs text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.receivingMode")}</dt>
-            <dd className="text-sm">{inbox.receiveMode === "websocket" ? "Live connection" : "Webhook"}</dd>
+            <dd className="text-sm">{inbox.receiveMode === "websocket" ? t("pages.apps.chat.emailEndpointSetup.liveConnection") : t("pages.apps.chat.emailEndpointSetup.webhook")}</dd>
           </div>
           <div className="space-y-1">
             <dt className="text-xs text-muted-foreground">{t("pages.apps.chat.emailEndpointSetup.lastMailCheck")}</dt>
-            <dd className="font-mono text-xs">{inbox.lastSyncAt ? formatDateTime(inbox.lastSyncAt) : "Not checked yet"}</dd>
+            <dd className="font-mono text-xs">{inbox.lastSyncAt ? formatDateTime(inbox.lastSyncAt) : t("pages.apps.chat.emailEndpointSetup.notCheckedYet")}</dd>
           </div>
         </dl>
         {inbox.lastError && <p role="alert" className="text-sm text-destructive">{inbox.lastError}</p>}
@@ -721,7 +721,7 @@ export function EmailEndpointSettings({
           {reconnect.isSuccess && <p role="status" className="text-sm">{t("pages.apps.chat.emailEndpointSetup.inboxReconnected")}</p>}
           <div className="flex justify-end">
             <Button variant="outline" disabled={!replacementKey || reconnect.isPending} onClick={() => reconnect.mutate()}>
-              {reconnect.isPending ? "Reconnecting…" : "Reconnect inbox"}
+              {reconnect.isPending ? t("pages.apps.chat.emailEndpointSetup.reconnecting") : t("pages.apps.chat.emailEndpointSetup.reconnectInbox")}
             </Button>
           </div>
         </div>

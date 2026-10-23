@@ -39,6 +39,6 @@ function AgentPluginDetail() {
   return <div className="mx-auto max-w-5xl space-y-4">
     <Link to={`/agents/${encodeURIComponent(agentId)}/overview`} className="text-sm text-muted-foreground">{agent.name}</Link>
     {slot ? <PluginSlotMount slot={slot} context={{ companyId: agent.companyId, companyPrefix: companyPrefix ?? null, entityId: agent.id, entityType: "agent" }} missingBehavior="placeholder" />
-      : <p role="status">{errorMessage ? "Agent view unavailable" : "This plugin view is unavailable"}</p>}
+      : <p role="status">{errorMessage ? t("pages.agentDetailPage.agentViewUnavailable") : t("pages.agentDetailPage.thisPluginViewIsUnavailable")}</p>}
   </div>;
 }

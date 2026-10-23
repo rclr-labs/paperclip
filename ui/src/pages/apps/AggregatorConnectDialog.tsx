@@ -46,7 +46,7 @@ export function AggregatorConnectDialog({ app, connections, initialProvider, onC
           ? `Choose a saved Composio account or connect a new one to use ${app.name}.`
           : provider
           ? `Your ${provider.name} gateway is already saved. ${app.name} authorization is managed inside ${provider.name}.`
-          : "Which service would you like to use? This service handles the connection and requests to this app."}</DialogDescription>
+          : t("pages.apps.aggregatorConnectDialog.whichServiceWouldYouLikeTo")}</DialogDescription>
       </DialogHeader>
       {!selected ? <div className="space-y-2">{[...app.routes].sort((a, b) => Number(Boolean(connections[b.provider]?.length)) - Number(Boolean(connections[a.provider]?.length))).map((route) => {
         const accounts = connections[route.provider] ?? [];
@@ -70,7 +70,7 @@ export function AggregatorConnectDialog({ app, connections, initialProvider, onC
 
       </div>}
       {selected?.provider !== "composio" ? <DialogFooter className="sm:items-center sm:justify-between">
-        <Button variant="ghost" onClick={selected && canChooseProvider ? () => setSelected(null) : onClose}>{selected && canChooseProvider ? "Back" : "Cancel"}</Button>
+        <Button variant="ghost" onClick={selected && canChooseProvider ? () => setSelected(null) : onClose}>{selected && canChooseProvider ? t("pages.apps.aggregatorConnectDialog.back") : t("pages.apps.aggregatorConnectDialog.cancel")}</Button>
         {selected ? <div className="flex flex-wrap items-center gap-3">
           {managementUrl ? <Button asChild><a href={managementUrl} target="_blank" rel="noopener noreferrer" onClick={onClose}>{t("pages.apps.aggregatorConnectDialog.continue")}<ExternalLink className="size-4" /></a></Button> : null}
           <Button variant="link" size="sm" className="h-auto p-0 text-xs text-muted-foreground hover:text-foreground" onClick={() => { onNavigate(`${aggregatorAppConnectHref(selected)}&new=1`); onClose(); }}>{t("pages.apps.aggregatorConnectDialog.connectANewAccount")}</Button>

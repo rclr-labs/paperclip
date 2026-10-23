@@ -297,7 +297,7 @@ export function PasteConfigTab({ companyId }: { companyId: string }) {
           onClick={() => importMutation.mutate(draftText)}
           disabled={!canSubmit || Boolean(localParseError)}
         >
-          {importMutation.isPending ? "Checking…" : "Check config"}
+          {importMutation.isPending ? t("pages.tools.pasteConfigTab.checking") : t("pages.tools.pasteConfigTab.checkConfig")}
         </Button>
         <span className="text-xs text-muted-foreground">
           {t("pages.tools.pasteConfigTab.weLlReadItAndShow")}

@@ -121,7 +121,7 @@ export function GitHubRepositoryAccess({
         <Button variant="outline" size="sm" disabled={pending || list.isFetching || !summary || !summary.totalCount || (!disableAll && !summary.availableCount)}
           aria-label={`${disableAll ? "Disable" : "Enable"} all repositories`}
           onClick={() => onToggleAll(!disableAll)}>
-          {disableAll ? "Disable all" : "Enable all"}
+          {disableAll ? t("pages.apps.chat.gitHubBotManagement.disableAll") : t("pages.apps.chat.gitHubBotManagement.enableAll")}
         </Button>
       </div>
       {summary && <p className="text-xs text-muted-foreground">{t("pages.apps.chat.gitHubBotManagement.ofRepositoriesEnabledToggleAllApplies", { enabledCount: summary.enabledCount, totalCount: summary.totalCount })}</p>}
@@ -167,13 +167,13 @@ export function GitHubRepositoryAccess({
         </div>
         {list.isPending ? <p role="status" className="py-4 text-sm text-muted-foreground">{t("pages.apps.chat.gitHubBotManagement.loadingRepositories")}</p> : rows.length === 0 && !list.isError && (
           <p className="py-4 text-sm text-muted-foreground">
-            {search ? "No repositories match your search." : "No repositories available. Add repository access on GitHub, then refresh."}
+            {search ? t("pages.apps.chat.gitHubBotManagement.noRepositoriesMatchYourSearch") : t("pages.apps.chat.gitHubBotManagement.noRepositoriesAvailableAddRepositoryAccess")}
           </p>
         )}
         {list.hasNextPage && <div ref={more} className="flex justify-center py-2">
           <Button variant="ghost" size="sm" disabled={pending || list.isFetching}
             onClick={() => void list.fetchNextPage({ cancelRefetch: false })}>
-            {list.isFetchingNextPage ? "Loading repositories…" : "Load more repositories"}
+            {list.isFetchingNextPage ? t("pages.apps.chat.gitHubBotManagement.loadingRepositories") : t("pages.apps.chat.gitHubBotManagement.loadMoreRepositories")}
           </Button>
         </div>}
       </div>
@@ -379,7 +379,7 @@ export function GitHubBotManagement({
               })
             }
           >
-            {pending ? "Saving…" : "Save changes"}
+            {pending ? t("pages.apps.chat.gitHubBotManagement.saving") : t("pages.apps.chat.gitHubBotManagement.saveChanges")}
           </Button>
         </div>
       )}
@@ -615,7 +615,7 @@ export function GitHubReviews({
   if (query.isError)
     return (
       <p role="alert" className="text-sm text-destructive">
-        {reviewId ? "This review could not be loaded or was not found in this connection." : "Reviews could not be loaded."}{" "}
+        {reviewId ? t("pages.apps.chat.gitHubBotManagement.thisReviewCouldNotBeLoaded") : t("pages.apps.chat.gitHubBotManagement.reviewsCouldNotBeLoaded")}{" "}
         <Button variant="link" onClick={() => void query.refetch()}>
           {t("pages.apps.chat.gitHubBotManagement.tryAgain")}
         </Button>

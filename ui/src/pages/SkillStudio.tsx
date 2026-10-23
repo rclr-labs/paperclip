@@ -524,7 +524,7 @@ function StudioNewSkillPanel({
     <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6">
       <div className="space-y-1">
         <h1 className="text-lg font-semibold text-foreground">
-          {draft.forkedFromSkillId ? "Fork skill" : "Create a new skill"}
+          {draft.forkedFromSkillId ? t("pages.skillStudio.forkSkill") : t("pages.skillStudio.createANewSkill")}
         </h1>
         <p className="text-sm text-muted-foreground">
           {t("pages.skillStudio.createAnEditableOrganizationSkillAnd")}
@@ -612,7 +612,7 @@ function StudioNewSkillPanel({
           <SkillCardIcon card={previewCard} size={48} />
           <div className="min-w-0">
             <div className="truncate text-sm font-medium">{previewCard.name}</div>
-            <div className="truncate text-xs text-muted-foreground">{draft.tagline || "No tagline yet."}</div>
+            <div className="truncate text-xs text-muted-foreground">{draft.tagline || t("pages.skillStudio.noTaglineYet")}</div>
           </div>
         </div>
         <div className="space-y-2">
@@ -698,7 +698,7 @@ function StudioNewSkillPanel({
         </Button>
         <Button onClick={() => createSkill.mutate()} disabled={createSkill.isPending || !nameValid}>
           <FilePlus className="h-4 w-4" />
-          {createSkill.isPending ? "Creating..." : draft.forkedFromSkillId ? "Create fork" : "Create skill"}
+          {createSkill.isPending ? t("pages.skillStudio.creating") : draft.forkedFromSkillId ? t("pages.skillStudio.createFork") : t("pages.skillStudio.createSkill")}
         </Button>
       </div>
     </div>
@@ -1494,7 +1494,7 @@ function SkillPane({
             <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
             <div className="min-w-0 flex-1">
               <p>
-                {skill.metadata?.skillSourceId ? "This skill is synced from GitHub and is read-only." : skill.editableReason ?? "This skill is read-only because it comes from an external source."}
+                {skill.metadata?.skillSourceId ? t("pages.skillStudio.thisSkillIsSyncedFromGithub") : skill.editableReason ?? t("pages.skillStudio.thisSkillIsReadOnlyBecause")}
                 {" "}Make an editable copy to change it — the original stays untouched.
               </p>
               <Button
@@ -1525,7 +1525,7 @@ function SkillPane({
                   disabled={!dirty || saveMutation.isPending}
                   onClick={() => saveMutation.mutate()}
                 >
-                  {saveMutation.isPending ? "Saving…" : "Save"}
+                  {saveMutation.isPending ? t("pages.skillStudio.saving2") : t("pages.skillStudio.save")}
                 </Button>
               </>
             )}
@@ -1707,7 +1707,7 @@ function SkillFileActions({
             </Button>
           </span>
         </TooltipTrigger>
-        <TooltipContent>{canDeleteFile ? "Delete file" : "SKILL.md cannot be deleted"}</TooltipContent>
+        <TooltipContent>{canDeleteFile ? t("pages.skillStudio.deleteFile") : t("pages.skillStudio.skillMdCannotBeDeleted")}</TooltipContent>
       </Tooltip>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -2044,7 +2044,7 @@ function InputPane({
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{collapsed ? "Expand input" : "Collapse input"}</TooltipContent>
+            <TooltipContent>{collapsed ? t("pages.skillStudio.expandInput") : t("pages.skillStudio.collapseInput")}</TooltipContent>
           </Tooltip>
           <span>{t("pages.skillStudio.input")}</span>
         </span>
@@ -2153,7 +2153,7 @@ function InputPane({
           <div className="flex items-center gap-2 border-t border-border px-3 py-2">
             <div className="mr-auto flex min-w-0 items-center gap-2 text-xs text-muted-foreground">
               <span className="truncate">
-                {selectedInput ? selectedInput.name : adHocMode ? "New input" : "No input selected"}
+                {selectedInput ? selectedInput.name : adHocMode ? t("pages.skillStudio.newInput") : t("pages.skillStudio.noInputSelected")}
               </span>
               {dirty ? <Badge variant="secondary">{t("pages.skillStudio.unsaved")}</Badge> : null}
             </div>
@@ -2177,7 +2177,7 @@ function InputPane({
                   disabled={!canSaveSelectedInput || updateMutation.isPending}
                   onClick={() => updateMutation.mutate({ content: draft })}
                 >
-                  {updateMutation.isPending ? "Saving..." : "Save changes"}
+                  {updateMutation.isPending ? t("pages.skillStudio.saving") : t("pages.skillStudio.saveChanges")}
                 </Button>
               </>
             ) : null}
@@ -2795,7 +2795,7 @@ function RunTemplateAdvancedPanel({
                 </span>
               </TooltipTrigger>
               <TooltipContent>
-                {selectedTemplate?.builtIn ? "Duplicate built-in template" : "Duplicate template"}
+                {selectedTemplate?.builtIn ? t("pages.skillStudio.duplicateBuiltInTemplate") : t("pages.skillStudio.duplicateTemplate")}
               </TooltipContent>
             </Tooltip>
             <Tooltip>
@@ -2928,7 +2928,7 @@ function RunTemplateDialog({
               })
             }
           >
-            {pending ? "Saving..." : "Save template"}
+            {pending ? t("pages.skillStudio.saving") : t("pages.skillStudio.saveTemplate")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -3168,7 +3168,7 @@ function RunDetailView({
               <span className="text-sm font-medium">{t("pages.skillStudio.runFailed")}</span>
             </CardHeader>
             <CardContent className="text-sm text-muted-foreground">
-              {detail.error ?? "The test task ended with an error."}
+              {detail.error ?? t("pages.skillStudio.theTestTaskEndedWithAn")}
             </CardContent>
           </Card>
         )}
@@ -3177,10 +3177,10 @@ function RunDetailView({
         {outputMode === "output" || outputMode === "draft" ? (
           <section className="space-y-2">
             <h3 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {outputMode === "draft" ? "Draft at failure" : "Output snapshot"}
+              {outputMode === "draft" ? t("pages.skillStudio.draftAtFailure") : t("pages.skillStudio.outputSnapshot")}
             </h3>
             <div className="rounded-md border border-border p-3">
-              <MarkdownBody>{detail.outputBody || "_No output_"}</MarkdownBody>
+              <MarkdownBody>{detail.outputBody || t("pages.skillStudio.noOutput")}</MarkdownBody>
             </div>
           </section>
         ) : outputMode === "pending" ? (

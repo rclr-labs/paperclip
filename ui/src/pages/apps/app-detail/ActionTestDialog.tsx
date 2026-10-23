@@ -558,7 +558,7 @@ function ActionTester({
             </>
           ) : (
             <>
-              <Play className="h-3.5 w-3.5" /> {outcome ? "Run again" : "Run"}
+              <Play className="h-3.5 w-3.5" /> {outcome ? t("pages.apps.appdetail.actionTestDialog.runAgain") : t("pages.apps.appdetail.actionTestDialog.run")}
             </>
           )}
         </Button>
@@ -575,7 +575,7 @@ function ActionTester({
 
       {run.isError && !running && (
         <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
-          Couldn't reach {agent.name}. {run.error instanceof Error ? run.error.message : "Please try again."}
+          Couldn't reach {agent.name}. {run.error instanceof Error ? run.error.message : t("pages.apps.appdetail.actionTestDialog.pleaseTryAgain")}
         </div>
       )}
 
@@ -639,6 +639,7 @@ function ResultPanel({
   connectionId: string;
   agent?: TestAgentWithAccess;
 }) {
+  const { t } = useTranslation();
   const { result } = outcome;
   if (result.upstreamPending) return <ProviderPendingResult pending={result.upstreamPending} appName={appName} connectionId={connectionId} agent={agent} />;
   if (result.decision === "ask_first") {
@@ -647,7 +648,7 @@ function ResultPanel({
   if (result.decision === "off") {
     return (
       <div className="rounded-md border border-border bg-muted/40 p-3 text-sm text-muted-foreground">
-        {result.error?.message ?? "This action is off and won't run."}
+        {result.error?.message ?? t("pages.apps.appdetail.actionTestDialog.thisActionIsOffAndWon")}
       </div>
     );
   }
@@ -669,7 +670,7 @@ function ProviderPendingResult({ pending, appName, connectionId, agent }: { pend
     ((resumed.action === "decline" && /request was declined by the user/i.test(resumeError.message)) ||
       (resumed.action === "cancel" && /request was cancelled by the user/i.test(resumeError.message)));
   if (stoppedByUser) return <div role="status" className="space-y-2 rounded-md border border-border bg-muted/40 p-4 text-sm">
-    <p className="font-medium">{resumed.action === "decline" ? "Request declined" : "Request cancelled"}</p>
+    <p className="font-medium">{resumed.action === "decline" ? t("pages.apps.appdetail.actionTestDialog.requestDeclined") : t("pages.apps.appdetail.actionTestDialog.requestCancelled")}</p>
     <p>{resumeError.message}</p>
     <p className="text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.theOriginalCallWasNotRepeated")}</p>
     {pending.executionId && <p>Execution: <code className="break-all">{pending.executionId}</code></p>}
@@ -677,7 +678,7 @@ function ProviderPendingResult({ pending, appName, connectionId, agent }: { pend
   if (resumed) return <ResultPanel outcome={resumed.outcome} entry={resumed.entry} appName={appName} connectionId={connectionId} agent={agent} />;
   return (
     <div role="status" className="space-y-3 rounded-md border border-border bg-muted/40 p-4 text-sm">
-      <p className="font-medium">{pending.kind === "approval" ? "Approval needed" : "Authorization needed"} in {appName}</p>
+      <p className="font-medium">{pending.kind === "approval" ? t("pages.apps.appdetail.actionTestDialog.approvalNeeded") : t("pages.apps.appdetail.actionTestDialog.authorizationNeeded")} in {appName}</p>
       <p className="text-muted-foreground">{t("pages.apps.appdetail.actionTestDialog.paperclipAllowedThisCallTheProvider")}</p>
       {pending.links.map((link) => {
         const checked = checkOAuthEndpointUrl(link.url);
@@ -691,7 +692,7 @@ function ProviderPendingResult({ pending, appName, connectionId, agent }: { pend
       {pending.resumeTool && agent ? <ProviderResumeControls pending={pending} connectionId={connectionId} agent={agent} onResult={setResumed} /> :
       <p className="text-muted-foreground">{pending.resumeTool
         ? `After approval, test the ${pending.resumeTool} action with this execution ID. Do not start the original action again.`
-        : "After authorizing, check the provider's result before using Run again. Paperclip will not repeat the call automatically."}</p>}
+        : t("pages.apps.appdetail.actionTestDialog.afterAuthorizingCheckTheProviderS")}</p>}
     </div>
   );
 }
@@ -726,14 +727,14 @@ function ProviderResumeControls({ pending, connectionId, agent, onResult }: {
     <div className="flex items-center gap-2"><span>{t("pages.apps.appdetail.actionTestDialog.resumePermission")}</span><DecisionBadge decision={permission} /></div>
     {Object.keys(schema.properties ?? {}).length > 0 && <JsonSchemaForm schema={schema} values={content} onChange={setContent} errors={errors} disabled={resume.isPending} />}
     <div className="flex flex-wrap gap-2">
-      <Button disabled={!entry || expired || permission === "off" || resume.isPending} onClick={() => submit("accept")}>{resume.isPending ? "Resuming…" : "Approve and resume"}</Button>
+      <Button disabled={!entry || expired || permission === "off" || resume.isPending} onClick={() => submit("accept")}>{resume.isPending ? t("pages.apps.appdetail.actionTestDialog.resuming") : t("pages.apps.appdetail.actionTestDialog.approveAndResume")}</Button>
       <Button variant="outline" disabled={!entry || expired || permission === "off" || resume.isPending} onClick={() => submit("decline")}>{t("pages.apps.appdetail.actionTestDialog.decline")}</Button>
       <Button variant="ghost" disabled={!entry || expired || permission === "off" || resume.isPending} onClick={() => submit("cancel")}>{t("pages.apps.appdetail.actionTestDialog.cancelRequest")}</Button>
     </div>
     {expired && <p>{t("pages.apps.appdetail.actionTestDialog.thisProviderApprovalExpiredCheckThe")}</p>}
     {permission === "off" && <p>{t("pages.apps.appdetail.actionTestDialog.allowTheResumeActionInPermissions")}</p>}
     {catalog.isError && <p role="alert">{t("pages.apps.appdetail.actionTestDialog.couldNotLoadTheResumeAction")}</p>}
-    {resume.isError && <p role="alert">{resume.error instanceof Error ? resume.error.message : "Could not resume. Check the provider before trying again."}</p>}
+    {resume.isError && <p role="alert">{resume.error instanceof Error ? resume.error.message : t("pages.apps.appdetail.actionTestDialog.couldNotResumeCheckTheProvider")}</p>}
   </div>;
 }
 
@@ -1030,6 +1031,7 @@ function collapseDeep(value: unknown, maxDepth: number, depth = 0): unknown {
 }
 
 function RawResponseDisclosure({ value, initiallyOpen = false }: { value: unknown; initiallyOpen?: boolean }) {
+  const { t } = useTranslation();
   const [showRaw, setShowRaw] = useState(initiallyOpen);
   if (value === undefined || value === null) return null;
   return (
@@ -1039,7 +1041,7 @@ function RawResponseDisclosure({ value, initiallyOpen = false }: { value: unknow
         onClick={() => setShowRaw((prev) => !prev)}
         className="text-xs font-semibold uppercase tracking-wide text-primary hover:underline"
       >
-        {showRaw ? "Hide raw response" : "Show raw response"}
+        {showRaw ? t("pages.apps.appdetail.actionTestDialog.hideRawResponse") : t("pages.apps.appdetail.actionTestDialog.showRawResponse")}
       </button>
       {showRaw && (
         <pre className="mt-2 max-h-64 overflow-auto rounded-md border border-border bg-background p-3 text-xs text-foreground">
@@ -1091,7 +1093,7 @@ function ErrorResult({
       </div>
       {outcome.result.result !== undefined && <RawResponseDisclosure value={outcome.result.result} initiallyOpen />}
       <p className="mt-3 text-xs text-muted-foreground">
-        {needsReconnect ? "After reconnecting, run this action again." : "Adjust the input above and try again."}
+        {needsReconnect ? t("pages.apps.appdetail.actionTestDialog.afterReconnectingRunThisActionAgain") : t("pages.apps.appdetail.actionTestDialog.adjustTheInputAboveAndTry")}
       </p>
       <p className="mt-1 text-xs text-muted-foreground">
         Also visible in the{" "}
@@ -1252,7 +1254,7 @@ function AskFirstResult({
         </Button>
         {phase === "waiting" && actionRequestId && selectedCompanyId && (
           <Button size="sm" variant="ghost" onClick={() => cancel.mutate()} disabled={cancel.isPending}>
-            {cancel.isPending ? "Cancelling…" : "Cancel this request"}
+            {cancel.isPending ? t("pages.apps.appdetail.actionTestDialog.cancelling") : t("pages.apps.appdetail.actionTestDialog.cancelThisRequest")}
           </Button>
         )}
       </div>

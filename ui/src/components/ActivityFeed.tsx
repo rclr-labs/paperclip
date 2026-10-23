@@ -645,7 +645,7 @@ export function ActivityFeed({ className }: ActivityFeedProps) {
               </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom">
-              {groupMode === "flat" ? "Group by task" : "Show flat"}
+              {groupMode === "flat" ? "Group by task" : t("components.activityFeed.showFlat")}
             </TooltipContent>
           </Tooltip>
 
@@ -706,7 +706,7 @@ export function ActivityFeed({ className }: ActivityFeedProps) {
                 </span>
               )}
               <p className="text-center text-sm text-muted-foreground">
-                {emptyMessage?.text ?? "Activity from your agents will appear here."}
+                {emptyMessage?.text ?? t("components.activityFeed.activityFromYourAgentsWillAppear")}
               </p>
             </div>
           </div>

@@ -512,7 +512,7 @@ function FieldsForm({
           <Label className="text-xs text-muted-foreground">allowed-tools</Label>
           {form.allowedTools === null ? (
             <p className="mt-1 text-xs text-amber-500">
-              {toolsWarning ?? "Expected a list — edit in YAML."}
+              {toolsWarning ?? t("components.frontmatterPanel.expectedAListEditInYaml")}
             </p>
           ) : (
             <ChipInput

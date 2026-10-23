@@ -60,9 +60,9 @@ export function AgentConversationSidebar({ agents, existingChatAgentIds, availab
     </div>
     <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 pb-3 scrollbar-auto-hide">
       <p className="px-2 text-(length:--text-micro) font-medium uppercase tracking-widest text-muted-foreground">
-        {query ? "Search results" : "Teammates"}
+        {query ? t("components.agentConversationSidebar.searchResults") : t("components.agentConversationSidebar.teammates")}
       </p>
-      <span role="status" className="sr-only">{loading ? "Loading agents" : `${visible.length} ${visible.length === 1 ? "agent" : "agents"}`}</span>
+      <span role="status" className="sr-only">{loading ? t("components.agentConversationSidebar.loadingAgents") : `${visible.length} ${visible.length === 1 ? "agent" : "agents"}`}</span>
       {historyLoading && <p role="status" className="px-2 text-xs text-muted-foreground">{t("components.agentConversationSidebar.loadingChatHistory")}</p>}
       {historyError && <div role="alert" className="flex flex-col items-start gap-2 px-2 py-3">
         <p className="text-xs text-muted-foreground">{t("components.agentConversationSidebar.someChatHistoryCouldnTLoad")}</p>
@@ -86,8 +86,8 @@ export function AgentConversationSidebar({ agents, existingChatAgentIds, availab
           </span>
         </Link>)}
       </nav> : !agents.length && (historyLoading || historyError) ? null : <div className="flex flex-col items-start gap-2 px-2 py-6">
-        <p className="text-sm font-medium">{agents.length ? "No agents found" : "No chats yet"}</p>
-        <p className="text-xs leading-relaxed text-muted-foreground">{agents.length ? "Try another name or role." : "Choose an agent to start a conversation."}</p>
+        <p className="text-sm font-medium">{agents.length ? t("components.agentConversationSidebar.noAgentsFound") : t("components.agentConversationSidebar.noChatsYet")}</p>
+        <p className="text-xs leading-relaxed text-muted-foreground">{agents.length ? t("components.agentConversationSidebar.tryAnotherNameOrRole") : t("components.agentConversationSidebar.chooseAnAgentToStartA")}</p>
         {!agents.length && <Button variant="outline" size="sm" onClick={() => setPickerOpen(true)}>{t("components.agentConversationSidebar.chooseAnAgent")}</Button>}
         {agents.length > 0 && <Button variant="outline" size="sm" onClick={focusSearch}>{t("components.agentConversationSidebar.clearSearch")}</Button>}
       </div>}

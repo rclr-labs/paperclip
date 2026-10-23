@@ -793,8 +793,8 @@ function Setup({
         className="text-sm text-muted-foreground"
       >
         {savedAgent.error
-          ? "Could not load the created agent. Return to Agents to view it."
-          : "Loading your agent…"}
+          ? t("components.newagent.newAgentSetup.couldNotLoadTheCreatedAgent")
+          : t("components.newagent.newAgentSetup.loadingYourAgent")}
       </p>
     );
   if (!name || !adapterType || created?.metadata?.setupAdapterPending === true)
@@ -813,7 +813,7 @@ function Setup({
       />
     );
   if (!created && connectionSettingsReady) return <div className="space-y-4">
-    <p role={error ? "alert" : "status"}>{error ?? "Creating your agent…"}</p>
+    <p role={error ? "alert" : "status"}>{error ?? t("components.newagent.newAgentSetup.creatingYourAgent")}</p>
     {error && <Button onClick={() => setCreationAttempt(value => value + 1)}>{t("components.newagent.newAgentSetup.retry")}</Button>}
   </div>;
   const steps = [
@@ -873,8 +873,8 @@ function Setup({
                 <span>
                   ·{" "}
                   {runnerProvider === "codex"
-                    ? "Native app server runner"
-                    : "Paperclip Runner"}
+                    ? t("components.newagent.newAgentSetup.nativeAppServerRunner")
+                    : t("components.newagent.newAgentSetup.paperclipRunner")}
                 </span>
               )}
             </div>
@@ -1018,8 +1018,8 @@ function Setup({
                       <h2 className="flex items-center gap-3 text-lg font-semibold">
                         <Check className="size-5" />
                         {created.status === "pending_approval"
-                          ? "Agent submitted for approval"
-                          : isDot ? "Your Dot agent has been created" : "Your agent is ready"}
+                          ? t("components.newagent.newAgentSetup.agentSubmittedForApproval")
+                          : isDot ? t("components.newagent.newAgentSetup.yourDotAgentHasBeenCreated") : t("components.newagent.newAgentSetup.yourAgentIsReady")}
                       </h2>
                       <dl className="grid grid-cols-2 gap-4 text-sm">
                         <dt className="text-muted-foreground">{t("components.newagent.newAgentSetup.adapter")}</dt>
@@ -1037,8 +1037,8 @@ function Setup({
                       </dl>
                       <p className="text-sm text-muted-foreground">
                         {created.status === "pending_approval"
-                          ? "An organization administrator must approve this agent before it can work."
-                          : isDot ? "Pair your Dot and test event delivery in configuration before assigning work." : "Assign a task when you’re ready for this agent to work."}
+                          ? t("components.newagent.newAgentSetup.anOrganizationAdministratorMustApproveThis")
+                          : isDot ? t("components.newagent.newAgentSetup.pairYourDotAndTestEvent") : t("components.newagent.newAgentSetup.assignATaskWhenYouRe")}
                       </p>
                     </div>
                     <div className="flex flex-wrap justify-between gap-3">
@@ -1047,7 +1047,7 @@ function Setup({
                         onClick={() => navigate(isDot ? "/agents/all" : `${agentUrl(created)}/runtime`)}
                       >
                         <Settings2 className="size-4" />
-                        {isDot ? "Back to Agents" : "Edit configuration"}
+                        {isDot ? t("components.newagent.newAgentSetup.backToAgents") : t("components.newagent.newAgentSetup.editConfiguration")}
                       </Button>
                       <Button
                         disabled={created.status === "pending_approval"}
@@ -1056,7 +1056,7 @@ function Setup({
                           : openNewIssue({ assigneeAgentId: created.id, status: "todo" })
                         }
                       >
-                        {isDot ? "Pair Dot" : `Assign ${created.name} a Task`}
+                        {isDot ? t("components.newagent.newAgentSetup.pairDot") : `Assign ${created.name} a Task`}
                         <ArrowRight className="size-4" />
                       </Button>
                     </div>
@@ -1443,7 +1443,7 @@ function Setup({
                           Boolean(connectionAdapter && !connection)
                         }
                       >
-                        {saving ? "Saving…" : "Finish setup"}
+                        {saving ? t("components.newagent.newAgentSetup.saving") : t("components.newagent.newAgentSetup.finishSetup")}
                         <Check className="size-4" />
                       </Button>}
                     </div>

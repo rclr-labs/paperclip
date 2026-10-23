@@ -2882,12 +2882,12 @@ function OnboardingWizardInner({
                       title={
                         <motion.span key={step} {...titleSwapMotion} className="inline-block">
                           {step === 1
-                            ? "What is the name of your organization?"
+                            ? t("components.onboardingWizard.whatIsTheNameOfYour")
                             : step === 3
-                              ? "Create your first agent"
+                              ? t("components.onboardingWizard.createYourFirstAgent")
                               : step === 4
-                                ? "Connect a model"
-                                : "Let's get started..."}
+                                ? t("components.onboardingWizard.connectAModel")
+                                : t("components.onboardingWizard.letSGetStarted")}
                         </motion.span>
                       }
                     />
@@ -2909,8 +2909,8 @@ function OnboardingWizardInner({
                       <p className="pt-2 text-base leading-relaxed text-muted-foreground">
                         <motion.span key={step} {...titleSwapMotion} className="inline-block">
                           {step === 4
-                            ? "Paperclip works with your subscription or API keys."
-                            : `${agentName.trim() || "Your first agent"} is ready to work!`}
+                            ? t("components.onboardingWizard.paperclipWorksWithYourSubscriptionOr")
+                            : `${agentName.trim() || t("components.onboardingWizard.yourFirstAgent")} is ready to work!`}
                         </motion.span>
                       </p>
                     </motion.div>
@@ -3059,7 +3059,7 @@ function OnboardingWizardInner({
                     >
                       <div className="-ml-3 mt-1">
                         <CredentialModeLink mode={credentialMode} onChange={setCredentialMode} />
-                        {savedKeys.options.length > 0 && <p className="px-3 text-sm text-muted-foreground">{savedKeys.options.length} saved API {savedKeys.options.length === 1 ? "key available" : "keys available"}.</p>}
+                        {savedKeys.options.length > 0 && <p className="px-3 text-sm text-muted-foreground">{savedKeys.options.length} saved API {savedKeys.options.length === 1 ? t("components.onboardingWizard.keyAvailable") : t("components.onboardingWizard.keysAvailable")}.</p>}
                         {credentialMode === "subscription" && authSignalStatus === "present" && <p className="px-3 text-sm text-muted-foreground">{t("components.onboardingWizard.anExistingProviderConnectionIsAvailable")}</p>}
                       </div>
                     </motion.div>
@@ -3108,7 +3108,7 @@ function OnboardingWizardInner({
                       </p>
                     ) : isCopilot && createdCompanyId ? (
                       <OnboardingLoginCard instruction="Connect GitHub Copilot and choose a model">
-                        {!copilotEnvironmentReady ? <p role="alert" className="text-sm text-destructive">{loginEnvironmentResolution.error ?? "Waiting for execution environment settings. If this persists, check your instance settings."}</p> : <>
+                        {!copilotEnvironmentReady ? <p role="alert" className="text-sm text-destructive">{loginEnvironmentResolution.error ?? t("components.onboardingWizard.waitingForExecutionEnvironmentSettingsIf")}</p> : <>
                           <AiConnectionField companyId={createdCompanyId} agentName={agentName} adapterType="copilot_runtime" environmentId={resolvedLoginEnvironmentId ?? undefined} value={copilotConnection} onChange={(binding) => {
                             const parsed = aiConnectionBindingSchema.safeParse(binding);
                             if (!parsed.success || parsed.data.provider !== "github" || parsed.data.method !== "api_key") {
@@ -3123,11 +3123,11 @@ function OnboardingWizardInner({
                           {copilotConnection && <label className="block space-y-2 text-sm">
                             <span>{t("components.onboardingWizard.model")}</span>
                             <select aria-label={t("components.onboardingWizard.copilotModel")} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm" value={model} disabled={adapterModelsFetching} onChange={(event) => setModel(event.target.value)}>
-                              <option value="">{adapterModelsFetching ? "Loading models…" : "Select a model"}</option>
+                              <option value="">{adapterModelsFetching ? t("components.onboardingWizard.loadingModels") : t("components.onboardingWizard.selectAModel")}</option>
                               {model && !adapterModels?.some((entry) => entry.id === model) && <option value={model}>{t("components.onboardingWizard.unavailable", { model })}</option>}
                               {(adapterModels ?? []).map((entry) => <option key={entry.id} value={entry.id}>{entry.label}</option>)}
                             </select>
-                            {adapterModelsError && <p role="alert" className="text-destructive">{adapterModelsError instanceof Error ? adapterModelsError.message : "Could not discover Copilot models."}</p>}
+                            {adapterModelsError && <p role="alert" className="text-destructive">{adapterModelsError instanceof Error ? adapterModelsError.message : t("components.onboardingWizard.couldNotDiscoverCopilotModels")}</p>}
                             {!adapterModelsFetching && !adapterModelsError && adapterModels?.length === 0 && <p role="alert" className="text-destructive">{t("components.onboardingWizard.noAvailableCopilotModelsWereDiscovered")}</p>}
                             <Button type="button" variant="ghost" disabled={adapterModelsFetching} onClick={() => void refreshAdapterModels()}>{t("components.onboardingWizard.refreshModels")}</Button>
                           </label>}
@@ -3341,8 +3341,8 @@ function OnboardingWizardInner({
                             onClick={() => void handleUnsetAnthropicApiKey()}
                           >
                             {unsetAnthropicLoading
-                              ? "Retrying..."
-                              : "Unset ANTHROPIC_API_KEY"}
+                              ? t("components.onboardingWizard.retrying")
+                              : t("components.onboardingWizard.unsetAnthropicApiKey")}
                           </Button>
                         </div>
                       )}
@@ -3383,18 +3383,18 @@ function OnboardingWizardInner({
                                   : adapterType === "gemini_local"
                                     ? "GEMINI_API_KEY"
                                     : adapterType === "kimi_local"
-                                      ? "KIMI_MODEL_NAME + KIMI_MODEL_API_KEY"
+                                      ? t("components.onboardingWizard.kimiModelNameKimiModelApi")
                                     : "OPENAI_API_KEY"}
                               </span>{" "}
                               in env or run{" "}
                               <span className="font-mono">
                                 {adapterType === "cursor"
-                                  ? "agent login"
+                                  ? t("components.onboardingWizard.agentLogin")
                                   : adapterType === "gemini_local"
-                                      ? "gemini auth"
+                                      ? t("components.onboardingWizard.geminiAuth")
                                       : adapterType === "kimi_local"
-                                        ? "kimi login"
-                                      : "opencode auth login"}
+                                        ? t("components.onboardingWizard.kimiLogin")
+                                      : t("components.onboardingWizard.opencodeAuthLogin")}
                               </span>
                               .
                             </p>
@@ -3411,8 +3411,8 @@ function OnboardingWizardInner({
                     <div>
                       <label className="text-xs text-muted-foreground mb-1 block">
                         {adapterType === "openclaw_gateway"
-                          ? "Gateway URL"
-                          : "Webhook URL"}
+                          ? t("components.onboardingWizard.gatewayUrl")
+                          : t("components.onboardingWizard.webhookUrl")}
                       </label>
                       <input
                         className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm font-mono outline-none focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/50"

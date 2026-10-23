@@ -172,7 +172,7 @@ export function IssueArtifactFile(props: IssueArtifactFileProps) {
                 disabled={data.isFetching}
                 onClick={() => setCsvRequested(true)}
               >
-                {data.isFetching ? "Loading preview…" : "Preview data"}
+                {data.isFetching ? t("components.artifacts.issueArtifactCard.loadingPreview") : t("components.artifacts.issueArtifactCard.previewData")}
               </Button>
             ) : null}
           </>
@@ -181,10 +181,10 @@ export function IssueArtifactFile(props: IssueArtifactFileProps) {
       {csv && (tooLarge || data.isError || !localCsv) && (
         <div className="px-2 text-xs text-muted-foreground" role="status">
           {tooLarge
-            ? "CSV is too large to preview. Download the file to view it."
+            ? t("components.artifacts.issueArtifactCard.csvIsTooLargeToPreview")
             : data.isError
               ? data.error.message
-              : "CSV preview is unavailable. Download the file to view it."}
+              : t("components.artifacts.issueArtifactCard.csvPreviewIsUnavailableDownloadThe")}
           {data.isError && (
             <Button
               variant="ghost"

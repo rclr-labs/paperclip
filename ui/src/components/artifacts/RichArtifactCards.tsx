@@ -379,6 +379,7 @@ export interface DocumentCardProps extends ArtifactIdentity {
   actions?: ReactNode;
 }
 export function DocumentCard(props: DocumentCardProps) {
+  const { t } = useTranslation();
   return (
     <Card>
       {props.body && (
@@ -411,7 +412,7 @@ export function DocumentCard(props: DocumentCardProps) {
                 aria-expanded={props.expanded}
                 onClick={props.onOpen}
               >
-                {props.expanded ? "Close document" : "Read document"}
+                {props.expanded ? t("components.artifacts.richArtifactCards.closeDocument") : t("components.artifacts.richArtifactCards.readDocument")}
               </Button>
             ) : (
               <Viewer
@@ -486,7 +487,7 @@ export function DataCard(props: DataCardProps) {
       </div>
       <div className="flex flex-col gap-3 p-5">
         <span className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Table2 className="size-4" /> CSV · {props.truncated ? "First " : ""}
+          <Table2 className="size-4" /> CSV · {props.truncated ? t("components.artifacts.richArtifactCards.first") : ""}
           {props.rows.length} {props.rows.length === 1 ? "row" : "rows"} ·{" "}
           {props.columns.length}{" "}
           {props.columns.length === 1 ? "column" : "columns"}

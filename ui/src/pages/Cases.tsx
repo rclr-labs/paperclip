@@ -145,7 +145,7 @@ export function Cases() {
             data-page-search-target="true" onChange={event => setFilter("q", event.target.value)} className="h-8 pl-8" />
         </div>
         <p role="status" className="whitespace-nowrap text-xs text-muted-foreground">
-          {casesQuery.isFetching ? (casesQuery.isPending ? "Loading cases…" : "Updating cases…")
+          {casesQuery.isFetching ? (casesQuery.isPending ? t("pages.cases.loadingCases") : t("pages.cases.updatingCases"))
             : casesQuery.isError ? ""
               : page > 1 && records.length > 0 ? `${offset + 1}–${offset + records.length} cases`
                 : `${records.length}${hasNext ? "+" : ""} ${records.length === 1 && !hasNext ? "case" : "cases"}`}

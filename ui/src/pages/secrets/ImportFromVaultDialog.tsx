@@ -982,7 +982,7 @@ function SelectStep(props: SelectStepProps) {
             className="h-6 px-2 text-xs"
             onClick={() => onShowOnlySelectedChange(!showOnlySelected)}
           >
-            {showOnlySelected ? "Show all" : "Show selected"}
+            {showOnlySelected ? t("pages.secrets.importFromVaultDialog.showAll") : t("pages.secrets.importFromVaultDialog.showSelected")}
           </Button>
         </div>
       )}
@@ -1135,14 +1135,14 @@ function PreviewErrorBanner({ error, onRetry }: { error: unknown; onRetry: () =>
       <div className="flex-1">
         <div className="font-medium">
           {isPermission
-            ? "AWS denied list access"
+            ? t("pages.secrets.importFromVaultDialog.awsDeniedListAccess")
             : isThrottling
-              ? "AWS throttled the listing request"
-              : "Could not load remote secrets"}
+              ? t("pages.secrets.importFromVaultDialog.awsThrottledTheListingRequest")
+              : t("pages.secrets.importFromVaultDialog.couldNotLoadRemoteSecrets")}
         </div>
         <div className="mt-1 text-xs leading-relaxed text-destructive/80">
           {isPermission
-            ? "The AWS principal behind this vault is missing secretsmanager:ListSecrets. Update IAM and try again."
+            ? t("pages.secrets.importFromVaultDialog.theAwsPrincipalBehindThisVault")
             : message}
         </div>
         <div className="mt-2 flex items-center gap-2">
@@ -1455,11 +1455,12 @@ function FooterStatus({
   blockedReviewCount,
   result,
 }: FooterStatusProps) {
+  const { t } = useTranslation();
   if (step === "select") {
     return (
       <div className="text-xs text-muted-foreground">
         {totalSelected === 0
-          ? "Select remote secrets to import"
+          ? t("pages.secrets.importFromVaultDialog.selectRemoteSecretsToImport")
           : `${totalSelected} selected`}
       </div>
     );

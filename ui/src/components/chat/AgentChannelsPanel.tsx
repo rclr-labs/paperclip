@@ -59,7 +59,7 @@ export function AgentChannelsPanel({
         <div className="rounded-lg border border-dashed border-border p-5">
           <p className="text-sm font-medium">{t("components.chat.agentChannelsPanel.noChannelsConnected")}</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {enabled || githubEnabled ? "Connect an agent identity from Connectors." : "Connect AgentMail from Connectors."}
+            {enabled || githubEnabled ? t("components.chat.agentChannelsPanel.connectAnAgentIdentityFromConnectors") : t("components.chat.agentChannelsPanel.connectAgentmailFromConnectors")}
           </p>
           <Button asChild className="mt-3" variant="outline" size="sm">
             <Link to="/apps">{t("components.chat.agentChannelsPanel.openConnectors")}</Link>

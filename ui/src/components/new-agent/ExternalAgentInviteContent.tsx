@@ -183,28 +183,28 @@ export function ExternalAgentInviteContent({
         {provider && <AdapterMark type={provider.adapter} className="size-10" />}
         <div className="space-y-2">
           <DialogTitle className="text-xl font-semibold tracking-tight">
-            {!provider ? "Invite an external agent" : muse ? ready ? "Muse is connected" : museDetails || museAwaitingInvitation ? "Invite your Muse" : "Connect your Muse" : dot ? ready ? "Your Dot is connected" : "Connect your Dot" : preset === "hermes" ? "Invite your Hermes agent" : "Invite your agent"}
+            {!provider ? t("components.newagent.externalAgentInviteContent.inviteAnExternalAgent") : muse ? ready ? t("components.newagent.externalAgentInviteContent.museIsConnected") : museDetails || museAwaitingInvitation ? t("components.newagent.externalAgentInviteContent.inviteYourMuse") : t("components.newagent.externalAgentInviteContent.connectYourMuse") : dot ? ready ? t("components.newagent.externalAgentInviteContent.yourDotIsConnected") : t("components.newagent.externalAgentInviteContent.connectYourDot") : preset === "hermes" ? t("components.newagent.externalAgentInviteContent.inviteYourHermesAgent") : t("components.newagent.externalAgentInviteContent.inviteYourAgent")}
           </DialogTitle>
           <DialogDescription className="text-sm leading-relaxed">
             {!provider ? `Bring an agent you already use into ${companyName}.`
               : muse ? museDetails ? `Give your personal Muse a name and role in ${companyName}.`
-              : museAwaitingInvitation ? "Muse requires an authenticated Paperclip instance with a public HTTPS URL and a company operator account."
+              : museAwaitingInvitation ? t("components.newagent.externalAgentInviteContent.museRequiresAnAuthenticatedPaperclipInstance")
               : ready ? `Muse can receive assignments and work with ${companyName}.`
-              : !prompt && !museConnection?.paired ? "We’re checking whether this instance can prepare Muse setup."
-              : "Paste the setup prompt into your current Muse conversation. Complete Connect Paperclip if Muse asks, then approve this Paperclip hostname. Muse keeps the connection credential in its secure vault. The hostname permission applies to future requests."
+              : !prompt && !museConnection?.paired ? t("components.newagent.externalAgentInviteContent.weReCheckingWhetherThisInstance")
+              : t("components.newagent.externalAgentInviteContent.pasteTheSetupPromptIntoYour")
               : ready ? `Your Dot can now receive assignments and work with ${companyName}.`
-              : connection.problem === "agent_unavailable" ? "Your Dot is connected. This agent must be available in Paperclip before it can receive assignments."
-              : connection.phase === "finishing" ? "Your Dot has connected and confirmed task updates. Paperclip is preparing it for assignments."
-              : connecting ? "Your Dot has connected. We’re checking that task updates can travel both ways."
-              : dot ? "Copy the setup prompt and send it to your Dot in ChatGPT. Your Dot will connect itself; we’ll watch for it here."
-              : `Copy the invitation prompt and send it to your ${preset === "hermes" ? "Hermes " : ""}agent. Approve its join request in Paperclip when it’s ready.`}
+              : connection.problem === "agent_unavailable" ? t("components.newagent.externalAgentInviteContent.yourDotIsConnectedThisAgent")
+              : connection.phase === "finishing" ? t("components.newagent.externalAgentInviteContent.yourDotHasConnectedAndConfirmed")
+              : connecting ? t("components.newagent.externalAgentInviteContent.yourDotHasConnectedWeRe")
+              : dot ? t("components.newagent.externalAgentInviteContent.copyTheSetupPromptAndSend")
+              : `Copy the invitation prompt and send it to your ${preset === "hermes" ? t("components.newagent.externalAgentInviteContent.hermes") : ""}agent. Approve its join request in Paperclip when it’s ready.`}
           </DialogDescription>
         </div>
       </div>
       {error && <div role="alert" className="space-y-3 text-sm text-destructive"><p>{error}</p>{!museAwaitingInvitation && <Button variant="outline" disabled={busy} onClick={onRetry}>{t("components.newagent.externalAgentInviteContent.tryAgain")}</Button>}</div>}
       {!provider ? <><ExternalAgentPresetPicker onSelect={onSelect} dotDisabledReason={dotDisabledReason} grokDisabledReason={grokDisabledReason} museEnabled={museEnabled} />
         {dotDisabledReason && <p className="text-sm text-muted-foreground">{dotDisabledReason}</p>}{grokDisabledReason && grokDisabledReason !== dotDisabledReason && <p className="text-sm text-muted-foreground">{grokDisabledReason}</p>}</>
-        : approvalHref ? <p className="text-sm text-muted-foreground">An organization admin needs to approve this agent before {muse ? "Muse" : "Dot"} can connect. This page will update after approval.</p>
+        : approvalHref ? <p className="text-sm text-muted-foreground">An organization admin needs to approve this agent before {muse ? "Muse" : t("components.newagent.externalAgentInviteContent.dot")} can connect. This page will update after approval.</p>
         : museAwaitingInvitation ? busy ? <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.externalAgentInviteContent.loadingMuseInvitation")}</p> : null
         : muse && busy && !museDetails && !prompt && !museConnection?.paired ? <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.externalAgentInviteContent.loadingMuseSetup")}</p>
         : museDetails ? <form id={detailsId} className="space-y-4" onSubmit={event => { event.preventDefault(); if (museDraft.name.trim() && !busy) onMuseContinue?.(); }}>
@@ -238,13 +238,13 @@ export function ExternalAgentInviteContent({
     <div className="flex items-center justify-between gap-3 border-t px-6 py-4 sm:px-8">
       <div className="flex items-center gap-2">
         <Button variant="ghost" onClick={muse ? onClose : provider ? onBack : onClose}>
-          {provider && !muse && <ArrowLeft className="size-4" />}{muse ? ready ? "Close" : "Save & exit" : provider ? "Back" : "Cancel"}
+          {provider && !muse && <ArrowLeft className="size-4" />}{muse ? ready ? t("components.newagent.externalAgentInviteContent.close") : t("components.newagent.externalAgentInviteContent.saveExit") : provider ? t("components.newagent.externalAgentInviteContent.back") : t("components.newagent.externalAgentInviteContent.cancel")}
         </Button>
       </div>
       {provider && (approvalHref ? <Button asChild><Link to={approvalHref} onClick={onClose}>{t("components.newagent.externalAgentInviteContent.reviewApproval")}</Link></Button>
-        : museDetails ? <Button type="submit" form={detailsId} disabled={busy || !museDraft.name.trim()}>{busy ? "Preparing…" : "Continue"}</Button>
+        : museDetails ? <Button type="submit" form={detailsId} disabled={busy || !museDraft.name.trim()}>{busy ? t("components.newagent.externalAgentInviteContent.preparing") : t("components.newagent.externalAgentInviteContent.continue")}</Button>
         : ready ? <Button onClick={onClose}>{t("components.newagent.externalAgentInviteContent.done")}</Button>
-        : museAwaitingInvitation ? <Button disabled={busy} onClick={onRetry}>{busy ? "Loading setup…" : "Refresh setup"}</Button>
+        : museAwaitingInvitation ? <Button disabled={busy} onClick={onRetry}>{busy ? t("components.newagent.externalAgentInviteContent.loadingSetup") : t("components.newagent.externalAgentInviteContent.refreshSetup")}</Button>
         : muse ? museConnection?.problem === "disconnected" || museConnection?.problem === "connection_expired" ? <Button disabled={busy} onClick={onNewPrompt}>{t("components.newagent.externalAgentInviteContent.reconnectMuse")}</Button>
           : museConnection?.problem === "prompt_unavailable" ? <Button disabled={busy} onClick={onNewPrompt}>{t("components.newagent.externalAgentInviteContent.createANewPrompt")}</Button>
           : !museConnection?.paired && prompt ? <AgentSetupPrompt key={prompt} prompt={prompt} label="Copy setup prompt" title="Connect your Muse" agent={{ name: "Muse", icon: <Bot className="size-5" /> }} description="Send this whole prompt to your current Muse conversation." align="end" className="min-w-0 shrink" onCopied={onCopied} />
@@ -255,7 +255,7 @@ export function ExternalAgentInviteContent({
           {progressLabel}
         </Button>
         : dot && connection.problem === "prompt_unavailable" ? <Button disabled={busy} onClick={onNewPrompt}>{t("components.newagent.externalAgentInviteContent.createANewPrompt")}</Button>
-        : !prompt || busy ? <Button disabled>{busy ? "Preparing…" : "Waiting for Dot…"}</Button>
+        : !prompt || busy ? <Button disabled>{busy ? t("components.newagent.externalAgentInviteContent.preparing") : t("components.newagent.externalAgentInviteContent.waitingForDot")}</Button>
         : <AgentSetupPrompt
           key={preset}
           prompt={prompt}

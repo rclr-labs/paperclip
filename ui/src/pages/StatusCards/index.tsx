@@ -145,7 +145,7 @@ export function StatusCards() {
         </div>
       ) : activeQuery.isError ? (
         <InlineBanner tone="danger" title="Could not load status cards">
-          {activeQuery.error instanceof Error ? activeQuery.error.message : "Try again."}
+          {activeQuery.error instanceof Error ? activeQuery.error.message : t("pages.statusCards.index.tryAgain")}
         </InlineBanner>
       ) : activeCards.length === 0 ? (
         <EmptyState
@@ -182,7 +182,7 @@ export function StatusCards() {
             onClick={() => setShowArchived((prev) => !prev)}
             className="text-xs text-muted-foreground underline-offset-2 hover:text-foreground hover:underline"
           >
-            {showArchived ? "Hide archived" : `Show archived (${archivedCards.length})`}
+            {showArchived ? t("pages.statusCards.index.hideArchived") : `Show archived (${archivedCards.length})`}
           </button>
           {showArchived
             ? archivedCards.map((card) => (

@@ -234,7 +234,7 @@ export function ConnectClientDialog({
               disabled={issueTokenMutation.isPending}
               onClick={issueToken}
             >
-              {issueTokenMutation.isPending ? "Issuing…" : "Issue a token"}
+              {issueTokenMutation.isPending ? t("pages.apps.gateways.connectClientDialog.issuing") : t("pages.apps.gateways.connectClientDialog.issueAToken")}
             </Button>
           )}
           {selectedToken ? (
@@ -312,7 +312,7 @@ export function ConnectClientDialog({
                 <div className="space-y-1.5">
                   <div className="text-sm font-medium text-foreground">{t("pages.apps.gateways.connectClientDialog.authorizationHeader")}</div>
                   <code className="block truncate rounded-md bg-muted px-3 py-2 font-mono text-xs text-muted-foreground">
-                    {selectedToken ? `Authorization: Bearer ${maskedTokenLabel(selectedToken)}` : "Authorization: Bearer pcgw_•••"}
+                    {selectedToken ? `Authorization: Bearer ${maskedTokenLabel(selectedToken)}` : t("pages.apps.gateways.connectClientDialog.authorizationBearerPcgw")}
                   </code>
                 </div>
               </div>

@@ -694,7 +694,7 @@ const SecretField = React.memo(({
           <Eye className="h-4 w-4 text-muted-foreground" />
         )}
         <span className="sr-only">
-          {isVisible ? "Hide secret" : "Show secret"}
+          {isVisible ? t("components.jsonSchemaForm.hideSecret") : t("components.jsonSchemaForm.showSecret")}
         </span>
       </Button>
     </div>
@@ -725,7 +725,7 @@ const SecretField = React.memo(({
           <Eye className="h-4 w-4 text-muted-foreground" />
         )}
         <span className="sr-only">
-          {isVisible ? "Hide secret" : "Show secret"}
+          {isVisible ? t("components.jsonSchemaForm.hideSecret") : t("components.jsonSchemaForm.showSecret")}
         </span>
       </Button>
     </div>
@@ -979,7 +979,7 @@ const ArrayField = React.memo(({
           }}
         >
           <Plus className="mr-2 h-4 w-4" />
-          {isComplex ? "Add item" : "Add"}
+          {isComplex ? t("components.jsonSchemaForm.addItem") : t("components.jsonSchemaForm.add")}
         </Button>
       </div>
 

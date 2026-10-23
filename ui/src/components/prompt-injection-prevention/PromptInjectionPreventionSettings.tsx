@@ -75,16 +75,16 @@ export function PromptInjectionPreventionSettingsView({ settings, choices, model
     </fieldset>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {!dirty && result && <div role={result.passed ? "status" : "alert"} className={result.passed ? "space-y-2 text-sm" : "space-y-2 text-sm text-destructive"}>
-      <p>{result.passed ? "Both model checks passed." : "Model checks did not pass. Check the connection and model, then try again."}</p>
+      <p>{result.passed ? t("components.promptinjectionprevention.promptInjectionPreventionSettings.bothModelChecksPassed") : t("components.promptinjectionprevention.promptInjectionPreventionSettings.modelChecksDidNotPassCheck")}</p>
       {result.samples.map(s => <p key={s.name} className="text-xs">{s.name}: {s.passed ? "Passed" : s.reason ? `Model unavailable (${s.reason}); built-in detection is the fallback.` : "Incorrect verdict"} · {(s.durationMs / 1000).toFixed(2)} seconds</p>)}
     </div>}
     <div className="flex items-center justify-between gap-3">
       <div className="space-y-1">
-        <Button variant="outline" size="sm" onClick={onTest} disabled={dirty || !settings.enabled || saving || testing}>{testing ? "Testing…" : "Test model checks"}</Button>
-        <p className="text-xs text-muted-foreground">{dirty ? "Save changes before testing." : "Tests two fixed samples with an API charge."}</p>
+        <Button variant="outline" size="sm" onClick={onTest} disabled={dirty || !settings.enabled || saving || testing}>{testing ? t("components.promptinjectionprevention.promptInjectionPreventionSettings.testing") : t("components.promptinjectionprevention.promptInjectionPreventionSettings.testModelChecks")}</Button>
+        <p className="text-xs text-muted-foreground">{dirty ? t("components.promptinjectionprevention.promptInjectionPreventionSettings.saveChangesBeforeTesting") : t("components.promptinjectionprevention.promptInjectionPreventionSettings.testsTwoFixedSamplesWithAn")}</p>
       </div>
       {dirty && <Button disabled={saving || testing || !updatePromptInjectionPreventionSchema.safeParse(draft).success || (draft.enabled && selected?.status !== "connected")}
-        onClick={() => onSave(draft)}>{saving ? "Saving…" : "Save prompt injection settings"}</Button>}
+        onClick={() => onSave(draft)}>{saving ? t("components.promptinjectionprevention.promptInjectionPreventionSettings.saving") : t("components.promptinjectionprevention.promptInjectionPreventionSettings.savePromptInjectionSettings")}</Button>}
     </div>
   </section>;
 }

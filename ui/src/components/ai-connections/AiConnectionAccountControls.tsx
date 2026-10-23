@@ -36,7 +36,7 @@ export function AiConnectionAccountControls({
         )}>
           <div className="flex items-center gap-3">
             <Star aria-hidden className={cn("size-5 shrink-0", activeDefault ? "fill-current text-(--status-task-icon-done)" : "text-muted-foreground")} />
-            <h3 role={account.isDefault ? "status" : undefined} className={cn("text-sm font-semibold", account.isDefault && !available && "text-destructive")}>{account.isDefault && !available ? "Default unavailable" : "Personal default"}</h3>
+            <h3 role={account.isDefault ? "status" : undefined} className={cn("text-sm font-semibold", account.isDefault && !available && "text-destructive")}>{account.isDefault && !available ? t("components.aiconnections.aiConnectionAccountControls.defaultUnavailable") : t("components.aiconnections.aiConnectionAccountControls.personalDefault")}</h3>
           </div>
           {!account.isDefault && (!readOnly ? (
             <Button variant="outline" size="sm" disabled={!available} onClick={onMakeDefault}>{t("components.aiconnections.aiConnectionAccountControls.makeDefault")}</Button>
@@ -45,7 +45,7 @@ export function AiConnectionAccountControls({
       )}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0 text-sm">
-          <p className="break-words text-xs text-muted-foreground">{account.method === "subscription" ? "Subscription" : "API key"}{account.accountLabel ? ` · ${account.accountLabel}` : ""}</p>
+          <p className="break-words text-xs text-muted-foreground">{account.method === "subscription" ? t("components.aiconnections.aiConnectionAccountControls.subscription") : t("components.aiconnections.aiConnectionAccountControls.apiKey")}{account.accountLabel ? ` · ${account.accountLabel}` : ""}</p>
         </div>
         {!readOnly && grant.capabilities?.canRevoke && (
           <div className="flex flex-wrap items-center gap-2">

@@ -231,10 +231,10 @@ export function TweakPanel() {
               {/* Focusing the box copies it silently; say so, or the click looks inert. */}
               <p className="mt-1 text-(length:--text-nano) text-muted-foreground" aria-live="polite">
                 {exportCopy.copied
-                  ? "Copied to clipboard"
+                  ? t("components.taskchat.tweakPanel.copiedToClipboard")
                   : exportCopy.failed
-                    ? "Copy failed — select the text and copy it manually"
-                    : "Click the box to copy"}
+                    ? t("components.taskchat.tweakPanel.copyFailedSelectTheTextAnd")
+                    : t("components.taskchat.tweakPanel.clickTheBoxToCopy")}
               </p>
             </>
           ) : null}

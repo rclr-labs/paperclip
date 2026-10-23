@@ -35,7 +35,7 @@ export function WorktreeBanner() {
           title={t("components.worktreeBanner.clickToCopyWorktreeName")}
           className="truncate font-semibold tracking-(--tracking-eyebrow) cursor-pointer hover:opacity-80 transition-opacity bg-transparent border-none p-0 text-current uppercase text-(length:--text-micro)"
         >
-          {copied ? "Copied!" : failed ? "Copy failed" : branding.name}
+          {copied ? t("components.worktreeBanner.copied") : failed ? t("components.worktreeBanner.copyFailed") : branding.name}
         </button>
       </div>
     </div>

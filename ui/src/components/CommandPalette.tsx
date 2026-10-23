@@ -251,7 +251,7 @@ export function CommandPalette() {
               to <span className="font-medium">{t("components.commandPalette.searchAll")}</span> or keep typing to refine.
             </span>
           ) : (
-            "No results found."
+            t("components.commandPalette.noResultsFound")
           )}
         </CommandEmpty>
 
@@ -364,7 +364,7 @@ export function CommandPalette() {
           </CommandItem>
           <CommandItem onSelect={() => go(combinedInboxTasksEnabled ? "/issues?view=mine" : "/inbox")}>
             <Inbox className="mr-2 h-4 w-4" />
-            {combinedInboxTasksEnabled ? "My work" : "Inbox"}
+            {combinedInboxTasksEnabled ? t("components.commandPalette.myWork") : t("components.commandPalette.inbox")}
           </CommandItem>
           <CommandItem onSelect={() => go("/issues")}>
             <CircleDot className="mr-2 h-4 w-4" />

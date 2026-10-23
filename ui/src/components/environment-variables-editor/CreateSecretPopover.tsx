@@ -79,7 +79,7 @@ export function SecretPopoverForm({
         {mode === "store" ? (
           <PopoverDescription className="text-(length:--text-micro) text-muted-foreground">
             Moves the typed value into an encrypted organization secret and binds{" "}
-            <span className="font-mono">{initialName || "this variable"}</span> to it.
+            <span className="font-mono">{initialName || t("components.environmentvariableseditor.createSecretPopover.thisVariable")}</span> to it.
           </PopoverDescription>
         ) : null}
       </div>

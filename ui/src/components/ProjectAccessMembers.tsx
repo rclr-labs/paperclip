@@ -92,7 +92,7 @@ export function ProjectAccessMembers({ project, canManage }: { project: Project;
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
-        <Lock className="h-3.5 w-3.5" aria-hidden="true" /> {canManage ? "Manage access" : "View access"}
+        <Lock className="h-3.5 w-3.5" aria-hidden="true" /> {canManage ? t("components.projectAccessMembers.manageAccess") : t("components.projectAccessMembers.viewAccess")}
       </Button>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">

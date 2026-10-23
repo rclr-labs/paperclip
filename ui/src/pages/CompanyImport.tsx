@@ -1833,7 +1833,7 @@ export function CompanyImport() {
           <p className="text-xs text-muted-foreground mt-1">
             {importOutcome.companyName
               ? <>The import finished and <span className="font-medium text-foreground">{importOutcome.companyName}</span> is ready. Its detailed summary is no longer available.</>
-              : "The import finished and your organization is ready. Its detailed summary is no longer available, but the organization has been added — select it from the organization switcher to view it."}
+              : t("pages.companyImport.theImportFinishedAndYourOrganization")}
           </p>
           {importOutcome.pausedAutomations ? (
             <p className="text-xs text-muted-foreground mt-1">
@@ -1950,7 +1950,7 @@ export function CompanyImport() {
                 onClick={() => void handleActivateSelected()}
                 disabled={isActivating || pendingCount === 0}
               >
-                {isActivating ? "Activating..." : `Activate selected (${pendingCount})`}
+                {isActivating ? t("pages.companyImport.activating") : `Activate selected (${pendingCount})`}
               </Button>
             </div>
           </div>
@@ -2157,7 +2157,7 @@ export function CompanyImport() {
               previewMutation.isPending || importMutation.isPending || !hasSource
             }
           >
-            {previewMutation.isPending ? "Previewing..." : "Preview import"}
+            {previewMutation.isPending ? t("pages.companyImport.previewing") : t("pages.companyImport.previewImport")}
           </Button>
           {!hasSource && !previewMutation.isPending && (
             <span className="text-xs text-muted-foreground">
@@ -2190,7 +2190,7 @@ export function CompanyImport() {
               Preview failed:{" "}
               {previewMutation.error instanceof Error
                 ? previewMutation.error.message
-                : "the request did not complete."}{" "}
+                : t("pages.companyImport.theRequestDidNotComplete")}{" "}
               Retry, or re-export the package without large attachments to shrink it.
             </p>
           </div>
@@ -2266,7 +2266,7 @@ export function CompanyImport() {
             >
               <Download className="mr-1.5 h-3.5 w-3.5" />
               {importMutation.isPending
-                ? "Importing..."
+                ? t("pages.companyImport.importing")
                 : `Import ${selectedCount} file${selectedCount === 1 ? "" : "s"}`}
             </Button>
           </div>
@@ -2286,7 +2286,7 @@ export function CompanyImport() {
                 Import failed:{" "}
                 {importMutation.error instanceof Error
                   ? importMutation.error.message
-                  : "the request did not complete."}{" "}
+                  : t("pages.companyImport.theRequestDidNotComplete")}{" "}
                 Nothing may have been created, or the import stopped partway — check the target company
                 before retrying.
               </p>

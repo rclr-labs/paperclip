@@ -495,7 +495,7 @@ export function CompanyAccess() {
               }}
               disabled={updateMemberMutation.isPending}
             >
-              {updateMemberMutation.isPending ? "Saving…" : "Save member"}
+              {updateMemberMutation.isPending ? t("pages.companyAccess.saving") : t("pages.companyAccess.saveMember")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -516,7 +516,7 @@ export function CompanyAccess() {
                 <div className="text-sm text-muted-foreground">{removingMember.user?.email || removingMember.principalId}</div>
                 <div className="mt-2 text-sm text-muted-foreground">
                   {assignedIssuesQuery.isLoading
-                    ? "Checking assigned tasks..."
+                    ? t("pages.companyAccess.checkingAssignedTasks")
                     : `${assignedIssues.length} open assigned task${assignedIssues.length === 1 ? "" : "s"}`}
                 </div>
               </div>
@@ -581,7 +581,7 @@ export function CompanyAccess() {
               }}
               disabled={archiveMemberMutation.isPending || assignedIssuesQuery.isLoading}
             >
-              {archiveMemberMutation.isPending ? "Removing..." : "Remove member"}
+              {archiveMemberMutation.isPending ? t("pages.companyAccess.removing") : t("pages.companyAccess.removeMember")}
             </Button>
           </DialogFooter>
         </DialogContent>

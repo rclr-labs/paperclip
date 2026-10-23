@@ -336,10 +336,10 @@ export function ChatEndpointDetail() {
           <div className="min-w-0">
           <h1 ref={heading} tabIndex={-1} className={endpoint.provider === "speko" ? "flex items-center gap-3 text-xl font-bold" : "text-xl font-bold"}>
             {endpoint.provider === "speko" && <AppLogo name="Speko" brandKey="speko" size={36} />}
-            {endpoint.provider === "github" ? (endpoint.botLabel ?? endpoint.assignedAgentName) : endpoint.assignedAgentName}{endpoint.provider === "speko" ? " in Speko" : ""}
+            {endpoint.provider === "github" ? (endpoint.botLabel ?? endpoint.assignedAgentName) : endpoint.assignedAgentName}{endpoint.provider === "speko" ? t("pages.apps.chat.chatEndpointDetail.inSpeko") : ""}
           </h1>
           <p className="mt-1 flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-            {endpoint.provider === "github" ? <><AppLogo name="GitHub" brandKey="github" compact className="size-4! rounded-sm bg-transparent" /><Link to={`/agents/${endpoint.assignedAgentId}`} className="hover:underline">{endpoint.assignedAgentName}</Link>{endpoint.providerAccountLabel && <span>· {endpoint.providerAccountLabel}</span>}</> : endpoint.providerAccountLabel ?? (endpoint.provider === "agentmail" ? endpoint.botExternalId ?? "Email connection" : "Chat connection")}
+            {endpoint.provider === "github" ? <><AppLogo name="GitHub" brandKey="github" compact className="size-4! rounded-sm bg-transparent" /><Link to={`/agents/${endpoint.assignedAgentId}`} className="hover:underline">{endpoint.assignedAgentName}</Link>{endpoint.providerAccountLabel && <span>· {endpoint.providerAccountLabel}</span>}</> : endpoint.providerAccountLabel ?? (endpoint.provider === "agentmail" ? endpoint.botExternalId ?? t("pages.apps.chat.chatEndpointDetail.emailConnection") : t("pages.apps.chat.chatEndpointDetail.chatConnection"))}
           </p>
           {endpoint.provider === "github" && <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
             <GitHubBotMention endpoint={endpoint} />
@@ -517,7 +517,7 @@ function Settings({
     saveResources.mutate({ id: resource.id, enabled });
   return (
     <section className="max-w-3xl space-y-7">
-      {endpoint.provider === "imessage-photon" && <p className="text-sm text-muted-foreground">{endpoint.photonAllocation === "shared" ? "Shared Photon project · direct messages only. Enroll senders in Photon and link their Messages identities in Access. Groups cannot be enabled." : "Enable each group individually. Agent replies are visible to everyone in that group; only authorized senders can start work."}</p>}
+      {endpoint.provider === "imessage-photon" && <p className="text-sm text-muted-foreground">{endpoint.photonAllocation === "shared" ? t("pages.apps.chat.chatEndpointDetail.sharedPhotonProjectDirectMessagesOnly") : t("pages.apps.chat.chatEndpointDetail.enableEachGroupIndividuallyAgentReplies")}</p>}
       {endpoint.provider === "telegram" && (
         <div className="space-y-2">
           <h2 className="text-lg font-semibold">{t("pages.apps.chat.chatEndpointDetail.telegramGroupCommand")}</h2>
@@ -534,7 +534,7 @@ function Settings({
         </div>
       )}
       <div className="space-y-2">
-        <h3 className="text-sm font-semibold">{endpoint.provider === "slack" ? "Allowed Channels" : "Destinations"}</h3>
+        <h3 className="text-sm font-semibold">{endpoint.provider === "slack" ? t("pages.apps.chat.chatEndpointDetail.allowedChannels") : t("pages.apps.chat.chatEndpointDetail.destinations")}</h3>
         {resourcesQuery.isError ? <p role="alert" className="text-sm text-destructive">Couldn't load channels. <button className="underline" onClick={() => void resourcesQuery.refetch()}>{t("pages.apps.chat.chatEndpointDetail.tryAgain")}</button></p> : resourcesQuery.isLoading ? (
           <p className="text-sm text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.loadingDestinations")}</p>
         ) : destinationResources.length === 0 && endpoint.provider !== "slack" ? (
@@ -747,11 +747,11 @@ function Access({
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <Button variant="ghost" onClick={() => {
                   void copyTextToClipboard(joinCommand).then(() => setJoinCommandCopied(true), () => pushToast({ title: "Couldn't copy the command", tone: "error" }));
-                }}>{joinCommandCopied ? <Check className="size-4" /> : <Copy className="size-4" />}{joinCommandCopied ? "Copied" : "Copy command"}</Button>
+                }}>{joinCommandCopied ? <Check className="size-4" /> : <Copy className="size-4" />}{joinCommandCopied ? t("pages.apps.chat.chatEndpointDetail.copied") : t("pages.apps.chat.chatEndpointDetail.copyCommand")}</Button>
                 <Button onClick={() => {
                   const workspace = endpoint.providerAccountId ? `https://app.slack.com/client/${encodeURIComponent(endpoint.providerAccountId)}` : "https://app.slack.com/";
                   void copyTextToClipboard(`Talk to ${endpoint.assignedAgentName} in Slack: ${workspace}\nSend ${joinCommand}, then open the bot’s private link and sign in to Paperclip to confirm your account. If you’re new to the organization, request access for an admin to approve.`).then(() => setInviteCopied(true), () => pushToast({ title: "Couldn't copy invitation", tone: "error" }));
-                }}>{inviteCopied ? <Check className="size-4" /> : <Copy className="size-4" />}{inviteCopied ? "Invitation copied" : "Copy invitation"}</Button>
+                }}>{inviteCopied ? <Check className="size-4" /> : <Copy className="size-4" />}{inviteCopied ? t("pages.apps.chat.chatEndpointDetail.invitationCopied") : t("pages.apps.chat.chatEndpointDetail.copyInvitation")}</Button>
               </div>
             </div>
           </DialogContent>
@@ -760,7 +760,7 @@ function Access({
       <p className="text-sm text-muted-foreground">People with linked accounts use their own Paperclip permissions. <Link className="underline underline-offset-4" to="/company/settings/members">{t("pages.apps.chat.chatEndpointDetail.manageMembers")}</Link></p>
       {confirmationUrl && (
         <div className="space-y-2 border-y border-border py-3">
-          <p className="text-sm font-medium">Confirm {confirmationFor ?? "this account"}</p>
+          <p className="text-sm font-medium">Confirm {confirmationFor ?? t("pages.apps.chat.chatEndpointDetail.thisAccount")}</p>
           <p className="text-xs text-muted-foreground">{t("pages.apps.chat.chatEndpointDetail.shareOnlyWithThisPersonThey")}</p>
           <p className="break-all text-xs text-muted-foreground">
             {confirmationUrl}
@@ -1075,8 +1075,8 @@ function Activity({
           <p className="font-medium">{t("pages.apps.chat.chatEndpointDetail.slackCallbackHealth")}</p>
           <p className="text-xs text-muted-foreground">
             {endpoint.setup?.callbacksNeedUpdate
-              ? "Slack callback URLs need an update. Save the current App Manifest, then exercise Events, Interactivity, and the registered command again."
-              : "Paperclip records each callback surface independently after Slack successfully calls it."}
+              ? t("pages.apps.chat.chatEndpointDetail.slackCallbackUrlsNeedAnUpdate")
+              : t("pages.apps.chat.chatEndpointDetail.paperclipRecordsEachCallbackSurfaceIndependently")}
           </p>
           <div className="divide-y divide-border border-y border-border">
             {callbackSurfaceRows.map(([label, surface]) => (
@@ -1160,8 +1160,8 @@ function Activity({
               >
                 <RefreshCw />
                 {status === "draft" || status === "verifying"
-                  ? "Finish setup"
-                  : "Reconnect"}
+                  ? t("pages.apps.chat.chatEndpointDetail.finishSetup")
+                  : t("pages.apps.chat.chatEndpointDetail.reconnect")}
               </Button>
             )}
             <Button
@@ -1307,16 +1307,16 @@ function Activity({
           <AlertDialogHeader>
             <AlertDialogTitle>
               {resolutionItem?.actionType === "slash_task_start"
-                ? "Resolve unconfirmed task start"
+                ? t("pages.apps.chat.chatEndpointDetail.resolveUnconfirmedTaskStart")
                 : resolutionItem?.actionType === "provider_effect"
-                  ? "Resolve unconfirmed provider reply"
-                  : "Resolve unconfirmed delivery"}
+                  ? t("pages.apps.chat.chatEndpointDetail.resolveUnconfirmedProviderReply")
+                  : t("pages.apps.chat.chatEndpointDetail.resolveUnconfirmedDelivery")}
             </AlertDialogTitle>
             <AlertDialogDescription>
               {resolutionItem?.actionType === "slash_task_start"
-                ? "Paperclip lost confirmation after asking Slack to start the task. Check Slack first. Retrying can create a duplicate starter message and task."
+                ? t("pages.apps.chat.chatEndpointDetail.paperclipLostConfirmationAfterAskingSlack")
                 : resolutionItem?.actionType === "provider_effect"
-                  ? "Paperclip lost confirmation after sending this provider reply. Check the provider first. Marking it delivered applies any pending Paperclip state change; retrying can create a duplicate message."
+                  ? t("pages.apps.chat.chatEndpointDetail.paperclipLostConfirmationAfterSendingThis")
                   : resolutionItem
                     ? activityResolutionDescription(resolutionItem)
                     : ""}
@@ -1340,12 +1340,12 @@ function Activity({
                   }
                 >
                   {resolutionItem.actionType === "slash_task_start"
-                    ? "Cancel task start"
+                    ? t("pages.apps.chat.chatEndpointDetail.cancelTaskStart")
                     : resolutionItem.actionType === "provider_effect"
-                      ? "Cancel provider reply"
+                      ? t("pages.apps.chat.chatEndpointDetail.cancelProviderReply")
                       : resolutionItem.fileTransfer
-                        ? "Cancel file transfer"
-                        : "Cancel publication"}
+                        ? t("pages.apps.chat.chatEndpointDetail.cancelFileTransfer")
+                        : t("pages.apps.chat.chatEndpointDetail.cancelPublication")}
                 </Button>
               )}
             {resolutionItem &&
@@ -1364,8 +1364,8 @@ function Activity({
                   }
                 >
                   {resolutionItem.fileTransfer
-                    ? "Retry file notification"
-                    : "Retry anyway"}
+                    ? t("pages.apps.chat.chatEndpointDetail.retryFileNotification")
+                    : t("pages.apps.chat.chatEndpointDetail.retryAnyway")}
                 </Button>
               )}
             {resolutionItem &&

@@ -186,7 +186,7 @@ export const AttentionQueueRow = memo(function AttentionQueueRow({
       onClick={activate}
     >
       {expanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-      {expanded ? "See less" : "See more"}
+      {expanded ? t("components.attentionQueueRow.seeLess") : t("components.attentionQueueRow.seeMore")}
     </button>
   ) : null;
 

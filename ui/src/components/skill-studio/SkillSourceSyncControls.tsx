@@ -19,7 +19,7 @@ export function SkillSourceSyncControls({ automaticUpdates, refreshing, disabled
     </label>}
     <Button size="sm" variant="outline" disabled={disabled || refreshing} onClick={onRefresh}>
       <RefreshCw className={refreshing ? 'size-3.5 animate-spin motion-reduce:animate-none' : 'size-3.5'} />
-      {refreshing ? 'Refreshing…' : 'Refresh'}
+      {refreshing ? t("components.skillstudio.skillSourceSyncControls.refreshing") : t("components.skillstudio.skillSourceSyncControls.refresh")}
     </Button>
   </div>;
 }

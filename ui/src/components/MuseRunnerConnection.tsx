@@ -74,10 +74,10 @@ export function MuseConnectionDetails({ connection, pairing, busy, error, offlin
       {b.status === "revoked" && <p role="status" className="text-sm text-muted-foreground">{t("components.museRunnerConnection.disconnectedPaperclipCredentialsAndExecutionAuthority")}</p>}
       {(b.cleanup.pending || b.status === "revoked") && <div className="space-y-2 text-sm text-muted-foreground">
         {"detectorRemovalRequested" in b.cleanup && b.cleanup.detectorRemovalRequested === true && !b.cleanup.detectorRemoved && <p>{t("components.museRunnerConnection.detectorRemovalRequestedCompletionIsNot")}</p>}
-        <p>Detector removal: {b.cleanup.detectorEvidence?.source === "operator_runtime_attestation" ? "operator-attested" : b.cleanup.detectorRemoved ? "acknowledged" : "not confirmed"}. Worker quiescence: {b.cleanup.workerQuiescenceReported ? "reported" : "not confirmed"}.</p>
+        <p>Detector removal: {b.cleanup.detectorEvidence?.source === "operator_runtime_attestation" ? "operator-attested" : b.cleanup.detectorRemoved ? "acknowledged" : t("components.museRunnerConnection.notConfirmed")}. Worker quiescence: {b.cleanup.workerQuiescenceReported ? "reported" : t("components.museRunnerConnection.notConfirmed")}.</p>
         {b.cleanup.authenticatedAfterRevocation === false && <p>{t("components.museRunnerConnection.afterDisconnectTheReceiverDisablesItself")}</p>}
         {b.cleanup.expiresAt && <p className="text-xs">Cleanup capability expires {formatDateTime(b.cleanup.expiresAt)}.</p>}
-        {b.cleanup.detectorEvidence && <p>Recorded {timestamp(b.cleanup.detectorEvidence.recordedAt)}: {b.cleanup.detectorEvidence.source === "operator_runtime_attestation" ? "operator attestation from a supported runtime hook listing" : "authenticated worker report"}. This is not independent provider confirmation.</p>}
+        {b.cleanup.detectorEvidence && <p>Recorded {timestamp(b.cleanup.detectorEvidence.recordedAt)}: {b.cleanup.detectorEvidence.source === "operator_runtime_attestation" ? t("components.museRunnerConnection.operatorAttestationFromASupportedRuntime") : t("components.museRunnerConnection.authenticatedWorkerReport")}. This is not independent provider confirmation.</p>}
         {b.cleanup.attestationEligible && onAttestDetectorCleanup && !detectorSnapshot && <Button type="button" variant="outline" disabled={busy || offline} onClick={() => {
           if (!b.cleanup.hookScript) return;
           setDetectorSnapshot({ bindingId: b.id, generation: b.generation, expectedRevision: b.revision, qualificationId: b.qualification?.id ?? null, hookScript: b.cleanup.hookScript });
@@ -85,9 +85,9 @@ export function MuseConnectionDetails({ connection, pairing, busy, error, offlin
         <p>{t("components.museRunnerConnection.detectorRemovalWorkerStoppingAndSandbox")}</p>
       </div>}
       {b.stop.status !== "none" && <div className="space-y-3 text-sm">
-        <p className="text-muted-foreground">{b.stop.status === "operator_attested" ? "You attested that this assignment’s Muse worker stopped."
-          : b.stop.status === "worker_reported" ? "Muse reported that this assignment’s worker is quiescent. Independent private effects remain unconfirmed."
-          : "Paperclip fenced this assignment’s authority. Its external stop cannot be confirmed."}</p>
+        <p className="text-muted-foreground">{b.stop.status === "operator_attested" ? t("components.museRunnerConnection.youAttestedThatThisAssignmentS")
+          : b.stop.status === "worker_reported" ? t("components.museRunnerConnection.museReportedThatThisAssignmentS")
+          : t("components.museRunnerConnection.paperclipFencedThisAssignmentSAuthority")}</p>
         {b.stop.nativeEffectsUnknown && <p role="status" className="text-muted-foreground">{t("components.museRunnerConnection.nativeEffectOutcomesRemainUnknownAnd")}</p>}
         {b.stop.boundary && stopBindingRevision == null && b.stop.status !== "operator_attested" && <p role="status" className="text-muted-foreground">{t("components.museRunnerConnection.stopBindingRevisionIsUnavailableRefresh")}</p>}
         {b.stop.boundary && b.stop.status !== "operator_attested" && !attestation && <Button type="button" variant="outline" disabled={busy || stopBindingRevision == null} onClick={() => {
@@ -124,8 +124,8 @@ export function MuseConnectionDetails({ connection, pairing, busy, error, offlin
       <p className="text-xs text-muted-foreground">One-use setup expires {formatDateTime(pairing.expiresAt)}. Muse keeps the connection credential in its secure vault. Hostname permission applies to future requests to this Paperclip hostname.</p>
     </div>}
     <div className="flex flex-wrap items-center gap-2">
-      {live && <Button type="button" variant="outline" disabled={!configure || b.credentialState !== "active" || !b.paired || busy || testing} onClick={onTest}>{testing ? "Testing background reply…" : "Test background reply"}</Button>}
-      <Button type="button" variant="outline" disabled={!configure || busy} onClick={onRepair}>{b?.credentialState === "expired" ? "Reconnect Muse" : live ? "Repair connection" : "Connect Muse"}</Button>
+      {live && <Button type="button" variant="outline" disabled={!configure || b.credentialState !== "active" || !b.paired || busy || testing} onClick={onTest}>{testing ? t("components.museRunnerConnection.testingBackgroundReply") : t("components.museRunnerConnection.testBackgroundReply")}</Button>}
+      <Button type="button" variant="outline" disabled={!configure || busy} onClick={onRepair}>{b?.credentialState === "expired" ? t("components.museRunnerConnection.reconnectMuse") : live ? t("components.museRunnerConnection.repairConnection") : t("components.museRunnerConnection.connectMuse")}</Button>
       {connection.agentStatus !== "paused" && connection.agentStatus !== "terminated" && <Button type="button" variant="outline" disabled={busy} onClick={onPause}>{t("components.museRunnerConnection.pauseAgent")}</Button>}
       {live && <Button type="button" variant="outline" disabled={busy} onClick={onDisconnect}>{t("components.museRunnerConnection.disconnect")}</Button>}
       <Button type="button" variant="ghost" disabled={busy} onClick={onRefresh}>{t("components.museRunnerConnection.refresh")}</Button>
@@ -146,7 +146,7 @@ export function MuseRunnerConnection({ companyId, agentId }: { companyId?: strin
   if (!agentId) return <p className="text-sm text-muted-foreground">{t("components.museRunnerConnection.saveTheAgentThenConnectYour")}</p>;
   const error = muse.state.error ?? muse.pair.error ?? muse.verify.error ?? muse.revoke.error ?? muse.attest.error ?? muse.attestDetector.error ?? pause.error;
   if (muse.identity.failed) return <div className="space-y-3"><p role="alert" className="text-sm text-destructive">{t("components.museRunnerConnection.unableToConfirmYourAccountRefresh")}</p><Button type="button" variant="outline" onClick={() => { void cache.invalidateQueries({ queryKey: queryKeys.auth.session }); }}>{t("components.museRunnerConnection.refresh")}</Button></div>;
-  if (!muse.state.data) return <div className="space-y-3"><p role="status" className="text-sm text-muted-foreground">{muse.state.error ? "Unable to load the Muse connection." : "Loading Muse connection…"}</p>{error && <p role="alert" className="text-sm text-destructive">{error.message}</p>}<Button type="button" variant="outline" onClick={() => { void muse.state.refetch(); }}>{t("components.museRunnerConnection.refresh")}</Button></div>;
+  if (!muse.state.data) return <div className="space-y-3"><p role="status" className="text-sm text-muted-foreground">{muse.state.error ? t("components.museRunnerConnection.unableToLoadTheMuseConnection") : t("components.museRunnerConnection.loadingMuseConnection")}</p>{error && <p role="alert" className="text-sm text-destructive">{error.message}</p>}<Button type="button" variant="outline" onClick={() => { void muse.state.refetch(); }}>{t("components.museRunnerConnection.refresh")}</Button></div>;
   return <MuseConnectionDetails key={muse.identity.userId} connection={muse.state.data} pairing={muse.pairing} offline={muse.state.isError}
     busy={muse.pair.isPending || muse.verify.isPending || muse.revoke.isPending || muse.attest.isPending || muse.attestDetector.isPending || pause.isPending}
     error={error?.message} onTest={() => { if (muse.binding) muse.verify.mutate(muse.binding); }} onRepair={muse.repair}

@@ -24,7 +24,7 @@ export function SpekoPhoneCallbackForm({ preference, loading, saving, error, sav
       <label className="flex items-center gap-2 text-sm"><Checkbox checked={enabled} disabled={loading || saving} onCheckedChange={value => setEnabled(value === true)} />{t("components.voice.spekoPhoneCallback.allowThisAgentToCallMe")}</label>
       {invalid && <p id="speko-phone-error" role="alert" className="text-sm text-destructive">{t("components.voice.spekoPhoneCallback.useAnInternationalNumberBeginningWith")}</p>}
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
-      <div className="flex items-center justify-between gap-3"><p role="status" className="text-sm text-muted-foreground">{loading ? "Loading your callback setting…" : saved ? "Callback setting saved" : ""}</p><Button type="submit" disabled={loading || saving}>{saving ? "Saving…" : "Save phone setting"}</Button></div>
+      <div className="flex items-center justify-between gap-3"><p role="status" className="text-sm text-muted-foreground">{loading ? t("components.voice.spekoPhoneCallback.loadingYourCallbackSetting") : saved ? t("components.voice.spekoPhoneCallback.callbackSettingSaved") : ""}</p><Button type="submit" disabled={loading || saving}>{saving ? t("components.voice.spekoPhoneCallback.saving") : t("components.voice.spekoPhoneCallback.savePhoneSetting")}</Button></div>
     </form>
   </section>;
 }

@@ -629,7 +629,7 @@ export function OnboardingRoutePage() {
                     : openOnboarding()
               }
             >
-              {matchedCompany ? "Add Agent" : "Start Onboarding"}
+              {matchedCompany ? t("App.addAgent") : t("App.startOnboarding")}
             </Button>
           )}
         </div>

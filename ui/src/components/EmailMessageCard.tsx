@@ -66,7 +66,7 @@ export function EmailMessageCard({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <span className="flex items-center gap-2 text-sm font-semibold">
           <Mail className="size-4" />
-          {message.direction === "inbound" ? "Email received" : "Email sent"}
+          {message.direction === "inbound" ? t("components.emailMessageCard.emailReceived") : t("components.emailMessageCard.emailSent")}
         </span>
         <span className="text-xs text-muted-foreground">
           {new Date(message.timestamp).toLocaleString()}
@@ -92,7 +92,7 @@ export function EmailMessageCard({
         <p className="text-sm font-semibold">{message.subject}</p>
       </div>
       <div className="whitespace-pre-wrap break-words text-sm">
-        {message.text || "(No text body)"}
+        {message.text || t("components.emailMessageCard.noTextBody")}
       </div>
       {!!message.attachmentIds.length && (
         <div className="flex flex-wrap gap-2">
@@ -128,14 +128,14 @@ export function EmailMessageCard({
       {publication && (
         <p className="border-t border-border pt-3 text-xs text-muted-foreground">
           {publication.outcome === "delivered"
-            ? "Delivered"
+            ? t("components.emailMessageCard.delivered")
             : publication.outcome === "failed"
-              ? "Delivery failed"
+              ? t("components.emailMessageCard.deliveryFailed")
               : publication.outcome === "uncertain"
-                ? "Delivery uncertain"
+                ? t("components.emailMessageCard.deliveryUncertain")
                 : publication.outcome === "queued"
-                  ? "Queued"
-                  : "Sent"}
+                  ? t("components.emailMessageCard.queued")
+                  : t("components.emailMessageCard.sent")}
           {publication.error ? ` · ${publication.error}` : ""}
         </p>
       )}

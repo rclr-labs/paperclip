@@ -114,7 +114,7 @@ export function StatusCardTile({
           )}
           title={card.title ?? card.interestPrompt}
         >
-          {card.title ?? "New card"}
+          {card.title ?? t("pages.statusCards.statusCardTile.newCard")}
         </span>
         <div onClick={(event) => event.stopPropagation()}>
           <DropdownMenu>
@@ -156,7 +156,7 @@ export function StatusCardTile({
               ) : (
                 <AlertTriangle className="h-3.5 w-3.5 shrink-0 text-amber-500" />
               )}
-              <span>{setupRunning ? "Setting up your card…" : "Setup didn’t finish"}</span>
+              <span>{setupRunning ? t("pages.statusCards.statusCardTile.settingUpYourCard") : t("pages.statusCards.statusCardTile.setupDidnTFinish")}</span>
             </div>
             <p className="mt-1 line-clamp-2 text-muted-foreground">“{card.interestPrompt}”</p>
             {setupRunning ? (
@@ -180,7 +180,7 @@ export function StatusCardTile({
                 className="mt-2 inline-flex items-center gap-1.5 font-medium text-foreground underline-offset-2 hover:underline disabled:opacity-60"
               >
                 <Wand2 className={cn("h-3.5 w-3.5", recompilePending && "animate-pulse")} />
-                {recompilePending ? "Starting…" : "Run now"}
+                {recompilePending ? t("pages.statusCards.statusCardTile.starting") : t("pages.statusCards.statusCardTile.runNow")}
               </button>
             )}
           </div>
@@ -194,7 +194,7 @@ export function StatusCardTile({
                 {draftStream.statusLine
                   ?? (card.pendingChangeCount > 0
                     ? `Integrating ${card.pendingChangeCount} ${card.pendingChangeCount === 1 ? "change" : "changes"}…`
-                    : "Updating now…")}
+                    : t("pages.statusCards.statusCardTile.updatingNow"))}
               </span>
               {card.generatingIssueId ? (
                 <Link
@@ -246,8 +246,8 @@ export function StatusCardTile({
             <PauseCircle className="h-3.5 w-3.5 shrink-0 text-orange-500" />
             <span>
               {lifecycle === "paused_budget"
-                ? "Daily token cap reached — auto-updates paused"
-                : "Outside active hours — auto-updates paused"}
+                ? t("pages.statusCards.statusCardTile.dailyTokenCapReachedAutoUpdates")
+                : t("pages.statusCards.statusCardTile.outsideActiveHoursAutoUpdatesPaused")}
             </span>
           </div>
         ) : null}

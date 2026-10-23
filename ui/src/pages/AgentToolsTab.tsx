@@ -78,7 +78,7 @@ function GitHubIdentitySection({
             ) : dedicatedIdentity ? (
               <>
                 <p className="mt-0.5 text-sm font-medium text-foreground">
-                  {dedicatedLogin ? `@${dedicatedLogin}` : "Dedicated GitHub account"}
+                  {dedicatedLogin ? `@${dedicatedLogin}` : t("pages.agentToolsTab.dedicatedGithubAccount")}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">{t("pages.agentToolsTab.usedOnlyByThisDedicatedConnection", { agentName })}</p>
               </>

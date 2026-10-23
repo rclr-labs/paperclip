@@ -60,7 +60,7 @@ export function WorkspaceReconstructionRecovery({ issueId, blocker, canManage, o
       </fieldset>
       <div className="flex justify-end">
         <Button disabled={submit.isPending || !acknowledged || currentSelection.length === 0 || missingWork.trim().length < 20 || outcomeEvidence.trim().length < 20}
-          onClick={() => submit.mutate()}>{submit.isPending ? "Queuing…" : "Rebuild and continue"}</Button>
+          onClick={() => submit.mutate()}>{submit.isPending ? t("components.workspaceReconstructionRecovery.queuing") : t("components.workspaceReconstructionRecovery.rebuildAndContinue")}</Button>
       </div>
       {files.isError && <p role="alert" className="text-destructive">{files.error.message}</p>}
       {submit.isError && <p role="alert" className="text-destructive">{submit.error.message}</p>}

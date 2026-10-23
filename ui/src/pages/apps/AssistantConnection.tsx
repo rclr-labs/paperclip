@@ -66,6 +66,7 @@ export function AssistantConnectionCard({ onNavigate }: { onNavigate: (href: str
 
 /** Only copy user-visible, non-secret setup values. Never execute them here. */
 function CopyValue({ value, label }: { value: string; label: string }) {
+  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState(false);
   useEffect(() => { setCopied(false); setError(false); }, [value]);
@@ -77,7 +78,7 @@ function CopyValue({ value, label }: { value: string; label: string }) {
         catch { setError(true); }
       }}>{copied ? <Check className="size-4" /> : <Copy className="size-4" />}</Button>
     </div>
-    <p role="status" className="text-xs text-muted-foreground">{error ? "Couldn’t copy. Select and copy the text above." : copied ? "Copied" : null}</p>
+    <p role="status" className="text-xs text-muted-foreground">{error ? t("pages.apps.assistantConnection.couldnTCopySelectAndCopy") : copied ? t("pages.apps.assistantConnection.copied") : null}</p>
   </div>;
 }
 
@@ -143,7 +144,7 @@ export function AssistantConnection({ initialAssistant = "codex" }: { initialAss
     <section className="space-y-3" aria-labelledby="connected-assistants">
       <h2 id="connected-assistants" className="text-sm font-semibold">{t("pages.apps.assistantConnection.yourConnectedAssistants")}</h2>
       {connections.isPending && <p className="text-sm text-muted-foreground">{t("pages.apps.assistantConnection.loadingConnections")}</p>}
-      {(connections.error || revoke.error) && <p role="alert" className="text-sm text-destructive">{revoke.error ? "Couldn’t revoke this connection. Try again." : "Couldn’t load your connections. Try again."} <button type="button" className="underline" onClick={() => void connections.refetch()}>{t("pages.apps.assistantConnection.refresh")}</button></p>}
+      {(connections.error || revoke.error) && <p role="alert" className="text-sm text-destructive">{revoke.error ? t("pages.apps.assistantConnection.couldnTRevokeThisConnectionTry") : t("pages.apps.assistantConnection.couldnTLoadYourConnectionsTry")} <button type="button" className="underline" onClick={() => void connections.refetch()}>{t("pages.apps.assistantConnection.refresh")}</button></p>}
       {connections.isSuccess && connections.rows.length === 0 && <p className="text-sm text-muted-foreground">{t("pages.apps.assistantConnection.noAssistantsConnectedToYet", { name: selectedCompany.name })}</p>}
       <div className="divide-y divide-border">{connections.rows.map(row => <div key={row.id} className="flex flex-wrap items-center justify-between gap-3 py-3">
         <div className="min-w-0 flex-1 space-y-1"><Identity name={assistantConnectionDisplayName(row)} avatarUrl={row.user?.image} initials={deriveInitials(row.user?.name ?? "You")} className="font-medium" /><p className="text-xs text-muted-foreground">{`Connected as you · ${row.scopes.includes("paperclip:write") ? "Read and write" : "Read only"}${row.scopes.includes("paperclip:configure") ? " · Configure agents, projects and skills" : ""}`}</p></div>

@@ -463,7 +463,7 @@ export function IssueShareSheet({
                 {t("components.issueShareSheet.back")}
               </Button>
               <Button size="sm" onClick={submitAdd} disabled={!addSelection || addMutation.isPending}>
-                {addMutation.isPending ? "Adding…" : "Add"}
+                {addMutation.isPending ? t("components.issueShareSheet.adding") : t("components.issueShareSheet.add")}
               </Button>
             </div>
           </div>
@@ -479,7 +479,7 @@ export function IssueShareSheet({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Remove {revokeTarget?.subjectDisplayName ?? "this subject"}'s saved grant?
+              Remove {revokeTarget?.subjectDisplayName ?? t("components.issueShareSheet.thisSubject")}'s saved grant?
             </AlertDialogTitle>
             <AlertDialogDescription><Trans i18nKey="components.issueShareSheet.thisRemovesThisGrantAndThe">
               This removes this grant and the access it supplies to this task's descendants.
@@ -498,7 +498,7 @@ export function IssueShareSheet({
               }}
               disabled={revokeMutation.isPending}
             >
-              {revokeMutation.isPending ? "Removing…" : "Remove grant"}
+              {revokeMutation.isPending ? t("components.issueShareSheet.removing") : t("components.issueShareSheet.removeGrant")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

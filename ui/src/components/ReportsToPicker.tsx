@@ -64,7 +64,7 @@ export function ReportsToPicker({
                   terminatedManager && "text-amber-900 dark:text-amber-200",
                 )}
               >
-                {`Reports to ${current.name}${terminatedManager ? " (terminated)" : ""}`}
+                {`Reports to ${current.name}${terminatedManager ? t("components.reportsToPicker.terminated") : ""}`}
               </span>
             </>
           ) : (

@@ -401,12 +401,12 @@ function ApproveDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                {isSecret ? "Approve & create secret" : "Approve binding"}
+                {isSecret ? t("pages.secrets.proposalreview.approveCreateSecret") : t("pages.secrets.proposalreview.approveBinding")}
               </DialogTitle>
               <DialogDescription>
                 {isSecret
-                  ? "The value is created as the proposing agent recorded it. Re-folder or rename it before it lands."
-                  : "Grant the target agent access to this secret. This runs with your permissions."}
+                  ? t("pages.secrets.proposalreview.theValueIsCreatedAsThe")
+                  : t("pages.secrets.proposalreview.grantTheTargetAgentAccessTo")}
               </DialogDescription>
             </DialogHeader>
 
@@ -508,12 +508,12 @@ function ApproveDialog({
               </Button>
               <Button onClick={onConfirm} disabled={pending || !canConfirm}>
                 {pending
-                  ? "Approving…"
+                  ? t("pages.secrets.proposalreview.approving")
                   : isSecret
-                    ? "Approve & create"
+                    ? t("pages.secrets.proposalreview.approveCreate")
                     : draft.cascade
-                      ? "Approve secret & bind"
-                      : "Approve binding"}
+                      ? t("pages.secrets.proposalreview.approveSecretBind")
+                      : t("pages.secrets.proposalreview.approveBinding")}
               </Button>
             </DialogFooter>
           </>
@@ -639,7 +639,7 @@ function RejectDialog({
                 {t("pages.secrets.proposalreview.cancel")}
               </Button>
               <Button variant="destructive" onClick={onConfirm} disabled={pending || !canConfirm}>
-                {pending ? "Rejecting…" : "Reject"}
+                {pending ? t("pages.secrets.proposalreview.rejecting") : t("pages.secrets.proposalreview.reject")}
               </Button>
             </DialogFooter>
           </>
@@ -688,7 +688,7 @@ export function ProposalActions({
               <span tabIndex={0}>{approveButton}</span>
             </TooltipTrigger>
             <TooltipContent className="max-w-72">
-              {proposal.approveBlockReason ?? "You don’t have permission to approve this."}
+              {proposal.approveBlockReason ?? t("pages.secrets.proposalreview.youDonTHavePermissionTo")}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

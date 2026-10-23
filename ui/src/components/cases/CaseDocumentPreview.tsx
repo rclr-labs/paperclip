@@ -32,14 +32,14 @@ export function CaseDocumentPreview({ caseIdentifier, document: documentRef }: {
       <Button variant="ghost" aria-label={documentRef.document.title ?? documentRef.key} className="h-auto w-full justify-start gap-3 rounded-none px-0 py-3 text-left font-normal whitespace-normal">
         <FileText aria-hidden className="size-4 shrink-0 text-muted-foreground" />
         <span className="min-w-0 flex-1">{documentRef.document.title ?? documentRef.key}</span>
-        {taskRef && <span className="shrink-0 font-mono text-xs text-muted-foreground">{taskRef.taskIdentifier ?? "Task"}</span>}
+        {taskRef && <span className="shrink-0 font-mono text-xs text-muted-foreground">{taskRef.taskIdentifier ?? t("components.cases.caseDocumentPreview.task")}</span>}
       </Button>
     </DialogTrigger>
     <DialogContent className="max-h-(--pct-80) overflow-y-auto sm:max-w-3xl">
       <DialogHeader>
         <DialogTitle>{title}</DialogTitle>
         <DialogDescription>
-          {taskRef ? <Link to={`/issues/${taskRef.taskIdentifier ?? taskRef.taskId}#document-${encodeURIComponent(taskRef.key)}`} className="hover:underline">{taskRef.taskIdentifier ?? "Task document"}</Link> : `${caseIdentifier} · Saved on case`}
+          {taskRef ? <Link to={`/issues/${taskRef.taskIdentifier ?? taskRef.taskId}#document-${encodeURIComponent(taskRef.key)}`} className="hover:underline">{taskRef.taskIdentifier ?? t("components.cases.caseDocumentPreview.taskDocument")}</Link> : `${caseIdentifier} · Saved on case`}
           {document?.latestRevisionNumber != null ? ` · Revision ${document.latestRevisionNumber}` : ""}
         </DialogDescription>
       </DialogHeader>

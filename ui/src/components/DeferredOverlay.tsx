@@ -20,7 +20,7 @@ function OverlayNotice({ title, onClose, failed = false }: Pick<DeferredOverlayP
       {failed
         ? <p className="text-sm text-muted-foreground">{t("components.deferredOverlay.closeThisWindowToKeepWorking")}</p>
         : <PaperclipLoading className="min-h-0" />}
-      <div className="flex justify-end"><Button variant="outline" onClick={onClose}>{failed ? "Close" : "Cancel"}</Button></div>
+      <div className="flex justify-end"><Button variant="outline" onClick={onClose}>{failed ? t("components.deferredOverlay.close") : t("components.deferredOverlay.cancel")}</Button></div>
     </DialogContent>
   </Dialog>;
 }

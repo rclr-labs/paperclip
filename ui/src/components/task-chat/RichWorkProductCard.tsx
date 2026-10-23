@@ -324,7 +324,7 @@ export function RichWorkProductCard({ workProduct, href, variant = "card" }: Ric
             aria-expanded={detailsOpen}
             className="inline-flex cursor-pointer items-center gap-1 text-xs font-medium text-foreground after:absolute after:inset-0 after:rounded-md focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-ring"
           >
-            <span>{detailsOpen ? "Hide details" : "Show details"}</span>
+            <span>{detailsOpen ? t("components.taskchat.richWorkProductCard.hideDetails") : t("components.taskchat.richWorkProductCard.showDetails")}</span>
             <ChevronDown aria-hidden className={cn("h-4 w-4", detailsOpen && "rotate-180")} />
           </button>
         ) : null}

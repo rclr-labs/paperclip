@@ -73,7 +73,7 @@ export function WorkspaceBaseRefRecoveryNotice({
           <p className="text-sm leading-relaxed text-muted-foreground">
             {repairedBranch
               ? <>This task now starts from <code className="font-mono text-foreground">{repairedBranch}</code>. A retry has been requested for {agentName}.</>
-              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> has no branch named <code className="font-mono text-foreground">{requestedRef}</code>.</> : " could not resolve the starting branch. Check the branch name and repository access."} {agentName} hasn’t started.</>}
+              : <><span className="break-all text-foreground">{repository}</span>{failureKind === "missing_branch" ? <> has no branch named <code className="font-mono text-foreground">{requestedRef}</code>.</> : t("components.workspaceBaseRefRecoveryNotice.couldNotResolveTheStartingBranch")} {agentName} hasn’t started.</>}
           </p>
         </div>
         {!repairedBranch && (
@@ -91,7 +91,7 @@ export function WorkspaceBaseRefRecoveryNotice({
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   {defaultBranch ? <Button type="button" variant="ghost" size="sm" disabled={pending} onClick={() => { setEditing(false); setError(null); }}>{t("components.workspaceBaseRefRecoveryNotice.cancel")}</Button> : <span />}
                   <Button type="submit" size="sm" disabled={pending || !changed || Boolean(unavailableReason)} aria-describedby={unavailableReason ? `${id}-unavailable` : undefined}>
-                    {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? "Saving & requesting retry…" : "Save branch & retry"}
+                    {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? t("components.workspaceBaseRefRecoveryNotice.savingRequestingRetry") : t("components.workspaceBaseRefRecoveryNotice.saveBranchRetry")}
                   </Button>
                 </div>
               </form>
@@ -99,7 +99,7 @@ export function WorkspaceBaseRefRecoveryNotice({
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <Button type="button" variant="ghost" size="sm" disabled={pending || Boolean(unavailableReason)} onClick={() => setEditing(true)}>{t("components.workspaceBaseRefRecoveryNotice.chooseAnotherBranch")}</Button>
                 <Button type="button" size="sm" disabled={pending || Boolean(unavailableReason) || defaultBranch === requestedRef} aria-describedby={unavailableReason ? `${id}-unavailable` : undefined} onClick={() => void repair(defaultBranch!)}>
-                  {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? "Saving & requesting retry…" : `Use ${defaultBranch} & retry`}
+                  {pending && <Loader2 aria-hidden className="size-3.5 animate-spin motion-reduce:animate-none" />}{pending ? t("components.workspaceBaseRefRecoveryNotice.savingRequestingRetry") : `Use ${defaultBranch} & retry`}
                 </Button>
               </div>
             )}
@@ -107,7 +107,7 @@ export function WorkspaceBaseRefRecoveryNotice({
         )}
         <div>
           <Button type="button" variant="ghost" size="xs" className="text-muted-foreground" aria-expanded={details} aria-controls={`${id}-details`} onClick={() => setDetails(value => !value)}>
-            {details ? "Hide details" : "Why did this happen?"}<ChevronDown aria-hidden className={cn("size-3", details && "rotate-180")} />
+            {details ? t("components.workspaceBaseRefRecoveryNotice.hideDetails") : t("components.workspaceBaseRefRecoveryNotice.whyDidThisHappen")}<ChevronDown aria-hidden className={cn("size-3", details && "rotate-180")} />
           </Button>
           {details && <div id={`${id}-details`} className="mt-2 rounded-md border border-border bg-background">
             <SystemNoticeMetadataSections tone="neutral" sections={[{ rows: [

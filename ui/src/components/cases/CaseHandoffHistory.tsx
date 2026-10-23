@@ -53,7 +53,7 @@ function HandoffRow({ handoff, task, agents }: { handoff: CaseHandoffView; task?
         <ChevronRight aria-hidden className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-transform duration-(--motion-duration-fast) group-open:rotate-90 motion-reduce:transition-none" />
         <span className="min-w-0 flex-1 space-y-1">
           <span className="flex flex-wrap items-baseline justify-between gap-2">
-            <span className="text-sm font-medium">{terminal ? "Done" : handoff.phase}{stateLabel && <span className="ml-2 text-xs font-normal text-muted-foreground">{stateLabel}</span>}</span>
+            <span className="text-sm font-medium">{terminal ? t("components.cases.caseHandoffHistory.done") : handoff.phase}{stateLabel && <span className="ml-2 text-xs font-normal text-muted-foreground">{stateLabel}</span>}</span>
             <span className="flex items-center gap-3">
               {handoffTask && <IssueReferencePill issue={handoffTask} variant="property" />}
               <time dateTime={createdAt} title={formatDateTime(createdAt)} className="font-mono text-xs text-muted-foreground">{relativeTime(createdAt)}</time>
@@ -69,8 +69,8 @@ function HandoffRow({ handoff, task, agents }: { handoff: CaseHandoffView; task?
       </summary>
       <div className="space-y-2 pb-4 pl-6">
         {handoff.workflowTransition && <p className="text-xs text-muted-foreground">
-          {handoff.workflowTransition.from.name ?? "Case instructions"}{handoff.workflowTransition.from.phase ? ` · ${handoff.workflowTransition.from.phase}` : ""}
-          {" → "}{handoff.workflowTransition.to.name ?? "Case instructions"} · {handoff.workflowTransition.to.phase}
+          {handoff.workflowTransition.from.name ?? t("components.cases.caseHandoffHistory.caseInstructions")}{handoff.workflowTransition.from.phase ? ` · ${handoff.workflowTransition.from.phase}` : ""}
+          {" → "}{handoff.workflowTransition.to.name ?? t("components.cases.caseHandoffHistory.caseInstructions")} · {handoff.workflowTransition.to.phase}
         </p>}
         {handoff.lastError && !settled && handoff.state !== "cancelled" ? <p className="text-xs text-muted-foreground">{handoff.lastError}</p> : null}
         <MarkdownBody linkIssueReferences linkCaseReferences>{handoff.instructions}</MarkdownBody>

@@ -44,7 +44,7 @@ export function GrokBotSetupContent(p: GrokBotSetupContentProps) {
     <div className="min-h-0 space-y-6 overflow-y-auto px-6 pb-6 pt-8 sm:px-8">
       <div className="space-y-3 pr-5">
         <AdapterMark type="grok_bot" className="size-10" />
-        <DialogTitle className="text-xl font-semibold tracking-tight">{ready ? "Your Grok Bot is connected" : "Connect your Grok Bot"}</DialogTitle>
+        <DialogTitle className="text-xl font-semibold tracking-tight">{ready ? t("components.newagent.grokBotSetupContent.yourGrokBotIsConnected") : t("components.newagent.grokBotSetupContent.connectYourGrokBot")}</DialogTitle>
         <DialogDescription className="text-sm leading-relaxed">{ready ? `${p.details.botName} can receive assignments and work with ${p.companyName}.` : `Bring an existing Bot into ${p.companyName}. It continues to run in Grok Bot.`}</DialogDescription>
       </div>
       <ol aria-label="Grok Bot setup" className="grid grid-cols-4 gap-2 text-xs text-muted-foreground">
@@ -70,7 +70,7 @@ export function GrokBotSetupContent(p: GrokBotSetupContentProps) {
             </div>
             <p className="text-xs text-muted-foreground">Copy this code into Paperclip’s authorization page. Do not paste it into Bot chat. Expires {new Date(p.pairing.expiresAt).toLocaleTimeString()}.</p>
           </div>}
-          <p role="status" aria-live="polite" className="text-muted-foreground">{binding?.connected ? "Agent access connected." : "Watching for authorization. This connection works as the named agent."}</p>
+          <p role="status" aria-live="polite" className="text-muted-foreground">{binding?.connected ? t("components.newagent.grokBotSetupContent.agentAccessConnected") : t("components.newagent.grokBotSetupContent.watchingForAuthorizationThisConnectionWorks")}</p>
           <p className="text-xs text-muted-foreground">{t("components.newagent.grokBotSetupContent.grokPluginsAreAccountWideLinking")}</p>
         </div>}
         {p.step === 2 && <div className="space-y-4 text-sm">
@@ -85,14 +85,14 @@ export function GrokBotSetupContent(p: GrokBotSetupContentProps) {
         </div>}
         {p.step === 3 && <section aria-label={t("components.newagent.grokBotSetupContent.grokConnectionChecks")} className="space-y-4 text-sm">
           {[{ label: "Assignment delivered", done: delivered }, { label: "Reply received", done: replied }].map(check => <p key={check.label} className="flex items-center gap-3">{check.done ? <Check className="size-4" /> : pending ? <Loader2 className="size-4 animate-spin motion-reduce:animate-none" /> : <Circle className="size-4 text-muted-foreground" />}{check.label}<span className="text-muted-foreground">{check.done ? "Complete" : "Waiting"}</span></p>)}
-          <p role="status" aria-live="polite" className="text-muted-foreground">{routine?.recoveryNeeded ? "Recovery needed. Inspect Grok’s activity in this agent’s configuration before another delivery." : ready ? "Both directions verified. Your Bot is ready for tasks." : replied ? "Both directions verified. Paperclip is finishing agent setup." : exchange?.status === "rejected" ? "The routine rejected delivery. Check its URL and key, then try again." : delivered ? "The routine accepted delivery. Waiting for an authenticated reply to Paperclip." : "Send a harmless challenge. This creates no task."}</p>
+          <p role="status" aria-live="polite" className="text-muted-foreground">{routine?.recoveryNeeded ? t("components.newagent.grokBotSetupContent.recoveryNeededInspectGrokSActivity") : ready ? t("components.newagent.grokBotSetupContent.bothDirectionsVerifiedYourBotIs") : replied ? t("components.newagent.grokBotSetupContent.bothDirectionsVerifiedPaperclipIsFinishing") : exchange?.status === "rejected" ? t("components.newagent.grokBotSetupContent.theRoutineRejectedDeliveryCheckIts") : delivered ? t("components.newagent.grokBotSetupContent.theRoutineAcceptedDeliveryWaitingFor") : t("components.newagent.grokBotSetupContent.sendAHarmlessChallengeThisCreates")}</p>
           <p className="text-xs text-muted-foreground">{t("components.newagent.grokBotSetupContent.grokRunsExternallyUsageAndSpending")}</p>
         </section>}
       </>}
     </div>
     <div className="flex items-center justify-between gap-3 border-t px-6 py-4 sm:px-8">
       <div className="flex items-center gap-2"><Button variant="ghost" onClick={p.onBack} disabled={p.busy}>{t("components.newagent.grokBotSetupContent.back")}</Button><Button variant="ghost" onClick={p.onExit} disabled={p.busy}>{t("components.newagent.grokBotSetupContent.saveExit")}</Button></div>
-      {p.approvalHref ? <Button asChild><Link to={p.approvalHref} onClick={p.onExit}>{t("components.newagent.grokBotSetupContent.reviewApproval")}</Link></Button> : <Button onClick={p.onNext} disabled={nextDisabled}>{p.busy ? "Saving…" : ready ? "Done" : p.step === 3 ? pending ? "Waiting for reply…" : replied ? "Finishing setup…" : "Verify connection" : "Continue"}</Button>}
+      {p.approvalHref ? <Button asChild><Link to={p.approvalHref} onClick={p.onExit}>{t("components.newagent.grokBotSetupContent.reviewApproval")}</Link></Button> : <Button onClick={p.onNext} disabled={nextDisabled}>{p.busy ? t("components.newagent.grokBotSetupContent.saving") : ready ? t("components.newagent.grokBotSetupContent.done") : p.step === 3 ? pending ? t("components.newagent.grokBotSetupContent.waitingForReply") : replied ? t("components.newagent.grokBotSetupContent.finishingSetup") : t("components.newagent.grokBotSetupContent.verifyConnection") : t("components.newagent.grokBotSetupContent.continue")}</Button>}
     </div>
   </>;
 }

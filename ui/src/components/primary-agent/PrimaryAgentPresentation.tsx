@@ -59,7 +59,7 @@ export function SetPrimaryAgentButton({ agent }: {
     onClick={primary.primaryAgentId ? undefined : () => primary.onChange(agent.id)}
     className="h-auto justify-start p-0 text-xs text-muted-foreground hover:text-foreground">
     {pending || loading ? <Loader2 aria-hidden="true" className="size-3 motion-safe:animate-spin" /> : null}
-    {loading ? "Loading primary…" : pending ? "Setting primary…" : "Set as my primary"}
+    {loading ? t("components.primaryagent.primaryAgentPresentation.loadingPrimary") : pending ? t("components.primaryagent.primaryAgentPresentation.settingPrimary") : t("components.primaryagent.primaryAgentPresentation.setAsMyPrimary")}
   </Button>;
   if (!previous) return button;
   return <AlertDialog key={previous.id}>

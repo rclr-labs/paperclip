@@ -877,7 +877,7 @@ function SkillCard({
           {badgeFolder !== undefined ? (
             <div className="mt-1 flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
               <FolderSwatch color={badgeFolder?.color} className="h-2 w-2" />
-              <span className="truncate">{badgeFolder ? badgeFolder.name : "Unfiled"}</span>
+              <span className="truncate">{badgeFolder ? badgeFolder.name : t("pages.companySkillsproduction.unfiled")}</span>
             </div>
           ) : null}
         </div>
@@ -1238,7 +1238,7 @@ export function DiscoveryGrid({
                 <Button variant="outline" size="sm">
                   <span className="text-muted-foreground">{t("pages.companySkillsproduction.source")}</span>
                   <span className="ml-1.5 capitalize">
-                    {sourceBadgeFilter === "all" ? "All" : sourceMeta(sourceBadgeFilter as CompanySkillSourceBadge, null).label}
+                    {sourceBadgeFilter === "all" ? t("pages.companySkillsproduction.all") : sourceMeta(sourceBadgeFilter as CompanySkillSourceBadge, null).label}
                   </span>
                   <ChevronDown className="ml-1 h-3.5 w-3.5" />
                 </Button>
@@ -1318,7 +1318,7 @@ export function DiscoveryGrid({
           ) : null}
           {onToggleSelectMode ? (
             <Button variant="ghost" size="sm" onClick={onToggleSelectMode}>
-              {selectMode ? "Done" : "Select"}
+              {selectMode ? t("pages.companySkillsproduction.done") : t("pages.companySkillsproduction.select")}
             </Button>
           ) : null}
         </div>
@@ -1329,7 +1329,7 @@ export function DiscoveryGrid({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" size="sm" className="w-full justify-between">
-                  <span className="capitalize">{activeCategory ?? "All categories"}</span>
+                  <span className="capitalize">{activeCategory ?? t("pages.companySkillsproduction.allCategories")}</span>
                   <ChevronDown className="h-3.5 w-3.5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -1606,8 +1606,8 @@ function NewSkillWizard({
               }}
             />
             <div className="min-w-0">
-              <div className="truncate text-sm font-medium">{draft.name || "New Skill"}</div>
-              <div className="truncate text-xs text-muted-foreground">{draft.tagline || "No tagline yet."}</div>
+              <div className="truncate text-sm font-medium">{draft.name || t("pages.companySkillsproduction.newSkill")}</div>
+              <div className="truncate text-xs text-muted-foreground">{draft.tagline || t("pages.companySkillsproduction.noTaglineYet")}</div>
             </div>
           </div>
           <div>
@@ -1655,11 +1655,11 @@ function NewSkillWizard({
         <div className="space-y-4 text-sm">
           <div className="grid grid-cols-(--gtc-26) gap-y-2">
             <span className="text-muted-foreground">{t("pages.companySkillsproduction.name")}</span>
-            <span>{draft.name || "Untitled"}</span>
+            <span>{draft.name || t("pages.companySkillsproduction.untitled")}</span>
             <span className="text-muted-foreground">{t("pages.companySkillsproduction.slug")}</span>
             <span className="font-mono">{effectiveSlug || "skill"}</span>
             <span className="text-muted-foreground">{t("pages.companySkillsproduction.scope")}</span>
-            <span>{draft.sharingScope === "private" ? "Private" : "Company"}</span>
+            <span>{draft.sharingScope === "private" ? t("pages.companySkillsproduction.private") : t("pages.companySkillsproduction.company")}</span>
             <span className="text-muted-foreground">{t("pages.companySkillsproduction.categories")}</span>
             <span>{draft.categories.length ? draft.categories.join(", ") : "none"}</span>
           </div>
@@ -1715,7 +1715,7 @@ function NewSkillWizard({
             </Button>
           ) : (
             <Button size="sm" onClick={submit} disabled={isPending || !nameValid}>
-              {isPending ? "Creating..." : draft.forkedFromSkillId ? "Create fork" : "Create skill"}
+              {isPending ? t("pages.companySkillsproduction.creating") : draft.forkedFromSkillId ? t("pages.companySkillsproduction.createFork") : t("pages.companySkillsproduction.createSkill")}
             </Button>
           )}
         </div>
@@ -1921,7 +1921,7 @@ function CatalogDetailPane({
     cta = (
       <Button onClick={onInstall} disabled={loadingPrimaryAction}>
         {skill.trustLevel === "scripts_executables" ? <AlertTriangle className="mr-1.5 h-3.5 w-3.5" /> : <Download className="mr-1.5 h-3.5 w-3.5" />}
-        {loadingPrimaryAction ? "Preparing..." : "Install skill in this organization"}
+        {loadingPrimaryAction ? t("pages.companySkillsproduction.preparing") : t("pages.companySkillsproduction.installSkillInThisOrganization")}
       </Button>
     );
   } else if (hashOutOfSync) {
@@ -2020,7 +2020,7 @@ function CatalogDetailPane({
         {fileQuery.isLoading ? (
           <PageSkeleton variant="detail" />
         ) : fileQuery.error ? (
-          <div className="text-sm text-destructive">{fileQuery.error instanceof Error ? fileQuery.error.message : "Failed to load file"}</div>
+          <div className="text-sm text-destructive">{fileQuery.error instanceof Error ? fileQuery.error.message : t("pages.companySkillsproduction.failedToLoadFile")}</div>
         ) : !fileQuery.data ? (
           <div className="text-sm text-muted-foreground">{t("pages.companySkillsproduction.selectAFileToInspect")}</div>
         ) : fileQuery.data.markdown ? (
@@ -2122,7 +2122,7 @@ export function InstallPreviewDialog({
       <DialogContent className="sm:max-w-2xl" showCloseButton={!isPending}>
         <DialogHeader>
           <DialogTitle>
-            {defaultAction === "update" ? "Update" : defaultAction === "replace" ? "Replace" : "Install"} · {skill.name}
+            {defaultAction === "update" ? t("pages.companySkillsproduction.update") : defaultAction === "replace" ? t("pages.companySkillsproduction.replace") : t("pages.companySkillsproduction.install")} · {skill.name}
           </DialogTitle>
           <DialogDescription>
             <span className="capitalize">{skill.kind}</span> · {skill.category}
@@ -2185,7 +2185,7 @@ export function InstallPreviewDialog({
           {conflict ? (
             <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-800 dark:text-amber-200">
               An existing skill with key <span className="font-mono">{conflict.key}</span> is installed (
-              {conflict.sourceLabel ?? conflict.sourceType}). Installing will {defaultAction === "update" ? "overwrite the catalog content" : "replace the existing skill"}.
+              {conflict.sourceLabel ?? conflict.sourceType}). Installing will {defaultAction === "update" ? t("pages.companySkillsproduction.overwriteTheCatalogContent") : t("pages.companySkillsproduction.replaceTheExistingSkill")}.
             </div>
           ) : null}
 
@@ -2775,7 +2775,7 @@ function SkillLocationCard({
           }}
         >
           <Copy className="mr-1.5 h-3.5 w-3.5" />
-          {copied ? "Copied" : failed ? "Copy failed" : "Copy path"}
+          {copied ? t("pages.companySkillsproduction.copied") : failed ? t("pages.companySkillsproduction.copyFailed") : t("pages.companySkillsproduction.copyPath")}
         </Button>
         {onMove ? (
           <Button size="sm" variant="outline" onClick={onMove}>
@@ -3354,7 +3354,7 @@ export function SkillDetailPage({
                         onClick={() => setDescExpanded((value) => !value)}
                         className="mt-0.5 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
                       >
-                        {descExpanded ? "Show less" : "View all"}
+                        {descExpanded ? t("pages.companySkillsproduction.showLess") : t("pages.companySkillsproduction.viewAll")}
                       </button>
                     ) : null}
                   </div>
@@ -3396,7 +3396,7 @@ export function SkillDetailPage({
                 title={detail.starredByCurrentActor ? "Unstar this skill" : "Star this skill"}
               >
                 <Star className={cn("h-3.5 w-3.5", detail.starredByCurrentActor && "fill-current text-yellow-400")} />
-                <span className="hidden sm:inline">{detail.starredByCurrentActor ? "Starred" : "Star"}</span>
+                <span className="hidden sm:inline">{detail.starredByCurrentActor ? t("pages.companySkillsproduction.starred") : t("pages.companySkillsproduction.star")}</span>
                 <span className="font-medium text-foreground">{detail.starCount}</span>
               </button>
               <button
@@ -3406,7 +3406,7 @@ export function SkillDetailPage({
                 title={t("pages.companySkillsproduction.forkThisSkill")}
               >
                 <GitFork className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">{skill.sourceType === "github" ? "Make a copy" : "Fork"}</span>
+                <span className="hidden sm:inline">{skill.sourceType === "github" ? t("pages.companySkillsproduction.makeACopy") : t("pages.companySkillsproduction.fork")}</span>
                 <span className="font-medium text-foreground">{detail.forkCount}</span>
               </button>
             </div>
@@ -3613,7 +3613,7 @@ export function SkillDetailPage({
           </Button>
           <Button size="sm" onClick={onSave} disabled={savePending}>
             <Save className="mr-1.5 h-3.5 w-3.5" />
-            {savePending ? "Saving…" : "Save changes"}
+            {savePending ? t("pages.companySkillsproduction.saving2") : t("pages.companySkillsproduction.saveChanges")}
           </Button>
         </div>
       ) : null}
@@ -3668,7 +3668,7 @@ export function SkillDetailPage({
                 disabled={!settingsDirty || updateSettingsPending}
               >
                 <Save className="mr-1.5 h-3.5 w-3.5" />
-                {updateSettingsPending ? "Saving…" : "Save settings"}
+                {updateSettingsPending ? t("pages.companySkillsproduction.saving2") : t("pages.companySkillsproduction.saveSettings")}
               </Button>
             </div>
             {detail.editable ? (
@@ -3685,7 +3685,7 @@ export function SkillDetailPage({
                     title={detail.usedByAgents.length > 0 ? "Detach this skill from all agents before removing it." : undefined}
                   >
                     <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-                    {deletePending ? "Removing…" : "Remove"}
+                    {deletePending ? t("pages.companySkillsproduction.removing2") : t("pages.companySkillsproduction.remove")}
                   </Button>
                 </div>
               </div>
@@ -3801,7 +3801,7 @@ function SkillPane({
               title={removeDisabledReason ?? undefined}
             >
               <Trash2 className="mr-1.5 h-3.5 w-3.5" />
-              {deletePending ? "Removing..." : "Remove"}
+              {deletePending ? t("pages.companySkillsproduction.removing") : t("pages.companySkillsproduction.remove")}
             </Button>
             {detail.editable ? (
               <button
@@ -3809,7 +3809,7 @@ function SkillPane({
                 onClick={() => setEditMode(!editMode)}
               >
                 <Pencil className="h-3.5 w-3.5" />
-                {editMode ? "Stop editing" : "Edit"}
+                {editMode ? t("pages.companySkillsproduction.stopEditing") : t("pages.companySkillsproduction.edit")}
               </button>
             ) : (
               <div className="text-sm text-muted-foreground">{detail.editableReason}</div>
@@ -3886,7 +3886,7 @@ function SkillPane({
             </div>
             <div className="flex items-center gap-2">
               <span className="text-(length:--text-micro) uppercase tracking-(--tracking-caps) text-muted-foreground">{t("pages.companySkillsproduction.mode")}</span>
-              <span>{detail.editable ? "Editable" : "Read only"}</span>
+              <span>{detail.editable ? t("pages.companySkillsproduction.editable") : t("pages.companySkillsproduction.readOnly")}</span>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -3976,7 +3976,7 @@ function SkillPane({
                 </Button>
                 <Button size="sm" onClick={onSave} disabled={savePending}>
                   <Save className="mr-1.5 h-3.5 w-3.5" />
-                  {savePending ? "Saving..." : "Save"}
+                  {savePending ? t("pages.companySkillsproduction.saving") : t("pages.companySkillsproduction.save")}
                 </Button>
               </>
             )}
@@ -5189,7 +5189,7 @@ export function CompanySkills() {
             <p>
               {deleteTargetDetail
                 ? `You are about to remove ${deleteTargetDetail.name}.`
-                : "You are about to remove this skill."}
+                : t("pages.companySkillsproduction.youAreAboutToRemoveThis")}
             </p>
             {deleteTargetDetail?.usedByAgents?.length ? (
               <div className="rounded-md border border-border px-3 py-3 text-muted-foreground">
@@ -5217,7 +5217,7 @@ export function CompanySkills() {
                   onClick={() => deleteSkill.mutate()}
                   disabled={deleteSkill.isPending || !deleteTargetSkillId}
                 >
-                  {deleteSkill.isPending ? "Removing..." : "Remove skill"}
+                  {deleteSkill.isPending ? t("pages.companySkillsproduction.removing") : t("pages.companySkillsproduction.removeSkill")}
                 </Button>
               </>
             )}
@@ -5308,7 +5308,7 @@ export function CompanySkills() {
                 className="h-9 rounded-none border-0 px-0 shadow-none focus-visible:ring-0"
               />
               <Button size="sm" onClick={handleAddSkillSource} disabled={importSkill.isPending}>
-                {importSkill.isPending ? <RefreshCw className="h-4 w-4 animate-spin" /> : "Import"}
+                {importSkill.isPending ? <RefreshCw className="h-4 w-4 animate-spin" /> : t("pages.companySkillsproduction.import")}
               </Button>
             </div>
             <a

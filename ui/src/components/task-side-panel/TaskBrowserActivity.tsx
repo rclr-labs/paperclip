@@ -1,6 +1,7 @@
 import type { TaskBrowser } from "@paperclipai/shared";
 import { Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n";
 
 export function TaskBrowserActivity({
   browser,
@@ -11,6 +12,7 @@ export function TaskBrowserActivity({
   label?: string;
   onOpen?: (id: string) => void;
 }) {
+  const { t } = useTranslation();
   const closed = browser.status === "closed" || browser.status === "failed";
   return (
     <div className="flex flex-wrap items-center gap-2 py-1 text-sm" aria-label={`${label} session`}>
@@ -19,7 +21,7 @@ export function TaskBrowserActivity({
       <span className="text-muted-foreground">· {browser.status}</span>
       {onOpen && (
         <Button variant="ghost" size="sm" onClick={() => onOpen(browser.id)}>
-          {closed ? "View session" : "Open browser"}
+          {closed ? t("components.tasksidepanel.taskBrowserActivity.viewSession") : t("components.tasksidepanel.taskBrowserActivity.openBrowser")}
         </Button>
       )}
     </div>

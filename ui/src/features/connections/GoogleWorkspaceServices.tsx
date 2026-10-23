@@ -48,7 +48,7 @@ export function GoogleWorkspaceServicesDialog(props: DialogProps) {
   const existing = props.connection && props.connection.status !== "draft" ? props.connection : null;
   const grants = useQuery({ queryKey: ["workspace-service-consent", existing?.id], queryFn: () => toolsApi.listConnectionGrants(existing!.id), enabled: Boolean(existing) });
   if (existing && !grants.data) return <Dialog open onOpenChange={open => { if (!open) props.onCancel(); }}><DialogContent>
-    <DialogTitle>{t("features.connections.googleWorkspaceServices.connectGoogleWorkspace")}</DialogTitle><DialogDescription>{grants.isError ? "Could not load your saved service access. Your connection has not changed." : "Loading your saved service access…"}</DialogDescription>
+    <DialogTitle>{t("features.connections.googleWorkspaceServices.connectGoogleWorkspace")}</DialogTitle><DialogDescription>{grants.isError ? t("features.connections.googleWorkspaceServices.couldNotLoadYourSavedService") : t("features.connections.googleWorkspaceServices.loadingYourSavedServiceAccess")}</DialogDescription>
     <footer className="flex items-center justify-between gap-3"><Button variant="ghost" onClick={() => props.onCancel()}>{t("features.connections.googleWorkspaceServices.cancel")}</Button>{grants.isError && <Button onClick={() => void grants.refetch()}>{t("features.connections.googleWorkspaceServices.tryAgain")}</Button>}</footer>
   </DialogContent></Dialog>;
   const grant = grants.data?.grants.find(grant => existing?.credentialPolicy === "per_user"

@@ -442,7 +442,7 @@ export function TriggersSection() {
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-muted-foreground">
           {routine.triggers.length === 0
-            ? "No triggers yet"
+            ? t("components.routinesections.editablesectionsproduction.noTriggersYet")
             : `${routine.triggers.length} trigger${routine.triggers.length === 1 ? "" : "s"}`}
         </p>
         <Button
@@ -555,7 +555,7 @@ export function TriggersSection() {
             }
             disabled={addDisabled}
           >
-            {createTrigger.isPending ? "Adding..." : "Add trigger"}
+            {createTrigger.isPending ? t("components.routinesections.editablesectionsproduction.adding") : t("components.routinesections.editablesectionsproduction.addTrigger")}
           </Button>
         </div>
       </div>

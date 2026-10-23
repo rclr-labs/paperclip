@@ -388,7 +388,7 @@ function TaskChatBubbleContent({
       ) : null}
       {item.optimistic ? (
         <span className="flex items-center gap-1 px-1 text-(length:--text-micro) text-muted-foreground">
-          <span>{item.optimistic === "queued" ? "Queued" : "Sending…"}</span>
+          <span>{item.optimistic === "queued" ? t("components.taskchat.taskChatBubble.queued") : t("components.taskchat.taskChatBubble.sending")}</span>
           {item.optimistic === "queued" ? queuedAction : null}
         </span>
       ) : attachedTurn ? (
@@ -426,7 +426,7 @@ function TaskChatBubbleContent({
       ) : item.timestamp || sentFromIMessage ? (
         // Timestamps are always visible (round 9) — no longer hover-revealed.
         <span className="px-1 text-(length:--text-micro) text-muted-foreground">
-          {sentFromIMessage ? "Sent from iMessage" : null}
+          {sentFromIMessage ? t("components.taskchat.taskChatBubble.sentFromImessage") : null}
           {sentFromIMessage && item.timestamp ? " · " : null}
           {item.timestamp}
         </span>

@@ -235,7 +235,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              {editing ? "Edit user secret" : "New user secret"}
+              {editing ? t("pages.secrets.userSecretDefinitionsTab.editUserSecret") : t("pages.secrets.userSecretDefinitionsTab.newUserSecret")}
               <UserSecretChip />
             </DialogTitle>
             <DialogDescription>
@@ -273,7 +273,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
                 disabled={Boolean(editing)}
               />
               <p className="text-(length:--text-micro) text-muted-foreground">
-                Stable identifier referenced by env bindings. {editing ? "Cannot be changed." : ""}
+                Stable identifier referenced by env bindings. {editing ? t("pages.secrets.userSecretDefinitionsTab.cannotBeChanged") : ""}
               </p>
             </div>
             <div className="space-y-1">
@@ -327,7 +327,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
               {t("pages.secrets.userSecretDefinitionsTab.cancel")}
             </Button>
             <Button onClick={() => save.mutate()} disabled={!canSave || save.isPending}>
-              {save.isPending ? "Saving…" : editing ? "Save changes" : "Create"}
+              {save.isPending ? t("pages.secrets.userSecretDefinitionsTab.saving") : editing ? t("pages.secrets.userSecretDefinitionsTab.saveChanges") : t("pages.secrets.userSecretDefinitionsTab.create")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -352,7 +352,7 @@ export function UserSecretDefinitionsTab({ companyId }: { companyId: string }) {
               onClick={() => deleteTarget && remove.mutate(deleteTarget)}
               disabled={remove.isPending}
             >
-              {remove.isPending ? "Removing…" : "Remove"}
+              {remove.isPending ? t("pages.secrets.userSecretDefinitionsTab.removing") : t("pages.secrets.userSecretDefinitionsTab.remove")}
             </Button>
           </DialogFooter>
         </DialogContent>

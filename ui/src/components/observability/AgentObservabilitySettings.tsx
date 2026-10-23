@@ -141,22 +141,22 @@ export function AgentObservabilitySettingsView(props: AgentObservabilitySettings
           </div>
         </details>
       </fieldset>
-      {(validation || error || hasConflict) && <p role="alert" className="text-sm text-destructive">{validation || error || "Another administrator changed these settings. Reload the saved settings to continue."}</p>}
+      {(validation || error || hasConflict) && <p role="alert" className="text-sm text-destructive">{validation || error || t("components.observability.agentObservabilitySettings.anotherAdministratorChangedTheseSettingsReload")}</p>}
       {hasConflict && <Button type="button" size="sm" variant="outline" disabled={busy} onClick={() => { reset(); onReload?.(); }}>{t("components.observability.agentObservabilitySettings.reloadSavedSettings")}</Button>}
       {!dirty && receipt && <div role="status" className="space-y-1 text-sm">
-        <p className="font-medium">{receipt.status === "accepted" ? "Test payload accepted" : receipt.status === "partial" ? "Some test records were rejected" : "Test payload failed"}</p>
+        <p className="font-medium">{receipt.status === "accepted" ? t("components.observability.agentObservabilitySettings.testPayloadAccepted") : receipt.status === "partial" ? t("components.observability.agentObservabilitySettings.someTestRecordsWereRejected") : t("components.observability.agentObservabilitySettings.testPayloadFailed")}</p>
         <p className="text-xs text-muted-foreground">{new Date(receipt.finishedAt).toLocaleString()} · Sent from the Paperclip server.</p>
         {(["logs", "traces"] as const).map(signal => receipt.signals[signal].message && <p key={signal}>{signal === "logs" ? "Logs" : "Traces"}: {receipt.signals[signal].message}</p>)}
       </div>}
       <div className="flex items-center justify-between gap-3">
         <Button type="button" variant="ghost" disabled={busy || !dirty} onClick={reset}>{t("components.observability.agentObservabilitySettings.cancel")}</Button>
-        <Button type="button" disabled={busy || !dirty || hasConflict} onClick={() => save()}>{saving ? "Saving…" : "Save changes"}</Button>
+        <Button type="button" disabled={busy || !dirty || hasConflict} onClick={() => save()}>{saving ? t("components.observability.agentObservabilitySettings.saving") : t("components.observability.agentObservabilitySettings.saveChanges")}</Button>
       </div>
       {dirty && settings && <p className="text-xs text-muted-foreground">{t("components.observability.agentObservabilitySettings.saveChangesBeforeTesting")}</p>}
       {settings && <div className="flex flex-wrap items-center gap-2">
-        <Button type="button" variant="outline" disabled={busy || dirty || hasConflict} onClick={onTest}>{testing ? "Testing…" : "Test saved settings"}</Button>
+        <Button type="button" variant="outline" disabled={busy || dirty || hasConflict} onClick={onTest}>{testing ? t("components.observability.agentObservabilitySettings.testing") : t("components.observability.agentObservabilitySettings.testSavedSettings")}</Button>
         {settings.enabled && <Button type="button" size="sm" variant="ghost" disabled={busy || dirty || hasConflict} onClick={() => save(false)}>{t("components.observability.agentObservabilitySettings.disableExport")}</Button>}
-        <Button type="button" size="sm" variant="ghost" disabled={busy || dirty || hasConflict} onClick={onRemove}>{removing ? "Removing…" : "Remove configuration"}</Button>
+        <Button type="button" size="sm" variant="ghost" disabled={busy || dirty || hasConflict} onClick={onRemove}>{removing ? t("components.observability.agentObservabilitySettings.removing") : t("components.observability.agentObservabilitySettings.removeConfiguration")}</Button>
       </div>}
     </>}
   </section>;

@@ -111,7 +111,7 @@ export function DispositionRecoveryNotice({ snapshot, createdAt, defaultExpanded
       <div className="flex min-w-0 flex-1 flex-col gap-2">
         <div className="flex flex-col gap-1" role="status" aria-live="polite">
           <h2 id={titleId} className="break-words text-sm font-medium text-foreground">
-            {requested ? "Retry requested" : historical ? "Agent needed attention" : "Agent needs attention"}
+            {requested ? t("components.dispositionRecoveryNotice.retryRequested") : historical ? t("components.dispositionRecoveryNotice.agentNeededAttention") : t("components.dispositionRecoveryNotice.agentNeedsAttention")}
           </h2>
           <p className="text-sm leading-relaxed text-muted-foreground">
             {requested ? `The task was returned to To do for ${agentName}.` : descriptionFor(snapshot)}
@@ -127,11 +127,11 @@ export function DispositionRecoveryNotice({ snapshot, createdAt, defaultExpanded
           {!requested && !historical ? (
             <Button size="xs" variant="outline" disabled={pending || Boolean(unavailableReason)} aria-describedby={unavailableReason ? unavailableId : undefined} onClick={() => void retry()}>
               {pending ? <Loader2 aria-hidden="true" className="size-3 animate-spin motion-reduce:animate-none" /> : <RotateCcw aria-hidden="true" className="size-3" />}
-              {pending ? "Requesting retry…" : "Retry agent"}
+              {pending ? t("components.dispositionRecoveryNotice.requestingRetry") : t("components.dispositionRecoveryNotice.retryAgent")}
             </Button>
           ) : null}
           <Button size="xs" variant="ghost" className="text-muted-foreground" aria-expanded={expanded} aria-controls={detailsId} onClick={() => setExpanded(current => !current)}>
-            {expanded ? "Hide details" : "View details"}
+            {expanded ? t("components.dispositionRecoveryNotice.hideDetails") : t("components.dispositionRecoveryNotice.viewDetails")}
             <ChevronDown aria-hidden="true" className={cn("size-3", expanded && "rotate-180")} />
           </Button>
           {createdAt ? <time dateTime={createdAt} className="font-mono text-xs text-muted-foreground sm:ml-auto">{timeAgo(createdAt)}</time> : null}

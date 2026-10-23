@@ -115,7 +115,7 @@ export function BuiltInAgentGate({ agentKey, companyId, featureLabel, children }
                 onClick={() => state.agent && resume.mutate(state.agent.id)}
                 disabled={resume.isPending}
               >
-                {resume.isPending ? "Resuming…" : "Resume agent"}
+                {resume.isPending ? t("components.builtInAgentGate.resuming") : t("components.builtInAgentGate.resumeAgent")}
               </Button>
             </>
           }

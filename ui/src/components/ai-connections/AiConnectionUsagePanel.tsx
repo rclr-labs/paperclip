@@ -85,7 +85,7 @@ export function AiConnectionUsagePanel({ account, observation, cachedOnly = fals
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h3 className="text-sm font-semibold">{t("components.aiconnections.aiConnectionUsagePanel.usage")}</h3>
         {supported && !cachedOnly && <Button variant="outline" size="sm" disabled={probe.isPending || account.status !== "connected"} onClick={() => probe.mutate()}>
-          {probe.isPending ? "Checking…" : usage?.status === "ok" ? "Refresh" : "Check usage"}
+          {probe.isPending ? t("components.aiconnections.aiConnectionUsagePanel.checking") : usage?.status === "ok" ? t("components.aiconnections.aiConnectionUsagePanel.refresh") : t("components.aiconnections.aiConnectionUsagePanel.checkUsage")}
         </Button>}
       </div>
       {cachedOnly && !usage && <p className="text-xs text-muted-foreground">{t("components.aiconnections.aiConnectionUsagePanel.usageNotObserved")}</p>}

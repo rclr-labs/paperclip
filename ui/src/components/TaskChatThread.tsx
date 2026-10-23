@@ -3056,7 +3056,7 @@ export function TaskChatThread(props: TaskChatThreadProps) {
                   role="status"
                   className="absolute inset-x-0 top-0 z-20 mx-auto flex w-full max-w-(--tc-shell-max-w) items-center gap-2 border border-border bg-background px-4 py-2 text-sm text-muted-foreground"
                 >
-                  {historyError ? "Some task history could not be loaded." : "Some task history is still loading."}
+                  {historyError ? t("components.taskChatThread.someTaskHistoryCouldNotBe") : t("components.taskChatThread.someTaskHistoryIsStillLoading")}
                   {historyError ? (
                     <Button variant="ghost" size="sm" onClick={retryHistory}>
                       {t("components.taskChatThread.retry")}

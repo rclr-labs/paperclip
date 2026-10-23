@@ -2008,8 +2008,8 @@ function StandardConnectionSetupFlow({
         <h2 className="text-lg font-semibold text-foreground">{t("features.connections.connectionSetupFlow.thisConnectionCanTBeReconnected")}</h2>
         <p className="mt-2 text-sm text-muted-foreground">
           {!reconnectConnection
-            ? "The retained connection no longer exists or is not available to this organization."
-            : "This reconnect link does not match the retained connection's provider."}
+            ? t("features.connections.connectionSetupFlow.theRetainedConnectionNoLongerExists")
+            : t("features.connections.connectionSetupFlow.thisReconnectLinkDoesNotMatch")}
         </p>
         <Button type="button" variant="outline" className="mt-5" onClick={() => navigate("/apps")}>
           {t("features.connections.connectionSetupFlow.backToApps")}
@@ -2084,7 +2084,7 @@ function StandardConnectionSetupFlow({
       <div className="max-w-5xl" data-testid="connection-existing-choice">
         <div className="mb-6">
           <h1 className="text-2xl font-bold tracking-tight">
-            Use an existing {requestedAppKey ? "connection" : "app connection"}
+            Use an existing {requestedAppKey ? "connection" : t("features.connections.connectionSetupFlow.appConnection")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {t("features.connections.connectionSetupFlow.reuseAConnectionWithoutChangingWho")}
@@ -2111,7 +2111,7 @@ function StandardConnectionSetupFlow({
         ) : null}
         <div className="mt-5 flex flex-wrap gap-2">
           <Button type="button" variant="outline" onClick={() => setShowConnectionChoice(false)}>
-            {configuredConnection ? "Review connection setup" : "Connect new"}
+            {configuredConnection ? t("features.connections.connectionSetupFlow.reviewConnectionSetup") : t("features.connections.connectionSetupFlow.connectNew")}
           </Button>
           {onCancel ? <Button type="button" variant="ghost" onClick={onCancel}>{t("features.connections.connectionSetupFlow.cancel")}</Button> : null}
         </div>
@@ -2559,7 +2559,7 @@ function StandardConnectionSetupFlow({
 
             {connectorEnrollmentQuery.isError || connectorEnrollmentError ? (
               <InlineBanner tone="danger" className="mt-4">
-                {connectorEnrollmentError ?? "Paperclip couldn’t check Cloud registration. Try again."}
+                {connectorEnrollmentError ?? t("features.connections.connectionSetupFlow.paperclipCouldnTCheckCloudRegistration")}
               </InlineBanner>
             ) : null}
 
@@ -2590,8 +2590,8 @@ function StandardConnectionSetupFlow({
               >
                 {startConnectorEnrollment.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 {connectorEnrollmentQuery.data?.status === "pending"
-                  ? "Continue"
-                  : "Connect with Paperclip"}
+                  ? t("features.connections.connectionSetupFlow.continue")
+                  : t("features.connections.connectionSetupFlow.connectWithPaperclip")}
               </Button>
             </div>
           </div>
@@ -2921,12 +2921,12 @@ export function OAuthConnectStateScreen({
             <Button type="button" onClick={onRetry} disabled={!settingsValid}>
               {phase === "entry"
                 ? resuming ? `Finish with ${serverName}` : `Continue to ${serverName}`
-                : "Try again"}
+                : t("features.connections.connectionSetupFlow.tryAgain")}
               {phase === "entry" ? <ArrowUpRight className="h-4 w-4" aria-hidden="true" /> : null}
             </Button>
           ) : (
             <Button type="button" disabled>
-              {phase === "redirecting" ? `Opening ${serverName}…` : "Preparing…"}
+              {phase === "redirecting" ? `Opening ${serverName}…` : t("features.connections.connectionSetupFlow.preparing")}
             </Button>
           )}
           {authorizationUrl ? <Button variant="outline" asChild><a href={authorizationUrl} target="_blank" rel="noopener noreferrer" onClick={onOpenAuthorization}>{t("features.connections.connectionSetupFlow.openSignInInANew")}</a></Button> : null}
@@ -2988,7 +2988,7 @@ function ZapierConnectStep({
         </Button>
         <Button onClick={onConnect} disabled={submitting || !isZapierLink}>
           {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {submitting ? "Checking…" : "Check link"}
+          {submitting ? t("features.connections.connectionSetupFlow.checking") : t("features.connections.connectionSetupFlow.checkLink")}
         </Button>
       </div>
     </div>
@@ -3096,7 +3096,7 @@ function GalleryStep({
           </div>
           {vercelConnectAvailability?.available === false ? (
             <InlineBanner tone="danger" compact className="mt-4">
-              {vercelConnectAvailability.reason ?? "Vercel Connect is unavailable on this instance."}
+              {vercelConnectAvailability.reason ?? t("features.connections.connectionSetupFlow.vercelConnectIsUnavailableOnThis")}
             </InlineBanner>
           ) : null}
         </div>
@@ -3176,14 +3176,14 @@ function GalleryStep({
         <div>
           <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
             <Link2 className="h-4 w-4 text-muted-foreground" />
-            {zapierSource ? "Connect Zapier" : byo ? "Connect your own MCP server" : "Connect with a link"}
+            {zapierSource ? t("features.connections.connectionSetupFlow.connectZapier") : byo ? t("features.connections.connectionSetupFlow.connectYourOwnMcpServer") : t("features.connections.connectionSetupFlow.connectWithALink")}
           </div>
           <p className="mt-1 text-xs text-muted-foreground">
             {zapierSource
-              ? "Paste the complete MCP URL Zapier gives you, including its token."
+              ? t("features.connections.connectionSetupFlow.pasteTheCompleteMcpUrlZapier")
               : byo
-              ? "Paste your MCP server’s URL and every discovered tool will be available immediately."
-              : "Paste a setup link from an app that is not listed here."}
+              ? t("features.connections.connectionSetupFlow.pasteYourMcpServerSUrl")
+              : t("features.connections.connectionSetupFlow.pasteASetupLinkFromAn")}
           </p>
           {!zapierSource && (
             <p className="mt-1 text-xs text-muted-foreground">
@@ -3212,9 +3212,9 @@ function GalleryStep({
                 }}
               >
                 {matchedEntry.availability?.available === false
-                  ? "Not available"
+                  ? t("features.connections.connectionSetupFlow.notAvailable")
                   : matchedEntry.slug === "zapier"
-                    ? "Continue"
+                    ? t("features.connections.connectionSetupFlow.continue")
                     : `Use ${matchedEntry.name}`}
               </Button>
             </div>
@@ -3507,7 +3507,7 @@ function LinkConnectStep({
         </Button>
         <Button onClick={onConnect} disabled={submitting || !canSubmit || Boolean(headerError)}>
           {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {submitting ? "Checking…" : "Check link"}
+          {submitting ? t("features.connections.connectionSetupFlow.checking") : t("features.connections.connectionSetupFlow.checkLink")}
         </Button>
       </div>
     </div>
@@ -3775,7 +3775,7 @@ function KeyStep({
       disabled={submitting}
       onClick={() => onMethodChange(usingCustomOAuth ? managedOAuthMethod : customerOAuthMethod)}
     >
-      {usingCustomOAuth ? "Use Paperclip instead" : `Use your own ${isGoogleWorkspaceConnectorProfileId(managedOAuthMethod.connectorProfile ?? "") ? "Google" : entry.name} OAuth app`}
+      {usingCustomOAuth ? t("features.connections.connectionSetupFlow.usePaperclipInstead") : `Use your own ${isGoogleWorkspaceConnectorProfileId(managedOAuthMethod.connectorProfile ?? "") ? t("features.connections.connectionSetupFlow.google") : entry.name} OAuth app`}
     </Button>
   ) : capabilityMethods.length > 1 ? (
     // PAP-659 C1: the ranked default is already selected. This stays as the
@@ -3888,7 +3888,7 @@ function KeyStep({
           </Button>
           <Button onClick={onConnect} disabled={submitting || !canConnect}>
             {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {submitting ? "Checking…" : "Connect"}
+            {submitting ? t("features.connections.connectionSetupFlow.checking") : t("features.connections.connectionSetupFlow.connect")}
           </Button>
         </div>
       </div>
@@ -4030,12 +4030,12 @@ function KeyStep({
         <Button onClick={onConnect} disabled={submitting || !settingsValid || !hasMethodSelection || !allFilled || !oauthClientFilled || !vercelConnectorFilled || !configFilled || !configRequirementMet}>
           {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {submitting
-            ? "Checking…"
+            ? t("features.connections.connectionSetupFlow.checking")
             : usingVercel
-              ? method?.auth === "oauth" ? "Validate and continue" : "Validate and connect"
+              ? method?.auth === "oauth" ? t("features.connections.connectionSetupFlow.validateAndContinue") : t("features.connections.connectionSetupFlow.validateAndConnect")
               : method?.auth === "oauth"
-                ? entry.slug === "github" ? "Continue to GitHub" : "Continue to sign in"
-                : "Connect"}
+                ? entry.slug === "github" ? t("features.connections.connectionSetupFlow.continueToGithub") : t("features.connections.connectionSetupFlow.continueToSignIn")
+                : t("features.connections.connectionSetupFlow.connect")}
         </Button>
       </div>
     </div>
@@ -4048,6 +4048,7 @@ function KeyStep({
  * has to say whether the clipboard actually took it.
  */
 function CopyValueButton({ value, ariaLabel }: { value: string; ariaLabel: string }) {
+  const { t } = useTranslation();
   const { copied, failed, copy } = useCopyAction();
   return (
     <Button
@@ -4058,7 +4059,7 @@ function CopyValueButton({ value, ariaLabel }: { value: string; ariaLabel: strin
       onClick={() => void copy(value)}
     >
       {copied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-      {copied ? "Copied" : failed ? "Copy failed" : "Copy"}
+      {copied ? t("features.connections.connectionSetupFlow.copied") : failed ? t("features.connections.connectionSetupFlow.copyFailed") : t("features.connections.connectionSetupFlow.copy")}
     </Button>
   );
 }
@@ -4087,7 +4088,7 @@ function OAuthClientFields({
     <div className="space-y-4 rounded-lg border border-border p-4">
       <div>
         <div className="text-sm font-medium text-foreground">
-          {required ? method.oauthClientSecretRequired ? "Your OAuth app" : `${entry.name} needs its own OAuth app` : "Use your own OAuth app"}
+          {required ? method.oauthClientSecretRequired ? t("features.connections.connectionSetupFlow.yourOauthApp") : `${entry.name} needs its own OAuth app` : "Use your own OAuth app"}
         </div>
         {/*
           When these fields are required it is a provider limitation, not a step
@@ -4353,18 +4354,18 @@ export function AccessStepContent({
                 <div>
                   <div className="text-sm font-medium text-foreground">
                     {allowedGrantKinds[0] === "user"
-                      ? githubIdentity ? "My GitHub account" : "Just me"
+                      ? githubIdentity ? t("features.connections.connectionSetupFlow.myGithubAccount") : t("features.connections.connectionSetupFlow.justMe")
                       : allowedGrantKinds[0] === "agent"
-                        ? "A dedicated account for an agent"
-                        : githubIdentity ? "Shared organization GitHub account (advanced)" : "Any human in the organization"}
+                        ? t("features.connections.connectionSetupFlow.aDedicatedAccountForAnAgent")
+                        : githubIdentity ? t("features.connections.connectionSetupFlow.sharedOrganizationGithubAccountAdvanced") : t("features.connections.connectionSetupFlow.anyHumanInTheOrganization")}
                   </div>
                   {githubIdentity ? (
                     <p className="mt-1 text-xs text-muted-foreground">
                       {allowedGrantKinds[0] === "user"
-                        ? "Agents use it only for runs where you are the responsible person."
+                        ? t("features.connections.connectionSetupFlow.agentsUseItOnlyForRuns")
                         : allowedGrantKinds[0] === "agent"
-                          ? "That agent always uses this account, regardless of who starts the run."
-                          : "Eligible agents use one shared credential, regardless of who starts the run."}
+                          ? t("features.connections.connectionSetupFlow.thatAgentAlwaysUsesThisAccount")
+                          : t("features.connections.connectionSetupFlow.eligibleAgentsUseOneSharedCredential")}
                     </p>
                   ) : null}
                 </div>

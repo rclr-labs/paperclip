@@ -538,12 +538,12 @@ export function WorkspaceRuntimeControls({
               )}
             >
               <Activity className="h-3.5 w-3.5" />
-              {runningCount > 0 ? `${runningCount} services running` : "No services running"}
+              {runningCount > 0 ? `${runningCount} services running` : t("components.workspaceRuntimeControls.noServicesRunning")}
             </Badge>
             <span className="text-xs text-muted-foreground">
               {sections.jobs.length > 0
                 ? `${sections.jobs.length} job${sections.jobs.length === 1 ? "" : "s"} available to run on demand.`
-                : "Each command can be controlled independently."}
+                : t("components.workspaceRuntimeControls.eachCommandCanBeControlledIndependently")}
             </span>
           </div>
           {visibleDisabledHint ? <p className="text-xs text-muted-foreground">{visibleDisabledHint}</p> : null}

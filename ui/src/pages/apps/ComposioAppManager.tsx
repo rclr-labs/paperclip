@@ -49,7 +49,7 @@ function ComposioAccountObservations({ app, connection, onClose }: { app: Aggreg
     } finally { setBusy(false); }
   }
   return <>
-    {error || accountsQuery.isError ? <p role="alert" className="text-sm text-destructive">{error ?? "Couldn’t load Composio accounts. Refresh to try again."}</p> : null}
+    {error || accountsQuery.isError ? <p role="alert" className="text-sm text-destructive">{error ?? t("pages.apps.composioAppManager.couldnTLoadComposioAccountsRefresh")}</p> : null}
     {accountsQuery.isLoading ? <p role="status" className="text-sm text-muted-foreground">{t("pages.apps.composioAppManager.loadingAccounts")}</p> : accounts.length === 0 ? <p className="text-sm text-muted-foreground">{t("pages.apps.composioAppManager.noConnectedAccounts", { name: app.name })}</p> : <div className="divide-y divide-border">
       {accounts.map(({ account, snapshot }) => <div key={`${snapshot.toolkit}:${account.id}`} className="py-3">
         <p className="truncate text-sm font-medium">{account.alias || `${app.name} account`}</p>
@@ -62,7 +62,7 @@ function ComposioAccountObservations({ app, connection, onClose }: { app: Aggreg
       <p>{t("pages.apps.composioAppManager.composioPermissionsApplyToAllApps")}</p>
     </div>
     <DialogFooter className="sm:items-center sm:justify-between"><Button variant="ghost" onClick={onClose}>{t("pages.apps.composioAppManager.close")}</Button>
-      <div className="flex items-center gap-2"><Button variant="ghost" disabled={busy} onClick={() => void refresh()}>{busy ? "Checking…" : "Refresh"}</Button>
+      <div className="flex items-center gap-2"><Button variant="ghost" disabled={busy} onClick={() => void refresh()}>{busy ? t("pages.apps.composioAppManager.checking") : t("pages.apps.composioAppManager.refresh")}</Button>
         <Button asChild><a href={COMPOSIO_APP_MANAGEMENT_URL} target="_blank" rel="noopener noreferrer">{t("pages.apps.composioAppManager.openInComposio")}<ExternalLink className="size-4" /></a></Button></div>
     </DialogFooter>
   </>;

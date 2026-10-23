@@ -339,7 +339,7 @@ function RecentTasksList({
                 type="submit"
                 disabled={pendingAction === "rename" || !renameValue.trim()}
               >
-                {pendingAction === "rename" ? "Saving..." : "Save"}
+                {pendingAction === "rename" ? t("components.sidebarRecentTasks.saving") : t("components.sidebarRecentTasks.save")}
               </Button>
             </DialogFooter>
           </form>

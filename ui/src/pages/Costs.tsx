@@ -856,7 +856,7 @@ export function Costs({
                   </Card>
                   {userSpendError && (
                     <p role="status" className="text-sm text-muted-foreground">
-                      {userSpendData ? "User costs could not be refreshed. Showing the last loaded data." : "User costs could not be loaded. Please try again shortly."}
+                      {userSpendData ? t("pages.costs.userCostsCouldNotBeRefreshed") : t("pages.costs.userCostsCouldNotBeLoaded")}
                     </p>
                   )}
                   {userSpendData && <CostByUserTable report={userSpendData} />}
@@ -916,7 +916,7 @@ export function Costs({
                 />
               ) : (
                 <p role="status" className="text-sm text-muted-foreground">
-                  {financeLoading ? "Loading financial events…" : "Financial events could not be loaded. Please try again shortly."}
+                  {financeLoading ? t("pages.costs.loadingFinancialEvents") : t("pages.costs.financialEventsCouldNotBeLoaded")}
                 </p>
               )}
             </>

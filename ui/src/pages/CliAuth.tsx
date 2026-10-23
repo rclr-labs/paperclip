@@ -77,7 +77,7 @@ export function CliAuthPage() {
   const waitingForRateLimit = isCliAuthRateLimit(challengeQuery.failureReason) && challengeQuery.isFetching;
   if (sessionQuery.isLoading || challengeQuery.isLoading || waitingForRateLimit) {
     return <div role="status" className="mx-auto max-w-xl py-10 text-sm text-muted-foreground">
-      {waitingForRateLimit ? "Too many CLI approval requests. Retrying shortly..." : "Loading CLI auth challenge..."}
+      {waitingForRateLimit ? t("pages.cliAuth.tooManyCliApprovalRequestsRetrying") : t("pages.cliAuth.loadingCliAuthChallenge")}
     </div>;
   }
 
@@ -87,7 +87,7 @@ export function CliAuthPage() {
         <Card className="block p-6">
           <h1 className="text-lg font-semibold">{t("pages.cliAuth.cliAuthChallengeUnavailable2")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {challengeQuery.error instanceof Error ? challengeQuery.error.message : "Challenge is invalid or expired."}
+            {challengeQuery.error instanceof Error ? challengeQuery.error.message : t("pages.cliAuth.challengeIsInvalidOrExpired")}
           </p>
         </Card>
       </div>
@@ -120,7 +120,7 @@ export function CliAuthPage() {
       <div className="mx-auto max-w-xl py-10">
         <Card className="block p-6">
           <h1 className="text-xl font-semibold">
-            {challenge.status === "expired" ? "CLI auth challenge expired" : "CLI auth challenge cancelled"}
+            {challenge.status === "expired" ? t("pages.cliAuth.cliAuthChallengeExpired") : t("pages.cliAuth.cliAuthChallengeCancelled")}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {t("pages.cliAuth.startTheCliAuthFlowAgain")}
@@ -161,12 +161,12 @@ export function CliAuthPage() {
           </div>
           <div>
             <div className="text-muted-foreground">{t("pages.cliAuth.client")}</div>
-            <div className="text-foreground">{challenge.clientName ?? "paperclipai cli"}</div>
+            <div className="text-foreground">{challenge.clientName ?? t("pages.cliAuth.paperclipaiCli")}</div>
           </div>
           <div>
             <div className="text-muted-foreground">{t("pages.cliAuth.requestedAccess")}</div>
             <div className="text-foreground">
-              {challenge.requestedAccess === "instance_admin_required" ? "Instance admin" : "Board"}
+              {challenge.requestedAccess === "instance_admin_required" ? t("pages.cliAuth.instanceAdmin") : t("pages.cliAuth.board")}
             </div>
           </div>
           {challenge.requestedCompanyName && (
@@ -181,15 +181,15 @@ export function CliAuthPage() {
           <p className="mt-4 text-sm text-destructive">
             {(approveMutation.error ?? cancelMutation.error) instanceof Error
               ? ((approveMutation.error ?? cancelMutation.error) as Error).message
-              : "Failed to update CLI auth challenge"}
+              : t("pages.cliAuth.failedToUpdateCliAuthChallenge")}
           </p>
         )}
 
         {!challenge.canApprove && (
           <p className="mt-4 text-sm text-destructive">
             {challenge.requestedAccess === "instance_admin_required"
-              ? "This challenge requires instance-admin access. Sign in with an instance admin account to approve it."
-              : "You do not have access to the requested organization."}
+              ? t("pages.cliAuth.thisChallengeRequiresInstanceAdminAccess")
+              : t("pages.cliAuth.youDoNotHaveAccessTo")}
           </p>
         )}
 
@@ -198,7 +198,7 @@ export function CliAuthPage() {
             onClick={() => approveMutation.mutate()}
             disabled={!challenge.canApprove || approveMutation.isPending || cancelMutation.isPending}
           >
-            {approveMutation.isPending ? "Approving..." : "Approve CLI access"}
+            {approveMutation.isPending ? t("pages.cliAuth.approving") : t("pages.cliAuth.approveCliAccess")}
           </Button>
           <Button
             type="button"
@@ -206,7 +206,7 @@ export function CliAuthPage() {
             onClick={() => cancelMutation.mutate()}
             disabled={approveMutation.isPending || cancelMutation.isPending}
           >
-            {cancelMutation.isPending ? "Cancelling..." : "Cancel"}
+            {cancelMutation.isPending ? t("pages.cliAuth.cancelling") : t("pages.cliAuth.cancel")}
           </Button>
         </div>
       </Card>

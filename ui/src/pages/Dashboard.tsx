@@ -342,7 +342,7 @@ export function Dashboard() {
               disabled={resumeImportedAgents.isPending}
               data-testid="dashboard-resume-imported-agents"
             >
-              {resumeImportedAgents.isPending ? "Resuming…" : "Resume all"}
+              {resumeImportedAgents.isPending ? t("pages.dashboard.resuming") : t("pages.dashboard.resumeAll")}
             </Button>
           }
         >
@@ -441,7 +441,7 @@ export function Dashboard() {
                 <span>
                   {data.costs.monthBudgetCents > 0
                     ? `${data.costs.monthUtilizationPercent}% of ${formatCents(data.costs.monthBudgetCents)} budget`
-                    : "Unlimited budget"}
+                    : t("pages.dashboard.unlimitedBudget")}
                 </span>
               }
             />
@@ -455,7 +455,7 @@ export function Dashboard() {
                 <span>
                   {data.budgets.pendingApprovals > 0
                     ? `${data.budgets.pendingApprovals} budget overrides awaiting board review`
-                    : "Awaiting board review"}
+                    : t("pages.dashboard.awaitingBoardReview")}
                 </span>
               }
             />

@@ -257,7 +257,7 @@ export function AuditRuns({ companyId, routineId }: { companyId: string; routine
       ) : runs.error ? (
         <div className="flex flex-col items-center gap-3 border-y border-border py-14 text-center">
           <p className="text-sm text-muted-foreground">
-            {runs.error instanceof Error ? runs.error.message : "Failed to load runs."}
+            {runs.error instanceof Error ? runs.error.message : t("pages.audit.auditRuns.failedToLoadRuns")}
           </p>
           <Button variant="outline" size="sm" onClick={() => runs.refetch()}>
             {t("pages.audit.auditRuns.tryAgain")}

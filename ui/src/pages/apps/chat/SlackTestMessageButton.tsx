@@ -57,9 +57,9 @@ export function SlackTestMessageButton({ endpointId }: { endpointId: string }) {
   return <div className="space-y-2">
       <Button variant="outline" disabled={send.isPending || sent || Boolean(pendingConnection && !invitationExpired)} onClick={startTest}>
         {send.isPending ? <Loader2 className="size-4 animate-spin" /> : sent ? <Check className="size-4" /> : <Send className="size-4" />}
-        {send.isPending ? "Sending…" : sent ? "Test message sent" : invitationExpired ? "Request a new invitation" : pendingConnection ? "Waiting for Slack connection…" : "Send me a test message"}
+        {send.isPending ? t("pages.apps.chat.slackTestMessageButton.sending") : sent ? t("pages.apps.chat.slackTestMessageButton.testMessageSent") : invitationExpired ? t("pages.apps.chat.slackTestMessageButton.requestANewInvitation") : pendingConnection ? t("pages.apps.chat.slackTestMessageButton.waitingForSlackConnection") : t("pages.apps.chat.slackTestMessageButton.sendMeATestMessage")}
       </Button>
-    {pendingConnection && <p role="status" className="text-sm text-muted-foreground">{invitationExpired ? "The Slack invitation expired." : "Open the invitation in Slack to connect your account."}</p>}
+    {pendingConnection && <p role="status" className="text-sm text-muted-foreground">{invitationExpired ? t("pages.apps.chat.slackTestMessageButton.theSlackInvitationExpired") : t("pages.apps.chat.slackTestMessageButton.openTheInvitationInSlackTo")}</p>}
     {send.isError && <div role="alert" className="max-w-sm text-sm text-destructive">
       {send.error.message} <button className="underline" onClick={reset}>{t("pages.apps.chat.slackTestMessageButton.dismiss")}</button>
     </div>}
@@ -82,7 +82,7 @@ export function SlackTestMessageButton({ endpointId }: { endpointId: string }) {
         {send.isError && <p role="alert" className="text-sm text-destructive">{send.error.message}</p>}
         <div className="flex items-center justify-between gap-3">
           <Button variant="ghost" disabled={send.isPending} onClick={() => setAccounts(null)}>{t("pages.apps.chat.slackTestMessageButton.cancel")}</Button>
-          <Button disabled={!selected || send.isPending} onClick={() => send.mutate({ slackUserId: selected })}>{send.isPending ? "Sending invitation…" : "Send connection invitation"}</Button>
+          <Button disabled={!selected || send.isPending} onClick={() => send.mutate({ slackUserId: selected })}>{send.isPending ? t("pages.apps.chat.slackTestMessageButton.sendingInvitation") : t("pages.apps.chat.slackTestMessageButton.sendConnectionInvitation")}</Button>
         </div>
       </DialogContent>
     </Dialog>

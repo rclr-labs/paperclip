@@ -98,7 +98,7 @@ export function RoutineTriggerCard({
             {trigger.kind === "schedule" && trigger.nextRunAt
               ? `Next: ${new Date(trigger.nextRunAt).toLocaleString()}`
               : trigger.kind === "webhook"
-                ? "Webhook"
+                ? t("components.routineTriggerCard.webhook")
                 : "API"}
           </span>
         </div>

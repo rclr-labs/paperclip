@@ -96,7 +96,7 @@ export function TaskBrowserFooter({
               <span className="font-mono tabular-nums">{countdown}</span>
             </>
           ) : (
-            "Closing…"
+            t("components.tasksidepanel.taskBrowserFooter.closing")
           )}
         </span>
       )}

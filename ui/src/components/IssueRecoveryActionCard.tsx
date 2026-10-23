@@ -497,7 +497,7 @@ function DivergenceDiagnosis({
           <span>
             Worktree claimed by{" "}
             <code className="font-mono text-foreground/90">{contentionLabel(divergence.contention)}</code>{" "}
-            {divergence.contention.hasActiveRun ? "(active run)" : "(claim held)"} — the lossless repair
+            {divergence.contention.hasActiveRun ? t("components.issueRecoveryActionCard.activeRun") : t("components.issueRecoveryActionCard.claimHeld")} — the lossless repair
             can&apos;t run while another workspace holds the live branch.
           </span>
         </p>
@@ -621,7 +621,7 @@ function BreakGlassOverride({
             onConfirm(trimmedReason);
           }}
         >
-          {pending ? "Reconciling…" : "Reconcile anyway (break-glass)"}
+          {pending ? t("components.issueRecoveryActionCard.reconciling") : t("components.issueRecoveryActionCard.reconcileAnywayBreakGlass")}
         </Button>
       </PopoverContent>
     </Popover>
@@ -737,7 +737,7 @@ function RepairWorkspace({
           <div className="flex items-center justify-between gap-2">
             <dt className="shrink-0 text-muted-foreground">{t("components.issueRecoveryActionCard.restoreTo")}</dt>
             <dd className="min-w-0 truncate font-mono text-foreground/90">
-              {divergence.expectedBranch ?? "recorded branch"}
+              {divergence.expectedBranch ?? t("components.issueRecoveryActionCard.recordedBranch")}
             </dd>
           </div>
         </dl>
@@ -752,7 +752,7 @@ function RepairWorkspace({
             onConfirm();
           }}
         >
-          {pending ? "Repairing…" : "Quarantine changes & restore branch"}
+          {pending ? t("components.issueRecoveryActionCard.repairing") : t("components.issueRecoveryActionCard.quarantineChangesRestoreBranch")}
         </Button>
       </PopoverContent>
     </Popover>
@@ -1223,7 +1223,7 @@ export function IssueRecoveryActionCard({
                 data-recovery-max-attempts={lineage.maxAttempts ?? undefined}
               >
                 <AttemptMeter lineage={lineage} />
-                <span>{attemptLabel ?? "Attempts not bounded"}</span>
+                <span>{attemptLabel ?? t("components.issueRecoveryActionCard.attemptsNotBounded")}</span>
                 {lineage.liveRunId ? (
                   <span
                     className={RETRY_PILL_CLASS}
@@ -1241,7 +1241,7 @@ export function IssueRecoveryActionCard({
                     data-testid="recovery-next-retry"
                     data-recovery-retry-expired="true"
                   >
-                    {retryOffset ? `Retry missed ${retryOffset}` : "Retry missed"}
+                    {retryOffset ? `Retry missed ${retryOffset}` : t("components.issueRecoveryActionCard.retryMissed")}
                   </span>
                 ) : retryOffset ? (
                   <span
@@ -1249,7 +1249,7 @@ export function IssueRecoveryActionCard({
                     title={formatTimeAbsolute(lineage.nextRetryAt) ?? undefined}
                     data-testid="recovery-next-retry"
                   >
-                    {retryOffset === "now" ? "Next try now" : `Next try ${retryOffset}`}
+                    {retryOffset === "now" ? t("components.issueRecoveryActionCard.nextTryNow") : `Next try ${retryOffset}`}
                   </span>
                 ) : lineage.exhausted ? (
                   <span className={RETRY_PILL_CLASS} data-testid="recovery-next-retry">
@@ -1479,7 +1479,7 @@ export function IssueRecoveryActionCard({
                     })
                   }
                 >
-                  {reissuePending ? "Creating…" : "Create isolated re-issue"}
+                  {reissuePending ? t("components.issueRecoveryActionCard.creating") : t("components.issueRecoveryActionCard.createIsolatedReIssue")}
                 </Button>
               </PopoverContent>
             </Popover>

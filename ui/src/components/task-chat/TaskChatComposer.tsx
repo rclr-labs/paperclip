@@ -1336,7 +1336,7 @@ export function TaskChatComposer({
         >
           <CircleHelp className="h-4 w-4 shrink-0" aria-hidden />
           <span className="min-w-0 flex-1 truncate">
-            {pendingTakeover?.label ?? takeover?.label ?? "Pending input"}
+            {pendingTakeover?.label ?? takeover?.label ?? t("components.taskchat.taskChatComposer.pendingInput")}
           </span>
           <span className="shrink-0 font-medium">
             {pendingTakeover?.count ?? takeover?.pendingCount ?? 1} pending
@@ -1479,8 +1479,8 @@ export function TaskChatComposer({
             {queuedEdit ? (
               <span className="px-1 text-xs font-medium text-muted-foreground">
                 {queuedEdit.stale
-                  ? "Queued message changed"
-                  : "Editing queued message"}
+                  ? t("components.taskchat.taskChatComposer.queuedMessageChanged")
+                  : t("components.taskchat.taskChatComposer.editingQueuedMessage")}
               </span>
             ) : (
               <ComposerModeChip mode={pendingMode} onRemove={onWorkModeChange ? () => changeMode("standard") : undefined}

@@ -305,7 +305,7 @@ export function GatewaysTab({ companyId }: { companyId: string }) {
                 disabled={activeProfiles.length === 0}
               >
                 <option value="" disabled>
-                  {profileLoading ? "Loading profiles..." : "Choose a profile"}
+                  {profileLoading ? t("pages.tools.gatewaysTab.loadingProfiles") : t("pages.tools.gatewaysTab.chooseAProfile")}
                 </option>
                 {activeProfiles.map((profile) => (
                   <option key={profile.id} value={profile.id}>
@@ -332,7 +332,7 @@ export function GatewaysTab({ companyId }: { companyId: string }) {
               {t("pages.tools.gatewaysTab.cancel")}
             </Button>
             <Button type="submit" size="sm" disabled={createDisabled || !createDraft.name.trim() || !createDraft.profileId}>
-              {createGatewayMutation.isPending ? "Creating..." : "Create gateway"}
+              {createGatewayMutation.isPending ? t("pages.tools.gatewaysTab.creating") : t("pages.tools.gatewaysTab.createGateway")}
             </Button>
           </div>
         </form>

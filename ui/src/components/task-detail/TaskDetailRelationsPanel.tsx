@@ -170,7 +170,7 @@ export function TaskDetailSubtasksPanel({
       {nextAction ? (
         <section className="flex flex-col gap-1.5" aria-labelledby="task-next-action-heading">
           <h3 id="task-next-action-heading" className="text-xs font-medium text-muted-foreground">
-            {nextAction.status === "blocked" ? "Blocked subtask" : "Next action"}
+            {nextAction.status === "blocked" ? t("components.taskdetail.taskDetailRelationsPanel.blockedSubtask") : t("components.taskdetail.taskDetailRelationsPanel.nextAction")}
           </h3>
           <TaskDetailTaskList
             items={[nextAction]}
@@ -180,7 +180,7 @@ export function TaskDetailSubtasksPanel({
         </section>
       ) : items.length > 0 ? (
         <p className="text-xs text-muted-foreground">
-          {allCompleted ? "All subtasks are complete." : "No remaining subtask actions."}
+          {allCompleted ? t("components.taskdetail.taskDetailRelationsPanel.allSubtasksAreComplete") : t("components.taskdetail.taskDetailRelationsPanel.noRemainingSubtaskActions")}
         </p>
       ) : (
         <p className="py-6 text-center text-sm text-muted-foreground">{t("components.taskdetail.taskDetailRelationsPanel.noSubtasksYet")}</p>
@@ -189,7 +189,7 @@ export function TaskDetailSubtasksPanel({
       {remainingItems.length > 0 ? (
         <section className="flex flex-col gap-1.5" aria-labelledby="task-other-subtasks-heading">
           <h3 id="task-other-subtasks-heading" className="text-xs font-medium text-muted-foreground">
-            {nextAction ? "Other subtasks" : "Subtasks"}
+            {nextAction ? t("components.taskdetail.taskDetailRelationsPanel.otherSubtasks") : t("components.taskdetail.taskDetailRelationsPanel.subtasks")}
           </h3>
           <TaskDetailTaskList
             items={remainingItems}

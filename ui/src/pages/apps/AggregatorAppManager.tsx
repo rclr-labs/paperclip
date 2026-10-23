@@ -22,7 +22,7 @@ export function AggregatorAppManager({ app, connections, initialConnectionId, on
   const provider = connection?.config?.sourceTemplateKey;
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}><DialogContent>
     <DialogHeader><DialogTitle>{t("pages.apps.aggregatorAppManager.manage", { name: app.name })}</DialogTitle>
-      <DialogDescription>Accounts and sign-in are managed in {isAppAggregator(provider) ? AGGREGATOR_NAMES[provider] : "the provider"}.</DialogDescription>
+      <DialogDescription>Accounts and sign-in are managed in {isAppAggregator(provider) ? AGGREGATOR_NAMES[provider] : t("pages.apps.aggregatorAppManager.theProvider")}.</DialogDescription>
     </DialogHeader>
     {connections.length > 1 ? <div className="space-y-2"><Label htmlFor="manage-aggregator-gateway">{t("pages.apps.aggregatorAppManager.connection")}</Label>
       <select id="manage-aggregator-gateway" className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm" value={connectionId} onChange={event => setConnectionId(event.target.value)}>

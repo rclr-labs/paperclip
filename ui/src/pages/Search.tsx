@@ -817,7 +817,7 @@ function SearchTabContent({
         <AlertTriangle className="h-10 w-10 text-destructive" aria-hidden />
         <div className="text-base font-semibold">{t("pages.search.couldnTRunThatSearch")}</div>
         <p className="text-sm text-muted-foreground">
-          {status ? `The server returned ${status}.` : "The request failed."} Your input and filters are still here, so
+          {status ? `The server returned ${status}.` : t("pages.search.theRequestFailed")} Your input and filters are still here, so
           you can retry or fall back to the Tasks filter.
         </p>
         <div className="flex flex-wrap items-center justify-center gap-2">

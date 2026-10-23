@@ -29,7 +29,7 @@ export function ExecutorManagementSetup({ connection, onClose }: { connection: T
     <form className="space-y-4" onSubmit={event => { event.preventDefault(); save.mutate(); }}>
       <div className="space-y-2"><Label htmlFor="executor-console-url">{t("pages.apps.executorManagementSetup.consoleUrl")}</Label><Input id="executor-console-url" type="url" required value={url} onChange={event => setUrl(event.target.value)} /></div>
       {save.isError ? <p role="alert" className="text-sm text-destructive">{save.error.message}</p> : null}
-      <DialogFooter className="sm:justify-between"><Button type="button" variant="ghost" onClick={onClose} disabled={save.isPending}>{t("pages.apps.executorManagementSetup.cancel")}</Button><Button type="submit" disabled={!settled || save.isPending || !url.trim()}>{save.isPending ? "Saving…" : "Save"}</Button></DialogFooter>
+      <DialogFooter className="sm:justify-between"><Button type="button" variant="ghost" onClick={onClose} disabled={save.isPending}>{t("pages.apps.executorManagementSetup.cancel")}</Button><Button type="submit" disabled={!settled || save.isPending || !url.trim()}>{save.isPending ? t("pages.apps.executorManagementSetup.saving") : t("pages.apps.executorManagementSetup.save")}</Button></DialogFooter>
     </form>
   </DialogContent></Dialog>;
 }

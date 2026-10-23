@@ -33,7 +33,7 @@ export function SkillSourceBranchRepairDialog({ repository, currentBranch, branc
       onCloseAutoFocus={event => { if (onReturnFocus) { event.preventDefault(); onReturnFocus(); } }}>
       <DialogHeader>
         <DialogTitle ref={title} tabIndex={-1} className="outline-none">{t("components.skillstudio.skillSourceBranchRepairDialog.chooseANewBranch")}</DialogTitle>
-        <DialogDescription className="break-words">{repository} · Currently tracking {currentBranch === 'HEAD' ? 'the default branch' : currentBranch}</DialogDescription>
+        <DialogDescription className="break-words">{repository} · Currently tracking {currentBranch === 'HEAD' ? t("components.skillstudio.skillSourceBranchRepairDialog.theDefaultBranch") : currentBranch}</DialogDescription>
       </DialogHeader>
       <form className="flex min-w-0 flex-col gap-4" onSubmit={event => { event.preventDefault(); if (branch && !pending) void save(); }}>
         <RepositoryBranchSelect value={branch} branches={branches} loading={loading} error={loadError} disabled={pending}
@@ -41,7 +41,7 @@ export function SkillSourceBranchRepairDialog({ repository, currentBranch, branc
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         <div className="flex items-center justify-between gap-3">
           <Button type="button" variant="ghost" disabled={pending} onClick={onClose}>{t("components.skillstudio.skillSourceBranchRepairDialog.cancel")}</Button>
-          <Button type="submit" disabled={!branch || pending}>{pending && <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" />}{pending ? 'Changing branch…' : 'Change branch'}</Button>
+          <Button type="submit" disabled={!branch || pending}>{pending && <LoaderCircle className="size-4 animate-spin motion-reduce:animate-none" />}{pending ? t("components.skillstudio.skillSourceBranchRepairDialog.changingBranch") : t("components.skillstudio.skillSourceBranchRepairDialog.changeBranch")}</Button>
         </div>
       </form>
     </DialogContent>

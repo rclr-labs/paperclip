@@ -72,7 +72,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
       <div className="text-sm text-destructive">
         {generalQuery.error instanceof Error
           ? generalQuery.error.message
-          : "Failed to load general settings."}
+          : t("pages.instanceGeneralSettings.failedToLoadGeneralSettings")}
       </div>
     );
   }
@@ -133,10 +133,10 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
           </div>
           <div className="text-sm text-muted-foreground">
             {healthQuery.data?.deploymentMode === "local_trusted"
-              ? "Local trusted mode is optimized for a local operator. Browser requests run as local board context and no sign-in is required."
+              ? t("pages.instanceGeneralSettings.localTrustedModeIsOptimizedFor")
               : healthQuery.data?.deploymentExposure === "public"
-                ? "Authenticated public mode requires sign-in for board access and is intended for public URLs."
-                : "Authenticated private mode requires sign-in and is intended for LAN, VPN, or other private-network deployments."}
+                ? t("pages.instanceGeneralSettings.authenticatedPublicModeRequiresSignIn")
+                : t("pages.instanceGeneralSettings.authenticatedPrivateModeRequiresSignIn")}
           </div>
           <div className="grid gap-3 md:grid-cols-3">
             <StatusBox
@@ -373,7 +373,7 @@ export function InstanceGeneralSettings({ embedded = false }: { embedded?: boole
             }}
           >
             <LogOut className="size-4" />
-            {signOutMutation.isPending ? "Signing out..." : "Sign out"}
+            {signOutMutation.isPending ? t("pages.instanceGeneralSettings.signingOut") : t("pages.instanceGeneralSettings.signOut")}
           </Button>
         </div>
       </section>

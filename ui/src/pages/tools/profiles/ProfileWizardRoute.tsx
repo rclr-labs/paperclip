@@ -47,7 +47,7 @@ export function ProfileWizardRoute({ mode }: { mode: "new" | "edit" }) {
       <div className="mx-auto flex w-full max-w-4xl flex-col gap-5 p-4 sm:p-6">
         <header>
           <h1 className="text-xl font-bold text-foreground">
-            {mode === "edit" ? "Finish your profile" : "New access profile"}
+            {mode === "edit" ? t("pages.tools.profiles.profileWizardRoute.finishYourProfile") : t("pages.tools.profiles.profileWizardRoute.newAccessProfile")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {t("pages.tools.profiles.profileWizardRoute.chooseWhichToolsThisProfileAllows")}

@@ -54,7 +54,7 @@ export function ChatCommunicationInstructions({ value, onSave }: {
           {dirty ? <Button type="button" variant="ghost" disabled={pending} onClick={() => { setDraft(null); setError(null); setSaved(false); }}>{t("pages.apps.chat.chatCommunicationInstructions.cancel")}</Button>
             : saved ? <span role="status" className="text-sm text-muted-foreground">{t("pages.apps.chat.chatCommunicationInstructions.savedAppliesToNewTasks")}</span> : null}
         </div>
-        <Button type="submit" disabled={!dirty || pending}>{pending ? "Saving…" : "Save instructions"}</Button>
+        <Button type="submit" disabled={!dirty || pending}>{pending ? t("pages.apps.chat.chatCommunicationInstructions.saving") : t("pages.apps.chat.chatCommunicationInstructions.saveInstructions")}</Button>
       </div>
     </form>
   );

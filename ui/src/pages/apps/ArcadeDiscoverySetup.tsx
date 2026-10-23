@@ -35,9 +35,9 @@ export function ArcadeDiscoverySetup({ connection, onClose }: { connection: Tool
         <p className="text-xs text-muted-foreground">{t("pages.apps.arcadeDiscoverySetup.useTheEndUserIdConfigured")}</p>
         <Input id="arcade-discovery-user" autoComplete="off" required value={userId} onChange={event => setUserId(event.target.value)} />
       </div>
-      {save.isError ? <p role="alert" className="text-sm text-destructive">{save.error instanceof Error ? save.error.message : "Couldn’t save account sync. Try again."}</p> : null}
+      {save.isError ? <p role="alert" className="text-sm text-destructive">{save.error instanceof Error ? save.error.message : t("pages.apps.arcadeDiscoverySetup.couldnTSaveAccountSyncTry")}</p> : null}
       <DialogFooter className="sm:justify-between"><Button type="button" variant="ghost" disabled={save.isPending} onClick={onClose}>{t("pages.apps.arcadeDiscoverySetup.cancel")}</Button>
-        <Button type="submit" disabled={!settled || save.isPending || !apiKey.trim() || !userId.trim()}>{save.isPending ? "Saving…" : "Save and sync"}</Button>
+        <Button type="submit" disabled={!settled || save.isPending || !apiKey.trim() || !userId.trim()}>{save.isPending ? t("pages.apps.arcadeDiscoverySetup.saving") : t("pages.apps.arcadeDiscoverySetup.saveAndSync")}</Button>
       </DialogFooter>
     </form>
   </DialogContent></Dialog>;

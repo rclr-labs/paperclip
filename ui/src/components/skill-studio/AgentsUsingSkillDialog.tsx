@@ -237,8 +237,8 @@ export function AgentsUsingSkillDialog({
           <DialogTitle>{t("components.skillstudio.agentsUsingSkillDialog.agentsUsing", { name: skill.name })}</DialogTitle>
           <DialogDescription>
             {count === 0
-              ? "No agents have this skill assigned yet."
-              : `${count} ${count === 1 ? "agent has" : "agents have"} this skill in their desired set.`}
+              ? t("components.skillstudio.agentsUsingSkillDialog.noAgentsHaveThisSkillAssigned")
+              : `${count} ${count === 1 ? t("components.skillstudio.agentsUsingSkillDialog.agentHas") : t("components.skillstudio.agentsUsingSkillDialog.agentsHave")} this skill in their desired set.`}
           </DialogDescription>
         </DialogHeader>
 
@@ -246,8 +246,8 @@ export function AgentsUsingSkillDialog({
           {count === 0 ? (
             <div className="rounded-md border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
               {canManage
-                ? "Add an agent below to assign this skill."
-                : "This skill isn't assigned to any agents."}
+                ? t("components.skillstudio.agentsUsingSkillDialog.addAnAgentBelowToAssign")
+                : t("components.skillstudio.agentsUsingSkillDialog.thisSkillIsnTAssignedTo")}
             </div>
           ) : (
             <ul className="divide-y divide-border">
@@ -390,7 +390,7 @@ function AgentRow({
               disabled={busy}
               aria-label={`Confirm removing this skill from ${agent.name}`}
             >
-              {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Remove"}
+              {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : t("components.skillstudio.agentsUsingSkillDialog.remove")}
             </Button>
             <Button variant="ghost" size="sm" onClick={onCancelRemove} disabled={busy}>
               {t("components.skillstudio.agentsUsingSkillDialog.cancel")}

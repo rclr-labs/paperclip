@@ -53,7 +53,7 @@ function SubscriptionEditor({ account, accounts, companyId, onDone }: {
       </div>
       <p className="text-xs text-muted-foreground">{t("components.subscriptionCostCard.enterTheFullAmountForOne")}</p>
       {save.error && <p role="alert" className="text-sm text-destructive">{t("components.subscriptionCostCard.couldNotSaveThisPriceCheck")}</p>}
-      <div className="flex items-center justify-between"><Button type="button" variant="ghost" disabled={busy} onClick={onDone}>{t("components.subscriptionCostCard.cancel")}</Button><Button type="submit" disabled={busy}>{save.isPending ? "Saving…" : "Save price"}</Button></div>
+      <div className="flex items-center justify-between"><Button type="button" variant="ghost" disabled={busy} onClick={onDone}>{t("components.subscriptionCostCard.cancel")}</Button><Button type="submit" disabled={busy}>{save.isPending ? t("components.subscriptionCostCard.saving") : t("components.subscriptionCostCard.savePrice")}</Button></div>
     </form>
     {targets.length > 0 && <div className="space-y-2 border-t border-border pt-4">
       <Label htmlFor="subscription-link">{t("components.subscriptionCostCard.sameSubscriptionAsAnotherAccount")}</Label>
@@ -82,11 +82,11 @@ export function SubscriptionCostCard({ companyId, report, error, onChanged }: {
       </div>
       <div className="mt-1 space-y-1 text-xs text-muted-foreground">
         {report ? <>
-          {estimatedCount > 0 && <div><Badge variant="outline" className="font-normal text-muted-foreground">{estimatedCount < report.activeCount - report.unknownPriceCount ? "Partially estimated" : "Estimated"}</Badge></div>}
+          {estimatedCount > 0 && <div><Badge variant="outline" className="font-normal text-muted-foreground">{estimatedCount < report.activeCount - report.unknownPriceCount ? t("components.subscriptionCostCard.partiallyEstimated") : t("components.subscriptionCostCard.estimated")}</Badge></div>}
           {report.unknownPriceCount > 0 && !!known && <div>{t("components.subscriptionCostCard.knownMonthlySubtotal")}</div>}
-          <div>{report.accounts.length === 0 ? "No visible subscriptions" : <>{report.activeCount} active {report.activeCount === 1 ? "subscription" : "subscriptions"}{report.unknownPriceCount > 0 && ` · ${report.unknownPriceCount} ${report.unknownPriceCount === 1 ? "price" : "prices"} unknown`}</>}</div>
+          <div>{report.accounts.length === 0 ? t("components.subscriptionCostCard.noVisibleSubscriptions") : <>{report.activeCount} active {report.activeCount === 1 ? "subscription" : "subscriptions"}{report.unknownPriceCount > 0 && ` · ${report.unknownPriceCount} ${report.unknownPriceCount === 1 ? "price" : "prices"} unknown`}</>}</div>
           {report.accounts.length > 0 && <div>{t("components.subscriptionCostCard.monthlyFeesForAccountsVisibleTo")}</div>}
-          {report.unidentifiedAccountCount > 0 && <div>{report.unidentifiedAccountCount} unconfirmed {report.unidentifiedAccountCount === 1 ? "account identity" : "account identities"}</div>}
+          {report.unidentifiedAccountCount > 0 && <div>{report.unidentifiedAccountCount} unconfirmed {report.unidentifiedAccountCount === 1 ? t("components.subscriptionCostCard.accountIdentity") : t("components.subscriptionCostCard.accountIdentities")}</div>}
           <SubscriptionTokenUsage usage={report.subscription} />
         </> : error ? <div>{t("components.subscriptionCostCard.subscriptionDataIsUnavailable")}</div> : <div>{t("components.subscriptionCostCard.loadingSubscriptions")}</div>}
         {report && error ? <div>{t("components.subscriptionCostCard.showingLastLoadedSubscriptionData")}</div> : null}
@@ -95,7 +95,7 @@ export function SubscriptionCostCard({ companyId, report, error, onChanged }: {
     </Card>
     <Dialog open={open} onOpenChange={value => { setOpen(value); if (!value) setEditing(null); }}>
       <DialogContent className="max-h-(--sz-80vh) overflow-y-auto sm:max-w-3xl">
-        <DialogHeader><DialogTitle>{editing ? "Subscription price" : "Subscriptions"}</DialogTitle><DialogDescription>{t("components.subscriptionCostCard.currentMonthlyCostsForAccountsVisible")}</DialogDescription></DialogHeader>
+        <DialogHeader><DialogTitle>{editing ? t("components.subscriptionCostCard.subscriptionPrice") : t("components.subscriptionCostCard.subscriptions")}</DialogTitle><DialogDescription>{t("components.subscriptionCostCard.currentMonthlyCostsForAccountsVisible")}</DialogDescription></DialogHeader>
         {editing ? <SubscriptionEditor key={editing.id} companyId={companyId} account={editing} accounts={report?.accounts ?? []} onDone={closeEditor} /> : <div className="space-y-4">
           {report?.accounts.length === 0 && <p className="text-sm text-muted-foreground">{t("components.subscriptionCostCard.noSubscriptionsAreVisibleToYou")}</p>}
           {report?.accounts.map(account => <div key={account.id} className="space-y-2 border-b border-border pb-4 last:border-0">

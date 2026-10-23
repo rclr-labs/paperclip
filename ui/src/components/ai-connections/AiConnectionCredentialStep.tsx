@@ -130,6 +130,6 @@ function ApiKeyConnectionStep({ companyId, provider, connectionId, name: initial
     {environmentError && <p role="alert" className="text-sm text-destructive">{environmentError}</p>}
     {defaults}
     <ProviderApiKeyCard providerName={copilot ? "GitHub Copilot" : provider === "google" ? "Google" : "OpenRouter"} value={apiKey} onChange={setApiKey} onSubmit={() => { if (!preparing && !environmentError && name.trim() && apiKey.trim()) save.mutate(); }} disabled={disabled || save.isPending || preparing || Boolean(environmentError)} placeholder={copilot ? "github_pat_..." : "Enter API key here"} autoFocus />
-    <div className="flex justify-between gap-2"><Button variant="ghost" onClick={onCancel}>{t("components.aiconnections.aiConnectionCredentialStep.cancel")}</Button><Button disabled={disabled || !name.trim() || !apiKey.trim() || save.isPending || preparing || Boolean(environmentError)} onClick={() => save.mutate()}>{save.isPending ? "Connecting…" : "Connect"}</Button></div>
+    <div className="flex justify-between gap-2"><Button variant="ghost" onClick={onCancel}>{t("components.aiconnections.aiConnectionCredentialStep.cancel")}</Button><Button disabled={disabled || !name.trim() || !apiKey.trim() || save.isPending || preparing || Boolean(environmentError)} onClick={() => save.mutate()}>{save.isPending ? t("components.aiconnections.aiConnectionCredentialStep.connecting") : t("components.aiconnections.aiConnectionCredentialStep.connect")}</Button></div>
   </div>;
 }

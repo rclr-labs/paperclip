@@ -156,7 +156,7 @@ export function SlackSearchView({
               under Basic Information.
             </Trans></p>
             <p className="text-xs font-mono break-all">
-              {status.redirectUri ?? "Configure a public HTTPS URL first."}
+              {status.redirectUri ?? t("pages.apps.chat.slackToolSettings.configureAPublicHttpsUrlFirst")}
             </p>
             <div className="space-y-2">
               <label htmlFor={`${id}-client`}>{t("pages.apps.chat.slackToolSettings.clientId")}</label>

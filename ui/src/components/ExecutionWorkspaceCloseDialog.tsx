@@ -107,26 +107,26 @@ export function ExecutionWorkspaceCloseDialog({
           </div>
         ) : readinessQuery.error ? (
           <div className="rounded-xl border border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive">
-            {readinessQuery.error instanceof Error ? readinessQuery.error.message : "Failed to inspect workspace close readiness."}
+            {readinessQuery.error instanceof Error ? readinessQuery.error.message : t("components.executionWorkspaceCloseDialog.failedToInspectWorkspaceCloseReadiness")}
           </div>
         ) : readiness ? (
           <div className="space-y-4">
             <div className={`rounded-xl border px-4 py-3 text-sm ${readinessTone(readiness.state)}`}>
               <div className="font-medium">
                 {readiness.state === "blocked"
-                  ? "Close is blocked"
+                  ? t("components.executionWorkspaceCloseDialog.closeIsBlocked")
                   : readiness.state === "ready_with_warnings"
-                    ? "Close is allowed with warnings"
-                    : "Close is ready"}
+                    ? t("components.executionWorkspaceCloseDialog.closeIsAllowedWithWarnings")
+                    : t("components.executionWorkspaceCloseDialog.closeIsReady")}
               </div>
               <div className="mt-1 text-xs opacity-80">
                 {readiness.isSharedWorkspace
-                  ? "This is a shared workspace session. Archiving it removes this session record but keeps the underlying project workspace."
+                  ? t("components.executionWorkspaceCloseDialog.thisIsASharedWorkspaceSession")
                   : readiness.git?.workspacePath && readiness.git.repoRoot && readiness.git.workspacePath !== readiness.git.repoRoot
-                    ? "This execution workspace has its own checkout path and can be archived independently."
+                    ? t("components.executionWorkspaceCloseDialog.thisExecutionWorkspaceHasItsOwn")
                     : readiness.isProjectPrimaryWorkspace
-                      ? "This execution workspace currently points at the project's primary workspace path."
-                      : "This workspace is disposable and can be archived."}
+                      ? t("components.executionWorkspaceCloseDialog.thisExecutionWorkspaceCurrentlyPointsAt")
+                      : t("components.executionWorkspaceCloseDialog.thisWorkspaceIsDisposableAndCan")}
               </div>
             </div>
 
@@ -181,15 +181,15 @@ export function ExecutionWorkspaceCloseDialog({
                   <div className="grid gap-2 sm:grid-cols-2">
                     <div>
                       <div className="text-xs uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.executionWorkspaceCloseDialog.branch")}</div>
-                      <div className="font-mono text-xs">{readiness.git.branchName ?? "Unknown"}</div>
+                      <div className="font-mono text-xs">{readiness.git.branchName ?? t("components.executionWorkspaceCloseDialog.unknown")}</div>
                     </div>
                     <div>
                       <div className="text-xs uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.executionWorkspaceCloseDialog.baseRef")}</div>
-                      <div className="font-mono text-xs">{readiness.git.baseRef ?? "Not set"}</div>
+                      <div className="font-mono text-xs">{readiness.git.baseRef ?? t("components.executionWorkspaceCloseDialog.notSet")}</div>
                     </div>
                     <div>
                       <div className="text-xs uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.executionWorkspaceCloseDialog.mergedIntoBase")}</div>
-                      <div>{readiness.git.isMergedIntoBase == null ? "Unknown" : readiness.git.isMergedIntoBase ? "Yes" : "No"}</div>
+                      <div>{readiness.git.isMergedIntoBase == null ? t("components.executionWorkspaceCloseDialog.unknown") : readiness.git.isMergedIntoBase ? t("components.executionWorkspaceCloseDialog.yes") : "No"}</div>
                     </div>
                     <div>
                       <div className="text-xs uppercase tracking-(--tracking-eyebrow) text-muted-foreground">{t("components.executionWorkspaceCloseDialog.aheadBehind")}</div>

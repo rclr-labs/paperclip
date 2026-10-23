@@ -167,6 +167,7 @@ export function ExpandRelationListButton({
   expanded: boolean;
   onClick: () => void;
 }) {
+  const { t } = useTranslation();
   if (!expanded && hiddenCount <= 0) return null;
   return (
     <button
@@ -175,7 +176,7 @@ export function ExpandRelationListButton({
       onClick={onClick}
       aria-label={expanded ? "Show fewer items" : `Show ${hiddenCount} more items`}
     >
-      {expanded ? "Show less" : `Show ${hiddenCount} more`}
+      {expanded ? t("components.issueproperties.relationcontrols.showLess") : `Show ${hiddenCount} more`}
     </button>
   );
 }

@@ -68,8 +68,8 @@ export function SlackAvatarContent({
           <div className="space-y-1">
             <h2 id={`${id}-download`} className="text-sm font-semibold">
               {compact
-                ? "Download your agent’s avatar"
-                : "1. Download your agent’s avatar"}
+                ? t("pages.apps.chat.slackAvatarStep.downloadYourAgentSAvatar")
+                : t("pages.apps.chat.slackAvatarStep.1DownloadYourAgentSAvatar")}
             </h2>
             <p className="text-xs text-muted-foreground">
               PNG · 512 × 512 · Ready for Slack
@@ -114,7 +114,7 @@ export function SlackAvatarContent({
         <section aria-labelledby={`${id}-upload`} className="space-y-4">
           <div className="space-y-1">
             <h2 id={`${id}-upload`} className="text-sm font-semibold">
-              {compact ? "Upload it in Slack" : "2. Upload it in Slack"}
+              {compact ? t("pages.apps.chat.slackAvatarStep.uploadItInSlack") : t("pages.apps.chat.slackAvatarStep.2UploadItInSlack")}
             </h2>
             <p className="text-sm text-muted-foreground">
               {t("pages.apps.chat.slackAvatarStep.youLlUploadTheDownloadedImage")}

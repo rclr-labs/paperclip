@@ -118,7 +118,7 @@ function SuccessfulRunRetryNowControl({
           ) : success ? (
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
-              {retryNow.data?.outcome === "already_promoted" ? "Already promoted" : "Promoted"}
+              {retryNow.data?.outcome === "already_promoted" ? t("components.issueBlockedNotice.alreadyPromoted") : t("components.issueBlockedNotice.promoted")}
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5">
@@ -646,7 +646,7 @@ export function IssueBlockedNotice({
                   </span>
                 ) : null}
                 <span className="rounded-md border border-amber-300/70 bg-background/80 px-2 py-1 text-amber-900 dark:border-amber-500/40 dark:bg-background/40 dark:text-amber-100">
-                  Asked {agentName ?? "the assignee"} to choose the next step
+                  Asked {agentName ?? t("components.issueBlockedNotice.theAssignee")} to choose the next step
                 </span>
               </div>
               {successfulRunHandoff.detectedProgressSummary ? (
@@ -672,8 +672,8 @@ export function IssueBlockedNotice({
                       ? <>Work on this task is blocked by {blockerLabel}, but the chain is stalled in review without a clear next step. Resolve the stalled reviews below or remove them as blockers.</>
                       : <>Work on this task is blocked by {blockerLabel}, but the chain is stalled in review without a clear next step. Resolve the stalled review below or remove it as a blocker.</>
                     : reopenSuppressed
-                      ? <>A message won&rsquo;t restart this task yet — it stays blocked by {blockerLabel} until {blockers.length === 1 ? "it is" : "they are"} done, then it reopens automatically. Comments still notify {responsibleName} for questions or triage in the meantime.</>
-                      : <>Work on this task is blocked by {blockerLabel} until {blockers.length === 1 ? "it is" : "they are"} complete. Comments still notify the assignee for questions or triage.</>
+                      ? <>A message won&rsquo;t restart this task yet — it stays blocked by {blockerLabel} until {blockers.length === 1 ? t("components.issueBlockedNotice.itIs") : t("components.issueBlockedNotice.theyAre")} done, then it reopens automatically. Comments still notify {responsibleName} for questions or triage in the meantime.</>
+                      : <>Work on this task is blocked by {blockerLabel} until {blockers.length === 1 ? t("components.issueBlockedNotice.itIs") : t("components.issueBlockedNotice.theyAre")} complete. Comments still notify the assignee for questions or triage.</>
                   : <>{t("components.issueBlockedNotice.workOnThisTaskIsBlocked")}</>}
               </p>
               {reopenSuppressed && reopenSuppressedLeafId ? (

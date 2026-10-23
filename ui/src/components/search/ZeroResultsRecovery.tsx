@@ -44,7 +44,7 @@ export function ZeroResultsRecovery({
         <p className="text-sm text-muted-foreground">
           {unfilteredTotal === 1 ? "1 result matches" : `${unfilteredTotal} results match`}
           {query ? <> &ldquo;{query}&rdquo;</> : null}, but your{" "}
-          {activeCount === 1 ? "active filter hides" : `${activeCount} active filters hide`} all of them.
+          {activeCount === 1 ? t("components.search.zeroResultsRecovery.activeFilterHides") : `${activeCount} active filters hide`} all of them.
         </p>
       </div>
 

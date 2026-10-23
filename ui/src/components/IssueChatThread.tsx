@@ -845,7 +845,7 @@ export function IssueAssigneePausedNotice({
               disabled={resuming}
               data-testid="issue-assignee-paused-resume"
             >
-              {resuming ? "Resuming…" : "Resume agent"}
+              {resuming ? t("components.issueChatThread.resuming") : t("components.issueChatThread.resumeAgent")}
             </Button>
           ) : undefined
         }
@@ -2130,7 +2130,7 @@ function IssueChatUserMessage({
                 disabled={isInterruptingQueuedRun}
                 onClick={() => void onInterruptQueued(queueTargetRunId)}
               >
-                {isInterruptingQueuedRun ? "Interrupting..." : "Interrupt"}
+                {isInterruptingQueuedRun ? t("components.issueChatThread.interrupting") : t("components.issueChatThread.interrupt")}
               </Button>
             ) : null}
             {onCancelQueued ? (
@@ -2898,7 +2898,7 @@ function IssueChatFeedbackButtons({
               disabled={isSaving || !downvoteReason.trim()}
               onClick={handleSubmitReason}
             >
-              {isSaving ? "Saving..." : "Save note"}
+              {isSaving ? t("components.issueChatThread.saving") : t("components.issueChatThread.saveNote")}
             </Button>
           </div>
         </PopoverContent>
@@ -2956,7 +2956,7 @@ function IssueChatFeedbackButtons({
                 ).then(() => setPendingSharingDialog(null));
               }}
             >
-              {isSaving ? "Saving..." : "Don't allow"}
+              {isSaving ? t("components.issueChatThread.saving") : t("components.issueChatThread.donTAllow")}
             </Button>
             <Button
               type="button"
@@ -2971,7 +2971,7 @@ function IssueChatFeedbackButtons({
                 }).then(() => setPendingSharingDialog(null));
               }}
             >
-              {isSaving ? "Saving..." : "Always allow"}
+              {isSaving ? t("components.issueChatThread.saving") : t("components.issueChatThread.alwaysAllow")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -3057,7 +3057,7 @@ function ExpiredRequestConfirmationActivity({
               expanded && "rotate-180",
             )}
           />
-          {expanded ? "Hide confirmation" : "Expired confirmation"}
+          {expanded ? t("components.issueChatThread.hideConfirmation") : t("components.issueChatThread.expiredConfirmation")}
         </button>
       </div>
       {expanded ? (
@@ -3834,8 +3834,8 @@ function IssueChatSystemMessage({ message }: { message: ThreadMessage }) {
           <span className="font-medium text-foreground">{actorName}</span>
           <span className="text-muted-foreground">
             {custom.followUpRequested === true
-              ? "requested follow-up"
-              : "updated this task"}
+              ? t("components.issueChatThread.requestedFollowUp")
+              : t("components.issueChatThread.updatedThisTask")}
           </span>
           <a
             href={anchorId ? `#${anchorId}` : undefined}
@@ -5427,7 +5427,7 @@ const IssueChatComposer = forwardRef<
       {draftRecovery && draftRecovery.sourceKey === sharedDraftKey ? (
         <p role="status" className="mb-3 text-sm text-muted-foreground">
           Another tab changed the saved draft. This draft is kept separately in this tab.
-          {!draftRecovery.persisted ? " Browser storage is unavailable; copy your text before leaving." : " It will be restored if you reload this tab."}
+          {!draftRecovery.persisted ? t("components.issueChatThread.browserStorageIsUnavailableCopyYour") : t("components.issueChatThread.itWillBeRestoredIfYou")}
         </p>
       ) : null}
       {uncertainSubmission ? (
@@ -5708,7 +5708,7 @@ const IssueChatComposer = forwardRef<
             disabled={!canSubmit}
             onClick={() => void handleSubmit()}
           >
-            {submitting ? "Posting..." : "Send"}
+            {submitting ? t("components.issueChatThread.posting") : t("components.issueChatThread.send")}
           </Button>
         )}
       </div>

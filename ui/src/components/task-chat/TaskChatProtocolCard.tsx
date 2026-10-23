@@ -447,7 +447,7 @@ function WorkspaceChangeCard({ item }: { item: TaskChatWorkspaceChangeItem }) {
               onClick={() => setExpanded((value) => !value)}
             >
               {expanded
-                ? "Show fewer files"
+                ? t("components.taskchat.taskChatProtocolCard.showFewerFiles")
                 : `Show ${item.files.length - 3} more files`}
             </Button>
           ) : null}
@@ -472,7 +472,7 @@ function WorkspaceChangeCard({ item }: { item: TaskChatWorkspaceChangeItem }) {
         <DialogContent className="w-full max-w-(--pct-90) overflow-hidden">
           <DialogHeader>
             <DialogTitle className="font-mono text-sm">
-              {selected?.path ?? "Workspace diff"}
+              {selected?.path ?? t("components.taskchat.taskChatProtocolCard.workspaceDiff")}
             </DialogTitle>
           </DialogHeader>
           {item.files.length > 1 ? (
@@ -606,6 +606,7 @@ function RuntimeQuestionHistory({
 }: {
   item: TaskChatRuntimeRequestItem;
 }) {
+  const { t } = useTranslation();
   const questionSet = item.questionSet;
   if (!questionSet) return null;
   return (
@@ -632,7 +633,7 @@ function RuntimeQuestionHistory({
           ))}
           <p className="text-xs text-muted-foreground">
             {item.status === "resolved"
-              ? "Answer details were not recorded by this older runtime."
+              ? t("components.taskchat.taskChatProtocolCard.answerDetailsWereNotRecordedBy")
               : `No answers were submitted; this request was ${item.status}.`}
           </p>
         </div>
@@ -646,6 +647,7 @@ function RuntimeQuestionReceipt({
 }: {
   item: TaskChatRuntimeRequestItem;
 }) {
+  const { t } = useTranslation();
   const label =
     item.status === "resolved"
       ? "Questions answered"
@@ -677,7 +679,7 @@ function RuntimeQuestionReceipt({
       <div className="pb-3 pl-7 pr-1">
         <div className="mb-3">
           <p className="text-sm font-medium text-foreground">
-            {item.questionSet?.title ?? "Runtime input"}
+            {item.questionSet?.title ?? t("components.taskchat.taskChatProtocolCard.runtimeInput")}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">{item.prompt}</p>
         </div>
@@ -851,7 +853,7 @@ function RuntimeRequestCard({
               size="sm"
               disabled={!onDecision || submitting || !canSubmitInput}
             >
-              {submitting ? "Submitting…" : "Submit response"}
+              {submitting ? t("components.taskchat.taskChatProtocolCard.submitting") : t("components.taskchat.taskChatProtocolCard.submitResponse")}
             </Button>
             {item.choices.some((choice) => choice.key === "decline") ? (
               <Button

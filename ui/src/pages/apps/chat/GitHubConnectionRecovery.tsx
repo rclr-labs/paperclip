@@ -18,7 +18,7 @@ export function GitHubConnectionRecoveryNotice({ endpoint }: { endpoint: ChatEnd
       <AlertTriangle className="mt-0.5 size-5 shrink-0 text-destructive" aria-hidden="true" />
       <div className="min-w-0 space-y-3">
         <div className="space-y-1">
-          <h2 className="text-base font-semibold">{endpoint.status === "revoked" ? "GitHub bot is disconnected" : "GitHub connection needs repair"}</h2>
+          <h2 className="text-base font-semibold">{endpoint.status === "revoked" ? t("pages.apps.chat.gitHubConnectionRecovery.githubBotIsDisconnected") : t("pages.apps.chat.gitHubConnectionRecovery.githubConnectionNeedsRepair")}</h2>
           <p className="text-sm">{t("pages.apps.chat.gitHubConnectionRecovery.reconnectThisBotToRestoreGithub")}</p>
         </div>
         <Button asChild><Link to={`/apps/chat/connect?provider=github&resume=${endpoint.id}&reconnect=1`}>{t("pages.apps.chat.gitHubConnectionRecovery.reconnectGithub")}</Link></Button>
@@ -75,22 +75,22 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
       <p className="text-sm text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.yourAgentRepositoryChoicesReviewSettings")}</p>
     </div>}
     {error && <div role="alert" className="space-y-2 rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm">
-      <p className="font-medium">{replace ? "Could not reconnect this App" : "Could not reconnect the saved App"}</p>
+      <p className="font-medium">{replace ? t("pages.apps.chat.gitHubConnectionRecovery.couldNotReconnectThisApp") : t("pages.apps.chat.gitHubConnectionRecovery.couldNotReconnectTheSavedApp")}</p>
       <p className="break-words">{error}</p>
       <p>{t("pages.apps.chat.gitHubConnectionRecovery.tryAgainIfTheServiceIs")}</p>
     </div>}
     {reconnect && <Button variant="link" className="h-auto p-0" disabled={pending} onClick={() => { setReplace(!replace); setError(""); }}>
-      {replace ? "Use saved credentials instead" : "Replace App credentials…"}
+      {replace ? t("pages.apps.chat.gitHubConnectionRecovery.useSavedCredentialsInstead") : t("pages.apps.chat.gitHubConnectionRecovery.replaceAppCredentials")}
     </Button>}
     {replace && <div className="space-y-6">
       <div className="space-y-2 text-sm">
-        <h2 className="text-base font-semibold">{reconnect ? "Replace credentials for the same App" : "Connect your existing GitHub App"}</h2>
+        <h2 className="text-base font-semibold">{reconnect ? t("pages.apps.chat.gitHubConnectionRecovery.replaceCredentialsForTheSameApp") : t("pages.apps.chat.gitHubConnectionRecovery.connectYourExistingGithubApp")}</h2>
         <p><a href={gitHubAppSettingsUrl(endpoint)} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 underline">{t("pages.apps.chat.gitHubConnectionRecovery.openGithubAppSettings")}<ExternalLink className="size-3.5" /></a> and choose <strong>{appName}</strong>.</p>
         <p className="text-muted-foreground">{t("pages.apps.chat.gitHubConnectionRecovery.ifItSOwnedByAn")}</p>
       </div>
       <div className="space-y-2">
         <CredentialLabel id="github-app-id" label="App ID" help="The numeric App ID on the GitHub App’s settings page. This is different from its Client ID or installation ID." />
-        <p id="github-app-id-help" className="text-sm text-muted-foreground">Copy <strong>{t("pages.apps.chat.gitHubConnectionRecovery.appId")}</strong> from the App’s settings page. {reconnect && "The saved ID is filled in when available."}</p>
+        <p id="github-app-id-help" className="text-sm text-muted-foreground">Copy <strong>{t("pages.apps.chat.gitHubConnectionRecovery.appId")}</strong> from the App’s settings page. {reconnect && t("pages.apps.chat.gitHubConnectionRecovery.theSavedIdIsFilledIn")}</p>
         <Input id="github-app-id" aria-describedby="github-app-id-help" inputMode="numeric" value={credentials.appId} disabled={pending} aria-invalid={appIdInvalid} onChange={event => setCredentials({ ...credentials, appId: event.target.value })} />
         {appIdInvalid && <p role="alert" className="text-sm text-destructive">{t("pages.apps.chat.gitHubConnectionRecovery.useTheNumericAppIdNot")}</p>}
       </div>
@@ -128,7 +128,7 @@ export function GitHubAppRecovery({ endpoint, reconnect, onConnect, onExit }: {
     <SetupWizardFooter onSaveExit={onExit} disabled={pending}>
       <Button aria-label={actionLabel} disabled={pending || incomplete} onClick={() => void connect()}>
         {pending && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
-        <span className="sm:hidden" aria-hidden="true">{pending ? "Checking…" : reconnect ? "Reconnect" : "Connect"}</span>
+        <span className="sm:hidden" aria-hidden="true">{pending ? t("pages.apps.chat.gitHubConnectionRecovery.checking") : reconnect ? t("pages.apps.chat.gitHubConnectionRecovery.reconnect") : t("pages.apps.chat.gitHubConnectionRecovery.connect")}</span>
         <span className="hidden sm:inline" aria-hidden="true">{actionLabel}</span>
       </Button>
     </SetupWizardFooter>

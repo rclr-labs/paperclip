@@ -42,7 +42,7 @@ export function TaskListToolbar({ view, onViewChange, query, onQueryChange, sear
         ))}
       </div>
       <div className="design-toolbar-actions">
-        <Tooltip><TooltipTrigger asChild><Button variant="outline" className="design-toolbar-button design-toolbar-icon" disabled={layout !== "list"} aria-label={allExpanded ? "Collapse all tasks" : "Expand all tasks"} onClick={onToggleExpanded}><ListTree aria-hidden /></Button></TooltipTrigger><TooltipContent>{allExpanded ? "Collapse all tasks" : "Expand all tasks"}</TooltipContent></Tooltip>
+        <Tooltip><TooltipTrigger asChild><Button variant="outline" className="design-toolbar-button design-toolbar-icon" disabled={layout !== "list"} aria-label={allExpanded ? "Collapse all tasks" : "Expand all tasks"} onClick={onToggleExpanded}><ListTree aria-hidden /></Button></TooltipTrigger><TooltipContent>{allExpanded ? t("components.taskListToolbar.collapseAllTasks") : t("components.taskListToolbar.expandAllTasks")}</TooltipContent></Tooltip>
         <div className="design-toolbar-filter"><IssueFiltersPopover {...filters} presentation="refreshed" buttonVariant="outline" iconOnly enableExternalObjectFilters={false} /></div>
         <Button className="design-toolbar-button design-new-task" onClick={onNewTask}><CirclePlus aria-hidden />{t("components.taskListToolbar.newTask")}</Button>
       </div>

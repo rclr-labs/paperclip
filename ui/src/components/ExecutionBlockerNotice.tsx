@@ -25,7 +25,7 @@ export function ExecutionBlockerNotice({ presentation, canRetry, onRetry, optimi
     <div role="status" aria-label={t("components.executionBlockerNotice.taskStatus")} className={cn("flex items-center justify-between gap-2 text-sm text-muted-foreground", className)}>
       <span>{presentation.state === "retry_scheduled"
         ? `Trying again in ${seconds > 60 ? `${Math.ceil(seconds / 60)}m` : `${seconds}s`}…`
-        : "Couldn’t finish this attempt. Your message is saved."}</span>
+        : t("components.executionBlockerNotice.couldnTFinishThisAttemptYour")}</span>
       {canRetry && presentation.canRetry && <Button variant="outline" size="sm" onClick={onRetry}>{t("components.executionBlockerNotice.retry")}</Button>}
     </div>
   );

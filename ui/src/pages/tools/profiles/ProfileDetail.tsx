@@ -219,7 +219,7 @@ export function ProfileDetail({
           <div>
             <p className="text-sm font-medium text-foreground">{t("pages.tools.profiles.profileDetail.profileSaved")}</p>
             <p className="text-sm text-muted-foreground">
-              {unassigned ? "Assign it to agents before it changes their access." : "Assignments are active now."}
+              {unassigned ? t("pages.tools.profiles.profileDetail.assignItToAgentsBeforeIt") : t("pages.tools.profiles.profileDetail.assignmentsAreActiveNow")}
             </p>
           </div>
           <div className="flex gap-2">
@@ -344,7 +344,7 @@ function NewToolsReviewBanner({
     <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-950">
       <div>
         <p className="font-medium">
-          {loading ? "New tools need review" : `${appLabel} added ${count} new ${count === 1 ? "tool" : "tools"} since your last review`}
+          {loading ? t("pages.tools.profiles.profileDetail.newToolsNeedReview") : `${appLabel} added ${count} new ${count === 1 ? "tool" : "tools"} since your last review`}
         </p>
         <p className="text-amber-900/80">{t("pages.tools.profiles.profileDetail.chooseWhichOnesThisProfileShould")}</p>
       </div>
@@ -737,7 +737,7 @@ function RemoveAssignmentDialog({
           <DialogTitle>{t("pages.tools.profiles.profileDetail.removeAssignment")}</DialogTitle>
           <DialogDescription>
             {binding?.targetType === "company"
-              ? "Removing the organization default changes access for every agent that relies on it."
+              ? t("pages.tools.profiles.profileDetail.removingTheOrganizationDefaultChangesAccess")
               : `Remove this profile from ${label}.`}
           </DialogDescription>
         </DialogHeader>

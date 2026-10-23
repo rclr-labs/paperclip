@@ -171,14 +171,14 @@ export function AiConnectionField({
       >
         <DialogContent className="max-h-(--sz-85vh) overflow-y-auto sm:max-w-2xl" onCloseAutoFocus={restoreFocus}>
           <DialogHeader>
-            <DialogTitle>{pendingAdoption?.mode === "router" ? `Use ${accounts.data?.pools?.find(pool => pool.id === pendingAdoption.connectionId)?.name ?? "this pool"}?` : `Adopt Connections for ${agentName}`}</DialogTitle>
+            <DialogTitle>{pendingAdoption?.mode === "router" ? `Use ${accounts.data?.pools?.find(pool => pool.id === pendingAdoption.connectionId)?.name ?? t("components.aiconnections.aiConnectionField.thisPool")}?` : `Adopt Connections for ${agentName}`}</DialogTitle>
             <DialogDescription>
-              {pendingAdoption?.mode === "router" ? "Reset existing sessions that use an account outside this pool." : "Saving validates access to the selected connection. Existing sessions keep their account or require an explicit reset before adoption."}
+              {pendingAdoption?.mode === "router" ? t("components.aiconnections.aiConnectionField.resetExistingSessionsThatUseAn") : t("components.aiconnections.aiConnectionField.savingValidatesAccessToTheSelected")}
             </DialogDescription>
           </DialogHeader>
           {pendingAdoption?.mode !== "router" && <p className="text-sm">
             {pendingAdoption?.mode === "responsible_user"
-              ? `Responsible user’s default. For you: ${accounts.data?.connections.find((account) => account.isDefault && account.provider === provider)?.name ?? "Not connected"}. Other users use their own default.`
+              ? `Responsible user’s default. For you: ${accounts.data?.connections.find((account) => account.isDefault && account.provider === provider)?.name ?? t("components.aiconnections.aiConnectionField.notConnected")}. Other users use their own default.`
               : accounts.data?.connections.find(
                   (account) => account.id === pendingAdoption?.connectionId,
                 )?.name}
@@ -199,7 +199,7 @@ export function AiConnectionField({
                 setPendingAdoption(undefined);
               }}
             >
-              {pendingAdoption?.mode === "router" ? "Use pool" : "Use this binding when saved"}
+              {pendingAdoption?.mode === "router" ? t("components.aiconnections.aiConnectionField.usePool") : t("components.aiconnections.aiConnectionField.useThisBindingWhenSaved")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -207,9 +207,9 @@ export function AiConnectionField({
       <Dialog open={connecting} onOpenChange={(open) => { if (!selectDefault.isPending) setConnecting(open); }}>
         <DialogContent className="max-h-(--sz-85vh) overflow-y-auto sm:max-w-2xl" onCloseAutoFocus={restoreFocus}>
           <DialogHeader>
-            <DialogTitle>{reconnecting ? "Reconnect account" : "Connect account"}</DialogTitle>
+            <DialogTitle>{reconnecting ? t("components.aiconnections.aiConnectionField.reconnectAccount") : t("components.aiconnections.aiConnectionField.connectAccount")}</DialogTitle>
             <DialogDescription>
-              {advancedSetup ? "Choose a provider connection for this agent." : reconnecting ? "Sign in again to repair your current default account. Its agent access stays the same." : "This account will become your default for this provider. Your tasks will use it; other users keep their own default."}
+              {advancedSetup ? t("components.aiconnections.aiConnectionField.chooseAProviderConnectionForThis") : reconnecting ? t("components.aiconnections.aiConnectionField.signInAgainToRepairYour") : t("components.aiconnections.aiConnectionField.thisAccountWillBecomeYourDefault")}
             </DialogDescription>
           </DialogHeader>
           {advancedSetup ? <AiProviderSetup

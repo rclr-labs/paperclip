@@ -87,7 +87,7 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
     mutationFn: () => api.post<{ redirectUrl: string }>(`${requestPrefix}/${encodeURIComponent(id)}/dot-pairing`, { pairingCode: pairingCode.trim() }),
     onSuccess: ({ redirectUrl }) => { setPairingCode(""); window.location.assign(redirectUrl); },
   });
-  if (deviceResult) return <div className="mx-auto max-w-xl py-10"><Card className="block space-y-4 p-6"><Paperclip className="size-8" /><h1 className="text-xl font-semibold">{deviceResult === "approved" ? "Access approved" : "Connection declined"}</h1><p className="text-sm">{deviceResult === "approved" ? "Return to your assistant. It will finish connecting automatically." : "No access was granted. You can start a new connection from your assistant."}</p><Button variant="outline" asChild><Link to="/">{t("pages.mcpConnect.backToPaperclip")}</Link></Button></Card></div>;
+  if (deviceResult) return <div className="mx-auto max-w-xl py-10"><Card className="block space-y-4 p-6"><Paperclip className="size-8" /><h1 className="text-xl font-semibold">{deviceResult === "approved" ? t("pages.mcpConnect.accessApproved") : t("pages.mcpConnect.connectionDeclined")}</h1><p className="text-sm">{deviceResult === "approved" ? t("pages.mcpConnect.returnToYourAssistantItWill") : t("pages.mcpConnect.noAccessWasGrantedYouCan")}</p><Button variant="outline" asChild><Link to="/">{t("pages.mcpConnect.backToPaperclip")}</Link></Button></Card></div>;
   const returnPath = device ? `/mcp-device?user_code=${encodeURIComponent(id)}` : `${agentPairingOnly ? "/dot-connect" : "/mcp-connect"}/${id}`;
   return <div className="mx-auto max-w-xl py-10">
     <Card className="block space-y-4 p-6">
@@ -115,7 +115,7 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
         </dl>}
         {pairingPreviewError && <p role="alert" className="text-sm text-destructive">{pairingPreviewError}</p>}
         {pairDot.error && <p role="alert" className="text-sm text-destructive">{pairDot.error.message}</p>}
-        <div className="flex justify-end"><Button type="submit" disabled={!pairingPreview || !/^[A-Za-z0-9_-]{32}$/.test(pairingCode.trim()) || pairDot.isPending}>{pairDot.isPending ? "Connecting…" : "Allow agent connection"}</Button></div>
+        <div className="flex justify-end"><Button type="submit" disabled={!pairingPreview || !/^[A-Za-z0-9_-]{32}$/.test(pairingCode.trim()) || pairDot.isPending}>{pairDot.isPending ? t("pages.mcpConnect.connecting") : t("pages.mcpConnect.allowAgentConnection")}</Button></div>
       </form>}
       {data && <>
         {data.requiresSignIn ? <Button asChild><Link to={`/auth?next=${encodeURIComponent(returnPath)}`}>{t("pages.mcpConnect.signInCreateAccount")}</Link></Button> : <>
@@ -134,7 +134,7 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
             </label>)}
             {!data.companies.length && <p className="text-sm text-muted-foreground">{t("pages.mcpConnect.thisAccountHasNoAvailableOrganizations")}</p>}
           </fieldset>}
-          <p className="text-sm">{data.agentConnection ? "Connect Dot as a Paperclip agent. Pair it with an agent after connecting; assigned work uses that agent’s permissions." : "Read all of your Paperclip data"}</p>
+          <p className="text-sm">{data.agentConnection ? t("pages.mcpConnect.connectDotAsAPaperclipAgent") : t("pages.mcpConnect.readAllOfYourPaperclipData")}</p>
           {(data.requestedWrite || data.requestedConfigure) && !data.agentConnection && <label htmlFor="mcp-allow-writes" className="flex items-start gap-3 text-sm leading-6">
             <span className="flex h-6 shrink-0 items-center">
               <Checkbox id="mcp-allow-writes" checked={canApproveWrites} disabled={!company?.canWrite || consent.isPending} onCheckedChange={(checked) => setWriteEnabled(checked === true)} />
@@ -145,7 +145,7 @@ function McpConnectRequest({ id, device = false, agentPairingOnly = false, onEdi
           {consent.error && <p className="text-sm text-destructive">{consent.error.message}</p>}
           <div className="flex items-center justify-between gap-3">
             <Button variant="outline" disabled={consent.isPending} onClick={() => consent.mutate("deny")}>{t("pages.mcpConnect.cancel")}</Button>
-            <Button className="h-auto min-h-10 min-w-0 shrink whitespace-normal" disabled={!company || (data.agentConnection && !company.canWrite) || consent.isPending} onClick={() => consent.mutate("approve")}>{consent.isPending ? "Connecting…" : data.agentConnection ? "Connect Dot agent" : "Connect organization"}</Button>
+            <Button className="h-auto min-h-10 min-w-0 shrink whitespace-normal" disabled={!company || (data.agentConnection && !company.canWrite) || consent.isPending} onClick={() => consent.mutate("approve")}>{consent.isPending ? t("pages.mcpConnect.connecting") : data.agentConnection ? t("pages.mcpConnect.connectDotAgent") : t("pages.mcpConnect.connectOrganization")}</Button>
           </div>
         </>}
       </>}

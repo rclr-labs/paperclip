@@ -93,7 +93,7 @@ export function SavedProviderKeySelect({
     <div className="space-y-2">
       {options.length > 0 && (
         <label className="block space-y-2 text-sm">
-          <span>{kind === "api" ? "API key" : "Subscription"}</span>
+          <span>{kind === "api" ? t("components.onboarding.savedProviderKeySelect.apiKey") : t("components.onboarding.savedProviderKeySelect.subscription")}</span>
           <select
             aria-label={kind === "api" ? "Saved API key" : "Saved subscription"}
             className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
@@ -108,8 +108,8 @@ export function SavedProviderKeySelect({
             ))}
             <option value="">
               {kind === "api"
-                ? "Enter a new API key"
-                : "Sign in to another account"}
+                ? t("components.onboarding.savedProviderKeySelect.enterANewApiKey")
+                : t("components.onboarding.savedProviderKeySelect.signInToAnotherAccount")}
             </option>
           </select>
         </label>

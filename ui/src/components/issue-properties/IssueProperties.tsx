@@ -940,8 +940,8 @@ export function IssueProperties({
     <div className="w-full space-y-2 p-2">
       <p className="text-xs text-muted-foreground">
         {assignee
-          ? "This assignee's adapter does not expose editable task overrides."
-          : "Select a compatible assignee agent to edit these overrides."}
+          ? t("components.issueproperties.issueProperties.thisAssigneeSAdapterDoesNot")
+          : t("components.issueproperties.issueProperties.selectACompatibleAssigneeAgentTo")}
       </p>
       <button
         type="button"
@@ -1243,7 +1243,7 @@ export function IssueProperties({
         <div className="text-xs text-muted-foreground">
           Watchdog task:{" "}
           <Link to={`/issues/${watchdogIssueRef.id}`} className="text-primary hover:underline">
-            {watchdogIssueRef.identifier ?? "View task"}
+            {watchdogIssueRef.identifier ?? t("components.issueproperties.issueProperties.viewTask")}
           </Link>
         </div>
       ) : null}
@@ -1259,7 +1259,7 @@ export function IssueProperties({
           disabled={deleteWatchdog.isPending || (!issue.watchdog && !watchdogAgentInput)}
           onClick={removeWatchdog}
         >
-          {deleteWatchdog.isPending ? "Removing…" : "Remove"}
+          {deleteWatchdog.isPending ? t("components.issueproperties.issueProperties.removing") : t("components.issueproperties.issueProperties.remove")}
         </button>
         <Button
           type="button"
@@ -1268,7 +1268,7 @@ export function IssueProperties({
           disabled={!watchdogAgentInput || upsertWatchdog.isPending}
           onClick={saveWatchdog}
         >
-          {upsertWatchdog.isPending ? "Saving…" : issue.watchdog ? "Update" : "Set watchdog"}
+          {upsertWatchdog.isPending ? t("components.issueproperties.issueProperties.saving") : issue.watchdog ? t("components.issueproperties.issueProperties.update") : t("components.issueproperties.issueProperties.setWatchdog")}
         </Button>
       </div>
     </div>
@@ -1396,7 +1396,7 @@ export function IssueProperties({
           <div className="flex gap-2 border-t border-border px-4 py-3">
             {onCheckMonitorNow ? (
               <Button type="button" size="sm" variant="outline" disabled={checkingMonitorNow} onClick={() => { setMonitorDetailsOpen(false); onCheckMonitorNow(); }}>
-                {checkingMonitorNow ? "Checking…" : "Check now"}
+                {checkingMonitorNow ? t("components.issueproperties.issueProperties.checking") : t("components.issueproperties.issueProperties.checkNow")}
               </Button>
             ) : null}
             <Button type="button" size="sm" variant="outline" onClick={() => { setMonitorDetailsOpen(false); setMonitorOpen(true); }}>{t("components.issueproperties.issueProperties.edit")}</Button>
@@ -1463,7 +1463,7 @@ export function IssueProperties({
     <div className="flex w-full flex-col gap-2 p-2 text-xs">
       <div className="flex items-center justify-between">
         <span className="text-sm font-medium text-foreground">
-          {scheduledRetryIsContinuation ? "Scheduled continuation" : "Scheduled retry"}
+          {scheduledRetryIsContinuation ? t("components.issueproperties.issueProperties.scheduledContinuation") : t("components.issueproperties.issueProperties.scheduledRetry")}
         </span>
         {scheduledRetryAttempt !== null ? (
           <span className="text-xs text-muted-foreground">{t("components.issueproperties.issueProperties.attempt", { scheduledRetryAttempt })}</span>
@@ -1545,7 +1545,7 @@ export function IssueProperties({
           ) : scheduledRetryRetryNowSuccess ? (
             <span className="inline-flex items-center gap-1.5">
               <CheckCircle2 className="h-3.5 w-3.5" aria-hidden="true" />
-              {retryNow.data?.outcome === "already_promoted" ? "Already promoted" : "Promoted"}
+              {retryNow.data?.outcome === "already_promoted" ? t("components.issueproperties.issueProperties.alreadyPromoted") : t("components.issueproperties.issueProperties.promoted")}
             </span>
           ) : (
             <span className="inline-flex items-center gap-1.5">
@@ -1556,16 +1556,16 @@ export function IssueProperties({
         </Button>
         <span className="text-right text-xs text-muted-foreground">
           {retryNow.isPending
-            ? "Promoting scheduled retry"
+            ? t("components.issueproperties.issueProperties.promotingScheduledRetry")
             : scheduledRetryRetryNowSuccess
               ? retryNow.data?.outcome === "already_promoted"
-                ? "Already promoted — run starting"
-                : "Promoted — run starting"
+                ? t("components.issueproperties.issueProperties.alreadyPromotedRunStarting")
+                : t("components.issueproperties.issueProperties.promotedRunStarting")
               : retryNow.data?.outcome === "waiting" && retryNow.data.scheduledRetry?.runId === scheduledRetry.runId
                 ? retryNow.data.message
                 : scheduledRetryIsContinuation
-                  ? "Pulls continuation forward immediately"
-                  : "Pulls retry forward immediately"}
+                  ? t("components.issueproperties.issueProperties.pullsContinuationForwardImmediately")
+                  : t("components.issueproperties.issueProperties.pullsRetryForwardImmediately")}
         </span>
       </div>
     </div>
@@ -1713,7 +1713,7 @@ export function IssueProperties({
           }
         >
           <Plus className="h-3 w-3" />
-          {createLabel.isPending ? "Creating…" : "Create label"}
+          {createLabel.isPending ? t("components.issueproperties.issueProperties.creating") : t("components.issueproperties.issueProperties.createLabel")}
         </button>
       </div>
     </>
@@ -2790,7 +2790,7 @@ export function IssueProperties({
                     </button>
                   </div>
                   <div className="mt-1 border-t border-border px-2 py-1.5 text-xs text-muted-foreground">
-                    {issue.executionWorkspaceId ? "Current workspace stays active. Applies on the next run." : "Applies on the next run."}
+                    {issue.executionWorkspaceId ? t("components.issueproperties.issueProperties.currentWorkspaceStaysActiveAppliesOn") : t("components.issueproperties.issueProperties.appliesOnTheNextRun")}
                   </div>
                 </>
               ) : (
@@ -2842,7 +2842,7 @@ export function IssueProperties({
                     ))}
                   </div>
                   <div className="border-t border-border px-2 py-1.5 text-xs text-muted-foreground">
-                    {issue.executionWorkspaceId ? "Current workspace stays active. Applies on the next run." : "Applies on the next run."}
+                    {issue.executionWorkspaceId ? t("components.issueproperties.issueProperties.currentWorkspaceStaysActiveAppliesOn") : t("components.issueproperties.issueProperties.appliesOnTheNextRun")}
                   </div>
                 </>
               )}

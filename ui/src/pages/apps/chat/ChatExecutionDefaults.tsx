@@ -75,7 +75,7 @@ export function ChatExecutionDefaults({ companyId, value, resource = false, onSa
         const { projectId: _previous, ...rest } = current;
         change(event.target.value === "inherit" ? rest : { ...rest, projectId: event.target.value === "none" ? null : event.target.value });
       }}>
-        <option value="inherit">{resource ? "Use connection defaults" : "Use task defaults"}</option>
+        <option value="inherit">{resource ? t("pages.apps.chat.chatExecutionDefaults.useConnectionDefaults") : t("pages.apps.chat.chatExecutionDefaults.useTaskDefaults")}</option>
         <option value="none">{t("pages.apps.chat.chatExecutionDefaults.noProject")}</option>
         {current.projectId && !projects.data?.some((project) => project.id === current.projectId) && <option value={current.projectId}>{t("pages.apps.chat.chatExecutionDefaults.savedProjectUnavailable")}</option>}
         {(projects.data ?? []).map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
@@ -90,7 +90,7 @@ export function ChatExecutionDefaults({ companyId, value, resource = false, onSa
         else if (key === "clear") change({ ...rest, workspace: null });
         else { const workspace = choices.get(key); if (workspace) change({ ...rest, workspace }); }
       }}>
-        <option value="inherit">{resource ? "Use connection defaults" : "Use project or task defaults"}</option>
+        <option value="inherit">{resource ? t("pages.apps.chat.chatExecutionDefaults.useConnectionDefaults") : t("pages.apps.chat.chatExecutionDefaults.useProjectOrTaskDefaults")}</option>
         {resource && <option value="clear">{t("pages.apps.chat.chatExecutionDefaults.useProjectOrTaskDefaults")}</option>}
         {!resource && workspaceValue === "clear" && <option value="clear">{t("pages.apps.chat.chatExecutionDefaults.useProjectOrTaskDefaults")}</option>}
         <option value="task">{t("pages.apps.chat.chatExecutionDefaults.taskFilesSeparateFolder")}</option>
@@ -108,7 +108,7 @@ export function ChatExecutionDefaults({ companyId, value, resource = false, onSa
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <div className="flex items-center justify-between gap-3">
       <div>{dirty ? <Button type="button" variant="ghost" disabled={pending} onClick={() => { setDraft(null); setError(null); }}>{t("pages.apps.chat.chatExecutionDefaults.cancel")}</Button> : saved ? <span role="status" className="text-sm text-muted-foreground">{t("pages.apps.chat.chatExecutionDefaults.savedForNewTasks")}</span> : null}</div>
-      <Button type="submit" disabled={!dirty || pending}>{pending ? "Saving…" : "Save defaults"}</Button>
+      <Button type="submit" disabled={!dirty || pending}>{pending ? t("pages.apps.chat.chatExecutionDefaults.saving") : t("pages.apps.chat.chatExecutionDefaults.saveDefaults")}</Button>
     </div>
   </form>;
 }

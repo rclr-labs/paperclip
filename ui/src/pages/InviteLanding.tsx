@@ -486,8 +486,8 @@ export function InviteLandingPage() {
           <h1 className="text-lg font-semibold">{t("pages.inviteLanding.inviteNotAvailable")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {inviteJoinRequestStatus === "rejected"
-              ? "This join request was not approved."
-              : "This invite has already been used."}
+              ? t("pages.inviteLanding.thisJoinRequestWasNotApproved")
+              : t("pages.inviteLanding.thisInviteHasAlreadyBeenUsed")}
           </p>
         </div>
       </div>
@@ -568,14 +568,14 @@ export function InviteLandingPage() {
                   {t("pages.inviteLanding.youVeBeenInvitedToJoin")}
                 </p>
                 <h1 className="mt-2 text-2xl font-semibold">
-                  {invite.inviteType === "bootstrap_ceo" ? "Set up Paperclip" : `Join ${companyDisplayName}`}
+                  {invite.inviteType === "bootstrap_ceo" ? t("pages.inviteLanding.setUpPaperclip") : `Join ${companyDisplayName}`}
                 </h1>
                 <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-300">
                   {showsAgentForm
-                    ? "Review the invite details, then submit the agent information below to start the join request."
+                    ? t("pages.inviteLanding.reviewTheInviteDetailsThenSubmit")
                     : requiresHumanAccount
-                      ? "Create your Paperclip account first. If you already have one, switch to sign in and continue the invite with the same email."
-                      : "Your account is ready. Review the invite details, then accept it to continue."}
+                      ? t("pages.inviteLanding.createYourPaperclipAccountFirstIf")
+                      : t("pages.inviteLanding.yourAccountIsReadyReviewThe")}
                 </p>
               </div>
             </div>
@@ -587,12 +587,12 @@ export function InviteLandingPage() {
               </div>
               <div className="border border-zinc-800 p-3">
                 <div className="text-xs uppercase tracking-(--tracking-caps) text-zinc-500">{t("pages.inviteLanding.invitedBy")}</div>
-                <div className="mt-1 text-sm text-zinc-100">{invitedByUserName ?? "Paperclip board"}</div>
+                <div className="mt-1 text-sm text-zinc-100">{invitedByUserName ?? t("pages.inviteLanding.paperclipBoard")}</div>
               </div>
               <div className="border border-zinc-800 p-3">
                 <div className="text-xs uppercase tracking-(--tracking-caps) text-zinc-500">{t("pages.inviteLanding.requestedAccess")}</div>
                 <div className="mt-1 text-sm text-zinc-100">
-                  {showsAgentForm ? "Agent join request" : requestedHumanRole ?? "Organization access"}
+                  {showsAgentForm ? t("pages.inviteLanding.agentJoinRequest") : requestedHumanRole ?? t("pages.inviteLanding.organizationAccess")}
                 </div>
               </div>
               <div className="border border-zinc-800 p-3">
@@ -659,19 +659,19 @@ export function InviteLandingPage() {
                   disabled={acceptMutation.isPending || agentName.trim().length === 0}
                   onClick={() => acceptMutation.mutate()}
                 >
-                  {acceptMutation.isPending ? "Working..." : joinButtonLabel}
+                  {acceptMutation.isPending ? t("pages.inviteLanding.working") : joinButtonLabel}
                 </Button>
               </div>
             ) : requiresHumanAccount ? (
               <div className="space-y-5">
                 <div>
                   <h2 className="text-lg font-semibold">
-                    {authMode === "sign_up" ? "Create your account" : "Sign in to continue"}
+                    {authMode === "sign_up" ? t("pages.inviteLanding.createYourAccount") : t("pages.inviteLanding.signInToContinue")}
                   </h2>
                   <p className="mt-1 text-sm text-zinc-400">
                     {authMode === "sign_up"
                       ? `Start with a Paperclip account. After that, you'll come right back here to accept the invite for ${companyDisplayName}.`
-                      : "Use the Paperclip account that already matches this invite. If you do not have one yet, switch back to create account."}
+                      : t("pages.inviteLanding.useThePaperclipAccountThatAlready")}
                   </p>
                 </div>
 
@@ -799,17 +799,17 @@ export function InviteLandingPage() {
                     aria-disabled={!authCanSubmit || authMutation.isPending}
                   >
                     {authMutation.isPending
-                      ? "Working..."
+                      ? t("pages.inviteLanding.working")
                       : authMode === "sign_in"
-                        ? "Sign in and continue"
-                        : "Create account and continue"}
+                        ? t("pages.inviteLanding.signInAndContinue")
+                        : t("pages.inviteLanding.createAccountAndContinue")}
                   </Button>
                 </form>
 
                 <p className="text-xs leading-5 text-zinc-500">
                   {authMode === "sign_up"
-                    ? "Already signed up before? Use the existing-account option instead so the invite lands on the right Paperclip user."
-                    : "No account yet? Switch back to create account so you can accept the invite with a new login."}
+                    ? t("pages.inviteLanding.alreadySignedUpBeforeUseThe")
+                    : t("pages.inviteLanding.noAccountYetSwitchBackTo")}
                 </p>
               </div>
             ) : (
@@ -817,12 +817,12 @@ export function InviteLandingPage() {
                 <div>
                   <h2 className="text-lg font-semibold">
                     {isCurrentMember
-                      ? "Already in this organization"
+                      ? t("pages.inviteLanding.alreadyInThisOrganization")
                       : shouldAutoAcceptHumanInvite
-                      ? "Completing organization access"
+                      ? t("pages.inviteLanding.completingOrganizationAccess")
                       : invite.inviteType === "bootstrap_ceo"
-                        ? "Accept bootstrap invite"
-                        : "Accept organization invite"}
+                        ? t("pages.inviteLanding.acceptBootstrapInvite")
+                        : t("pages.inviteLanding.acceptOrganizationInvite")}
                   </h2>
                   <p className="mt-1 text-sm text-zinc-400">
                     {shouldAutoAcceptHumanInvite
@@ -830,14 +830,14 @@ export function InviteLandingPage() {
                       : isCurrentMember
                       ? `This account already belongs to ${companyDisplayName}.`
                       : `This will ${
-                          invite.inviteType === "bootstrap_ceo" ? "finish setting up Paperclip" : `grant or complete your access to ${companyDisplayName}`
+                          invite.inviteType === "bootstrap_ceo" ? t("pages.inviteLanding.finishSettingUpPaperclip") : `grant or complete your access to ${companyDisplayName}`
                         }.`}
                   </p>
                 </div>
                 {error ? <p className="text-xs text-red-400">{error}</p> : null}
                 {shouldAutoAcceptHumanInvite ? (
                   <div className="text-sm text-zinc-400">
-                    {acceptMutation.isPending ? "Submitting request..." : "Finishing sign-in..."}
+                    {acceptMutation.isPending ? t("pages.inviteLanding.submittingRequest") : t("pages.inviteLanding.finishingSignIn")}
                   </div>
                 ) : (
                   <Button
@@ -853,7 +853,7 @@ export function InviteLandingPage() {
                       acceptMutation.mutate();
                     }}
                   >
-                    {acceptMutation.isPending ? "Working..." : joinButtonLabel}
+                    {acceptMutation.isPending ? t("pages.inviteLanding.working") : joinButtonLabel}
                   </Button>
                 )}
               </div>

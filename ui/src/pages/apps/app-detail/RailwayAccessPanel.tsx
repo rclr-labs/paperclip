@@ -32,7 +32,7 @@ export function RailwayAccessPanel({ connection, grants }: { connection: ToolCon
     <div className="space-y-2">
       <h2 id={`${id}-title`} className="text-lg font-semibold">{t("pages.apps.appdetail.railwayAccessPanel.railwayOperations")}</h2>
       <p className="text-sm text-muted-foreground">
-        {typeof connection.config?.railwayApiMessage === "string" ? connection.config?.railwayApiMessage : "Refresh actions after connecting to check service, log, and deployment access."}
+        {typeof connection.config?.railwayApiMessage === "string" ? connection.config?.railwayApiMessage : t("pages.apps.appdetail.railwayAccessPanel.refreshActionsAfterConnectingToCheck")}
       </p>
     </div>
     <div className="space-y-2">
@@ -60,12 +60,12 @@ export function RailwayAccessPanel({ connection, grants }: { connection: ToolCon
           <p className="text-sm text-muted-foreground">{t("pages.apps.appdetail.railwayAccessPanel.pasteTheSshRailwayComLine")}</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button disabled={!canConfigure || mutation.isPending || !knownHosts.trim()} onClick={() => mutation.mutate({ action: "enable", grantId, knownHosts })}>{setup.enabled ? "Update trusted host key" : "Enable container access"}</Button>
+          <Button disabled={!canConfigure || mutation.isPending || !knownHosts.trim()} onClick={() => mutation.mutate({ action: "enable", grantId, knownHosts })}>{setup.enabled ? t("pages.apps.appdetail.railwayAccessPanel.updateTrustedHostKey") : t("pages.apps.appdetail.railwayAccessPanel.enableContainerAccess")}</Button>
           <Button variant="outline" disabled={mutation.isPending} onClick={() => mutation.mutate({ action: "remove", grantId })}>{t("pages.apps.appdetail.railwayAccessPanel.removeContainerKey")}</Button>
         </div>
-        <p className="text-sm text-muted-foreground">{setup.enabled ? "Container access is enabled for this authorization." : "Register the public key and verify the host key before enabling access."} Removing the key stops new Paperclip connections. Also remove its public key from Railway.</p>
+        <p className="text-sm text-muted-foreground">{setup.enabled ? t("pages.apps.appdetail.railwayAccessPanel.containerAccessIsEnabledForThis") : t("pages.apps.appdetail.railwayAccessPanel.registerThePublicKeyAndVerify")} Removing the key stops new Paperclip connections. Also remove its public key from Railway.</p>
       </>}
     </>}
-    {mutation.isError && <p role="alert" className="text-sm text-destructive">{mutation.error instanceof Error ? mutation.error.message : "Container access could not be updated."}</p>}
+    {mutation.isError && <p role="alert" className="text-sm text-destructive">{mutation.error instanceof Error ? mutation.error.message : t("pages.apps.appdetail.railwayAccessPanel.containerAccessCouldNotBeUpdated")}</p>}
   </section>;
 }

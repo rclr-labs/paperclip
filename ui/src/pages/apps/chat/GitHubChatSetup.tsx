@@ -299,10 +299,10 @@ export function GitHubChatSetup() {
       )}
       <h1 className="text-2xl font-semibold">
         {!bot
-          ? "Choose agent"
+          ? t("pages.apps.chat.gitHubChatSetup.chooseAgent")
           : identityOnly || state?.state === "identity"
-              ? "Connect your account"
-              : reconnect && existing ? "Reconnect GitHub" : "Connect GitHub"}
+              ? t("pages.apps.chat.gitHubChatSetup.connectYourAccount")
+              : reconnect && existing ? t("pages.apps.chat.gitHubChatSetup.reconnectGithub") : t("pages.apps.chat.gitHubChatSetup.connectGithub")}
       </h1>
       {(error || (!identityOnly && !existing && progress.error) || accounts.error) && (
         <p role="alert" className="text-sm text-destructive">
@@ -312,7 +312,7 @@ export function GitHubChatSetup() {
               : undefined) ||
             (progress.error instanceof Error
               ? progress.error.message
-              : "Could not check GitHub setup. Try again.")}
+              : t("pages.apps.chat.gitHubChatSetup.couldNotCheckGithubSetupTry"))}
         </p>
       )}
       {!bot ? (
@@ -560,8 +560,8 @@ export function GitHubChatSetup() {
         <>
           <p role="status" className="text-sm text-muted-foreground">
             {deliveryVerifiedWhileChecking
-              ? "GitHub delivery verified. Checking App and repository access…"
-              : state.message ?? "Checking GitHub access…"}
+              ? t("pages.apps.chat.gitHubChatSetup.githubDeliveryVerifiedCheckingAppAnd")
+              : state.message ?? t("pages.apps.chat.gitHubChatSetup.checkingGithubAccess")}
           </p>
           {state.verification?.checks
             .filter(

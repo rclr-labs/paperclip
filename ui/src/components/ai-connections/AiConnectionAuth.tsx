@@ -87,7 +87,7 @@ function AuthAttempt({
             <p role="status" className="text-sm text-muted-foreground">
               {state.phase === "unsupported"
                 ? state.message
-                : "This provider does not offer a subscription connection."}
+                : t("components.aiconnections.aiConnectionAuth.thisProviderDoesNotOfferA")}
             </p>
           ) : (
             <>
@@ -161,7 +161,7 @@ function AuthAttempt({
             {!unsupported &&
               (method === "api_key" ? (
                 <Button disabled={busy || !value.trim()} onClick={submit}>
-                  {busy ? "Connecting…" : "Connect"}
+                  {busy ? t("components.aiconnections.aiConnectionAuth.connecting") : "Connect"}
                 </Button>
               ) : state.phase === "waiting" ? (
                 provider === "anthropic" ? (
@@ -176,10 +176,10 @@ function AuthAttempt({
               ) : (
                 <Button disabled={busy} onClick={onStart}>
                   {busy
-                    ? "Preparing sign-in…"
+                    ? t("components.aiconnections.aiConnectionAuth.preparingSignIn")
                     : state.phase === "idle"
-                      ? "Sign in"
-                      : "Try again"}
+                      ? t("components.aiconnections.aiConnectionAuth.signIn")
+                      : t("components.aiconnections.aiConnectionAuth.tryAgain")}
                 </Button>
               ))}
           </div>

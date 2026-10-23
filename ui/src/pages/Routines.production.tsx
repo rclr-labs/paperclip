@@ -918,7 +918,7 @@ export function Routines() {
               ) : null}
               {showFolderRail ? (
                 <Button variant="ghost" size="sm" className="text-xs" onClick={() => setSelectMode((current) => !current)}>
-                  {selectMode ? "Done" : "Select"}
+                  {selectMode ? t("pages.routinesproduction.done") : t("pages.routinesproduction.select")}
                 </Button>
               ) : null}
             </div>
@@ -1212,11 +1212,11 @@ export function Routines() {
                 }
               >
                 <Plus className="mr-2 h-4 w-4" />
-                {createRoutine.isPending ? "Creating..." : "Create routine"}
+                {createRoutine.isPending ? t("pages.routinesproduction.creating") : t("pages.routinesproduction.createRoutine")}
               </Button>
               {createRoutine.isError ? (
                 <p className="text-sm text-destructive">
-                  {createRoutine.error instanceof Error ? createRoutine.error.message : "Failed to create routine"}
+                  {createRoutine.error instanceof Error ? createRoutine.error.message : t("pages.routinesproduction.failedToCreateRoutine")}
                 </p>
               ) : null}
             </div>
@@ -1227,7 +1227,7 @@ export function Routines() {
       {error ? (
         <Card>
           <CardContent className="pt-6 text-sm text-destructive">
-            {error instanceof Error ? error.message : "Failed to load routines"}
+            {error instanceof Error ? error.message : t("pages.routinesproduction.failedToLoadRoutines")}
           </CardContent>
         </Card>
       ) : null}
@@ -1257,7 +1257,7 @@ export function Routines() {
               {folderSelection === "all" ? <FolderIconHeader label="All routines" count={sortedRoutines.length} /> : (
                 <div className="flex min-w-0 items-center gap-2 text-sm">
                   <FolderSwatch color={activeFolder?.color} />
-                  <span className="truncate font-medium">{folderSelection === "unfiled" ? "Unfiled" : activeFolder?.name ?? "Folder"}</span>
+                  <span className="truncate font-medium">{folderSelection === "unfiled" ? t("pages.routinesproduction.unfiled") : activeFolder?.name ?? t("pages.routinesproduction.folder")}</span>
                   <span className="text-muted-foreground">{sortedRoutines.length} routine{sortedRoutines.length === 1 ? "" : "s"}</span>
                 </div>
               )}

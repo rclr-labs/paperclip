@@ -33,7 +33,7 @@ export function RemoteMcpManagement({ providerName, connected = true, canReconne
             <AlertDialogAction disabled={busy} onClick={async (event) => {
               event.preventDefault();
               try { await onDisconnect(); setConfirming(false); } catch { /* The controller displays the failure. */ }
-            }}>{busy ? "Disconnecting…" : "Disconnect connection"}</AlertDialogAction>
+            }}>{busy ? t("features.connections.remotemcp.remoteMcpManagement.disconnecting") : t("features.connections.remotemcp.remoteMcpManagement.disconnectConnection")}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>}

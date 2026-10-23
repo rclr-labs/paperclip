@@ -293,7 +293,7 @@ export function AgentProviderConnection({
       {!opened && savedKeys.options.length > 0 && (
         <p className="mt-2 text-sm text-muted-foreground">
           {savedKeys.options.length} saved API{" "}
-          {savedKeys.options.length === 1 ? "key available" : "keys available"}.
+          {savedKeys.options.length === 1 ? t("components.newagent.agentProviderConnection.keyAvailable") : t("components.newagent.agentProviderConnection.keysAvailable")}.
         </p>
       )}
       {method === "subscription" &&
@@ -404,10 +404,10 @@ export function AgentProviderConnection({
             ) : (
               <p className="text-sm text-muted-foreground">
                 {storedLogin.data
-                  ? "Use your saved Claude subscription for this agent."
+                  ? t("components.newagent.agentProviderConnection.useYourSavedClaudeSubscriptionFor")
                   : canLogin
-                    ? "Use the existing provider connection for this environment."
-                    : "This environment does not support browser sign-in. Choose a sign-in environment or connect with an API key."}
+                    ? t("components.newagent.agentProviderConnection.useTheExistingProviderConnectionFor")
+                    : t("components.newagent.agentProviderConnection.thisEnvironmentDoesNotSupportBrowser")}
               </p>
             )}
           </div>

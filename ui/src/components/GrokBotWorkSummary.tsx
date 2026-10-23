@@ -9,10 +9,10 @@ export function GrokBotWorkSummary({ companyId, agentId }: { companyId: string; 
   const data = state.data, binding = data?.binding, routine = binding?.routine;
   return <div className="space-y-2 text-sm">
     {state.error && <p role="alert" className="text-destructive">{t("components.grokBotWorkSummary.connectionStatusCouldNotBeRefreshed", { message: state.error.message })}</p>}
-    <p>{data?.recoveryNeeded ? "Recovery needed" : binding?.assignment?.status === "offered" ? "Awaiting acknowledgement" : binding?.assignment ? "Working in Grok Bot" : routine?.verified ? "No active Paperclip work session" : "Connection setup incomplete"}</p>
+    <p>{data?.recoveryNeeded ? t("components.grokBotWorkSummary.recoveryNeeded") : binding?.assignment?.status === "offered" ? t("components.grokBotWorkSummary.awaitingAcknowledgement") : binding?.assignment ? t("components.grokBotWorkSummary.workingInGrokBot") : routine?.verified ? t("components.grokBotWorkSummary.noActivePaperclipWorkSession") : t("components.grokBotWorkSummary.connectionSetupIncomplete")}</p>
     {data?.currentTask && <Link className="underline" to={`/issues/${data.currentTask.id}`}>{data.currentTask.identifier}: {data.currentTask.title}</Link>}
-    <p className="text-muted-foreground">Queued tasks: {data?.queuedTaskCount ?? "Checking…"}</p>
-    <p className="text-muted-foreground">Last contact: {routine?.lastContactAt ? new Date(routine.lastContactAt).toLocaleString() : "Not observed"}</p>
+    <p className="text-muted-foreground">Queued tasks: {data?.queuedTaskCount ?? t("components.grokBotWorkSummary.checking")}</p>
+    <p className="text-muted-foreground">Last contact: {routine?.lastContactAt ? new Date(routine.lastContactAt).toLocaleString() : t("components.grokBotWorkSummary.notObserved")}</p>
     <p className="text-xs text-muted-foreground">{t("components.grokBotWorkSummary.showsPaperclipReportedActivityOpenThe")}</p>
   </div>;
 }

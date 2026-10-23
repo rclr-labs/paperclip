@@ -56,7 +56,7 @@ export function BudgetIncidentCard({
               <div className={isWarning
                 ? "text-(length:--text-micro) uppercase tracking-(--tracking-caps) text-amber-700 dark:text-amber-200"
                 : "text-(length:--text-micro) uppercase tracking-(--tracking-caps) text-red-700/90 dark:text-red-200/80"}>
-                {incident.scopeType} {isWarning ? "budget warning" : "hard stop"}
+                {incident.scopeType} {isWarning ? t("components.budgetIncidentCard.budgetWarning") : t("components.budgetIncidentCard.hardStop")}
               </div>
               <Badge variant={incident.status === "resolved" ? "outline" : "secondary"}>
                 {stateLabel}
@@ -93,8 +93,8 @@ export function BudgetIncidentCard({
             <PauseCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <div>
               {incident.scopeType === "project"
-                ? "Project execution is paused. New work in this project will not start until you resolve the budget incident."
-                : "This scope is paused. New heartbeats will not start until you resolve the budget incident."}
+                ? t("components.budgetIncidentCard.projectExecutionIsPausedNewWork")
+                : t("components.budgetIncidentCard.thisScopeIsPausedNewHeartbeats")}
             </div>
           </div>
         )}
@@ -118,7 +118,7 @@ export function BudgetIncidentCard({
               }}
             >
               <ArrowUpRight className="h-4 w-4" />
-              {isMutating ? "Applying..." : isWarning ? "Raise budget" : "Raise budget & resume"}
+              {isMutating ? t("components.budgetIncidentCard.applying") : isWarning ? t("components.budgetIncidentCard.raiseBudget") : t("components.budgetIncidentCard.raiseBudgetResume")}
             </Button>
           </div>
           {parsed !== null && parsed <= incident.amountObserved ? (
@@ -130,7 +130,7 @@ export function BudgetIncidentCard({
 
         <div className="flex justify-end">
           <Button variant="ghost" className="text-muted-foreground" disabled={isMutating} onClick={onKeepPaused}>
-            {isWarning ? "Dismiss warning" : "Keep paused"}
+            {isWarning ? t("components.budgetIncidentCard.dismissWarning") : t("components.budgetIncidentCard.keepPaused")}
           </Button>
         </div>
       </CardContent>

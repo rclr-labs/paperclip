@@ -212,7 +212,7 @@ export function StatusCardDetailDrawer({
         <SheetHeader className="border-b border-border p-4">
           <div className="flex items-center gap-2 pr-8">
             <span className={cn("inline-block h-2.5 w-2.5 shrink-0 rounded-full", presentation.dotClassName)} aria-hidden="true" />
-            <SheetTitle className="min-w-0 flex-1 truncate text-lg">{card.title ?? "Untitled card"}</SheetTitle>
+            <SheetTitle className="min-w-0 flex-1 truncate text-lg">{card.title ?? t("pages.statusCards.statusCardDetailDrawer.untitledCard")}</SheetTitle>
             <Badge variant="outline">{presentation.label}</Badge>
             {lifecycle === "compiling" ? (
               <Button
@@ -228,7 +228,7 @@ export function StatusCardDetailDrawer({
                 ) : (
                   <Wand2 className="h-3.5 w-3.5" />
                 )}
-                {setupRunning ? "Setting up…" : recompileMutation.isPending ? "Running…" : "Run now"}
+                {setupRunning ? t("pages.statusCards.statusCardDetailDrawer.settingUp") : recompileMutation.isPending ? t("pages.statusCards.statusCardDetailDrawer.running") : t("pages.statusCards.statusCardDetailDrawer.runNow")}
               </Button>
             ) : (
               <Button
@@ -238,12 +238,12 @@ export function StatusCardDetailDrawer({
                 disabled={refreshMutation.isPending || lifecycle === "updating"}
               >
                 <RefreshCw className={cn("h-3.5 w-3.5", refreshMutation.isPending && "animate-spin")} />
-                {refreshMutation.isPending ? "Refreshing…" : "Refresh"}
+                {refreshMutation.isPending ? t("pages.statusCards.statusCardDetailDrawer.refreshing") : t("pages.statusCards.statusCardDetailDrawer.refresh")}
               </Button>
             )}
           </div>
           <p className="text-xs text-muted-foreground">
-            {card.lastGeneratedAt ? `Updated ${relativeTime(card.lastGeneratedAt)}` : "No summary yet"} ·{" "}
+            {card.lastGeneratedAt ? `Updated ${relativeTime(card.lastGeneratedAt)}` : t("pages.statusCards.statusCardDetailDrawer.noSummaryYet")} ·{" "}
             {describeRefreshPolicy(card.refreshPolicy)}
           </p>
         </SheetHeader>
@@ -339,8 +339,8 @@ export function StatusCardDetailDrawer({
                       <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500" />
                     )}
                     {setupRunning
-                      ? "Setting up — the first summary is generated automatically once this finishes."
-                      : "Setup didn’t finish. Run it now to try again."}
+                      ? t("pages.statusCards.statusCardDetailDrawer.settingUpTheFirstSummaryIs")
+                      : t("pages.statusCards.statusCardDetailDrawer.setupDidnTFinishRunIt")}
                   </p>
                   {setupRunning && card.generatingIssueId ? (
                     <Link
@@ -361,7 +361,7 @@ export function StatusCardDetailDrawer({
               {displayedChanges.length > 0 ? (
                 <section className="space-y-2">
                   <h3 className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {selectedRevision ? "Integrated in this revision" : "Integrated in this update"} (
+                    {selectedRevision ? t("pages.statusCards.statusCardDetailDrawer.integratedInThisRevision") : t("pages.statusCards.statusCardDetailDrawer.integratedInThisUpdate")} (
                     {displayedChanges.length} {displayedChanges.length === 1 ? "change" : "changes"})
                   </h3>
                   <div className="space-y-1.5">
@@ -428,7 +428,7 @@ export function StatusCardDetailDrawer({
                 </div>
               ) : dryRunQuery.isError ? (
                 <InlineBanner tone="danger" title="Could not load matched issues">
-                  {dryRunQuery.error instanceof Error ? dryRunQuery.error.message : "Try again."}
+                  {dryRunQuery.error instanceof Error ? dryRunQuery.error.message : t("pages.statusCards.statusCardDetailDrawer.tryAgain")}
                 </InlineBanner>
               ) : (
                 <MatchedIssueList
@@ -499,6 +499,7 @@ export function StatusCardDetailDrawer({
  * inspectable without leaving Settings.
  */
 function QueryDebugSection({ card }: { card: StatusCardView }) {
+  const { t } = useTranslation();
   const queryJson = JSON.stringify({ queries: card.queries, limit: 50 }, null, 2);
   return (
     <Collapsible className="rounded-md border border-border">
@@ -516,7 +517,7 @@ function QueryDebugSection({ card }: { card: StatusCardView }) {
         <p className="text-xs text-muted-foreground">
           {card.queryCompiledAt
             ? `Compiled by Summarizer ${relativeTime(card.queryCompiledAt)} · version ${card.queryVersion}. Edit “What this card watches” above to rebuild it.`
-            : "Not compiled yet. The query builds automatically once the card finishes setting up."}
+            : t("pages.statusCards.statusCardDetailDrawer.notCompiledYetTheQueryBuilds")}
         </p>
       </CollapsibleContent>
     </Collapsible>

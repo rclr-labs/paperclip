@@ -4,6 +4,7 @@ import { cn, relativeTime } from "@/lib/utils";
 import { formatBytes, outputFilename, type IssueOutputItem } from "@/lib/issue-output";
 import { OutputFileTile } from "./OutputFileTile";
 import { Card } from "@/components/ui/card";
+import { useTranslation } from "@/i18n";
 
 interface OutputRowProps {
   item: IssueOutputItem;
@@ -12,6 +13,7 @@ interface OutputRowProps {
 
 /** Compact row for a non-primary output ("ALSO PRODUCED"). */
 export function OutputRow({ item, creatorName }: OutputRowProps) {
+  const { t } = useTranslation();
   const filename = outputFilename(item);
   const meta = item.metadata;
 
@@ -36,7 +38,7 @@ export function OutputRow({ item, creatorName }: OutputRowProps) {
             item.degraded ? "text-destructive" : "text-muted-foreground",
           )}
         >
-          {item.degraded ? "File details unavailable" : metaBits.join(" · ")}
+          {item.degraded ? t("components.issueoutput.outputRow.fileDetailsUnavailable") : metaBits.join(" · ")}
         </p>
       </div>
       {meta ? (

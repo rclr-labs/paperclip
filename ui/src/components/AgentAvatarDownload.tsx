@@ -68,7 +68,7 @@ export function AgentAvatarDownload({
           ) : (
             <Download className="size-4" />
           )}
-          {!iconOnly && "Download avatar"}
+          {!iconOnly && t("components.agentAvatarDownload.downloadAvatar")}
         </a>
       </Button>
       {failed && (

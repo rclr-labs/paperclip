@@ -177,7 +177,7 @@ export function IssuePrivacyActions({
               Everyone in the company will be able to read this task, its comments, documents, and
               run history. Existing private subtasks keep their privacy.{" "}
               {constraintsQuery.data?.leavesPersonalProject
-                ? "This task will also leave its personal project. " : null}
+                ? t("components.issuePrivacyActions.thisTaskWillAlsoLeaveIts") : null}
               <span className="font-semibold text-foreground">{t("components.issuePrivacyActions.contentAlreadySeenByOthersCannot")}</span>
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -191,7 +191,7 @@ export function IssuePrivacyActions({
               }}
               disabled={visibilityMutation.isPending || Boolean(publicBlockedReason)}
             >
-              {visibilityMutation.isPending ? "Making public…" : "Make public"}
+              {visibilityMutation.isPending ? t("components.issuePrivacyActions.makingPublic") : t("components.issuePrivacyActions.makePublic")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

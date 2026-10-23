@@ -201,7 +201,7 @@ export function GatewayActivityPanel({
             onClick={() => activityQuery.fetchNextPage()}
             disabled={activityQuery.isFetchingNextPage}
           >
-            {activityQuery.isFetchingNextPage ? "Loading…" : "Load more"}
+            {activityQuery.isFetchingNextPage ? t("pages.apps.gateways.panels.gatewayActivityPanel.loading") : t("pages.apps.gateways.panels.gatewayActivityPanel.loadMore")}
           </Button>
         </div>
       ) : null}

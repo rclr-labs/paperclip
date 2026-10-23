@@ -311,7 +311,7 @@ export function Artifacts() {
                 ))}
           </ArtifactTileGrid>
           <div ref={loadMoreRef} className="flex min-h-10 items-center justify-center pb-2 text-xs text-muted-foreground">
-            {isFetchingNextPage ? "Loading more artifacts..." : hasNextPage ? null : isFetching ? "Updating artifacts..." : null}
+            {isFetchingNextPage ? t("pages.artifacts.loadingMoreArtifacts") : hasNextPage ? null : isFetching ? t("pages.artifacts.updatingArtifacts") : null}
           </div>
         </>
       ) : (
@@ -327,11 +327,11 @@ export function Artifacts() {
           </div>
           <div ref={loadMoreRef} className="flex min-h-10 items-center justify-center pb-2 text-xs text-muted-foreground">
             {isFetchingNextPage
-              ? "Loading more artifacts..."
+              ? t("pages.artifacts.loadingMoreArtifacts")
               : hasNextPage
                 ? null
                 : isFetching
-                  ? "Updating artifacts..."
+                  ? t("pages.artifacts.updatingArtifacts")
                   : null}
           </div>
         </>

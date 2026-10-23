@@ -166,8 +166,8 @@ export function ArtifactsPanel({ taskId, isAgentWorking, openDocKey, openDocTitl
             <Package className="h-8 w-8 mx-auto text-muted-foreground/40 mb-3" />
             <p className="text-sm text-muted-foreground">
               {workProducts?.length === 0
-                ? "Your team's deliverables and plans will appear here as they're produced."
-                : "No artifacts match this filter."}
+                ? t("components.artifactsPanel.yourTeamSDeliverablesAndPlans")
+                : t("components.artifactsPanel.noArtifactsMatchThisFilter")}
             </p>
           </div>
         ) : (

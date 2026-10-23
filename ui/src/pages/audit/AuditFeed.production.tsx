@@ -151,13 +151,14 @@ function AuditActor({
  * that would duplicate the verb.
  */
 function AuditEntityNode({ record }: { record: AuditActionRecord }) {
+  const { t } = useTranslation();
   const { issue, document } = record.entity;
   const issueRef = issue?.identifier ?? issue?.id ?? null;
 
   if (issueRef) {
     return (
       <Link to={`/issues/${issueRef}`} className="font-medium text-primary hover:underline">
-        {issue?.identifier ? `${issue.identifier}${issue.title ? ` · ${issue.title}` : ""}` : "the task"}
+        {issue?.identifier ? `${issue.identifier}${issue.title ? ` · ${issue.title}` : ""}` : t("pages.audit.auditFeedproduction.theTask")}
       </Link>
     );
   }
@@ -470,8 +471,8 @@ export function AuditFeed({
             <h1 className="text-lg font-semibold text-foreground">{t("pages.audit.auditFeedproduction.activity")}</h1>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
               {resolvedMode === "agents"
-                ? "Every recorded agent action, newest first — with the responsible person and run behind each one."
-                : "Everything happening in your company, newest first — people, agents, and the system. Each line is one recorded action."}
+                ? t("pages.audit.auditFeedproduction.everyRecordedAgentActionNewestFirst")
+                : t("pages.audit.auditFeedproduction.everythingHappeningInYourCompanyNewest")}
             </p>
           </div>
         </div>
@@ -570,7 +571,7 @@ export function AuditFeed({
             disabled={exporting || feed.isLoading || items.length === 0}
           >
             <Download className="mr-1.5 h-4 w-4" />
-            {exporting ? "Exporting…" : "Export CSV"}
+            {exporting ? t("pages.audit.auditFeedproduction.exporting") : t("pages.audit.auditFeedproduction.exportCsv")}
           </Button>
         </div>
       ) : null}
@@ -589,7 +590,7 @@ export function AuditFeed({
         <Card>
           <CardContent className="flex flex-col items-center gap-3 py-14 text-center">
             <p className="text-sm text-muted-foreground">
-              {feed.error instanceof Error ? feed.error.message : "Failed to load the audit log."}
+              {feed.error instanceof Error ? feed.error.message : t("pages.audit.auditFeedproduction.failedToLoadTheAuditLog")}
             </p>
             <Button variant="outline" size="sm" onClick={() => feed.refetch()}>
               {t("pages.audit.auditFeedproduction.tryAgain")}
@@ -602,14 +603,14 @@ export function AuditFeed({
             <ScrollText className="h-10 w-10 text-muted-foreground/40" />
             <div>
               <p className="text-sm font-medium text-foreground">
-                {hasActiveFilters ? "No actions match these filters" : "Nothing here yet"}
+                {hasActiveFilters ? t("pages.audit.auditFeedproduction.noActionsMatchTheseFilters") : t("pages.audit.auditFeedproduction.nothingHereYet")}
               </p>
               <p className="mt-1 max-w-md text-sm text-muted-foreground">
                 {hasActiveFilters
-                  ? "Try a wider date range or different filters."
+                  ? t("pages.audit.auditFeedproduction.tryAWiderDateRangeOr")
                   : resolvedMode === "agents"
-                    ? "As soon as your agents start doing things, their actions show up here."
-                    : "As soon as anyone in your company does something, it shows up here."}
+                    ? t("pages.audit.auditFeedproduction.asSoonAsYourAgentsStart")
+                    : t("pages.audit.auditFeedproduction.asSoonAsAnyoneInYour")}
               </p>
             </div>
             {hasActiveFilters ? (
@@ -644,7 +645,7 @@ export function AuditFeed({
             onClick={() => feed.fetchNextPage()}
             disabled={feed.isFetchingNextPage}
           >
-            {feed.isFetchingNextPage ? "Loading…" : "Load more"}
+            {feed.isFetchingNextPage ? t("pages.audit.auditFeedproduction.loading") : t("pages.audit.auditFeedproduction.loadMore")}
           </Button>
         </div>
       ) : null}

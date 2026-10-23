@@ -74,7 +74,7 @@ export function AppsConnect({ byoOnly = false, credentialSource = "paperclip_vau
   );
   if (source?.startsWith("ai-router-")) {
     if (gallery.isPending) return <p role="status">{t("pages.apps.appsConnect.loadingConnector")}</p>;
-    if (!router) return <p role="alert">{gallery.error?.message ?? "This connection pool plugin is unavailable. Enable it in Plugins."}</p>;
+    if (!router) return <p role="alert">{gallery.error?.message ?? t("pages.apps.appsConnect.thisConnectionPoolPluginIsUnavailable")}</p>;
     return <AiConnectionPoolConnector pluginKey={router.pluginKey} />;
   }
   return <ConnectionSetupFlow byoOnly={byoOnly} credentialSource={credentialSource} host="page"

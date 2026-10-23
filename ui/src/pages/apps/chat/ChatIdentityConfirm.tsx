@@ -114,7 +114,7 @@ export function ChatIdentityConfirm() {
         <div className="flex items-center justify-between gap-4 py-3">
           <dt className="text-sm text-muted-foreground">{t("pages.apps.chat.chatIdentityConfirm.agent")}</dt>
           <dd className="text-sm font-medium">
-            {identity.botLabel ?? "Paperclip agent"}
+            {identity.botLabel ?? t("pages.apps.chat.chatIdentityConfirm.paperclipAgent")}
           </dd>
         </div>
       </dl>

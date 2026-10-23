@@ -103,7 +103,7 @@ export function SkillSources() {
     <SkillsPageNavigation activeView="sources" />
     {query.isPending && <p role="status" className="text-sm text-muted-foreground">{t("pages.skillSources.loadingSources")}</p>}
     {query.error && <p role="alert" className="text-sm text-destructive">{query.error.message} <Button variant="ghost" size="sm" onClick={() => void query.refetch()}>{t("pages.skillSources.tryAgain")}</Button></p>}
-    {query.data?.length === 0 && availableProjects.length === 0 && <div className="flex flex-col items-start gap-3 py-8"><p className="text-sm text-muted-foreground">No repositories added yet. Import your skills to make them available in {selectedCompany?.name ?? 'this company'}.</p><Button variant="outline" onClick={() => navigate('/skills/sources/new')}>{t("pages.skillSources.importFromGithub")}</Button></div>}
+    {query.data?.length === 0 && availableProjects.length === 0 && <div className="flex flex-col items-start gap-3 py-8"><p className="text-sm text-muted-foreground">No repositories added yet. Import your skills to make them available in {selectedCompany?.name ?? t("pages.skillSources.thisCompany")}.</p><Button variant="outline" onClick={() => navigate('/skills/sources/new')}>{t("pages.skillSources.importFromGithub")}</Button></div>}
     {projectRepositories.error && <p role="alert" className="text-sm text-destructive">{projectRepositories.error.message} <Button variant="ghost" size="sm" onClick={() => void projectRepositories.refetch()}>{t("pages.skillSources.tryAgain")}</Button></p>}
     {adopt.error && <p role="alert" className="text-sm text-destructive">{adopt.error.message}</p>}
     {uninstalledProjects.length > 0 && <div className="divide-y divide-border" aria-label={t("pages.skillSources.projectRepositories")}>
@@ -219,8 +219,8 @@ function DisconnectSourceDialog({ source, pending, error, stale, onReload, onClo
   return <Dialog open onOpenChange={open => { if (!open && !pending) onClose(); }}>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{source.enabled ? 'Disconnect' : 'Remove'} {source.fullName}?</DialogTitle>
-        <DialogDescription>{count ? `Remove this repository from Sources. What should happen to its ${count} imported ${count === 1 ? 'skill' : 'skills'}?` : 'Remove this repository from Sources.'}</DialogDescription>
+        <DialogTitle>{source.enabled ? t("pages.skillSources.disconnect") : t("pages.skillSources.remove")} {source.fullName}?</DialogTitle>
+        <DialogDescription>{count ? `Remove this repository from Sources. What should happen to its ${count} imported ${count === 1 ? 'skill' : 'skills'}?` : t("pages.skillSources.removeThisRepositoryFromSources")}</DialogDescription>
       </DialogHeader>
       {count > 0 && <RadioCardGroup ariaLabel="Imported skills" value={choice}
         onValueChange={value => { setChoice(value as SkillSourceDisconnectRequest['skills']); onChoiceChange(); }} disabled={pending}
@@ -235,7 +235,7 @@ function DisconnectSourceDialog({ source, pending, error, stale, onReload, onClo
       <div className="flex items-center justify-between gap-3">
         <Button variant="outline" disabled={pending} onClick={onClose}>{t("pages.skillSources.cancel")}</Button>
         <Button variant={choice === 'delete' ? 'destructive' : 'default'} disabled={pending || stale || Boolean(count && !choice)} onClick={() => onConfirm(choice || 'copy')}>
-          {pending ? 'Removing…' : action}
+          {pending ? t("pages.skillSources.removing") : action}
         </Button>
       </div>
     </DialogContent>
@@ -317,7 +317,7 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
   function dismiss() { stopScan(); sessionStorage.removeItem(draftKey); onClose(); }
   return <Dialog open onOpenChange={open => { if (!open && !save.isPending) dismiss(); }}><DialogContent className="flex max-h-(--sz-calc-18) flex-col overflow-hidden p-4 sm:max-w-2xl sm:p-6" aria-describedby={source ? 'source-description' : undefined}>
     <DialogHeader className="shrink-0 flex-row items-start justify-between gap-3 pr-6">
-      <div className="min-w-0"><DialogTitle>{source ? source.fullName : 'Import from GitHub'}</DialogTitle>{source && <DialogDescription id="source-description">{t("pages.skillSources.uncheckedSkillsStayInstalled")}</DialogDescription>}</div>
+      <div className="min-w-0"><DialogTitle>{source ? source.fullName : t("pages.skillSources.importFromGithub")}</DialogTitle>{source && <DialogDescription id="source-description">{t("pages.skillSources.uncheckedSkillsStayInstalled")}</DialogDescription>}</div>
     </DialogHeader>
     <div className="min-h-0 space-y-4 overflow-y-auto">
       {!ready && !scan.isPending && <div className="flex flex-col gap-4">
@@ -348,7 +348,7 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
               </CommandList>
           </Command>}
           {(repositories.error || Boolean(repositories.data?.failedConnectionCount)) && <p role="alert" className="text-xs text-destructive">
-            {availableRepositories.length ? 'Some GitHub connections could not load repositories.' : 'Could not load GitHub repositories.'}{' '}
+            {availableRepositories.length ? t("pages.skillSources.someGithubConnectionsCouldNotLoad") : t("pages.skillSources.couldNotLoadGithubRepositories")}{' '}
             <Button variant="ghost" size="sm" disabled={repositories.isFetching} onClick={() => void repositories.refetch()}>{t("pages.skillSources.tryAgain")}</Button>
             <Link to="/apps" className="underline">{t("pages.skillSources.manageConnections")}</Link>
           </p>}
@@ -361,7 +361,7 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
       </div>}
       {ready && !save.isPending && <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
         {!source && <span className="break-all">{discovery?.fullName}</span>}
-        <span className="inline-flex items-center gap-1.5"><GitBranch className="size-3.5" /><span className="font-mono">{source?.trackingRef === 'HEAD' ? 'Default branch' : source?.trackingRef ?? discovery?.trackingRef}</span></span>
+        <span className="inline-flex items-center gap-1.5"><GitBranch className="size-3.5" /><span className="font-mono">{source?.trackingRef === 'HEAD' ? t("pages.skillSources.defaultBranch") : source?.trackingRef ?? discovery?.trackingRef}</span></span>
         <a href={source?.repositoryUrl ?? discovery?.repositoryUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:text-foreground">{t("pages.skillSources.viewOnGithub")}<ExternalLink className="size-3" /></a>
       </div>}
       {source?.lastError && <p role="alert" className="text-sm text-destructive">{source.lastError}{' '}<Link onClick={rememberReturn} to={source.connectionId ? `/apps/${source.connectionId}/permissions` : connectHref} className="underline">{t("pages.skillSources.manageGithubConnection")}</Link></p>}
@@ -378,9 +378,9 @@ function SourceDialog({ companyId, source, onClose, onSaved }: {
         found={candidates.filter(candidate => selected.has(candidate.path) && !candidate.error).map(candidate => ({ ...candidate, fileCount: candidate.inspection?.files.length ?? 1 }))} />}
     </div>
       <footer className="flex shrink-0 items-center justify-between gap-3 border-t border-border pt-4">
-        <Button variant="ghost" disabled={save.isPending} onClick={() => { if (scan.isPending) stopScan(); else if (discovery && !source) clearScan(); else dismiss(); }}>{scan.isPending ? 'Cancel scan' : discovery && !source ? 'Back' : 'Cancel'}</Button>
-        {ready ? <Button disabled={busy || (!source && packageMode === 'skills' && selectedCount === 0)} onClick={() => save.mutate()}>{save.isPending ? 'Saving…' : source ? 'Save selection' : packageMode === 'repository' ? 'Import repository' : `Import ${selectedCount} ${selectedCount === 1 ? "skill" : "skills"}`}</Button>
-          : <Button disabled={busy || repositories.isPending || !repositoryUrl.trim()} onClick={() => scan.mutate(packageMode)}>{scan.isPending ? 'Scanning…' : 'Find skills'}</Button>}
+        <Button variant="ghost" disabled={save.isPending} onClick={() => { if (scan.isPending) stopScan(); else if (discovery && !source) clearScan(); else dismiss(); }}>{scan.isPending ? t("pages.skillSources.cancelScan") : discovery && !source ? t("pages.skillSources.back") : t("pages.skillSources.cancel")}</Button>
+        {ready ? <Button disabled={busy || (!source && packageMode === 'skills' && selectedCount === 0)} onClick={() => save.mutate()}>{save.isPending ? t("pages.skillSources.saving") : source ? t("pages.skillSources.saveSelection") : packageMode === 'repository' ? t("pages.skillSources.importRepository") : `Import ${selectedCount} ${selectedCount === 1 ? "skill" : "skills"}`}</Button>
+          : <Button disabled={busy || repositories.isPending || !repositoryUrl.trim()} onClick={() => scan.mutate(packageMode)}>{scan.isPending ? t("pages.skillSources.scanning") : t("pages.skillSources.findSkills")}</Button>}
       </footer>
     {preview && <SkillPackagePreview key={`${packageMode}:${preview.repository}:${preview.skill.path}:${preview.filePath ?? ''}`} companyId={companyId}
       repositoryPackage={preview.repository ? repositoryPackage ?? undefined : undefined}

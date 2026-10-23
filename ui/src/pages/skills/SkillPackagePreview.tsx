@@ -34,8 +34,8 @@ export function SkillPackagePreview({ companyId, repository, commitSha, skill, i
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}>
     <DialogContent className="flex max-h-(--sz-calc-18) flex-col overflow-y-auto p-4 sm:max-w-4xl sm:p-6">
       <DialogHeader>
-        <DialogTitle>{repositoryPackage ? 'Included repository files' : skill.name}</DialogTitle>
-        <DialogDescription className="break-all font-mono text-xs">{repositoryPackage ? 'Repository root' : root || 'Repository root'}/ · {inspection?.files.length ?? skill.fileCount ?? '?'} files{commitSha ? ` · ${commitSha.slice(0, 8)}` : ''}</DialogDescription>
+        <DialogTitle>{repositoryPackage ? t("pages.skills.skillPackagePreview.includedRepositoryFiles") : skill.name}</DialogTitle>
+        <DialogDescription className="break-all font-mono text-xs">{repositoryPackage ? t("pages.skills.skillPackagePreview.repositoryRoot") : root || t("pages.skills.skillPackagePreview.repositoryRoot")}/ · {inspection?.files.length ?? skill.fileCount ?? '?'} files{commitSha ? ` · ${commitSha.slice(0, 8)}` : ''}</DialogDescription>
       </DialogHeader>
       {!inspection && <p role="status" className="text-sm text-muted-foreground">{t("pages.skills.skillPackagePreview.refreshThisSourceToInspectIts")}</p>}
       {skill.error && <p className="text-sm text-muted-foreground">{t("pages.skills.skillPackagePreview.needsSetup", { error: skill.error })}</p>}

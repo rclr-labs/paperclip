@@ -176,7 +176,7 @@ export function OutputFeedbackButtons({
                 });
               }}
             >
-              {isSaving ? "Saving..." : "Save note"}
+              {isSaving ? t("components.outputFeedbackButtons.saving") : t("components.outputFeedbackButtons.saveNote")}
             </Button>
           </div>
         </div>
@@ -239,7 +239,7 @@ export function OutputFeedbackButtons({
                 );
               }}
             >
-              {isSaving ? "Saving..." : "Don't allow"}
+              {isSaving ? t("components.outputFeedbackButtons.saving") : t("components.outputFeedbackButtons.donTAllow")}
             </Button>
             <Button
               type="button"
@@ -259,7 +259,7 @@ export function OutputFeedbackButtons({
                 );
               }}
             >
-              {isSaving ? "Saving..." : "Always allow"}
+              {isSaving ? t("components.outputFeedbackButtons.saving") : t("components.outputFeedbackButtons.alwaysAllow")}
             </Button>
           </DialogFooter>
         </DialogContent>

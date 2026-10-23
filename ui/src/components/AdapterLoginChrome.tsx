@@ -443,8 +443,8 @@ export function ProviderSubscriptionCard({
             className="underline underline-offset-2 hover:text-foreground"
           >{t("components.adapterLoginChrome.signInTo", { providerName })}</a>
           {mode === "submitted_code"
-            ? " then come back and enter authorization code"
-            : " by providing the authorization code below"}
+            ? t("components.adapterLoginChrome.thenComeBackAndEnterAuthorization")
+            : t("components.adapterLoginChrome.byProvidingTheAuthorizationCodeBelow")}
         </>
       }
     >
@@ -524,6 +524,6 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
       </div>}
     </>}
     {login?.error && <p role="alert">{login.error}</p>}
-    {login && !login.preparing && !ready && (isolated || login.error) && <button type="button" className="underline underline-offset-4" onClick={login.retry}>{isolated ? "Start sign-in again" : "Check again"}</button>}
+    {login && !login.preparing && !ready && (isolated || login.error) && <button type="button" className="underline underline-offset-4" onClick={login.retry}>{isolated ? t("components.adapterLoginChrome.startSignInAgain") : t("components.adapterLoginChrome.checkAgain")}</button>}
   </div>;
 }

@@ -154,7 +154,7 @@ export function RoutineTriggers() {
       </div>
       {(error || statusError) && (
         <p role="alert" className="text-sm text-destructive">
-          {error || "Connection status is unavailable. Retrying…"}
+          {error || t("components.routinetriggers.routineTriggers.connectionStatusIsUnavailableRetrying")}
         </p>
       )}
       {removed.map((trigger) => (
@@ -644,8 +644,8 @@ function WebhookSettings({
             {checked
               ? delivery.status === "received"
                 ? "Event received · Authentication passed"
-                : "Event arrived, but authentication failed. Check the key in your app."
-              : "Waiting for an event from your app…"}
+                : t("components.routinetriggers.routineTriggers.eventArrivedButAuthenticationFailedCheck")
+              : t("components.routinetriggers.routineTriggers.waitingForAnEventFromYour")}
           </p>
         </DialogContent>
       </Dialog>

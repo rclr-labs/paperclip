@@ -641,9 +641,9 @@ export function FolderFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit folder" : "Create folder"}</DialogTitle>
+          <DialogTitle>{isEdit ? t("components.folders.folderControls.editFolder") : t("components.folders.folderControls.createFolder")}</DialogTitle>
           <DialogDescription>
-            {kind === "routine" ? "Organize routines in this organization." : "Organize installed organization skills."}
+            {kind === "routine" ? t("components.folders.folderControls.organizeRoutinesInThisOrganization") : t("components.folders.folderControls.organizeInstalledOrganizationSkills")}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4">
@@ -693,7 +693,7 @@ export function FolderFormDialog({
             {t("components.folders.folderControls.cancel")}
           </Button>
           <Button onClick={() => onSubmit({ name: name.trim(), color })} disabled={pending || !name.trim()}>
-            {pending ? "Saving..." : isEdit ? "Save" : "Create folder"}
+            {pending ? t("components.folders.folderControls.saving") : isEdit ? t("components.folders.folderControls.save") : t("components.folders.folderControls.createFolder")}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -736,7 +736,7 @@ export function DeleteFolderDialog({
               onConfirm();
             }}
           >
-            {pending ? "Deleting..." : "Delete folder"}
+            {pending ? t("components.folders.folderControls.deleting") : t("components.folders.folderControls.deleteFolder")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

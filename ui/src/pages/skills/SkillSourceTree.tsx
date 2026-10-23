@@ -110,7 +110,7 @@ export function SkillSourceTree({ candidates, selected, excludedFolders, onChang
           disabled={disabled || candidates.length === 0} onChange={() => toggleCheck('')} />
         <span>{t("pages.skills.skillSourceTree.ofSelected", { selectedCount, length: candidates.length })}</span>
       </label>
-      <Button type="button" variant="ghost" size="xs" className="font-normal text-muted-foreground" disabled={disabled || Boolean(search) || allDirs.size === 0} onClick={() => setExpansion(new Map([...allDirs].map(path => [path, allCollapsed])))}>{allCollapsed ? 'Expand all' : 'Collapse all'}</Button>
+      <Button type="button" variant="ghost" size="xs" className="font-normal text-muted-foreground" disabled={disabled || Boolean(search) || allDirs.size === 0} onClick={() => setExpansion(new Map([...allDirs].map(path => [path, allCollapsed])))}>{allCollapsed ? t("pages.skills.skillSourceTree.expandAll") : t("pages.skills.skillSourceTree.collapseAll")}</Button>
     </div>
     <div className="min-h-0 max-h-(--sz-480px) overflow-auto py-1">
       <FileTree layout="explorer" wrapLabels={false}

@@ -65,7 +65,7 @@ export function ArtifactFileRow({
       {statusBadge}
       {localCsv && !tooLarge && !data.data && !data.isError ? (
         <Button variant="ghost" size="sm" className="h-7 px-2 text-xs" disabled={data.isFetching} onClick={() => setCsvRequested(true)}>
-          {data.isFetching ? "Loading preview…" : "Preview data"}
+          {data.isFetching ? t("components.artifacts.v1.artifactFileRow.loadingPreview") : t("components.artifacts.v1.artifactFileRow.previewData")}
         </Button>
       ) : null}
       {openPath ? (
@@ -100,7 +100,7 @@ export function ArtifactFileRow({
       ) : null}
       {csv && (tooLarge || data.isError) ? (
         <div className="px-2 text-xs text-muted-foreground" role="status">
-          {tooLarge ? "CSV is too large to preview. Download the file to view it." : data.error?.message}
+          {tooLarge ? t("components.artifacts.v1.artifactFileRow.csvIsTooLargeToPreview") : data.error?.message}
           {data.isError ? (
             <Button variant="ghost" size="sm" onClick={() => void data.refetch()}>
               {t("components.artifacts.v1.artifactFileRow.retryPreview")}

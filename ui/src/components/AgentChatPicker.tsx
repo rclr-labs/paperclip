@@ -81,7 +81,7 @@ function AgentChatPickerResults({ agents, onSelect, onComplete, loading, error, 
         <CommandList>
           <CommandEmpty>
             <div className="flex flex-col items-center gap-2 px-4">
-              <span>{agents.length ? `No agents match “${search}”` : "No agents yet."}</span>
+              <span>{agents.length ? `No agents match “${search}”` : t("components.agentChatPicker.noAgentsYet")}</span>
               {agents.length ? <>
                 <span className="text-xs text-muted-foreground">{t("components.agentChatPicker.tryAnotherNameOrRole")}</span>
                 <Button variant="ghost" size="sm" onClick={() => setSearch("")}>{t("components.agentChatPicker.clearSearch")}</Button>

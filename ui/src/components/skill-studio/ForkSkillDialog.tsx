@@ -203,8 +203,8 @@ export function ForkSkillDialog({
                   </span>
                   <span className="mt-0.5 block text-xs text-muted-foreground">
                     {reassign
-                      ? "These agents will run your copy instead of the original."
-                      : "These agents keep running the original — your copy won't change what they do."}
+                      ? t("components.skillstudio.forkSkillDialog.theseAgentsWillRunYourCopy")
+                      : t("components.skillstudio.forkSkillDialog.theseAgentsKeepRunningTheOriginal")}
                   </span>
                 </span>
                 <ToggleSwitch
@@ -238,7 +238,7 @@ export function ForkSkillDialog({
             disabled={busy}
           >
             {busy ? <Loader2 className="mr-1.5 h-4 w-4 animate-spin" /> : null}
-            {reusableFork ? "Create another copy" : forkLabel}
+            {reusableFork ? t("components.skillstudio.forkSkillDialog.createAnotherCopy") : forkLabel}
           </Button>
         </DialogFooter>
       </DialogContent>

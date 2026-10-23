@@ -51,7 +51,7 @@ export function IssuePlanDecompositionsSection({
       <div className="flex items-center justify-between gap-2">
         <h3 className="text-sm font-medium text-muted-foreground">{t("components.issuePlanDecompositionsSection.planDecomposition")}</h3>
         <span className="text-(length:--text-micro) text-muted-foreground/80">
-          {items.length === 1 ? "1 accepted plan revision" : `${items.length} accepted plan revisions`}
+          {items.length === 1 ? t("components.issuePlanDecompositionsSection.1AcceptedPlanRevision") : `${items.length} accepted plan revisions`}
         </span>
       </div>
 

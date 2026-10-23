@@ -652,7 +652,7 @@ function TreeBranch({
                   <DropdownMenuItem onSelect={() => onEditFolder(folder)}>{t("components.folders.skillFolderTree.editColor")}</DropdownMenuItem>
                   <DropdownMenuItem onSelect={() => onMoveFolder(folder, isInMySkills ? "company" : "my")}>
                     <MoveRight className="h-3.5 w-3.5" />
-                    Move to {isInMySkills ? "Organization" : "My Skills"}
+                    Move to {isInMySkills ? t("components.folders.skillFolderTree.organization") : t("components.folders.skillFolderTree.mySkills")}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem variant="destructive" onSelect={() => onDeleteFolder(folder)}>
@@ -1019,7 +1019,7 @@ export function MoveToFolderDialog({
             disabled={pending || chosen === undefined || chosen === currentFolderId}
             onClick={() => chosen !== undefined && onMove(chosen)}
           >
-            {pending ? "Moving…" : "Move here"}
+            {pending ? t("components.folders.skillFolderTree.moving") : t("components.folders.skillFolderTree.moveHere")}
           </Button>
         </DialogFooter>
       </DialogContent>

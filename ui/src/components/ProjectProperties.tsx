@@ -167,13 +167,13 @@ function ArchiveDangerZone({
     <div className="space-y-3 rounded-md border border-destructive/40 bg-destructive/5 px-4 py-4">
       <p className="text-sm text-muted-foreground">
         {isArchive
-          ? "Archive this project to hide it from the sidebar and project selectors."
-          : "Unarchive this project to restore it in the sidebar and project selectors."}
+          ? t("components.projectProperties.archiveThisProjectToHideIt")
+          : t("components.projectProperties.unarchiveThisProjectToRestoreIt")}
       </p>
       {archivePending ? (
         <Button size="sm" variant="destructive" disabled>
           <Loader2 className="h-3 w-3 animate-spin mr-1" />
-          {isArchive ? "Archiving..." : "Unarchiving..."}
+          {isArchive ? t("components.projectProperties.archiving") : t("components.projectProperties.unarchiving")}
         </Button>
       ) : confirming ? (
         <div className="flex items-center gap-2">
@@ -481,7 +481,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
             />
           ) : (
             <p className="text-sm text-muted-foreground">
-              {project.description?.trim() || "No description"}
+              {project.description?.trim() || t("components.projectProperties.noDescription")}
             </p>
           )}
         </PropertyRow>
@@ -500,12 +500,12 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                 }}
                 disabled={!canManagePrivacy || (!onUpdate && !onFieldUpdate)}
               />
-              <span>{project.visibility === "private" ? "Private" : "Open to company"}</span>
+              <span>{project.visibility === "private" ? t("components.projectProperties.private") : t("components.projectProperties.openToCompany")}</span>
             </label>
             <p className="text-(length:--text-micro) text-muted-foreground">
               {project.visibility === "private"
-                ? "Only access members can discover this project. Tasks shared directly remain readable on their own."
-                : "Everyone in the company can discover this project. Individually private tasks keep their own access rules."}
+                ? t("components.projectProperties.onlyAccessMembersCanDiscoverThis")
+                : t("components.projectProperties.everyoneInTheCompanyCanDiscover")}
             </p>
             {project.visibility === "private" ? <ProjectAccessMembers project={project} canManage={canManagePrivacy} /> : null}
           </div>
@@ -559,8 +559,8 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
               </TooltipTrigger>
               <TooltipContent side="top">
                 {hideHostPaths
-                  ? "Repo identifies the source of truth. Agents check it out in the platform-managed environment."
-                  : "Repo identifies the source of truth. Local folder is the default place agents write code."}
+                  ? t("components.projectProperties.repoIdentifiesTheSourceOfTruth2")
+                  : t("components.projectProperties.repoIdentifiesTheSourceOfTruth")}
               </TooltipContent>
             </Tooltip>
           </div>
@@ -600,7 +600,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                         setWorkspaceError(null);
                       }}
                     >
-                      {codebase.localFolder ? "Change local folder" : "Set local folder"}
+                      {codebase.localFolder ? t("components.projectProperties.changeLocalFolder") : t("components.projectProperties.setLocalFolder")}
                     </Button>
                     {codebase.localFolder ? (
                       <Button
@@ -775,7 +775,7 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                     />
                   ) : (
                     <span className="text-xs text-muted-foreground">
-                      {executionWorkspacesEnabled ? "Enabled" : "Disabled"}
+                      {executionWorkspacesEnabled ? t("components.projectProperties.enabled") : t("components.projectProperties.disabled")}
                     </span>
                   )}
                 </div>
@@ -854,8 +854,8 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                         onClick={() => setExecutionWorkspaceAdvancedOpen((open) => !open)}
                       >
                         {executionWorkspaceAdvancedOpen
-                          ? "Hide advanced checkout settings"
-                          : "Show advanced checkout settings"}
+                          ? t("components.projectProperties.hideAdvancedCheckoutSettings")
+                          : t("components.projectProperties.showAdvancedCheckoutSettings")}
                       </button>
                     </div>
 

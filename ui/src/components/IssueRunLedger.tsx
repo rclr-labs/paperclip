@@ -676,8 +676,8 @@ export function IssueRunLedgerContent({
             {latestRun
               ? runSummary(latestRun, agentMap)
               : issueStatus === "in_progress"
-                ? "Waiting for the first run record."
-                : "No runs linked yet."}
+                ? t("components.issueRunLedger.waitingForTheFirstRunRecord")
+                : t("components.issueRunLedger.noRunsLinkedYet")}
           </p>
         </div>
         {latestRun ? (
@@ -738,13 +738,13 @@ export function IssueRunLedgerContent({
         >
           <p className="font-medium">
             {latestSilentRun.outputSilence.level === "critical"
-              ? "Critical output silence"
-              : "Output silence watchdog warning"}
+              ? t("components.issueRunLedger.criticalOutputSilence")
+              : t("components.issueRunLedger.outputSilenceWatchdogWarning")}
           </p>
           <p className="mt-1">
             Latest active run has been silent for{" "}
             {formatSilenceAge(latestSilentRun.outputSilence.silenceAgeMs) ??
-              "an extended period"}
+              t("components.issueRunLedger.anExtendedPeriod")}
             .
             {latestSilentRun.outputSilence.evaluationIssueIdentifier ? (
               <>
@@ -762,8 +762,8 @@ export function IssueRunLedgerContent({
           </p>
           <p className="mt-1">
             {latestSilentRun.outputSilence.evaluationIssueIdentifier
-              ? "This signal is informational. Paperclip did not create new delegated recovery work."
-              : "This signal is informational. Paperclip did not create or assign a recovery task."}
+              ? t("components.issueRunLedger.thisSignalIsInformationalPaperclipDid2")
+              : t("components.issueRunLedger.thisSignalIsInformationalPaperclipDid")}
           </p>
           {onWatchdogDecision && canRecordWatchdogDecisions ? (
             <div className="mt-2 flex flex-wrap gap-1.5">
@@ -830,8 +830,8 @@ export function IssueRunLedgerContent({
       {feedItems.length === 0 ? (
         <div className="rounded-md border border-dashed border-border px-3 py-3 text-sm text-muted-foreground">
           {renderActivityEvent
-            ? "Runs and activity will appear here once this task has history."
-            : "Historical runs without liveness metadata will appear here once linked to this task."}
+            ? t("components.issueRunLedger.runsAndActivityWillAppearHere")
+            : t("components.issueRunLedger.historicalRunsWithoutLivenessMetadataWill")}
         </div>
       ) : (
         <div className="space-y-1.5">

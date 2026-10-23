@@ -317,7 +317,7 @@ export function IssueChatFeedbackButtons({
               disabled={isSaving || !downvoteReason.trim()}
               onClick={handleSubmitReason}
             >
-              {isSaving ? "Saving..." : "Save note"}
+              {isSaving ? t("components.agentBubbleActionRow.saving") : t("components.agentBubbleActionRow.saveNote")}
             </Button>
           </div>
         </PopoverContent>
@@ -372,7 +372,7 @@ export function IssueChatFeedbackButtons({
                 ).then(() => setPendingSharingDialog(null));
               }}
             >
-              {isSaving ? "Saving..." : "Don't allow"}
+              {isSaving ? t("components.agentBubbleActionRow.saving") : t("components.agentBubbleActionRow.donTAllow")}
             </Button>
             <Button
               type="button"
@@ -385,7 +385,7 @@ export function IssueChatFeedbackButtons({
                 }).then(() => setPendingSharingDialog(null));
               }}
             >
-              {isSaving ? "Saving..." : "Always allow"}
+              {isSaving ? t("components.agentBubbleActionRow.saving") : t("components.agentBubbleActionRow.alwaysAllow")}
             </Button>
           </DialogFooter>
         </DialogContent>

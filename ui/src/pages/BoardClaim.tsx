@@ -57,7 +57,7 @@ export function BoardClaimPage() {
         <Card className="block p-6">
           <h1 className="text-lg font-semibold">{t("pages.boardClaim.claimChallengeUnavailable2")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {statusQuery.error instanceof Error ? statusQuery.error.message : "Challenge is invalid or expired."}
+            {statusQuery.error instanceof Error ? statusQuery.error.message : t("pages.boardClaim.challengeIsInvalidOrExpired")}
           </p>
         </Card>
       </div>
@@ -111,7 +111,7 @@ export function BoardClaimPage() {
 
         {claimMutation.error && (
           <p className="mt-3 text-sm text-destructive">
-            {claimMutation.error instanceof Error ? claimMutation.error.message : "Failed to claim board ownership"}
+            {claimMutation.error instanceof Error ? claimMutation.error.message : t("pages.boardClaim.failedToClaimBoardOwnership")}
           </p>
         )}
 
@@ -120,7 +120,7 @@ export function BoardClaimPage() {
           onClick={() => claimMutation.mutate()}
           disabled={claimMutation.isPending}
         >
-          {claimMutation.isPending ? "Claiming…" : "Claim ownership"}
+          {claimMutation.isPending ? t("pages.boardClaim.claiming") : t("pages.boardClaim.claimOwnership")}
         </Button>
       </Card>
     </div>

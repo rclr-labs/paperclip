@@ -175,7 +175,7 @@ function AuditEntityNode({ record }: { record: AuditActionRecord }) {
     const caseRef = record.entity.case;
     return (
       <Link to={caseHref(caseRef?.identifier ?? record.entityId)} className="font-medium text-primary hover:underline">
-        {caseRef ? `${caseRef.identifier} · ${caseRef.title}` : "the case"}
+        {caseRef ? `${caseRef.identifier} · ${caseRef.title}` : t("pages.audit.auditFeed.theCase")}
       </Link>
     );
   }
@@ -185,7 +185,7 @@ function AuditEntityNode({ record }: { record: AuditActionRecord }) {
   if (issueRef) {
     return (
       <Link to={`/issues/${issueRef}`} className="font-medium text-primary hover:underline">
-        {issue?.identifier ? `${issue.identifier}${issue.title ? ` · ${issue.title}` : ""}` : "the task"}
+        {issue?.identifier ? `${issue.identifier}${issue.title ? ` · ${issue.title}` : ""}` : t("pages.audit.auditFeed.theTask")}
       </Link>
     );
   }
@@ -249,8 +249,8 @@ function AuditRow({
             </p>
           ) : null}
           {workflowTransition?.from && workflowTransition?.to ? <p className="text-xs text-muted-foreground">
-            {workflowTransition.from.name ?? "Case instructions"}{workflowTransition.from.phase ? ` · ${workflowTransition.from.phase}` : ""}
-            {" → "}{workflowTransition.to.name ?? "Case instructions"} · {workflowTransition.to.phase}
+            {workflowTransition.from.name ?? t("pages.audit.auditFeed.caseInstructions")}{workflowTransition.from.phase ? ` · ${workflowTransition.from.phase}` : ""}
+            {" → "}{workflowTransition.to.name ?? t("pages.audit.auditFeed.caseInstructions")} · {workflowTransition.to.phase}
           </p> : null}
           {documentKey ? (
             <p className="text-xs text-muted-foreground">
@@ -566,8 +566,8 @@ export function AuditFeed({
             <h2 className="text-lg font-semibold text-foreground">{t("pages.audit.auditFeed.activity")}</h2>
             <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
               {resolvedMode === "agents"
-                ? "Every recorded agent action, newest first — with the responsible person and run behind each one."
-                : "Everything happening in your organization, newest first — people, agents, and the system. Each line is one recorded action."}
+                ? t("pages.audit.auditFeed.everyRecordedAgentActionNewestFirst")
+                : t("pages.audit.auditFeed.everythingHappeningInYourOrganizationNewest")}
             </p>
           </div>
         </div>
@@ -593,7 +593,7 @@ export function AuditFeed({
           {lockedRunId
             ? `Scoped to run ${lockedRunId.slice(0, 8)}`
             : lockedAgentId
-              ? "Scoped to one agent"
+              ? t("pages.audit.auditFeed.scopedToOneAgent")
               : scopedCase
                 ? <>Case <Link to={caseHref(scopedCase.identifier)} className="font-medium text-primary hover:underline">{scopedCase.identifier} · {scopedCase.title}</Link></>
                 : `Scoped to ${lockedEntity?.label ?? lockedEntity?.type ?? "entity"}`}
@@ -729,7 +729,7 @@ export function AuditFeed({
             disabled={exporting || feed.isLoading || items.length === 0}
           >
             <Download className="mr-1.5 h-4 w-4" />
-            {exporting ? "Exporting…" : "Export CSV"}
+            {exporting ? t("pages.audit.auditFeed.exporting") : t("pages.audit.auditFeed.exportCsv")}
           </Button>
         ) : null}
       </div>
@@ -748,7 +748,7 @@ export function AuditFeed({
         <Card>
           <CardContent className="flex flex-col items-center gap-3 py-14 text-center">
             <p className="text-sm text-muted-foreground">
-              {feed.error instanceof Error ? feed.error.message : "Failed to load the audit log."}
+              {feed.error instanceof Error ? feed.error.message : t("pages.audit.auditFeed.failedToLoadTheAuditLog")}
             </p>
             <Button variant="outline" size="sm" onClick={() => feed.refetch()}>
               {t("pages.audit.auditFeed.tryAgain")}
@@ -761,14 +761,14 @@ export function AuditFeed({
             <ScrollText className="h-10 w-10 text-muted-foreground/40" />
             <div>
               <p className="text-sm font-medium text-foreground">
-                {hasActiveFilters ? "No actions match these filters" : "Nothing here yet"}
+                {hasActiveFilters ? t("pages.audit.auditFeed.noActionsMatchTheseFilters") : t("pages.audit.auditFeed.nothingHereYet")}
               </p>
               <p className="mt-1 max-w-md text-sm text-muted-foreground">
                 {hasActiveFilters
-                  ? "Try a wider date range or different filters."
+                  ? t("pages.audit.auditFeed.tryAWiderDateRangeOr")
                   : resolvedMode === "agents"
-                    ? "As soon as your agents start doing things, their actions show up here."
-                    : "As soon as anyone in your organization does something, it shows up here."}
+                    ? t("pages.audit.auditFeed.asSoonAsYourAgentsStart")
+                    : t("pages.audit.auditFeed.asSoonAsAnyoneInYour")}
               </p>
             </div>
             {hasActiveFilters ? (
@@ -802,7 +802,7 @@ export function AuditFeed({
             onClick={() => feed.fetchNextPage()}
             disabled={feed.isFetchingNextPage}
           >
-            {feed.isFetchingNextPage ? "Loading…" : "Load more"}
+            {feed.isFetchingNextPage ? t("pages.audit.auditFeed.loading") : t("pages.audit.auditFeed.loadMore")}
           </Button>
         </div>
       ) : null}

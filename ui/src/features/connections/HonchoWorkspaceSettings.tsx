@@ -27,7 +27,7 @@ export function HonchoWorkspaceSettings({ connection, canConfigure }: { connecti
     {mutation.isError && <div role="alert"><InlineBanner tone="danger">{mutation.error.message}</InlineBanner></div>}
     {draft !== null && draft !== saved && <div className="flex items-center justify-between">
       <Button variant="ghost" disabled={mutation.isPending} onClick={() => { setDraft(null); mutation.reset(); }}>{t("features.connections.honchoWorkspaceSettings.cancel")}</Button>
-      <Button disabled={!canConfigure || mutation.isPending || !value.trim()} onClick={() => mutation.mutate()}>{mutation.isPending ? "Saving…" : "Save workspace"}</Button>
+      <Button disabled={!canConfigure || mutation.isPending || !value.trim()} onClick={() => mutation.mutate()}>{mutation.isPending ? t("features.connections.honchoWorkspaceSettings.saving") : t("features.connections.honchoWorkspaceSettings.saveWorkspace")}</Button>
     </div>}
   </section>;
 }

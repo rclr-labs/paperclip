@@ -36,14 +36,14 @@ export function ManagedOAuthHandoffState({
         </span>
         <div className="min-w-0">
           <h1 className="text-xl font-bold tracking-tight">
-            {failed ? "Sign-in couldn’t continue" : "Preparing secure sign-in"}
+            {failed ? t("pages.apps.paperclipCloudOAuthHandoff.signInCouldnTContinue") : t("pages.apps.paperclipCloudOAuthHandoff.preparingSecureSignIn")}
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {failed
-              ? error ?? "Paperclip couldn’t prepare the provider sign-in. Try again."
+              ? error ?? t("pages.apps.paperclipCloudOAuthHandoff.paperclipCouldnTPrepareTheProvider")
               : phase === "reauthenticating"
-                ? "Your Paperclip sign-in is being refreshed."
-                : "Paperclip is opening the provider securely."}
+                ? t("pages.apps.paperclipCloudOAuthHandoff.yourPaperclipSignInIsBeing")
+                : t("pages.apps.paperclipCloudOAuthHandoff.paperclipIsOpeningTheProviderSecurely")}
           </p>
           {failed ? (
             <div className="mt-6 flex items-center gap-2">

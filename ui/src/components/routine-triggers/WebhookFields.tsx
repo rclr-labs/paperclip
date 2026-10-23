@@ -44,7 +44,7 @@ export function CopyField({
           ) : (
             <Copy className="h-3.5 w-3.5" />
           )}
-          {copied ? "Copied" : "Copy"}
+          {copied ? t("components.routinetriggers.webhookFields.copied") : t("components.routinetriggers.webhookFields.copy")}
         </Button>
       </div>
       {help && <p className="text-xs text-muted-foreground">{help}</p>}

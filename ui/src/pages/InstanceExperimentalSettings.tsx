@@ -189,7 +189,7 @@ export function InstanceExperimentalSettings() {
       <div className="text-sm text-destructive">
         {experimentalQuery.error instanceof Error
           ? experimentalQuery.error.message
-          : "Failed to load experimental settings."}
+          : t("pages.instanceExperimentalSettings.failedToLoadExperimentalSettings")}
       </div>
     );
   }
@@ -727,8 +727,8 @@ export function InstanceExperimentalSettings() {
                       <p className="font-medium text-foreground">{t("pages.instanceExperimentalSettings.executionIsSuppressedEffectivelyOff")}</p>
                       <p className="text-muted-foreground">
                         {worktreeRunExecutionState.reason === "instance_mismatch"
-                          ? "This setting was armed in a different instance and copied here, so no tasks run automatically."
-                          : "This setting is missing its activation cutoff, so no tasks run automatically."}{" "}
+                          ? t("pages.instanceExperimentalSettings.thisSettingWasArmedInA")
+                          : t("pages.instanceExperimentalSettings.thisSettingIsMissingItsActivation")}{" "}
                         Toggle it off and back on to arm execution for tasks created here.
                       </p>
                     </div>

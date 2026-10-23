@@ -9,6 +9,7 @@ import { attentionIdleDays } from "../lib/attention";
 import { AttentionQueueRow } from "./AttentionQueueRow";
 import { IssueGroupHeader } from "./IssueGroupHeader";
 import { Button } from "./ui/button";
+import { useTranslation } from "@/i18n";
 
 /**
  * A collapsible shelf header + body (snoozed / dismissed / aging / decided /
@@ -70,6 +71,7 @@ export function AgingItemRow({
   onDismiss: (item: AttentionItem) => void;
   onSnooze: (item: AttentionItem, snoozedUntil: string) => void;
 }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const idleDays = attentionIdleDays(item, now);
@@ -103,7 +105,7 @@ export function AgingItemRow({
         >
           {keep.isPending && <Loader2 className="h-3 w-3 animate-spin" />}
           <Sun className="h-3.5 w-3.5" />
-          {item.keep ? "Kept" : "Keep on desk"}
+          {item.keep ? t("components.decisionShelf.kept") : t("components.decisionShelf.keepOnDesk")}
         </Button>
       </div>
       <AttentionQueueRow
