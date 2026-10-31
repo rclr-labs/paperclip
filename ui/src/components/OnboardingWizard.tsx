@@ -3350,7 +3350,7 @@ function OnboardingWizardInner({
                           <p className="text-muted-foreground"><Trans i18nKey="components.onboardingWizard.promptRespondWithHello">
                             Prompt:{" "}
                             <span className="font-mono">Respond with hello.</span>
-                          </Trans>span>
+                          </Trans>
                           </p>
                           {adapterType === "claude_local" || adapterType === "codex_local" ? (
                             <p className="text-muted-foreground">
