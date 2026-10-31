@@ -58,6 +58,19 @@ const UI_ATTRS = new Set(["placeholder", "aria-label", "alt"]);
  */
 const DOM_ONLY_ATTRS = new Set(["label", "title"]);
 
+/**
+ * Prose props on CUSTOM components (`<StatCard label="Month Spend">`). These are
+ * where the dashboard's visible labels live, so refusing them wholesale — as
+ * DOM_ONLY_ATTRS does — leaves real copy in English. The hazard in the comment
+ * above is still real, so this set is not trusted on its own: it is gated by
+ * `--component-attrs` and every site it produces must survive `tsc -b`. A prop
+ * that carries a union type fails the build and is recorded in TYPED_PROPS.
+ */
+const COMPONENT_PROSE_ATTRS = new Set([
+  "label", "title", "subtitle", "description", "heading",
+  "emptyMessage", "tooltip", "helperText", "caption", "placeholder",
+]);
+
 function isDomElement(node) {
   const name = node?.openingElement?.name ?? node?.name;
   const text = name?.type === "JSXIdentifier" ? name.name : null;
@@ -71,6 +84,7 @@ const opt = (n, d = null) => {
   return i >= 0 ? args[i + 1] : d;
 };
 const APPLY = args.includes("--apply");
+const COMPONENT_ATTRS = args.includes("--component-attrs");
 const LIMIT = Number(opt("limit", "0")) || 0;
 
 const stats = { files: 0, withStrings: 0, changed: 0, keys: 0, interpolated: 0, trans: 0, literals: 0, litAttribute: 0, litCall: 0, needsTrans: 0, noComponent: 0, exprBody: 0 };
@@ -255,7 +269,10 @@ function collect(file) {
     if (node.type === "JSXAttribute" && node.name?.name && node.value?.type === "StringLiteral") {
       const attr = node.name.name;
       const owner = ancestors[ancestors.length - 2]; // JSXOpeningElement -> JSXElement
-      const allowed = UI_ATTRS.has(attr) || (DOM_ONLY_ATTRS.has(attr) && isDomElement(owner));
+      const allowed =
+        UI_ATTRS.has(attr) ||
+        (DOM_ONLY_ATTRS.has(attr) && isDomElement(owner)) ||
+        (COMPONENT_ATTRS && COMPONENT_PROSE_ATTRS.has(attr) && !isDomElement(owner));
       if (!allowed) return;
       if (!isTranslatable(node.value.value)) return;
       const { component, reason } = enclosingComponent(ancestors);
