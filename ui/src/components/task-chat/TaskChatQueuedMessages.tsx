@@ -163,7 +163,7 @@ function SortableQueuedMessage({
           ) : (
             <CornerDownRight className="h-3.5 w-3.5" aria-hidden />
           )}
-          {queue.targetRunId ? "Interrupt" : "Send"}
+          {queue.targetRunId ? t("components.taskchat.taskChatQueuedMessages.interrupt") : t("components.taskchat.taskChatQueuedMessages.send")}
         </button>
       ) : (
         <button

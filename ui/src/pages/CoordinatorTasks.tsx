@@ -31,6 +31,7 @@ import { useLocation, useSearchParams } from "@/lib/router";
 import { taskListViewStorageKey } from "@/lib/task-list-views";
 import { normalizeTaskViewKey, taskView } from "@/lib/task-views";
 import type { Issue } from "@paperclipai/shared";
+import { useTranslation } from "@/i18n";
 
 const pageSize = 200;
 const views = [{ value: "all", label: "All tasks" }, { value: "blocked", label: "Needs attention" }] as const;
@@ -38,6 +39,7 @@ const views = [{ value: "all", label: "All tasks" }, { value: "blocked", label: 
 /** Coordinator's existing IA and attention feed, rendered with the production
  * components reviewed in Design proposals / Pages / Tasks. */
 export function CoordinatorTasks() {
+  const { t } = useTranslation();
   const { selectedCompanyId: companyId } = useCompany();
   const { userId } = useAccountIdentity();
   const { openNewIssue } = useDialogActions();
@@ -201,22 +203,22 @@ export function CoordinatorTasks() {
   };
 
   if (!companyId) return <EmptyState icon={ListChecks} message="Select an organization to view tasks." />;
-  return <FlyoutAppearanceProvider><TruncatedTextMarqueeProvider><section ref={listRef} className="coordinator-task-list task-row-design-preview flex min-w-0 flex-col gap-8" aria-label="Tasks">
+  return <FlyoutAppearanceProvider><TruncatedTextMarqueeProvider><section ref={listRef} className="coordinator-task-list task-row-design-preview flex min-w-0 flex-col gap-8" aria-label={t("pages.coordinatorTasks.tasks")}>
     <TaskListToolbar view={needsAttention ? "blocked" : "all"} viewOptions={views} onViewChange={view => setView(view === "blocked")}
       query={collection.query} onQueryChange={collection.setQuery} layout={collection.layout} onLayoutChange={collection.setLayout}
       allExpanded={collection.allExpanded} onToggleExpanded={collection.toggleExpanded} onNewTask={() => openNewIssue()}
       filters={{ enableRoutineTasksFilter: true, state: collection.filters, onChange: updateFilters, activeFilterCount: collection.activeFilterCount,
         agents: agents.data ?? [], projects: projects.data ?? [], labels: labels.data ?? [], currentUserId: userId, creators: collection.creators }} />
-    {error ? <div role="alert" className="flex items-center gap-2 text-sm text-destructive"><span>{error instanceof Error ? error.message : "Could not load tasks"}</span><Button variant="outline" size="sm" onClick={retry}>Retry</Button></div> : null}
-    {rowDetailsError ? <div role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><span>Task details couldn’t load.</span><Button variant="ghost" size="sm" onClick={() => void retryRowDetails()}>Retry</Button></div> : null}
-    {pending ? <p role="status" className="text-sm text-muted-foreground">Loading tasks…</p> : !error && <>
+    {error ? <div role="alert" className="flex items-center gap-2 text-sm text-destructive"><span>{error instanceof Error ? error.message : t("pages.coordinatorTasks.couldNotLoadTasks")}</span><Button variant="outline" size="sm" onClick={retry}>{t("pages.coordinatorTasks.retry")}</Button></div> : null}
+    {rowDetailsError ? <div role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><span>{t("pages.coordinatorTasks.taskDetailsCouldnTLoad")}</span><Button variant="ghost" size="sm" onClick={() => void retryRowDetails()}>{t("pages.coordinatorTasks.retry")}</Button></div> : null}
+    {pending ? <p role="status" className="text-sm text-muted-foreground">{t("pages.coordinatorTasks.loadingTasks")}</p> : !error && <>
       <div hidden={collection.layout !== "list"} className="design-task-list-panel">{collection.matchingItems.length ? <TaskList key={companyId}
         items={(needsAttention ? collection.matchingItems : collection.visibleItems).map(enrichItem)} allItems={collection.companyItems.map(enrichItem)}
         collectionKey={JSON.stringify([companyId, userId, needsAttention, deferredQuery, participantAgentId, workspaceIds, collection.view, collection.filters])}
         issueLinkState={issueLinkState} collapsedIds={collection.collapsedIds} onCollapsedIdsChange={collection.setCollapsedIds} /> : empty}</div>
       {collection.layout === "board" ? collection.matchingItems.length
         ? <KanbanBoard showOverflowFades issues={collection.matchingItems.map(item => enrichIssueRow(item.issue))} agents={agents.data} onUpdateIssue={(id, data) => update.mutate({ id, data })} /> : empty : null}
-      {!needsAttention && tasks.hasNextPage ? <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground"><span>{items.length} tasks loaded. Load more to include them in filters.</span><Button variant="outline" size="sm" disabled={tasks.isFetchingNextPage} onClick={() => void tasks.fetchNextPage()}>{tasks.isFetchingNextPage ? "Loading…" : "Load more tasks"}</Button></div> : null}
+      {!needsAttention && tasks.hasNextPage ? <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground"><span>{t("pages.coordinatorTasks.tasksLoadedLoadMoreToInclude", { length: items.length })}</span><Button variant="outline" size="sm" disabled={tasks.isFetchingNextPage} onClick={() => void tasks.fetchNextPage()}>{tasks.isFetchingNextPage ? t("pages.coordinatorTasks.loading") : t("pages.coordinatorTasks.loadMoreTasks")}</Button></div> : null}
     </>}
   </section></TruncatedTextMarqueeProvider></FlyoutAppearanceProvider>;
 }

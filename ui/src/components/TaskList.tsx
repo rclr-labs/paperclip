@@ -12,6 +12,7 @@ import { TaskRowGroup } from "./TaskRowGroup";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { useTaskRowBudget } from "../hooks/useTaskRowBudget";
+import { useTranslation } from "@/i18n";
 
 export type TaskListItem = {
   issue: Issue;
@@ -50,6 +51,7 @@ export function TaskList({ items, allItems = items, initialColumns = defaultTask
   /** Company/person/view/filter identity; membership changes do not reset it. */
   collectionKey?: string;
 }) {
+  const { t } = useTranslation();
   const localKey = useId();
   const [columns, setColumns] = useState(initialColumns);
   const [columnOrder, setColumnOrder] = useState(allTaskListColumns);
@@ -142,7 +144,7 @@ export function TaskList({ items, allItems = items, initialColumns = defaultTask
       )}
       {hasMore ? <div ref={sentinel} className="flex items-center gap-3 py-2 text-sm text-muted-foreground">
         <span>Rendering {Math.min(limit, rowIds.length)} of {rowIds.length} tasks</span>
-        <Button variant="outline" size="sm" onClick={loadMore}>Show more tasks</Button>
+        <Button variant="outline" size="sm" onClick={loadMore}>{t("components.taskList.showMoreTasks")}</Button>
       </div> : null}
     </TaskListViewport>
   );

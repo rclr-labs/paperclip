@@ -8,6 +8,7 @@ import { loadStructuredDraft, saveStructuredDraft } from "../lib/composer-draft"
 
 type StoredInlineDraft = { version: 1; draft: string; base: string };
 import { FoldCurtain } from "./FoldCurtain";
+import { useTranslation } from "@/i18n";
 
 interface InlineEditorProps {
   value: string;
@@ -90,6 +91,7 @@ function OwnedInlineEditor({
   draftKey,
   draftOwner,
 }: InlineEditorProps & { draftOwner: string | undefined }) {
+  const { t } = useTranslation();
   const [editing, setEditing] = useState(false);
   const [multilineEditing, setMultilineEditing] = useState(multiline && defaultEditing);
   const [multilineFocused, setMultilineFocused] = useState(false);
@@ -462,9 +464,9 @@ function OwnedInlineEditor({
             )}
             role={autosaveState === "error" ? "alert" : "status"}
           >
-            {autosave.label ?? "Idle"}
+            {autosave.label ?? t("components.inlineEditor.idle")}
           </span>
-          {autosaveState === "stalled" ? <button type="button" className="ml-2 text-xs text-foreground underline" onClick={autosave.resendNow}>Retry saving</button> : null}
+          {autosaveState === "stalled" ? <button type="button" className="ml-2 text-xs text-foreground underline" onClick={autosave.resendNow}>{t("components.inlineEditor.retrySaving")}</button> : null}
         </div>
       </div>
     );
@@ -511,7 +513,7 @@ function OwnedInlineEditor({
     >
       {value || placeholder}
     </DisplayTag>
-    {autosaveState === "stalled" ? <button type="button" className="text-xs text-foreground underline" onClick={autosave.resendNow}>Retry saving</button> : null}
+    {autosaveState === "stalled" ? <button type="button" className="text-xs text-foreground underline" onClick={autosave.resendNow}>{t("components.inlineEditor.retrySaving")}</button> : null}
     </>
   );
 }

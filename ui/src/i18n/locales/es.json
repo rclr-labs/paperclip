@@ -115,7 +115,9 @@
       "checkAgain": "Check again",
       "startSignInAgain": "Start sign-in again",
       "byProvidingTheAuthorizationCodeBelow": " by providing the authorization code below",
-      "thenComeBackAndEnterAuthorization": " then come back and enter authorization code"
+      "thenComeBackAndEnterAuthorization": " then come back and enter authorization code",
+      "finishSigningInInTheGoogle": "Finish signing in in the Google browser window, then return here.",
+      "thenReturnHere": " then return here"
     },
     "agentActionButtons": {
       "pauseAnyway": "Pause anyway",
@@ -246,7 +248,9 @@
       "upgradeRunner": "Upgrade runner",
       "upgrading": "Upgrading…",
       "codex": "Codex",
-      "claude": "Claude"
+      "saveYourComputerChangeBeforeUpgrading": "Save your computer change before upgrading the runner.",
+      "theUpgradeWillVerifyYourComputer": "The upgrade will verify your computer first. This can take a few minutes.",
+      "keepYourHarnessModelAccountAnd": "Keep your harness, model, account, and compatible settings. New sessions start fresh; past runs stay available."
     },
     "agentContextualSidebar": {
       "loadingAuditLinks": "Loading audit links…",
@@ -283,7 +287,8 @@
       "paperclipRetriesAutomaticallyRetryNowChecks": "Paperclip retries automatically; Retry now checks again immediately.",
       "couldNotRefreshAgentLifecycleStatus": "Could not refresh agent lifecycle status.",
       "retryNow": "Retry now",
-      "retrying": "Retrying…"
+      "retrying": "Retrying…",
+      "retryNowChecksTheSavedConfiguration": "Retry now checks the saved configuration again immediately."
     },
     "agentMultiSelect": {
       "cancel": "Cancel",
@@ -303,10 +308,10 @@
       "getAgentsMeSecrets": "GET /agents/me/secrets",
       "apiAccessNoEnvVar": "API access (no env var)",
       "proposedAccess": "Proposed access",
-      "noSecretsAreBoundToThis": "No secrets are bound to this agent yet.",
       "addApiAccess": "Add API access",
       "apiAccess": "API access",
-      "envVar": "Env var"
+      "envVar": "Env var",
+      "noCompanySecretReferencesAreBound": "No company secret references are bound to this agent yet."
     },
     "agentSetupPrompt": {
       "couldNotCopyAutomaticallySelectAnd": "Could not copy automatically. Select and copy the prompt above, or try again.",
@@ -521,7 +526,6 @@
       "thisRevisionHasNoBody": "This revision has no body.",
       "revisions": "Revisions",
       "noRevisionsYet": "No revisions yet.",
-      "couldNotLoadRevisions": "Could not load revisions.",
       "loadingRevisions": "Loading revisions…",
       "content": "Content",
       "new": "New",
@@ -545,7 +549,6 @@
       "anthropicSubscription": "Anthropic subscription"
     },
     "cloudAccessGate": {
-      "connectionInterruptedReconnectingAutomatically": "Connection interrupted. Reconnecting automatically…",
       "useAnOrganizationInviteOrSign": "Use an organization invite or sign in with an account that already belongs to this org.",
       "thisAccountIsSignedInBut": "This account is signed in, but it does not have an active organization membership or instance-admin access on this Paperclip instance.",
       "noOrganizationAccess": "No organization access",
@@ -999,7 +1002,8 @@
       "next": "Next",
       "previous": "Previous",
       "close": "Close",
-      "download": "Download"
+      "download": "Download",
+      "imageGallery": "Image gallery"
     },
     "inboxAgentPolicyControl": {
       "saved": "Saved",
@@ -1085,11 +1089,6 @@
       "noResponsibleSelected": "No responsible selected",
       "responsible": "Responsible",
       "reply": "Reply",
-      "discardDraftAndStartNew": "Discard draft and start new",
-      "discardingThisDraftDoesNotRemove": "Discarding this draft does not remove any saved comment or uploaded file.",
-      "couldnTRefreshTheConversationTry": "Couldn’t refresh the conversation. Try reviewing it again.",
-      "reviewConversation": "Review conversation",
-      "weCouldnTConfirmWhetherThis": "We couldn’t confirm whether this comment was saved. It may already be in the conversation. Review it before starting another draft.",
       "imagesInsertIntoTheReplyOther": "Images insert into the reply. Other files are added to this task.",
       "dropToUpload": "Drop to upload",
       "deletedThisComment": "deleted this comment",
@@ -1147,7 +1146,8 @@
       "interrupt": "Interrupt",
       "interrupting": "Interrupting...",
       "resumeAgent": "Resume agent",
-      "resuming": "Resuming…"
+      "resuming": "Resuming…",
+      "chooseAlwaysAllowToShareThis": "Choose <2>Always allow</2> to share this vote and future voted AI outputs. Choose <6>Don't allow</6> to keep this vote and future votes local."
     },
     "issueColumns": {
       "live": "Live",
@@ -1181,7 +1181,6 @@
       "noProjectsMatch": "No projects match."
     },
     "issueFiltersPopover": {
-      "showAgentCreatedTasks": "show agent-created tasks",
       "liveRunsOnly": "Live runs only",
       "visibility": "Visibility",
       "externalObjectStatus": "External object status",
@@ -1199,7 +1198,8 @@
       "category": "Category",
       "clear": "Clear",
       "filters": "Filters",
-      "filter": "Filter"
+      "filter": "Filter",
+      "routineTasks": "Routine tasks"
     },
     "issueLinkQuicklook": {
       "unableToLoadTaskPreview": "Unable to load task preview."
@@ -1297,9 +1297,7 @@
       "archive": "Archive",
       "blockedByParkedWork": "Blocked by parked work",
       "open": "Open {{identifier}}: {{title}}",
-      "retryAvailable": "Retry available",
-      "tryingAgainSoon": "Trying again soon",
-      "thinking": "Thinking"
+      "taskRecoveryStatus": "Task recovery status"
     },
     "issueRunLedger": {
       "markFalsePositive": "Mark false positive",
@@ -1340,8 +1338,6 @@
       "chooseAPersonOrAgent": "Choose a person or agent…",
       "onlyYouCanSeeThisTask": "Only you can see this task.",
       "addSomeone": "Add someone",
-      "retry": "Retry",
-      "couldnTLoadAccess": "Couldn't load access.",
       "whoCanAccessThisTask": "Who can access this task",
       "thisRemovesThisGrantAndThe": "This removes this grant and the access it supplies to this task's descendants. Ownership, current assignment, project membership, inherited access, or another grant can still provide access. Revoking access does <1>not</1> erase content already seen or retained in an agent's memory.",
       "removeGrant": "Remove grant",
@@ -1455,7 +1451,8 @@
       "acceptSelectedDrafts": "Accept selected drafts",
       "acceptDrafts": "Accept drafts",
       "noReasonProvided": "No reason provided.",
-      "1FollowOnTaskHiddenIn": "1 follow-on task hidden in preview"
+      "1FollowOnTaskHiddenIn": "1 follow-on task hidden in preview",
+      "details": "Details"
     },
     "issueWorkspaceCard": {
       "viewWorkspaceDetails": "View workspace details →",
@@ -1489,7 +1486,9 @@
       "scrollToLoadMoreTasks": "Scroll to load more tasks",
       "loadingMoreTasks": "Loading more tasks...",
       "waitingOnBlockers": "Waiting on blockers",
-      "nextUp": "Next up"
+      "nextUp": "Next up",
+      "retryExternalStatuses": "Retry external statuses",
+      "unableToFilterTasksByExternal": "Unable to filter tasks by external status: {{message}}"
     },
     "jsonSchemaForm": {
       "noConfigurationOptionsAvailable": "No configuration options available.",
@@ -1634,25 +1633,6 @@
       "newGoal": "New goal",
       "newSubGoal": "New sub-goal"
     },
-    "newIssueDialog": {
-      "project": "Project",
-      "lowTrustReviewAgentItCan": "Low-trust review agent. It can only act inside its assigned review boundary; task, project, or run policy defines the concrete scope.",
-      "inProgress": "In Progress",
-      "todo": "Todo",
-      "backlog": "Backlog",
-      "attachments": "Attachments",
-      "documents": "Documents",
-      "retry": "Retry",
-      "subTaskOf": "Sub-task of",
-      "taskTitle": "Task title",
-      "describeATask": "Describe a task…",
-      "theSelectedWorktreeIsNoLonger": "The selected worktree is no longer available. Choose another worktree or start a new one.",
-      "couldnTCheckTheSelectedWorktree": "Couldn't check the selected worktree. Retry in Worktrees or choose New worktree.",
-      "checkingParentAccess": "Checking parent access…",
-      "couldnTCheckParentAccess": "Couldn't check parent access.",
-      "newTask": "New task",
-      "newSubTask": "New sub-task"
-    },
     "newProjectDialog": {
       "cancel": "Cancel",
       "sourceRepositories": "Source repositories",
@@ -1674,23 +1654,17 @@
     "onboardingWizard": {
       "ifLoginIsRequiredConnectThe": "If login is required, connect the provider above and retry.",
       "ifAuthenticationFailsConnectYourSubscription": "If authentication fails, connect your subscription in the browser above or use an API key.",
-      "respondWithHello": "Respond with hello.",
       "manualDebug": "Manual debug",
       "passed": "Passed",
       "retrySetup": "Retry setup",
       "advanced": "Advanced",
       "thisEnvironmentDoesNotSupportBrowser": "This environment does not support browser sign-in. Choose another sign-in environment or connect with an API key.",
       "enterApiKeyHere": "Enter API key here",
-      "refreshModels": "Refresh models",
-      "noAvailableCopilotModelsWereDiscovered": "No available Copilot models were discovered. Check this account’s Copilot access.",
-      "copilotModel": "Copilot model",
-      "model": "Model",
       "anExistingProviderConnectionIsAvailable": "An existing provider connection is available.",
       "eGChiefOfStaff": "e.g. Chief of staff",
       "agentName": "Agent name",
       "eGNorthwindLabs": "e.g. Northwind Labs",
       "name": "Name",
-      "unavailable": "{{model}} (unavailable)",
       "claudeFailedWhileAnthropicApiKey": "Claude failed while <2>ANTHROPIC_API_KEY</2> is set. You can clear it in this adapter config and retry the probe.",
       "webhookUrl": "Webhook URL",
       "gatewayUrl": "Gateway URL",
@@ -1701,10 +1675,6 @@
       "kimiModelNameKimiModelApi": "KIMI_MODEL_NAME + KIMI_MODEL_API_KEY",
       "unsetAnthropicApiKey": "Unset ANTHROPIC_API_KEY",
       "retrying": "Retrying...",
-      "couldNotDiscoverCopilotModels": "Could not discover Copilot models.",
-      "selectAModel": "Select a model",
-      "loadingModels": "Loading models…",
-      "waitingForExecutionEnvironmentSettingsIf": "Waiting for execution environment settings. If this persists, check your instance settings.",
       "keysAvailable": "keys available",
       "keyAvailable": "key available",
       "yourFirstAgent": "Your first agent",
@@ -1712,7 +1682,14 @@
       "letSGetStarted": "Let's get started...",
       "connectAModel": "Connect a model",
       "createYourFirstAgent": "Create your first agent",
-      "whatIsTheNameOfYour": "What is the name of your organization?"
+      "whatIsTheNameOfYour": "What is the name of your organization?",
+      "promptRespondWithHello": "Prompt: <2>Respond with hello.</2>",
+      "useADifferentApiKey": "Use a different API key",
+      "gatewayConnectionSavedChooseAModel": "Gateway connection saved. Choose a model, then Connect to test it and finish setting up your agent.",
+      "loadingYourSavedGatewayConnection": "Loading your saved gateway connection…",
+      "retryLoadingConnection": "Retry loading connection",
+      "yourSavedGatewayConnectionCouldNot": "Your saved gateway connection could not be loaded. Retry to choose a model and connect your agent.",
+      "claudeAndCodexAreUnavailableOn": "Claude and Codex are unavailable on this instance. Ask an administrator to enable one, or exit setup and choose New Agent on the Agents page to use another provider."
     },
     "outputFeedbackButtons": {
       "readOurTermsOfService": "Read our terms of service",
@@ -1814,7 +1791,12 @@
       "unarchiving": "Unarchiving...",
       "archiving": "Archiving...",
       "unarchiveThisProjectToRestoreIt": "Unarchive this project to restore it in the sidebar and project selectors.",
-      "archiveThisProjectToHideIt": "Archive this project to hide it from the sidebar and project selectors."
+      "archiveThisProjectToHideIt": "Archive this project to hide it from the sidebar and project selectors.",
+      "unavailableProvider": "Unavailable provider",
+      "coreLocal": "Core / local",
+      "inheritInstalledDefault": "Inherit installed default",
+      "workspaceStorageProvider": "Workspace storage provider",
+      "workspaceStorage": "Workspace storage"
     },
     "projectRepositories": {
       "connectGithub": "Connect GitHub",
@@ -1987,7 +1969,6 @@
       "showVariableHelp": "Show variable help"
     },
     "routinesToolbar": {
-      "viewAllRuns": "View all runs",
       "group": "Group",
       "sort": "Sort",
       "searchRoutines": "Search routines…",
@@ -1995,7 +1976,8 @@
       "createRoutine": "Create routine",
       "newFolder": "New folder",
       "select": "Select",
-      "done": "Done"
+      "done": "Done",
+      "viewAllTasks": "View all tasks"
     },
     "runWorkspaceRecoverySurface": {
       "workspaceRecovery": "Workspace recovery"
@@ -2281,7 +2263,8 @@
       "loadingConversation": "Loading conversation",
       "retry": "Retry",
       "someTaskHistoryIsStillLoading": "Some task history is still loading.",
-      "someTaskHistoryCouldNotBe": "Some task history could not be loaded."
+      "someTaskHistoryCouldNotBe": "Some task history could not be loaded.",
+      "moreRunOutput": "More run output"
     },
     "taskListColumns": {
       "resetDefaults": "Reset defaults",
@@ -2312,7 +2295,6 @@
       "applying": "Applying…",
       "close": "Close",
       "keepTasks": "Keep tasks",
-      "beRestored": "be restored",
       "loading": "Loading…",
       "pauseSubtree": "Pause subtree",
       "pauseWork": "Pause work"
@@ -2614,30 +2596,6 @@
         "refresh": "Refresh",
         "checking": "Checking…"
       },
-      "aiProviderSetup": {
-        "back": "Back",
-        "testTheConnectionWithYourChosen": "Test the connection with your chosen model in the agent’s execution environment after connecting.",
-        "modelSettings": "Model settings",
-        "apiKey": "API key",
-        "noAuthentication": "No authentication",
-        "authentication": "Authentication",
-        "awsRegion": "AWS region",
-        "apiFormat": "API format",
-        "providerUrl": "Provider URL",
-        "cancel": "Cancel",
-        "advancedProviders": "Advanced providers",
-        "retry": "Retry",
-        "loadingConnectionPermissions": "Loading connection permissions…",
-        "useTheProviderSModelId": "Use the provider’s model ID or your gateway’s alias. You can also enter one on the agent.",
-        "modelIds": "Model IDs",
-        "connect": "Connect",
-        "reconnect": "Reconnect",
-        "connecting": "Connecting…",
-        "checkTheUrlApiFormatAnd": "Check the URL, API format, and authentication fields.",
-        "bearerToken": "Bearer token",
-        "bedrockApiKey": "Bedrock API key",
-        "connectAModelProvider": "Connect a model provider"
-      },
       "managedAiConnectionDetails": {
         "couldNotLoadActiveRunsRetry": "Could not load active runs. Retry before revoking.",
         "models": "Models",
@@ -2776,10 +2734,8 @@
       "agentWorkPanels": {
         "agentArtifacts": "Agent artifacts",
         "thisAgentHasnTProducedAny": "This agent hasn't produced any artifacts yet.",
-        "couldNotLoadThisAgentS": "Could not load this agent's artifacts.",
         "loadingArtifacts": "Loading artifacts…",
         "thisAgentHasnTWorkedOn": "This agent hasn't worked on any tasks yet.",
-        "couldNotLoadThisAgentS2": "Could not load this agent's tasks.",
         "loadingTasks": "Loading tasks…",
         "sortTasks": "Sort tasks",
         "searchTasks": "Search tasks",
@@ -2824,7 +2780,19 @@
         "attachFile": "Attach file",
         "uploading": "Uploading…",
         "agentAssignmentIsFixedForThis": "Agent assignment is fixed for this external task.",
-        "messagesYouSendHereAndAgent": "Messages you send here and agent replies are also posted to Slack."
+        "messagesYouSendHereAndAgent": "Messages you send here and agent replies are also posted to Slack.",
+        "resendNow": "Resend now",
+        "yourExactDraftAndRequestIdentity2": "Your exact draft and request identity are kept. It resends on its own without creating a duplicate.",
+        "yourExactDraftAndRequestIdentity3": "Your exact draft and request identity are kept. Automatic resends stopped; choose Resend now to try again without creating a duplicate.",
+        "sendingWhenReconnected": "Sending when reconnected…",
+        "couldnTSendThisUpdateYet": "Couldn’t send this update yet."
+      },
+      "legacyBoardSendNotice": {
+        "discardRecord": "Discard record",
+        "keepRecord": "Keep record",
+        "firstCheckActivityDiscardingThisBrowser": "First check Activity. Discarding this browser record does not cancel an update that was already accepted. It lets you start a new update.",
+        "discardSavedDeliveryRecord": "Discard saved delivery record?",
+        "discardSavedDeliveryRecord2": "Discard saved delivery record"
       }
     },
     "decisionmodels": {
@@ -3129,7 +3097,8 @@
         "removing": "Removing…",
         "viewTask": "View task",
         "selectACompatibleAssigneeAgentTo": "Select a compatible assignee agent to edit these overrides.",
-        "thisAssigneeSAdapterDoesNot": "This assignee's adapter does not expose editable task overrides."
+        "thisAssigneeSAdapterDoesNot": "This assignee's adapter does not expose editable task overrides.",
+        "automaticChecksPaused": "Automatic checks paused"
       },
       "issuePropertiesArtifactsTab": {
         "noArtifactsYetWorkProductsDocuments": "No artifacts yet. Work products, documents, and agent-produced files will appear here.",
@@ -3327,7 +3296,19 @@
         "nativeAppServerRunner": "Native app server runner",
         "creatingYourAgent": "Creating your agent…",
         "loadingYourAgent": "Loading your agent…",
-        "couldNotLoadTheCreatedAgent": "Could not load the created agent. Return to Agents to view it."
+        "couldNotLoadTheCreatedAgent": "Could not load the created agent. Return to Agents to view it.",
+        "retrySavingEnvironment": "Retry saving environment",
+        "useAKimiCodeApiKey": " Use a Kimi Code API key for this runner.",
+        "reviewTheAgentSStatusIn": "Review the agent’s status in configuration before assigning work.",
+        "paperclipIsPreparingAndVerifyingYour": "Paperclip is preparing and verifying your agent. You can assign a task when it is ready.",
+        "yourAgentIsPaused": "Your agent is paused",
+        "finishingAgentSetup": "Finishing agent setup",
+        "googleAntigravityCandidateIsEnabledFor": "Google Antigravity candidate is enabled for testing on this instance.",
+        "changeAdapter": "Change adapter",
+        "googleAntigravityIsNotAvailableYet": "Google Antigravity is not available yet. You can connect your Google account and review settings. This agent cannot finish setup or run tasks yet. Model and connection settings are not saved to this agent yet.",
+        "retryPreparation": "Retry preparation",
+        "preparingYourAgentComputer": "Preparing your agent computer…",
+        "loadingYourAgentSetup": "Loading your agent setup…"
       }
     },
     "observability": {
@@ -3355,7 +3336,6 @@
         "customOtlp": "Custom OTLP",
         "destination": "Destination",
         "manageConnectionsPermissionIsRequiredTo": "Manage connections permission is required to configure agent observability.",
-        "sendCodexAndClaudeCodeLogs": "Send Codex and Claude Code logs and traces to your observability service.",
         "agentObservability": "Agent observability",
         "removeConfiguration": "Remove configuration",
         "removing": "Removing…",
@@ -3366,7 +3346,8 @@
         "testPayloadFailed": "Test payload failed",
         "someTestRecordsWereRejected": "Some test records were rejected",
         "testPayloadAccepted": "Test payload accepted",
-        "anotherAdministratorChangedTheseSettingsReload": "Another administrator changed these settings. Reload the saved settings to continue."
+        "anotherAdministratorChangedTheseSettingsReload": "Another administrator changed these settings. Reload the saved settings to continue.",
+        "sendCodexClaudeCodeAndNative": "Send Codex, Claude Code and native OpenCode execution data to your observability service."
       }
     },
     "onboarding": {
@@ -3386,6 +3367,11 @@
       },
       "stepper": {
         "stepOf": "Step {{step}} of {{total}}"
+      },
+      "onboardingGatewaySetup": {
+        "saveTheConnectionThenChooseA": "Save the connection, then choose a model and test it with your agent.",
+        "customGatewayConnection": "Custom gateway connection",
+        "useACustomGateway": "Use a custom gateway"
       }
     },
     "primaryagent": {
@@ -3771,7 +3757,8 @@
         "images": "Images · {{length}}",
         "sentFromImessage": "Sent from iMessage",
         "sending": "Sending…",
-        "queued": "Queued"
+        "queued": "Queued",
+        "from": "From {{sourceTaskIdentifier}}"
       },
       "taskChatBubbleActions": {
         "platformGeneratedAcknowledgementTheAgentS": "Platform-generated acknowledgement. The agent’s substantive response follows separately.",
@@ -3813,17 +3800,20 @@
         "approve": "Approve",
         "reject": "Reject",
         "doYouAcceptThisPlan": "Do you accept this plan?",
-        "noOptionsSelected": "No options selected"
+        "noOptionsSelected": "No options selected",
+        "suggestedTask": "Suggested Task",
+        "createSelected": "Create selected",
+        "create": "Create",
+        "revise2": "Revise…",
+        "sendBack": "Send back",
+        "requestRevision": "Request revision",
+        "cancel": "Cancel",
+        "ofSelected": "{{size}} of {{length}} selected"
       },
       "taskChatComposer": {
         "cancel": "Cancel",
         "assignee": "Assignee",
         "sendNewToStartAFresh": "Send /new to start a fresh session and resume this conversation.",
-        "discardDraftAndStartNew": "Discard draft and start new",
-        "discardingThisDraftDoesNotRemove": "Discarding this draft does not remove any saved comment or uploaded file.",
-        "couldnTRefreshTheConversationTry": "Couldn’t refresh the conversation. Try reviewing it again.",
-        "reviewConversation": "Review conversation",
-        "weCouldnTConfirmWhetherThis": "We couldn’t confirm whether this comment was saved. It may already be in the conversation. Review it before starting another draft.",
         "taskProjectAndWorktrees": "Task project and worktrees",
         "editingQueuedMessage": "Editing queued message",
         "queuedMessageChanged": "Queued message changed",
@@ -3909,7 +3899,9 @@
         "queuedMessages": "Queued messages",
         "queuedMessageActions": "Queued message actions",
         "discardQueuedMessage": "Discard queued message",
-        "editMessage": "Edit message"
+        "editMessage": "Edit message",
+        "send": "Send",
+        "interrupt": "Interrupt"
       },
       "taskChatRichInput": {
         "orDropPasteAnImageInto": "or drop/paste an image into the note"
@@ -3935,7 +3927,11 @@
         "turnPlan": "Turn plan"
       },
       "taskMessageScroller": {
-        "scrollToLatest": "Scroll to latest"
+        "scrollToLatest": "Scroll to latest",
+        "scrollUpForEarlierMessages": "Scroll up for earlier messages",
+        "loadingEarlierMessages": "Loading earlier messages…",
+        "retry": "Retry",
+        "earlierMessagesCouldnTLoad": "Earlier messages couldn’t load."
       },
       "tweakPanel": {
         "resetAll": "Reset all",
@@ -3949,7 +3945,9 @@
         "openTheSynchronizedPlanToReview": "Open the synchronized plan to review it.",
         "waitingForTheFirstPlanStep": "Waiting for the first plan step…",
         "plan": "Plan",
-        "writingPlan": "Writing plan"
+        "writingPlan": "Writing plan",
+        "open": "Open",
+        "writing": "Writing"
       },
       "taskChatSystemNotice": {
         "tryAgain": "Try again",
@@ -3960,6 +3958,10 @@
         "stopped": "Stopped",
         "activity": "Activity",
         "continuedAfterSteering": "Continued after steering · "
+      },
+      "taskChatTaskCreatedCard": {
+        "taskCreated": "Task created",
+        "subtaskCreated": "Subtask created"
       }
     },
     "taskdetail": {
@@ -4036,26 +4038,25 @@
       },
       "taskDocumentPanel": {
         "documentIsEmpty": "Document is empty.",
-        "thisTabIsPreservedSoThe": "This tab is preserved so the missing resource is explicit. Close it or choose another document.",
         "documentNoLongerAvailable": "Document no longer available",
-        "theDocumentCouldNotBeLoaded": "The document could not be loaded. Retry from the tab launcher or refresh the task.",
-        "loadingDocument": "Loading document…"
+        "loadingDocument": "Loading document…",
+        "closeThisTabOrChooseAnother": "Close this tab or choose another document.",
+        "theExactReviewedRevisionCouldNot": "The exact reviewed revision could not be found. The current version has not been substituted.",
+        "reviewedRevisionUnavailable": "Reviewed revision unavailable"
       },
       "taskSidePanel": {
         "closeSidePanel": "Close side panel",
-        "openANewTab": "Open a new tab"
+        "openANewTab": "Open a new tab",
+        "conversationDocuments": "Conversation documents"
       },
       "taskSkillPanel": {
         "skillNoLongerAvailable": "Skill no longer available.",
-        "theSkillCouldNotBeLoaded": "The skill could not be loaded.",
         "youDoNotHaveAccessTo": "You do not have access to this skill.",
         "skillInstructions": "Skill instructions",
         "openInSkillStudio": "Open in Skill Studio",
         "loadingSkill": "Loading skill…",
         "skillInstructionsAreEmpty": "Skill instructions are empty.",
-        "currentVersion": "Current version",
-        "retry": "Retry",
-        "retrying": "Retrying…"
+        "currentVersion": "Current version"
       },
       "taskWorkspaceFilePanel": {
         "downloadFile": "Download file",
@@ -4273,9 +4274,7 @@
     },
     "inlineEditor": {
       "idle": "Idle",
-      "couldNotSave": "Could not save",
-      "saved": "Saved",
-      "autosaving": "Autosaving..."
+      "retrySaving": "Retry saving"
     },
     "routineList": {
       "archive": "Archive",
@@ -4303,6 +4302,201 @@
     "workspaceRetryButton": {
       "retry": "Retry",
       "retrying": "Retrying…"
+    },
+    "agentProjectAccessSettings": {
+      "returnToTask": "Return to task",
+      "loadingProjectAccess": "Loading project access…",
+      "tryAgain": "Try again",
+      "couldnTLoadProjectAccess": "Couldn’t load project access."
+    },
+    "allowedProjectsEditor": {
+      "saveProjectAccess": "Save project access",
+      "trySavingAgain": "Try saving again",
+      "savingAccess": "Saving access…",
+      "cancel": "Cancel",
+      "projectAccessSavedReturnToYour": "Project access saved. Return to your task to retry.",
+      "couldnTSaveProjectAccessYour": "Couldn’t save project access. Your selection is kept. {{error}}",
+      "theseProjects": "these projects",
+      "thisProject": "this project",
+      "aPersonWithAgentManagementPermission": "A person with agent-management permission can add projects here.",
+      "noProjectsAllowedYet": "No projects allowed yet.",
+      "allowedProjects": "Allowed projects",
+      "done": "Done",
+      "noProjectsFound": "No projects found.",
+      "searchProjects": "Search projects…",
+      "searchProjects2": "Search projects",
+      "addProject": "Add project",
+      "projectsWhoseTasksAndRepositoriesThis": "Projects whose tasks and repositories this agent may access."
+    },
+    "coordinatorSidebar": {
+      "yourConversationsAndTasksWillAppear": "Your conversations and tasks will appear here.",
+      "recents": "Recents",
+      "pinned": "Pinned",
+      "pinnedPages": "Pinned pages",
+      "moreWorkspacePages": "More workspace pages",
+      "more": "More",
+      "newTask": "New task",
+      "workspaceNavigation": "Workspace navigation",
+      "noTasksYet": "No tasks yet.",
+      "couldnTLoadTasks": "Couldn’t load tasks.",
+      "loadingTasks": "Loading tasks…"
+    },
+    "coordinatorWorkspaceSetting": {
+      "retry": "Retry",
+      "loadingYourPreference": "Loading your preference…",
+      "savingYourWorkspace": "Saving your workspace…",
+      "enableCoordinatorWorkspace": "Enable coordinator workspace",
+      "askAnAdministratorToEnableAgent": "Ask an administrator to enable Agent Chat in Experimental settings.",
+      "chatAvailabilityIsManagedByYour": "Chat availability is managed by your hosting provider.",
+      "enableAgentChatBelow": "Enable Agent Chat below",
+      "thisLocalInstanceUsesTheShared": "This local instance uses the shared Local Board identity.",
+      "offByDefaultTurnItOff": "Off by default. Turn it off to return to the classic workspace. Your work and your teammates’ settings stay the same.",
+      "tryTheNewChatTasksAnd": "Try the new Chat, Tasks, and Needs You workspace. This changes your interface across companies on this instance.",
+      "coordinatorWorkspace": "Coordinator workspace"
+    },
+    "pageSkeleton": {
+      "loading": "Loading",
+      "loadingTasks": "Loading tasks"
+    },
+    "pendingSendNotice": {
+      "cancel": "Cancel",
+      "resendNow": "Resend now"
+    },
+    "projectAccessNotice": {
+      "providerStarted": "Provider started",
+      "projectOutsideAllowedScope": "Project outside allowed scope",
+      "reason": "Reason",
+      "workspaceSetup": "Workspace setup",
+      "stoppedDuring": "Stopped during",
+      "runDetails": "Run details",
+      "viewAgentAccess": "View agent access",
+      "manageProjectAccess": "Manage project access",
+      "retryTask": "Retry task",
+      "aPersonWithAgentManagementPermission": "A person with agent-management permission can add this project in the agent’s Permissions / Trust settings.",
+      "aProject": "a project",
+      "theAgentCanNowAccessThe": "The agent can now access the required project. Retry to continue with your saved message.",
+      "projectAccessIsReady": "Project access is ready",
+      "projectAccess": "Project access"
+    },
+    "projectGitAuthorization": {
+      "connectYourGithubAccountAndInstall": "Connect your GitHub account and install the Connector for this company to authorize it.",
+      "revokeAuthorization": "Revoke authorization",
+      "authorizeProject": "Authorize project",
+      "selectYourGithubAccount": "Select your GitHub account",
+      "yourGithubAuthorization": "Your GitHub authorization",
+      "selectedGrantUnavailableOrOwnedBy": "selected grant (unavailable or owned by another member)",
+      "allowThisProjectSWorkspaceProvider": "Allow this project’s workspace provider to use your GitHub Connector for repository provisioning and maintenance until revoked. This shares the Connector credential with the provider using its existing GitHub permissions. Project repository editors can add repositories covered by this connection. Manage repository access in the GitHub connection. Task runs continue to use their own identity.",
+      "backgroundGithubAuthorization": "Background GitHub authorization"
+    },
+    "queryView": {
+      "updatingPausedWhileReconnecting": "Updating paused while reconnecting…",
+      "retry": "Retry",
+      "retrying": "Retrying…"
+    },
+    "runWorkspaceSourceInspection": {
+      "sourceNotInspectedThisRecordExceeds": "Source not inspected: this record exceeds the inspection limit. Service attention is required.",
+      "recordedSourceIdentityVerified": "Recorded-source identity verified.",
+      "thisReadOnlyObservationChecksRecorded": "This read-only observation checks recorded identity. It does not confirm provider termination, local files, or successful preservation.",
+      "action": "Action {{actionId}}",
+      "currentRecordedSourceIdentity": "Current recorded-source identity",
+      "noRecordedRecoveryActionForThis": "No recorded recovery action for this run.",
+      "recoveryInspectionFailedTryInspectingAgain": "Recovery inspection failed. Try inspecting again.",
+      "inspectRecovery": "Inspect recovery",
+      "inspectingRecovery": "Inspecting recovery…"
+    },
+    "taskDecisionRecord": {
+      "dismissed": "Dismissed",
+      "recordedChoice": "Recorded choice",
+      "thisDecisionIsNotAvailableIn": "This decision is not available in this task.",
+      "retry": "Retry",
+      "couldNotLoadThisDecision": "Could not load this decision.",
+      "loadingDecision": "Loading decision…",
+      "decisionRecord": "Decision record"
+    },
+    "taskList": {
+      "showMoreTasks": "Show more tasks"
+    },
+    "agents": {
+      "agentBulkSettingsSheet": {
+        "updating": "Updating…",
+        "cancel": "Cancel",
+        "close": "Close",
+        "appliesToFutureRunsRunningWork": "Applies to future runs. Running work keeps its current settings. Task-specific model overrides stay in place. A model change may start a fresh session; existing sessions may retain their connection until reset.",
+        "allSelectedAgentsAlreadyHaveThese": "All selected agents already have these settings.",
+        "changesToApply": "Changes to apply",
+        "changeDefaultModel": "Change default model",
+        "retryLoadingOptions": "Retry loading options",
+        "checkingConnectionsAndModels": "Checking connections and models…",
+        "currentConnection": "current connection",
+        "newConnection": "new connection",
+        "chooseASuggestedModelOrEnter": "Choose a suggested model or enter a model ID supported by your harness.",
+        "changeConnection": "Change connection",
+        "retryUpdatesOnlyTheRemainingAgents": "Retry updates only the remaining agents. Close and reopen to review changed settings.",
+        "agentsToUpdate": "Agents to update",
+        "changeTheirConnectionDefaultModelOr": "Change their connection, default model, or both."
+      }
+    },
+    "coordinator": {
+      "coordinatorAttentionTasks": {
+        "noTasksNeedADecision": "No tasks need a decision.",
+        "noTasksMatchThisSearch": "No tasks match this search.",
+        "retry": "Retry",
+        "tasksNeedingAttentionCouldNotBe": "Tasks needing attention could not be loaded.",
+        "loadingTasks": "Loading tasks…",
+        "searchTasks": "Search tasks…",
+        "tasks": "Tasks"
+      },
+      "coordinatorChatDecisionReceipts": {
+        "loadEarlierDecisions": "Load earlier decisions",
+        "loadingEarlierDecisions": "Loading earlier decisions…",
+        "retry": "Retry",
+        "decisionUpdatesCouldnTLoad": "Decision updates couldn’t load."
+      },
+      "coordinatorChatPendingQuestions": {
+        "retry": "Retry",
+        "taskQuestionsCouldnTLoad": "Task questions couldn’t load.",
+        "openTask": "Open task",
+        "thisTask": "this task",
+        "yourAgent": "Your agent"
+      },
+      "coordinatorChatTaskHandoffs": {
+        "loadEarlierTasks": "Load earlier tasks",
+        "loadingEarlierTasks": "Loading earlier tasks…",
+        "retry": "Retry",
+        "createdTasksCouldnTLoad": "Created tasks couldn’t load."
+      },
+      "coordinatorConversationTasksPanel": {
+        "loadMoreTasks": "Load more tasks",
+        "loading": "Loading…",
+        "tasksCreatedFromThisConversationWill": "Tasks created from this conversation will appear here.",
+        "noLoadedTasksMatchTheseFilters": "No loaded tasks match these filters.",
+        "retry": "Retry",
+        "tasksCouldnTLoad": "Tasks couldn’t load.",
+        "loadingTasks": "Loading tasks…",
+        "title": "Title",
+        "oldestFirst": "Oldest first",
+        "newestFirst": "Newest first",
+        "sortConversationTasks": "Sort conversation tasks",
+        "cancelled": "Cancelled",
+        "done": "Done",
+        "blocked": "Blocked",
+        "needsReview": "Needs review",
+        "inProgress": "In progress",
+        "readyToStart": "Ready to start",
+        "allStatuses": "All statuses",
+        "filterConversationTasksByStatus": "Filter conversation tasks by status",
+        "searchTasksOrIds": "Search tasks or IDs…",
+        "createdFromThisConversation": "Created from this conversation.",
+        "tasks": "Tasks",
+        "tasksFromThisConversation": "Tasks from this conversation"
+      },
+      "coordinatorInteractionReceipt": {
+        "viewDecisionInTask": "View decision in task"
+      },
+      "coordinatorTaskCommitment": {
+        "noTasksWereCreated": "No tasks were created.",
+        "taskCreated": "Task created"
+      }
     }
   },
   "connectflowpreviewmain": {
@@ -4379,7 +4573,10 @@
         "tryAgain2": "Try again.",
         "grantAccess": "Grant access",
         "grantingAccess": "Granting access…",
-        "couldnTUpdateThisAccessRequest": "Couldn’t update this access request."
+        "couldnTUpdateThisAccessRequest": "Couldn’t update this access request.",
+        "connect2": "Connect",
+        "continueAuthentication": "Continue authentication",
+        "completeTheHumanSignInStep": "Complete the human sign-in step in the saved setup. Your task continues when the connection is ready."
       },
       "connectionSetupFlow": {
         "viewConnection": "View connection",
@@ -4631,20 +4828,18 @@
     "agentChat": {
       "loadingConversation": "Loading conversation…",
       "agentNotFound": "Agent not found.",
-      "agentChatIsDisabledEnableIt": "Agent Chat is disabled. Enable it in Experimental settings. Existing history remains available through task links."
+      "agentChatIsDisabledForThis": "Agent Chat is disabled for this instance. An administrator can enable it in <2>Experimental settings</2>. Your workspace preference does not change Chat availability. Existing history remains available through task links."
     },
     "agentChats": {
       "browseAllAgents": "Browse all agents",
       "addAnAgentToStartA": "Add an agent to start a conversation.",
       "loadingAgents": "Loading agents…",
-      "tryAgain": "Try again",
-      "couldnTLoadYourChats": "Couldn’t load your chats.",
       "askAQuestionThinkThroughAn": "Ask a question, think through an idea, or plan the next step with your team.",
       "whoWouldYouLikeToTalk": "Who would you like to talk to?",
       "openingChat": "Opening chat…",
       "selectACompanyToStartA": "Select a company to start a conversation.",
-      "agentChatIsDisabledEnableIt": "Agent Chat is disabled. Enable it in Experimental settings.",
-      "loadingChat": "Loading chat…"
+      "loadingChat": "Loading chat…",
+      "agentChatIsOffForThis": "Agent Chat is off for this instance. An administrator can enable it in <1>Experimental settings</1>. Your workspace preference does not change Chat availability."
     },
     "agentDetailproduction": {
       "revokedKeys": "Revoked Keys",
@@ -4753,7 +4948,9 @@
       "resetting": "Resetting…",
       "failedToLoadWorkspaceOperationLog": "Failed to load workspace operation log",
       "showFullLog": "Show full log",
-      "hideFullLog": "Hide full log"
+      "hideFullLog": "Hide full log",
+      "loadMoreEvents": "Load more events",
+      "retryEvents": "Retry events"
     },
     "agentDetail": {
       "revokedKeys": "Revoked Keys",
@@ -4813,7 +5010,6 @@
       "permissions": "Permissions",
       "noConfigurationRevisionsYet": "No configuration revisions yet.",
       "configurationRevisions": "Configuration Revisions",
-      "audit": "Audit",
       "noRecentTasks": "No recent tasks.",
       "seeAll": "See All →",
       "recentTasks": "Recent Tasks",
@@ -4896,7 +5092,10 @@
       "resetting": "Resetting…",
       "failedToLoadWorkspaceOperationLog": "Failed to load workspace operation log",
       "showFullLog": "Show full log",
-      "hideFullLog": "Hide full log"
+      "hideFullLog": "Hide full log",
+      "loadMoreEvents": "Load more events",
+      "retryEvents": "Retry events",
+      "loadingConfiguration": "Loading configuration…"
     },
     "agentDetailPage": {
       "loadingAgentView": "Loading agent view…",
@@ -5050,7 +5249,6 @@
       "details": "Details",
       "caseDetails": "Case details",
       "caseLabels": "Case labels",
-      "tryAgain": "Try again",
       "backToCases": "Back to cases",
       "children": "Children {{length}}"
     },
@@ -5290,8 +5488,7 @@
     },
     "companySettingsPluginPage": {
       "loading": "Loading...",
-      "selectAnOrganizationToViewThis": "Select an organization to view this page.",
-      "pluginExtensionsUnavailable": "Plugin extensions unavailable: {{errorMessage}}"
+      "selectAnOrganizationToViewThis": "Select an organization to view this page."
     },
     "companySkillsproduction": {
       "files": "Files",
@@ -5461,7 +5658,8 @@
       "newSkill": "New Skill",
       "select": "Select",
       "done": "Done",
-      "unfiled": "Unfiled"
+      "unfiled": "Unfiled",
+      "loadingSelectedVersions": "Loading selected versions…"
     },
     "companySkills": {
       "files": "Files",
@@ -5621,7 +5819,8 @@
       "newSkill": "New Skill",
       "availableToInstall": "Available to install",
       "notEnabledForAnyAgents": "Not enabled for any agents",
-      "unfiled": "Unfiled"
+      "unfiled": "Unfiled",
+      "loadingSelectedVersions": "Loading selected versions…"
     },
     "costs": {
       "noFinanceEventsYet": "No finance events yet.",
@@ -5778,7 +5977,8 @@
       "agentHas": "agent has",
       "marking": "Marking…",
       "retry": "Retry",
-      "thinking": "Thinking"
+      "thinking": "Thinking",
+      "unableToLoadTheInbox": "Unable to load the inbox: {{message}}"
     },
     "instanceAccess": {
       "currentMemberships": "Current memberships",
@@ -5903,41 +6103,6 @@
       "thisInviteHasAlreadyBeenUsed": "This invite has already been used.",
       "thisJoinRequestWasNotApproved": "This join request was not approved."
     },
-    "issueDetail": {
-      "taskSidePanel": "Task side panel",
-      "subTasks": "Sub-tasks",
-      "replySentSendAMessageTo": "Reply sent. Send a message to continue.",
-      "addADescription": "Add a description...",
-      "openFileInThisIssue": "Open file in this issue",
-      "archiveFromInbox": "Archive from inbox",
-      "upload": "Upload",
-      "uploadAttachment": "Upload attachment",
-      "noDirectCostData": "No direct cost data.",
-      "thisTask": "This task",
-      "noCostDataYet": "No cost data yet.",
-      "costSummary": "Cost Summary",
-      "runsInGrokBotUsageNot": "Runs in Grok Bot · Usage not reported. Stop Paperclip work revokes this session’s authority; remote execution may continue. Open the Grok Bot desktop app to inspect it.",
-      "moreActions": "More actions",
-      "backToInbox": "Back to inbox",
-      "taskPeople": "Task people",
-      "relatedWork": "Related work",
-      "activity": "Activity",
-      "chat": "Chat",
-      "newSubTask": "New Sub-task",
-      "thisTaskIsHidden": "This task is hidden",
-      "noProject": "No project",
-      "blockedByParkedWork": "Blocked by parked work",
-      "watchdog": "Watchdog",
-      "routine": "Routine",
-      "live": "Live",
-      "hideThisTask": "Hide this task",
-      "properties": "Properties",
-      "copyAsMarkdown": "Copy as markdown",
-      "plan": "Plan",
-      "uploading": "Uploading...",
-      "loadEarlierComments": "Load earlier comments",
-      "loadingEarlierComments": "Loading earlier comments..."
-    },
     "issues": {
       "newTask": "New Task"
     },
@@ -6052,7 +6217,6 @@
       "noPluginsInstalled": "No plugins installed",
       "installedPlugins": "Installed Plugins",
       "noBundledPluginsWereFoundIn": "No bundled plugins were found in this checkout.",
-      "failedToLoadBundledPlugins": "Failed to load bundled plugins.",
       "loadingBundledPlugins": "Loading bundled plugins...",
       "bundled": "Bundled",
       "availablePlugins": "Available Plugins",
@@ -6061,7 +6225,6 @@
       "enterTheNpmPackageNameOf": "Enter the npm package name of the plugin you wish to install.",
       "installPlugin": "Install Plugin",
       "pluginManager": "Plugin Manager",
-      "failedToLoadPlugins": "Failed to load plugins.",
       "loadingPlugins": "Loading plugins...",
       "experimental": "Experimental",
       "noStoredErrorMessage": "No stored error message.",
@@ -6185,8 +6348,7 @@
       "thisIsTheProjectSPrimary": "This is the project’s primary codebase workspace.",
       "backToWorkspaces": "Back to workspaces",
       "loadingWorkspacePlugin": "Loading workspace plugin...",
-      "none": "None",
-      "failedToLoadWorkspace": "Failed to load workspace"
+      "none": "None"
     },
     "projects": {
       "noProjectsMatchYourSearch": "No projects match your search."
@@ -6708,7 +6870,10 @@
       "creating": "Creating...",
       "noTaglineYet": "No tagline yet.",
       "createANewSkill": "Create a new skill",
-      "forkSkill": "Fork skill"
+      "forkSkill": "Fork skill",
+      "loadingSelectedVersions": "Loading selected versions…",
+      "loadLatestSavedFile": "Load latest saved file",
+      "thisSkillChangedSinceYouOpened": "This skill changed since you opened it. Your unsaved edits are still here. Copy them before loading the latest file to reconcile the changes."
     },
     "statusCards": {
       "archivedStatusCardRow": {
@@ -6932,7 +7097,8 @@
       "nothingNeedsADecisionFromYou": "Nothing needs a decision from you right now.",
       "idlePastDaysKeptOffThe": "Idle past {{ATTENTION_AGING_DAYS}} days — kept off the desk. Keep any you still want surfaced.",
       "noDecisionsMatchYourSearchOr": "No decisions match your search or filters.",
-      "anAgent": "An agent"
+      "anAgent": "An agent",
+      "youReAllCaughtUp2": "You're all caught up."
     },
     "workspaces": {
       "noWorkspaceActivityYet": "No workspace activity yet.",
@@ -6993,7 +7159,6 @@
         "cancel": "Cancel",
         "appName": "App name",
         "thesePermissionsApplyToAllApps": "These permissions apply to all apps available through this Composio connection. Manage app accounts and sign-in in Composio.",
-        "retryAccess": "Retry access",
         "addComposioMcpConnection": "Add Composio MCP connection",
         "removeEachObsoleteConnectionSeparatelyRemoving": "Remove each obsolete connection separately. Removing this one does not remove other connections.",
         "connectionRetired": "Connection retired",
@@ -7004,8 +7169,7 @@
         "paperclipControlsAccessToTheTools": "Paperclip controls access to the tools listed here. App and action permissions inside these tools are managed in {{baseAppName}}.",
         "loadingTools": "Loading tools…",
         "loadingMcpActionsThisMayTake": "Loading MCP actions, this may take a minute.",
-        "save": "Save",
-        "githubAccessCouldNotBeChecked": "GitHub access could not be checked. Try again."
+        "save": "Save"
       },
       "appNotConnected": {
         "previousSetupIsRetainedForReconnect": "Previous setup is retained for reconnect, but access controls stay read-only until the app is online.",
@@ -7028,7 +7192,11 @@
         "cancel": "Cancel",
         "couldnTLoadYourComposioAccounts": "Couldn’t load your Composio accounts.",
         "checkingSavedComposioAccounts": "Checking saved Composio accounts…",
-        "thisConnectionPoolPluginIsUnavailable": "This connection pool plugin is unavailable. Enable it in Plugins."
+        "thisConnectionPoolPluginIsUnavailable": "This connection pool plugin is unavailable. Enable it in Plugins.",
+        "viewConnection": "View connection",
+        "thisAccountIsConnected": "This account is connected.",
+        "thisSignInIsUnavailable": "This sign-in is unavailable.",
+        "loadingSavedSignIn": "Loading saved sign-in…"
       },
       "appsReview": {
         "actionsYourAgentsWantToRun": "Actions your agents want to run that need your OK first. Approve, always-allow, or decline.",
@@ -7401,6 +7569,11 @@
           "ofWillBeOn": "{{length}} of {{count}} will be on",
           "saveChoices": "Save choices",
           "saving": "Saving…"
+        },
+        "accessRetryBanner": {
+          "retryAccess": "Retry access",
+          "openInstallationSettingsOnGithub": "Open installation settings on GitHub",
+          "githubAccessCouldNotBeChecked": "GitHub access could not be checked. Try again."
         }
       },
       "chat": {
@@ -7931,38 +8104,6 @@
           "noRepositoriesEnabled": "No repositories enabled",
           "repositoryAccess": "Repository access",
           "repositoryAccessUnavailable": "Repository access unavailable"
-        },
-        "gitHubConnectionRecovery": {
-          "useTheSecretSavedWhenYou": "Use the secret saved when you configured this App’s webhook. If you no longer have it, change the webhook secret in GitHub App settings and enter the same value here.",
-          "useAPemPrivateKeyIncluding": "Use a PEM private key, including its BEGIN and END lines. A token or client secret won’t work here.",
-          "privateKeyLoadedPasteOrUpload": "Private key loaded. Paste or upload another key to replace it.",
-          "uploadPrivateKeyPemFile": "Upload private key PEM file",
-          "youCanReuseAPemFile": "You can reuse a .pem file you already saved. GitHub cannot show an old private key again. Creating a new key for the same App keeps its installation.",
-          "privateKeysGenerateAPrivateKey": "Private keys → Generate a private key",
-          "credentialsKeyPairsNewKey": "Credentials → Key pairs → New key",
-          "useTheNumericAppIdNot": "Use the numeric App ID, not the Client ID.",
-          "appId": "App ID",
-          "ifItSOwnedByAn": "If it’s owned by an organization, open that organization’s Settings → Developer settings → GitHub Apps → Edit. You’ll need permission to manage the App.",
-          "tryAgainIfTheServiceIs": "Try again if the service is temporarily unavailable. If GitHub rejected the saved key, replace the credentials for this same App below.",
-          "yourAgentRepositoryChoicesReviewSettings": "Your agent, repository choices, review settings, and task history stay attached to this connection. You don’t need to create another GitHub App.",
-          "connectionDetails": "Connection details",
-          "reconnectGithub": "Reconnect GitHub",
-          "reconnectThisBotToRestoreGithub": "Reconnect this bot to restore GitHub reviews and @mentions. Start with the App already saved in Paperclip.",
-          "githubConnectionNeedsRepair": "GitHub connection needs repair",
-          "githubSPrivateKeyInstructions": "GitHub’s private key instructions",
-          "openGithubAppSettings": "Open GitHub App settings",
-          "uploadTheDownloadedPemFileBelow": "Upload the downloaded <1>.pem</1> file below, or paste its entire contents.",
-          "connect": "Connect",
-          "reconnect": "Reconnect",
-          "checking": "Checking…",
-          "theSavedIdIsFilledIn": "The saved ID is filled in when available.",
-          "connectYourExistingGithubApp": "Connect your existing GitHub App",
-          "replaceCredentialsForTheSameApp": "Replace credentials for the same App",
-          "replaceAppCredentials": "Replace App credentials…",
-          "useSavedCredentialsInstead": "Use saved credentials instead",
-          "couldNotReconnectTheSavedApp": "Could not reconnect the saved App",
-          "couldNotReconnectThisApp": "Could not reconnect this App",
-          "githubBotIsDisconnected": "GitHub bot is disconnected"
         },
         "photonConnectStep": {
           "directMessagesOnlyEnrollEachTest": "Direct messages only. Enroll each test sender in your Photon project's Users page, then use the number Photon assigns to that sender. Paperclip identity linking is still required. Groups cannot be enabled on this channel.",
@@ -8782,19 +8923,42 @@
     },
     "goals": {
       "newGoal": "New Goal"
+    },
+    "agentAdvancedTab": {
+      "saveChanges": "Save changes",
+      "saving": "Saving…",
+      "unsavedChanges": "Unsaved changes",
+      "noConfigurationChanges": "No configuration changes",
+      "loadingConfiguration": "Loading configuration…",
+      "reloadSaved": "Reload saved",
+      "changesSaveInThisOrderIf": "Changes save in this order. If one fails, earlier changes remain saved.",
+      "createdCredentials": "Created credentials",
+      "omittedSettingsStayUnchangedInstructionFile": "Omitted settings stay unchanged. Instruction file contents, inherited access, and history are available in their settings tabs.",
+      "retry": "Retry"
+    },
+    "coordinatorTasks": {
+      "loadMoreTasks": "Load more tasks",
+      "loading": "Loading…",
+      "tasksLoadedLoadMoreToInclude": "{{length}} tasks loaded. Load more to include them in filters.",
+      "loadingTasks": "Loading tasks…",
+      "retry": "Retry",
+      "taskDetailsCouldnTLoad": "Task details couldn’t load.",
+      "couldNotLoadTasks": "Could not load tasks",
+      "tasks": "Tasks"
     }
   },
   "plugins": {
     "launchers": {
-      "close": "Close",
-      "pluginLaunchersUnavailable": "Plugin launchers unavailable: {{errorMessage}}"
-    },
-    "slots": {
-      "pluginExtensionsUnavailable": "Plugin extensions unavailable: {{errorMessage}}"
+      "close": "Close"
     }
   },
   "App": {
     "startOnboarding": "Start Onboarding",
     "addAgent": "Add Agent"
+  },
+  "hooks": {
+    "useAgentChatRead": {
+      "couldnTMarkThisChatRead": "Couldn’t mark this chat read."
+    }
   }
 }

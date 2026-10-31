@@ -76,6 +76,7 @@ import {
   type ProviderConnection,
 } from "./AgentProviderConnection";
 import { adapterCuratesModelOrder } from "../../lib/model-utils";
+import { useTranslation } from "@/i18n";
 
 const controlClass = nativeSelectClassName;
 const blocking = (result: AdapterEnvironmentTestResult) =>
@@ -83,13 +84,14 @@ const blocking = (result: AdapterEnvironmentTestResult) =>
   result.checks.some((check) => check.code === ADAPTER_AUTH_MISSING_CHECK_CODE);
 
 export function NewAgentSetup() {
+  const { t } = useTranslation();
   const { selectedCompanyId } = useCompany();
   const [params] = useSearchParams();
   const navigate = useNavigate();
   if (!selectedCompanyId)
     return (
       <p className="text-sm text-muted-foreground">
-        Select an organization to create an agent.
+        {t("components.newagent.newAgentSetup.selectAnOrganizationToCreateAn")}
       </p>
     );
   if (params.get("adapterType") === "muse" || params.get("runnerProvider") === "muse") return <ExternalAgentInviteDialog companyId={selectedCompanyId} initialPreset="muse" initialMuseName={params.get("name") ?? ""} onClose={() => navigate("/agents/all")} onBack={() => navigate("/agents/all")} />;
@@ -127,6 +129,7 @@ function Setup({
   createdAgentId: string | null;
   setupAgentId: string | null;
 }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const cache = useQueryClient();
   const { openNewIssue } = useDialogActions();
@@ -863,11 +866,11 @@ function Setup({
         className="text-sm text-muted-foreground"
       >
         {savedAgent.error
-          ? "Could not load the created agent. Return to Agents to view it."
-          : "Loading your agent…"}
+          ? t("components.newagent.newAgentSetup.couldNotLoadTheCreatedAgent")
+          : t("components.newagent.newAgentSetup.loadingYourAgent")}
       </p>
     );
-  if (resumeSavedChoice) return <p role="status" className="text-sm text-muted-foreground">Loading your agent setup…</p>;
+  if (resumeSavedChoice) return <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.loadingYourAgentSetup")}</p>;
   if (choosingAdapter || !name || !adapterType || (created?.metadata?.setupAdapterPending === true && !unreleasedAntigravity))
     return (
       <AgentBasicsDialog
@@ -885,8 +888,8 @@ function Setup({
       />
     );
   if (!created && connectionSettingsReady && !pendingAntigravity) return <div className="space-y-4">
-    <p role={error ? "alert" : "status"}>{error ?? "Creating your agent…"}</p>
-    {error && <Button onClick={() => setCreationAttempt(value => value + 1)}>Retry</Button>}
+    <p role={error ? "alert" : "status"}>{error ?? t("components.newagent.newAgentSetup.creatingYourAgent")}</p>
+    {error && <Button onClick={() => setCreationAttempt(value => value + 1)}>{t("components.newagent.newAgentSetup.retry")}</Button>}
   </div>;
   const steps = [
     ...(connectionAdapter ? ["connect" as const] : []),
@@ -945,8 +948,8 @@ function Setup({
                 <span>
                   ·{" "}
                   {runnerProvider === "codex"
-                    ? "Native app server runner"
-                    : "Paperclip Runner"}
+                    ? t("components.newagent.newAgentSetup.nativeAppServerRunner")
+                    : t("components.newagent.newAgentSetup.paperclipRunner")}
                 </span>
               )}
             </div>
@@ -957,7 +960,7 @@ function Setup({
             {environmentError}
           </p>
         )}
-        {preparingComputer && <p role="status" className="text-sm text-muted-foreground">Preparing your agent computer…</p>}
+        {preparingComputer && <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.preparingYourAgentComputer")}</p>}
         {created?.lifecycleError && <div className="space-y-2">
           <p role="alert" className="text-sm text-destructive">{created.lifecycleError}</p>
           <Button disabled={busy} onClick={() => {
@@ -968,7 +971,7 @@ function Setup({
               cache.setQueryData(queryKeys.agents.detail(agent.id), agent);
             }).catch(cause => setError(cause instanceof Error ? cause.message : "Could not retry computer preparation."))
               .finally(() => setEnvironmentSaving(false));
-          }}>Retry preparation</Button>
+          }}>{t("components.newagent.newAgentSetup.retryPreparation")}</Button>
         </div>}
         {setupError && (
           <p role="alert" className="text-sm text-destructive">
@@ -978,27 +981,26 @@ function Setup({
         {pendingAntigravity && configurationAvailable && (
           <div className="space-y-2">
             <p role="status" className="text-sm text-muted-foreground">
-              Google Antigravity is not available yet. You can connect your Google account and review settings. This agent cannot finish setup or run tasks yet. Model and connection settings are not saved to this agent yet.
+              {t("components.newagent.newAgentSetup.googleAntigravityIsNotAvailableYet")}
             </p>
-            {created && <Button variant="link" className="px-0" onClick={() => setChoosingAdapter(true)}>Change adapter</Button>}
+            {created && <Button variant="link" className="px-0" onClick={() => setChoosingAdapter(true)}>{t("components.newagent.newAgentSetup.changeAdapter")}</Button>}
           </div>
         )}
-        {antigravityCandidate && <p role="status" className="text-sm text-muted-foreground">Google Antigravity candidate is enabled for testing on this instance.</p>}
+        {antigravityCandidate && <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.googleAntigravityCandidateIsEnabledFor")}</p>}
         {adapterInventory.data && !configurationAvailable && (
           <p role="alert" className="text-sm text-destructive">
-            This adapter is unavailable. Choose an enabled adapter.
+            {t("components.newagent.newAgentSetup.thisAdapterIsUnavailableChooseAn")}
           </p>
         )}
         {(managedOnly || forced.forced) &&
           !envs.isPending &&
           !environmentId && (
             <p role="alert" className="text-sm text-destructive">
-              No managed environment is available. Configure an environment
-              before continuing.
+              {t("components.newagent.newAgentSetup.noManagedEnvironmentIsAvailableConfigure")}
             </p>
           )}
         <div className="flex flex-col gap-8 md:flex-row">
-          <nav aria-label="Agent setup steps" className="shrink-0 md:w-44">
+          <nav aria-label={t("components.newagent.newAgentSetup.agentSetupSteps")} className="shrink-0 md:w-44">
             <ol className="flex flex-wrap gap-2 md:flex-col">
               {steps.map((step, index) => (
                 <li key={step}>
@@ -1104,9 +1106,9 @@ function Setup({
                           setScreen("runtime");
                         }).catch(cause => setError(cause instanceof Error ? cause.message : "Could not save agent setup."));
                       }}
-                    /></fieldset> : <p role="status" className="text-sm text-muted-foreground">Loading connection settings…</p>}
+                    /></fieldset> : <p role="status" className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.loadingConnectionSettings")}</p>}
                     {["codex_local", "claude_local", "opencode_local", "pi_local"].includes(adapterType) && <details className="mt-5 space-y-3">
-                      <summary className="cursor-pointer text-sm text-muted-foreground">Advanced</summary>
+                      <summary className="cursor-pointer text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.advanced")}</summary>
                       <AgentRunnerSelect value={runner} disabled={busy}
                         pending={adapters.isFetching} error={adapters.error?.message} onRetry={() => { void adapters.refetch(); }}
                         defaultRunner={adapters.data?.find(item => item.type === adapterType)?.defaultRunner}
@@ -1120,30 +1122,30 @@ function Setup({
                       <h2 className="flex items-center gap-3 text-lg font-semibold">
                         <Check className="size-5" />
                         {created.status === "pending_approval"
-                          ? "Agent submitted for approval"
-                          : isDot ? "Your Dot agent has been created"
-                            : finishingSetup ? "Finishing agent setup" : runtimeReady ? "Your agent is ready" : "Your agent is paused"}
+                          ? t("components.newagent.newAgentSetup.agentSubmittedForApproval")
+                          : isDot ? t("components.newagent.newAgentSetup.yourDotAgentHasBeenCreated")
+                            : finishingSetup ? t("components.newagent.newAgentSetup.finishingAgentSetup") : runtimeReady ? t("components.newagent.newAgentSetup.yourAgentIsReady") : t("components.newagent.newAgentSetup.yourAgentIsPaused")}
                       </h2>
                       <dl className="grid grid-cols-2 gap-4 text-sm">
-                        <dt className="text-muted-foreground">Adapter</dt>
+                        <dt className="text-muted-foreground">{t("components.newagent.newAgentSetup.adapter")}</dt>
                         <dd>{getAdapterDisplay(isDot ? "openai_dot" : adapterType).label}</dd>
                         {showModel && (
                           <>
-                            <dt className="text-muted-foreground">Model</dt>
+                            <dt className="text-muted-foreground">{t("components.newagent.newAgentSetup.model")}</dt>
                             <dd className="break-all">
                               {String(confirmationModel)}
                             </dd>
                           </>
                         )}
-                        <dt className="text-muted-foreground">Environment</dt>
+                        <dt className="text-muted-foreground">{t("components.newagent.newAgentSetup.environment")}</dt>
                         <dd>{environmentLabel}</dd>
                       </dl>
                       <p className="text-sm text-muted-foreground">
                         {created.status === "pending_approval"
-                          ? "An organization administrator must approve this agent before it can work."
-                          : isDot ? "Pair your Dot and test event delivery in configuration before assigning work."
-                            : finishingSetup ? "Paperclip is preparing and verifying your agent. You can assign a task when it is ready."
-                              : runtimeReady ? "Assign a task when you’re ready for this agent to work." : "Review the agent’s status in configuration before assigning work."}
+                          ? t("components.newagent.newAgentSetup.anOrganizationAdministratorMustApproveThis")
+                          : isDot ? t("components.newagent.newAgentSetup.pairYourDotAndTestEvent")
+                            : finishingSetup ? t("components.newagent.newAgentSetup.paperclipIsPreparingAndVerifyingYour")
+                              : runtimeReady ? t("components.newagent.newAgentSetup.assignATaskWhenYouRe") : t("components.newagent.newAgentSetup.reviewTheAgentSStatusIn")}
                       </p>
                     </div>
                     <div className="flex flex-wrap justify-between gap-3">
@@ -1152,7 +1154,7 @@ function Setup({
                         onClick={() => navigate(isDot ? "/agents/all" : `${agentUrl(created)}/runtime`)}
                       >
                         <Settings2 className="size-4" />
-                        {isDot ? "Back to Agents" : "Edit configuration"}
+                        {isDot ? t("components.newagent.newAgentSetup.backToAgents") : t("components.newagent.newAgentSetup.editConfiguration")}
                       </Button>
                       <Button
                         disabled={created.status === "pending_approval" || (!isDot && !runtimeReady)}
@@ -1161,7 +1163,7 @@ function Setup({
                           : void assignFirstTask()
                         }
                       >
-                        {isDot ? "Pair Dot" : `Assign ${created.name} a Task`}
+                        {isDot ? t("components.newagent.newAgentSetup.pairDot") : `Assign ${created.name} a Task`}
                         <ArrowRight className="size-4" />
                       </Button>
                     </div>
@@ -1175,13 +1177,13 @@ function Setup({
                     }}
                   >
                     <h2 className="text-xl font-semibold">
-                      Configure your agent
+                      {t("components.newagent.newAgentSetup.configureYourAgent")}
                     </h2>
                     <fieldset disabled={busy} className="space-y-8">
                       <section className="space-y-5">
                         {isDot && <>
-                          <p className="text-sm text-muted-foreground">Create this agent, then copy its pairing prompt to your Dot.</p>
-                          {experimental.data?.enablePublicMcp !== true && <p className="text-sm text-muted-foreground">Enable Assistant connections (MCP) in Experimental settings before pairing.</p>}
+                          <p className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.createThisAgentThenCopyIts")}</p>
+                          {experimental.data?.enablePublicMcp !== true && <p className="text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.enableAssistantConnectionsMcpInExperimental")}</p>}
                           <ToggleField label="Allow externally billed provider" hint="Dot does not report token usage or cost. Paperclip cannot enforce a provider spend ceiling; known company and agent budget limits still apply."
                             checked={allowUnmeteredProvider} onChange={value => { setAllowUnmeteredProvider(value); resetTest(); }} />
                         </>}
@@ -1191,7 +1193,7 @@ function Setup({
                               if (accountCatalogAvailable && hashKey([aiBinding ?? null]) === hashKey([binding ?? null])) void refreshAccountModels();
                             }} />
                         )}
-                        {(connectionModels ? connectionModels.error : models.error) && <p role="alert" className="text-sm text-destructive">Could not load models. Retry or enter a model ID manually.</p>}
+                        {(connectionModels ? connectionModels.error : models.error) && <p role="alert" className="text-sm text-destructive">{t("components.newagent.newAgentSetup.couldNotLoadModelsRetryOr")}</p>}
                         {((showModel && !usingKimiApi) ||
                           efforts.length > 0) && (
                           <div className="grid items-start gap-5 sm:grid-cols-2">
@@ -1235,17 +1237,17 @@ function Setup({
                             )}
                             {efforts.length > 0 && (
                               <Field label="Thinking effort">
-                                {brandType === "codex_local" ? <SelectPopover aria-label="Thinking effort" value={effort}
+                                {brandType === "codex_local" ? <SelectPopover aria-label={t("components.newagent.newAgentSetup.thinkingEffort")} value={effort}
                                   onValueChange={value => { setEffort(value); resetTest(); }}
                                   options={[{ value: "", label: "Auto" }, ...efforts.map(value => ({ value, label: value }))]} /> : <NativeSelect
-                                  aria-label="Thinking effort"
+                                  aria-label={t("components.newagent.newAgentSetup.thinkingEffort")}
                                   value={effort}
                                   onChange={(event) => {
                                     setEffort(event.target.value);
                                     resetTest();
                                   }}
                                 >
-                                  <option value="">Auto</option>
+                                  <option value="">{t("components.newagent.newAgentSetup.auto")}</option>
                                   {efforts.map((value) => (
                                     <option key={value} value={value}>
                                       {value}
@@ -1266,7 +1268,7 @@ function Setup({
                             {chooseProvider && (
                               <Field label="API key provider">
                                 <select
-                                  aria-label="API key provider"
+                                  aria-label={t("components.newagent.newAgentSetup.apiKeyProvider")}
                                   className={controlClass}
                                   value={provider}
                                   onChange={(event) => {
@@ -1333,7 +1335,7 @@ function Setup({
                                       rel="noopener noreferrer"
                                       className="shrink-0 text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
                                     >
-                                      get api key
+                                      {t("components.newagent.newAgentSetup.getApiKey")}
                                     </a>
                                   )}
                                 </div>
@@ -1372,7 +1374,7 @@ function Setup({
                             <p className="text-xs text-muted-foreground sm:col-span-2">
                               New keys are saved as organization secrets when
                               you finish setup.
-                              {isKimi && " Use a Kimi Code API key for this runner."}
+                              {isKimi && t("components.newagent.newAgentSetup.useAKimiCodeApiKey")}
                               {multiProvider && ` Use a ${provider}/model ID.`}
                             </p>
                           </div>
@@ -1380,7 +1382,7 @@ function Setup({
                         {adapterType === "hermes_gateway" && (
                           <Field label="Hermes API base URL">
                             <Input
-                              aria-label="Hermes API base URL"
+                              aria-label={t("components.newagent.newAgentSetup.hermesApiBaseUrl")}
                               value={gatewayUrl}
                               onChange={(event) => {
                                 setGatewayUrl(event.target.value);
@@ -1394,7 +1396,7 @@ function Setup({
                           <div className="grid gap-5 sm:grid-cols-2">
                             <Field label="Kimi API model name">
                               <Input
-                                aria-label="Kimi API model name"
+                                aria-label={t("components.newagent.newAgentSetup.kimiApiModelName")}
                                 value={kimiModel}
                                 onChange={(event) => {
                                   setKimiModel(event.target.value);
@@ -1405,7 +1407,7 @@ function Setup({
                             </Field>
                             <Field label="Kimi API protocol">
                               <select
-                                aria-label="Kimi API protocol"
+                                aria-label={t("components.newagent.newAgentSetup.kimiApiProtocol")}
                                 className={controlClass}
                                 value={kimiProtocol}
                                 onChange={(event) => {
@@ -1425,13 +1427,13 @@ function Setup({
                               hint="Optional override for your provider endpoint."
                             >
                               <Input
-                                aria-label="Kimi API base URL"
+                                aria-label={t("components.newagent.newAgentSetup.kimiApiBaseUrl")}
                                 value={kimiBaseUrl}
                                 onChange={(event) => {
                                   setKimiBaseUrl(event.target.value);
                                   resetTest();
                                 }}
-                                placeholder="Provider default"
+                                placeholder={t("components.newagent.newAgentSetup.providerDefault")}
                               />
                             </Field>
                           </div>
@@ -1440,7 +1442,7 @@ function Setup({
                           <div className="grid gap-5 sm:grid-cols-2">
                             <Field label="GitHub repository">
                               <Input
-                                aria-label="GitHub repository"
+                                aria-label={t("components.newagent.newAgentSetup.githubRepository")}
                                 value={repository}
                                 onChange={(event) => {
                                   setRepository(event.target.value);
@@ -1451,8 +1453,8 @@ function Setup({
                             </Field>
                             <Field label="Branch">
                               <Input
-                                aria-label="Branch"
-                                placeholder="Repository default"
+                                aria-label={t("components.newagent.newAgentSetup.branch")}
+                                placeholder={t("components.newagent.newAgentSetup.repositoryDefault")}
                                 value={branch}
                                 onChange={(event) => {
                                   setBranch(event.target.value);
@@ -1463,7 +1465,7 @@ function Setup({
                           </div>
                         )}
                         {["codex_local", "claude_local", "opencode_local", "pi_local"].includes(adapterType) && <details className="space-y-3">
-                          <summary className="cursor-pointer text-sm text-muted-foreground">Advanced</summary>
+                          <summary className="cursor-pointer text-sm text-muted-foreground">{t("components.newagent.newAgentSetup.advanced")}</summary>
                           <AgentRunnerSelect value={runner} disabled={busy}
                             pending={adapters.isFetching} error={adapters.error?.message} onRetry={() => { void adapters.refetch(); }}
                             defaultRunner={adapters.data?.find(item => item.type === adapterType)?.defaultRunner}
@@ -1475,9 +1477,9 @@ function Setup({
                         adapterType,
                       ) && (
                         <section className="space-y-5">
-                          <h3 className="text-sm font-semibold">Environment</h3>
+                          <h3 className="text-sm font-semibold">{t("components.newagent.newAgentSetup.environment")}</h3>
                           <select
-                            aria-label="Environment"
+                            aria-label={t("components.newagent.newAgentSetup.environment")}
                             className={controlClass}
                             value={environmentOverride}
                             disabled={forced.forced}
@@ -1514,10 +1516,10 @@ function Setup({
                       </p>
                     )}
                     {environmentSaveError && <p role="alert" className="text-sm text-destructive">{environmentSaveError}</p>}
-                    {environmentSaveError && !environmentSelectionSaved && <Button disabled={busy} onClick={() => void changeEnvironment()}>Retry saving environment</Button>}
+                    {environmentSaveError && !environmentSelectionSaved && <Button disabled={busy} onClick={() => void changeEnvironment()}>{t("components.newagent.newAgentSetup.retrySavingEnvironment")}</Button>}
                     <div className="flex justify-between border-t border-border py-5">
                       <div className="flex items-center gap-3">
-                        <Button type="button" variant="ghost" disabled={busy} onClick={() => void saveAndExit()}>{pendingAntigravity ? "Back to agents" : "Save & exit"}</Button>
+                        <Button type="button" variant="ghost" disabled={busy} onClick={() => void saveAndExit()}>{pendingAntigravity ? "Back to agents" : t("components.newagent.newAgentSetup.saveExit")}</Button>
                       {connectionAdapter ? (
                         <Button
                           type="button"
@@ -1526,7 +1528,7 @@ function Setup({
                           onClick={editConnection}
                         >
                           <ArrowLeft className="size-4" />
-                          Connection
+                          {t("components.newagent.newAgentSetup.connection")}
                         </Button>
                       ) : (
                         null
@@ -1537,7 +1539,7 @@ function Setup({
                         disabled={!ready || busy}
                         onClick={() => setScreen("connect")}
                       >
-                        Connect model
+                        {t("components.newagent.newAgentSetup.connectModel")}
                         <ArrowRight className="size-4" />
                       </Button> : <Button
                         type="submit"
@@ -1549,7 +1551,7 @@ function Setup({
                           Boolean(connectionAdapter && !connection)
                         }
                       >
-                        {saving ? "Saving…" : "Finish setup"}
+                        {saving ? t("components.newagent.newAgentSetup.saving") : t("components.newagent.newAgentSetup.finishSetup")}
                         <Check className="size-4" />
                       </Button>}
                     </div>

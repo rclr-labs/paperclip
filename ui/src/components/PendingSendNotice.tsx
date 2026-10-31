@@ -1,6 +1,7 @@
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 /**
  * Shown above a composer while a send waits for the connection. The text stays
@@ -28,6 +29,7 @@ export function PendingSendNotice({
   onCancel: () => void;
   className?: string;
 }) {
+  const { t } = useTranslation();
   const replayable = Boolean(onResendNow);
   const title = !replayable
     ? `We couldn’t confirm whether this ${noun} was sent.`
@@ -55,11 +57,11 @@ export function PendingSendNotice({
       <div className="flex items-center gap-2">
         {onResendNow ? (
           <Button type="button" size="sm" variant="outline" disabled={resending} onClick={onResendNow}>
-            Resend now
+            {t("components.pendingSendNotice.resendNow")}
           </Button>
         ) : null}
         <Button type="button" size="sm" variant="ghost" disabled={resending} onClick={onCancel}>
-          Cancel
+          {t("components.pendingSendNotice.cancel")}
         </Button>
       </div>
     </div>

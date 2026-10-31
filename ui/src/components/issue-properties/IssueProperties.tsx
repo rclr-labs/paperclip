@@ -1387,7 +1387,7 @@ export function IssueProperties({
             <div>
               <div className="text-xs text-muted-foreground">{t("components.issueproperties.issueProperties.nextCheck")}</div>
               <div className="text-sm">{formatMonitorAbsoluteFull(monitorNextCheckAt)}</div>
-              <div className="text-xs text-muted-foreground">{monitorPaused ? "Automatic checks paused" : monitorRelative}</div>
+              <div className="text-xs text-muted-foreground">{monitorPaused ? t("components.issueproperties.issueProperties.automaticChecksPaused") : monitorRelative}</div>
             </div>
             <div>
               <div className="text-xs text-muted-foreground">{t("components.issueproperties.issueProperties.watching")}</div>

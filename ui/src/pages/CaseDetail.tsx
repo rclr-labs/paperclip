@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { formatDateTime } from "@/lib/utils";
 import { queryKeys } from "@/lib/queryKeys";
 import { caseAuditHref } from "./audit/audit-navigation";
+import { useTranslation } from "@/i18n";
 
 function CaseRelation({ item, search }: { item: Pick<CaseSummary, "id" | "identifier" | "title" | "caseType" | "status">; search: string }) {
   const caseHref = useCaseHref();
@@ -34,6 +35,7 @@ function CaseRelation({ item, search }: { item: Pick<CaseSummary, "id" | "identi
 
 /** Cases are persistent records. This board page only reads them and their work. */
 export function CaseDetail() {
+  const { t } = useTranslation();
   const { caseIdentifier } = useParams<{ caseIdentifier: string }>();
   const { search } = useLocation();
   const caseHref = useCaseHref();
@@ -77,7 +79,7 @@ export function CaseDetail() {
         ? <EmptyState icon={FolderOpen} message="Case not found" />
         : <QueryErrorState size="page" error={caseQuery.error} action="load this case" onRetry={caseView.retry} retrying={caseView.isFetching} />}
       <div className="flex justify-center gap-3">
-        <Button variant="link" asChild><Link to={listPath}>Back to cases</Link></Button>
+        <Button variant="link" asChild><Link to={listPath}>{t("pages.caseDetail.backToCases")}</Link></Button>
       </div>
     </div>;
   }
@@ -101,27 +103,27 @@ export function CaseDetail() {
       </div>
       <h1 className="text-2xl font-semibold tracking-tight">{caseData.title}</h1>
       {caseData.summary && <p className="max-w-3xl text-sm leading-relaxed text-muted-foreground">{caseData.summary}</p>}
-      {caseData.labels.length > 0 && <div className="flex flex-wrap gap-1.5" aria-label="Case labels">{caseData.labels.map(label => <Badge key={label.id} variant="secondary" className="font-normal">{label.name}</Badge>)}</div>}
+      {caseData.labels.length > 0 && <div className="flex flex-wrap gap-1.5" aria-label={t("pages.caseDetail.caseLabels")}>{caseData.labels.map(label => <Badge key={label.id} variant="secondary" className="font-normal">{label.name}</Badge>)}</div>}
     </header>
 
     <div className="min-w-0 space-y-8">
       <CaseWorkSummary caseData={caseData} agents={agents} />
-      {fields.length > 0 && <section className="space-y-3" aria-label="Case details">
-        <h2 className="text-sm font-semibold">Details</h2>
+      {fields.length > 0 && <section className="space-y-3" aria-label={t("pages.caseDetail.caseDetails")}>
+        <h2 className="text-sm font-semibold">{t("pages.caseDetail.details")}</h2>
         <CaseFieldsTable fields={Object.fromEntries(fields)} />
       </section>}
 
-      {(caseData.documents.length > 0 || taskDocuments.length > 0) && <section className="space-y-3" aria-label="Case documents">
-        <h2 className="text-sm font-semibold">Documents</h2>
+      {(caseData.documents.length > 0 || taskDocuments.length > 0) && <section className="space-y-3" aria-label={t("pages.caseDetail.caseDocuments")}>
+        <h2 className="text-sm font-semibold">{t("pages.caseDetail.documents")}</h2>
         <div className="divide-y divide-border">
           {taskDocuments.map(document => <CaseDocumentPreview key={document.id} caseIdentifier={caseData.identifier} document={document} />)}
           {caseData.documents.map(document => <CaseDocumentPreview key={`case:${caseData.id}:${document.key}`} caseIdentifier={caseData.identifier} document={document} />)}
         </div>
-        {caseData.taskDocumentsOmitted && <p className="text-xs text-muted-foreground">More documents are available on the linked tasks.</p>}
+        {caseData.taskDocumentsOmitted && <p className="text-xs text-muted-foreground">{t("pages.caseDetail.moreDocumentsAreAvailableOnThe")}</p>}
       </section>}
 
-      {caseData.attachments.length > 0 && <section className="space-y-3" aria-label="Case attachments">
-        <h2 className="text-sm font-semibold">Attachments</h2>
+      {caseData.attachments.length > 0 && <section className="space-y-3" aria-label={t("pages.caseDetail.caseAttachments")}>
+        <h2 className="text-sm font-semibold">{t("pages.caseDetail.attachments")}</h2>
         {images.length > 0 && <CaseAttachmentsGallery attachments={images} />}
         {files.length > 0 && <ul className="space-y-2">{files.map(attachment => <li key={attachment.id}><a href={caseAttachmentUrl(attachment)} target="_blank" rel="noreferrer" className="inline-flex max-w-full items-center gap-2 text-sm text-primary hover:underline"><FileText aria-hidden className="size-4 shrink-0" /><span className="truncate">{attachment.asset.originalFilename ?? "Download attachment"}</span></a></li>)}</ul>}
       </section>}
@@ -134,19 +136,19 @@ export function CaseDetail() {
       </details>}
 
       {(caseData.parent || children.length > 0 || childrenQuery.isError) && <details className="space-y-3">
-        <summary className="w-fit cursor-pointer text-sm font-semibold">Related cases</summary>
-        {caseData.parent && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">Parent</h3><CaseRelation item={caseData.parent} search={search} /></div>}
-        {children.length > 0 && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">Children {children.length}</h3>{children.map(child => <CaseRelation key={child.id} item={child} search={search} />)}</div>}
-        {queryViewKind(childrenQuery) === "error" && <p role="alert" className="text-sm text-destructive">Child cases couldn’t be loaded.</p>}
+        <summary className="w-fit cursor-pointer text-sm font-semibold">{t("pages.caseDetail.relatedCases")}</summary>
+        {caseData.parent && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">{t("pages.caseDetail.parent")}</h3><CaseRelation item={caseData.parent} search={search} /></div>}
+        {children.length > 0 && <div className="space-y-1"><h3 className="text-xs text-muted-foreground">{t("pages.caseDetail.children", { length: children.length })}</h3>{children.map(child => <CaseRelation key={child.id} item={child} search={search} />)}</div>}
+        {queryViewKind(childrenQuery) === "error" && <p role="alert" className="text-sm text-destructive">{t("pages.caseDetail.childCasesCouldnTBeLoaded")}</p>}
       </details>}
 
-      {!fields.length && !caseData.documents.length && !taskDocuments.length && !caseData.attachments.length && <p className="text-sm text-muted-foreground">No findings recorded yet.</p>}
+      {!fields.length && !caseData.documents.length && !taskDocuments.length && !caseData.attachments.length && <p className="text-sm text-muted-foreground">{t("pages.caseDetail.noFindingsRecordedYet")}</p>}
       <dl className="flex flex-wrap gap-x-6 gap-y-3 text-xs text-muted-foreground">
-        {projectQuery.data && <div className="space-y-1"><dt>Project</dt><dd><Link to={`/projects/${projectQuery.data.id}`} className="text-foreground hover:underline">{projectQuery.data.name}</Link></dd></div>}
-        <div className="space-y-1"><dt>Created</dt><dd><time dateTime={caseData.createdAt} className="font-mono">{formatDateTime(caseData.createdAt, { includeYear: false })}</time></dd></div>
-        <div className="space-y-1"><dt>Updated</dt><dd><time dateTime={caseData.updatedAt} className="font-mono">{formatDateTime(caseData.updatedAt, { includeYear: false })}</time></dd></div>
+        {projectQuery.data && <div className="space-y-1"><dt>{t("pages.caseDetail.project")}</dt><dd><Link to={`/projects/${projectQuery.data.id}`} className="text-foreground hover:underline">{projectQuery.data.name}</Link></dd></div>}
+        <div className="space-y-1"><dt>{t("pages.caseDetail.created")}</dt><dd><time dateTime={caseData.createdAt} className="font-mono">{formatDateTime(caseData.createdAt, { includeYear: false })}</time></dd></div>
+        <div className="space-y-1"><dt>{t("pages.caseDetail.updated")}</dt><dd><time dateTime={caseData.updatedAt} className="font-mono">{formatDateTime(caseData.updatedAt, { includeYear: false })}</time></dd></div>
       </dl>
-      <Link to={caseAuditHref(caseData.id)} className="inline-block text-sm text-muted-foreground hover:text-foreground hover:underline">View in Audit</Link>
+      <Link to={caseAuditHref(caseData.id)} className="inline-block text-sm text-muted-foreground hover:text-foreground hover:underline">{t("pages.caseDetail.viewInAudit")}</Link>
     </div>
   </div>;
 }

@@ -2,8 +2,10 @@ import { ArrowUpRight, ListTree } from "lucide-react";
 import { Link } from "@/lib/router";
 import { IssueStatusBadge } from "@/components/StatusBadge";
 import type { TaskChatTaskCreatedItem } from "./task-chat-model";
+import { useTranslation } from "@/i18n";
 
 export function TaskChatTaskCreatedCard({ item }: { item: TaskChatTaskCreatedItem }) {
+  const { t } = useTranslation();
   const { task } = item;
   return (
     <Link
@@ -14,7 +16,7 @@ export function TaskChatTaskCreatedCard({ item }: { item: TaskChatTaskCreatedIte
     >
       <ListTree className="mt-0.5 size-4 shrink-0 text-muted-foreground" aria-hidden />
       <span className="min-w-0 flex-1 space-y-2">
-        <span className="block text-xs text-muted-foreground">{item.isSubtask ? "Subtask created" : "Task created"}</span>
+        <span className="block text-xs text-muted-foreground">{item.isSubtask ? t("components.taskchat.taskChatTaskCreatedCard.subtaskCreated") : t("components.taskchat.taskChatTaskCreatedCard.taskCreated")}</span>
         <span className="block break-words text-sm font-medium">{task.title}</span>
         <span className="flex flex-wrap items-center gap-2">
           {task.identifier && <span className="font-mono text-xs text-muted-foreground">{task.identifier}</span>}

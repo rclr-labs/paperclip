@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { CloudSignIn } from "@/components/CloudSignIn";
 import { useSuppressConnectionBanner } from "@/components/ConnectionStatusBanner";
 import { clearCloudSignInAttempt } from "@/lib/cloud-sign-in";
+import { useTranslation } from "@/i18n";
 
 /** Poll while the server reports `starting`; outages are polled by `lib/connectivity`. */
 const SERVER_STARTING_POLL_MS = 5_000;
@@ -30,23 +31,24 @@ export function CloudAccessError({
   retrying: boolean;
   onRetry: () => void;
 }) {
+  const { t } = useTranslation();
   useSuppressConnectionBanner(temporary);
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-4 px-4 py-16">
       <RefreshCw className="size-6 text-muted-foreground" aria-hidden="true" />
       <div className="flex flex-col gap-2" role="status">
         <h1 className="text-xl font-semibold">
-          {temporary ? "Reconnecting to Paperclip" : "Unable to load Paperclip"}
+          {temporary ? t("components.cloudAccessGate.reconnectingToPaperclip") : t("components.cloudAccessGate.unableToLoadPaperclip")}
         </h1>
         <p className="text-sm text-muted-foreground">
           {temporary
-            ? "The server may be restarting or your connection was interrupted. We’ll try again every few seconds and reconnect automatically."
-            : "We couldn’t check your access to this instance. Try again, or contact your instance administrator if this continues."}
+            ? t("components.cloudAccessGate.theServerMayBeRestartingOr")
+            : t("components.cloudAccessGate.weCouldnTCheckYourAccess")}
         </p>
       </div>
       <div>
         <Button variant="outline" onClick={onRetry} disabled={retrying}>
-          {retrying ? "Connecting…" : "Try again"}
+          {retrying ? t("components.cloudAccessGate.connecting") : t("components.cloudAccessGate.tryAgain")}
         </Button>
       </div>
     </div>
@@ -54,16 +56,16 @@ export function CloudAccessError({
 }
 
 function NoBoardAccessPage() {
+  const { t } = useTranslation();
   return (
     <div className="mx-auto max-w-xl py-10">
       <Card className="block p-6">
-        <h1 className="text-xl font-semibold">No organization access</h1>
+        <h1 className="text-xl font-semibold">{t("components.cloudAccessGate.noOrganizationAccess")}</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          This account is signed in, but it does not have an active organization membership or instance-admin access on
-          this Paperclip instance.
+          {t("components.cloudAccessGate.thisAccountIsSignedInBut")}
         </p>
         <p className="mt-2 text-sm text-muted-foreground">
-          Use an organization invite or sign in with an account that already belongs to this org.
+          {t("components.cloudAccessGate.useAnOrganizationInviteOrSign")}
         </p>
       </Card>
     </div>

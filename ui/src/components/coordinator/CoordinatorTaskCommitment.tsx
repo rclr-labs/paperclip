@@ -9,6 +9,7 @@ import { Link } from "@/lib/router";
 import { StatusIcon } from "@/components/StatusIcon";
 import { CoordinatorRelativeTime } from "./CoordinatorRelativeTime";
 import { useCoordinatorWorkspaceEnabled } from "@/hooks/useCoordinatorWorkspaceEnabled";
+import { useTranslation } from "@/i18n";
 
 // Presentation-only memory. It contains no task text or authority, and prevents
 // revisiting a conversation from replaying its task-creation celebration.
@@ -124,8 +125,9 @@ export function CoordinatorCreatedTaskLink({ task, createdAt }: {
   createdAt?: Date | string | null;
   task: Pick<ConversationTaskHandoff, "issueId" | "identifier" | "title"> & { status?: ConversationTaskHandoff["status"] };
 }) {
+  const { t } = useTranslation();
   return <Link to={`/issues/${task.identifier ?? task.issueId}`} className="coordinator-created-task">
-    {task.status ? <StatusIcon status={task.status} size="lg" /> : <FileCheck2 className="size-5 shrink-0 text-muted-foreground" aria-label="Task created" />}
+    {task.status ? <StatusIcon status={task.status} size="lg" /> : <FileCheck2 className="size-5 shrink-0 text-muted-foreground" aria-label={t("components.coordinator.coordinatorTaskCommitment.taskCreated")} />}
     <span className="min-w-0 flex-1">
       <span className="block truncate text-sm font-medium">{task.title}</span>
       <span className="block truncate text-xs text-muted-foreground"><span className="font-mono">{task.identifier ?? task.issueId}</span> · Created</span>
@@ -136,6 +138,7 @@ export function CoordinatorCreatedTaskLink({ task, createdAt }: {
 }
 
 function CreatedTaskLinks({ interaction }: { interaction: SuggestTasksInteraction }) {
+  const { t } = useTranslation();
   const { userId } = useCoordinatorWorkspaceEnabled();
   const tasks = interaction.result?.createdTasks ?? [];
   const ids = tasks.map(task => task.issueId).sort();
@@ -145,7 +148,7 @@ function CreatedTaskLinks({ interaction }: { interaction: SuggestTasksInteractio
     enabled: ids.length > 0,
     retry: false,
   });
-  if (tasks.length === 0) return <p className="p-4 text-sm text-muted-foreground">No tasks were created.</p>;
+  if (tasks.length === 0) return <p className="p-4 text-sm text-muted-foreground">{t("components.coordinator.coordinatorTaskCommitment.noTasksWereCreated")}</p>;
   return <div className="divide-y divide-border">
     {tasks.map(task => {
       const summary = query.data?.find(candidate => candidate.id === task.issueId);

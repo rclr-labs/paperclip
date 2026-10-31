@@ -32,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useConnectivity, useConnectivityStore, type ConnectivityStatus } from "@/lib/connectivity";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/i18n";
 
 export type QueryViewKind = "loading" | "ready" | "stale" | "reconnecting" | "error";
 
@@ -138,6 +139,7 @@ const NOT_RETRYABLE: ReadonlySet<ErrorKind> = new Set(["auth", "forbidden", "not
  * from `describeError` and a Retry button. Never renders a raw error code.
  */
 export function QueryErrorState({ error, size = "panel", action, onRetry, retrying = false, className }: QueryErrorStateProps) {
+  const { t } = useTranslation();
   const kind = classifyError(error);
   const { title, body } = describeError(error, { action });
   const retryButton = onRetry && !NOT_RETRYABLE.has(kind) ? (
@@ -149,7 +151,7 @@ export function QueryErrorState({ error, size = "panel", action, onRetry, retryi
       disabled={retrying}
     >
       <RefreshCcw aria-hidden="true" className={cn(retrying && "animate-spin")} />
-      {retrying ? "Retrying…" : "Retry"}
+      {retrying ? t("components.queryView.retrying") : t("components.queryView.retry")}
     </Button>
   ) : null;
 
@@ -227,9 +229,10 @@ export function QueryPlaceholder({ size = "panel", label = "Loading", className 
 
 /** The small hint above stale content, for surfaces that opt in with `staleHint`. */
 export function QueryStaleHint({ className }: { className?: string }) {
+  const { t } = useTranslation();
   return (
     <p role="status" data-query-view="stale" className={cn("text-xs text-muted-foreground", className)}>
-      Updating paused while reconnecting…
+      {t("components.queryView.updatingPausedWhileReconnecting")}
     </p>
   );
 }

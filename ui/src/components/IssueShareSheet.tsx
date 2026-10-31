@@ -41,6 +41,7 @@ import { useToastActions } from "@/context/ToastContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { timeAgo } from "@/lib/timeAgo";
 import { cn } from "@/lib/utils";
+import { Trans, useTranslation } from "@/i18n";
 import {
   agentVisibilityFromPermissions,
   grantIsRevocable,
@@ -181,6 +182,7 @@ export function IssueShareSheet({
   /** Pre-selected add subject (`type:id`), used by stories/tests to show the caution. */
   initialAddSelection?: string;
 }) {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [view, setView] = useState<"list" | "add">(initialView);
@@ -307,7 +309,7 @@ export function IssueShareSheet({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            Who can access this task
+            {t("components.issueShareSheet.whoCanAccessThisTask")}
           </DialogTitle>
           <DialogDescription>{aclDescription}</DialogDescription>
         </DialogHeader>
@@ -337,7 +339,7 @@ export function IssueShareSheet({
               </div>
             ) : isEmpty ? (
               <p className="py-3 text-sm text-muted-foreground" data-testid="share-sheet-empty">
-                Only you can see this task.
+                {t("components.issueShareSheet.onlyYouCanSeeThisTask")}
               </p>
             ) : (
               <div className="divide-y divide-border/60">
@@ -410,7 +412,7 @@ export function IssueShareSheet({
                   onClick={() => setView("add")}
                   disabled={isLoading}
                 >
-                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add someone
+                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.addSomeone")}
                 </Button>
               </div>
             ) : null}
@@ -423,7 +425,7 @@ export function IssueShareSheet({
               renderValue={(option) => option ? renderAccessIdentity(option) : "Choose a person or agent…"}
               renderOption={renderAccessIdentity}
               onValueChange={(value) => setAddSelection(value)}
-              placeholder="Choose a person or agent…"
+              placeholder={t("components.issueShareSheet.chooseAPersonOrAgent")}
               searchPlaceholder="Search people and agents…"
               loading={directoryQuery.isLoading || agentsQuery.isLoading}
               loadingMessage="Loading directory…"
@@ -434,13 +436,13 @@ export function IssueShareSheet({
             {selectedSharedAgentName ? (
               <div
                 role="note"
-                aria-label="Shared agent caution"
+                aria-label={t("components.issueShareSheet.sharedAgentCaution")}
                 data-testid="shared-agent-caution"
                 className="flex items-start gap-2 rounded-md border border-border bg-muted px-3 py-2 text-xs leading-relaxed text-foreground"
               >
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 <span>
-                  <span className="font-semibold">Shared agent.</span> {selectedSharedAgentName}'s
+                  <span className="font-semibold">{t("components.issueShareSheet.sharedAgent")}</span> {selectedSharedAgentName}'s
                   memory &amp; workspace may carry residual private context from this task into its
                   later runs for other people. Grant only if that's acceptable.
                 </span>
@@ -456,10 +458,10 @@ export function IssueShareSheet({
                   setAddSelection("");
                 }}
               >
-                Back
+                {t("components.issueShareSheet.back")}
               </Button>
               <Button size="sm" onClick={submitAdd} disabled={!addSelection || addMutation.isPending}>
-                {addMutation.isPending ? "Adding…" : "Add"}
+                {addMutation.isPending ? t("components.issueShareSheet.adding") : t("components.issueShareSheet.add")}
               </Button>
             </div>
           </div>
@@ -475,17 +477,17 @@ export function IssueShareSheet({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Remove {revokeTarget?.subjectDisplayName ?? "this subject"}'s saved grant?
+              Remove {revokeTarget?.subjectDisplayName ?? t("components.issueShareSheet.thisSubject")}'s saved grant?
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription><Trans i18nKey="components.issueShareSheet.thisRemovesThisGrantAndThe">
               This removes this grant and the access it supplies to this task's descendants.
               Ownership, current assignment, project membership, inherited access, or another grant
               can still provide access. Revoking access does <span className="font-semibold">not</span> erase
               content already seen or retained in an agent's memory.
-            </AlertDialogDescription>
+            </Trans></AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("components.issueShareSheet.cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={(event) => {
@@ -494,7 +496,7 @@ export function IssueShareSheet({
               }}
               disabled={revokeMutation.isPending}
             >
-              {revokeMutation.isPending ? "Removing…" : "Remove grant"}
+              {revokeMutation.isPending ? t("components.issueShareSheet.removing") : t("components.issueShareSheet.removeGrant")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

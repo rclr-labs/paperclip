@@ -53,6 +53,7 @@ import { WorkspaceFileMarkdownBody } from "@/components/WorkspaceFileMarkdownBod
 import { HtmlArtifactPreview } from "@/components/HtmlArtifactPreview";
 import { FilePreviewModeToggle, type FilePreviewMode } from "@/components/FilePreviewModeToggle";
 import { isHtmlPreview } from "@/lib/html-preview";
+import { useTranslation } from "@/i18n";
 import type {
   ResolvedWorkspaceResource,
   WorkspaceFileContent,
@@ -208,6 +209,7 @@ export function FileViewerMetadataRow({
   resolvedResource?: ResolvedWorkspaceResource;
   state: FileViewerUrlState | null;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex min-h-(--sz-18px) flex-wrap items-center gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
       {resolvedResource ? (
@@ -230,7 +232,7 @@ export function FileViewerMetadataRow({
           ) : null}
         </>
       ) : state ? (
-        <span className="h-3 w-28 rounded bg-muted animate-pulse" aria-label="Loading file details" />
+        <span className="h-3 w-28 rounded bg-muted animate-pulse" aria-label={t("components.fileViewerSheet.loadingFileDetails")} />
       ) : null}
     </div>
   );
@@ -453,13 +455,14 @@ export function FileContentViewer({ content, highlightedLine, onLoaded, previewM
 }
 
 function LoadingView({ elapsedMs }: { elapsedMs: number }) {
+  const { t } = useTranslation();
   if (elapsedMs < 100) {
     return <div className="flex-1" aria-hidden="true" />;
   }
   if (elapsedMs < 400) {
     return (
       <div className="flex-1 space-y-2 p-6" aria-busy="true" aria-live="polite">
-        <span className="sr-only">Loading file preview</span>
+        <span className="sr-only">{t("components.fileViewerSheet.loadingFilePreview")}</span>
         {Array.from({ length: 10 }).map((_, index) => (
           <div key={index} className="h-3 rounded bg-muted animate-pulse" style={{ width: `${90 - index * 6}%` }} />
         ))}
@@ -500,6 +503,7 @@ export function FileViewerSheet({
   open: openProp,
   onOpenChange,
 }: FileViewerSheetProps) {
+  const { t } = useTranslation();
   const viewer = useRequiredFileViewer();
   const state = typeof stateProp !== "undefined" ? stateProp : viewer.state;
   // Browse mode: no file selected, but the sheet was opened to browse/search.
@@ -778,10 +782,10 @@ export function FileViewerSheet({
                   size="sm"
                   onClick={() => viewer.backToFiles()}
                   className="h-7 gap-1 px-2 text-xs"
-                  aria-label="Back to files"
+                  aria-label={t("components.fileViewerSheet.backToFiles")}
                 >
                   <ArrowLeft className="h-3.5 w-3.5" />
-                  Back to files
+                  {t("components.fileViewerSheet.backToFiles")}
                 </Button>
               ) : null}
               {contentQuery.data?.resource.previewKind === "text" && contentQuery.data.content.encoding === "utf8"
@@ -799,8 +803,8 @@ export function FileViewerSheet({
                     <a
                       href={downloadUrl}
                       download={resolvedResource?.title ?? basename(state.path)}
-                      aria-label="Download file"
-                      title="Download file"
+                      aria-label={t("components.fileViewerSheet.downloadFile")}
+                      title={t("components.fileViewerSheet.downloadFile")}
                     >
                       <Download className="h-4 w-4" />
                     </a>
@@ -851,7 +855,7 @@ export function FileViewerSheet({
                 size="icon-sm"
                 onClick={() => handleOpenChange(false)}
                 className="h-7 w-7"
-                aria-label="Close file viewer"
+                aria-label={t("components.fileViewerSheet.closeFileViewer")}
                 title="Close"
               >
                 <X className="h-4 w-4" />
@@ -892,7 +896,7 @@ export function FileViewerSheet({
               <div
                 role="separator"
                 aria-orientation="vertical"
-                aria-label="Resize file tree"
+                aria-label={t("components.fileViewerSheet.resizeFileTree")}
                 aria-valuemin={MIN_FILE_TREE_WIDTH}
                 aria-valuemax={MAX_FILE_TREE_WIDTH}
                 aria-valuenow={fileTreeWidth}
@@ -972,6 +976,7 @@ export function FileViewerBody({
   previewMode,
   htmlMode,
 }: FileViewerBodyProps) {
+  const { t } = useTranslation();
   // Loaded content stays on screen while a refetch fails; a quiet loading
   // view covers an outage before anything has loaded.
   const resolveKind = queryViewKind(resolveQuery);
@@ -991,11 +996,11 @@ export function FileViewerBody({
             <>
               {onFallbackToProject ? (
                 <Button type="button" variant="secondary" size="sm" onClick={onFallbackToProject}>
-                  Try project workspace
+                  {t("components.fileViewerSheet.tryProjectWorkspace")}
                 </Button>
               ) : null}
               <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+                <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
               </Button>
             </>
           }
@@ -1019,7 +1024,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
           </Button>
         }
       />
@@ -1059,7 +1064,7 @@ export function FileViewerBody({
         body={denial.body}
         actions={
           <Button type="button" variant="ghost" size="sm" onClick={onRetry}>
-            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> Retry
+            <RefreshCcw aria-hidden="true" className="mr-1 h-3 w-3" /> {t("components.fileViewerSheet.retry")}
           </Button>
         }
       />

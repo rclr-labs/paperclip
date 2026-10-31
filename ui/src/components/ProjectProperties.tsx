@@ -737,12 +737,12 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
         {providerConfiguration ? (
           <div className="py-1.5 space-y-2">
             <label className="flex items-center gap-2 text-sm font-medium" htmlFor="workspace-storage-provider">
-              Workspace storage
+              {t("components.projectProperties.workspaceStorage")}
               <SaveIndicator state={fieldState("workspace_storage_provider")} />
             </label>
             <select
               id="workspace-storage-provider"
-              aria-label="Workspace storage provider"
+              aria-label={t("components.projectProperties.workspaceStorageProvider")}
               className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm"
               disabled={!onUpdate && !onFieldUpdate}
               value={storedExecutionWorkspacePolicy?.storageProviderPluginId === null ? "core" : storedExecutionWorkspacePolicy?.storageProviderPluginId ?? "inherit"}
@@ -753,13 +753,13 @@ export function ProjectProperties({ project, repositories, onUpdate, onFieldUpda
                 commitField("workspace_storage_provider", { executionWorkspacePolicy: policy });
               }}
             >
-              <option value="inherit">Inherit installed default</option>
-              <option value="core">Core / local</option>
+              <option value="inherit">{t("components.projectProperties.inheritInstalledDefault")}</option>
+              <option value="core">{t("components.projectProperties.coreLocal")}</option>
               {providerConfiguration.providers.map(provider => (
                 <option key={provider.id} value={provider.id}>{provider.displayName}{provider.isDefault ? " (default)" : ""}</option>
               ))}
               {storedExecutionWorkspacePolicy?.storageProviderPluginId && !providerConfiguration.providers.some(provider => provider.id === storedExecutionWorkspacePolicy.storageProviderPluginId) ? (
-                <option value={storedExecutionWorkspacePolicy.storageProviderPluginId}>Unavailable provider</option>
+                <option value={storedExecutionWorkspacePolicy.storageProviderPluginId}>{t("components.projectProperties.unavailableProvider")}</option>
               ) : null}
             </select>
             <p className="text-xs text-muted-foreground">

@@ -12,8 +12,10 @@ import { Link, useParams } from "@/lib/router";
 import { agentRouteRef } from "@/lib/utils";
 import { TaskDetailSurface } from "./IssueDetail";
 import { isUuidLike, type Issue } from "@paperclipai/shared";
+import { Trans, useTranslation } from "@/i18n";
 
 export function AgentChat() {
+  const { t } = useTranslation();
   const { agentRef = "" } = useParams<{ agentRef: string }>();
   const { selectedCompanyId } = useCompany();
   const { enabled, loaded } = useAgentChatEnabled();
@@ -81,14 +83,15 @@ export function AgentChat() {
     || chatView.kind === "reconnecting" || (!rosterAgent && historyView.kind === "reconnecting");
   if (!loaded || agents.isPending || session.isPending || historyAgent.isFetching && !agent || reconnecting)
     return (
-      <p className="text-sm text-muted-foreground">Loading conversation…</p>
+      <p className="text-sm text-muted-foreground">{t("pages.agentChat.loadingConversation")}</p>
     );
   if (!enabled && !chat.data)
     return (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground"><Trans i18nKey="pages.agentChat.agentChatIsDisabledForThis">
         Agent Chat is disabled for this instance. An administrator can enable it in{" "}
         <Link className="underline underline-offset-4" to="/company/settings/instance/experimental#experimental-enableAgentChat">Experimental settings</Link>.
         {" "}Your workspace preference does not change Chat availability. Existing history remains available through task links.
+      </Trans>ugh task links.
       </p>
     );
   const failed = [agentsView, chatView, ...(rosterAgent ? [] : [historyView])].find((view) => view.kind === "error");
@@ -103,10 +106,10 @@ export function AgentChat() {
       />
     );
   if (!agent)
-    return <p className="text-sm text-destructive">Agent not found.</p>;
+    return <p className="text-sm text-destructive">{t("pages.agentChat.agentNotFound")}</p>;
   if (chat.isPending)
     return (
-      <p className="text-sm text-muted-foreground">Loading conversation…</p>
+      <p className="text-sm text-muted-foreground">{t("pages.agentChat.loadingConversation")}</p>
     );
   return (
     <TaskDetailSurface

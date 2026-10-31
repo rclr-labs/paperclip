@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Link } from "@/lib/router";
 import { CoordinatorWorkspaceSetting } from "@/components/CoordinatorWorkspaceSetting";
+import { useTranslation } from "@/i18n";
 
 type WorktreeRunExecutionDisplayState =
   | { kind: "off" }
@@ -62,10 +63,11 @@ function formatActivationTimestamp(iso: string): string {
 const SHOW_CONFERENCE_ROOM_EXPERIMENTAL_SETTING = false;
 
 function ManagedByCloudBadge() {
+  const { t } = useTranslation();
   return (
     <Badge variant="outline" className="text-muted-foreground">
       <Lock aria-hidden="true" />
-      Managed by Paperclip Cloud
+      {t("pages.instanceExperimentalSettings.managedByPaperclipCloud")}
     </Badge>
   );
 }
@@ -121,6 +123,7 @@ function ExperimentalToggleCard({
 }
 
 export function InstanceExperimentalSettings() {
+  const { t } = useTranslation();
   const { setBreadcrumbs } = useBreadcrumbs();
   const queryClient = useQueryClient();
   const { hidden: hiddenSettings } = useHiddenSettings();
@@ -182,7 +185,7 @@ export function InstanceExperimentalSettings() {
     return (
       <div className="max-w-6xl space-y-6">
         <CoordinatorWorkspaceSetting key="personal-workspace" />
-        <div className="text-sm text-muted-foreground">Loading experimental settings...</div>
+        <div className="text-sm text-muted-foreground">{t("pages.instanceExperimentalSettings.loadingExperimentalSettings")}</div>
       </div>
     );
   }
@@ -194,7 +197,7 @@ export function InstanceExperimentalSettings() {
         <div className="text-sm text-destructive">
           {experimentalQuery.error instanceof Error
             ? experimentalQuery.error.message
-            : "Failed to load experimental settings."}
+            : t("pages.instanceExperimentalSettings.failedToLoadExperimentalSettings")}
         </div>
       </div>
     );
@@ -264,10 +267,10 @@ export function InstanceExperimentalSettings() {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <FlaskConical className="h-5 w-5 text-muted-foreground" />
-          <h1 className="text-lg font-semibold">Experimental</h1>
+          <h1 className="text-lg font-semibold">{t("pages.instanceExperimentalSettings.experimental")}</h1>
         </div>
         <p className="text-sm text-muted-foreground">
-          Opt into features that are still being evaluated before they become default behavior.
+          {t("pages.instanceExperimentalSettings.optIntoFeaturesThatAreStill")}
         </p>
       </div>
 
@@ -280,10 +283,9 @@ export function InstanceExperimentalSettings() {
         <div className="flex items-start gap-3">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
           <div className="space-y-1 text-sm">
-            <p className="font-medium text-foreground">Experimental features may break at any time.</p>
+            <p className="font-medium text-foreground">{t("pages.instanceExperimentalSettings.experimentalFeaturesMayBreakAtAny")}</p>
             <p className="text-muted-foreground">
-              These features are opt-in and come with no compatibility guarantees. They may change, break, or be
-              removed without notice. Avoid relying on them for critical or production workflows.
+              {t("pages.instanceExperimentalSettings.theseFeaturesAreOptInAnd")}
             </p>
           </div>
         </div>
@@ -298,10 +300,10 @@ export function InstanceExperimentalSettings() {
       <section className="space-y-3" aria-labelledby="experimental-features-heading">
         <div className="space-y-1">
           <h2 id="experimental-features-heading" className="text-sm font-semibold">
-            Experimental features
+            {t("pages.instanceExperimentalSettings.experimentalFeatures")}
           </h2>
           <p className="text-sm text-muted-foreground">
-            Optional product features that are still being evaluated.
+            {t("pages.instanceExperimentalSettings.optionalProductFeaturesThatAreStill")}
           </p>
         </div>
 
@@ -332,7 +334,7 @@ export function InstanceExperimentalSettings() {
         <ExperimentalToggleCard
           title="Assistant connections (MCP)"
           description="Connect Codex, Claude, and other assistants to your Paperclip organization. People sign in, select an organization once, and approve access to review work, delegate tasks, and add feedback."
-          footnote={<>Requires an authenticated instance with a configured public URL. Takes effect immediately. Turning this off blocks assistant calls and event delivery; work already delegated continues.{experimentalQuery.data?.enablePublicMcp && <> <Link className="underline" to="/apps/assistant-connection">Set up an assistant connection</Link></>}</>}
+          footnote={<>Requires an authenticated instance with a configured public URL. Takes effect immediately. Turning this off blocks assistant calls and event delivery; work already delegated continues.{experimentalQuery.data?.enablePublicMcp && <> <Link className="underline" to="/apps/assistant-connection">{t("pages.instanceExperimentalSettings.setUpAnAssistantConnection")}</Link></>}</>}
           checked={experimentalQuery.data?.enablePublicMcp === true}
           onCheckedChange={(checked) => toggleMutation.mutate({ enablePublicMcp: checked })}
           disabled={toggleMutation.isPending}
@@ -646,10 +648,10 @@ export function InstanceExperimentalSettings() {
         <section className="space-y-3" aria-labelledby="developer-mode-heading">
           <div className="space-y-1">
             <h2 id="developer-mode-heading" className="text-sm font-semibold">
-              Paperclip Developer Mode
+              {t("pages.instanceExperimentalSettings.paperclipDeveloperMode")}
             </h2>
             <p className="text-sm text-muted-foreground">
-              Internal tools for developing, testing, and debugging Paperclip.
+              {t("pages.instanceExperimentalSettings.internalToolsForDevelopingTestingAnd")}
             </p>
           </div>
 
@@ -698,13 +700,11 @@ export function InstanceExperimentalSettings() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-1.5">
                     <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-sm font-semibold">Run tasks in this worktree</h3>
+                      <h3 className="text-sm font-semibold">{t("pages.instanceExperimentalSettings.runTasksInThisWorktree")}</h3>
                       {worktreeRunExecutionManaged ? <ManagedByCloudBadge /> : null}
                     </div>
                     <p className="max-w-2xl text-sm text-muted-foreground">
-                      This is an isolated git-worktree preview instance. Turn this on to let the scheduler execute runs
-                      here. Only tasks created after enabling will run automatically — copied/pre-existing tasks stay
-                      parked. Toggling off and on resets the cutoff.
+                      {t("pages.instanceExperimentalSettings.thisIsAnIsolatedGitWorktree")}
                     </p>
                   </div>
                   <ToggleSwitch
@@ -714,7 +714,7 @@ export function InstanceExperimentalSettings() {
                       toggleMutation.mutate({ enableWorktreeRunExecution: checked });
                     }}
                     disabled={toggleMutation.isPending || worktreeRunExecutionManaged}
-                    aria-label="Toggle worktree run execution setting"
+                    aria-label={t("pages.instanceExperimentalSettings.toggleWorktreeRunExecutionSetting")}
                   />
                 </div>
 
@@ -735,11 +735,11 @@ export function InstanceExperimentalSettings() {
                   <div className="flex items-start gap-2 rounded-md border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-sm">
                     <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-700" />
                     <div className="space-y-0.5">
-                      <p className="font-medium text-foreground">Execution is suppressed — effectively off.</p>
+                      <p className="font-medium text-foreground">{t("pages.instanceExperimentalSettings.executionIsSuppressedEffectivelyOff")}</p>
                       <p className="text-muted-foreground">
                         {worktreeRunExecutionState.reason === "instance_mismatch"
-                          ? "This setting was armed in a different instance and copied here, so no tasks run automatically."
-                          : "This setting is missing its activation cutoff, so no tasks run automatically."}{" "}
+                          ? t("pages.instanceExperimentalSettings.thisSettingWasArmedInA")
+                          : t("pages.instanceExperimentalSettings.thisSettingIsMissingItsActivation")}{" "}
                         Toggle it off and back on to arm execution for tasks created here.
                       </p>
                     </div>
@@ -792,9 +792,9 @@ export function InstanceExperimentalSettings() {
         <section className="space-y-3" aria-labelledby="legacy-heading">
           <div className="space-y-1">
             <h2 id="legacy-heading" className="text-sm font-semibold">
-              Legacy
+              {t("pages.instanceExperimentalSettings.legacy")}
             </h2>
-            <p className="text-sm text-muted-foreground">These features are going to be removed.</p>
+            <p className="text-sm text-muted-foreground">{t("pages.instanceExperimentalSettings.theseFeaturesAreGoingToBe")}</p>
           </div>
 
           <ExperimentalToggleCard
