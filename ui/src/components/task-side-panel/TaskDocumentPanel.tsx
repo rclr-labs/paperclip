@@ -5,49 +5,60 @@ import { FileQuestion, Loader2 } from "lucide-react";
 import { ApiError } from "@/api/client";
 import { issuesApi } from "@/api/issues";
 import { DocumentAnnotationsCountChip, IssueDocumentAnnotations } from "@/components/IssueDocumentAnnotations";
-import { MarkdownBody } from "@/components/MarkdownBody";
+import { DocumentMarkdownBody } from "@/components/DocumentMarkdownBody";
+import { QueryErrorState, useQueryView } from "@/components/QueryView";
 import { queryKeys } from "@/lib/queryKeys";
 import { documentDisplayTitle } from "@/lib/issue-artifacts";
 import { useLocation } from "@/lib/router";
-import { useTranslation } from "@/i18n";
 
 export function TaskDocumentPanel({
   issueId,
   documentKey,
   initialDocument,
+  revisionId,
+  documentIssueId,
+  currentIssueId = issueId,
 }: {
   issueId: string;
   documentKey: string;
   initialDocument?: IssueDocument;
+  revisionId?: string;
+  documentIssueId?: string;
+  currentIssueId?: string;
 }) {
-  const { t } = useTranslation();
   const location = useLocation();
   const [annotationPanelOpen, setAnnotationPanelOpen] = useState(false);
   const query = useQuery<IssueDocument | null>({
-    queryKey: [...queryKeys.issues.documents(issueId), documentKey],
+    queryKey: [...queryKeys.issues.documents(issueId), documentKey, ...(revisionId ? ["revision", revisionId] : [])],
     queryFn: async () => {
       try {
-        return await issuesApi.getDocument(issueId, documentKey);
+        const current = await issuesApi.getDocument(issueId, documentKey);
+        if (!revisionId) return current;
+        const revision = await issuesApi.getDocumentRevision(issueId, documentKey, revisionId);
+        return { ...current, title: revision.title, body: revision.body, format: revision.format,
+          latestRevisionId: revision.id, latestRevisionNumber: revision.revisionNumber, updatedAt: revision.createdAt };
       } catch (error) {
         if (error instanceof ApiError && error.status === 404) return null;
         throw error;
       }
     },
-    initialData: initialDocument,
+    initialData: revisionId ? undefined : initialDocument,
   });
 
-  if (query.isLoading) {
+  const view = useQueryView(query);
+
+  if (query.isLoading || view.kind === "reconnecting") {
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground" role="status">
         <Loader2 className="size-4 animate-spin" aria-hidden />
-        {t("components.tasksidepanel.taskDocumentPanel.loadingDocument")}
+        Loading document…
       </div>
     );
   }
-  if (query.isError) {
+  if (view.kind === "error") {
     return (
-      <div className="py-8 text-sm text-muted-foreground" role="alert">
-        {t("components.tasksidepanel.taskDocumentPanel.theDocumentCouldNotBeLoaded")}
+      <div className="py-6">
+        <QueryErrorState error={query.error} action="load the document" onRetry={view.retry} retrying={view.isFetching} />
       </div>
     );
   }
@@ -57,9 +68,9 @@ export function TaskDocumentPanel({
       <div className="flex items-start gap-3 py-8 text-sm" role="status">
         <FileQuestion className="mt-0.5 size-5 shrink-0 text-muted-foreground" aria-hidden />
         <div className="space-y-1">
-          <p className="font-medium">{t("components.tasksidepanel.taskDocumentPanel.documentNoLongerAvailable")}</p>
+          <p className="font-medium">{revisionId ? "Reviewed revision unavailable" : "Document no longer available"}</p>
           <p className="text-muted-foreground">
-            {t("components.tasksidepanel.taskDocumentPanel.thisTabIsPreservedSoThe")}
+            {revisionId ? "The exact reviewed revision could not be found. The current version has not been substituted." : "Close this tab or choose another document."}
           </p>
         </div>
       </div>
@@ -74,12 +85,12 @@ export function TaskDocumentPanel({
           <span>{`Revision ${document.latestRevisionNumber ?? 1}`}</span>
           <span aria-hidden>·</span>
           <span>{`Updated ${new Date(document.updatedAt).toLocaleString()}`}</span>
-          <DocumentAnnotationsCountChip
+          {!revisionId ? <DocumentAnnotationsCountChip
             issueId={issueId}
             docKey={document.key}
             panelOpen={annotationPanelOpen}
             onToggle={() => setAnnotationPanelOpen((open) => !open)}
-          />
+          /> : <span>· Reviewed version</span>}
         </div>
       </header>
       {document.body.trim() ? (
@@ -89,16 +100,19 @@ export function TaskDocumentPanel({
           bodyMarkdown={document.body}
           draftDirty={false}
           draftConflicted={false}
-          historicalPreview={false}
+          historicalPreview={!!revisionId}
           locationHash={location.hash}
           panelOpen={annotationPanelOpen}
           onPanelOpenChange={setAnnotationPanelOpen}
           panelPlacement="popover"
         >
-          <MarkdownBody>{document.body}</MarkdownBody>
+          <DocumentMarkdownBody documentKey={document.key} revisionId={revisionId}
+            documentIssueId={documentIssueId} currentIssueId={currentIssueId}>
+            {document.body}
+          </DocumentMarkdownBody>
         </IssueDocumentAnnotations>
       ) : (
-        <p className="text-sm text-muted-foreground">{t("components.tasksidepanel.taskDocumentPanel.documentIsEmpty")}</p>
+        <p className="text-sm text-muted-foreground">Document is empty.</p>
       )}
     </article>
   );

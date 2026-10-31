@@ -4,7 +4,6 @@ import { Copy, Check, Loader2 } from "lucide-react";
 
 import { Button } from "./ui/button";
 import { copyTextToClipboard } from "../lib/clipboard";
-import { useTranslation } from "@/i18n";
 import {
   CARD_REVEAL_FIELD,
   CARD_REVEAL_INSTRUCTION,
@@ -51,6 +50,7 @@ export const CONNECT_SOURCE_NAMES: Record<string, string> = {
   claude_local: "Claude",
   codex_local: "OpenAI",
   grok_local: "Grok",
+  antigravity_runtime: "Google",
 };
 
 /** The provider name for a source, falling back to the type when unlisted. */
@@ -90,13 +90,12 @@ export function OnboardingLoginCard({
   loading?: boolean;
   children: ReactNode;
 }) {
-  const { t } = useTranslation();
   if (loading) {
     return (
       <div
         className="flex min-h-(--sz-108px) items-center justify-center rounded-xl bg-muted/40"
         role="status"
-        aria-label={t("components.adapterLoginChrome.preparingTheSignIn")}
+        aria-label="Preparing the sign-in"
       >
         <Loader2 className="size-4 animate-spin text-muted-foreground" />
       </div>
@@ -226,7 +225,6 @@ export function OnboardingLoginCodeRow({
   code: string;
   autoCopy?: boolean;
 }) {
-  const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoCopiedRef = useRef(false);
@@ -307,7 +305,7 @@ export function OnboardingLoginCodeRow({
             animate={{ opacity: 1, y: 0, transition: COPIED_REVEAL }}
             exit={{ opacity: 0, transition: COPIED_REVEAL }}
           >
-            {t("components.adapterLoginChrome.copied")}
+            Copied!
           </motion.span>
         )}
       </AnimatePresence>
@@ -426,11 +424,10 @@ export function ProviderSubscriptionCard({
 }: {
   providerName: string;
   authorizationUrl?: string;
-  mode: "submitted_code" | "displayed_code";
+  mode: "submitted_code" | "displayed_code" | "browser_redirect";
   loading?: boolean;
   children: ReactNode;
 }) {
-  const { t } = useTranslation();
   return (
     <OnboardingLoginCard
       loading={loading}
@@ -441,10 +438,13 @@ export function ProviderSubscriptionCard({
             target="_blank"
             rel="noreferrer noopener"
             className="underline underline-offset-2 hover:text-foreground"
-          >{t("components.adapterLoginChrome.signInTo", { providerName })}</a>
-          {mode === "submitted_code"
-            ? t("components.adapterLoginChrome.thenComeBackAndEnterAuthorization")
-            : t("components.adapterLoginChrome.byProvidingTheAuthorizationCodeBelow")}
+          >
+            Sign in to {providerName}
+          </a>
+          {mode === "browser_redirect" ? " then return here"
+            : mode === "submitted_code"
+            ? " then come back and enter authorization code"
+            : " by providing the authorization code below"}
         </>
       }
     >
@@ -471,16 +471,15 @@ export function ProviderApiKeyCard({
 /** Shared instructions for local subscription setup in every authentication host. */
 export function LocalProviderLoginInstructions({ adapterType, login }: {
   adapterType: string;
-  login?: { isolated?: boolean; command?: string; authorizationUrl?: string | null; code?: string | null; submitCode?: (code: string) => Promise<void>; preparing: boolean; status?: "ready" | "sign_in_required" | "expired" | null; error: string | null; retry: () => void };
+  login?: { isolated?: boolean; command?: string; authorizationUrl?: string | null; code?: string | null; accountLabel?: string | null; submitCode?: (code: string) => Promise<void>; preparing: boolean; status?: "ready" | "sign_in_required" | "expired" | null; error: string | null; retry: () => void };
 }) {
-  const { t } = useTranslation();
   const [showCommand, setShowCommand] = useState(false);
   const [browserCode, setBrowserCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const provider = adapterType === "claude_local" ? "Claude Code" : adapterType === "grok_local" ? "Grok CLI" : "Codex CLI";
+  const provider = adapterType === "antigravity_runtime" ? "Google Antigravity" : adapterType === "claude_local" ? "Claude Code" : adapterType === "grok_local" ? "Grok CLI" : "Codex CLI";
   const isolated = login?.isolated ?? (adapterType === "codex_local" || adapterType === "grok_local");
   const command = login?.command;
-  const browserLogin = adapterType === "claude_local" || adapterType === "codex_local";
+  const browserLogin = adapterType === "claude_local" || adapterType === "codex_local" || adapterType === "antigravity_runtime";
   async function submitBrowserCode() {
     if (!browserCode.trim() || !login?.submitCode || submitting) return;
     setSubmitting(true);
@@ -493,18 +492,18 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
       setSubmitting(false);
     }
   }
-  if (login?.preparing) return <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />{t("components.adapterLoginChrome.preparingSignIn")}</p>;
+  if (login?.preparing) return <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground"><Loader2 className="size-4 animate-spin" />Preparing sign-in…</p>;
   const ready = login?.status === "ready";
   return <div className="min-w-0 max-w-full space-y-3 text-sm text-muted-foreground">
     {ready ? <>
-      <p role="status" className="flex items-center gap-2 text-foreground"><Check className="size-4 shrink-0 text-(--status-task-icon-done)" />{provider} is signed in. Click Connect to use this account.</p>
-      {!showCommand && <button type="button" className="underline underline-offset-4" onClick={() => browserLogin ? login?.retry() : setShowCommand(true)}>{t("components.adapterLoginChrome.useADifferentAccount")}</button>}
+      <p role="status" className="flex items-center gap-2 text-foreground"><Check className="size-4 shrink-0 text-(--status-task-icon-done)" />{login?.accountLabel ?? provider} is signed in. Click Connect to use this account.</p>
+      {!showCommand && <button type="button" className="underline underline-offset-4" onClick={() => browserLogin ? login?.retry() : setShowCommand(true)}>Use a different account</button>}
     </> : !browserLogin && <p>{isolated ? `Sign in to ${provider} for this connection on the machine running Paperclip. Your existing terminal login stays separate.` : `Connect uses your local ${provider} account on the machine running Paperclip.`}</p>}
-    {browserLogin && !ready && !login?.authorizationUrl && !login?.error && <p role="status">{t("components.adapterLoginChrome.preparingBrowserSignIn")}</p>}
+    {browserLogin && !ready && !login?.authorizationUrl && !login?.error && <p role="status">Preparing browser sign-in…</p>}
     {browserLogin && !ready && !login?.error && login?.authorizationUrl && <ProviderSubscriptionCard
       providerName={connectSourceName(adapterType)}
       authorizationUrl={login.authorizationUrl}
-      mode={adapterType === "claude_local" ? "submitted_code" : "displayed_code"}
+      mode={adapterType === "antigravity_runtime" ? "browser_redirect" : adapterType === "claude_local" ? "submitted_code" : "displayed_code"}
     >
       {adapterType === "claude_local" ? <div className="flex flex-col gap-2">
         <OnboardingCardField
@@ -513,17 +512,17 @@ export function LocalProviderLoginInstructions({ adapterType, login }: {
           onSubmit={() => void submitBrowserCode()}
           disabled={submitting}
         />
-        <Button type="button" disabled={!browserCode.trim() || submitting} onClick={() => void submitBrowserCode()}>{t("components.adapterLoginChrome.submitCode")}</Button>
-      </div> : <OnboardingLoginCodeRow code={login.code ?? ""} />}
+        <Button type="button" disabled={!browserCode.trim() || submitting} onClick={() => void submitBrowserCode()}>Submit code</Button>
+      </div> : adapterType === "antigravity_runtime" ? <p>Finish signing in in the Google browser window, then return here.</p> : <OnboardingLoginCodeRow code={login.code ?? ""} />}
     </ProviderSubscriptionCard>}
     {!browserLogin && (!ready || showCommand) && !login?.error && <>
-      <p>{t("components.adapterLoginChrome.runThisInATerminalOn")}</p>
+      <p>Run this in a terminal on that machine and finish signing in in your browser. We’ll check automatically when you return.</p>
       {command && <div className="flex min-w-0 max-w-full items-start gap-2 rounded-md border bg-muted p-3 text-foreground">
         <pre className="min-w-0 flex-1 whitespace-pre-wrap break-all font-mono text-xs"><code>{command}</code></pre>
         <LoginCardCopyButton value={command} label="Copy sign-in command" />
       </div>}
     </>}
     {login?.error && <p role="alert">{login.error}</p>}
-    {login && !login.preparing && !ready && (isolated || login.error) && <button type="button" className="underline underline-offset-4" onClick={login.retry}>{isolated ? t("components.adapterLoginChrome.startSignInAgain") : t("components.adapterLoginChrome.checkAgain")}</button>}
+    {login && !login.preparing && !ready && (isolated || login.error) && <button type="button" className="underline underline-offset-4" onClick={login.retry}>{isolated ? "Start sign-in again" : "Check again"}</button>}
   </div>;
 }

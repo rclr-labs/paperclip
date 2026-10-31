@@ -33,6 +33,7 @@ import {
 } from "@/components/ui/dialog";
 import { SearchableSelect, type SearchableSelectGroup } from "@/components/SearchableSelect";
 import { Skeleton } from "@/components/ui/skeleton";
+import { QueryErrorState, useQueryView } from "@/components/QueryView";
 import { agentsApi } from "@/api/agents";
 import { accessApi } from "@/api/access";
 import { issuesApi } from "@/api/issues";
@@ -40,7 +41,6 @@ import { useToastActions } from "@/context/ToastContext";
 import { queryKeys } from "@/lib/queryKeys";
 import { timeAgo } from "@/lib/timeAgo";
 import { cn } from "@/lib/utils";
-import { useTranslation, Trans } from "@/i18n";
 import {
   agentVisibilityFromPermissions,
   grantIsRevocable,
@@ -181,7 +181,6 @@ export function IssueShareSheet({
   /** Pre-selected add subject (`type:id`), used by stories/tests to show the caution. */
   initialAddSelection?: string;
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [view, setView] = useState<"list" | "add">(initialView);
@@ -297,9 +296,10 @@ export function IssueShareSheet({
     addMutation.mutate({ subjectType, subjectId });
   }
 
-  const isLoading = grantsQuery.isLoading;
-  const isError = grantsQuery.isError;
-  const isEmpty = !isLoading && !isError && activeGrants.length === 0 && implicitPrincipals.length === 0;
+  const grantsView = useQueryView(grantsQuery);
+  const isLoading = grantsQuery.isLoading || grantsView.kind === "reconnecting";
+  const loadFailed = grantsView.kind === "error";
+  const isEmpty = !isLoading && !loadFailed && activeGrants.length === 0 && implicitPrincipals.length === 0;
 
   return (
     <Dialog open={open} onOpenChange={resetAndClose}>
@@ -307,7 +307,7 @@ export function IssueShareSheet({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lock className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />
-            {t("components.issueShareSheet.whoCanAccessThisTask")}
+            Who can access this task
           </DialogTitle>
           <DialogDescription>{aclDescription}</DialogDescription>
         </DialogHeader>
@@ -326,22 +326,18 @@ export function IssueShareSheet({
                   </div>
                 ))}
               </div>
-            ) : isError ? (
-              <div
-                className="flex items-center justify-between gap-2 rounded-md border border-destructive/30 bg-destructive/5 px-3 py-2 text-sm text-destructive"
-                data-testid="share-sheet-error"
-              >
-                <span className="flex items-center gap-1.5">
-                  <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                  {t("components.issueShareSheet.couldnTLoadAccess")}
-                </span>
-                <Button variant="ghost" size="sm" onClick={() => grantsQuery.refetch()}>
-                  <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.retry")}
-                </Button>
+            ) : loadFailed ? (
+              <div data-testid="share-sheet-error">
+                <QueryErrorState
+                  error={grantsQuery.error}
+                  action="load access"
+                  onRetry={grantsView.retry}
+                  retrying={grantsView.isFetching}
+                />
               </div>
             ) : isEmpty ? (
               <p className="py-3 text-sm text-muted-foreground" data-testid="share-sheet-empty">
-                {t("components.issueShareSheet.onlyYouCanSeeThisTask")}
+                Only you can see this task.
               </p>
             ) : (
               <div className="divide-y divide-border/60">
@@ -414,7 +410,7 @@ export function IssueShareSheet({
                   onClick={() => setView("add")}
                   disabled={isLoading}
                 >
-                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> {t("components.issueShareSheet.addSomeone")}
+                  <UserPlus className="h-3.5 w-3.5" aria-hidden="true" /> Add someone
                 </Button>
               </div>
             ) : null}
@@ -427,7 +423,7 @@ export function IssueShareSheet({
               renderValue={(option) => option ? renderAccessIdentity(option) : "Choose a person or agent…"}
               renderOption={renderAccessIdentity}
               onValueChange={(value) => setAddSelection(value)}
-              placeholder={t("components.issueShareSheet.chooseAPersonOrAgent")}
+              placeholder="Choose a person or agent…"
               searchPlaceholder="Search people and agents…"
               loading={directoryQuery.isLoading || agentsQuery.isLoading}
               loadingMessage="Loading directory…"
@@ -438,13 +434,13 @@ export function IssueShareSheet({
             {selectedSharedAgentName ? (
               <div
                 role="note"
-                aria-label={t("components.issueShareSheet.sharedAgentCaution")}
+                aria-label="Shared agent caution"
                 data-testid="shared-agent-caution"
                 className="flex items-start gap-2 rounded-md border border-border bg-muted px-3 py-2 text-xs leading-relaxed text-foreground"
               >
                 <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                 <span>
-                  <span className="font-semibold">{t("components.issueShareSheet.sharedAgent")}</span> {selectedSharedAgentName}'s
+                  <span className="font-semibold">Shared agent.</span> {selectedSharedAgentName}'s
                   memory &amp; workspace may carry residual private context from this task into its
                   later runs for other people. Grant only if that's acceptable.
                 </span>
@@ -460,10 +456,10 @@ export function IssueShareSheet({
                   setAddSelection("");
                 }}
               >
-                {t("components.issueShareSheet.back")}
+                Back
               </Button>
               <Button size="sm" onClick={submitAdd} disabled={!addSelection || addMutation.isPending}>
-                {addMutation.isPending ? t("components.issueShareSheet.adding") : t("components.issueShareSheet.add")}
+                {addMutation.isPending ? "Adding…" : "Add"}
               </Button>
             </div>
           </div>
@@ -479,17 +475,17 @@ export function IssueShareSheet({
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Remove {revokeTarget?.subjectDisplayName ?? t("components.issueShareSheet.thisSubject")}'s saved grant?
+              Remove {revokeTarget?.subjectDisplayName ?? "this subject"}'s saved grant?
             </AlertDialogTitle>
-            <AlertDialogDescription><Trans i18nKey="components.issueShareSheet.thisRemovesThisGrantAndThe">
+            <AlertDialogDescription>
               This removes this grant and the access it supplies to this task's descendants.
               Ownership, current assignment, project membership, inherited access, or another grant
               can still provide access. Revoking access does <span className="font-semibold">not</span> erase
               content already seen or retained in an agent's memory.
-            </Trans></AlertDialogDescription>
+            </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("components.issueShareSheet.cancel")}</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
               onClick={(event) => {
@@ -498,7 +494,7 @@ export function IssueShareSheet({
               }}
               disabled={revokeMutation.isPending}
             >
-              {revokeMutation.isPending ? t("components.issueShareSheet.removing") : t("components.issueShareSheet.removeGrant")}
+              {revokeMutation.isPending ? "Removing…" : "Remove grant"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

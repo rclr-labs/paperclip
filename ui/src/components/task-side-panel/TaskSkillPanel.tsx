@@ -1,51 +1,45 @@
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, FileText, Loader2, Wrench } from "lucide-react";
 import { companySkillsApi } from "@/api/companySkills";
-import { ApiError } from "@/api/client";
 import { MarkdownBody } from "@/components/MarkdownBody";
+import { QueryErrorState, useQueryView } from "@/components/QueryView";
 import { Button } from "@/components/ui/button";
 import { queryKeys } from "@/lib/queryKeys";
 import { useNavigate } from "@/lib/router";
 import { parseFrontmatterMarkdown } from "@paperclipai/shared";
-import { useTranslation } from "@/i18n";
 
 export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skillId: string }) {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const query = useQuery({
     queryKey: queryKeys.companySkills.detail(companyId, skillId),
     queryFn: () => companySkillsApi.detail(companyId, skillId),
-    retry: false,
     refetchOnWindowFocus: true,
     refetchOnMount: "always",
   });
-  if (query.isLoading) {
+  const view = useQueryView(query);
+  if (query.isLoading || view.kind === "reconnecting") {
     return (
       <div className="flex items-center gap-2 py-8 text-sm text-muted-foreground" role="status">
         <Loader2 className="size-4 animate-spin" aria-hidden />
-        {t("components.tasksidepanel.taskSkillPanel.loadingSkill")}
+        Loading skill…
       </div>
     );
   }
-  if (query.isError) {
-    const status = query.error instanceof ApiError ? query.error.status : null;
-    if (status === 404) {
-      return <div className="py-8 text-sm text-muted-foreground" role="status">{t("components.tasksidepanel.taskSkillPanel.skillNoLongerAvailable")}</div>;
+  if (view.kind === "error") {
+    if (view.errorKind === "not_found") {
+      return <div className="py-8 text-sm text-muted-foreground" role="status">Skill no longer available.</div>;
     }
-    if (status === 403) {
-      return <div className="py-8 text-sm text-muted-foreground" role="alert">{t("components.tasksidepanel.taskSkillPanel.youDoNotHaveAccessTo")}</div>;
+    if (view.errorKind === "forbidden") {
+      return <div className="py-8 text-sm text-muted-foreground" role="alert">You do not have access to this skill.</div>;
     }
     return (
-      <div className="space-y-3 py-8 text-sm text-muted-foreground" role="alert">
-        <p>{t("components.tasksidepanel.taskSkillPanel.theSkillCouldNotBeLoaded")}</p>
-        <Button variant="outline" size="sm" onClick={() => void query.refetch()} disabled={query.isFetching}>
-          {query.isFetching ? t("components.tasksidepanel.taskSkillPanel.retrying") : t("components.tasksidepanel.taskSkillPanel.retry")}
-        </Button>
+      <div className="py-6">
+        <QueryErrorState error={query.error} action="load the skill" onRetry={view.retry} retrying={view.isFetching} />
       </div>
     );
   }
   if (!query.data) {
-    return <div className="py-8 text-sm text-muted-foreground" role="status">{t("components.tasksidepanel.taskSkillPanel.skillNoLongerAvailable")}</div>;
+    return <div className="py-8 text-sm text-muted-foreground" role="status">Skill no longer available.</div>;
   }
   const skill = query.data;
   const previewMarkdown = parseFrontmatterMarkdown(skill.markdown).body;
@@ -63,20 +57,20 @@ export function TaskSkillPanel({ companyId, skillId }: { companyId: string; skil
             onClick={() => navigate(`/skills/studio/${encodeURIComponent(skill.id)}`)}
           >
             <ExternalLink className="mr-1.5 size-3.5" aria-hidden />
-            {t("components.tasksidepanel.taskSkillPanel.openInSkillStudio")}
+            Open in Skill Studio
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          {skill.slug} · {skill.currentVersion ? `Revision ${skill.currentVersion.revisionNumber}` : t("components.tasksidepanel.taskSkillPanel.currentVersion")}
+          {skill.slug} · {skill.currentVersion ? `Revision ${skill.currentVersion.revisionNumber}` : "Current version"}
         </p>
       </header>
       {skill.description ? <p className="text-sm text-muted-foreground">{skill.description}</p> : null}
       <section className="space-y-2">
         <h3 className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
           <FileText className="size-3.5" aria-hidden />
-          {t("components.tasksidepanel.taskSkillPanel.skillInstructions")}
+          Skill instructions
         </h3>
-        <MarkdownBody>{previewMarkdown || t("components.tasksidepanel.taskSkillPanel.skillInstructionsAreEmpty")}</MarkdownBody>
+        <MarkdownBody>{previewMarkdown || "Skill instructions are empty."}</MarkdownBody>
       </section>
     </article>
   );

@@ -1,13 +1,14 @@
 import { useCallback } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { HeartbeatRun } from "@paperclipai/shared";
+import { isNativeWorkspaceExportRepairCause } from "@paperclipai/shared";
+import { RunWorkspaceSourceInspection } from "./RunWorkspaceSourceInspection";
 import { useNavigate } from "@/lib/router";
 import { issuesApi } from "../api/issues";
 import { executionWorkspacesApi } from "../api/execution-workspaces";
 import { accessApi } from "../api/access";
 import { queryKeys } from "../lib/queryKeys";
 import { useToastActions } from "../context/ToastContext";
-import { useTranslation } from "@/i18n";
 import {
   IssueRecoveryActionCard,
   type RecoveryReissueRequest,
@@ -53,7 +54,14 @@ function readRunIssueId(run: HeartbeatRun): string | null {
  * a live `workspace_validation` recovery action.
  */
 export function RunWorkspaceRecoverySurface({ run }: { run: HeartbeatRun }) {
-  const { t } = useTranslation();
+  const issueId = readRunIssueId(run);
+  const cause = run.execution?.cause ?? run.errorCode;
+  if (issueId && (isNativeWorkspaceExportRepairCause(cause) || cause === "native_workspace_sync_out_unrecoverable"))
+    return <RunWorkspaceSourceInspection key={run.id} issueId={issueId} runId={run.id} />;
+  return <WorkspaceValidationRecoverySurface run={run} />;
+}
+
+function WorkspaceValidationRecoverySurface({ run }: { run: HeartbeatRun }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
@@ -257,7 +265,7 @@ export function RunWorkspaceRecoverySurface({ run }: { run: HeartbeatRun }) {
   return (
     <div className="space-y-2" data-testid="run-workspace-recovery-surface">
       <div className="flex items-center justify-between gap-2">
-        <span className="text-xs font-medium text-muted-foreground">{t("components.runWorkspaceRecoverySurface.workspaceRecovery")}</span>
+        <span className="text-xs font-medium text-muted-foreground">Workspace recovery</span>
         {issue?.identifier ? (
           <a
             href={`/issues/${issue.identifier}`}

@@ -2,7 +2,6 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { PauseCircle, PlayCircle, Repeat, XCircle } from "lucide-react";
 import { Button } from "./ui/button";
-import { useTranslation } from "@/i18n";
 import {
   Dialog,
   DialogContent,
@@ -36,7 +35,6 @@ export function TaskTreeControlMenuItems({
   onCancel: () => void;
   onRestore: () => void;
 }) {
-  const { t } = useTranslation();
   const itemClass =
     "flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50 disabled:opacity-50 disabled:pointer-events-none";
   return (
@@ -44,13 +42,13 @@ export function TaskTreeControlMenuItems({
       {canPause ? (
         <button disabled={pending} className={itemClass} onClick={onPause}>
           <PauseCircle className="h-3 w-3" />
-          {scope === "leaf" ? t("components.taskTreeControls.pauseWork") : t("components.taskTreeControls.pauseSubtree")}
+          {scope === "leaf" ? "Pause work" : "Pause subtree"}
         </button>
       ) : null}
       {canResume ? (
         <button disabled={pending} className={itemClass} onClick={onResume}>
           <PlayCircle className="h-3 w-3" />
-          {scope === "leaf" ? t("components.taskTreeControls.resumeWork") : t("components.taskTreeControls.resumeSubtree")}
+          {scope === "leaf" ? "Resume work" : "Resume subtree"}
         </button>
       ) : null}
       {canCancel ? (
@@ -60,13 +58,13 @@ export function TaskTreeControlMenuItems({
           onClick={onCancel}
         >
           <XCircle className="h-3 w-3" />
-          {t("components.taskTreeControls.cancelSubtree")}
+          Cancel subtree...
         </button>
       ) : null}
       {canRestore ? (
         <button disabled={pending} className={itemClass} onClick={onRestore}>
           <Repeat className="h-3 w-3" />
-          {t("components.taskTreeControls.restoreSubtree")}
+          Restore subtree...
         </button>
       ) : null}
     </>
@@ -80,6 +78,7 @@ export function TaskTreeControlDialog({
   scope,
   affectedCount,
   affectedAgentCount,
+  warnings = [],
   loading,
   error,
   pending,
@@ -95,6 +94,7 @@ export function TaskTreeControlDialog({
   scope: "leaf" | "subtree";
   affectedCount: number;
   affectedAgentCount: number;
+  warnings?: string[];
   loading: boolean;
   error?: string | null;
   pending: boolean;
@@ -104,7 +104,6 @@ export function TaskTreeControlDialog({
   onRetry: () => void;
   onApply: () => void;
 }) {
-  const { t } = useTranslation();
   const cancel = mode === "cancel";
   const tasks = `${affectedCount} task${affectedCount === 1 ? "" : "s"}`;
   const title = cancel
@@ -129,10 +128,12 @@ export function TaskTreeControlDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
             {loading
-              ? t("components.taskTreeControls.loading")
+              ? "Loading…"
               : cancel
                 ? `${tasks} will be cancelled.`
-                : `${tasks} will ${mode === "restore" ? t("components.taskTreeControls.beRestored") : "resume"}.`}
+                : mode === "restore"
+                  ? `${tasks} will be restored.`
+                  : `The pause will be removed from ${tasks}.`}
           </DialogDescription>
         </DialogHeader>
         {error ? (
@@ -146,7 +147,7 @@ export function TaskTreeControlDialog({
               disabled={pending}
               onClick={onRetry}
             >
-              {t("components.taskTreeControls.retryPreview")}
+              Retry preview
             </Button>
           </div>
         ) : null}
@@ -154,20 +155,23 @@ export function TaskTreeControlDialog({
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"
-              checked={wakeAgents}
+              checked={wakeAgents && affectedAgentCount > 0}
               disabled={pending || loading || affectedAgentCount === 0}
               onChange={(event) => onWakeAgentsChange(event.target.checked)}
             />
             Wake affected agents ({affectedAgentCount})
           </label>
         ) : null}
+        {!loading ? warnings.map((warning) => (
+          <p key={warning} className="text-sm text-muted-foreground">{warning}</p>
+        )) : null}
         <DialogFooter>
           <Button
             variant="outline"
             disabled={pending}
             onClick={() => onOpenChange(false)}
           >
-            {cancel ? t("components.taskTreeControls.keepTasks") : t("components.taskTreeControls.close")}
+            {cancel ? "Keep tasks" : "Close"}
           </Button>
           <Button
             variant={cancel ? "destructive" : "default"}
@@ -175,7 +179,7 @@ export function TaskTreeControlDialog({
             onClick={onApply}
           >
             {pending
-              ? t("components.taskTreeControls.applying")
+              ? "Applying…"
               : cancel
                 ? `Cancel ${tasks}`
                 : mode === "restore"
@@ -202,7 +206,6 @@ export function TaskPauseNotice({
   className?: string;
   resumeLink?: ReactNode;
 }) {
-  const { t } = useTranslation();
   return (
     <div
       role="status"
@@ -212,7 +215,7 @@ export function TaskPauseNotice({
       )}
     >
       <span>
-        {scope === "subtree" ? t("components.taskTreeControls.subtreeIsPaused") : t("components.taskTreeControls.taskIsPaused")}
+        {scope === "subtree" ? "Subtree is paused." : "Task is paused."}
       </span>
       {resumeLink ??
         (onResume ? (
@@ -222,7 +225,7 @@ export function TaskPauseNotice({
             disabled={pending}
             onClick={onResume}
           >
-            {scope === "subtree" ? t("components.taskTreeControls.resumeSubtree") : t("components.taskTreeControls.resumeWork")}
+            {scope === "subtree" ? "Resume subtree" : "Resume work"}
           </Button>
         ) : null)}
     </div>

@@ -1,10 +1,14 @@
+import { TranscriptSequence } from "../lib/transcript-sequence";
+import { readTranscriptRequest } from "../components/transcript/read-transcript-request";
+import { useTranscriptLiveStream } from "../context/LiveUpdatesProvider";
+import { liveRunEvent, mergeRunEvents } from "../lib/live-run-event";
 import { useSelectedHeartbeatRun } from "../hooks/useSelectedHeartbeatRun";
 import { AgentCharacter } from "../components/AgentCharacter";
 import { characterStateForAgent } from "@paperclipai/shared";
 import { mergeRunLogChunks, readChunkSeq } from "../lib/run-log-chunks";
-import { getPageVisibility, usePageVisibility } from "../lib/page-visibility";
+import { usePageVisibility } from "../lib/page-visibility";
 import { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { useParams, useNavigate, Link, Navigate, useBeforeUnload, type NavigateFunction } from "@/lib/router";
+import { useParams, useNavigate, useLocation, Link, Navigate, useBeforeUnload, type NavigateFunction } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import {
   agentsApi,
@@ -52,19 +56,19 @@ import { StarToggle } from "../components/StarToggle";
 import { Identity } from "../components/Identity";
 import { AuditFeed } from "./audit/AuditFeed.production";
 import { PageSkeleton } from "../components/PageSkeleton";
+import { QueryErrorState, useQueryView } from "../components/QueryView";
 import { AgentActionButtons } from "../components/AgentActionButtons";
 import { InlineBanner } from "../components/InlineBanner";
 import { BuiltInBundlePanel } from "../components/BuiltInBundlePanel";
 import { ConfigureBuiltInAgentModal } from "../components/ConfigureBuiltInAgentModal";
 import { BudgetPolicyCard } from "../components/BudgetPolicyCard";
 import { TrustPresetSection } from "../components/TrustPresetSection";
+import { AgentProjectAccessSettings } from "../components/AgentProjectAccessSettings";
 import { FileTree, buildFileTree } from "../components/FileTree";
 import { ScrollToBottom } from "../components/ScrollToBottom";
 import { SourceResolvedFoldCallout } from "../components/SourceResolvedFoldCallout";
 import { SourceResolvedFoldBadge } from "../components/SourceResolvedFoldBadge";
 import { readSourceResolvedWatchdogFold } from "../lib/source-resolved-watchdog-fold";
-import { buildSameOriginWebSocketUrl } from "../lib/websocket-url";
-import { tryCreateWebSocket } from "../lib/websocket";
 import { formatCents, formatDate, relativeTime, formatTokens, visibleRunCostUsd, visibleRunTokenTotal } from "../lib/utils";
 import { cn } from "../lib/utils";
 import { describeRunRetryState } from "../lib/runRetryState";
@@ -100,7 +104,6 @@ import { AgentToolsTab } from "./AgentToolsTab";
 import { AgentChannelsPanel } from "../components/chat/AgentChannelsPanel";
 import { useChatConnectorsEnabled } from "@/hooks/useChatConnectorsEnabled";
 import {
-  appendCapped,
   LIVE_TRANSCRIPT_RENDER_LIMIT,
   MAX_LIVE_EVENTS,
   MAX_LIVE_LOG_LINES,
@@ -130,7 +133,6 @@ import {
   useResourceMemberships,
 } from "../hooks/useResourceMemberships";
 import { Badge } from "@/components/ui/badge";
-import { useTranslation } from "@/i18n";
 
 const runStatusIcons: Record<string, { icon: typeof CheckCircle2; color: string }> = {
   succeeded: { icon: CheckCircle2, color: "text-green-600 dark:text-green-400" },
@@ -439,7 +441,6 @@ export function RunInvocationCard({
   payload: Record<string, unknown>;
   censorUsernameInLogs: boolean;
 }) {
-  const { t } = useTranslation();
   const rawCommandLine = [
     typeof payload.command === "string" ? payload.command : null,
     ...(Array.isArray(payload.commandArgs)
@@ -459,18 +460,18 @@ export function RunInvocationCard({
 
   return (
     <div className="rounded-lg border border-border bg-background/60 p-3 space-y-2">
-      <div className="text-xs font-medium text-muted-foreground">{t("pages.agentDetailproduction.invocation")}</div>
+      <div className="text-xs font-medium text-muted-foreground">Invocation</div>
       {typeof payload.adapterType === "string" && (
         <div className="text-xs"><span className="text-muted-foreground">Adapter: </span>{payload.adapterType}</div>
       )}
       {typeof payload.cwd === "string" && (
-        <div className="text-xs break-all"><span className="text-muted-foreground">{t("pages.agentDetailproduction.workingDir")} </span><span className="font-mono">{payload.cwd}</span></div>
+        <div className="text-xs break-all"><span className="text-muted-foreground">Working dir: </span><span className="font-mono">{payload.cwd}</span></div>
       )}
       {hasAdvancedDetails && (
         <Collapsible>
           <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
             <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-            {t("pages.agentDetailproduction.details")}
+            Details
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
             {commandLine && (
@@ -481,7 +482,7 @@ export function RunInvocationCard({
             )}
             {Array.isArray(payload.commandNotes) && payload.commandNotes.length > 0 && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetailproduction.commandNotes")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Command notes</div>
                 <ul className="list-disc pl-5 space-y-1">
                   {payload.commandNotes
                     .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
@@ -495,7 +496,7 @@ export function RunInvocationCard({
             )}
             {payload.prompt !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetailproduction.prompt")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Prompt</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap">
                   {typeof payload.prompt === "string"
                     ? redactPathText(payload.prompt, censorUsernameInLogs)
@@ -505,7 +506,7 @@ export function RunInvocationCard({
             )}
             {payload.context !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetailproduction.context")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Context</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap">
                   {JSON.stringify(redactPathValue(payload.context, censorUsernameInLogs), null, 2)}
                 </pre>
@@ -513,7 +514,7 @@ export function RunInvocationCard({
             )}
             {payload.env !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetailproduction.environment")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Environment</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap font-mono">
                   {formatEnvForDisplay(payload.env, censorUsernameInLogs)}
                 </pre>
@@ -598,7 +599,6 @@ function WorkspaceOperationLogViewer({
   operation: WorkspaceOperation;
   censorUsernameInLogs: boolean;
 }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { data: logData, isLoading, error } = useQuery({
     queryKey: ["workspace-operation-log", operation.id],
@@ -619,18 +619,18 @@ function WorkspaceOperationLogViewer({
         className="text-(length:--text-micro) text-muted-foreground underline underline-offset-2 hover:text-foreground"
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? t("pages.agentDetailproduction.hideFullLog") : t("pages.agentDetailproduction.showFullLog")}
+        {open ? "Hide full log" : "Show full log"}
       </button>
       {open && (
         <div className="rounded-md border border-border bg-background/70 p-2">
-          {isLoading && <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.loadingLog")}</div>}
+          {isLoading && <div className="text-xs text-muted-foreground">Loading log...</div>}
           {error && (
             <div className="text-xs text-destructive">
-              {error instanceof Error ? error.message : t("pages.agentDetailproduction.failedToLoadWorkspaceOperationLog")}
+              {error instanceof Error ? error.message : "Failed to load workspace operation log"}
             </div>
           )}
           {!isLoading && !error && chunks.length === 0 && (
-            <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.noPersistedLogLines")}</div>
+            <div className="text-xs text-muted-foreground">No persisted log lines.</div>
           )}
           {chunks.length > 0 && (
             <div className="max-h-64 overflow-y-auto rounded bg-neutral-100 p-2 font-mono text-xs dark:bg-neutral-950">
@@ -760,7 +760,6 @@ function WorkspaceOperationsSection({
 }
 
 export function AgentDetail() {
-  const { t } = useTranslation();
   const { companyPrefix, agentId, tab: urlTab, runId: urlRunId } = useParams<{
     companyPrefix?: string;
     agentId: string;
@@ -772,6 +771,7 @@ export function AgentDetail() {
   const { setBreadcrumbs } = useBreadcrumbs();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
   const [actionError, setActionError] = useState<string | null>(null);
   const [dismissedLeftAgentIds, setDismissedLeftAgentIds] = useState<Set<string>>(() => new Set());
   const { enabled: chatEnabled, githubEnabled, loaded: chatConnectorsLoaded } = useChatConnectorsEnabled();
@@ -800,11 +800,13 @@ export function AgentDetail() {
     return confirmAgentConfigNavigation(configDirty);
   }, [configDirty]);
 
-  const { data: agent, isLoading, error } = useQuery<AgentDetailRecord>({
+  const agentQuery = useQuery<AgentDetailRecord>({
     queryKey: [...queryKeys.agents.detail(routeAgentRef), lookupCompanyId ?? null],
     queryFn: () => agentsApi.get(routeAgentRef, lookupCompanyId),
     enabled: canFetchAgent,
   });
+  const { data: agent, isLoading, error } = agentQuery;
+  const agentView = useQueryView(agentQuery);
   const resolvedCompanyId = agent?.companyId ?? selectedCompanyId;
   const canonicalAgentRef = agent ? agentRouteRef(agent) : routeAgentRef;
   const agentLookupRef = agent?.id ?? routeAgentRef;
@@ -991,10 +993,10 @@ export function AgentDetail() {
                       ? "budget"
                       : "dashboard";
     if (routeAgentRef !== canonicalAgentRef || urlTab !== canonicalTab) {
-      navigate(`/agents/${canonicalAgentRef}/${canonicalTab}`, { replace: true });
+      navigate(`/agents/${canonicalAgentRef}/${canonicalTab}${location.search}`, { replace: true });
       return;
     }
-  }, [agent, routeAgentRef, canonicalAgentRef, urlRunId, urlTab, activeView, navigate, chatConnectorsLoaded]);
+  }, [agent, routeAgentRef, canonicalAgentRef, urlRunId, urlTab, activeView, navigate, chatConnectorsLoaded, location.search]);
 
   useEffect(() => {
     if (!agent?.companyId || agent.companyId === selectedCompanyId) return;
@@ -1198,8 +1200,10 @@ export function AgentDetail() {
     return () => window.removeEventListener("popstate", handlePopState, true);
   }, [configDirty, prepareAgentNavigation]);
 
-  if (isLoading) return <PageSkeleton variant="detail" />;
-  if (error) return <p className="text-sm text-destructive">{error.message}</p>;
+  if (isLoading || agentView.kind === "reconnecting") return <PageSkeleton variant="detail" />;
+  if (agentView.kind === "error") {
+    return <QueryErrorState size="page" error={error} action="load this agent" onRetry={agentView.retry} retrying={agentView.isFetching} />;
+  }
   if (!agent) return null;
   if (!urlRunId && !urlTab) {
     return <Navigate to={`/agents/${canonicalAgentRef}/dashboard`} replace />;
@@ -1229,7 +1233,7 @@ export function AgentDetail() {
       {showLeftAgentNotice ? (
         <div className="flex items-center gap-3 border border-yellow-300/35 bg-yellow-300/10 px-3 py-2 text-sm text-yellow-900 dark:text-yellow-100">
           <p className="min-w-0 flex-1">
-            {t("pages.agentDetailproduction.youLeftThisAgentItNo")}
+            You left this agent. It no longer appears in your sidebar.
           </p>
           <MembershipAction
             compact
@@ -1253,7 +1257,7 @@ export function AgentDetail() {
           <button
             type="button"
             className="h-6 w-6 shrink-0 text-yellow-900/70 hover:text-yellow-900 dark:text-yellow-100/70 dark:hover:text-yellow-100"
-            aria-label={t("pages.agentDetailproduction.dismissAgentMembershipNotice")}
+            aria-label="Dismiss agent membership notice"
             onClick={() => setDismissedLeftAgentIds((current) => new Set(current).add(agent.id))}
           >
             ×
@@ -1264,7 +1268,7 @@ export function AgentDetail() {
         <div className="flex items-start gap-3 border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0 space-y-1">
-            <p className="font-medium">{t("pages.agentDetailproduction.escalationPathIsPaused")}</p>
+            <p className="font-medium">Escalation path is paused</p>
             <p className="text-amber-900/90 dark:text-amber-100/90">{pausedEscalationWarning}</p>
           </div>
         </div>
@@ -1273,8 +1277,10 @@ export function AgentDetail() {
         <div className="flex items-start gap-3 border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0 space-y-1">
-            <p className="font-medium">{t("pages.agentDetailproduction.invalidReportingChain")}</p>
-            <p className="text-amber-900/90 dark:text-amber-100/90">{t("pages.agentDetailproduction.cannotAcceptTasksOrStartRuns", { name: agent.name })}</p>
+            <p className="font-medium">Invalid reporting chain</p>
+            <p className="text-amber-900/90 dark:text-amber-100/90">
+              {agent.name} cannot accept tasks or start runs until its reporting chain is repaired.
+            </p>
             <p className="break-words font-mono text-xs text-amber-900/80 dark:text-amber-100/80">
               {formatOrgChainHealthPath(agent)}
             </p>
@@ -1282,7 +1288,7 @@ export function AgentDetail() {
               <p className="text-amber-900/85 dark:text-amber-100/85">{agent.orgChainHealth.repairGuidance}</p>
             ) : (
               <p className="text-amber-900/85 dark:text-amber-100/85">
-                {t("pages.agentDetailproduction.assignThisAgentToAnActive")}
+                Assign this agent to an active manager/root, or explicitly pause or terminate the affected agent/subtree.
               </p>
             )}
           </div>
@@ -1352,7 +1358,7 @@ export function AgentDetail() {
                   <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                 </span>
-                <span className="text-(length:--text-micro) font-medium text-blue-600 dark:text-blue-400">{t("pages.agentDetailproduction.live")}</span>
+                <span className="text-(length:--text-micro) font-medium text-blue-600 dark:text-blue-400">Live</span>
               </Link>
             )}
           </AgentActionButtons>
@@ -1370,7 +1376,7 @@ export function AgentDetail() {
               onClick={() => resetBuiltIn.mutate()}
               disabled={resetBuiltIn.isPending}
             >
-              {resetBuiltIn.isPending ? t("pages.agentDetailproduction.resetting") : t("pages.agentDetailproduction.resetToDefaults")}
+              {resetBuiltIn.isPending ? "Resetting…" : "Reset to defaults"}
             </Button>
           }
         >
@@ -1423,7 +1429,7 @@ export function AgentDetail() {
       {actionError && <p className="text-sm text-destructive">{actionError}</p>}
       {isPendingApproval && (
         <div className="flex flex-wrap items-center gap-3 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-400/40 dark:bg-amber-950/30 dark:text-amber-200">
-          <span>{t("pages.agentDetailproduction.thisAgentIsPendingBoardApproval")}</span>
+          <span>This agent is pending board approval and cannot be invoked yet.</span>
           <Button
             variant="outline"
             size="sm"
@@ -1431,7 +1437,7 @@ export function AgentDetail() {
             disabled={agentAction.isPending}
           >
             <CheckCircle2 className="h-3.5 w-3.5 sm:mr-1" />
-            <span>{t("pages.agentDetailproduction.approveAgent")}</span>
+            <span>Approve agent</span>
           </Button>
         </div>
       )}
@@ -1446,14 +1452,14 @@ export function AgentDetail() {
               onClick={() => cancelConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {t("pages.agentDetailproduction.cancel")}
+              Cancel
             </Button>
             <Button
               size="sm"
               onClick={() => saveConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {configSaving ? t("pages.agentDetailproduction.saving") : t("pages.agentDetailproduction.save")}
+              {configSaving ? "Saving…" : "Save"}
             </Button>
           </div>
         </div>
@@ -1472,14 +1478,14 @@ export function AgentDetail() {
               onClick={() => cancelConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {t("pages.agentDetailproduction.cancel")}
+              Cancel
             </Button>
             <Button
               size="sm"
               onClick={() => saveConfigActionRef.current?.()}
               disabled={configSaving}
             >
-              {configSaving ? t("pages.agentDetailproduction.saving") : t("pages.agentDetailproduction.save")}
+              {configSaving ? "Saving…" : "Save"}
             </Button>
           </div>
         </div>
@@ -1637,7 +1643,6 @@ function LatestRunCard({
   agentId: string;
   issuesById: Map<string, LatestRunIssue>;
 }) {
-  const { t } = useTranslation();
   const sorted = useMemo(
     () =>
       [...runs].sort(
@@ -1719,7 +1724,7 @@ function LatestRunCard({
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
             )}
-            <span>{isLive ? t("pages.agentDetailproduction.liveRun") : t("pages.agentDetailproduction.latestRun")}</span>
+            <span>{isLive ? "Live Run" : "Latest Run"}</span>
             <span className="font-mono text-xs font-normal text-muted-foreground">
               &middot; {run.id.slice(0, 8)}
             </span>
@@ -1789,7 +1794,6 @@ function AgentOverview({
   agentId: string;
   agentRouteId: string;
 }) {
-  const { t } = useTranslation();
   const issuesById = useMemo(() => {
     const map = new Map<string, (typeof assignedIssues)[number]>();
     for (const issue of assignedIssues) map.set(issue.id, issue);
@@ -1823,16 +1827,16 @@ function AgentOverview({
       {/* Recent Issues */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium">{t("pages.agentDetailproduction.recentTasks")}</h3>
+          <h3 className="text-sm font-medium">Recent Tasks</h3>
           <Link
             to={`/issues?participantAgentId=${agentId}`}
             className="text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {t("pages.agentDetailproduction.seeAll")}
+            See All &rarr;
           </Link>
         </div>
         {assignedIssues.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.noRecentTasks")}</p>
+          <p className="text-sm text-muted-foreground">No recent tasks.</p>
         ) : (
           <div className="border border-border rounded-lg">
             {assignedIssues.slice(0, 10).map((issue) => (
@@ -1855,7 +1859,7 @@ function AgentOverview({
 
       {/* Costs */}
       <div className="space-y-3">
-        <h3 className="text-sm font-medium">{t("pages.agentDetailproduction.costs")}</h3>
+        <h3 className="text-sm font-medium">Costs</h3>
         <CostsSection runtimeState={runtimeState} runs={runs} />
       </div>
     </div>
@@ -1871,7 +1875,6 @@ function CostsSection({
   runtimeState?: AgentRuntimeState;
   runs: HeartbeatRun[];
 }) {
-  const { t } = useTranslation();
   const runsWithCost = runs
     .filter((r) => {
       const metrics = runMetrics(r);
@@ -1885,19 +1888,19 @@ function CostsSection({
         <div className="border border-border rounded-lg p-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 tabular-nums">
             <div>
-              <span className="text-xs text-muted-foreground block">{t("pages.agentDetailproduction.inputTokens")}</span>
+              <span className="text-xs text-muted-foreground block">Input tokens</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalInputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">{t("pages.agentDetailproduction.outputTokens")}</span>
+              <span className="text-xs text-muted-foreground block">Output tokens</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalOutputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">{t("pages.agentDetailproduction.cachedTokens")}</span>
+              <span className="text-xs text-muted-foreground block">Cached tokens</span>
               <span className="text-lg font-semibold">{formatTokens(runtimeState.totalCachedInputTokens)}</span>
             </div>
             <div>
-              <span className="text-xs text-muted-foreground block">{t("pages.agentDetailproduction.totalCost")}</span>
+              <span className="text-xs text-muted-foreground block">Total cost</span>
               <span className="text-lg font-semibold">{formatCents(runtimeState.totalCostCents)}</span>
             </div>
           </div>
@@ -1908,11 +1911,11 @@ function CostsSection({
           <table className="w-full text-xs">
             <thead>
               <tr className="border-b border-border bg-accent/20">
-                <th scope="col" className="text-left px-3 py-2 font-medium text-muted-foreground">{t("pages.agentDetailproduction.date")}</th>
-                <th scope="col" className="text-left px-3 py-2 font-medium text-muted-foreground">{t("pages.agentDetailproduction.run")}</th>
-                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">{t("pages.agentDetailproduction.input")}</th>
-                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">{t("pages.agentDetailproduction.output")}</th>
-                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">{t("pages.agentDetailproduction.cost")}</th>
+                <th scope="col" className="text-left px-3 py-2 font-medium text-muted-foreground">Date</th>
+                <th scope="col" className="text-left px-3 py-2 font-medium text-muted-foreground">Run</th>
+                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">Input</th>
+                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">Output</th>
+                <th scope="col" className="text-right px-3 py-2 font-medium text-muted-foreground">Cost</th>
               </tr>
             </thead>
             <tbody>
@@ -1985,7 +1988,6 @@ function AgentConfigurePage({
   onSavingChange: (saving: boolean) => void;
   updatePermissions: { mutate: (permissions: AgentPermissionUpdate) => void; isPending: boolean };
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { tab: urlTab } = useParams<{ tab?: string }>();
@@ -2021,7 +2023,7 @@ function AgentConfigurePage({
         hideInstructionsFile
       />
       <div>
-        <h3 className="text-sm font-medium mb-3">{t("pages.agentDetailproduction.apiKeys")}</h3>
+        <h3 className="text-sm font-medium mb-3">API Keys</h3>
         <KeysTab agentId={agentId} companyId={companyId} />
       </div>
 
@@ -2041,7 +2043,7 @@ function AgentConfigurePage({
         {revisionsOpen && (
           <div className="mt-3">
             {(configRevisions ?? []).length === 0 ? (
-              <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.noConfigurationRevisionsYet")}</p>
+              <p className="text-sm text-muted-foreground">No configuration revisions yet.</p>
             ) : (
               <div className="space-y-2">
                 {(configRevisions ?? []).slice(0, 10).map((revision) => (
@@ -2081,7 +2083,7 @@ function AgentConfigurePage({
 
 /* ---- Configuration Tab ---- */
 
-function ConfigurationTab({
+export function ConfigurationTab({
   agent,
   companyId,
   onDirtyChange,
@@ -2104,7 +2106,6 @@ function ConfigurationTab({
   hideInstructionsFile?: boolean;
   content?: "configuration" | "secrets";
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { tab: urlTab } = useParams<{ tab?: string }>();
@@ -2208,14 +2209,16 @@ function ConfigurationTab({
         hideInstructionsFile={hideInstructionsFile}
         content={content}
         sectionLayout="cards"
+        environmentVariablesPlacement={content === "secrets" ? "secrets" : "configuration"}
       />
       {content === "configuration" ? (
         <p className="text-xs text-muted-foreground">
-          {t("pages.agentDetailproduction.savedAdapterConfigAffectsTheNext")}
+          Saved adapter config affects the next run. Active runs keep the config they started with, and config changes may start a fresh adapter session.
         </p>
       ) : null}
 
       {content === "configuration" ? <TrustPresetSection
+        projectAccessEditor={<AgentProjectAccessSettings agent={agent} />}
         permissions={agent.permissions}
         disabled={updatePermissions.isPending}
         companyId={companyId}
@@ -2239,13 +2242,13 @@ function ConfigurationTab({
       /> : null}
 
       {content === "configuration" ? <div>
-        <h3 className="text-sm font-medium mb-3">{t("pages.agentDetailproduction.permissions")}</h3>
+        <h3 className="text-sm font-medium mb-3">Permissions</h3>
         <div className="border border-border rounded-lg p-4 space-y-4">
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetailproduction.canCreateNewAgents")}</div>
+              <div>Can create new agents</div>
               <p className="text-xs text-muted-foreground">
-                {t("pages.agentDetailproduction.letsThisAgentCreateOrHire")}
+                Lets this agent create or hire agents. This also grants task assignment authority.
               </p>
             </div>
             <ToggleSwitch
@@ -2262,9 +2265,9 @@ function ConfigurationTab({
           </div>
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetailproduction.canCreateImportSkills")}</div>
+              <div>Can create/import skills</div>
               <p className="text-xs text-muted-foreground">
-                {t("pages.agentDetailproduction.letsThisAgentInstallImportCreate")}
+                Lets this agent install, import, create, and scan company skills without creating agents.
               </p>
             </div>
             <ToggleSwitch
@@ -2281,7 +2284,7 @@ function ConfigurationTab({
           </div>
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetailproduction.canAssignTasks")}</div>
+              <div>Can assign tasks</div>
               <p className="text-xs text-muted-foreground">
                 {taskAssignHint}
               </p>
@@ -2321,7 +2324,6 @@ export function PromptsTab({
   onCancelActionChange: (cancel: (() => void) | null) => void;
   onSavingChange: (saving: boolean) => void;
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { selectedCompanyId } = useCompany();
   const { isMobile } = useSidebar();
@@ -2643,7 +2645,7 @@ export function PromptsTab({
     return (
       <div className="max-w-3xl">
         <p className="text-sm text-muted-foreground">
-          {t("pages.agentDetailproduction.instructionsBundlesAreOnlyAvailableFor")}
+          Instructions bundles are only available for local adapters.
         </p>
       </div>
     );
@@ -2665,13 +2667,13 @@ export function PromptsTab({
         </div>
       )}
       <p className="text-xs text-muted-foreground">
-        {t("pages.agentDetailproduction.savedInstructionsAffectTheNextRun")}
+        Saved instructions affect the next run. Active runs keep the instructions they started with, and instruction changes may start a fresh adapter session.
       </p>
 
       <Collapsible defaultOpen={currentMode === "external"}>
         <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
           <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-          {t("pages.agentDetailproduction.advanced")}
+          Advanced
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 pb-6">
           <TooltipProvider>
@@ -2684,7 +2686,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetailproduction.managedPaperclipStoresAndServesThe")}
+                      Managed: Paperclip stores and serves the instructions bundle. External: you provide a path on disk where the instructions live.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2710,7 +2712,7 @@ export function PromptsTab({
                       setSelectedFile(nextEntryFile);
                     }}
                   >
-                    {t("pages.agentDetailproduction.managed")}
+                    Managed
                   </Button>
                   <Button
                     type="button"
@@ -2727,7 +2729,7 @@ export function PromptsTab({
                       setSelectedFile(externalBundle?.selectedFile ?? nextEntryFile);
                     }}
                   >
-                    {t("pages.agentDetailproduction.external")}
+                    External
                   </Button>
                 </div>
               </label>
@@ -2739,7 +2741,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetailproduction.theAbsoluteDirectoryOnDiskWhere")}
+                      The absolute directory on disk where the instructions bundle lives. In managed mode this is set by Paperclip automatically.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2788,7 +2790,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetailproduction.theMainFileTheAgentReads")}
+                      The main file the agent reads first when loading instructions. Defaults to AGENTS.md.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2836,7 +2838,7 @@ export function PromptsTab({
           isMobile && !showFilePanel && "hidden",
         )}>
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">{t("pages.agentDetailproduction.files")}</h4>
+            <h4 className="text-sm font-medium">Files</h4>
             <div className="flex items-center gap-1">
               {!showNewFileInput && (
                 <Button
@@ -2894,7 +2896,7 @@ export function PromptsTab({
                     setShowNewFileInput(false);
                   }}
                 >
-                  {t("pages.agentDetailproduction.create")}
+                  Create
                 </Button>
                 <Button
                   type="button"
@@ -2906,7 +2908,7 @@ export function PromptsTab({
                     setNewFilePath("");
                   }}
                 >
-                  {t("pages.agentDetailproduction.cancel")}
+                  Cancel
                 </Button>
               </div>
             </div>
@@ -2983,9 +2985,9 @@ export function PromptsTab({
                 <p className="text-xs text-muted-foreground">
                   {selectedFileExists
                     ? selectedFileSummary?.deprecated
-                      ? t("pages.agentDetailproduction.deprecatedVirtualFile")
+                      ? "Deprecated virtual file"
                       : `${selectedFileDetail?.language ?? "text"} file`
-                    : t("pages.agentDetailproduction.newFileInThisBundle")}
+                    : "New file in this bundle"}
                 </p>
               </div>
             </div>
@@ -3018,7 +3020,7 @@ export function PromptsTab({
                   }}
                   disabled={deleteFile.isPending}
                 >
-                  {t("pages.agentDetailproduction.delete")}
+                  Delete
                 </Button>
               )}
             </div>
@@ -3031,7 +3033,7 @@ export function PromptsTab({
               key={selectedOrEntryFile}
               value={displayValue}
               onChange={(value) => setDraft(value ?? "")}
-              placeholder={t("pages.agentDetailproduction.agentInstructions")}
+              placeholder="# Agent instructions"
               className="min-w-0 overflow-hidden"
               contentClassName="min-h-(--sz-420px) max-w-full break-words text-sm leading-7"
               imageUploadHandler={async (file) => {
@@ -3045,7 +3047,7 @@ export function PromptsTab({
               value={displayValue}
               onChange={(event) => setDraft(event.target.value)}
               className="min-h-(--sz-420px) w-full min-w-0 rounded-md border border-border bg-transparent px-3 py-2 font-mono text-sm outline-none"
-              placeholder={t("pages.agentDetailproduction.fileContents")}
+              placeholder="File contents"
             />
           )}
         </div>
@@ -3179,7 +3181,6 @@ export function RunsTab({
   adapterType: string;
   adapterConfig: Record<string, unknown>;
 }) {
-  const { t } = useTranslation();
   const { isMobile } = useSidebar();
 
   // Sort by created descending
@@ -3192,13 +3193,13 @@ export function RunsTab({
   const selection = useSelectedHeartbeatRun(sorted, effectiveRunId, companyId, agentId);
   const selectedRun = selection.run;
   if (selectedRunId && !selectedRun) {
-    if (selection.loading) return <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.loadingRun")}</p>;
+    if (selection.loading) return <p className="text-sm text-muted-foreground">Loading run…</p>;
     return <div role="alert">
-      <p className="text-sm text-destructive">{selection.error instanceof Error ? selection.error.message : t("pages.agentDetailproduction.thisRunIsUnavailableForThis")}</p>
-      {selection.error && <Button variant="outline" onClick={() => { void selection.retry(); }}>{t("pages.agentDetailproduction.tryAgain")}</Button>}
+      <p className="text-sm text-destructive">{selection.error instanceof Error ? selection.error.message : "This run is unavailable for this agent."}</p>
+      {selection.error && <Button variant="outline" onClick={() => { void selection.retry(); }}>Try again</Button>}
     </div>;
   }
-  if (runs.length === 0 && !selectedRun) return <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.noRunsYet")}</p>;
+  if (runs.length === 0 && !selectedRun) return <p className="text-sm text-muted-foreground">No runs yet.</p>;
 
   // Mobile: show either run list OR run detail with back button
   if (isMobile) {
@@ -3210,7 +3211,7 @@ export function RunsTab({
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            {t("pages.agentDetailproduction.backToRuns")}
+            Back to runs
           </Link>
           <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} adapterConfig={adapterConfig} />
         </div>
@@ -3253,7 +3254,6 @@ export function RunsTab({
 /* ---- Run Detail (expanded) ---- */
 
 function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }: { run: HeartbeatRun; agentRouteId: string; adapterType: string; adapterConfig: Record<string, unknown> }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: hydratedRun } = useQuery({
@@ -3270,7 +3270,6 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
     queryKey: queryKeys.access.companyUserDirectory(run.companyId),
     queryFn: () => accessApi.listUserDirectory(run.companyId),
     enabled: Boolean(run.companyId && run.responsibleUserId),
-    retry: false,
   });
   const responsibleUserName = useMemo(() => {
     if (!run.responsibleUserId) return null;
@@ -3422,7 +3421,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   onClick={() => cancelRun.mutate()}
                   disabled={cancelRun.isPending}
                 >
-                  {cancelRun.isPending ? t("pages.agentDetailproduction.cancelling") : t("pages.agentDetailproduction.cancel")}
+                  {cancelRun.isPending ? "Cancelling…" : "Cancel"}
                 </Button>
               )}
               {canResumeLostRun && (
@@ -3434,7 +3433,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   disabled={resumeRun.isPending}
                 >
                   <RotateCcw className="h-3.5 w-3.5 mr-1" />
-                  {resumeRun.isPending ? t("pages.agentDetailproduction.resuming") : t("pages.agentDetailproduction.resume")}
+                  {resumeRun.isPending ? "Resuming…" : "Resume"}
                 </Button>
               )}
               {canRetryRun && !canResumeLostRun && (
@@ -3446,7 +3445,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   disabled={retryRun.isPending}
                 >
                   <RotateCcw className="h-3.5 w-3.5 mr-1" />
-                  {retryRun.isPending ? t("pages.agentDetailproduction.retrying") : t("pages.agentDetailproduction.retry")}
+                  {retryRun.isPending ? "Retrying…" : "Retry"}
                 </Button>
               )}
             </div>
@@ -3482,14 +3481,14 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                 </span>
               </div>
             )}
-            {resumeRun.isError && (
+            {resumeRun.isError && ( // query-error-ok: mutation result, not a query
               <div className="text-xs text-destructive">
-                {resumeRun.error instanceof Error ? resumeRun.error.message : t("pages.agentDetailproduction.failedToResumeRun")}
+                {resumeRun.error instanceof Error ? resumeRun.error.message : "Failed to resume run"}
               </div>
             )}
-            {retryRun.isError && (
+            {retryRun.isError && ( // query-error-ok: mutation result, not a query
               <div className="text-xs text-destructive">
-                {retryRun.error instanceof Error ? retryRun.error.message : t("pages.agentDetailproduction.failedToRetryRun")}
+                {retryRun.error instanceof Error ? retryRun.error.message : "Failed to retry run"}
               </div>
             )}
             {startTime && (
@@ -3525,13 +3524,13 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   onClick={() => runClaudeLogin.mutate()}
                   disabled={runClaudeLogin.isPending}
                 >
-                  {runClaudeLogin.isPending ? t("pages.agentDetailproduction.runningClaudeLogin") : t("pages.agentDetailproduction.loginToClaudeCode")}
+                  {runClaudeLogin.isPending ? "Running claude login..." : "Login to Claude Code"}
                 </Button>
-                {runClaudeLogin.isError && (
+                {runClaudeLogin.isError && ( // query-error-ok: mutation result, not a query
                   <p className="text-xs text-destructive">
                     {runClaudeLogin.error instanceof Error
                       ? runClaudeLogin.error.message
-                      : t("pages.agentDetailproduction.failedToRunClaudeLogin")}
+                      : "Failed to run Claude login"}
                   </p>
                 )}
                 {claudeLoginResult?.loginUrl && (
@@ -3572,7 +3571,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             {hasNonZeroExit && (
               <div className="text-xs text-red-600 dark:text-red-400">
                 Exit code {run.exitCode}
-                {run.signal && <span className="text-muted-foreground ml-1">{t("pages.agentDetailproduction.signal", { signal: run.signal })}</span>}
+                {run.signal && <span className="text-muted-foreground ml-1">(signal: {run.signal})</span>}
               </div>
             )}
             {retryState && (
@@ -3605,19 +3604,19 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
           {hasMetrics && (
             <div className="border-t sm:border-t-0 sm:border-l border-border p-4 grid grid-cols-2 gap-x-4 sm:gap-x-8 gap-y-3 content-center tabular-nums">
               <div>
-                <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.input")}</div>
+                <div className="text-xs text-muted-foreground">Input</div>
                 <div className="text-sm font-medium font-mono">{formatTokens(metrics.input)}</div>
               </div>
               <div>
-                <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.output")}</div>
+                <div className="text-xs text-muted-foreground">Output</div>
                 <div className="text-sm font-medium font-mono">{formatTokens(metrics.output)}</div>
               </div>
               <div>
-                <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.cached")}</div>
+                <div className="text-xs text-muted-foreground">Cached</div>
                 <div className="text-sm font-medium font-mono">{formatTokens(metrics.cached)}</div>
               </div>
               <div>
-                <div className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.cost")}</div>
+                <div className="text-xs text-muted-foreground">Cost</div>
                 <div className="text-sm font-medium font-mono">{metrics.cost > 0 ? `$${metrics.cost.toFixed(4)}` : "-"}</div>
               </div>
             </div>
@@ -3633,19 +3632,19 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             >
               <ChevronRight className={cn("h-3 w-3 transition-transform", sessionOpen && "rotate-90")} />
               Session
-              {sessionChanged && <span className="text-yellow-400 ml-1">{t("pages.agentDetailproduction.changed")}</span>}
+              {sessionChanged && <span className="text-yellow-400 ml-1">(changed)</span>}
             </button>
             {sessionOpen && (
               <div className="px-4 pb-3 space-y-1 text-xs">
                 {run.sessionIdBefore && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground w-12">{sessionChanged ? t("pages.agentDetailproduction.before") : "ID"}</span>
+                    <span className="text-muted-foreground w-12">{sessionChanged ? "Before" : "ID"}</span>
                     <CopyText text={run.sessionIdBefore} className="font-mono" />
                   </div>
                 )}
                 {sessionChanged && run.sessionIdAfter && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground w-12">{t("pages.agentDetailproduction.after")}</span>
+                    <span className="text-muted-foreground w-12">After</span>
                     <CopyText text={run.sessionIdAfter} className="font-mono" />
                   </div>
                 )}
@@ -3665,14 +3664,14 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                       }}
                     >
                       {clearSessionsForTouchedIssues.isPending
-                        ? t("pages.agentDetailproduction.clearingSession")
-                        : t("pages.agentDetailproduction.clearSessionForTheseTasks")}
+                        ? "clearing session..."
+                        : "clear session for these tasks"}
                     </button>
-                    {clearSessionsForTouchedIssues.isError && (
+                    {clearSessionsForTouchedIssues.isError && ( // query-error-ok: mutation result, not a query
                       <p className="text-(length:--text-micro) text-destructive mt-1">
                         {clearSessionsForTouchedIssues.error instanceof Error
                           ? clearSessionsForTouchedIssues.error.message
-                          : t("pages.agentDetailproduction.failedToClearSessions")}
+                          : "Failed to clear sessions"}
                       </p>
                     )}
                   </div>
@@ -3738,9 +3737,13 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
 /* ---- Log Viewer ---- */
 
 export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: string }) {
-  const { t } = useTranslation();
   const { visible } = usePageVisibility();
   const [events, setEvents] = useState<HeartbeatRunEvent[]>([]);
+  const [hasMoreEvents, setHasMoreEvents] = useState(false);
+  const [eventsError, setEventsError] = useState<string | null>(null);
+  const hasMoreEventsRef = useRef(false);
+  const [loadingMoreEvents, setLoadingMoreEvents] = useState(false);
+  const loadMoreEventsRef = useRef<(() => void) | null>(null);
   const [logLines, setLogLines] = useState<RunLogChunk[]>([]);
   const [loading, setLoading] = useState(true);
   const [logLoading, setLogLoading] = useState(!!run.logRef);
@@ -3755,7 +3758,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
   const [hasMoreLog, setHasMoreLog] = useState(false);
   const [loadingMoreLog, setLoadingMoreLog] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isStreamingConnected, setIsStreamingConnected] = useState(false);
   const [transcriptMode, setTranscriptMode] = useState<TranscriptMode>("nice");
   const logEndRef = useRef<HTMLDivElement>(null);
   const pendingLogLineRef = useRef("");
@@ -3805,7 +3807,9 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
         const chunk = typeof raw.chunk === "string" ? raw.chunk : "";
         const ts = typeof raw.ts === "string" ? raw.ts : new Date().toISOString();
         if (!chunk) continue;
-        parsed.push({ ts, stream, chunk, seq: readChunkSeq(raw.seq) });
+        const seq = readChunkSeq(raw.seq);
+        logSequenceRef.current.confirm(seq);
+        parsed.push({ ts, stream, chunk, seq });
       } catch {
         // ignore malformed lines
       }
@@ -3818,18 +3822,145 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     }
   }
 
-  // Fetch events
-  const { data: initialEvents } = useQuery({
-    queryKey: ["run-events", run.id],
-    queryFn: () => heartbeatsApi.events(run.id, 0, 200),
+  const refreshEventsRef = useRef<((force?: boolean) => void) | null>(null);
+  const refreshLogRef = useRef<((force?: boolean) => void) | null>(null);
+  const eventSequenceRef = useRef(new TranscriptSequence());
+  const logSequenceRef = useRef(new TranscriptSequence());
+  const eventsReadCursorRef = useRef(0);
+  const eventsCatchupCursorRef = useRef(0);
+  const retainedEventHistoryThroughRef = useRef(0);
+  const logIdentityRef = useRef<string | null>(run.logRef ?? null);
+  const retiredLogRefs = useRef(new Set<string>());
+  const wasLiveRef = useRef(isLive);
+  const bindLog = (ref: unknown): "same" | "changed" | "stale" => {
+    if (typeof ref !== "string" || !ref || ref === logIdentityRef.current) return "same";
+    if (retiredLogRefs.current.has(ref)) return "stale";
+    const prior = logIdentityRef.current;
+    logIdentityRef.current = ref;
+    if (!prior) return "same";
+    retiredLogRefs.current.add(prior);
+    if (retiredLogRefs.current.size > 8) retiredLogRefs.current.delete(retiredLogRefs.current.values().next().value!);
+    pendingLogLineRef.current = "";
+    logMergeRefs.current = { seenChunkKeys: new Set(), trimmedSeqFloorByRun: new Map() };
+    logSequenceRef.current = new TranscriptSequence();
+    setLogLines([]); setLogOffset(0);
+    return "changed";
+  };
+  useEffect(() => {
+    eventsReadCursorRef.current = 0; eventsCatchupCursorRef.current = 0; retainedEventHistoryThroughRef.current = 0; eventSequenceRef.current = new TranscriptSequence(); logSequenceRef.current = new TranscriptSequence();
+    wasLiveRef.current = isLive;
+    logIdentityRef.current = run.logRef ?? null; retiredLogRefs.current.clear();
+    hasMoreEventsRef.current = false; setHasMoreEvents(false); setLoadingMoreEvents(false); setEventsError(null);
+    setEvents([]); setLoading(true);
+  }, [run.id, run.companyId]);
+  useEffect(() => { if (isLive) wasLiveRef.current = true; }, [isLive]);
+
+  function appendEvents(rows: HeartbeatRunEvent[], retainHistory = false) {
+    if (retainHistory) retainedEventHistoryThroughRef.current = Math.max(
+      retainedEventHistoryThroughRef.current, rows.at(-1)?.seq ?? 0,
+    );
+    setEvents(previous => {
+      const merged = mergeRunEvents(previous, rows);
+      if (!isLive && !wasLiveRef.current) return merged;
+      const retainedThrough = Math.max(200, retainedEventHistoryThroughRef.current);
+      const prefix = merged.filter(row => row.seq <= retainedThrough);
+      const tail = merged.filter(row => row.seq > retainedThrough);
+      return [...prefix, ...tail.slice(-MAX_LIVE_EVENTS)];
+    });
+  }
+
+  const stream = useTranscriptLiveStream(isLive ? [run.id] : [], { companyId: run.companyId, enabled: visible }, event => {
+    if (event.companyId !== run.companyId) return;
+    const payload = asRecord(event.payload);
+    if (!payload || payload.runId !== run.id) return;
+    if (event.type === "heartbeat.run.log") {
+      const binding = bindLog(payload.logRef);
+      if (binding === "stale") return;
+      const seq = readChunkSeq(payload.seq);
+      if (payload.truncated === true) logSequenceRef.current.requireHistory(seq);
+      const gap = logSequenceRef.current.observe(seq);
+      if (binding === "changed" || payload.truncated === true || gap) refreshLogRef.current?.();
+      if (payload.truncated === true) return;
+      const chunk = typeof payload.chunk === "string" ? payload.chunk : "";
+      if (!chunk) return;
+      const channel = payload.stream === "stderr" || payload.stream === "system" ? payload.stream : "stdout";
+      appendLogLines([{ ts: asNonEmptyString(payload.ts) ?? event.createdAt, stream: channel, chunk, seq }]);
+      return;
+    }
+    if (event.type === "heartbeat.run.progress") {
+      const line = buildHeartbeatProgressLogLine(payload, event.createdAt);
+      if (!line) return;
+      const key = heartbeatProgressLogLineKey(line);
+      if (seenProgressLogLineKeysRef.current.has(key)) return;
+      seenProgressLogLineKeysRef.current.add(key); appendLogLines([line]);
+      return;
+    }
+    if (event.type === "heartbeat.run.status") {
+      refreshEventsRef.current?.(true); refreshLogRef.current?.(true); return;
+    }
+    const row = liveRunEvent(event);
+    if (!row) return;
+    const commitSignal = row.message === null && row.payload === null;
+    if (commitSignal) eventSequenceRef.current.requireHistory(row.seq);
+    if (eventSequenceRef.current.observe(row.seq)) refreshEventsRef.current?.();
+    if (commitSignal) return;
+    appendEvents([row]);
   });
 
   useEffect(() => {
-    if (initialEvents) {
-      setEvents(initialEvents);
-      setLoading(false);
-    }
-  }, [initialEvents]);
+    setLoadingMoreEvents(false);
+    if (!visible) return;
+    let cancelled = false;
+    let timer: number | undefined;
+    const abort = new AbortController();
+    let reading = false;
+    let pendingRefresh = false;
+    let failedRead: { requested: boolean; catchup: boolean } | null = null;
+    const read = async (requested = false, catchup = false) => {
+      if (cancelled) return;
+      if (reading) { if (catchup) pendingRefresh = true; return; }
+      if (hasMoreEventsRef.current && !requested && !catchup) return;
+      reading = true; pendingRefresh = false; setLoadingMoreEvents(true); setEventsError(null);
+      window.clearTimeout(timer); timer = undefined;
+      let failed = false;
+      try {
+        const cursor = catchup ? Math.max(eventsCatchupCursorRef.current, eventsReadCursorRef.current) : eventsReadCursorRef.current;
+        const initializesHistory = eventsReadCursorRef.current === 0;
+        const rows = await readTranscriptRequest(signal => heartbeatsApi.events(run.id, cursor, 1000, { signal }), abort.signal);
+        if (cancelled) return;
+        appendEvents(rows, !catchup || initializesHistory);
+        const next = Math.max(cursor, rows.at(-1)?.seq ?? cursor);
+        eventsCatchupCursorRef.current = Math.max(eventsCatchupCursorRef.current, next);
+        eventSequenceRef.current.confirm(next);
+        if (catchup) {
+          if (rows.length === 1000 && next > cursor) pendingRefresh = true;
+        }
+        if (!catchup || initializesHistory) {
+          eventsReadCursorRef.current = next;
+          hasMoreEventsRef.current = rows.length === 1000 && next > cursor;
+          setHasMoreEvents(hasMoreEventsRef.current);
+        }
+        failed = eventSequenceRef.current.needsCatchup;
+        failedRead = null;
+      } catch {
+        failed = true; failedRead = { requested, catchup };
+        if (!cancelled) setEventsError("Could not load events. Try again.");
+      }
+      if (cancelled) return;
+      reading = false; setLoadingMoreEvents(false); setLoading(false);
+      if (pendingRefresh) void read(false, true);
+      else if (failed || (isLive && !stream.healthy && !hasMoreEventsRef.current)) {
+        timer = window.setTimeout(() => void read(requested, catchup || eventSequenceRef.current.needsCatchup), 2000);
+      }
+    };
+    refreshEventsRef.current = () => { void read(false, wasLiveRef.current); };
+    loadMoreEventsRef.current = () => { void read(failedRead?.requested ?? true, failedRead?.catchup ?? false); };
+    void read(false, wasLiveRef.current && (stream.healthy || eventsReadCursorRef.current > 0));
+    return () => {
+      cancelled = true; refreshEventsRef.current = null; loadMoreEventsRef.current = null;
+      abort.abort(); if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [visible, run.id, run.companyId, run.status, stream.healthy, stream.epoch]);
 
   const getScrollContainer = useCallback((): ScrollContainer => {
     if (scrollContainerRef.current) return scrollContainerRef.current;
@@ -3924,45 +4055,50 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     setLogError(null);
   }, [run.id, run.logRef, setLogOffset]);
 
-  // Fetch persisted shell log, retaining partial rows and offsets across hides.
   useEffect(() => {
     if (!visible) return;
+    if (!run.logRef && !shouldPollShellLog) { setLogLoading(false); return; }
     let cancelled = false;
-    const offset = logOffsetRef.current;
-    if (!run.logRef && !shouldPollShellLog) {
-      setLogLoading(false);
-      return () => {
-        cancelled = true;
-      };
-    }
-
+    let timer: number | undefined;
+    const abort = new AbortController();
     setLogLoading(true);
+    let reading = false;
+    let pendingRefresh = false;
     const load = async () => {
+      if (cancelled || reading) return;
+      reading = true; pendingRefresh = false;
+      window.clearTimeout(timer); timer = undefined;
+      let failed = false;
       try {
-        const result = await heartbeatsApi.log(run.id, offset, RUN_LOG_PAGE_BYTES);
-        if (cancelled) return;
-        appendLogContent(result.content, result.nextOffset === undefined);
-        const next = result.nextOffset ?? offset + result.content.length;
-        setLogOffset(next);
-        setHasMoreLog(!shouldPollShellLog && result.nextOffset !== undefined);
-      } catch (err) {
-        if (!cancelled) {
-          if (shouldPollShellLog && isRunLogUnavailable(err)) {
-            setLogLoading(false);
-            return;
-          }
-          setLogError(err instanceof Error ? err.message : "Failed to load run log");
+        for (;;) {
+          const offset = logOffsetRef.current;
+          const result = await readTranscriptRequest(signal => heartbeatsApi.log(run.id, offset, RUN_LOG_PAGE_BYTES, { signal }), abort.signal);
+          if (cancelled) return;
+          const binding = bindLog(result.logRef);
+          if (binding === "stale") { failed = true; break; }
+          if (binding === "changed" && offset !== 0) continue;
+          appendLogContent(result.content, result.nextOffset === undefined);
+          const next = result.nextOffset ?? offset + new TextEncoder().encode(result.content).byteLength;
+          setLogOffset(next); setLogError(null);
+          setHasMoreLog(!wasLiveRef.current && result.nextOffset !== undefined && !!result.content);
+          if (!wasLiveRef.current || result.nextOffset === undefined || !result.content || next <= offset) break;
         }
-      } finally {
-        if (!cancelled) setLogLoading(false);
+        failed ||= logSequenceRef.current.needsCatchup;
+      } catch (err) {
+        if (cancelled) return;
+        failed = shouldPollShellLog || !isRunLogUnavailable(err);
+        if (!isRunLogUnavailable(err)) setLogError(err instanceof Error ? err.message : "Failed to load run log");
       }
+      if (cancelled) return;
+      reading = false;
+      setLogLoading(false);
+      if (pendingRefresh) void load();
+      else if (failed || (shouldPollShellLog && !stream.healthy)) timer = window.setTimeout(() => void load(), 2000);
     };
-
+    refreshLogRef.current = (force = false) => { if (force) pendingRefresh = true; void load(); };
     void load();
-    return () => {
-      cancelled = true;
-    };
-  }, [visible, run.id, run.logRef, run.logBytes, shouldPollShellLog]);
+    return () => { cancelled = true; refreshLogRef.current = null; abort.abort(); if (timer !== undefined) window.clearTimeout(timer); };
+  }, [visible, run.id, run.companyId, run.logRef, isLive ? null : run.logBytes, shouldPollShellLog, stream.healthy, stream.epoch]);
 
   async function loadMorePersistedLog() {
     if (loadingMoreLog || !hasMoreLog) return;
@@ -3971,7 +4107,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     try {
       const result = await heartbeatsApi.log(run.id, logOffset, RUN_LOG_PAGE_BYTES);
       appendLogContent(result.content, result.nextOffset === undefined);
-      const next = result.nextOffset ?? logOffset + result.content.length;
+      const next = result.nextOffset ?? logOffset + new TextEncoder().encode(result.content).byteLength;
       setLogOffset(next);
       setHasMoreLog(result.nextOffset !== undefined);
     } catch (err) {
@@ -3980,192 +4116,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
       setLoadingMoreLog(false);
     }
   }
-
-  // Poll for live updates
-  useEffect(() => {
-    if (!visible || !isLive || isStreamingConnected) return;
-    let pending = false;
-    let cancelled = false;
-    const interval = setInterval(async () => {
-      if (pending || cancelled || !getPageVisibility().visible) return;
-      pending = true;
-      const maxSeq = events.length > 0 ? Math.max(...events.map((e) => e.seq)) : 0;
-      try {
-        const newEvents = await heartbeatsApi.events(run.id, maxSeq, 100);
-        if (cancelled) return;
-        if (newEvents.length > 0) {
-          setEvents((prev) => appendCapped(prev, newEvents, MAX_LIVE_EVENTS));
-        }
-      } catch {
-        // ignore polling errors
-      } finally {
-        pending = false;
-      }
-    }, 2000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [visible, run.id, isLive, isStreamingConnected, events]);
-
-  // Poll shell log for running runs
-  useEffect(() => {
-    if (!visible || !shouldPollShellLog || isStreamingConnected) return;
-    let pending = false;
-    let cancelled = false;
-    const interval = setInterval(async () => {
-      if (pending || cancelled || !getPageVisibility().visible) return;
-      pending = true;
-      try {
-        const result = await heartbeatsApi.log(run.id, logOffset, 256_000);
-        if (cancelled) return;
-        if (result.content) {
-          appendLogContent(result.content, result.nextOffset === undefined);
-        }
-        if (result.nextOffset !== undefined) {
-          setLogOffset(result.nextOffset);
-        } else if (result.content.length > 0) {
-          setLogOffset((prev) => prev + result.content.length);
-        }
-      } catch (err) {
-        if (isRunLogUnavailable(err)) return;
-        // ignore polling errors
-      } finally {
-        pending = false;
-      }
-    }, 2000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [visible, run.id, shouldPollShellLog, isStreamingConnected, logOffset]);
-
-  // Stream live updates from websocket (primary path for running runs).
-  useEffect(() => {
-    if (!visible || !isLive) return;
-
-    let closed = false;
-    let reconnectTimer: number | null = null;
-    let socket: WebSocket | null = null;
-
-    const scheduleReconnect = () => {
-      if (closed) return;
-      reconnectTimer = window.setTimeout(connect, 1500);
-    };
-
-    const connect = () => {
-      if (closed) return;
-      const url = buildSameOriginWebSocketUrl(
-        `/api/companies/${encodeURIComponent(run.companyId)}/events/ws`,
-      );
-      socket = tryCreateWebSocket(url);
-      if (!socket) {
-        scheduleReconnect();
-        return;
-      }
-
-      socket.onopen = () => {
-        setIsStreamingConnected(true);
-      };
-
-      socket.onmessage = (message) => {
-        const rawMessage = typeof message.data === "string" ? message.data : "";
-        if (!rawMessage) return;
-
-        let event: LiveEvent;
-        try {
-          event = JSON.parse(rawMessage) as LiveEvent;
-        } catch {
-          return;
-        }
-
-        if (event.companyId !== run.companyId) return;
-        const payload = asRecord(event.payload);
-        const eventRunId = asNonEmptyString(payload?.runId);
-        if (!payload || eventRunId !== run.id) return;
-
-        if (event.type === "heartbeat.run.log") {
-          const chunk = typeof payload.chunk === "string" ? payload.chunk : "";
-          if (!chunk) return;
-          const streamRaw = asNonEmptyString(payload.stream);
-          const stream = streamRaw === "stderr" || streamRaw === "system" ? streamRaw : "stdout";
-          const ts = asNonEmptyString((payload as Record<string, unknown>).ts) ?? event.createdAt;
-          appendLogLines([{ ts, stream, chunk, seq: readChunkSeq(payload.seq) }]);
-          return;
-        }
-
-        if (event.type === "heartbeat.run.progress") {
-          const line = buildHeartbeatProgressLogLine(payload, event.createdAt);
-          if (!line) return;
-          const key = heartbeatProgressLogLineKey(line);
-          if (seenProgressLogLineKeysRef.current.has(key)) return;
-          seenProgressLogLineKeysRef.current.add(key);
-          appendLogLines([line]);
-          return;
-        }
-
-        if (event.type !== "heartbeat.run.event") return;
-
-        const seq = typeof payload.seq === "number" ? payload.seq : null;
-        if (seq === null || !Number.isFinite(seq)) return;
-
-        const streamRaw = asNonEmptyString(payload.stream);
-        const stream =
-          streamRaw === "stdout" || streamRaw === "stderr" || streamRaw === "system"
-            ? streamRaw
-            : null;
-        const levelRaw = asNonEmptyString(payload.level);
-        const level =
-          levelRaw === "info" || levelRaw === "warn" || levelRaw === "error"
-            ? levelRaw
-            : null;
-
-        const liveEvent: HeartbeatRunEvent = {
-          id: seq,
-          companyId: run.companyId,
-          runId: run.id,
-          agentId: run.agentId,
-          seq,
-          eventType: asNonEmptyString(payload.eventType) ?? "event",
-          stream,
-          level,
-          color: asNonEmptyString(payload.color),
-          message: asNonEmptyString(payload.message),
-          payload: asRecord(payload.payload),
-          createdAt: new Date(event.createdAt),
-        };
-
-        setEvents((prev) => {
-          if (prev.some((existing) => existing.seq === seq)) return prev;
-          return appendCapped(prev, [liveEvent], MAX_LIVE_EVENTS);
-        });
-      };
-
-      socket.onerror = () => {
-        socket?.close();
-      };
-
-      socket.onclose = () => {
-        setIsStreamingConnected(false);
-        scheduleReconnect();
-      };
-    };
-
-    connect();
-
-    return () => {
-      closed = true;
-      setIsStreamingConnected(false);
-      if (reconnectTimer !== null) window.clearTimeout(reconnectTimer);
-      if (socket) {
-        socket.onopen = null;
-        socket.onmessage = null;
-        socket.onerror = null;
-        socket.onclose = null;
-        socket.close(1000, "run_detail_unmount");
-      }
-    };
-  }, [visible, isLive, run.companyId, run.id, run.agentId]);
 
   const censorUsernameInLogs = useQuery({
     queryKey: queryKeys.instance.generalSettings,
@@ -4205,11 +4155,11 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
   }, [run.id]);
 
   if (loading && logLoading) {
-    return <p className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.loadingRunLogs")}</p>;
+    return <p className="text-xs text-muted-foreground">Loading run logs...</p>;
   }
 
-  if (events.length === 0 && logLines.length === 0 && !logError) {
-    return <p className="text-xs text-muted-foreground">{t("pages.agentDetailproduction.noLogEvents")}</p>;
+  if (events.length === 0 && logLines.length === 0 && !logError && !eventsError) {
+    return <p className="text-xs text-muted-foreground">No log events.</p>;
   }
 
   const levelColors: Record<string, string> = {
@@ -4268,7 +4218,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 lastMetricsRef.current = readScrollMetrics(container);
               }}
             >
-              {t("pages.agentDetailproduction.jumpToLive")}
+              Jump to live
             </Button>
           )}
           {isLive && (
@@ -4277,7 +4227,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
-              {t("pages.agentDetailproduction.live")}
+              Live
             </span>
           )}
         </div>
@@ -4300,7 +4250,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
               onClick={loadMorePersistedLog}
               disabled={loadingMoreLog}
             >
-              {loadingMoreLog ? t("pages.agentDetailproduction.loading") : t("pages.agentDetailproduction.loadMoreLog")}
+              {loadingMoreLog ? "Loading..." : "Load more log"}
             </Button>
             <span className="text-xs text-muted-foreground">
               Showing the first {Math.round(logOffset / 1024).toLocaleString("en-US")} KB
@@ -4320,7 +4270,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
 
       {(run.status === "failed" || run.status === "timed_out") && (
         <div className="rounded-lg border border-red-300 dark:border-red-500/30 bg-red-50 dark:bg-red-950/20 p-3 space-y-2">
-          <div className="text-xs font-medium text-red-700 dark:text-red-300">{t("pages.agentDetailproduction.failureDetails")}</div>
+          <div className="text-xs font-medium text-red-700 dark:text-red-300">Failure details</div>
           {run.error && (
             <div className="text-xs text-red-600 dark:text-red-200">
               <span className="text-red-700 dark:text-red-300">Error: </span>
@@ -4329,7 +4279,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.stderrExcerpt && run.stderrExcerpt.trim() && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetailproduction.stderrExcerpt")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">stderr excerpt</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {redactPathText(run.stderrExcerpt, censorUsernameInLogs)}
               </pre>
@@ -4337,7 +4287,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.resultJson && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetailproduction.adapterResultJson")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">adapter result JSON</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {JSON.stringify(redactPathValue(run.resultJson, censorUsernameInLogs), null, 2)}
               </pre>
@@ -4345,7 +4295,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.stdoutExcerpt && run.stdoutExcerpt.trim() && !run.resultJson && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetailproduction.stdoutExcerpt")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">stdout excerpt</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {redactPathText(run.stdoutExcerpt, censorUsernameInLogs)}
               </pre>
@@ -4354,9 +4304,15 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
         </div>
       )}
 
-      {events.length > 0 && (
+      {(events.length > 0 || eventsError) && (
         <div>
           <div className="mb-2 text-xs font-medium text-muted-foreground">Events ({events.length})</div>
+          {eventsError && <p className="text-sm text-destructive">{eventsError}</p>}
+          {(hasMoreEvents || eventsError) && (
+            <Button variant="outline" size="sm" disabled={loadingMoreEvents} onClick={() => loadMoreEventsRef.current?.()}>
+              {loadingMoreEvents ? "Loading..." : eventsError ? "Retry events" : "Load more events"}
+            </Button>
+          )}
           <div className="bg-neutral-100 dark:bg-neutral-950 rounded-lg p-3 font-mono text-xs space-y-0.5">
             {events.map((evt) => {
               const color = evt.color
@@ -4365,7 +4321,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 ?? "text-foreground";
 
               return (
-                <div key={evt.id} className="flex gap-2">
+                <div key={`${evt.runId}:${evt.seq}`} className="flex gap-2">
                   <span className="text-neutral-400 dark:text-neutral-600 shrink-0 select-none w-16">
                     {new Date(evt.createdAt).toLocaleTimeString("en-US", { hour12: false })}
                   </span>
@@ -4392,7 +4348,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
 /* ---- Keys Tab ---- */
 
 function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [newKeyName, setNewKeyName] = useState("");
@@ -4443,7 +4398,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
       {newToken && (
         <div className="border border-yellow-300 dark:border-yellow-600/40 bg-yellow-50 dark:bg-yellow-500/5 rounded-lg p-4 space-y-2">
           <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
-            {t("pages.agentDetailproduction.apiKeyCreatedCopyItNow")}
+            API key created — copy it now, it will not be shown again.
           </p>
           <div className="flex items-center gap-2">
             <code className="flex-1 bg-neutral-100 dark:bg-neutral-950 rounded px-3 py-1.5 text-xs font-mono text-green-700 dark:text-green-300 truncate">
@@ -4465,7 +4420,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
             >
               <Copy className="h-3.5 w-3.5" />
             </Button>
-            {copied && <span className="text-xs text-green-400">{t("pages.agentDetailproduction.copied")}</span>}
+            {copied && <span className="text-xs text-green-400">Copied!</span>}
           </div>
           <Button
             variant="ghost"
@@ -4473,7 +4428,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
             className="text-muted-foreground text-xs"
             onClick={() => setNewToken(null)}
           >
-            {t("pages.agentDetailproduction.dismiss")}
+            Dismiss
           </Button>
         </div>
       )}
@@ -4482,14 +4437,14 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
       <div className="border border-border rounded-lg p-4 space-y-3">
         <h3 className="text-xs font-medium text-muted-foreground flex items-center gap-2">
           <Key className="h-3.5 w-3.5" />
-          {t("pages.agentDetailproduction.createApiKey")}
+          Create API Key
         </h3>
         <p className="text-xs text-muted-foreground">
-          {t("pages.agentDetailproduction.apiKeysAllowThisAgentTo")}
+          API keys allow this agent to authenticate calls to the Paperclip server.
         </p>
         <div className="flex items-center gap-2">
           <Input
-            placeholder={t("pages.agentDetailproduction.keyNameEGProduction")}
+            placeholder="Key name (e.g. production)"
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
             className="h-8 text-sm"
@@ -4503,22 +4458,22 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
             disabled={createKey.isPending}
           >
             <Plus className="h-3.5 w-3.5 mr-1" />
-            {t("pages.agentDetailproduction.create")}
+            Create
           </Button>
         </div>
       </div>
 
       {/* Active keys */}
-      {isLoading && <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.loadingKeys")}</p>}
+      {isLoading && <p className="text-sm text-muted-foreground">Loading keys...</p>}
 
       {!isLoading && activeKeys.length === 0 && !newToken && (
-        <p className="text-sm text-muted-foreground">{t("pages.agentDetailproduction.noActiveApiKeys")}</p>
+        <p className="text-sm text-muted-foreground">No active API keys.</p>
       )}
 
       {activeKeys.length > 0 && (
         <div>
           <h3 className="text-xs font-medium text-muted-foreground mb-2">
-            {t("pages.agentDetailproduction.activeKeys")}
+            Active Keys
           </h3>
           <div className="border border-border rounded-lg divide-y divide-border">
             {activeKeys.map((key: AgentKey) => (
@@ -4548,7 +4503,7 @@ function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }
       {revokedKeys.length > 0 && (
         <div>
           <h3 className="text-xs font-medium text-muted-foreground mb-2">
-            {t("pages.agentDetailproduction.revokedKeys")}
+            Revoked Keys
           </h3>
           <div className="border border-border rounded-lg divide-y divide-border opacity-50">
             {revokedKeys.map((key: AgentKey) => (

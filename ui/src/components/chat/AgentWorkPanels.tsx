@@ -7,6 +7,7 @@ import { issuesApi } from "@/api/issues";
 import { projectsApi } from "@/api/projects";
 import { IssueFiltersPopover } from "@/components/IssueFiltersPopover";
 import { StatusIcon } from "@/components/StatusIcon";
+import { QueryErrorState, useQueryView } from "@/components/QueryView";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -20,7 +21,6 @@ import {
 import { queryKeys } from "@/lib/queryKeys";
 import { Link } from "@/lib/router";
 import { cn, formatDate, relativeTime } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
 
 /**
  * The agent-scoped side panels shown beside an agent chat: every task the
@@ -115,7 +115,6 @@ export function AgentTasksPanel({
   /** The conversation issue itself, which is not one of the agent's tasks. */
   excludeIssueId?: string;
 }) {
-  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState<IssueFilterState>(defaultIssueFilterState);
   const [sortField, setSortField] = useState<AgentTaskSortField>("updated");
@@ -130,6 +129,7 @@ export function AgentTasksPanel({
       limit: AGENT_TASK_LIMIT,
     }),
   });
+  const tasksView = useQueryView(tasksQuery);
   const projectsQuery = useQuery({
     queryKey: queryKeys.projects.list(companyId),
     queryFn: () => projectsApi.list(companyId),
@@ -152,15 +152,15 @@ export function AgentTasksPanel({
   const capped = (tasksQuery.data?.length ?? 0) >= AGENT_TASK_LIMIT;
 
   return (
-    <section className="flex flex-col gap-3" aria-label={t("components.chat.agentWorkPanels.agentTasks")}>
+    <section className="flex flex-col gap-3" aria-label="Agent tasks">
       <div className="flex items-center gap-1">
         <div className="relative min-w-0 flex-1">
           <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
           <Input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder={t("components.chat.agentWorkPanels.searchTasks")}
-            aria-label={t("components.chat.agentWorkPanels.searchTasks")}
+            placeholder="Search tasks"
+            aria-label="Search tasks"
             className="h-8 pl-7 text-sm"
           />
         </div>
@@ -176,7 +176,7 @@ export function AgentTasksPanel({
         />
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title="Sort" aria-label={t("components.chat.agentWorkPanels.sortTasks")}>
+            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" title="Sort" aria-label="Sort tasks">
               <ArrowUpDown className="h-3.5 w-3.5" />
             </Button>
           </PopoverTrigger>
@@ -209,23 +209,32 @@ export function AgentTasksPanel({
         </Popover>
       </div>
 
-      {tasksQuery.isPending ? (
-        <PanelMessage>{t("components.chat.agentWorkPanels.loadingTasks")}</PanelMessage>
-      ) : tasksQuery.isError ? (
-        <PanelMessage tone="error">{t("components.chat.agentWorkPanels.couldNotLoadThisAgentS2")}</PanelMessage>
+      {tasksView.kind === "loading" || tasksView.kind === "reconnecting" ? (
+        <PanelMessage>Loading tasks…</PanelMessage>
+      ) : tasksView.kind === "error" ? (
+        <div className="py-4">
+          <QueryErrorState
+            error={tasksQuery.error}
+            action="load this agent's tasks"
+            onRetry={tasksView.retry}
+            retrying={tasksView.isFetching}
+          />
+        </div>
       ) : total === 0 ? (
-        <PanelMessage>{t("components.chat.agentWorkPanels.thisAgentHasnTWorkedOn")}</PanelMessage>
+        <PanelMessage>This agent hasn't worked on any tasks yet.</PanelMessage>
       ) : visible.length === 0 ? (
         <PanelMessage>
           {capped
             ? `No tasks match these filters among the ${AGENT_TASK_LIMIT} most recently updated.`
-            : t("components.chat.agentWorkPanels.noTasksMatchTheseFilters")}
+            : "No tasks match these filters."}
         </PanelMessage>
       ) : (
         <div className="flex flex-col gap-2">
           {visible.map((task) => <AgentTaskCard key={task.id} task={task} />)}
           {capped ? (
-            <p className="px-1 text-xs text-muted-foreground">{t("components.chat.agentWorkPanels.showingTheMostRecentlyUpdatedTasks", { AGENT_TASK_LIMIT })}</p>
+            <p className="px-1 text-xs text-muted-foreground">
+              Showing the {AGENT_TASK_LIMIT} most recently updated tasks.
+            </p>
           ) : null}
         </div>
       )}
@@ -288,21 +297,35 @@ async function listAgentArtifacts(companyId: string, agentId: string) {
 }
 
 export function AgentArtifactsPanel({ companyId, agentId }: { companyId: string; agentId: string }) {
-  const { t } = useTranslation();
   const artifactsQuery = useQuery({
     queryKey: queryKeys.artifacts.byAgent(companyId, agentId),
     queryFn: () => listAgentArtifacts(companyId, agentId),
   });
 
-  if (artifactsQuery.isPending) return <PanelMessage>{t("components.chat.agentWorkPanels.loadingArtifacts")}</PanelMessage>;
-  if (artifactsQuery.isError) return <PanelMessage tone="error">{t("components.chat.agentWorkPanels.couldNotLoadThisAgentS")}</PanelMessage>;
-  const { artifacts, truncated } = artifactsQuery.data;
-  if (artifacts.length === 0) return <PanelMessage>{t("components.chat.agentWorkPanels.thisAgentHasnTProducedAny")}</PanelMessage>;
+  const artifactsView = useQueryView(artifactsQuery);
+
+  if (artifactsView.kind === "loading" || artifactsView.kind === "reconnecting") return <PanelMessage>Loading artifacts…</PanelMessage>;
+  if (artifactsView.kind === "error") {
+    return (
+      <div className="py-4">
+        <QueryErrorState
+          error={artifactsQuery.error}
+          action="load this agent's artifacts"
+          onRetry={artifactsView.retry}
+          retrying={artifactsView.isFetching}
+        />
+      </div>
+    );
+  }
+  const loaded = artifactsQuery.data;
+  if (!loaded) return null;
+  const { artifacts, truncated } = loaded;
+  if (artifacts.length === 0) return <PanelMessage>This agent hasn't produced any artifacts yet.</PanelMessage>;
   return (
-    <section className="flex flex-col gap-2" aria-label={t("components.chat.agentWorkPanels.agentArtifacts")}>
+    <section className="flex flex-col gap-2" aria-label="Agent artifacts">
       {artifacts.map((artifact) => <AgentArtifactCard key={artifact.id} artifact={artifact} />)}
       {truncated ? (
-        <p className="px-1 text-xs text-muted-foreground">{t("components.chat.agentWorkPanels.showingThisAgentSMostRecent", { length: artifacts.length })}</p>
+        <p className="px-1 text-xs text-muted-foreground">Showing this agent's {artifacts.length} most recent artifacts.</p>
       ) : null}
     </section>
   );

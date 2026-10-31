@@ -310,6 +310,7 @@ function KanbanCard({
   return (
     <Card
       ref={setNodeRef}
+      data-issue-row-details={issue.id}
       style={style}
       {...attributes}
       {...listeners}

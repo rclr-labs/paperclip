@@ -1,3 +1,5 @@
+import { useIssueRowDetails } from "../hooks/useIssueRowDetails";
+import { IssueRowDetailsNotice } from "./IssueRowDetailsNotice";
 import { useShowAgentCreatedTasks } from "../hooks/useShowAgentCreatedTasks";
 import { useIssueHierarchyContext } from "../hooks/useIssueHierarchyContext";
 import { includeIssueHierarchyContext } from "../lib/issue-hierarchy-context";
@@ -32,6 +34,7 @@ import {
 import { groupBy } from "../lib/groupBy";
 import {
   applyIssueFilters,
+  issueCreationRequestFilters,
   countActiveIssueFilters,
   defaultIssueFilterState,
   issueFilterLabel,
@@ -100,7 +103,6 @@ import {
 import { taskDateGroup, taskDateGroupSeparator, type TaskDateGroup } from "../lib/task-date-groups";
 import { deriveOriginatingActor, ISSUE_STATUSES, type Issue, type IssueStatus, type Project } from "@paperclipai/shared";
 import { Badge } from "@/components/ui/badge";
-import { useTranslation } from "@/i18n";
 const ISSUE_SEARCH_DEBOUNCE_MS = 250;
 const ISSUE_SEARCH_RESULT_LIMIT = 200;
 const ISSUE_BOARD_COLUMN_RESULT_LIMIT = 200;
@@ -486,6 +488,8 @@ interface IssuesListProps {
    * Used by the Tasks view presets (PAP-670).
    */
   initialStatuses?: string[];
+  routineTasksOnly?: boolean;
+  onRoutineTasksOnlyChange?: (checked: boolean) => void;
   initialSearch?: string;
   searchFilters?: Omit<IssueListRequestFilters, "q" | "projectId" | "limit" | "includeRoutineExecutions">;
   searchWithinLoadedIssues?: boolean;
@@ -539,7 +543,6 @@ function IssueSearchInput({
   value: string;
   onDebouncedChange?: (search: string) => void;
 }) {
-  const { t } = useTranslation();
   const [draftValue, setDraftValue] = useState(value);
   const lastCommittedValueRef = useRef(value);
 
@@ -586,9 +589,9 @@ function IssueSearchInput({
             e.currentTarget.blur();
           }
         }}
-        placeholder={t("components.issuesList.searchTasks2")}
+        placeholder="Search tasks..."
         className="pl-7 text-xs sm:text-sm"
-        aria-label={t("components.issuesList.searchTasks")}
+        aria-label="Search tasks"
         data-page-search-target="true"
       />
     </div>
@@ -604,7 +607,6 @@ function SubIssueProgressSummaryStrip({
   issueLinkState?: unknown;
   parentIssueIdForCostSummary?: string;
 }) {
-  const { t } = useTranslation();
   const target = summary.target;
   const targetIssue = target?.issue ?? null;
   const targetPathId = targetIssue?.identifier ?? targetIssue?.id ?? "";
@@ -637,7 +639,9 @@ function SubIssueProgressSummaryStrip({
             <span className="font-medium text-foreground">
               {summary.doneCount}/{summary.totalCount} done
             </span>
-            <span className="text-muted-foreground">{t("components.issuesList.inProgress", { inProgressCount: summary.inProgressCount })}</span>
+            <span className="text-muted-foreground">
+              {summary.inProgressCount} in progress
+            </span>
             <span className="text-muted-foreground">
               {summary.blockedCount} blocked
             </span>
@@ -661,7 +665,7 @@ function SubIssueProgressSummaryStrip({
           </div>
           <div
             role="progressbar"
-            aria-label={t("components.issuesList.subTasksCompletionProgress")}
+            aria-label="Sub-tasks completion progress"
             aria-valuemin={0}
             aria-valuenow={summary.doneCount}
             aria-valuemax={summary.totalCount}
@@ -683,7 +687,7 @@ function SubIssueProgressSummaryStrip({
           {target && targetIssue ? (
             <>
               <div className="text-xs font-medium text-muted-foreground">
-                {target.kind === "next" ? t("components.issuesList.nextUp") : t("components.issuesList.waitingOnBlockers")}
+                {target.kind === "next" ? "Next up" : "Waiting on blockers"}
               </div>
               <Link
                 to={createIssueDetailPath(targetPathId)}
@@ -698,11 +702,11 @@ function SubIssueProgressSummaryStrip({
               </Link>
             </>
           ) : summary.totalCount === 0 ? (
-            <div className="text-sm font-medium text-foreground">{t("components.issuesList.noActiveSubTasks")}</div>
+            <div className="text-sm font-medium text-foreground">No active sub-tasks</div>
           ) : summary.doneCount === summary.totalCount ? (
-            <div className="text-sm font-medium text-foreground">{t("components.issuesList.allSubTasksDone")}</div>
+            <div className="text-sm font-medium text-foreground">All sub-tasks done</div>
           ) : (
-            <div className="text-sm font-medium text-foreground">{t("components.issuesList.noActionableSubTasks")}</div>
+            <div className="text-sm font-medium text-foreground">No actionable sub-tasks</div>
           )}
         </div>
       </div>
@@ -731,6 +735,8 @@ function StreamlinedIssuesList({
   initialAssignees,
   initialWorkspaces,
   initialStatuses,
+  routineTasksOnly,
+  onRoutineTasksOnlyChange,
   initialSearch,
   searchFilters,
   searchWithinLoadedIssues = false,
@@ -751,7 +757,6 @@ function StreamlinedIssuesList({
   toolbarPresentation = "legacy",
   onUpdateIssue,
 }: IssuesListProps) {
-  const { t } = useTranslation();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -818,7 +823,7 @@ function StreamlinedIssuesList({
   }
   const initialPreferences = initialPreferencesRef.current;
 
-  const [viewState, setViewState] = useState<IssueViewState>(() =>
+  const [savedViewState, setViewState] = useState<IssueViewState>(() =>
     getInitialWorkspaceViewState(
       initialPreferences,
       initialAssignees,
@@ -827,6 +832,8 @@ function StreamlinedIssuesList({
       initialStatuses,
     ),
   );
+  // The Tasks URL owns this filter; other collections keep their saved state.
+  const viewState = useMemo(() => routineTasksOnly === undefined ? savedViewState : { ...savedViewState, routineTasksOnly }, [savedViewState, routineTasksOnly]);
   const showAgentCreatedTasks = useShowAgentCreatedTasks(selectedCompanyId, viewStateKey);
   useEffect(() => {
     if (!enableAgentCreatedVisibilityFilter) return;
@@ -882,6 +889,7 @@ function StreamlinedIssuesList({
   ]);
 
   const updateView = useCallback((patch: Partial<IssueViewState>) => {
+    if (patch.routineTasksOnly !== undefined) onRoutineTasksOnlyChange?.(patch.routineTasksOnly);
     setViewState((prev) => {
       const next = { ...prev, ...patch };
       saveTaskCollectionPreferences(preferenceLocation, {
@@ -896,6 +904,7 @@ function StreamlinedIssuesList({
     preferenceLocation.legacyColumnsStorageKey,
     preferenceLocation.legacyViewStorageKey,
     visibleIssueColumns,
+    onRoutineTasksOnlyChange,
   ]);
 
   useEffect(() => {
@@ -917,22 +926,23 @@ function StreamlinedIssuesList({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [issues]);
 
+  const creationRequestFilters = issueCreationRequestFilters(viewState, enableAgentCreatedVisibilityFilter);
   const { data: searchedIssues = [] } = useQuery({
     queryKey: [
       ...queryKeys.issues.search(selectedCompanyId!, normalizedIssueSearch, projectId),
       searchFilters ?? {},
-      "compact",
+      creationRequestFilters,
+      enableAgentCreatedVisibilityFilter && viewState.viewMode === "list" ? "index" : "compact",
       ISSUE_SEARCH_RESULT_LIMIT,
-      enableAgentCreatedVisibilityFilter ? "with-routine-executions" : "without-routine-executions",
-        enableAgentCreatedVisibilityFilter ? viewState.showAgentCreatedTasks : undefined,
     ],
     queryFn: ({ signal }) =>
       issuesApi.listCompact(selectedCompanyId!, {
+        projection: enableAgentCreatedVisibilityFilter && viewState.viewMode === "list" ? "index" : undefined,
         q: normalizedIssueSearch,
         projectId,
         limit: ISSUE_SEARCH_RESULT_LIMIT,
         ...searchFilters,
-        ...(enableAgentCreatedVisibilityFilter ? { includeRoutineExecutions: true, includeAgentCreatedTasks: viewState.showAgentCreatedTasks } : {}),
+        ...creationRequestFilters,
       }, { signal }).then((rows) => rows as Issue[]),
     enabled: !!selectedCompanyId && normalizedIssueSearch.length > 0 && !searchWithinLoadedIssues,
     placeholderData: (previousData) => previousData,
@@ -946,10 +956,9 @@ function StreamlinedIssuesList({
         normalizedIssueSearch,
         projectId ?? "__all-projects__",
         searchFilters ?? {},
+        creationRequestFilters,
         "compact",
         ISSUE_BOARD_COLUMN_RESULT_LIMIT,
-        enableAgentCreatedVisibilityFilter ? "with-routine-executions" : "without-routine-executions",
-        enableAgentCreatedVisibilityFilter ? viewState.showAgentCreatedTasks : undefined,
       ],
       queryFn: ({ signal }: { signal: AbortSignal }) =>
         issuesApi.listCompact(selectedCompanyId!, {
@@ -958,7 +967,7 @@ function StreamlinedIssuesList({
           projectId,
           status,
           limit: ISSUE_BOARD_COLUMN_RESULT_LIMIT,
-          ...(enableAgentCreatedVisibilityFilter ? { includeRoutineExecutions: true, includeAgentCreatedTasks: viewState.showAgentCreatedTasks } : {}),
+          ...creationRequestFilters,
         }, { signal }).then((rows) => rows as Issue[]),
       enabled: !!selectedCompanyId && viewState.viewMode === "board" && !searchWithinLoadedIssues,
       placeholderData: (previousData: Issue[] | undefined) => previousData,
@@ -1200,6 +1209,8 @@ function StreamlinedIssuesList({
     summaries: externalObjectSummaryByIssueId,
     isLoading: externalObjectSummariesLoading,
     isReady: externalObjectSummariesReady,
+    error: externalObjectSummariesError,
+    refetch: retryExternalObjectSummaries,
   } = useIssueExternalObjectSummaries(
     selectedCompanyId,
     issueIdsForExternalObjectSummaries,
@@ -1212,6 +1223,7 @@ function StreamlinedIssuesList({
   const externalObjectFilterLoading = hasExternalObjectStatusFilters
     && externalObjectSummariesLoading
     && !externalObjectSummariesReady;
+  const externalObjectFilterError = hasExternalObjectStatusFilters ? externalObjectSummariesError : null;
 
   const filtered = useMemo(() => {
     const filteredByControls = applyIssueFilters(
@@ -1303,12 +1315,15 @@ function StreamlinedIssuesList({
     || viewState.boardColdLaneMode !== "auto"
     || viewState.boardColumnPageSize !== KANBAN_COLUMN_DEFAULT_PAGE_SIZE;
 
-  const hierarchyEnabled = enableAgentCreatedVisibilityFilter && !viewState.showAgentCreatedTasks && viewState.nestingEnabled && viewState.viewMode === "list";
+  const hierarchyEnabled = enableAgentCreatedVisibilityFilter && !viewState.showAgentCreatedTasks && !viewState.routineTasksOnly && viewState.nestingEnabled && viewState.viewMode === "list";
   const hierarchy = useIssueHierarchyContext(
     selectedCompanyId, filtered.slice(0, renderedIssueRowLimit), viewState.collapsedParents,
     hierarchyEnabled,
     hierarchyRowBudget,
   );
+  // Resolve the initial tree before reveal: inserting ancestors/children later would move rows.
+  // Hierarchy queries retain existing context during subsequent reads.
+  const collectionLoading = Boolean(isLoading || externalObjectFilterLoading || (hierarchyEnabled && hierarchy.isLoading));
   const baseGroupedContent = useMemo(() => {
     if (viewState.groupBy === "none") {
       return [{ key: "__all", label: null as string | null, items: filtered }];
@@ -1403,10 +1418,10 @@ function StreamlinedIssuesList({
   ]);
   const groupedContent = useMemo(() => baseGroupedContent.map((group) => ({
     ...group,
-    items: enableAgentCreatedVisibilityFilter && !viewState.showAgentCreatedTasks && viewState.nestingEnabled && viewState.viewMode === "list"
+    items: enableAgentCreatedVisibilityFilter && !viewState.showAgentCreatedTasks && !viewState.routineTasksOnly && viewState.nestingEnabled && viewState.viewMode === "list"
       ? includeIssueHierarchyContext(group.items, [...issues, ...hierarchy.issues])
       : group.items,
-  })), [baseGroupedContent, hierarchy.issues, issues, enableAgentCreatedVisibilityFilter, viewState.showAgentCreatedTasks, viewState.nestingEnabled, viewState.viewMode]);
+  })), [baseGroupedContent, hierarchy.issues, issues, enableAgentCreatedVisibilityFilter, viewState.showAgentCreatedTasks, viewState.routineTasksOnly, viewState.nestingEnabled, viewState.viewMode]);
   const visibleListRowCount = groupedContent.reduce((total, group) => total + group.items.length, 0);
 
 
@@ -1450,6 +1465,13 @@ function StreamlinedIssuesList({
     viewState.collapsedParents,
     viewState.nestingEnabled,
   ]);
+
+  const { enrichIssueRow, error: rowDetailsError, retry: retryRowDetails } = useIssueRowDetails(
+    selectedCompanyId, rootRef,
+    flatNavEntries.filter((entry) => entry.type === "issue").map((entry) => entry.type === "issue" ? entry.issue.id : "").join(",") + ":" + renderedIssueRowLimit,
+    enableAgentCreatedVisibilityFilter && viewState.viewMode === "list" && !collectionLoading,
+    [...issues, ...hierarchy.issues],
+  );
 
   const listNavStateRef = useRef({
     flatNavEntries,
@@ -1779,6 +1801,7 @@ function StreamlinedIssuesList({
 
   return (
     <div ref={rootRef} className="space-y-4">
+      <IssueRowDetailsNotice error={rowDetailsError} onRetry={() => void retryRowDetails()} />
       {progressSummary ? (
         <SubIssueProgressSummaryStrip
           summary={progressSummary}
@@ -1817,12 +1840,12 @@ function StreamlinedIssuesList({
         controls={(
           <>
           {/* View mode toggle */}
-          <div className="flex items-center border border-border rounded-md overflow-hidden mr-1" role="group" aria-label={t("components.issuesList.viewMode")}>
+          <div className="flex items-center border border-border rounded-md overflow-hidden mr-1" role="group" aria-label="View mode">
             <button
               className={`flex h-8 w-8 items-center justify-center transition-colors ${viewState.viewMode === "list" ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground"}`}
               onClick={() => updateView({ viewMode: "list" })}
-              title={t("components.issuesList.listView")}
-              aria-label={t("components.issuesList.listView")}
+              title="List view"
+              aria-label="List view"
               aria-pressed={viewState.viewMode === "list"}
             >
               <List className="h-3.5 w-3.5" />
@@ -1830,8 +1853,8 @@ function StreamlinedIssuesList({
             <button
               className={`flex h-8 w-8 items-center justify-center transition-colors ${viewState.viewMode === "board" ? "bg-accent text-foreground" : "text-muted-foreground hover:text-foreground"}`}
               onClick={() => updateView({ viewMode: "board" })}
-              title={t("components.issuesList.boardView")}
-              aria-label={t("components.issuesList.boardView")}
+              title="Board view"
+              aria-label="Board view"
               aria-pressed={viewState.viewMode === "board"}
             >
               <SquareKanban className="h-3.5 w-3.5" />
@@ -1941,6 +1964,7 @@ function StreamlinedIssuesList({
           />
 
           <IssueFiltersPopover
+            enableRoutineTasksFilter={routineTasksOnly !== undefined}
             state={viewState}
             onChange={updateView}
             buttonVariant="outline"
@@ -2044,16 +2068,27 @@ function StreamlinedIssuesList({
         )}
       />
 
-      {(isLoading || externalObjectFilterLoading) && <PageSkeleton variant="issues-list" />}
+      {collectionLoading && !externalObjectFilterError && <PageSkeleton variant="issues-list" collectionHeading={viewState.groupBy !== "none" ? "group"
+        : viewState.showDateGroupSeparators && issueDateSeparatorField(viewState) && rowPresentation === "task" ? "date" : null} />}
       {error && <p className="text-sm text-destructive">{error.message}</p>}
+      {externalObjectFilterError && (
+        <div role="alert" className="flex items-center gap-2 text-sm text-destructive">
+          <p>Unable to filter tasks by external status: {externalObjectFilterError.message}</p>
+          <Button variant="outline" size="sm" onClick={retryExternalObjectSummaries}>Retry external statuses</Button>
+        </div>
+      )}
       {!searchWithinLoadedIssues && normalizedIssueSearch.length > 0 && searchedIssues.length === ISSUE_SEARCH_RESULT_LIMIT && (
-        <p className="text-xs text-muted-foreground">{t("components.issuesList.showingUpToMatchesRefineThe", { ISSUE_SEARCH_RESULT_LIMIT })}</p>
+        <p className="text-xs text-muted-foreground">
+          Showing up to {ISSUE_SEARCH_RESULT_LIMIT} matches. Refine the search to narrow further.
+        </p>
       )}
       {boardColumnLimitReached && (
-        <p className="text-xs text-muted-foreground">{t("components.issuesList.someBoardColumnsAreShowingUp", { ISSUE_BOARD_COLUMN_RESULT_LIMIT })}</p>
+        <p className="text-xs text-muted-foreground">
+          Some board columns are showing up to {ISSUE_BOARD_COLUMN_RESULT_LIMIT} tasks. Refine filters or search to reveal the rest.
+        </p>
       )}
-      {hierarchy.error ? <p className="text-sm text-destructive">{t("components.issuesList.failedToLoadTaskHierarchy", { message: hierarchy.error.message })}</p> : null}
-      {!isLoading && !externalObjectFilterLoading && visibleListRowCount === 0 && viewState.viewMode === "list" && (
+      {hierarchy.error ? <p className="text-sm text-destructive">Failed to load task hierarchy: {hierarchy.error.message}</p> : null}
+      {!collectionLoading && !externalObjectFilterError && visibleListRowCount === 0 && viewState.viewMode === "list" && (
         <EmptyState
           icon={CircleDot}
           message="No tasks match the current filters or search."
@@ -2062,7 +2097,7 @@ function StreamlinedIssuesList({
         />
       )}
 
-      {viewState.viewMode === "board" ? (
+      {!collectionLoading && !externalObjectFilterError && (viewState.viewMode === "board" ? (
         <KanbanBoard
           issues={filtered}
           agents={agents}
@@ -2132,6 +2167,7 @@ function StreamlinedIssuesList({
                   : { roots: group.items, childMap: new Map<string, Issue[]>() };
 
                 const renderIssueRow = (issue: Issue, depth: number) => {
+                  issue = enrichIssueRow(issue);
                   if (remainingRowsToRender <= 0) return null;
                   remainingRowsToRender -= 1;
 
@@ -2234,6 +2270,7 @@ function StreamlinedIssuesList({
                       <IssueRow
                         issue={issue}
                         presentation={rowPresentation}
+                        stableLayout={enableAgentCreatedVisibilityFilter}
                         issueLinkState={issueLinkState}
                         selected={selectedNavKey === `issue:${issue.id}`}
                         onMouseEnter={() => setNavSelectionFromPointer(`issue:${issue.id}`)}
@@ -2249,7 +2286,9 @@ function StreamlinedIssuesList({
                           <>
                             {hasChildren && !isExpanded ? (
                               <span className="ml-1.5 text-xs text-muted-foreground">
-                                ({totalDescendants} sub-task{totalDescendants !== 1 ? "s" : ""})
+                                {enableAgentCreatedVisibilityFilter
+                                  ? "(sub-tasks)"
+                                  : `(${totalDescendants} sub-task${totalDescendants !== 1 ? "s" : ""})`}
                               </span>
                             ) : null}
                             {issueBadge ? (
@@ -2554,15 +2593,15 @@ function StreamlinedIssuesList({
             <div className="py-2" data-testid="issues-load-more-sentinel">
               <p className="text-xs text-muted-foreground">
                 {isLoadingMoreIssues || (hierarchyEnabled && hierarchy.isFetching)
-                  ? t("components.issuesList.loadingMoreTasks")
+                  ? "Loading more tasks..."
                   : remainingIssueRowCount > 0
                     ? `Rendering ${Math.min(renderedIssueRowLimit, visibleListRowCount)} of ${visibleListRowCount} tasks`
-                    : t("components.issuesList.scrollToLoadMoreTasks")}
+                    : "Scroll to load more tasks"}
               </p>
             </div>
           )}
         </div>
-      )}
+      ))}
     </div>
   );
 }

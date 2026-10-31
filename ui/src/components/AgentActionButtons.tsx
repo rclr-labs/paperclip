@@ -34,10 +34,10 @@ import { agentsApi } from "../api/agents";
 import { ApiError } from "../api/client";
 import { queryKeys } from "../lib/queryKeys";
 import { agentRouteRef } from "../lib/utils";
+import { pendingAgentSetupChoice } from "../lib/agent-setup-choice";
 import { copyTextToClipboard } from "../lib/clipboard";
 import { useDialogActions } from "../context/DialogContext";
 import { useToastActions } from "../context/ToastContext";
-import { useTranslation } from "@/i18n";
 import {
   buildDuplicateAgentPayload,
   duplicateAgentName,
@@ -82,12 +82,11 @@ export function PauseResumeButton({
   disabled?: boolean;
   size?: "sm" | "default";
 }) {
-  const { t } = useTranslation();
   if (isPaused) {
     return (
       <Button variant="outline" size={size} onClick={onResume} disabled={disabled}>
         <Play className="h-3.5 w-3.5 sm:mr-1" />
-        <span className="hidden sm:inline">{t("components.agentActionButtons.resume")}</span>
+        <span className="hidden sm:inline">Resume</span>
       </Button>
     );
   }
@@ -95,7 +94,7 @@ export function PauseResumeButton({
   return (
     <Button variant="outline" size={size} onClick={onPause} disabled={disabled}>
       <Pause className="h-3.5 w-3.5 sm:mr-1" />
-      <span className="hidden sm:inline">{t("components.agentActionButtons.pause")}</span>
+      <span className="hidden sm:inline">Pause</span>
     </Button>
   );
 }
@@ -109,7 +108,6 @@ export function ClearErrorButton({
   disabled?: boolean;
   size?: "sm" | "default";
 }) {
-  const { t } = useTranslation();
   return (
     <Button
       variant="outline"
@@ -117,10 +115,10 @@ export function ClearErrorButton({
       onClick={onClick}
       disabled={disabled}
       className="border-destructive/60 text-destructive hover:bg-destructive/10 hover:text-destructive dark:border-destructive/50"
-      aria-label={t("components.agentActionButtons.clearErrorAndReturnAgentTo")}
+      aria-label="Clear error and return agent to idle"
     >
       <CheckCircle2 className="h-3.5 w-3.5 sm:mr-1" />
-      <span className="hidden sm:inline">{t("components.agentActionButtons.clearError")}</span>
+      <span className="hidden sm:inline">Clear error</span>
     </Button>
   );
 }
@@ -213,7 +211,6 @@ export function AgentActionButtons({
   children?: React.ReactNode;
   className?: string;
 }) {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { openNewIssue } = useDialogActions();
@@ -244,6 +241,8 @@ export function AgentActionButtons({
   const canonicalAgentRef = agentRouteRef(agent);
   const isPaused = agent.lifecycleState ? agent.lifecycleState === "paused" : agent.status === "paused";
   const isError = agent.status === "error";
+  const needsSetup = agent.pauseReason === "setup" && agent.status !== "terminated"
+    && !["terminating", "cleaning_up", "terminated", "rejected"].includes(agent.lifecycleState ?? "");
 
   const reportError = useCallback(
     (message: string) => {
@@ -370,10 +369,10 @@ export function AgentActionButtons({
       {persistentProviderTrace ? (
         <span
           className="hidden items-center gap-1 rounded-md border border-primary/30 bg-primary/10 px-2 py-1 text-xs font-medium text-primary lg:inline-flex"
-          title={t("components.agentActionButtons.exactProviderTrafficWillBeCaptured")}
+          title="Exact provider traffic will be captured for future runs and retained for up to 24 hours."
         >
           <Bug className="h-3.5 w-3.5" />
-          {t("components.agentActionButtons.rawTracingOn")}
+          Raw tracing on
         </span>
       ) : null}
       <Button
@@ -386,7 +385,17 @@ export function AgentActionButtons({
         <Plus className="h-3.5 w-3.5 sm:mr-1" />
         <span className="hidden sm:inline">{assignLabel}</span>
       </Button>
-      {showRun && <RunButton
+      {needsSetup ? (
+        <Button variant="outline" size={size} disabled={disabled} onClick={() => {
+          if (!confirmNavigationStart(agentActionStartedDirtyRef)) return;
+          navigate(`/agents/new?${new URLSearchParams({
+            name: agent.name, adapterType: agent.adapterType, setupAgentId: agent.id,
+            runnerProvider: String(agent.adapterConfig.provider === "acpx" ? agent.adapterConfig.acpxAgent : agent.adapterConfig.provider ?? "codex"),
+            ...(agent.adapterType === "paperclip_runner" ? { runner: "paperclip" } : ["codex_local", "claude_local", "opencode_local", "pi_local"].includes(agent.adapterType) ? { runner: "legacy" } : {}),
+            ...pendingAgentSetupChoice(agent),
+          })}`);
+        }}>Finish setup</Button>
+      ) : showRun && <RunButton
         onClick={() => {
           if (navigateToRunOnInvoke && !confirmNavigationStart(agentActionStartedDirtyRef)) return;
           agentAction.mutate("invoke");
@@ -395,18 +404,12 @@ export function AgentActionButtons({
         label={runLabel}
         size={size}
       />}
-      {isError ? (
+      {!needsSetup && (isError ? (
         <ClearErrorButton
           onClick={() => agentAction.mutate("clear_error")}
           disabled={clearErrorDisabled}
           size={size}
         />
-      ) : agent.pauseReason === "setup" && agent.lifecycleState === "paused" ? (
-        <Button variant="outline" size={size} disabled={disabled} onClick={() => navigate(`/agents/new?${new URLSearchParams({
-          name: agent.name, adapterType: agent.adapterType, setupAgentId: agent.id,
-          runnerProvider: String(agent.adapterConfig.provider === "acpx" ? agent.adapterConfig.acpxAgent : agent.adapterConfig.provider ?? "codex"),
-          ...(agent.adapterType === "paperclip_runner" ? { runner: "paperclip" } : ["codex_local", "claude_local", "opencode_local", "pi_local"].includes(agent.adapterType) ? { runner: "legacy" } : {}),
-        })}`)}>{t("components.agentActionButtons.finishSetup")}</Button>
       ) : (
         <PauseResumeButton
           isPaused={isPaused}
@@ -415,7 +418,7 @@ export function AgentActionButtons({
           disabled={pauseResumeDisabled}
           size={size}
         />
-      )}
+      ))}
       {pauseConfirm && (
         <AlertDialog open={pauseConfirmOpen} onOpenChange={setPauseConfirmOpen}>
           <AlertDialogContent>
@@ -426,9 +429,9 @@ export function AgentActionButtons({
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>{t("components.agentActionButtons.cancel")}</AlertDialogCancel>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
               <AlertDialogAction onClick={() => agentAction.mutate("pause")}>
-                {t("components.agentActionButtons.pauseAnyway")}
+                Pause anyway
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -469,7 +472,7 @@ export function AgentActionButtons({
             }}
           >
             <Copy className="h-3 w-3" />
-            {t("components.agentActionButtons.copyAgentId")}
+            Copy Agent ID
           </button>
           <button
             className="flex items-center gap-2 w-full px-2 py-1.5 text-xs rounded hover:bg-accent/50"
@@ -479,7 +482,7 @@ export function AgentActionButtons({
             }}
           >
             <RotateCcw className="h-3 w-3" />
-            {t("components.agentActionButtons.resetSessions")}
+            Reset Sessions
           </button>
           {!hideTerminate && (
             <button
@@ -491,7 +494,7 @@ export function AgentActionButtons({
               }}
             >
               <Trash2 className="h-3 w-3" />
-              {t("components.agentActionButtons.terminate")}
+              Terminate
             </button>
           )}
         </PopoverContent>

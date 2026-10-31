@@ -3,13 +3,12 @@ import { Link } from "@/lib/router";
 import { ToolbarSearch } from "./ToolbarSearch";
 import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { useTranslation } from "@/i18n";
 
 export type RoutineGroupBy = "folder" | "none" | "project" | "assignee";
 export type RoutineSortField = "updated" | "created" | "title" | "lastRun";
 export type RoutineSortDir = "asc" | "desc";
 
-export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, groupBy, onSortChange, onGroupChange, onNewFolder, onCreateRoutine, runsHref, selectMode, onToggleSelect }: {
+export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, groupBy, onSortChange, onGroupChange, onNewFolder, onCreateRoutine, tasksHref, selectMode, onToggleSelect }: {
   query: string;
   onQueryChange: (value: string) => void;
   sortField: RoutineSortField;
@@ -19,18 +18,17 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
   onGroupChange: (value: RoutineGroupBy) => void;
   onNewFolder?: () => void;
   onCreateRoutine: () => void;
-  runsHref?: string;
+  tasksHref?: string;
   selectMode?: boolean;
   onToggleSelect?: () => void;
 }) {
-  const { t } = useTranslation();
-  return <div data-canonical-toolbar="routines" role="toolbar" aria-label={t("components.routinesToolbar.routinesControls")} className="flex flex-wrap items-center gap-4">
-    <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search routines" placeholder={t("components.routinesToolbar.searchRoutines")} />
+  return <div data-canonical-toolbar="routines" role="toolbar" aria-label="Routines controls" className="flex flex-wrap items-center gap-4">
+    <ToolbarSearch query={query} onQueryChange={onQueryChange} label="Search routines" placeholder="Search routines…" />
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" title="Sort">
           <ArrowUpDown className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
-          <span >{t("components.routinesToolbar.sort")}</span>
+          <span >Sort</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-44 p-0">
@@ -70,7 +68,7 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" title="Group">
           <Layers className="h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1" />
-          <span >{t("components.routinesToolbar.group")}</span>
+          <span >Group</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-44 p-0">
@@ -99,10 +97,10 @@ export function RoutinesToolbar({ query, onQueryChange, sortField, sortDir, grou
       </PopoverContent>
     </Popover>
     <div className="design-toolbar-actions">
-      {onToggleSelect && <Button variant="outline" size="sm" onClick={onToggleSelect}>{selectMode ? t("components.routinesToolbar.done") : t("components.routinesToolbar.select")}</Button>}
-      {runsHref && <Button variant="outline" size="sm" asChild><Link data-toolbar-control to={runsHref}>{t("components.routinesToolbar.viewAllRuns")}</Link></Button>}
-      {onNewFolder && <Button variant="outline" size="sm" onClick={onNewFolder}><Plus className="h-4 w-4" />{t("components.routinesToolbar.newFolder")}</Button>}
-      <Button variant="outline" size="sm" data-toolbar-primary onClick={onCreateRoutine}><Plus className="h-4 w-4" />{t("components.routinesToolbar.createRoutine")}</Button>
+      {onToggleSelect && <Button variant="outline" size="sm" onClick={onToggleSelect}>{selectMode ? "Done" : "Select"}</Button>}
+      {tasksHref && <Button variant="outline" size="sm" asChild><Link data-toolbar-control to={tasksHref}>View all tasks</Link></Button>}
+      {onNewFolder && <Button variant="outline" size="sm" onClick={onNewFolder}><Plus className="h-4 w-4" />New folder</Button>}
+      <Button variant="outline" size="sm" data-toolbar-primary onClick={onCreateRoutine}><Plus className="h-4 w-4" />Create routine</Button>
     </div>
   </div>;
 }

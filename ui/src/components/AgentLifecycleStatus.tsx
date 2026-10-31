@@ -5,7 +5,6 @@ import type { Agent, AgentLifecycleState } from "@paperclipai/shared";
 import { Loader2 } from "lucide-react";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
-import { useTranslation } from "@/i18n";
 
 const phases = {
   preparing: ["Preparing agent", "Required resources are being prepared. Work stays queued."],
@@ -36,7 +35,7 @@ export function useAgentLifecycleStatus(agent?: Agent) {
     queryKey: [...queryKeys.agents.detail(agent?.id ?? ""), "lifecycle", agent?.companyId],
     queryFn: () => agentsApi.get(agent!.id, agent!.companyId),
     enabled: Boolean(agent),
-    select: current => ({ status: current.status, lifecycleState: current.lifecycleState,
+    select: current => ({ status: current.status, pauseReason: current.pauseReason, pausedAt: current.pausedAt, lifecycleState: current.lifecycleState,
       lifecycleVersion: current.lifecycleVersion, lifecycleError: current.lifecycleError }),
     refetchInterval: query => agentLifecycleRefetchInterval(query.state.data?.lifecycleState ?? agent?.lifecycleState),
   });
@@ -48,11 +47,10 @@ export function AgentLifecycleStatus({ agent, onRetry, retryPending, refreshErro
   retryPending: boolean;
   refreshError?: boolean;
 }) {
-  const { t } = useTranslation();
   const phase = pendingPhase(agent.lifecycleState);
   if (!phase && !refreshError) return null;
   return <div role="status" aria-live="polite" className="space-y-2 text-sm">
-    {refreshError && <p className="text-destructive">{t("components.agentLifecycleStatus.couldNotRefreshAgentLifecycleStatus")}</p>}
+    {refreshError && <p className="text-destructive">Could not refresh agent lifecycle status.</p>}
     {phase && <div className="flex flex-wrap items-center gap-2">
       <Badge variant={agent.lifecycleError ? "destructive" : "secondary"}>
         {!agent.lifecycleError && <Loader2 aria-hidden="true" className="mr-1 size-3 animate-spin motion-reduce:animate-none" />}
@@ -63,9 +61,11 @@ export function AgentLifecycleStatus({ agent, onRetry, retryPending, refreshErro
     {phase && agent.lifecycleError && <div className="flex flex-wrap items-center gap-2 text-destructive">
       <span>{agent.lifecycleError}</span>
       <Button variant="outline" size="sm" disabled={retryPending} onClick={onRetry}>
-        {retryPending ? t("components.agentLifecycleStatus.retrying") : t("components.agentLifecycleStatus.retryNow")}
+        {retryPending ? "Retrying…" : "Retry now"}
       </Button>
     </div>}
-    {phase && agent.lifecycleError && <p className="text-muted-foreground">{t("components.agentLifecycleStatus.paperclipRetriesAutomaticallyRetryNowChecks")}</p>}
+    {phase && agent.lifecycleError && <p className="text-muted-foreground">{agent.lifecycleState === "verifying"
+      ? "Retry now checks the saved configuration again immediately."
+      : "Paperclip retries automatically; Retry now checks again immediately."}</p>}
   </div>;
 }

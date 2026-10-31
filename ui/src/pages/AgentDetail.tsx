@@ -1,3 +1,7 @@
+import { TranscriptSequence } from "../lib/transcript-sequence";
+import { readTranscriptRequest } from "../components/transcript/read-transcript-request";
+import { useTranscriptLiveStream } from "../context/LiveUpdatesProvider";
+import { liveRunEvent, mergeRunEvents } from "../lib/live-run-event";
 import { useSelectedHeartbeatRun } from "../hooks/useSelectedHeartbeatRun";
 import { grokBotApi } from "@/api/grokBot";
 import { GrokBotWorkSummary } from "@/components/GrokBotWorkSummary";
@@ -9,9 +13,9 @@ import { InstructionHistory } from "../components/InstructionHistory";
 import { AgentCharacter } from "../components/AgentCharacter";
 import { characterStateForAgent } from "@paperclipai/shared";
 import { mergeRunLogChunks, readChunkSeq } from "../lib/run-log-chunks";
-import { getPageVisibility, usePageVisibility } from "../lib/page-visibility";
-import { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { useParams, useNavigate, Link, Navigate, useBeforeUnload, type NavigateFunction } from "@/lib/router";
+import { usePageVisibility } from "../lib/page-visibility";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useState, useRef } from "react";
+import { useParams, useNavigate, useLocation, Link, Navigate, useBeforeUnload, type NavigateFunction } from "@/lib/router";
 import { useQuery, useMutation, useQueryClient, type QueryClient } from "@tanstack/react-query";
 import {
   agentsApi,
@@ -58,18 +62,18 @@ import { MembershipAction } from "../components/MembershipAction";
 import { StarToggle } from "../components/StarToggle";
 import { Identity } from "../components/Identity";
 import { PageSkeleton } from "../components/PageSkeleton";
+import { QueryErrorState, queryViewKind, useQueryView } from "../components/QueryView";
 import { AgentActionButtons } from "../components/AgentActionButtons";
 import { InlineBanner } from "../components/InlineBanner";
 import { BuiltInBundlePanel } from "../components/BuiltInBundlePanel";
 import { ConfigureBuiltInAgentModal } from "../components/ConfigureBuiltInAgentModal";
 import { TrustPresetSection } from "../components/TrustPresetSection";
+import { AgentProjectAccessSettings } from "../components/AgentProjectAccessSettings";
 import { FileTree, buildFileTree } from "../components/FileTree";
 import { ScrollToBottom } from "../components/ScrollToBottom";
 import { SourceResolvedFoldCallout } from "../components/SourceResolvedFoldCallout";
 import { SourceResolvedFoldBadge } from "../components/SourceResolvedFoldBadge";
 import { readSourceResolvedWatchdogFold } from "../lib/source-resolved-watchdog-fold";
-import { buildSameOriginWebSocketUrl } from "../lib/websocket-url";
-import { tryCreateWebSocket } from "../lib/websocket";
 import { formatDate, relativeTime, formatTokens, visibleRunCostUsd, visibleRunTokenTotal, hasUnavailableProviderAccounting, supportsRawProviderTrace } from "../lib/utils";
 import { cn } from "../lib/utils";
 import { RunRetryDetails } from "../components/RunRetryDetails";
@@ -106,7 +110,6 @@ import { RunTranscriptView, type TranscriptMode } from "../components/transcript
 import { AgentToolsTab } from "./AgentToolsTab";
 import { AgentChannelsPanel } from "../components/chat/AgentChannelsPanel";
 import {
-  appendCapped,
   LIVE_TRANSCRIPT_RENDER_LIMIT,
   MAX_LIVE_EVENTS,
   MAX_LIVE_LOG_LINES,
@@ -143,7 +146,6 @@ import {
   useResourceMemberships,
 } from "../hooks/useResourceMemberships";
 import { Badge } from "@/components/ui/badge";
-import { useTranslation } from "@/i18n";
 import {
   AGENT_DETAIL_NAVIGATION,
   agentDetailHref,
@@ -152,6 +154,8 @@ import {
   parseAgentDetailView,
   type AgentDetailView,
 } from "./agent-detail-navigation";
+
+const AgentAdvancedTab = lazy(() => import("./AgentAdvancedTab").then(module => ({ default: module.AgentAdvancedTab })));
 
 const runStatusIcons: Record<string, { icon: typeof CheckCircle2; color: string }> = {
   succeeded: { icon: CheckCircle2, color: "text-green-600 dark:text-green-400" },
@@ -451,7 +455,6 @@ export function RunInvocationCard({
   payload: Record<string, unknown>;
   censorUsernameInLogs: boolean;
 }) {
-  const { t } = useTranslation();
   const rawCommandLine = [
     typeof payload.command === "string" ? payload.command : null,
     ...(Array.isArray(payload.commandArgs)
@@ -471,18 +474,18 @@ export function RunInvocationCard({
 
   return (
     <div className="rounded-lg border border-border bg-background/60 p-3 space-y-2">
-      <div className="text-xs font-medium text-muted-foreground">{t("pages.agentDetail.invocation")}</div>
+      <div className="text-xs font-medium text-muted-foreground">Invocation</div>
       {typeof payload.adapterType === "string" && (
         <div className="text-xs"><span className="text-muted-foreground">Adapter: </span>{payload.adapterType}</div>
       )}
       {typeof payload.cwd === "string" && (
-        <div className="text-xs break-all"><span className="text-muted-foreground">{t("pages.agentDetail.workingDir")} </span><span className="font-mono">{payload.cwd}</span></div>
+        <div className="text-xs break-all"><span className="text-muted-foreground">Working dir: </span><span className="font-mono">{payload.cwd}</span></div>
       )}
       {hasAdvancedDetails && (
         <Collapsible>
           <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
             <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-            {t("pages.agentDetail.details")}
+            Details
           </CollapsibleTrigger>
           <CollapsibleContent className="pt-2 space-y-2">
             {commandLine && (
@@ -493,7 +496,7 @@ export function RunInvocationCard({
             )}
             {Array.isArray(payload.commandNotes) && payload.commandNotes.length > 0 && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetail.commandNotes")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Command notes</div>
                 <ul className="list-disc pl-5 space-y-1">
                   {payload.commandNotes
                     .filter((value): value is string => typeof value === "string" && value.trim().length > 0)
@@ -507,7 +510,7 @@ export function RunInvocationCard({
             )}
             {payload.prompt !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetail.prompt")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Prompt</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap">
                   {typeof payload.prompt === "string"
                     ? redactPathText(payload.prompt, censorUsernameInLogs)
@@ -517,7 +520,7 @@ export function RunInvocationCard({
             )}
             {payload.context !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetail.context")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Context</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap">
                   {JSON.stringify(redactPathValue(payload.context, censorUsernameInLogs), null, 2)}
                 </pre>
@@ -525,7 +528,7 @@ export function RunInvocationCard({
             )}
             {payload.env !== undefined && (
               <div>
-                <div className="text-xs text-muted-foreground mb-1">{t("pages.agentDetail.environment")}</div>
+                <div className="text-xs text-muted-foreground mb-1">Environment</div>
                 <pre className="bg-neutral-100 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap font-mono">
                   {formatEnvForDisplay(payload.env, censorUsernameInLogs)}
                 </pre>
@@ -610,7 +613,6 @@ function WorkspaceOperationLogViewer({
   operation: WorkspaceOperation;
   censorUsernameInLogs: boolean;
 }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const { data: logData, isLoading, error } = useQuery({
     queryKey: ["workspace-operation-log", operation.id],
@@ -631,18 +633,18 @@ function WorkspaceOperationLogViewer({
         className="text-(length:--text-micro) text-muted-foreground underline underline-offset-2 hover:text-foreground"
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? t("pages.agentDetail.hideFullLog") : t("pages.agentDetail.showFullLog")}
+        {open ? "Hide full log" : "Show full log"}
       </button>
       {open && (
         <div className="rounded-md border border-border bg-background/70 p-2">
-          {isLoading && <div className="text-xs text-muted-foreground">{t("pages.agentDetail.loadingLog")}</div>}
+          {isLoading && <div className="text-xs text-muted-foreground">Loading log...</div>}
           {error && (
             <div className="text-xs text-destructive">
-              {error instanceof Error ? error.message : t("pages.agentDetail.failedToLoadWorkspaceOperationLog")}
+              {error instanceof Error ? error.message : "Failed to load workspace operation log"}
             </div>
           )}
           {!isLoading && !error && chunks.length === 0 && (
-            <div className="text-xs text-muted-foreground">{t("pages.agentDetail.noPersistedLogLines")}</div>
+            <div className="text-xs text-muted-foreground">No persisted log lines.</div>
           )}
           {chunks.length > 0 && (
             <div className="max-h-64 overflow-y-auto rounded bg-neutral-100 p-2 font-mono text-xs dark:bg-neutral-950">
@@ -772,7 +774,6 @@ function WorkspaceOperationsSection({
 }
 
 export function AgentDetail() {
-  const { t } = useTranslation();
   const { companyPrefix, agentId, tab: urlTab, runId: urlRunId } = useParams<{
     companyPrefix?: string;
     agentId: string;
@@ -784,6 +785,7 @@ export function AgentDetail() {
   const { setBreadcrumbs } = useBreadcrumbs();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const location = useLocation();
   const [actionError, setActionError] = useState<string | null>(null);
   const [dismissedLeftAgentIds, setDismissedLeftAgentIds] = useState<Set<string>>(() => new Set());
   const activeView: AgentDetailView = urlRunId ? "run-detail"
@@ -821,13 +823,16 @@ export function AgentDetail() {
   const setSaveConfigAction = useCallback((fn: (() => void) | null) => { saveConfigActionRef.current = fn; }, []);
   const setCancelConfigAction = useCallback((fn: (() => void) | null) => { cancelConfigActionRef.current = fn; }, []);
   const prepareAgentNavigation = useCallback(() => {
+    if (activeView === "advanced" && configSaving) return false;
     return confirmAgentConfigNavigation(configDirty);
-  }, [configDirty]);
-  const { data: agent, isLoading, error } = useQuery<AgentDetailRecord>({
+  }, [activeView, configDirty, configSaving]);
+  const agentQuery = useQuery<AgentDetailRecord>({
     queryKey: [...queryKeys.agents.detail(routeAgentRef), lookupCompanyId ?? null],
     queryFn: () => agentsApi.get(routeAgentRef, lookupCompanyId),
     enabled: canFetchAgent,
   });
+  const { data: agent, isLoading, error } = agentQuery;
+  const agentView = useQueryView(agentQuery);
   const lifecycle = useAgentLifecycleStatus(agent);
   const resolvedCompanyId = agent?.companyId ?? selectedCompanyId;
   const canonicalAgentRef = agent ? agentRouteRef(agent) : routeAgentRef;
@@ -840,7 +845,6 @@ export function AgentDetail() {
   const { data: boardAccess } = useQuery({
     queryKey: queryKeys.access.currentBoardAccess,
     queryFn: () => accessApi.getCurrentBoardAccess(),
-    retry: false,
   });
   const canUseProviderTrace =
     boardAccess?.source === "local_implicit" ||
@@ -978,6 +982,7 @@ export function AgentDetail() {
 
   useEffect(() => {
     if (!agent) return;
+    if (activeView === "advanced" && (configSaving || configDirty)) return;
     if (urlRunId) {
       if (routeAgentRef !== canonicalAgentRef) {
         navigate(`/agents/${canonicalAgentRef}/runs/${urlRunId}`, { replace: true });
@@ -987,10 +992,10 @@ export function AgentDetail() {
     if (legacyAuditSection) return;
     const canonicalTab = activeView === "run-detail" ? "overview" : activeView;
     if (routeAgentRef !== canonicalAgentRef || urlTab !== canonicalTab) {
-      navigate(agentDetailHref(canonicalAgentRef, canonicalTab), { replace: true });
+      navigate(`${agentDetailHref(canonicalAgentRef, canonicalTab)}${location.search}`, { replace: true });
       return;
     }
-  }, [agent, routeAgentRef, canonicalAgentRef, urlRunId, urlTab, activeView, legacyAuditSection, navigate]);
+  }, [agent, routeAgentRef, canonicalAgentRef, urlRunId, urlTab, activeView, configSaving, configDirty, legacyAuditSection, navigate, location.search]);
 
   useEffect(() => {
     if (!agent?.companyId || agent.companyId === selectedCompanyId) return;
@@ -1169,8 +1174,10 @@ export function AgentDetail() {
     return () => window.removeEventListener("popstate", handlePopState, true);
   }, [configDirty, prepareAgentNavigation]);
 
-  if (isLoading) return <PageSkeleton variant="detail" />;
-  if (error) return <p className="text-sm text-destructive">{error.message}</p>;
+  if (isLoading || agentView.kind === "reconnecting") return <PageSkeleton variant="detail" />;
+  if (agentView.kind === "error") {
+    return <QueryErrorState size="page" error={error} action="load this agent" onRetry={agentView.retry} retrying={agentView.isFetching} />;
+  }
   if (!agent) return null;
   if (!urlRunId && legacyAuditSection) {
     return <Navigate to={agentScopedAuditHref(agent.id, legacyAuditSection)} replace />;
@@ -1200,7 +1207,7 @@ export function AgentDetail() {
       {showLeftAgentNotice ? (
         <div className="flex items-center gap-3 border border-yellow-300/35 bg-yellow-300/10 px-3 py-2 text-sm text-yellow-900 dark:text-yellow-100">
           <p className="min-w-0 flex-1">
-            {t("pages.agentDetail.youLeftThisAgentItNo")}
+            You left this agent. It no longer appears in your sidebar.
           </p>
           <MembershipAction
             compact
@@ -1224,7 +1231,7 @@ export function AgentDetail() {
           <button
             type="button"
             className="h-6 w-6 shrink-0 text-yellow-900/70 hover:text-yellow-900 dark:text-yellow-100/70 dark:hover:text-yellow-100"
-            aria-label={t("pages.agentDetail.dismissAgentMembershipNotice")}
+            aria-label="Dismiss agent membership notice"
             onClick={() => setDismissedLeftAgentIds((current) => new Set(current).add(agent.id))}
           >
             ×
@@ -1235,7 +1242,7 @@ export function AgentDetail() {
         <div className="flex items-start gap-3 border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0 space-y-1">
-            <p className="font-medium">{t("pages.agentDetail.escalationPathIsPaused")}</p>
+            <p className="font-medium">Escalation path is paused</p>
             <p className="text-amber-900/90 dark:text-amber-100/90">{pausedEscalationWarning}</p>
           </div>
         </div>
@@ -1244,8 +1251,10 @@ export function AgentDetail() {
         <div className="flex items-start gap-3 border border-amber-300/35 bg-amber-300/10 px-3 py-2 text-sm text-amber-900 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           <div className="min-w-0 space-y-1">
-            <p className="font-medium">{t("pages.agentDetail.invalidReportingChain")}</p>
-            <p className="text-amber-900/90 dark:text-amber-100/90">{t("pages.agentDetail.cannotAcceptTasksOrStartRuns", { name: agent.name })}</p>
+            <p className="font-medium">Invalid reporting chain</p>
+            <p className="text-amber-900/90 dark:text-amber-100/90">
+              {agent.name} cannot accept tasks or start runs until its reporting chain is repaired.
+            </p>
             <p className="break-words font-mono text-xs text-amber-900/80 dark:text-amber-100/80">
               {formatOrgChainHealthPath(agent)}
             </p>
@@ -1253,7 +1262,7 @@ export function AgentDetail() {
               <p className="text-amber-900/85 dark:text-amber-100/85">{agent.orgChainHealth.repairGuidance}</p>
             ) : (
               <p className="text-amber-900/85 dark:text-amber-100/85">
-                {t("pages.agentDetail.assignThisAgentToAnActive")}
+                Assign this agent to an active manager/root, or explicitly pause or terminate the affected agent/subtree.
               </p>
             )}
           </div>
@@ -1296,7 +1305,7 @@ export function AgentDetail() {
             companyId={resolvedCompanyId}
             assignLabel="Assign Task"
             showStatus={false}
-            actionsDisabled={agentAction.isPending}
+            actionsDisabled={agentAction.isPending || (activeView === "advanced" && configSaving)}
             workActionsDisabled={hasInvalidOrgChain}
             workActionsDisabledReason="Repair this agent's reporting chain before assigning tasks or starting runs"
             hasPendingNavigationChanges={configDirty}
@@ -1328,7 +1337,7 @@ export function AgentDetail() {
                   <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
                 </span>
-                <span className="text-(length:--text-micro) font-medium text-blue-600 dark:text-blue-400">{t("pages.agentDetail.live")}</span>
+                <span className="text-(length:--text-micro) font-medium text-blue-600 dark:text-blue-400">Live</span>
               </Link>
             )}
           </AgentActionButtons>
@@ -1346,7 +1355,7 @@ export function AgentDetail() {
               onClick={() => resetBuiltIn.mutate()}
               disabled={resetBuiltIn.isPending}
             >
-              {resetBuiltIn.isPending ? t("pages.agentDetail.resetting") : t("pages.agentDetail.resetToDefaults")}
+              {resetBuiltIn.isPending ? "Resetting…" : "Reset to defaults"}
             </Button>
           }
         >
@@ -1387,7 +1396,7 @@ export function AgentDetail() {
       {actionError && <p className="text-sm text-destructive">{actionError}</p>}
       {isPendingApproval && (
         <div className="flex flex-wrap items-center gap-3 rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-400/40 dark:bg-amber-950/30 dark:text-amber-200">
-          <span>{t("pages.agentDetail.thisAgentIsPendingBoardApproval")}</span>
+          <span>This agent is pending board approval and cannot be invoked yet.</span>
           <Button
             variant="outline"
             size="sm"
@@ -1395,12 +1404,12 @@ export function AgentDetail() {
             disabled={agentAction.isPending}
           >
             <CheckCircle2 className="h-3.5 w-3.5 sm:mr-1" />
-            <span>{t("pages.agentDetail.approveAgent")}</span>
+            <span>Approve agent</span>
           </Button>
         </div>
       )}
 
-      {activeView !== "run-detail" && activeView !== "channels" && <h2 className="text-xl font-semibold">{activeView === "secrets" ? t("pages.agentDetail.secretsVariables") : AGENT_DETAIL_NAVIGATION.flatMap(section => section.items).find(item => item.value === activeView)?.label}</h2>}
+      {activeView !== "run-detail" && activeView !== "channels" && <h2 className="text-xl font-semibold">{activeView === "secrets" ? "Secrets & variables" : AGENT_DETAIL_NAVIGATION.flatMap(section => section.items).find(item => item.value === activeView)?.label}</h2>}
 
       {/* View content */}
       {activeView === "overview" && (
@@ -1503,6 +1512,20 @@ export function AgentDetail() {
         <AgentRevisionsTab agent={agent} companyId={resolvedCompanyId ?? undefined} />
       )}
 
+      {activeView === "advanced" && (
+        <Suspense fallback={<p role="status" className="text-sm text-muted-foreground">Loading configuration…</p>}>
+          <AgentAdvancedTab key={agent.id} agent={agent} onDirtyChange={setConfigDirty} onSavingChange={setConfigSaving}
+            onSaved={updated => {
+              const nextRef = agentRouteRef(updated);
+              const currentKey = [...queryKeys.agents.detail(routeAgentRef), lookupCompanyId ?? null];
+              void queryClient.cancelQueries({ queryKey: currentKey, exact: true });
+              queryClient.setQueryData(currentKey, { ...agent, ...updated });
+              queryClient.setQueryData([...queryKeys.agents.detail(nextRef), lookupCompanyId ?? null], { ...agent, ...updated });
+              if (nextRef !== routeAgentRef) navigate(`/agents/${nextRef}/advanced`, { replace: true });
+            }} />
+        </Suspense>
+      )}
+
       {activeView === "run-detail" && (
         <RunsTab
           runs={heartbeats ?? []}
@@ -1516,10 +1539,10 @@ export function AgentDetail() {
       )}
 
       {showConfigActionBar && <footer className="sticky bottom-0 z-10 flex flex-wrap items-center justify-between gap-3 border-t border-border bg-background py-4">
-        <p role="status" className="text-xs text-muted-foreground">{configSaving ? t("pages.agentDetail.savingChanges") : configDirty ? t("pages.agentDetail.youHaveUnsavedChanges") : ""}</p>
+        <p role="status" className="text-xs text-muted-foreground">{configSaving ? "Saving changes…" : configDirty ? "You have unsaved changes." : ""}</p>
         <div className="flex gap-2">
-          <Button variant="ghost" disabled={!configDirty || configSaving} onClick={() => cancelConfigActionRef.current?.()}>{t("pages.agentDetail.discard")}</Button>
-          <Button disabled={!configDirty || configSaving} onClick={() => {Promise.resolve(saveConfigActionRef.current?.()).catch(() => {});}}>{configSaving ? t("pages.agentDetail.saving") : t("pages.agentDetail.saveChanges")}</Button>
+          <Button variant="ghost" disabled={!configDirty || configSaving} onClick={() => cancelConfigActionRef.current?.()}>Discard</Button>
+          <Button disabled={!configDirty || configSaving} onClick={() => {Promise.resolve(saveConfigActionRef.current?.()).catch(() => {});}}>{configSaving ? "Saving…" : "Save changes"}</Button>
         </div>
       </footer>}
 
@@ -1583,7 +1606,6 @@ function LatestRunCard({
   agentId: string;
   issuesById: Map<string, LatestRunIssue>;
 }) {
-  const { t } = useTranslation();
   const sorted = useMemo(
     () =>
       [...runs].sort(
@@ -1665,7 +1687,7 @@ function LatestRunCard({
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
             )}
-            <span>{isLive ? t("pages.agentDetail.liveRun") : t("pages.agentDetail.latestRun")}</span>
+            <span>{isLive ? "Live Run" : "Latest Run"}</span>
             <span className="font-mono text-xs font-normal text-muted-foreground">
               &middot; {run.id.slice(0, 8)}
             </span>
@@ -1739,7 +1761,6 @@ export function AgentOverview({
   skillNames: string[];
   agentRouteId: string;
 }) {
-  const { t } = useTranslation();
   const designSandbox = useDesignSandbox();
   const issuesById = useMemo(() => {
     const map = new Map<string, (typeof assignedIssues)[number]>();
@@ -1762,7 +1783,6 @@ export function AgentOverview({
     queryKey: queryKeys.access.companyUserDirectory(agent.companyId),
     queryFn: () => accessApi.listUserDirectory(agent.companyId),
     enabled: hasHumanCreator,
-    retry: false,
   });
   const creatorLabel = resolveAgentCreatorLabel(agent.createdByUserId, userDirectory.data?.users);
   return (
@@ -1772,36 +1792,36 @@ export function AgentOverview({
       <div className="grid gap-4 md:grid-cols-2">
         <section className="rounded-lg border border-border p-4" aria-labelledby="agent-identity-heading">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h3 id="agent-identity-heading" className="text-sm font-medium">{t("pages.agentDetail.identity")}</h3>
+            <h3 id="agent-identity-heading" className="text-sm font-medium">Identity</h3>
             <StatusBadge status={agent.status} />
           </div>
           <div className="space-y-3">
             <SummaryRow label="Role"><span className="text-sm">{roleLabels[agent.role] ?? agent.role}</span></SummaryRow>
-            <SummaryRow label="Title"><span className="text-sm">{agent.title ?? t("pages.agentDetail.notSet")}</span></SummaryRow>
+            <SummaryRow label="Title"><span className="text-sm">{agent.title ?? "Not set"}</span></SummaryRow>
             <SummaryRow label="Reports to">
               {reportsToAgent ? (
                 <Link className="text-sm hover:underline" to={agentDetailHref(agentRouteRef(reportsToAgent))}>
                   {reportsToAgent.name}
                 </Link>
-              ) : <span className="text-sm">{t("pages.agentDetail.board")}</span>}
+              ) : <span className="text-sm">Board</span>}
             </SummaryRow>
             <SummaryRow label="Direct reports"><span className="text-sm tabular-nums">{directReportCount}</span></SummaryRow>
-            {hasHumanCreator && userDirectory.isError ? (
-              <SummaryRow label="Created by"><span className="text-sm text-destructive">{t("pages.agentDetail.couldNotLoadCreator")}</span></SummaryRow>
+            {hasHumanCreator && queryViewKind(userDirectory) === "error" ? (
+              <SummaryRow label="Created by"><span className="text-sm text-destructive">Could not load creator</span></SummaryRow>
             ) : creatorLabel ? (
               <SummaryRow label="Created by"><span className="text-sm">{creatorLabel}</span></SummaryRow>
             ) : null}
             <SummaryRow label="Public key">
-              {identity.isPending ? <span className="text-sm text-muted-foreground">{t("pages.agentDetail.loading")}</span>
-                : identity.isError ? <span className="text-sm text-destructive">{t("pages.agentDetail.couldNotLoadPublicKey")}</span>
+              {identity.isPending || queryViewKind(identity) === "reconnecting" ? <span className="text-sm text-muted-foreground">Loading…</span>
+                : queryViewKind(identity) === "error" ? <span className="text-sm text-muted-foreground">Could not load public key</span>
                 : identity.data ? (
                   <CopyText text={identity.data.publicKeyPem} ariaLabel="Copy public key" title="Copy public key">
                     <span className="font-mono text-sm">{identity.data.keyId.slice(0, 19)}…</span>
                   </CopyText>
                 ) : (
                   <div className="text-sm">
-                    <div>{t("pages.agentDetail.notCreatedYet")}</div>
-                    <div className="text-xs text-muted-foreground">{t("pages.agentDetail.createdAutomaticallyOnTheNextManaged")}</div>
+                    <div>Not created yet</div>
+                    <div className="text-xs text-muted-foreground">Created automatically on the next managed run</div>
                   </div>
                 )}
             </SummaryRow>
@@ -1810,33 +1830,33 @@ export function AgentOverview({
 
         <section className="rounded-lg border border-border p-4" aria-labelledby="agent-runtime-heading">
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h3 id="agent-runtime-heading" className="text-sm font-medium">{t("pages.agentDetail.harnessRuntime")}</h3>
-            <Link className="text-xs text-muted-foreground hover:text-foreground" to={agentDetailHref(agentRouteId, "runtime")}>{t("pages.agentDetail.configure")}</Link>
+            <h3 id="agent-runtime-heading" className="text-sm font-medium">Harness / Runtime</h3>
+            <Link className="text-xs text-muted-foreground hover:text-foreground" to={agentDetailHref(agentRouteId, "runtime")}>Configure</Link>
           </div>
           <div className="space-y-3">
             <SummaryRow label="Adapter"><span className="text-sm">{getAdapterDisplay(agentDisplayAdapterType(agent)).label}</span></SummaryRow>
-            {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" ? <><SummaryRow label="Execution"><span className="text-sm">{t("pages.agentDetail.runsInGrokBot")}</span></SummaryRow><SummaryRow label="Usage"><span className="text-sm">{t("pages.agentDetail.notReported")}</span></SummaryRow></> : <SummaryRow label="Model"><span className="max-w-64 truncate text-sm font-mono">{configuredModel}</span></SummaryRow>}
-            <SummaryRow label="Session"><span className="max-w-64 truncate text-sm font-mono">{runtimeState?.sessionDisplayId ?? runtimeState?.sessionId ?? t("pages.agentDetail.noSession")}</span></SummaryRow>
+            {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" ? <><SummaryRow label="Execution"><span className="text-sm">Runs in Grok Bot</span></SummaryRow><SummaryRow label="Usage"><span className="text-sm">Not reported</span></SummaryRow></> : <SummaryRow label="Model"><span className="max-w-64 truncate text-sm font-mono">{configuredModel}</span></SummaryRow>}
+            <SummaryRow label="Session"><span className="max-w-64 truncate text-sm font-mono">{runtimeState?.sessionDisplayId ?? runtimeState?.sessionId ?? "No session"}</span></SummaryRow>
             <SummaryRow label="Last run">
-              <span className="text-sm">{lastRun ? `${lastRun.status} · ${relativeTime(lastRun.createdAt)}` : t("pages.agentDetail.noRuns")}</span>
+              <span className="text-sm">{lastRun ? `${lastRun.status} · ${relativeTime(lastRun.createdAt)}` : "No runs"}</span>
             </SummaryRow>
             {agent.adapterType === "paperclip_runner" && agent.adapterConfig.provider === "grok_bot" && <GrokBotWorkSummary companyId={agent.companyId} agentId={agent.id} />}
           </div>
         </section>
 
         <section className="rounded-lg border border-border p-4" aria-labelledby="agent-capabilities-heading">
-          <h3 id="agent-capabilities-heading" className="mb-3 text-sm font-medium">{t("pages.agentDetail.capabilities")}</h3>
+          <h3 id="agent-capabilities-heading" className="mb-3 text-sm font-medium">Capabilities</h3>
           {agent.capabilities?.trim() ? (
             <MarkdownBody className="text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">{agent.capabilities}</MarkdownBody>
           ) : (
-            <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noCapabilitySummaryHasBeenAdded")}</p>
+            <p className="text-sm text-muted-foreground">No capability summary has been added.</p>
           )}
         </section>
 
         <section className="rounded-lg border border-border p-4" aria-labelledby="agent-skills-heading">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <h3 id="agent-skills-heading" className="text-sm font-medium">{t("pages.agentDetail.skills")}</h3>
-            <Link className="text-xs text-muted-foreground hover:text-foreground" to={agentDetailHref(agentRouteId, "skills")}>{t("pages.agentDetail.manage")}</Link>
+            <h3 id="agent-skills-heading" className="text-sm font-medium">Skills</h3>
+            <Link className="text-xs text-muted-foreground hover:text-foreground" to={agentDetailHref(agentRouteId, "skills")}>Manage</Link>
           </div>
           {skillNames.length > 0 ? (
             <div className="flex flex-wrap gap-2">
@@ -1844,23 +1864,23 @@ export function AgentOverview({
               {skillNames.length > 8 ? <Badge variant="outline">+{skillNames.length - 8} more</Badge> : null}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noSkillsEnabled")}</p>
+            <p className="text-sm text-muted-foreground">No skills enabled.</p>
           )}
         </section>
       </div>
 
       <section className="space-y-3" aria-labelledby="agent-recent-tasks-heading">
         <div className="flex items-center justify-between">
-          <h3 id="agent-recent-tasks-heading" className="text-sm font-medium">{t("pages.agentDetail.recentTasks")}</h3>
+          <h3 id="agent-recent-tasks-heading" className="text-sm font-medium">Recent Tasks</h3>
           <Link
             to={`/issues?participantAgentId=${agent.id}`}
             className="text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            {t("pages.agentDetail.seeAll")}
+            See All &rarr;
           </Link>
         </div>
         {assignedIssues.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noRecentTasks")}</p>
+          <p className="text-sm text-muted-foreground">No recent tasks.</p>
         ) : (
           <div className="overflow-hidden rounded-lg border border-border">
             {designSandbox ? <TaskSummaryList issues={assignedIssues.slice(0, 6)} /> : assignedIssues.slice(0, 6).map((issue) => (
@@ -1879,21 +1899,6 @@ export function AgentOverview({
             )}
           </div>
         )}
-      </section>
-
-      <section className="space-y-3" aria-labelledby="agent-audit-links-heading">
-        <h3 id="agent-audit-links-heading" className="text-sm font-medium">{t("pages.agentDetail.audit")}</h3>
-        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-          {(["activity", "runs", "costs", "budgets"] as const).map((section) => (
-            <Link
-              key={section}
-              to={agentScopedAuditHref(agent.id, section)}
-              className="rounded-lg border border-border px-3 py-2 text-sm font-medium capitalize hover:bg-accent"
-            >
-              {section}
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );
@@ -1931,7 +1936,6 @@ export function AgentRevisionsTab({
   agent: AgentDetailRecord;
   companyId?: string;
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
@@ -1954,11 +1958,11 @@ export function AgentRevisionsTab({
   return (
     <div className="max-w-3xl space-y-3">
       <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-sm font-medium">{t("pages.agentDetail.configurationRevisions")}</h3>
+        <h3 className="text-sm font-medium">Configuration Revisions</h3>
         <span className="text-xs text-muted-foreground">{configRevisions?.length ?? 0} total</span>
       </div>
       {(configRevisions ?? []).length === 0 ? (
-        <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noConfigurationRevisionsYet")}</p>
+        <p className="text-sm text-muted-foreground">No configuration revisions yet.</p>
       ) : (
         <div className="space-y-2">
           {(configRevisions ?? []).map((revision) => (
@@ -2018,7 +2022,6 @@ export function ConfigurationTab({
   content?: "runtime" | "permissions" | "secrets";
   canConfigureProviderTrace?: boolean;
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { tab: urlTab } = useParams<{ tab?: string }>();
@@ -2066,7 +2069,8 @@ export function ConfigurationTab({
         || !syncAgentRouteAfterRename(queryClient, navigate, target, updated, urlTab ?? content)) {
         queryClient.invalidateQueries({ queryKey: queryKeys.agents.detail(target.urlKey) });
       }
-      pushToast({ title: "Agent saved", tone: "success" });
+      pushToast({ title: "Agent saved", tone: updated.configurationWarnings?.length ? "warn" : "success",
+        body: updated.configurationWarnings?.map(warning => warning.message).join("\n") });
     },
     onError: (err) => {
       setAwaitingRefreshAfterSave(false);
@@ -2131,7 +2135,7 @@ export function ConfigurationTab({
         hideInstructionsFile={hideInstructionsFile}
         content={content === "runtime" ? "configuration" : "secrets"}
         sectionLayout="cards"
-        environmentVariablesPlacement="configuration"
+        environmentVariablesPlacement={content === "secrets" ? "secrets" : "configuration"}
         compactTestFeedback
         sectionOrder={["identity", "adapter", "configuration", "environment", "environment-variables", "run-policy"]}
         sectionTitles={{ adapter: "Adapter", configuration: "Configuration", identity: "Agent identity" }}
@@ -2140,6 +2144,7 @@ export function ConfigurationTab({
 
 
       {content === "permissions" ? <TrustPresetSection
+        projectAccessEditor={<AgentProjectAccessSettings agent={agent} />}
         permissions={agent.permissions}
         disabled={updatePermissions.isPending}
         companyId={companyId}
@@ -2163,13 +2168,13 @@ export function ConfigurationTab({
       /> : null}
 
       {content === "permissions" ? <div>
-        <h3 className="text-sm font-medium mb-3">{t("pages.agentDetail.permissions")}</h3>
+        <h3 className="text-sm font-medium mb-3">Permissions</h3>
         <div className="border border-border rounded-lg p-4 space-y-4">
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetail.canCreateNewAgents")}</div>
+              <div>Can create new agents</div>
               <p className="text-xs text-muted-foreground">
-                {t("pages.agentDetail.letsThisAgentCreateOrHire")}
+                Lets this agent create or hire agents. This also grants task assignment authority.
               </p>
             </div>
             <ToggleSwitch
@@ -2186,9 +2191,9 @@ export function ConfigurationTab({
           </div>
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetail.canCreateImportSkills")}</div>
+              <div>Can create/import skills</div>
               <p className="text-xs text-muted-foreground">
-                {t("pages.agentDetail.letsThisAgentInstallImportCreate")}
+                Lets this agent install, import, create, and scan organization skills without creating agents.
               </p>
             </div>
             <ToggleSwitch
@@ -2205,7 +2210,7 @@ export function ConfigurationTab({
           </div>
           <div className="flex items-center justify-between gap-4 text-sm">
             <div className="space-y-1">
-              <div>{t("pages.agentDetail.canAssignTasks")}</div>
+              <div>Can assign tasks</div>
               <p className="text-xs text-muted-foreground">
                 {taskAssignHint}
               </p>
@@ -2247,7 +2252,6 @@ export function PromptsTab({
   onCancelActionChange: (cancel: (() => void) | null) => void;
   onSavingChange: (saving: boolean) => void;
 }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { selectedCompanyId } = useCompany();
   const { isMobile } = useSidebar();
@@ -2694,7 +2698,7 @@ export function PromptsTab({
     return (
       <div className="max-w-3xl">
         <p className="text-sm text-muted-foreground">
-          {t("pages.agentDetail.instructionsBundlesAreOnlyAvailableFor")}
+          Instructions bundles are only available for local adapters.
         </p>
       </div>
     );
@@ -2716,13 +2720,13 @@ export function PromptsTab({
         </div>
       )}
       {showSaveNotice && <p className="text-xs text-muted-foreground">
-        {t("pages.agentDetail.savedInstructionsAffectTheNextRun")}
+        Saved instructions affect the next run. Active runs keep the instructions they started with, and instruction changes may start a fresh adapter session.
       </p>}
 
       <Collapsible defaultOpen={currentMode === "external"}>
         <CollapsibleTrigger className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors group">
           <ChevronRight className="h-3 w-3 transition-transform group-data-[state=open]:rotate-90" />
-          {t("pages.agentDetail.advanced")}
+          Advanced
         </CollapsibleTrigger>
         <CollapsibleContent className="pt-4 pb-6">
           <TooltipProvider>
@@ -2735,7 +2739,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetail.managedPaperclipStoresAndServesThe")}
+                      Managed: Paperclip stores and serves the instructions bundle. External: you provide a path on disk where the instructions live.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2761,7 +2765,7 @@ export function PromptsTab({
                       setSelectedFile(nextEntryFile);
                     }}
                   >
-                    {t("pages.agentDetail.managed")}
+                    Managed
                   </Button>
                   <Button
                     type="button"
@@ -2778,7 +2782,7 @@ export function PromptsTab({
                       setSelectedFile(externalBundle?.selectedFile ?? nextEntryFile);
                     }}
                   >
-                    {t("pages.agentDetail.external")}
+                    External
                   </Button>
                 </div>
               </label>
@@ -2790,7 +2794,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetail.theAbsoluteDirectoryOnDiskWhere")}
+                      The absolute directory on disk where the instructions bundle lives. In managed mode this is set by Paperclip automatically.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2839,7 +2843,7 @@ export function PromptsTab({
                       <HelpCircle className="h-3 w-3 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
                     <TooltipContent side="right" sideOffset={4}>
-                      {t("pages.agentDetail.theMainFileTheAgentReads")}
+                      The main file the agent reads first when loading instructions. Defaults to AGENTS.md.
                     </TooltipContent>
                   </Tooltip>
                 </span>
@@ -2887,7 +2891,7 @@ export function PromptsTab({
           isMobile && !showFilePanel && "hidden",
         )}>
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">{t("pages.agentDetail.files")}</h4>
+            <h4 className="text-sm font-medium">Files</h4>
             <div className="flex items-center gap-1">
               {!showNewFileInput && (
                 <Button
@@ -2895,7 +2899,7 @@ export function PromptsTab({
                   size="icon"
                   variant="outline"
                   className="h-7 w-7"
-                  aria-label={t("pages.agentDetail.addAgentFile")}
+                  aria-label="Add agent file"
                   onClick={() => setShowNewFileInput(true)}
                 >
                   +
@@ -2946,7 +2950,7 @@ export function PromptsTab({
                     setShowNewFileInput(false);
                   }}
                 >
-                  {t("pages.agentDetail.create")}
+                  Create
                 </Button>
                 <Button
                   type="button"
@@ -2958,7 +2962,7 @@ export function PromptsTab({
                     setNewFilePath("");
                   }}
                 >
-                  {t("pages.agentDetail.cancel")}
+                  Cancel
                 </Button>
               </div>
             </div>
@@ -3036,14 +3040,14 @@ export function PromptsTab({
                 <p className="text-xs text-muted-foreground">
                   {selectedFileExists
                     ? selectedFileSummary?.deprecated
-                      ? t("pages.agentDetail.deprecatedVirtualFile")
+                      ? "Deprecated virtual file"
                       : `${selectedFileDetail?.language ?? "text"} file`
-                    : t("pages.agentDetail.newFileInThisBundle")}
+                    : "New file in this bundle"}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex items-center rounded-md border border-border p-0.5" role="group" aria-label={t("pages.agentDetail.instructionFileView")}>
+              <div className="flex items-center rounded-md border border-border p-0.5" role="group" aria-label="Instruction file view">
                 {(["read", "edit", "raw"] as const).map((mode) => (
                   <Button
                     key={mode}
@@ -3086,7 +3090,7 @@ export function PromptsTab({
                   }}
                   disabled={deleteFile.isPending}
                 >
-                  {t("pages.agentDetail.delete")}
+                  Delete
                 </Button>
               )}
             </div>
@@ -3094,8 +3098,8 @@ export function PromptsTab({
 
           {currentMode === "managed" && preservedCandidates.length > 0 && (
             <div className="space-y-3">
-              <p className="text-sm font-medium">{t("pages.agentDetail.preservedInstructionEdits")}</p>
-              <p className="text-sm text-muted-foreground">{t("pages.agentDetail.olderInstructionOnlySessionsHaveEdits")}</p>
+              <p className="text-sm font-medium">Preserved instruction edits</p>
+              <p className="text-sm text-muted-foreground">Older instruction-only sessions have edits to review.</p>
               {preservedCandidates.map((candidate) => (
                 <div key={candidate.runId} className="flex flex-wrap items-center gap-3">
                   <span className="font-mono text-xs text-muted-foreground">{candidate.runId.slice(0, 8)}</span>
@@ -3127,16 +3131,16 @@ export function PromptsTab({
             </div>
           )}
           {candidateRunId && <div role="status" className="space-y-3">
-            <p className="text-sm text-muted-foreground">{t("pages.agentDetail.reviewingPreservedEditsSaveToApply")}</p>
-            <details><summary className="cursor-pointer text-sm text-muted-foreground">{t("pages.agentDetail.compareCurrentInstructions")}</summary>
+            <p className="text-sm text-muted-foreground">Reviewing preserved edits. Save to apply your resolved draft and close this preserved edit.</p>
+            <details><summary className="cursor-pointer text-sm text-muted-foreground">Compare current instructions</summary>
               <pre className="whitespace-pre-wrap break-words rounded-md border border-border p-3 font-mono text-sm">{currentContent}</pre>
             </details>
-            {draftBaseRevisionRef.current !== (selectedFileDetail?.revision?.id ?? null) && <p className="text-sm text-destructive">{t("pages.agentDetail.theCurrentInstructionsChangedAfterThis")}</p>}
-            {(resolveCandidate.error || draftBaseRevisionRef.current !== (selectedFileDetail?.revision?.id ?? null)) && <Button type="button" variant="outline" size="sm" disabled={isSaving} onClick={() => refreshCandidateBase.mutate()}>{t("pages.agentDetail.refreshCurrentRevision")}</Button>}
+            {draftBaseRevisionRef.current !== (selectedFileDetail?.revision?.id ?? null) && <p className="text-sm text-destructive">The current instructions changed after this draft was loaded. Refresh the current revision, compare the instructions, and save your resolved draft again.</p>}
+            {(resolveCandidate.error || draftBaseRevisionRef.current !== (selectedFileDetail?.revision?.id ?? null)) && <Button type="button" variant="outline" size="sm" disabled={isSaving} onClick={() => refreshCandidateBase.mutate()}>Refresh current revision</Button>}
           </div>}
-          {(candidates.error || loadCandidate.error || resolveCandidate.error || refreshCandidateBase.error) && <p role="alert" className="text-sm text-destructive">{t("pages.agentDetail.yourPreservedEditsRemainAvailable", { message: (candidates.error ?? loadCandidate.error ?? resolveCandidate.error ?? refreshCandidateBase.error)?.message })}</p>}
-          {(saveFile.error || fileError || updateBundle.error) && <p role="alert" className="text-sm text-destructive">{t("pages.agentDetail.yourUnsavedEditsAreRetained", { message: (saveFile.error ?? fileError ?? updateBundle.error)?.message })}</p>}
-          {selectedFileDetail?.receipt?.materialization === "pending" && <p role="status" className="text-sm text-muted-foreground">{t("pages.agentDetail.revisionSavedTheInstructionFileStill")}</p>}
+          {(candidates.error || loadCandidate.error || resolveCandidate.error || refreshCandidateBase.error) && <p role="alert" className="text-sm text-destructive">{(candidates.error ?? loadCandidate.error ?? resolveCandidate.error ?? refreshCandidateBase.error)?.message} Your preserved edits remain available.</p>}
+          {(saveFile.error || fileError || updateBundle.error) && <p role="alert" className="text-sm text-destructive">{(saveFile.error ?? fileError ?? updateBundle.error)?.message} Your unsaved edits are retained.</p>}
+          {selectedFileDetail?.receipt?.materialization === "pending" && <p role="status" className="text-sm text-muted-foreground">Revision saved. The instruction file still needs to be rebuilt from the saved revision.</p>}
           {selectedFileDetail?.revision && currentMode === "managed" && bundle?.persistence !== "agent_files" && <InstructionHistory
             key={selectedOrEntryFile} agentId={agent.id} companyId={companyId} path={selectedOrEntryFile}
             currentRevisionId={selectedFileDetail.revision.id} disabled={isDirty || isSaving}
@@ -3150,8 +3154,8 @@ export function PromptsTab({
           />}
           {selectedFileDetail?.binary ? (
             <div className="space-y-3 rounded-md border border-border p-4">
-              <p className="text-sm text-muted-foreground">{t("pages.agentDetail.thisFileIsPreservedWithThe")}</p>
-              <a className="text-sm text-primary underline" href={agentsApi.downloadInstructionsFile(agent.id, selectedOrEntryFile, companyId)} download>{t("pages.agentDetail.download", { selectedOrEntryFile })}</a>
+              <p className="text-sm text-muted-foreground">This file is preserved with the agent directory. Download it to view its contents.</p>
+              <a className="text-sm text-primary underline" href={agentsApi.downloadInstructionsFile(agent.id, selectedOrEntryFile, companyId)} download>Download {selectedOrEntryFile}</a>
             </div>
           ) : selectedFileExists && fileLoading && !selectedFileDetail ? (
             <PromptEditorSkeleton />
@@ -3166,7 +3170,7 @@ export function PromptsTab({
                   <pre className="whitespace-pre-wrap break-words font-sans text-sm leading-7">{displayValue}</pre>
                 )
               ) : (
-                <p className="text-sm text-muted-foreground">{t("pages.agentDetail.thisInstructionFileIsEmpty")}</p>
+                <p className="text-sm text-muted-foreground">This instruction file is empty.</p>
               )}
             </div>
           ) : instructionMode === "raw" ? (
@@ -3194,7 +3198,7 @@ export function PromptsTab({
                   if (draftBaseHashRef.current === undefined) draftBaseHashRef.current = selectedFileDetail?.contentHash ?? null;
                   setDraft(value ?? "");
                 }}
-                placeholder={t("pages.agentDetail.agentInstructions")}
+                placeholder="# Agent instructions"
                 className="min-w-0 overflow-hidden"
                 contentClassName="min-h-(--sz-420px) max-w-full break-words text-sm leading-7"
                 imageUploadHandler={async (file) => {
@@ -3206,7 +3210,7 @@ export function PromptsTab({
             </div>
           ) : (
             <textarea
-              aria-label={t("pages.agentDetail.instructionFileEditor")}
+              aria-label="Instruction file editor"
               value={displayValue}
               onChange={(event) => {
                 if (draftBaseRevisionRef.current === undefined) draftBaseRevisionRef.current = selectedFileDetail?.revision?.id ?? null;
@@ -3214,7 +3218,7 @@ export function PromptsTab({
                 setDraft(event.target.value);
               }}
               className="min-h-(--sz-420px) w-full min-w-0 rounded-md border border-border bg-transparent px-3 py-2 font-mono text-sm outline-none"
-              placeholder={t("pages.agentDetail.fileContents")}
+              placeholder="File contents"
             />
           )}
         </div>
@@ -3281,7 +3285,6 @@ function PromptEditorSkeleton() {
 /* ---- Runs Tab ---- */
 
 function RunListItem({ run, isSelected, agentId }: { run: HeartbeatRun; isSelected: boolean; agentId: string }) {
-  const { t } = useTranslation();
   const statusInfo = runStatusIcons[run.status] ?? { icon: Clock, color: "text-neutral-400" };
   const StatusIcon = statusInfo.icon;
   const metrics = runMetrics(run);
@@ -3324,7 +3327,7 @@ function RunListItem({ run, isSelected, agentId }: { run: HeartbeatRun; isSelect
       )}
       {(metrics.usageUnavailable || (metrics.totalTokens ?? 0) > 0 || (metrics.cost ?? 0) > 0) && (
         <div className="flex items-center gap-2 pl-5.5 text-(length:--text-micro) text-muted-foreground tabular-nums">
-          {metrics.usageUnavailable && <span>{t("pages.agentDetail.usageAndCostUnavailable")}</span>}
+          {metrics.usageUnavailable && <span>Usage and cost unavailable</span>}
           {metrics.totalTokens !== null && metrics.totalTokens > 0 && <span>{formatTokens(metrics.totalTokens)} tok</span>}
           {metrics.cost !== null && metrics.cost > 0 && <span>${metrics.cost.toFixed(3)}</span>}
         </div>
@@ -3350,7 +3353,6 @@ export function RunsTab({
   adapterType: string;
   adapterConfig: Record<string, unknown>;
 }) {
-  const { t } = useTranslation();
   const { isMobile } = useSidebar();
 
   // Sort by created descending
@@ -3363,13 +3365,13 @@ export function RunsTab({
   const selection = useSelectedHeartbeatRun(sorted, effectiveRunId, companyId, agentId);
   const selectedRun = selection.run;
   if (selectedRunId && !selectedRun) {
-    if (selection.loading) return <p className="text-sm text-muted-foreground">{t("pages.agentDetail.loadingRun")}</p>;
+    if (selection.loading) return <p className="text-sm text-muted-foreground">Loading run…</p>;
     return <div role="alert">
-      <p className="text-sm text-destructive">{selection.error instanceof Error ? selection.error.message : t("pages.agentDetail.thisRunIsUnavailableForThis")}</p>
-      {selection.error && <Button variant="outline" onClick={() => { void selection.retry(); }}>{t("pages.agentDetail.tryAgain")}</Button>}
+      <p className="text-sm text-destructive">{selection.error instanceof Error ? selection.error.message : "This run is unavailable for this agent."}</p>
+      {selection.error && <Button variant="outline" onClick={() => { void selection.retry(); }}>Try again</Button>}
     </div>;
   }
-  if (runs.length === 0 && !selectedRun) return <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noRunsYet")}</p>;
+  if (runs.length === 0 && !selectedRun) return <p className="text-sm text-muted-foreground">No runs yet.</p>;
 
   // Mobile: show either run list OR run detail with back button
   if (isMobile) {
@@ -3381,7 +3383,7 @@ export function RunsTab({
             className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors no-underline"
           >
             <ArrowLeft className="h-3.5 w-3.5" />
-            {t("pages.agentDetail.backToRuns")}
+            Back to runs
           </Link>
           <RunDetail key={selectedRun.id} run={selectedRun} agentRouteId={agentRouteId} adapterType={adapterType} adapterConfig={adapterConfig} />
         </div>
@@ -3459,7 +3461,6 @@ export function RunAccountingMetrics({ run }: { run: HeartbeatRun }) {
 }
 
 function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }: { run: HeartbeatRun; agentRouteId: string; adapterType: string; adapterConfig: Record<string, unknown> }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data: hydratedRun } = useQuery({
@@ -3474,7 +3475,6 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
   const { data: boardAccess } = useQuery({
     queryKey: queryKeys.access.currentBoardAccess,
     queryFn: () => accessApi.getCurrentBoardAccess(),
-    retry: false,
   });
   const canUseProviderTrace =
     boardAccess?.source === "local_implicit" ||
@@ -3490,7 +3490,6 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
     queryKey: queryKeys.providerTraceMetadata(run.companyId, [run.id]),
     queryFn: () => heartbeatsApi.providerTraceMetadata(run.companyId, [run.id]),
     enabled: canUseProviderTrace,
-    retry: false,
     refetchInterval:
       run.status === "running" || run.status === "queued" ? 3000 : false,
   });
@@ -3500,7 +3499,6 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
     queryKey: queryKeys.access.companyUserDirectory(run.companyId),
     queryFn: () => accessApi.listUserDirectory(run.companyId),
     enabled: Boolean(run.companyId && run.responsibleUserId),
-    retry: false,
   });
   const responsibleUserName = useMemo(() => {
     if (!run.responsibleUserId) return null;
@@ -3672,7 +3670,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
           break-glass handlers as the task detail page. */}
       <RunWorkspaceRecoverySurface run={run} />
       <AiConnectionPoolRunDetails context={run.contextSnapshot} />
-      {grokWork && <p className="text-sm text-muted-foreground">{t("pages.agentDetail.runsInGrokBotUsageNot")}</p>}
+      {grokWork && <p className="text-sm text-muted-foreground">Runs in Grok Bot. Usage not reported. Stopping this session revokes Paperclip authority; remote execution may continue. Open the Grok Bot desktop app to inspect it. This view contains Paperclip-reported activity.</p>}
       {/* Run summary card */}
       <div className="border border-border rounded-lg overflow-hidden">
         <div className="flex flex-col sm:flex-row">
@@ -3693,7 +3691,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   onClick={() => cancelRun.mutate()}
                   disabled={cancelRun.isPending}
                 >
-                  {grokWork ? cancelRun.isPending ? t("pages.agentDetail.stoppingPaperclipWork") : t("pages.agentDetail.stopPaperclipWork") : cancelRun.isPending ? t("pages.agentDetail.cancelling") : t("pages.agentDetail.cancel")}
+                  {grokWork ? cancelRun.isPending ? "Stopping Paperclip work…" : "Stop Paperclip work" : cancelRun.isPending ? "Cancelling…" : "Cancel"}
                 </Button>
               )}
               {canResumeLostRun && (
@@ -3705,7 +3703,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   disabled={resumeRun.isPending}
                 >
                   <RotateCcw className="h-3.5 w-3.5 mr-1" />
-                  {resumeRun.isPending ? t("pages.agentDetail.resuming") : t("pages.agentDetail.resume")}
+                  {resumeRun.isPending ? "Resuming…" : "Resume"}
                 </Button>
               )}
               {canRetryRun && !canResumeLostRun && (
@@ -3717,7 +3715,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   disabled={retryRun.isPending}
                 >
                   <RotateCcw className="h-3.5 w-3.5 mr-1" />
-                  {retryRun.isPending ? t("pages.agentDetail.retrying") : t("pages.agentDetail.retry")}
+                  {retryRun.isPending ? "Retrying…" : "Retry"}
                 </Button>
               )}
               <Button
@@ -3727,7 +3725,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                 onClick={() => setInspectorOpen(true)}
               >
                 <Eye className="h-3.5 w-3.5 mr-1" />
-                {t("pages.agentDetail.inspectRun")}
+                Inspect run
               </Button>
               <HoneycombRunLink
                 runId={run.id}
@@ -3742,7 +3740,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   disabled={rerunWithTrace.isPending}
                 >
                   <RotateCcw className="h-3.5 w-3.5 mr-1" />
-                  {rerunWithTrace.isPending ? t("pages.agentDetail.starting") : t("pages.agentDetail.reRunWithProviderTrace")}
+                  {rerunWithTrace.isPending ? "Starting…" : "Re-run with provider trace"}
                 </Button>
               ) : null}
             </div>
@@ -3780,7 +3778,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             )}
             {Boolean(run.identityHistory?.length) && (
               <details className="text-xs text-muted-foreground" data-testid="run-identity-history">
-                <summary className="cursor-pointer">{t("pages.agentDetail.githubIdentityHistory")}</summary>
+                <summary className="cursor-pointer">GitHub identity history</summary>
                 <ol className="mt-2 space-y-2">
                   {run.identityHistory!.map((identity) => {
                     const person = userDirectory?.users.find((entry) => entry.principalId === identity.responsibleUserId);
@@ -3801,14 +3799,14 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                 </ol>
               </details>
             )}
-            {resumeRun.isError && (
+            {resumeRun.isError && ( // query-error-ok: mutation result, not a query
               <div className="text-xs text-destructive">
-                {resumeRun.error instanceof Error ? resumeRun.error.message : t("pages.agentDetail.failedToResumeRun")}
+                {resumeRun.error instanceof Error ? resumeRun.error.message : "Failed to resume run"}
               </div>
             )}
-            {retryRun.isError && (
+            {retryRun.isError && ( // query-error-ok: mutation result, not a query
               <div className="text-xs text-destructive">
-                {retryRun.error instanceof Error ? retryRun.error.message : t("pages.agentDetail.failedToRetryRun")}
+                {retryRun.error instanceof Error ? retryRun.error.message : "Failed to retry run"}
               </div>
             )}
             {startTime && (
@@ -3845,13 +3843,13 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                   onClick={() => runClaudeLogin.mutate()}
                   disabled={runClaudeLogin.isPending}
                 >
-                  {runClaudeLogin.isPending ? t("pages.agentDetail.runningClaudeLogin") : t("pages.agentDetail.loginToClaudeCode")}
+                  {runClaudeLogin.isPending ? "Running claude login..." : "Login to Claude Code"}
                 </Button>
-                {runClaudeLogin.isError && (
+                {runClaudeLogin.isError && ( // query-error-ok: mutation result, not a query
                   <p className="text-xs text-destructive">
                     {runClaudeLogin.error instanceof Error
                       ? runClaudeLogin.error.message
-                      : t("pages.agentDetail.failedToRunClaudeLogin")}
+                      : "Failed to run Claude login"}
                   </p>
                 )}
                 {claudeLoginResult?.loginUrl && (
@@ -3892,7 +3890,7 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             {hasNonZeroExit && (
               <div className="text-xs text-red-600 dark:text-red-400">
                 Exit code {run.exitCode}
-                {run.signal && <span className="text-muted-foreground ml-1">{t("pages.agentDetail.signal", { signal: run.signal })}</span>}
+                {run.signal && <span className="text-muted-foreground ml-1">(signal: {run.signal})</span>}
               </div>
             )}
             <RunRetryDetails run={run} agentRouteId={agentRouteId} />
@@ -3910,19 +3908,19 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
             >
               <ChevronRight className={cn("h-3 w-3 transition-transform", sessionOpen && "rotate-90")} />
               Session
-              {sessionChanged && <span className="text-yellow-400 ml-1">{t("pages.agentDetail.changed")}</span>}
+              {sessionChanged && <span className="text-yellow-400 ml-1">(changed)</span>}
             </button>
             {sessionOpen && (
               <div className="px-4 pb-3 space-y-1 text-xs">
                 {run.sessionIdBefore && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground w-12">{sessionChanged ? t("pages.agentDetail.before") : "ID"}</span>
+                    <span className="text-muted-foreground w-12">{sessionChanged ? "Before" : "ID"}</span>
                     <CopyText text={run.sessionIdBefore} className="font-mono" />
                   </div>
                 )}
                 {sessionChanged && run.sessionIdAfter && (
                   <div className="flex items-center gap-2">
-                    <span className="text-muted-foreground w-12">{t("pages.agentDetail.after")}</span>
+                    <span className="text-muted-foreground w-12">After</span>
                     <CopyText text={run.sessionIdAfter} className="font-mono" />
                   </div>
                 )}
@@ -3942,14 +3940,14 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
                       }}
                     >
                       {clearSessionsForTouchedIssues.isPending
-                        ? t("pages.agentDetail.clearingSession")
-                        : t("pages.agentDetail.clearSessionForTheseTasks")}
+                        ? "clearing session..."
+                        : "clear session for these tasks"}
                     </button>
-                    {clearSessionsForTouchedIssues.isError && (
+                    {clearSessionsForTouchedIssues.isError && ( // query-error-ok: mutation result, not a query
                       <p className="text-(length:--text-micro) text-destructive mt-1">
                         {clearSessionsForTouchedIssues.error instanceof Error
                           ? clearSessionsForTouchedIssues.error.message
-                          : t("pages.agentDetail.failedToClearSessions")}
+                          : "Failed to clear sessions"}
                       </p>
                     )}
                   </div>
@@ -4026,9 +4024,13 @@ function RunDetail({ run: initialRun, agentRouteId, adapterType, adapterConfig }
 /* ---- Log Viewer ---- */
 
 export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType: string }) {
-  const { t } = useTranslation();
   const { visible } = usePageVisibility();
   const [events, setEvents] = useState<HeartbeatRunEvent[]>([]);
+  const [hasMoreEvents, setHasMoreEvents] = useState(false);
+  const [eventsError, setEventsError] = useState<string | null>(null);
+  const hasMoreEventsRef = useRef(false);
+  const [loadingMoreEvents, setLoadingMoreEvents] = useState(false);
+  const loadMoreEventsRef = useRef<(() => void) | null>(null);
   const [logLines, setLogLines] = useState<RunLogChunk[]>([]);
   const [loading, setLoading] = useState(true);
   const [logLoading, setLogLoading] = useState(!!run.logRef);
@@ -4043,7 +4045,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
   const [hasMoreLog, setHasMoreLog] = useState(false);
   const [loadingMoreLog, setLoadingMoreLog] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
-  const [isStreamingConnected, setIsStreamingConnected] = useState(false);
   const [transcriptMode, setTranscriptMode] = useState<TranscriptMode>("nice");
   const logEndRef = useRef<HTMLDivElement>(null);
   const pendingLogLineRef = useRef("");
@@ -4093,7 +4094,9 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
         const chunk = typeof raw.chunk === "string" ? raw.chunk : "";
         const ts = typeof raw.ts === "string" ? raw.ts : new Date().toISOString();
         if (!chunk) continue;
-        parsed.push({ ts, stream, chunk, seq: readChunkSeq(raw.seq) });
+        const seq = readChunkSeq(raw.seq);
+        logSequenceRef.current.confirm(seq);
+        parsed.push({ ts, stream, chunk, seq });
       } catch {
         // ignore malformed lines
       }
@@ -4106,18 +4109,145 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     }
   }
 
-  // Fetch events
-  const { data: initialEvents } = useQuery({
-    queryKey: ["run-events", run.id],
-    queryFn: () => heartbeatsApi.events(run.id, 0, 200),
+  const refreshEventsRef = useRef<((force?: boolean) => void) | null>(null);
+  const refreshLogRef = useRef<((force?: boolean) => void) | null>(null);
+  const eventSequenceRef = useRef(new TranscriptSequence());
+  const logSequenceRef = useRef(new TranscriptSequence());
+  const eventsReadCursorRef = useRef(0);
+  const eventsCatchupCursorRef = useRef(0);
+  const retainedEventHistoryThroughRef = useRef(0);
+  const logIdentityRef = useRef<string | null>(run.logRef ?? null);
+  const retiredLogRefs = useRef(new Set<string>());
+  const wasLiveRef = useRef(isLive);
+  const bindLog = (ref: unknown): "same" | "changed" | "stale" => {
+    if (typeof ref !== "string" || !ref || ref === logIdentityRef.current) return "same";
+    if (retiredLogRefs.current.has(ref)) return "stale";
+    const prior = logIdentityRef.current;
+    logIdentityRef.current = ref;
+    if (!prior) return "same";
+    retiredLogRefs.current.add(prior);
+    if (retiredLogRefs.current.size > 8) retiredLogRefs.current.delete(retiredLogRefs.current.values().next().value!);
+    pendingLogLineRef.current = "";
+    logMergeRefs.current = { seenChunkKeys: new Set(), trimmedSeqFloorByRun: new Map() };
+    logSequenceRef.current = new TranscriptSequence();
+    setLogLines([]); setLogOffset(0);
+    return "changed";
+  };
+  useEffect(() => {
+    eventsReadCursorRef.current = 0; eventsCatchupCursorRef.current = 0; retainedEventHistoryThroughRef.current = 0; eventSequenceRef.current = new TranscriptSequence(); logSequenceRef.current = new TranscriptSequence();
+    wasLiveRef.current = isLive;
+    logIdentityRef.current = run.logRef ?? null; retiredLogRefs.current.clear();
+    hasMoreEventsRef.current = false; setHasMoreEvents(false); setLoadingMoreEvents(false); setEventsError(null);
+    setEvents([]); setLoading(true);
+  }, [run.id, run.companyId]);
+  useEffect(() => { if (isLive) wasLiveRef.current = true; }, [isLive]);
+
+  function appendEvents(rows: HeartbeatRunEvent[], retainHistory = false) {
+    if (retainHistory) retainedEventHistoryThroughRef.current = Math.max(
+      retainedEventHistoryThroughRef.current, rows.at(-1)?.seq ?? 0,
+    );
+    setEvents(previous => {
+      const merged = mergeRunEvents(previous, rows);
+      if (!isLive && !wasLiveRef.current) return merged;
+      const retainedThrough = Math.max(200, retainedEventHistoryThroughRef.current);
+      const prefix = merged.filter(row => row.seq <= retainedThrough);
+      const tail = merged.filter(row => row.seq > retainedThrough);
+      return [...prefix, ...tail.slice(-MAX_LIVE_EVENTS)];
+    });
+  }
+
+  const stream = useTranscriptLiveStream(isLive ? [run.id] : [], { companyId: run.companyId, enabled: visible }, event => {
+    if (event.companyId !== run.companyId) return;
+    const payload = asRecord(event.payload);
+    if (!payload || payload.runId !== run.id) return;
+    if (event.type === "heartbeat.run.log") {
+      const binding = bindLog(payload.logRef);
+      if (binding === "stale") return;
+      const seq = readChunkSeq(payload.seq);
+      if (payload.truncated === true) logSequenceRef.current.requireHistory(seq);
+      const gap = logSequenceRef.current.observe(seq);
+      if (binding === "changed" || payload.truncated === true || gap) refreshLogRef.current?.();
+      if (payload.truncated === true) return;
+      const chunk = typeof payload.chunk === "string" ? payload.chunk : "";
+      if (!chunk) return;
+      const channel = payload.stream === "stderr" || payload.stream === "system" ? payload.stream : "stdout";
+      appendLogLines([{ ts: asNonEmptyString(payload.ts) ?? event.createdAt, stream: channel, chunk, seq }]);
+      return;
+    }
+    if (event.type === "heartbeat.run.progress") {
+      const line = buildHeartbeatProgressLogLine(payload, event.createdAt);
+      if (!line) return;
+      const key = heartbeatProgressLogLineKey(line);
+      if (seenProgressLogLineKeysRef.current.has(key)) return;
+      seenProgressLogLineKeysRef.current.add(key); appendLogLines([line]);
+      return;
+    }
+    if (event.type === "heartbeat.run.status") {
+      refreshEventsRef.current?.(true); refreshLogRef.current?.(true); return;
+    }
+    const row = liveRunEvent(event);
+    if (!row) return;
+    const commitSignal = row.message === null && row.payload === null;
+    if (commitSignal) eventSequenceRef.current.requireHistory(row.seq);
+    if (eventSequenceRef.current.observe(row.seq)) refreshEventsRef.current?.();
+    if (commitSignal) return;
+    appendEvents([row]);
   });
 
   useEffect(() => {
-    if (initialEvents) {
-      setEvents(initialEvents);
-      setLoading(false);
-    }
-  }, [initialEvents]);
+    setLoadingMoreEvents(false);
+    if (!visible) return;
+    let cancelled = false;
+    let timer: number | undefined;
+    const abort = new AbortController();
+    let reading = false;
+    let pendingRefresh = false;
+    let failedRead: { requested: boolean; catchup: boolean } | null = null;
+    const read = async (requested = false, catchup = false) => {
+      if (cancelled) return;
+      if (reading) { if (catchup) pendingRefresh = true; return; }
+      if (hasMoreEventsRef.current && !requested && !catchup) return;
+      reading = true; pendingRefresh = false; setLoadingMoreEvents(true); setEventsError(null);
+      window.clearTimeout(timer); timer = undefined;
+      let failed = false;
+      try {
+        const cursor = catchup ? Math.max(eventsCatchupCursorRef.current, eventsReadCursorRef.current) : eventsReadCursorRef.current;
+        const initializesHistory = eventsReadCursorRef.current === 0;
+        const rows = await readTranscriptRequest(signal => heartbeatsApi.events(run.id, cursor, 1000, { signal }), abort.signal);
+        if (cancelled) return;
+        appendEvents(rows, !catchup || initializesHistory);
+        const next = Math.max(cursor, rows.at(-1)?.seq ?? cursor);
+        eventsCatchupCursorRef.current = Math.max(eventsCatchupCursorRef.current, next);
+        eventSequenceRef.current.confirm(next);
+        if (catchup) {
+          if (rows.length === 1000 && next > cursor) pendingRefresh = true;
+        }
+        if (!catchup || initializesHistory) {
+          eventsReadCursorRef.current = next;
+          hasMoreEventsRef.current = rows.length === 1000 && next > cursor;
+          setHasMoreEvents(hasMoreEventsRef.current);
+        }
+        failed = eventSequenceRef.current.needsCatchup;
+        failedRead = null;
+      } catch {
+        failed = true; failedRead = { requested, catchup };
+        if (!cancelled) setEventsError("Could not load events. Try again.");
+      }
+      if (cancelled) return;
+      reading = false; setLoadingMoreEvents(false); setLoading(false);
+      if (pendingRefresh) void read(false, true);
+      else if (failed || (isLive && !stream.healthy && !hasMoreEventsRef.current)) {
+        timer = window.setTimeout(() => void read(requested, catchup || eventSequenceRef.current.needsCatchup), 2000);
+      }
+    };
+    refreshEventsRef.current = () => { void read(false, wasLiveRef.current); };
+    loadMoreEventsRef.current = () => { void read(failedRead?.requested ?? true, failedRead?.catchup ?? false); };
+    void read(false, wasLiveRef.current && (stream.healthy || eventsReadCursorRef.current > 0));
+    return () => {
+      cancelled = true; refreshEventsRef.current = null; loadMoreEventsRef.current = null;
+      abort.abort(); if (timer !== undefined) window.clearTimeout(timer);
+    };
+  }, [visible, run.id, run.companyId, run.status, stream.healthy, stream.epoch]);
 
   const getScrollContainer = useCallback((): ScrollContainer => {
     if (scrollContainerRef.current) return scrollContainerRef.current;
@@ -4212,45 +4342,50 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     setLogError(null);
   }, [run.id, run.logRef, setLogOffset]);
 
-  // Fetch persisted shell log, retaining partial rows and offsets across hides.
   useEffect(() => {
     if (!visible) return;
+    if (!run.logRef && !shouldPollShellLog) { setLogLoading(false); return; }
     let cancelled = false;
-    const offset = logOffsetRef.current;
-    if (!run.logRef && !shouldPollShellLog) {
-      setLogLoading(false);
-      return () => {
-        cancelled = true;
-      };
-    }
-
+    let timer: number | undefined;
+    const abort = new AbortController();
     setLogLoading(true);
+    let reading = false;
+    let pendingRefresh = false;
     const load = async () => {
+      if (cancelled || reading) return;
+      reading = true; pendingRefresh = false;
+      window.clearTimeout(timer); timer = undefined;
+      let failed = false;
       try {
-        const result = await heartbeatsApi.log(run.id, offset, RUN_LOG_PAGE_BYTES);
-        if (cancelled) return;
-        appendLogContent(result.content, result.nextOffset === undefined);
-        const next = result.nextOffset ?? offset + result.content.length;
-        setLogOffset(next);
-        setHasMoreLog(!shouldPollShellLog && result.nextOffset !== undefined);
-      } catch (err) {
-        if (!cancelled) {
-          if (shouldPollShellLog && isRunLogUnavailable(err)) {
-            setLogLoading(false);
-            return;
-          }
-          setLogError(err instanceof Error ? err.message : "Failed to load run log");
+        for (;;) {
+          const offset = logOffsetRef.current;
+          const result = await readTranscriptRequest(signal => heartbeatsApi.log(run.id, offset, RUN_LOG_PAGE_BYTES, { signal }), abort.signal);
+          if (cancelled) return;
+          const binding = bindLog(result.logRef);
+          if (binding === "stale") { failed = true; break; }
+          if (binding === "changed" && offset !== 0) continue;
+          appendLogContent(result.content, result.nextOffset === undefined);
+          const next = result.nextOffset ?? offset + new TextEncoder().encode(result.content).byteLength;
+          setLogOffset(next); setLogError(null);
+          setHasMoreLog(!wasLiveRef.current && result.nextOffset !== undefined && !!result.content);
+          if (!wasLiveRef.current || result.nextOffset === undefined || !result.content || next <= offset) break;
         }
-      } finally {
-        if (!cancelled) setLogLoading(false);
+        failed ||= logSequenceRef.current.needsCatchup;
+      } catch (err) {
+        if (cancelled) return;
+        failed = shouldPollShellLog || !isRunLogUnavailable(err);
+        if (!isRunLogUnavailable(err)) setLogError(err instanceof Error ? err.message : "Failed to load run log");
       }
+      if (cancelled) return;
+      reading = false;
+      setLogLoading(false);
+      if (pendingRefresh) void load();
+      else if (failed || (shouldPollShellLog && !stream.healthy)) timer = window.setTimeout(() => void load(), 2000);
     };
-
+    refreshLogRef.current = (force = false) => { if (force) pendingRefresh = true; void load(); };
     void load();
-    return () => {
-      cancelled = true;
-    };
-  }, [visible, run.id, run.logRef, run.logBytes, shouldPollShellLog]);
+    return () => { cancelled = true; refreshLogRef.current = null; abort.abort(); if (timer !== undefined) window.clearTimeout(timer); };
+  }, [visible, run.id, run.companyId, run.logRef, isLive ? null : run.logBytes, shouldPollShellLog, stream.healthy, stream.epoch]);
 
   async function loadMorePersistedLog() {
     if (loadingMoreLog || !hasMoreLog) return;
@@ -4259,7 +4394,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
     try {
       const result = await heartbeatsApi.log(run.id, logOffset, RUN_LOG_PAGE_BYTES);
       appendLogContent(result.content, result.nextOffset === undefined);
-      const next = result.nextOffset ?? logOffset + result.content.length;
+      const next = result.nextOffset ?? logOffset + new TextEncoder().encode(result.content).byteLength;
       setLogOffset(next);
       setHasMoreLog(result.nextOffset !== undefined);
     } catch (err) {
@@ -4268,192 +4403,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
       setLoadingMoreLog(false);
     }
   }
-
-  // Poll for live updates
-  useEffect(() => {
-    if (!visible || !isLive || isStreamingConnected) return;
-    let pending = false;
-    let cancelled = false;
-    const interval = setInterval(async () => {
-      if (pending || cancelled || !getPageVisibility().visible) return;
-      pending = true;
-      const maxSeq = events.length > 0 ? Math.max(...events.map((e) => e.seq)) : 0;
-      try {
-        const newEvents = await heartbeatsApi.events(run.id, maxSeq, 100);
-        if (cancelled) return;
-        if (newEvents.length > 0) {
-          setEvents((prev) => appendCapped(prev, newEvents, MAX_LIVE_EVENTS));
-        }
-      } catch {
-        // ignore polling errors
-      } finally {
-        pending = false;
-      }
-    }, 2000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [visible, run.id, isLive, isStreamingConnected, events]);
-
-  // Poll shell log for running runs
-  useEffect(() => {
-    if (!visible || !shouldPollShellLog || isStreamingConnected) return;
-    let pending = false;
-    let cancelled = false;
-    const interval = setInterval(async () => {
-      if (pending || cancelled || !getPageVisibility().visible) return;
-      pending = true;
-      try {
-        const result = await heartbeatsApi.log(run.id, logOffset, 256_000);
-        if (cancelled) return;
-        if (result.content) {
-          appendLogContent(result.content, result.nextOffset === undefined);
-        }
-        if (result.nextOffset !== undefined) {
-          setLogOffset(result.nextOffset);
-        } else if (result.content.length > 0) {
-          setLogOffset((prev) => prev + result.content.length);
-        }
-      } catch (err) {
-        if (isRunLogUnavailable(err)) return;
-        // ignore polling errors
-      } finally {
-        pending = false;
-      }
-    }, 2000);
-    return () => {
-      cancelled = true;
-      clearInterval(interval);
-    };
-  }, [visible, run.id, shouldPollShellLog, isStreamingConnected, logOffset]);
-
-  // Stream live updates from websocket (primary path for running runs).
-  useEffect(() => {
-    if (!visible || !isLive) return;
-
-    let closed = false;
-    let reconnectTimer: number | null = null;
-    let socket: WebSocket | null = null;
-
-    const scheduleReconnect = () => {
-      if (closed) return;
-      reconnectTimer = window.setTimeout(connect, 1500);
-    };
-
-    const connect = () => {
-      if (closed) return;
-      const url = buildSameOriginWebSocketUrl(
-        `/api/companies/${encodeURIComponent(run.companyId)}/events/ws`,
-      );
-      socket = tryCreateWebSocket(url);
-      if (!socket) {
-        scheduleReconnect();
-        return;
-      }
-
-      socket.onopen = () => {
-        setIsStreamingConnected(true);
-      };
-
-      socket.onmessage = (message) => {
-        const rawMessage = typeof message.data === "string" ? message.data : "";
-        if (!rawMessage) return;
-
-        let event: LiveEvent;
-        try {
-          event = JSON.parse(rawMessage) as LiveEvent;
-        } catch {
-          return;
-        }
-
-        if (event.companyId !== run.companyId) return;
-        const payload = asRecord(event.payload);
-        const eventRunId = asNonEmptyString(payload?.runId);
-        if (!payload || eventRunId !== run.id) return;
-
-        if (event.type === "heartbeat.run.log") {
-          const chunk = typeof payload.chunk === "string" ? payload.chunk : "";
-          if (!chunk) return;
-          const streamRaw = asNonEmptyString(payload.stream);
-          const stream = streamRaw === "stderr" || streamRaw === "system" ? streamRaw : "stdout";
-          const ts = asNonEmptyString((payload as Record<string, unknown>).ts) ?? event.createdAt;
-          appendLogLines([{ ts, stream, chunk, seq: readChunkSeq(payload.seq) }]);
-          return;
-        }
-
-        if (event.type === "heartbeat.run.progress") {
-          const line = buildHeartbeatProgressLogLine(payload, event.createdAt);
-          if (!line) return;
-          const key = heartbeatProgressLogLineKey(line);
-          if (seenProgressLogLineKeysRef.current.has(key)) return;
-          seenProgressLogLineKeysRef.current.add(key);
-          appendLogLines([line]);
-          return;
-        }
-
-        if (event.type !== "heartbeat.run.event") return;
-
-        const seq = typeof payload.seq === "number" ? payload.seq : null;
-        if (seq === null || !Number.isFinite(seq)) return;
-
-        const streamRaw = asNonEmptyString(payload.stream);
-        const stream =
-          streamRaw === "stdout" || streamRaw === "stderr" || streamRaw === "system"
-            ? streamRaw
-            : null;
-        const levelRaw = asNonEmptyString(payload.level);
-        const level =
-          levelRaw === "info" || levelRaw === "warn" || levelRaw === "error"
-            ? levelRaw
-            : null;
-
-        const liveEvent: HeartbeatRunEvent = {
-          id: seq,
-          companyId: run.companyId,
-          runId: run.id,
-          agentId: run.agentId,
-          seq,
-          eventType: asNonEmptyString(payload.eventType) ?? "event",
-          stream,
-          level,
-          color: asNonEmptyString(payload.color),
-          message: asNonEmptyString(payload.message),
-          payload: asRecord(payload.payload),
-          createdAt: new Date(event.createdAt),
-        };
-
-        setEvents((prev) => {
-          if (prev.some((existing) => existing.seq === seq)) return prev;
-          return appendCapped(prev, [liveEvent], MAX_LIVE_EVENTS);
-        });
-      };
-
-      socket.onerror = () => {
-        socket?.close();
-      };
-
-      socket.onclose = () => {
-        setIsStreamingConnected(false);
-        scheduleReconnect();
-      };
-    };
-
-    connect();
-
-    return () => {
-      closed = true;
-      setIsStreamingConnected(false);
-      if (reconnectTimer !== null) window.clearTimeout(reconnectTimer);
-      if (socket) {
-        socket.onopen = null;
-        socket.onmessage = null;
-        socket.onerror = null;
-        socket.onclose = null;
-        socket.close(1000, "run_detail_unmount");
-      }
-    };
-  }, [visible, isLive, run.companyId, run.id, run.agentId]);
 
   const censorUsernameInLogs = useQuery({
     queryKey: queryKeys.instance.generalSettings,
@@ -4493,11 +4442,11 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
   }, [run.id]);
 
   if (loading && logLoading) {
-    return <p className="text-xs text-muted-foreground">{t("pages.agentDetail.loadingRunLogs")}</p>;
+    return <p className="text-xs text-muted-foreground">Loading run logs...</p>;
   }
 
-  if (events.length === 0 && logLines.length === 0 && !logError) {
-    return <p className="text-xs text-muted-foreground">{t("pages.agentDetail.noLogEvents")}</p>;
+  if (events.length === 0 && logLines.length === 0 && !logError && !eventsError) {
+    return <p className="text-xs text-muted-foreground">No log events.</p>;
   }
 
   const levelColors: Record<string, string> = {
@@ -4556,7 +4505,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 lastMetricsRef.current = readScrollMetrics(container);
               }}
             >
-              {t("pages.agentDetail.jumpToLive")}
+              Jump to live
             </Button>
           )}
           {isLive && (
@@ -4565,7 +4514,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 <span className="animate-pulse absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
               </span>
-              {t("pages.agentDetail.live")}
+              Live
             </span>
           )}
         </div>
@@ -4588,7 +4537,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
               onClick={loadMorePersistedLog}
               disabled={loadingMoreLog}
             >
-              {loadingMoreLog ? "Loading..." : t("pages.agentDetail.loadMoreLog")}
+              {loadingMoreLog ? "Loading..." : "Load more log"}
             </Button>
             <span className="text-xs text-muted-foreground">
               Showing the first {Math.round(logOffset / 1024).toLocaleString("en-US")} KB
@@ -4608,7 +4557,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
 
       {(run.status === "failed" || run.status === "timed_out") && (
         <div className="rounded-lg border border-red-300 dark:border-red-500/30 bg-red-50 dark:bg-red-950/20 p-3 space-y-2">
-          <div className="text-xs font-medium text-red-700 dark:text-red-300">{t("pages.agentDetail.failureDetails")}</div>
+          <div className="text-xs font-medium text-red-700 dark:text-red-300">Failure details</div>
           {run.error && (
             <div className="text-xs text-red-600 dark:text-red-200">
               <span className="text-red-700 dark:text-red-300">Error: </span>
@@ -4617,7 +4566,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.stderrExcerpt && run.stderrExcerpt.trim() && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetail.stderrExcerpt")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">stderr excerpt</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {redactPathText(run.stderrExcerpt, censorUsernameInLogs)}
               </pre>
@@ -4625,7 +4574,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.resultJson && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetail.adapterResultJson")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">adapter result JSON</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {JSON.stringify(redactPathValue(run.resultJson, censorUsernameInLogs), null, 2)}
               </pre>
@@ -4633,7 +4582,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
           )}
           {run.stdoutExcerpt && run.stdoutExcerpt.trim() && !run.resultJson && (
             <div>
-              <div className="text-xs text-red-700 dark:text-red-300 mb-1">{t("pages.agentDetail.stdoutExcerpt")}</div>
+              <div className="text-xs text-red-700 dark:text-red-300 mb-1">stdout excerpt</div>
               <pre className="bg-red-50 dark:bg-neutral-950 rounded-md p-2 text-xs overflow-x-auto whitespace-pre-wrap text-red-800 dark:text-red-100">
                 {redactPathText(run.stdoutExcerpt, censorUsernameInLogs)}
               </pre>
@@ -4642,9 +4591,15 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
         </div>
       )}
 
-      {events.length > 0 && (
+      {(events.length > 0 || eventsError) && (
         <div>
           <div className="mb-2 text-xs font-medium text-muted-foreground">Events ({events.length})</div>
+          {eventsError && <p className="text-sm text-destructive">{eventsError}</p>}
+          {(hasMoreEvents || eventsError) && (
+            <Button variant="outline" size="sm" disabled={loadingMoreEvents} onClick={() => loadMoreEventsRef.current?.()}>
+              {loadingMoreEvents ? "Loading..." : eventsError ? "Retry events" : "Load more events"}
+            </Button>
+          )}
           <div className="bg-neutral-100 dark:bg-neutral-950 rounded-lg p-3 font-mono text-xs space-y-0.5">
             {events.map((evt) => {
               const color = evt.color
@@ -4653,7 +4608,7 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
                 ?? "text-foreground";
 
               return (
-                <div key={evt.id} className="flex gap-2">
+                <div key={`${evt.runId}:${evt.seq}`} className="flex gap-2">
                   <span className="text-neutral-400 dark:text-neutral-600 shrink-0 select-none w-16">
                     {new Date(evt.createdAt).toLocaleTimeString("en-US", { hour12: false })}
                   </span>
@@ -4680,7 +4635,6 @@ export function LogViewer({ run, adapterType }: { run: HeartbeatRun; adapterType
 /* ---- Keys Tab ---- */
 
 export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: string }) {
-  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { pushToast } = useToastActions();
   const [newKeyName, setNewKeyName] = useState("");
@@ -4731,7 +4685,7 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
       {newToken && (
         <div className="border border-yellow-300 dark:border-yellow-600/40 bg-yellow-50 dark:bg-yellow-500/5 rounded-lg p-4 space-y-2">
           <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
-            {t("pages.agentDetail.apiKeyCreatedCopyItNow")}
+            API key created — copy it now, it will not be shown again.
           </p>
           <div className="flex items-center gap-2">
             <code className="flex-1 bg-neutral-100 dark:bg-neutral-950 rounded px-3 py-1.5 text-xs font-mono text-green-700 dark:text-green-300 truncate">
@@ -4753,7 +4707,7 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
             >
               <Copy className="h-3.5 w-3.5" />
             </Button>
-            {copied && <span className="text-xs text-green-400">{t("pages.agentDetail.copied")}</span>}
+            {copied && <span className="text-xs text-green-400">Copied!</span>}
           </div>
           <Button
             variant="ghost"
@@ -4761,7 +4715,7 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
             className="text-muted-foreground text-xs"
             onClick={() => setNewToken(null)}
           >
-            {t("pages.agentDetail.dismiss")}
+            Dismiss
           </Button>
         </div>
       )}
@@ -4770,14 +4724,14 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
       <div className="border border-border rounded-lg p-4 space-y-3">
         <h3 className="text-xs font-medium text-muted-foreground flex items-center gap-2">
           <Key className="h-3.5 w-3.5" />
-          {t("pages.agentDetail.createApiKey")}
+          Create API Key
         </h3>
         <p className="text-xs text-muted-foreground">
-          {t("pages.agentDetail.apiKeysAllowThisAgentTo")}
+          API keys allow this agent to authenticate calls to the Paperclip server.
         </p>
         <div className="flex items-center gap-2">
           <Input
-            placeholder={t("pages.agentDetail.keyNameEGProduction")}
+            placeholder="Key name (e.g. production)"
             value={newKeyName}
             onChange={(e) => setNewKeyName(e.target.value)}
             className="h-8 text-sm"
@@ -4791,22 +4745,22 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
             disabled={createKey.isPending}
           >
             <Plus className="h-3.5 w-3.5 mr-1" />
-            {t("pages.agentDetail.create")}
+            Create
           </Button>
         </div>
       </div>
 
       {/* Active keys */}
-      {isLoading && <p className="text-sm text-muted-foreground">{t("pages.agentDetail.loadingKeys")}</p>}
+      {isLoading && <p className="text-sm text-muted-foreground">Loading keys...</p>}
 
       {!isLoading && activeKeys.length === 0 && !newToken && (
-        <p className="text-sm text-muted-foreground">{t("pages.agentDetail.noActiveApiKeys")}</p>
+        <p className="text-sm text-muted-foreground">No active API keys.</p>
       )}
 
       {activeKeys.length > 0 && (
         <div>
           <h3 className="text-xs font-medium text-muted-foreground mb-2">
-            {t("pages.agentDetail.activeKeys")}
+            Active Keys
           </h3>
           <div className="border border-border rounded-lg divide-y divide-border">
             {activeKeys.map((key: AgentKey) => (
@@ -4836,7 +4790,7 @@ export function KeysTab({ agentId, companyId }: { agentId: string; companyId?: s
       {revokedKeys.length > 0 && (
         <div>
           <h3 className="text-xs font-medium text-muted-foreground mb-2">
-            {t("pages.agentDetail.revokedKeys")}
+            Revoked Keys
           </h3>
           <div className="border border-border rounded-lg divide-y divide-border opacity-50">
             {revokedKeys.map((key: AgentKey) => (

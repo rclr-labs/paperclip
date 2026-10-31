@@ -28,7 +28,6 @@ import type { InboxApprovalFilter, InboxCategoryFilter } from "../lib/inbox";
 import { cn } from "../lib/utils";
 import { IssueFilterPanel } from "./IssueFilterPanel";
 import { FlyoutAppearanceProvider } from "./ui/flyout";
-import { useTranslation } from "@/i18n";
 
 type AgentOption = {
   id: string;
@@ -111,7 +110,9 @@ export function IssueFiltersPopover({
   labels,
   currentUserId,
   enableExternalObjectFilters = true,
+  enableLiveRunsFilter = true,
   enableAgentCreatedVisibilityFilter = false,
+  enableRoutineTasksFilter = false,
   buttonVariant = "ghost",
   iconOnly = false,
   creators,
@@ -126,14 +127,15 @@ export function IssueFiltersPopover({
   labels?: LabelOption[];
   currentUserId?: string | null;
   enableExternalObjectFilters?: boolean;
+  enableLiveRunsFilter?: boolean;
   enableAgentCreatedVisibilityFilter?: boolean;
+  enableRoutineTasksFilter?: boolean;
   buttonVariant?: "ghost" | "outline";
   iconOnly?: boolean;
   creators?: CreatorOption[];
   presentation?: "legacy" | "streamlined" | "refreshed";
   inboxScopeFilters?: InboxScopeFilters;
 }) {
-  const { t } = useTranslation();
   const streamlined = presentation === "streamlined";
   const refreshed = presentation === "refreshed";
   const [creatorSearch, setCreatorSearch] = useState("");
@@ -191,7 +193,7 @@ export function IssueFiltersPopover({
       <PopoverTrigger asChild>
         <Button variant={buttonVariant} size={iconOnly ? "icon" : "sm"} className={`text-xs ${iconOnly ? "relative h-8 w-8 shrink-0" : ""} ${activeFilterCount > 0 ? "text-blue-600 dark:text-blue-400" : ""}`} title={iconOnly ? (activeFilterCount > 0 ? `Filters: ${activeFilterCount}` : "Filter") : undefined}>
           <Filter className={iconOnly ? "h-3.5 w-3.5" : "h-3.5 w-3.5 sm:h-3 sm:w-3 sm:mr-1"} />
-          {!iconOnly && <span className="hidden sm:inline">{activeFilterCount > 0 ? `Filters: ${activeFilterCount}` : t("components.issueFiltersPopover.filter")}</span>}
+          {!iconOnly && <span className="hidden sm:inline">{activeFilterCount > 0 ? `Filters: ${activeFilterCount}` : "Filter"}</span>}
           {!iconOnly && activeFilterCount > 0 ? <span className="ml-0.5 text-(length:--text-nano) font-medium sm:hidden">{activeFilterCount}</span> : null}
           {iconOnly && activeFilterCount > 0 ? <span className="absolute -right-1 -top-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-blue-600 text-(length:--text-nano) font-bold text-white">{activeFilterCount}</span> : null}
           {!iconOnly && activeFilterCount > 0 ? (
@@ -206,22 +208,22 @@ export function IssueFiltersPopover({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        aria-label={t("components.issueFiltersPopover.filters")}
+        aria-label="Filters"
         align="end"
         className={refreshed ? "task-filters-popover" : streamlined
           ? "w-(--sz-calc-10) max-h-(--sz-calc-9) overflow-y-auto overscroll-contain p-0"
           : "w-(--sz-calc-10) p-0"}
       >
-        {refreshed ? <IssueFilterPanel state={state} onChange={onChange} activeFilterCount={activeFilterCount} agents={agents} projects={projects} labels={labels} creators={creators} currentUserId={currentUserId} onClear={clearFilters} /> : <div className="space-y-3 p-3">
+        {refreshed ? <IssueFilterPanel enableLiveRunsFilter={enableLiveRunsFilter} enableAgentCreatedVisibilityFilter={enableAgentCreatedVisibilityFilter} enableRoutineTasksFilter={enableRoutineTasksFilter} state={state} onChange={onChange} activeFilterCount={activeFilterCount} agents={agents} projects={projects} labels={labels} creators={creators} currentUserId={currentUserId} onClear={clearFilters} /> : <div className="space-y-3 p-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">{t("components.issueFiltersPopover.filters")}</span>
+            <span className="text-sm font-medium">Filters</span>
             {activeFilterCount > 0 ? (
               <button
                 type="button"
                 className="text-xs text-muted-foreground hover:text-foreground"
                 onClick={clearFilters}
               >
-                {t("components.issueFiltersPopover.clear")}
+                Clear
               </button>
             ) : null}
           </div>
@@ -230,7 +232,7 @@ export function IssueFiltersPopover({
             <>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="space-y-1" data-filter-options="inbox-category">
-                  <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.category")}</span>
+                  <span className="text-xs text-muted-foreground">Category</span>
                   <div className="space-y-0.5">
                     {INBOX_CATEGORY_OPTIONS.map(([value, label]) => {
                       const selected = inboxScopeFilters.category === value;
@@ -257,7 +259,7 @@ export function IssueFiltersPopover({
 
                 {inboxScopeFilters.showApprovalStatus ? (
                   <div className="space-y-1" data-filter-options="inbox-approval-status">
-                    <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.approvalStatus")}</span>
+                    <span className="text-xs text-muted-foreground">Approval status</span>
                     <div className="space-y-0.5">
                       {INBOX_APPROVAL_STATUS_OPTIONS.map(([value, label]) => {
                         const selected = inboxScopeFilters.approvalStatus === value;
@@ -289,7 +291,7 @@ export function IssueFiltersPopover({
           ) : null}
 
           <div className="space-y-1.5">
-            <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.quickFilters")}</span>
+            <span className="text-xs text-muted-foreground">Quick filters</span>
             <div className="flex flex-wrap gap-1.5">
               {issueQuickFilterPresets.map((preset) => {
                 const isActive = issueFilterArraysEqual(state.statuses, preset.statuses);
@@ -316,7 +318,7 @@ export function IssueFiltersPopover({
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div className="min-w-0 space-y-3">
               <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.status")}</span>
+                <span className="text-xs text-muted-foreground">Status</span>
                 <div className="space-y-0.5">
                   {issueStatusOrder.map((status) => (
                     <label key={status} className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
@@ -334,7 +336,7 @@ export function IssueFiltersPopover({
               {/* PAP-411: Priority filter section hidden behind SHOW_TASK_PRIORITY_UI (filter state stays intact). */}
               {SHOW_TASK_PRIORITY_UI && (
               <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.priority")}</span>
+                <span className="text-xs text-muted-foreground">Priority</span>
                 <div className="space-y-0.5">
                   {issuePriorityOrder.map((priority) => (
                     <label key={priority} className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
@@ -353,7 +355,7 @@ export function IssueFiltersPopover({
 
             <div className="min-w-0 space-y-3">
               <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.responsible")}</span>
+                <span className="text-xs text-muted-foreground">Responsible</span>
                 {streamlined && (agents?.length ?? 0) + (currentUserId ? 2 : 1) > SEARCHABLE_FILTER_THRESHOLD ? (
                   <FilterOptionSearch value={assigneeSearch} onChange={setAssigneeSearch} label="Responsible" />
                 ) : null}
@@ -363,7 +365,7 @@ export function IssueFiltersPopover({
                       checked={state.assignees.includes("__unassigned")}
                       onCheckedChange={() => onChange({ assignees: toggleIssueFilterValue(state.assignees, "__unassigned") })}
                     />
-                    <span className="text-sm">{t("components.issueFiltersPopover.noResponsible")}</span>
+                    <span className="text-sm">No responsible</span>
                   </label>
                   {currentUserId ? (
                     <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
@@ -389,7 +391,7 @@ export function IssueFiltersPopover({
 
               {creatorOptions.length > 0 ? (
                 <div className="space-y-1">
-                  <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.creator")}</span>
+                  <span className="text-xs text-muted-foreground">Creator</span>
                   {selectedCreatorOptions.length > 0 ? (
                     <div className="flex flex-wrap gap-1">
                       {selectedCreatorOptions.map((creator) => (
@@ -413,7 +415,7 @@ export function IssueFiltersPopover({
                     <Input
                       value={creatorSearch}
                       onChange={(event) => setCreatorSearch(event.target.value)}
-                      placeholder={t("components.issueFiltersPopover.searchCreators")}
+                      placeholder="Search creators..."
                       className="h-8 pl-7 text-xs"
                     />
                   </div>
@@ -435,7 +437,7 @@ export function IssueFiltersPopover({
                         </button>
                       );
                     }) : (
-                      <div className="px-2 py-1 text-xs text-muted-foreground">{t("components.issueFiltersPopover.noCreatorsMatch")}</div>
+                      <div className="px-2 py-1 text-xs text-muted-foreground">No creators match.</div>
                     )}
                   </div>
                 </div>
@@ -443,7 +445,7 @@ export function IssueFiltersPopover({
 
               {projects && projects.length > 0 ? (
                 <div className="space-y-1">
-                  <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.project")}</span>
+                  <span className="text-xs text-muted-foreground">Project</span>
                   {streamlined && projects.length > SEARCHABLE_FILTER_THRESHOLD ? (
                     <FilterOptionSearch value={projectSearch} onChange={setProjectSearch} label="Projects" />
                   ) : null}
@@ -465,7 +467,7 @@ export function IssueFiltersPopover({
             <div className="min-w-0 space-y-3">
               {labels && labels.length > 0 ? (
                 <div className="space-y-1">
-                  <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.labels")}</span>
+                  <span className="text-xs text-muted-foreground">Labels</span>
                   {streamlined && labels.length > SEARCHABLE_FILTER_THRESHOLD ? (
                     <FilterOptionSearch value={labelSearch} onChange={setLabelSearch} label="Labels" />
                   ) : null}
@@ -486,13 +488,14 @@ export function IssueFiltersPopover({
 
               {enableExternalObjectFilters ? (
                 <div className="space-y-1">
-                  <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.externalObjectStatus")}</span>
+                  <span className="text-xs text-muted-foreground">External object status</span>
                   <div className="space-y-0.5">
                     {externalObjectFilterOrder.map((value) => {
                       const iconCategory = value === "failed" ? "failed"
                         : value === "waiting" ? "waiting"
                         : value === "running" ? "running"
                         : value === "auth_required" ? "auth_required"
+                        : value === "rate_limited" ? "rate_limited"
                         : value === "unreachable" ? "unreachable"
                         : value === "stale" ? "unknown"
                         : "closed";
@@ -517,25 +520,32 @@ export function IssueFiltersPopover({
                 </div>
               ) : null}
 
-              <div className="space-y-1">
-                <span className="text-xs text-muted-foreground">{t("components.issueFiltersPopover.visibility")}</span>
-                <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
+              {enableLiveRunsFilter || enableAgentCreatedVisibilityFilter || enableRoutineTasksFilter ? <div className="space-y-1" data-filter-options="visibility">
+                <span className="text-xs text-muted-foreground">Visibility</span>
+                {enableLiveRunsFilter ? <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
                   <Checkbox
                     checked={state.liveOnly}
                     onCheckedChange={(checked) => onChange({ liveOnly: checked === true })}
                   />
-                  <span className="text-sm">{t("components.issueFiltersPopover.liveRunsOnly")}</span>
-                </label>
+                  <span className="text-sm">Live runs only</span>
+                </label> : null}
                 {enableAgentCreatedVisibilityFilter ? (
                   <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
                     <Checkbox
                       checked={state.showAgentCreatedTasks}
                       onCheckedChange={(checked) => onChange({ showAgentCreatedTasks: checked === true })}
                     />
-                    <span className="text-sm">{t("components.issueFiltersPopover.showAgentCreatedTasks")}</span>
+                    <span className="text-sm">Show agent-created tasks</span>
                   </label>
                 ) : null}
-              </div>
+                {enableRoutineTasksFilter ? <label className="flex cursor-pointer items-center gap-2 rounded-sm px-2 py-1 hover:bg-accent/50">
+                  <Checkbox
+                    checked={state.routineTasksOnly === true}
+                    onCheckedChange={(checked) => onChange({ routineTasksOnly: checked === true })}
+                  />
+                  <span className="text-sm">Routine tasks</span>
+                </label> : null}
+              </div> : null}
             </div>
           </div>
         </div>}

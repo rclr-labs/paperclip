@@ -1,5 +1,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useCoordinatorWorkspaceEnabled } from "../hooks/useCoordinatorWorkspaceEnabled";
+import { CoordinatorNeedsYou } from "../components/coordinator/CoordinatorNeedsYou";
 import { CheckCircle2, Inbox } from "lucide-react";
 import type { Agent, AttentionItem, AttentionSubject } from "@paperclipai/shared";
 import { useNavigate, useSearchParams } from "@/lib/router";
@@ -47,7 +49,6 @@ import { DecisionQueueRail } from "../components/DecisionQueueRail";
 import { DecisionDateChips, type AttentionCustomRange } from "../components/DecisionDateChips";
 import { DecisionResolver } from "../components/DecisionResolver";
 import { IssueGroupHeader } from "../components/IssueGroupHeader";
-import { useTranslation } from "@/i18n";
 
 /** Curtain rows never expand; module-level so memoized rows see one identity. */
 const noopToggleExpand = () => {};
@@ -86,7 +87,11 @@ function findScrollContainer(element: HTMLElement | null): HTMLElement | null {
 }
 
 export function WhatNeedsMe() {
-  const { t } = useTranslation();
+  const { enabled } = useCoordinatorWorkspaceEnabled();
+  return enabled ? <CoordinatorNeedsYou /> : <ClassicWhatNeedsMe />;
+}
+
+function ClassicWhatNeedsMe() {
   const { selectedCompanyId } = useCompany();
   const { setBreadcrumbs } = useBreadcrumbs();
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -511,7 +516,7 @@ export function WhatNeedsMe() {
   }, [handleDismiss, keyboardItems, navigate, selectedAttentionId]);
 
   if (!selectedCompanyId) {
-    return <p className="text-sm text-muted-foreground">{t("pages.whatNeedsMe.selectAnOrganizationFirst")}</p>;
+    return <p className="text-sm text-muted-foreground">Select an organization first.</p>;
   }
 
   if (isLoading) {
@@ -523,7 +528,7 @@ export function WhatNeedsMe() {
   return (
     <div ref={rootRef} className="max-w-3xl space-y-4">
       <div className="space-y-4">
-        <h1 className="text-xl font-bold">{t("pages.whatNeedsMe.decisions")}</h1>
+        <h1 className="text-xl font-bold">Decisions</h1>
         <DecisionsToolbar
           query={searchQuery}
           onQueryChange={setSearchQuery}
@@ -691,7 +696,9 @@ export function WhatNeedsMe() {
               open={agingOpen}
               onToggle={() => setAgingOpen((prev) => !prev)}
             >
-              <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.idlePastDaysKeptOffThe", { ATTENTION_AGING_DAYS })}</p>
+              <p className="text-xs text-muted-foreground">
+                Idle past {ATTENTION_AGING_DAYS} days — kept off the desk. Keep any you still want surfaced.
+              </p>
               {agingItems.map((item) => (
                 <AgingItemRow
                   key={item.id}
@@ -721,7 +728,7 @@ export function WhatNeedsMe() {
           onToggle={() => setDecidedOpen((prev) => !prev)}
         >
           {decidedDecisionsLoading ? (
-            <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.loadingDecidedDecisions")}</p>
+            <p className="text-xs text-muted-foreground">Loading decided decisions…</p>
           ) : (decidedDecisions?.length ?? 0) > 0 ? (
             decidedDecisions!.slice(0, DECISION_HISTORY_VISIBLE_LIMIT).map((decision) => (
               <DecisionResolver
@@ -733,7 +740,7 @@ export function WhatNeedsMe() {
               />
             ))
           ) : (
-            <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.noDecidedDecisions")}</p>
+            <p className="text-xs text-muted-foreground">No decided decisions.</p>
           )}
         </Curtain>
 
@@ -744,7 +751,7 @@ export function WhatNeedsMe() {
           onToggle={() => setExpiredOpen((prev) => !prev)}
         >
           {expiredDecisionsLoading ? (
-            <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.loadingExpiredDecisions")}</p>
+            <p className="text-xs text-muted-foreground">Loading expired decisions…</p>
           ) : (expiredDecisions?.length ?? 0) > 0 ? (
             expiredDecisions!.slice(0, DECISION_HISTORY_VISIBLE_LIMIT).map((decision) => (
               <DecisionResolver
@@ -756,7 +763,7 @@ export function WhatNeedsMe() {
               />
             ))
           ) : (
-            <p className="text-xs text-muted-foreground">{t("pages.whatNeedsMe.noExpiredDecisions")}</p>
+            <p className="text-xs text-muted-foreground">No expired decisions.</p>
           )}
         </Curtain>
       </div>
@@ -780,12 +787,11 @@ export function DecisionBundleHeader({
   originIssue: AttentionSubject | null;
   count: number;
 }) {
-  const { t } = useTranslation();
   const noun = count === 1 ? "decision" : "decisions";
   return (
     <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 rounded-sm border-l-2 border-violet-500/60 bg-violet-500/5 px-3 py-1.5 text-xs">
       <span className="font-semibold text-violet-800 dark:text-violet-200">
-        {agentName ?? t("pages.whatNeedsMe.anAgent")} proposed {count} {noun}
+        {agentName ?? "An agent"} proposed {count} {noun}
       </span>
       {originIssue && (originIssue.identifier || originIssue.title) && (
         <span className="text-muted-foreground">
@@ -806,30 +812,28 @@ export function DecisionBundleHeader({
 }
 
 function CaughtUpNote({ filtered }: { filtered: boolean }) {
-  const { t } = useTranslation();
   return (
     <div className="rounded-xl border border-dashed border-border py-10 text-center">
       <p className="text-sm font-medium text-foreground">
-        {filtered ? t("pages.whatNeedsMe.noDecisionsMatchYourSearchOr") : "You're all caught up."}
+        {filtered ? "No decisions match your search or filters." : "You're all caught up."}
       </p>
       {filtered && (
-        <p className="mt-1 text-xs text-muted-foreground">{t("pages.whatNeedsMe.adjustOrClearYourSearchAnd")}</p>
+        <p className="mt-1 text-xs text-muted-foreground">Adjust or clear your search and filters to see the rest.</p>
       )}
     </div>
   );
 }
 
 function ZeroState() {
-  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border py-20 text-center">
       <div className="mb-4 rounded-full bg-green-500/10 p-4">
         <CheckCircle2 className="h-10 w-10 text-green-500" />
       </div>
-      <p className="text-lg font-semibold text-foreground">{t("pages.whatNeedsMe.youReAllCaughtUp")}</p>
+      <p className="text-lg font-semibold text-foreground">You're all caught up</p>
       <p className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Inbox className="h-4 w-4" />
-        {t("pages.whatNeedsMe.nothingNeedsADecisionFromYou")}
+        Nothing needs a decision from you right now.
       </p>
     </div>
   );

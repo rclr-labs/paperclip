@@ -17,8 +17,9 @@ import { InlineBanner } from "@/components/InlineBanner";
 import { IssuePullRequestLinks } from "@/components/IssuePullRequestLinks";
 import { getIssuePullRequests, pullRequestNeedsReview } from "@/lib/issue-pull-requests";
 import { cn } from "@/lib/utils";
-import { useTranslation } from "@/i18n";
 import {
+  areAutomaticMonitorChecksPaused,
+  canCheckIssueMonitorNow,
   deriveMonitorState,
   formatMonitorAbsolute,
   formatMonitorEta,
@@ -64,6 +65,8 @@ export interface MonitorSurfaceCopy {
   tone: "info" | "warning";
   workspaceWait?: boolean;
   pullRequestReview?: boolean;
+  automaticChecksPaused?: boolean;
+  checkUnavailable?: boolean;
 }
 
 function capitalize(value: string): string {
@@ -80,8 +83,25 @@ export function buildMonitorSurfaceCopy(
   now: MonitorDate,
   scheduledRetryReason?: string | null,
   pendingPullRequestReviews = 0,
+  issueStatus?: string,
 ): MonitorSurfaceCopy | null {
   if (!isWaitingMonitorState(derived.state) || !derived.nextCheckAt) return null;
+
+  if (derived.source === "monitor" && areAutomaticMonitorChecksPaused({ status: issueStatus })) {
+    const canCheckNow = canCheckIssueMonitorNow({ status: issueStatus }, derived.serviceName);
+    const hint = canCheckNow
+      ? "This task is blocked. You can ask the agent to check now."
+      : "Resume this task to continue checking.";
+    return {
+      bannerTitle: "Automatic checks paused",
+      stripTitle: "Automatic checks paused",
+      bannerMeta: [hint],
+      stripMeta: [hint],
+      tone: "info",
+      automaticChecksPaused: true,
+      checkUnavailable: !canCheckNow,
+    };
+  }
 
   if (derived.source === "scheduled-retry" && scheduledRetryReason === "workspace_busy") {
     return {
@@ -163,9 +183,12 @@ function useMonitorSurfaceCopy(issue: Issue, pendingPullRequestReviews: number):
   // `nextCheckAt` is stable for a given issue; derive once to seed the ticking
   // countdown cadence, then re-derive against the live clock so the surfaces
   // roll scheduled → due → overdue on their own.
-  const nextCheckAt = useMemo(() => deriveMonitorState(issue).nextCheckAt, [issue]);
+  const nextCheckAt = useMemo(() => {
+    const derived = deriveMonitorState(issue);
+    return derived.source === "monitor" && areAutomaticMonitorChecksPaused(issue) ? null : derived.nextCheckAt;
+  }, [issue]);
   const now = useMonitorCountdown(nextCheckAt);
-  return useMemo(() => buildMonitorSurfaceCopy(deriveMonitorState(issue, now), now, issue.scheduledRetry?.scheduledRetryReason, pendingPullRequestReviews), [issue, now, pendingPullRequestReviews]);
+  return useMemo(() => buildMonitorSurfaceCopy(deriveMonitorState(issue, now), now, issue.scheduledRetry?.scheduledRetryReason, pendingPullRequestReviews, issue.status), [issue, now, pendingPullRequestReviews]);
 }
 
 function CheckNowButton({
@@ -177,7 +200,6 @@ function CheckNowButton({
   checkingNow: boolean;
   reviewRequested?: boolean;
 }) {
-  const { t } = useTranslation();
   return (
     <Button
       type="button"
@@ -187,13 +209,12 @@ function CheckNowButton({
       onClick={onCheckNow}
       disabled={checkingNow}
     >
-      {checkingNow ? t("components.issueMonitorBanner.checking") : reviewRequested ? t("components.issueMonitorBanner.checkStatus") : t("components.issueMonitorBanner.checkNow")}
+      {checkingNow ? "Checking…" : reviewRequested ? "Check status" : "Check now"}
     </Button>
   );
 }
 
 function CancelMonitorButton({ onCancel }: { onCancel: () => Promise<unknown> }) {
-  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -212,19 +233,19 @@ function CancelMonitorButton({ onCancel }: { onCancel: () => Promise<unknown> })
   return (
     <AlertDialog open={open} onOpenChange={(next) => { if (!pending) { setOpen(next); setError(null); } }}>
       <AlertDialogTrigger asChild>
-        <Button type="button" variant="ghost" size="icon" className="absolute right-2 top-2" aria-label={t("components.issueMonitorBanner.cancelMonitor2")} title="Cancel monitor">
+        <Button type="button" variant="ghost" size="icon" className="absolute right-2 top-2" aria-label="Cancel monitor" title="Cancel monitor">
           <X className="h-4 w-4" aria-hidden="true" />
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>{t("components.issueMonitorBanner.cancelMonitor")}</AlertDialogTitle>
-          <AlertDialogDescription>{t("components.issueMonitorBanner.thisRemovesTheScheduledMonitorCheck")}</AlertDialogDescription>
+          <AlertDialogTitle>Cancel monitor?</AlertDialogTitle>
+          <AlertDialogDescription>This removes the scheduled monitor check. The agent will no longer resume from this monitor. You can send a message to continue the task.</AlertDialogDescription>
         </AlertDialogHeader>
         {error ? <p role="alert" className="text-sm text-destructive">{error}</p> : null}
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={pending}>{t("components.issueMonitorBanner.keepMonitor")}</AlertDialogCancel>
-          <Button type="button" variant="destructive" disabled={pending} onClick={() => void cancel()}>{pending ? t("components.issueMonitorBanner.cancelling") : "Cancel monitor"}</Button>
+          <AlertDialogCancel disabled={pending}>Keep monitor</AlertDialogCancel>
+          <Button type="button" variant="destructive" disabled={pending} onClick={() => void cancel()}>{pending ? "Cancelling…" : "Cancel monitor"}</Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -265,7 +286,7 @@ export function IssueMonitorBanner({
       icon={Clock}
       title={copy.bannerTitle}
       className={cn("relative my-3", canCancel && "pr-12")}
-      actions={onCheckNow && !copy.workspaceWait ? <CheckNowButton onCheckNow={onCheckNow} checkingNow={checkingNow} reviewRequested={copy.pullRequestReview} /> : null}
+      actions={onCheckNow && !copy.workspaceWait && !copy.checkUnavailable ? <CheckNowButton onCheckNow={onCheckNow} checkingNow={checkingNow} reviewRequested={copy.pullRequestReview} /> : null}
     >
       {canCancel ? <CancelMonitorButton key={issue.id} onCancel={onCancelMonitor} /> : null}
       <div className="flex flex-col gap-2">
@@ -290,7 +311,6 @@ export function IssueMonitorComposerStrip({
   checkError,
   className,
 }: IssueMonitorSurfaceProps & { className?: string }) {
-  const { t } = useTranslation();
   const reviews = getIssuePullRequests(workProducts).filter(pullRequestNeedsReview);
   const copy = useMonitorSurfaceCopy(issue, reviews.length);
   if (!copy) return null;
@@ -310,15 +330,17 @@ export function IssueMonitorComposerStrip({
             <div className="text-xs text-muted-foreground">{copy.stripMeta.join(" · ")}</div>
           </div>
         </div>
-        {onCheckNow && !copy.workspaceWait ? <CheckNowButton onCheckNow={onCheckNow} checkingNow={checkingNow} reviewRequested={copy.pullRequestReview} /> : null}
+        {onCheckNow && !copy.workspaceWait && !copy.checkUnavailable ? <CheckNowButton onCheckNow={onCheckNow} checkingNow={checkingNow} reviewRequested={copy.pullRequestReview} /> : null}
       </div>
-      <p className="mt-1.5 text-xs text-muted-foreground">
-        {copy.pullRequestReview
-          ? t("components.issueMonitorBanner.reviewOnGithubThenCheckStatus")
-          : copy.workspaceWait
-          ? t("components.issueMonitorBanner.youCanKeepSendingInstructionsWhile")
-          : t("components.issueMonitorBanner.sendingAReplyWakesTheAgent")}
-      </p>
+      {!copy.automaticChecksPaused ? (
+        <p className="mt-1.5 text-xs text-muted-foreground">
+          {copy.pullRequestReview
+            ? "Review on GitHub, then check status to have the agent verify the result."
+            : copy.workspaceWait
+            ? "You can keep sending instructions while the agent waits."
+            : "Sending a reply wakes the agent now — before the scheduled check."}
+        </p>
+      ) : null}
       {checkError ? <p role="alert" className="text-sm text-destructive">{checkError}</p> : null}
     </div>
   );
