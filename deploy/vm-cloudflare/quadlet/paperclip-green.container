@@ -25,7 +25,8 @@ Environment=PAPERCLIP_MIGRATION_AUTO_APPLY=true
 Environment=PAPERCLIP_COLOR=green
 # Passive unless the drop-in says otherwise.
 Environment=HEARTBEAT_SCHEDULER_ENABLED=false
-# PAPERCLIP_PUBLIC_URL, PAPERCLIP_API_URL, storage + run-log settings.
+# PAPERCLIP_PUBLIC_URL, PAPERCLIP_API_URL, PAPERCLIP_ALLOWED_HOSTNAMES
+# (machine hostname), storage + run-log settings.
 EnvironmentFile=%h/.config/paperclip/instance.env
 # DATABASE_URL, BETTER_AUTH_SECRET, PAPERCLIP_SECRETS_MASTER_KEY, ... (0600)
 EnvironmentFile=%h/.config/paperclip/secrets.env

@@ -65,12 +65,22 @@ spec:
             httpGet:
               path: /api/health
               port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
             periodSeconds: {{ .Values.probes.startup.periodSeconds }}
             failureThreshold: {{ .Values.probes.startup.failureThreshold }}
           livenessProbe:
             httpGet:
               path: /api/health
               port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
             periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
             failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
             timeoutSeconds: 5
@@ -78,6 +88,11 @@ spec:
             httpGet:
               path: /api/health
               port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
             periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
             failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
             timeoutSeconds: 5

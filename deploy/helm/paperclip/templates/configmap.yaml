@@ -17,6 +17,9 @@ data:
   {{- with .Values.server.apiUrl }}
   PAPERCLIP_API_URL: {{ . | quote }}
   {{- end }}
+  {{- with .Values.server.allowedHostnames }}
+  PAPERCLIP_ALLOWED_HOSTNAMES: {{ join "," . | quote }}
+  {{- end }}
   {{- with .Values.server.runnerPublicUrl }}
   PAPERCLIP_RUNNER_PUBLIC_URL: {{ . | quote }}
   {{- end }}

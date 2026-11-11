@@ -99,6 +99,15 @@ locals {
     image = var.image
     server = {
       publicUrl = var.public_url
+      extraEnv = {
+        # @aws-sdk/client-s3 >= 3.729 sends flexible checksums by default,
+        # which the GCS S3 interoperability endpoint rejects.
+        AWS_REQUEST_CHECKSUM_CALCULATION = "WHEN_REQUIRED"
+        AWS_RESPONSE_CHECKSUM_VALIDATION = "WHEN_REQUIRED"
+      }
+    }
+    gke = {
+      backendConfig = { enabled = var.ingress_class == "gce" }
     }
     storage = {
       provider = "s3"

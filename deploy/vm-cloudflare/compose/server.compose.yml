@@ -41,6 +41,9 @@ services:
       PAPERCLIP_API_URL: ${PAPERCLIP_API_URL:-}
       PAPERCLIP_RUNNER_PUBLIC_URL: ${PAPERCLIP_RUNNER_PUBLIC_URL:-}
       PAPERCLIP_CHAT_WEBHOOK_PUBLIC_URL: ${PAPERCLIP_CHAT_WEBHOOK_PUBLIC_URL:-}
+      # private exposure rejects unknown Host headers; PUBLIC_URL's host is
+      # implicit, the machine hostname must be listed.
+      PAPERCLIP_ALLOWED_HOSTNAMES: ${PAPERCLIP_ALLOWED_HOSTNAMES:-}
       # Default PASSIVE. Read at boot; only bin/bluegreen.sh turns it on, and
       # only after the other colour has stopped (§2 T2).
       HEARTBEAT_SCHEDULER_ENABLED: ${PAPERCLIP_SCHEDULER_ENABLED:-false}

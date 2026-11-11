@@ -40,6 +40,21 @@ state prefix per environment.
   (`externalSecret.enabled` in the chart) so the values stop living in state
   twice.
 - T2 on GKE: follow the chart README; Terraform owns only the blue release.
+- **GCE ingress + `private` exposure:** the server's private hostname guard
+  answers 403 to any Host it does not know. Kubelet probes in the chart send
+  `Host: localhost`, so they pass. GCLB health checks, however, send the
+  backend IP as Host and cannot override it, so with the default `gce` class
+  they fail on dev/staging (`deploymentExposure: private`).
+  - Either use an in-cluster ingress controller (`ingress_class = "nginx"`),
+    or run `public` exposure behind IAP.
+  - Prod (`public`) is not affected.
+  - The chart's `BackendConfig` (enabled for `gce`) raises the backend
+    timeout to 3600s for WebSockets.
+- GCS through the S3 SDK needs
+  `AWS_REQUEST_CHECKSUM_CALCULATION` / `AWS_RESPONSE_CHECKSUM_VALIDATION=WHEN_REQUIRED`,
+  because the SDK sends flexible checksums by default since 3.729. Both
+  the chart overrides and the VM `instance.env` set them.
+- The VM variant gets a Cloud Router + NAT, since it has no external IP.
 - `terraform test` runs `tests/platforms.tftest.hcl` with mock providers. It
   checks the GKE and VM variants, the T3 RWX class, and per-environment
   sandbox prefixes.

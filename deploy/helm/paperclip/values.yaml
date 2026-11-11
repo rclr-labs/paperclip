@@ -55,6 +55,10 @@ server:
   # no TTY the server applies pending migrations by default; keep migrations
   # backward compatible with the previous image during a blue/green window.
   migrationAutoApply: true
+  # Extra hostnames accepted by the private-exposure hostname guard
+  # (PAPERCLIP_ALLOWED_HOSTNAMES). publicUrl's host is always allowed; add a
+  # separate machine/API hostname here.
+  allowedHostnames: []
   # wss:// origin for the experimental paperclip_runner direct dial.
   runnerPublicUrl: ""
   # Extra plain env vars (name: value).
@@ -170,6 +174,14 @@ service:
   type: ClusterIP
   port: 3100
   annotations: {}
+
+# GKE only: a BackendConfig for the GCE ingress. The GCLB backend timeout
+# defaults to 30s, which cuts live-event and runner WebSockets.
+gke:
+  backendConfig:
+    enabled: false
+    timeoutSec: 3600
+    drainingTimeoutSec: 60
   # Override the selector (T2: point a stable Service at one colour).
   selectorOverride: {}
 

@@ -132,7 +132,9 @@ resource "aws_ecs_service" "server" {
     container_port   = 3100
   }
 
-  depends_on = [aws_lb_listener.http]
+  # With HTTPS the :80 listener only redirects; the target group is attached
+  # through :443, which must exist before the service registers.
+  depends_on = [aws_lb_listener.http, aws_lb_listener.https]
 }
 
 # ---------------------------------------------------------------------- ALB
