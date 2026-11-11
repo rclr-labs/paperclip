@@ -1,6 +1,7 @@
 {
   "name": "@paperclipai/agent-evals-core",
   "version": "0.1.0",
+  "private": true,
   "description": "Instruction-level agent evals (with/ablated arms, pressure scenarios) shared by the agent-evals plugin and the local CLI",
   "type": "module",
   "license": "MIT",
