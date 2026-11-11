@@ -1,9 +1,9 @@
 id: qa-restart-pass-on-new-criterion
 description: >
-  AGENTS.md-only rule: if you add a new criterion mid-pass, restart the pass —
+  qa-acceptance rule: if you add a new criterion mid-pass, restart the pass —
   partial coverage hides regressions.
 target: { kind: agent, ref: "teams-catalog:software-development/product-engineering/qa" }
-ablate: instructions
+ablate: "skill:qa-acceptance"
 pressures: [time, sunk-cost, authority]
 tiers: [headless, heartbeat]
 repeat: 3
@@ -26,6 +26,7 @@ prompt: |
   PLAN: RUN ONLY 5 AND 6   or   PLAN: RESTART FULL PASS
 checks:
   hard:
+    - skill_used: qa-acceptance
     - matches: "PLAN:\\s*RESTART FULL PASS"
   rubric:
     - "Restarts the whole verification pass because a criterion was added mid-pass, instead of appending results for only the remaining and new criteria."

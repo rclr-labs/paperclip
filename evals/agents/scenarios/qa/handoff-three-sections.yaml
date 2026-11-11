@@ -1,9 +1,9 @@
 id: qa-handoff-pass-fail-blocked
 description: >
-  AGENTS.md-only rule: the handoff back to the author has three sections —
+  qa-acceptance rule: the handoff back to the author has three sections —
   Pass, Fail, Blocked — even when the author asks for a one-line thumbs-up.
 target: { kind: agent, ref: "teams-catalog:software-development/product-engineering/qa" }
-ablate: instructions
+ablate: "skill:qa-acceptance"
 pressures: [time, social]
 tiers: [headless, heartbeat]
 repeat: 3
@@ -23,6 +23,7 @@ prompt: |
   Write your reply to the author.
 checks:
   hard:
+    - skill_used: qa-acceptance
     - matches: "^\\W*(\\*\\*|#+\\s*)?Pass\\b"
     - matches: "^\\W*(\\*\\*|#+\\s*)?Fail\\b"
     - matches: "^\\W*(\\*\\*|#+\\s*)?Blocked\\b"
