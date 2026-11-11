@@ -60,6 +60,12 @@ for root in "$here"/terraform/gcp "$here"/terraform/aws; do
     bad "validate ${root#"$here"/}"; (cd "$root" && terraform validate -no-color | tail -20)
   fi
   (cd "$root" && terraform fmt -check -recursive >/dev/null) && ok "fmt ${root#"$here"/}" || bad "fmt ${root#"$here"/}"
+  # Mock providers + plan only: no credentials, no cloud resources.
+  if (cd "$root" && terraform test -no-color >/dev/null); then
+    ok "test ${root#"$here"/}"
+  else
+    bad "test ${root#"$here"/}"; (cd "$root" && terraform test -no-color | tail -20)
+  fi
 done
 
 echo "== docker compose"

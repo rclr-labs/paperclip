@@ -1,0 +1,10 @@
+environment        = "prod"
+platform           = "eks"
+eks_cluster_name   = "paperclip-prod"
+eks_irsa_role_arn  = "arn:aws:iam::000000000000:role/paperclip-prod-server"
+eks_storage_class  = "gp3"
+topology           = "t1"
+vpc_id             = "vpc-00000000000000000"
+private_subnet_ids = ["subnet-00000000000000001", "subnet-00000000000000002"]
+public_url         = "https://paperclip.example.com"
+image              = "ghcr.io/paperclipai/paperclip@sha256:0000000000000000000000000000000000000000000000000000000000000000"

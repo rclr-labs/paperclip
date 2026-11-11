@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# Rendered by Terraform (deploy/terraform/gcp/vm.tf). Idempotent: runs on every boot.
+set -euo pipefail
+
+mount_point=/var/lib/paperclip
+if ! mountpoint -q "$mount_point"; then
+  dev=/dev/disk/by-id/google-paperclip-home
+  blkid "$dev" >/dev/null 2>&1 || mkfs.ext4 -F "$dev"
+  mkdir -p "$mount_point"
+  grep -q "$dev" /etc/fstab || echo "$dev $mount_point ext4 defaults,nofail 0 2" >> /etc/fstab
+  mount "$mount_point"
+  chown 1000:1000 "$mount_point"
+fi
+
+if ! command -v docker >/dev/null; then
+  apt-get update
+  apt-get install -y --no-install-recommends ca-certificates curl git jq docker.io docker-compose-plugin || \
+    apt-get install -y --no-install-recommends ca-certificates curl git jq docker.io docker-compose
+  systemctl enable --now docker
+fi
+
+install -d -m 0750 /etc/paperclip
+env_file=/etc/paperclip/secrets.env
+umask 077
+: > "$env_file.tmp"
+%{ for key, id in secret_ids ~}
+printf '%s=%s\n' '${key}' "$(gcloud secrets versions access latest --project='${project_id}' --secret='${id}')" >> "$env_file.tmp"
+%{ endfor ~}
+mv "$env_file.tmp" "$env_file"
+
+cat > /etc/paperclip/instance.env <<EOF
+PAPERCLIP_ENVIRONMENT=${environment}
+PAPERCLIP_IMAGE=${image}
+PAPERCLIP_PUBLIC_URL=${public_url}
+PAPERCLIP_HOME_HOST_DIR=$mount_point
+PAPERCLIP_STORAGE_PROVIDER=s3
+PAPERCLIP_STORAGE_S3_BUCKET=${bucket}
+PAPERCLIP_STORAGE_S3_REGION=auto
+PAPERCLIP_STORAGE_S3_ENDPOINT=https://storage.googleapis.com
+PAPERCLIP_STORAGE_S3_FORCE_PATH_STYLE=true
+RUN_LOG_S3_BUCKET=${bucket}
+RUN_LOG_S3_REGION=auto
+RUN_LOG_S3_ENDPOINT=https://storage.googleapis.com
+RUN_LOG_S3_FORCE_PATH_STYLE=true
+EOF
+
+# The operator checks out deploy/vm-cloudflare to /opt/paperclip and runs
+# `bin/bluegreen.sh deploy <image>`; this script only prepares the host.
+echo "paperclip host ready: secrets in $env_file, instance config in /etc/paperclip/instance.env"

@@ -1,0 +1,10 @@
+# VM variant: one Compute Engine VM + deploy/vm-cloudflare, same Cloud SQL + GCS.
+project_id  = "my-paperclip-prod"
+environment = "prod"
+platform    = "vm"
+public_url  = "https://paperclip.example.com"
+
+vm_machine_type        = "e2-standard-8"
+vm_disk_size_gb        = 200
+db_high_availability   = true
+db_deletion_protection = true
