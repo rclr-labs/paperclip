@@ -41,6 +41,9 @@ import type {
   PluginIssueOriginKind,
   IssueSurfaceVisibility,
   PluginManagedAgentResolution,
+  PluginAgentCloneInstructionsOverride,
+  PluginAgentCloneResult,
+  PluginRunEvent,
   PluginManagedProjectResolution,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,
@@ -72,6 +75,9 @@ export type {
   PluginEnvironmentTemplateConfigBinding,
   PluginManagedAgentDeclaration,
   PluginManagedAgentResolution,
+  PluginAgentCloneInstructionsOverride,
+  PluginAgentCloneResult,
+  PluginRunEvent,
   PluginManagedProjectDeclaration,
   PluginManagedProjectResolution,
   PluginManagedRoutineDeclaration,
@@ -1753,6 +1759,29 @@ export interface PluginAgentsClient {
   resume(agentId: string, companyId: string): Promise<Agent>;
   /** Invoke (wake up) an agent with a prompt payload. Throws if paused, terminated, pending_approval, or not found. Requires `agents.invoke`. */
   invoke(agentId: string, companyId: string, opts: { prompt: string; reason?: string }): Promise<{ runId: string }>;
+  /**
+   * Create a copy of an agent — adapter type and config, runtime config,
+   * skills, and instructions bundle — in `targetCompanyId`, optionally
+   * overriding the clone's instructions. Requires `agents.clone`.
+   *
+   * Both `sourceCompanyId` and `targetCompanyId` must be in the call's company
+   * scope: inside a host-issued invocation both must equal the invocation's
+   * company; a cross-company clone is admitted only from a proactive call
+   * (job, timer) when both companies are configured for the plugin.
+   *
+   * The clone never inherits the source's role `ceo`, permissions, manager,
+   * or instruction directory. On a cross-company clone the host also drops
+   * config bound to the source company (env bindings, cwd, AI connection,
+   * default environment, skills the target company does not have) and lists
+   * what it dropped in `droppedConfig`. When the target company requires
+   * board approval for new agents the clone is created `pending_approval`.
+   */
+  clone(agentId: string, input: {
+    sourceCompanyId: string;
+    targetCompanyId: string;
+    name?: string;
+    instructionsOverride?: PluginAgentCloneInstructionsOverride;
+  }): Promise<PluginAgentCloneResult>;
   /** Resolve and reconcile manifest-declared plugin-managed agents by stable key. Requires `agents.managed`. */
   managed: {
     get(agentKey: string, companyId: string): Promise<PluginManagedAgentResolution>;
@@ -1761,6 +1790,21 @@ export interface PluginAgentsClient {
   };
   /** Create, message, and close agent chat sessions. Requires `agent.sessions.*` capabilities. */
   sessions: PluginAgentSessionsClient;
+}
+
+/**
+ * `ctx.runs` — read heartbeat run data.
+ */
+export interface PluginRunsClient {
+  /**
+   * List a run's events in `seq` order, redacted exactly like the web app's
+   * run-events read route (secret payload keys, registered run secrets, and
+   * the instance username setting). Returns an empty list for a run outside
+   * `companyId` or bound to an issue the plugin cannot read. `afterSeq`
+   * defaults to 0; `limit` defaults to 200 and is capped at 1000.
+   * Requires `runs.events.read`.
+   */
+  listEvents(runId: string, companyId: string, options?: { afterSeq?: number; limit?: number }): Promise<PluginRunEvent[]>;
 }
 
 // ---------------------------------------------------------------------------
@@ -2267,8 +2311,11 @@ export interface PluginContext {
   /** Read and decide company approvals. Requires `approvals.read` / `approvals.respond`. */
   approvals: PluginApprovalsClient;
 
-  /** Read and manage agents. Requires `agents.read` for reads; `agents.pause` / `agents.resume` / `agents.invoke` for write ops. */
+  /** Read and manage agents. Requires `agents.read` for reads; `agents.pause` / `agents.resume` / `agents.invoke` / `agents.clone` for write ops. */
   agents: PluginAgentsClient;
+
+  /** Read heartbeat run events. Requires `runs.events.read`. */
+  runs: PluginRunsClient;
 
   /** Read and mutate goals. Requires `goals.read` for reads; `goals.create` / `goals.update` for write ops. */
   goals: PluginGoalsClient;

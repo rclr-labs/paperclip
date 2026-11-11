@@ -447,6 +447,50 @@ export interface PluginManagedAgentResolution {
   } | null;
 }
 
+/**
+ * One heartbeat run event as returned to a plugin by `ctx.runs.listEvents`
+ * (capability `runs.events.read`). The host applies the same redaction as the
+ * web app's `GET /api/heartbeat-runs/:runId/events` route before returning it.
+ */
+export interface PluginRunEvent {
+  runId: string;
+  agentId: string;
+  seq: number;
+  eventType: string;
+  stream: "system" | "stdout" | "stderr" | null;
+  level: "info" | "warn" | "error" | null;
+  message: string | null;
+  payload: Record<string, unknown> | null;
+  createdAt: string;
+}
+
+/**
+ * Instruction override for `ctx.agents.clone` (capability `agents.clone`).
+ *
+ * - `{ entryFile, content }` replaces one file of the copied bundle and keeps
+ *   the others (an "ablated" arm that removes one instruction).
+ * - `{ files, entryFile? }` replaces the whole bundle.
+ */
+export type PluginAgentCloneInstructionsOverride =
+  | { entryFile: string; content: string }
+  | { files: Record<string, string>; entryFile?: string };
+
+/** Result of `ctx.agents.clone`. */
+export interface PluginAgentCloneResult {
+  /** The newly created agent in the target company. */
+  agent: Agent;
+  /** True when the target company requires board approval for new agents. */
+  requiresApproval: boolean;
+  /** The pending `hire_agent` approval when `requiresApproval` is true. */
+  approvalId: string | null;
+  /**
+   * Source configuration the host did not copy because it is bound to the
+   * source company or agent (for example `adapterConfig.env` on a
+   * cross-company clone). Each entry is a dotted config path.
+   */
+  droppedConfig: string[];
+}
+
 export interface PluginManagedProjectResolution {
   pluginKey: string;
   resourceKind: "project";

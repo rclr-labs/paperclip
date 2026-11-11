@@ -281,9 +281,15 @@ export interface HostServices {
     pause(params: WorkerToHostMethods["agents.pause"][0]): Promise<WorkerToHostMethods["agents.pause"][1]>;
     resume(params: WorkerToHostMethods["agents.resume"][0]): Promise<WorkerToHostMethods["agents.resume"][1]>;
     invoke(params: WorkerToHostMethods["agents.invoke"][0]): Promise<WorkerToHostMethods["agents.invoke"][1]>;
+    clone(params: WorkerToHostMethods["agents.clone"][0]): Promise<WorkerToHostMethods["agents.clone"][1]>;
     managedGet(params: WorkerToHostMethods["agents.managed.get"][0]): Promise<WorkerToHostMethods["agents.managed.get"][1]>;
     managedReconcile(params: WorkerToHostMethods["agents.managed.reconcile"][0]): Promise<WorkerToHostMethods["agents.managed.reconcile"][1]>;
     managedReset(params: WorkerToHostMethods["agents.managed.reset"][0]): Promise<WorkerToHostMethods["agents.managed.reset"][1]>;
+  };
+
+  /** Provides `runs.listEvents`. */
+  runs: {
+    listEvents(params: WorkerToHostMethods["runs.listEvents"][0]): Promise<WorkerToHostMethods["runs.listEvents"][1]>;
   };
 
   /** Provides `agents.sessions.create`, `agents.sessions.list`, `agents.sessions.sendMessage`, `agents.sessions.close`. */
@@ -502,6 +508,10 @@ const METHOD_CAPABILITY_MAP: Record<WorkerToHostMethodName, PluginCapability | n
   "agents.pause": "agents.pause",
   "agents.resume": "agents.resume",
   "agents.invoke": "agents.invoke",
+  "agents.clone": "agents.clone",
+
+  // Runs
+  "runs.listEvents": "runs.events.read",
   "agents.managed.get": "agents.managed",
   "agents.managed.reconcile": "agents.managed",
   "agents.managed.reset": "agents.managed",
@@ -568,6 +578,7 @@ export function createHostClientHandlers(
   type CompanyScopeRequest =
     | { kind: "none" }
     | { kind: "single"; companyId: string }
+    | { kind: "multi"; companyIds: string[] }
     | { kind: "all" };
 
   const noCompanyScope: CompanyScopeRequest = { kind: "none" };
@@ -585,6 +596,16 @@ export function createHostClientHandlers(
     params: unknown,
   ): CompanyScopeRequest {
     if (method === "companies.list") return { kind: "all" };
+    if (method === "agents.clone") {
+      // Two-company call: both ends are scoped. A top-level companyId is
+      // ignored so a worker cannot use it to stand in for either end, and a
+      // missing end is treated as a wildcard, which the gate never admits.
+      if (!isRecord(params)) return { kind: "all" };
+      const sourceCompanyId = readNonEmptyString(params.sourceCompanyId);
+      const targetCompanyId = readNonEmptyString(params.targetCompanyId);
+      if (!sourceCompanyId || !targetCompanyId) return { kind: "all" };
+      return { kind: "multi", companyIds: [sourceCompanyId, targetCompanyId] };
+    }
     if (!isRecord(params)) return noCompanyScope;
 
     const companyId = readNonEmptyString(params.companyId);
@@ -635,6 +656,22 @@ export function createHostClientHandlers(
 
     if (!allowedCompanyId) {
       throw new InvocationScopeDeniedError(pluginId, method, "company context is required");
+    }
+
+    if (requested.kind === "multi") {
+      const admitted = new Set(context?.admittedCompanyIds?.length
+        ? context.admittedCompanyIds
+        : [allowedCompanyId]);
+      for (const companyId of requested.companyIds) {
+        if (!admitted.has(companyId)) {
+          throw new InvocationScopeDeniedError(
+            pluginId,
+            method,
+            `requested company "${companyId}" is outside the companies admitted for this call`,
+          );
+        }
+      }
+      return;
     }
 
     if (requested.companyId !== allowedCompanyId) {
@@ -1019,6 +1056,14 @@ export function createHostClientHandlers(
     }),
     "agents.invoke": gated("agents.invoke", async (params) => {
       return services.agents.invoke(params);
+    }),
+    "agents.clone": gated("agents.clone", async (params) => {
+      return services.agents.clone(params);
+    }),
+
+    // Runs
+    "runs.listEvents": gated("runs.listEvents", async (params) => {
+      return services.runs.listEvents(params);
     }),
     "agents.managed.get": gated("agents.managed.get", async (params) => {
       return services.agents.managedGet(params);

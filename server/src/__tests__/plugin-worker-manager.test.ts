@@ -768,6 +768,39 @@ describe("plugin proactive company scope (LOOA-629)", () => {
     }
   });
 
+  it("admits a proactive cross-company agents.clone only when both companies are authorized", async () => {
+    const clone = vi.fn(async () => ({ agent: { id: "clone" }, requiresApproval: false, approvalId: null, droppedConfig: [] }));
+    const hostHandlers = createHostClientHandlers({
+      pluginId: "test.plugin",
+      capabilities: ["agents.clone"],
+      services: { agents: { clone } } as unknown as HostServices,
+    });
+    const handle = createPluginWorkerHandle("test.plugin", {
+      entrypointPath: INVOCATION_SCOPE_WORKER_ENTRYPOINT,
+      manifest: TEST_MANIFEST,
+      config: {},
+      instanceInfo: { instanceId: "instance-1", hostVersion: "1.0.0" },
+      apiVersion: 1,
+      hostHandlers,
+    });
+    const cloneCall = (mode: "omit" | "echo") => handle.call("getData", {
+      companyId: "company-2",
+      params: { mode, hostMethod: "agents.clone", sourceCompanyId: "company-1", targetCompanyId: "company-2" },
+    } as unknown as HostToWorkerMethods["getData"][0]);
+    try {
+      await handle.start();
+      handle.setProactiveCompanyScopes(["company-2"]);
+      await expect(cloneCall("omit")).rejects.toMatchObject({ code: PLUGIN_RPC_ERROR_CODES.INVOCATION_SCOPE_DENIED });
+      handle.setProactiveCompanyScopes(["company-1", "company-2"]);
+      // A host-issued invocation stays single-company even when both are authorized.
+      await expect(cloneCall("echo")).rejects.toMatchObject({ code: PLUGIN_RPC_ERROR_CODES.INVOCATION_SCOPE_DENIED });
+      await expect(cloneCall("omit")).resolves.toMatchObject({ agent: { id: "clone" } });
+      expect(clone).toHaveBeenCalledTimes(1);
+    } finally {
+      await handle.stop().catch(() => undefined);
+    }
+  });
+
   it("revokes proactive access when the authorized set is cleared", async () => {
     const { handle, companiesGet } = makeHandle();
     try {
