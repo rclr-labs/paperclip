@@ -313,6 +313,20 @@ vi.mock("../realtime/live-events-ws.js", () => ({
   setupLiveEventsWebSocketServer: vi.fn(),
 }));
 
+// Startup wiring tests run against a database double: register no replica and
+// hold the scheduler lease immediately, as a single-process instance does.
+vi.mock("../services/server-instance-registry.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../services/server-instance-registry.js")>()),
+  startServerInstanceRegistration: vi.fn(async () => ({ stop: async () => undefined })),
+}));
+vi.mock("../services/heartbeat/scheduler-leadership.js", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../services/heartbeat/scheduler-leadership.js")>()),
+  startSchedulerLeadership: vi.fn(async (_db: unknown, opts?: { onAcquired?: (generation: number) => void }) => {
+    opts?.onAcquired?.(1);
+    return { isLeader: () => true, generation: () => 1, stop: async () => undefined };
+  }),
+}));
+
 vi.mock("../services/index.js", () => ({
   backfillLegacyToolOAuthTokens: vi.fn(async () => ({
     scannedConnections: 0,

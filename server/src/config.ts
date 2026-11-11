@@ -111,6 +111,8 @@ export interface Config {
   feedbackExportBackendToken: string | undefined;
   heartbeatSchedulerEnabled: boolean;
   heartbeatSchedulerIntervalMs: number;
+  /** Fan live events out to other server replicas via Postgres LISTEN/NOTIFY. */
+  liveEventsReplicaFanout: boolean;
   companyDeletionEnabled: boolean;
   telemetryEnabled: boolean;
   announcementsEnabled: boolean;
@@ -429,6 +431,7 @@ export function loadConfig(): Config {
     feedbackExportBackendToken,
     heartbeatSchedulerEnabled: process.env.HEARTBEAT_SCHEDULER_ENABLED !== "false",
     heartbeatSchedulerIntervalMs: Math.max(10000, Number(process.env.HEARTBEAT_SCHEDULER_INTERVAL_MS) || 30000),
+    liveEventsReplicaFanout: process.env.PAPERCLIP_LIVE_EVENTS_FANOUT === "true",
     companyDeletionEnabled,
     telemetryEnabled: fileConfig?.telemetry?.enabled ?? true,
     announcementsEnabled: process.env.PAPERCLIP_ANNOUNCEMENTS_ENABLED !== "false",

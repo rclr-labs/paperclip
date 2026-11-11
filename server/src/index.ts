@@ -116,6 +116,9 @@ import {
   toolAccessService,
   workspaceOperationService,
 } from "./services/index.js";
+import { startServerInstanceRegistration } from "./services/server-instance-registry.js";
+import { startLiveEventsReplicaFanout } from "./services/live-events.js";
+import { startSchedulerLeadership, type SchedulerLeadership } from "./services/heartbeat/scheduler-leadership.js";
 import { questionResponseDeliveryService } from "./services/question-response-delivery.js";
 import { deliverNativeQuestionResponse } from "./services/native-runtime/native-question-bridge.js";
 import { queueIssueAssignmentWakeup } from "./services/issue-assignment-wakeup.js";
@@ -1192,6 +1195,19 @@ async function startServerWithDatabaseTeardown(
   }>) | null = null;
   let heartbeatSchedulerStopped = false;
   let heartbeatSchedulerInterval: ReturnType<typeof setInterval> | null = null;
+  // Every replica registers itself so others can tell its live runs apart
+  // from orphans; see services/server-instance-registry.ts.
+  const serverInstanceRegistration = await startServerInstanceRegistration(db as any, {
+    onError: (err) => logger.warn({ err }, "server instance registry renewal failed"),
+  });
+  const liveEventsFanout = config.liveEventsReplicaFanout
+    ? await startLiveEventsReplicaFanout((db as any).$client)
+    : null;
+  // Replicas contend for one scheduler lease; only the holder ticks. Null when
+  // this replica does not contend (scheduler disabled or suppressed), in which
+  // case the tick keeps its pre-lease behavior.
+  let schedulerLeadership: SchedulerLeadership | null = null;
+  const isSchedulerLeader = () => schedulerLeadership?.isLeader() ?? true;
   const heartbeatSchedulerInFlight = new Set<Promise<void>>();
   const trackHeartbeatSchedulerWork = (work: Promise<unknown>) => {
     const finishIdleWork = beginIdleTrackedWork();
@@ -1588,7 +1604,10 @@ async function startServerWithDatabaseTeardown(
         "heartbeat scheduling suppressed for this runtime instance",
       );
     } else {
-      const startupHeartbeatRecovery = (async () => {
+      // The recovery a new owner of every run performs. It runs when this
+      // replica first acquires the scheduler lease: at boot, or later when it
+      // takes over from a leader that stopped (blue/green without a restart).
+      const runHeartbeatLeaderRecovery = async () => {
         // Legacy remote recovery releases sandbox leases. Wait for provider
         // workers before cleanup or retry admission, including unmanaged installs.
         await timeStartupRecovery("plugin_workers", () => app.locals.bundledPluginsStartup);
@@ -1712,12 +1731,30 @@ async function startServerWithDatabaseTeardown(
         if (swept.cleared > 0) {
           logger.warn({ ...swept }, "startup stale-lock sweeper cleared issue locks");
         }
-      })().catch((err) => {
-        logger.error({ err }, "startup heartbeat recovery failed");
-        throw err;
+      };
+      let bootRecovery: Promise<void> | null = null;
+      schedulerLeadership = await startSchedulerLeadership(db as any, {
+        // Never await recovery here: lease renewal must keep running meanwhile.
+        onAcquired: (generation) => {
+          logger.info({ generation }, "heartbeat scheduler lease acquired");
+          const recovery = runHeartbeatLeaderRecovery().catch((err) => {
+            logger.error({ err }, "startup heartbeat recovery failed");
+            throw err;
+          });
+          trackHeartbeatSchedulerWork(recovery);
+          if (bootRecovery === null) bootRecovery = recovery;
+          else void recovery.catch(() => undefined);
+        },
+        onLost: () => logger.warn("heartbeat scheduler lease lost; this replica stops scheduling"),
+        onError: (err) => logger.warn({ err }, "heartbeat scheduler lease renewal failed"),
       });
-      trackHeartbeatSchedulerWork(startupHeartbeatRecovery);
-      await startupHeartbeatRecovery;
+      if (bootRecovery) {
+        await bootRecovery;
+      } else {
+        // Mark boot recovery as handled so a later acquisition runs it detached.
+        bootRecovery = Promise.resolve();
+        logger.info("another replica holds the heartbeat scheduler lease; this replica serves API traffic and waits");
+      }
     }
 
     const runRetentionSweep = async () => {
@@ -1777,7 +1814,7 @@ async function startServerWithDatabaseTeardown(
       // can then wait through an already-running suppression check before it
       // captures the authoritative set of running heartbeat rows.
       trackHeartbeatSchedulerWork((async () => {
-        if (isIdleTaskDrainActive() || heartbeatSchedulerStopped) return;
+        if (isIdleTaskDrainActive() || heartbeatSchedulerStopped || !isSchedulerLeader()) return;
         scheduleRoutineStatusReconcile();
         trackHeartbeatSchedulerWork(decisionExecutor.sweepExpired().catch((err: unknown) => {
           logger.error({ err }, "decision expiry sweep failed");
@@ -1932,11 +1969,12 @@ async function startServerWithDatabaseTeardown(
       const scheduled = registerScheduledWork(deliveryWork, db, {
         retryMs: config.heartbeatSchedulerIntervalMs,
         tickTimers: async () => {
+          if (!isSchedulerLeader()) return;
           if ((await heartbeat.resolveSchedulingSuppression()).suppressed) return;
           const result = await heartbeat.tickTimers(new Date());
           if (result.enqueued > 0) logger.info({ ...result }, "heartbeat timer tick enqueued runs");
         },
-        tickRoutines: () => routines.tickScheduledTriggers(new Date()).then(result => {
+        tickRoutines: async () => !isSchedulerLeader() ? undefined : routines.tickScheduledTriggers(new Date()).then(result => {
           if (result.triggered > 0) logger.info({ ...result }, "routine scheduler tick enqueued runs");
         }),
       });
@@ -2082,6 +2120,11 @@ async function startServerWithDatabaseTeardown(
       prepareHotRestartShutdown,
       waitForHeartbeatSchedulerIdle,
     });
+    // The scheduler is quiescent: hand the lease to a standby replica now. Our
+    // runs stay fenced by their own leases and our registry row until drained.
+    await schedulerLeadership?.stop().catch((err) => {
+      logger.warn({ err }, "heartbeat scheduler lease release failed");
+    });
     const skipHeartbeatDrain = heartbeatShutdown.hotRestart?.skipDrain === true;
     const selectiveDrainRunIds = heartbeatShutdown.hotRestart?.drainRunIds ?? null;
     if (skipHeartbeatDrain) {
@@ -2129,6 +2172,9 @@ async function startServerWithDatabaseTeardown(
     } catch (err) {
       logger.error({ err, signal }, "run-log in-flight mirror flush failed");
     }
+
+    await liveEventsFanout?.stop();
+    await serverInstanceRegistration.stop();
 
     const appShutdown = (app as { locals?: { paperclipShutdown?: () => Promise<void> } }).locals
       ?.paperclipShutdown;

@@ -2098,7 +2098,7 @@ export function createHeartbeatQueue(db: Db, dependencies: HeartbeatQueueDepende
         });
       }
       return claimedRuns;
-    }).finally(async () => {
+    }, { db }).finally(async () => {
       // Dispatch promoted inputs after the agent start lock is released.
       try {
         await applyWakeQueuePostCommitEffects(deferredPostCommitEffects);
