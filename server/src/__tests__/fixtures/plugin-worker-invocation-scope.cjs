@@ -32,6 +32,13 @@ function sendNestedHostRequest(originalRequest, invocationId) {
         namespace: params.namespace || "ns",
         stateKey: params.stateKey || "key",
       }
+    : hostMethod === "agents.clone"
+    ? {
+        // Two-company shape: no top-level companyId. Both ends must be admitted.
+        agentId: params.agentId || "agent-1",
+        sourceCompanyId: params.sourceCompanyId || requestedCompanyId,
+        targetCompanyId: params.targetCompanyId || requestedCompanyId,
+      }
     : hostMethod === "events.subscribe"
     ? {
         // The subscribe shape the SDK issues from setup() via

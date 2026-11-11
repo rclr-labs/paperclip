@@ -474,3 +474,82 @@ describe("project Git credentials", () => {
     expect(resolveGitCredential).toHaveBeenCalledWith(params, context);
   });
 });
+
+describe("createHostClientHandlers runs.listEvents and agents.clone", () => {
+  const scopeA = { invocationScope: { companyId: "company-a" } };
+  const cloneResult = { agent: { id: "clone" }, requiresApproval: false, approvalId: null, droppedConfig: [] };
+
+  function handlersWith(capabilities: string[]) {
+    const listEvents = vi.fn(async () => []);
+    const clone = vi.fn(async () => cloneResult);
+    const services = { runs: { listEvents }, agents: { clone } } as unknown as HostServices;
+    const handlers = createHostClientHandlers({
+      pluginId: "paperclip.test",
+      capabilities: capabilities as never,
+      services,
+    });
+    return { handlers, listEvents, clone };
+  }
+
+  it("denies runs.listEvents without runs.events.read", async () => {
+    const { handlers, listEvents } = handlersWith(["agents.read", "issues.read"]);
+    await expect(
+      handlers["runs.listEvents"]({ runId: "run-a", companyId: "company-a" }, scopeA),
+    ).rejects.toBeInstanceOf(CapabilityDeniedError);
+    expect(listEvents).not.toHaveBeenCalled();
+  });
+
+  it("denies runs.listEvents for a company outside the invocation scope", async () => {
+    const { handlers, listEvents } = handlersWith(["runs.events.read"]);
+    await expect(
+      handlers["runs.listEvents"]({ runId: "run-b", companyId: "company-b" }, scopeA),
+    ).rejects.toBeInstanceOf(InvocationScopeDeniedError);
+    expect(listEvents).not.toHaveBeenCalled();
+    await expect(
+      handlers["runs.listEvents"]({ runId: "run-a", companyId: "company-a", afterSeq: 2, limit: 10 }, scopeA),
+    ).resolves.toEqual([]);
+    expect(listEvents).toHaveBeenCalledOnce();
+  });
+
+  it("denies agents.clone without agents.clone even with agents.read and agents.managed", async () => {
+    const { handlers, clone } = handlersWith(["agents.read", "agents.managed"]);
+    await expect(
+      handlers["agents.clone"]({ agentId: "a", sourceCompanyId: "company-a", targetCompanyId: "company-a" }, scopeA),
+    ).rejects.toBeInstanceOf(CapabilityDeniedError);
+    expect(clone).not.toHaveBeenCalled();
+  });
+
+  it("checks both clone ends against a host-issued invocation scope", async () => {
+    const { handlers, clone } = handlersWith(["agents.clone"]);
+    await expect(
+      handlers["agents.clone"]({ agentId: "a", sourceCompanyId: "company-a", targetCompanyId: "company-a" }, scopeA),
+    ).resolves.toEqual(cloneResult);
+    for (const params of [
+      { agentId: "a", sourceCompanyId: "company-a", targetCompanyId: "company-b" },
+      { agentId: "a", sourceCompanyId: "company-b", targetCompanyId: "company-a" },
+      // A worker-supplied companyId must not stand in for either end.
+      { agentId: "a", sourceCompanyId: "company-b", targetCompanyId: "company-a", companyId: "company-a" },
+      { agentId: "a", sourceCompanyId: "company-a" },
+    ]) {
+      await expect(handlers["agents.clone"](params as never, scopeA)).rejects.toBeInstanceOf(InvocationScopeDeniedError);
+    }
+    await expect(
+      handlers["agents.clone"]({ agentId: "a", sourceCompanyId: "company-a", targetCompanyId: "company-a" }),
+    ).rejects.toBeInstanceOf(InvocationScopeDeniedError);
+    expect(clone).toHaveBeenCalledOnce();
+  });
+
+  it("admits a cross-company clone only when the host admitted both companies", async () => {
+    const { handlers, clone } = handlersWith(["agents.clone"]);
+    const params = { agentId: "a", sourceCompanyId: "company-a", targetCompanyId: "company-b" };
+    await expect(handlers["agents.clone"](params, {
+      invocationScope: { companyId: "company-b" },
+      admittedCompanyIds: ["company-a", "company-b"],
+    })).resolves.toEqual(cloneResult);
+    await expect(handlers["agents.clone"](params, {
+      invocationScope: { companyId: "company-b" },
+      admittedCompanyIds: ["company-b"],
+    })).rejects.toBeInstanceOf(InvocationScopeDeniedError);
+    expect(clone).toHaveBeenCalledOnce();
+  });
+});

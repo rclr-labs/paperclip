@@ -1155,6 +1155,17 @@ export function startWorkerRpcHost(options: WorkerRpcHostOptions): WorkerRpcHost
         },
       },
 
+      runs: {
+        async listEvents(runId: string, companyId: string, options?: { afterSeq?: number; limit?: number }) {
+          return callHost("runs.listEvents", {
+            runId,
+            companyId,
+            ...(options?.afterSeq !== undefined ? { afterSeq: options.afterSeq } : {}),
+            ...(options?.limit !== undefined ? { limit: options.limit } : {}),
+          });
+        },
+      },
+
       approvals: {
         async list(input: { companyId: string; status?: string | null }) {
           return callHost("approvals.list", {
@@ -1212,6 +1223,16 @@ export function startWorkerRpcHost(options: WorkerRpcHostOptions): WorkerRpcHost
 
         async invoke(agentId: string, companyId: string, opts: { prompt: string; reason?: string }) {
           return callHost("agents.invoke", { agentId, companyId, prompt: opts.prompt, reason: opts.reason });
+        },
+
+        async clone(agentId, input) {
+          return callHost("agents.clone", {
+            agentId,
+            sourceCompanyId: input.sourceCompanyId,
+            targetCompanyId: input.targetCompanyId,
+            ...(input.name !== undefined ? { name: input.name } : {}),
+            ...(input.instructionsOverride !== undefined ? { instructionsOverride: input.instructionsOverride } : {}),
+          });
         },
 
         managed: {
