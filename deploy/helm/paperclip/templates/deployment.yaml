@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "paperclip.fullname" . }}
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  # Recreate, never RollingUpdate: a rolling update starts the new pod while
+  # the old one still runs, i.e. two schedulers on one database (the second
+  # reaps the first one's runs by PID) and a multi-attach on the RWO volume.
+  # Zero-downtime deploys use T2 (two releases), not a rolling update.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "paperclip.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "paperclip.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      serviceAccountName: {{ include "paperclip.serviceAccountName" . }}
+      # Needed for the in-cluster Kubernetes sandbox provider; harmless otherwise.
+      automountServiceAccountToken: {{ eq .Values.execution.mode "kubernetes" }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+      containers:
+        - name: server
+          image: {{ include "paperclip.image" . | quote }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ include "paperclip.fullname" . }}
+            {{- if include "paperclip.hasEnvSecret" . }}
+            - secretRef:
+                name: {{ include "paperclip.envSecretName" . }}
+            {{- end }}
+          env:
+            - name: PAPERCLIP_INSTANCE_ID
+              value: default
+            {{- with .Values.server.extraEnvRaw }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          startupProbe:
+            httpGet:
+              path: /api/health
+              port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold }}
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+              # The private-exposure hostname guard rejects the pod IP that
+              # kubelet sends as Host; loopback names are always allowed.
+              httpHeaders:
+                - name: Host
+                  value: localhost
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+            timeoutSeconds: 5
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: home
+              mountPath: /paperclip
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: home
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "paperclip.claimName" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: tmp
+          emptyDir: {}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

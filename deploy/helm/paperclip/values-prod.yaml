@@ -1,0 +1,60 @@
+# prod — deployed with T2 blue/green (values-t2-green.yaml) from the digest
+# verified on staging. Rollback is automatic on failed verification (§5).
+color: blue
+
+image:
+  # Set by CI: --set image.digest=sha256:...
+  digest: ""
+
+server:
+  publicUrl: https://paperclip.example.com
+  deploymentExposure: public
+
+storage:
+  s3:
+    bucket: paperclip-prod-attachments
+runLogs:
+  s3:
+    bucket: paperclip-prod-attachments
+
+secrets:
+  strictMode: true
+
+persistence:
+  size: 200Gi
+  retain: true
+
+execution:
+  kubernetes:
+    namespacePrefix: paperclip-prd-
+
+resources:
+  requests:
+    cpu: "2"
+    memory: 4Gi
+  limits:
+    memory: 8Gi
+
+# The stable Service of the pair points at one colour. Flip to green at
+# cutover (helm upgrade <blue release> --set service.selectorOverride...).
+service:
+  selectorOverride:
+    app.kubernetes.io/name: paperclip
+    paperclip.dev/color: blue
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    # Live events + runner use WebSockets; keep long-lived connections open.
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  hosts:
+    - host: paperclip.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: paperclip-prod-tls
+      hosts:
+        - paperclip.example.com

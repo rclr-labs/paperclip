@@ -1,0 +1,21 @@
+# Stable upstream for cloudflared; bluegreen.sh rewrites upstream.caddy and
+# runs `caddy reload` to switch colours without touching the tunnel.
+[Unit]
+Description=Paperclip router (caddy)
+After=paperclip-network.service
+Requires=paperclip-network.service
+
+[Container]
+Image=docker.io/library/caddy:2.8.4-alpine
+ContainerName=paperclip-router
+Network=paperclip.network
+# Copy deploy/vm-cloudflare/compose/router/Caddyfile here.
+Volume=%h/.config/paperclip/Caddyfile:/etc/caddy/Caddyfile:ro,Z
+# Same directory as PAPERCLIP_STATE_DIR/router used by bluegreen.sh.
+Volume=%h/.local/state/paperclip/router:/etc/caddy/active:ro,Z
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

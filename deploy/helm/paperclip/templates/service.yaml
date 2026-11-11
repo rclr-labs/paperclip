@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "paperclip.fullname" . }}
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+  {{- if or .Values.service.annotations .Values.gke.backendConfig.enabled }}
+  annotations:
+    {{- with .Values.service.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+    {{- if .Values.gke.backendConfig.enabled }}
+    cloud.google.com/backend-config: {{ printf "{\"default\":\"%s\"}" (include "paperclip.fullname" .) | squote }}
+    {{- end }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+  selector:
+    {{- if .Values.service.selectorOverride }}
+    {{- toYaml .Values.service.selectorOverride | nindent 4 }}
+    {{- else }}
+    {{- include "paperclip.selectorLabels" . | nindent 4 }}
+    {{- end }}

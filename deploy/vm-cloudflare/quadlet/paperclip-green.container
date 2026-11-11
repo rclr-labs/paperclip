@@ -1,0 +1,48 @@
+# Paperclip server, green colour (T2). Requires podman >= 5 (quadlet drop-ins).
+# bin/bluegreen.sh (RUNTIME=quadlet) writes paperclip-green.container.d/50-bluegreen.conf
+# with Image= and HEARTBEAT_SCHEDULER_ENABLED=; never edit the scheduler by hand.
+# Extends docker/quadlet/paperclip.container for T1 on a VM.
+[Unit]
+Description=Paperclip server (green)
+After=paperclip-network.service paperclip-home-volume.service
+Requires=paperclip-network.service paperclip-home-volume.service
+
+[Container]
+# Placeholder; overridden by the bluegreen drop-in.
+Image=ghcr.io/paperclipai/paperclip:latest
+ContainerName=paperclip-green
+Network=paperclip.network
+Volume=paperclip-home.volume:/paperclip
+PublishPort=127.0.0.1:3102:3100
+PidsLimit=2048
+Environment=HOST=0.0.0.0
+Environment=PORT=3100
+Environment=SERVE_UI=true
+Environment=PAPERCLIP_HOME=/paperclip
+Environment=PAPERCLIP_DEPLOYMENT_MODE=authenticated
+Environment=PAPERCLIP_DEPLOYMENT_EXPOSURE=private
+Environment=PAPERCLIP_MIGRATION_AUTO_APPLY=true
+Environment=PAPERCLIP_COLOR=green
+# Passive unless the drop-in says otherwise.
+Environment=HEARTBEAT_SCHEDULER_ENABLED=false
+# PAPERCLIP_PUBLIC_URL, PAPERCLIP_API_URL, PAPERCLIP_ALLOWED_HOSTNAMES
+# (machine hostname), storage + run-log settings.
+EnvironmentFile=%h/.config/paperclip/instance.env
+# DATABASE_URL, BETTER_AUTH_SECRET, PAPERCLIP_SECRETS_MASTER_KEY, ... (0600)
+EnvironmentFile=%h/.config/paperclip/secrets.env
+HealthCmd=curl -fsS http://127.0.0.1:3100/api/health
+HealthInterval=15s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=120s
+StopTimeout=120
+
+[Service]
+# bluegreen.sh decides which colour runs; systemd must not resurrect the
+# stopped one on failure with a stale scheduler flag.
+Restart=on-failure
+TimeoutStartSec=300
+TimeoutStopSec=150
+
+[Install]
+WantedBy=default.target

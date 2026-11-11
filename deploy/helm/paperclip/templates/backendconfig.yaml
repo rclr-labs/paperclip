@@ -1,0 +1,16 @@
+{{- if .Values.gke.backendConfig.enabled }}
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: {{ include "paperclip.fullname" . }}
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+spec:
+  timeoutSec: {{ .Values.gke.backendConfig.timeoutSec }}
+  connectionDraining:
+    drainingTimeoutSec: {{ .Values.gke.backendConfig.drainingTimeoutSec }}
+  healthCheck:
+    type: HTTP
+    requestPath: /api/health
+    port: {{ .Values.service.port }}
+{{- end }}

@@ -1,0 +1,242 @@
+# Default values for the Paperclip chart.
+#
+# Topologies (doc/plans/2026-11-11-distributed-deployment-architectures.md §2):
+#   T1  one server, managed Postgres, object storage, remote execution  -> values-t1.yaml
+#   T2  blue/green: two releases on one database, green passive          -> values-t2-green.yaml
+#   T3  N replicas + shared RWX volume                                   -> values-t3.yaml (BLOCKED, see `fencing`)
+#
+# Layer an environment file on top: values-<topology>.yaml + values-<env>.yaml.
+
+image:
+  repository: ghcr.io/paperclipai/paperclip
+  # Promote the same digest across environments (§5). When `digest` is set it
+  # wins over `tag`.
+  tag: ""
+  digest: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# Topology label, informational and used by guards. One of: t1 | t2 | t3.
+topology: t1
+
+# Number of server pods. Anything above 1 is refused by the chart until the
+# fencing work in §6 (orphan reaping by owner+lease, scheduler leader lease,
+# advisory start locks, cross-replica live events) ships. Today a second
+# process reaps the first one's runs by PID.
+replicaCount: 1
+
+fencing:
+  # Flip to true ONLY on an image that ships §6 items 1-4. The chart cannot
+  # verify that; it is an operator assertion.
+  enabled: false
+
+# HEARTBEAT_SCHEDULER_ENABLED. Read at boot only. Two pods with the scheduler
+# on against one database must never coexist (§2 T2).
+scheduler:
+  enabled: true
+
+# Blue/green colour (T2). Added as a pod label `paperclip.dev/color` so a
+# Service can select one colour. Empty = no colour label.
+color: ""
+
+server:
+  # Public origin of the board, e.g. https://paperclip.example.com
+  publicUrl: ""
+  # Overrides the API base URL handed to agents (PAPERCLIP_API_URL). Leave
+  # empty to derive from publicUrl.
+  apiUrl: ""
+  deploymentMode: authenticated
+  # private | public
+  deploymentExposure: private
+  # Only the instance that will become active applies migrations (§5). With
+  # no TTY the server applies pending migrations by default; keep migrations
+  # backward compatible with the previous image during a blue/green window.
+  migrationAutoApply: true
+  # Extra hostnames accepted by the private-exposure hostname guard
+  # (PAPERCLIP_ALLOWED_HOSTNAMES). publicUrl's host is always allowed; add a
+  # separate machine/API hostname here.
+  allowedHostnames: []
+  # wss:// origin for the experimental paperclip_runner direct dial.
+  runnerPublicUrl: ""
+  # Extra plain env vars (name: value).
+  extraEnv: {}
+  # Extra env entries in full Kubernetes form (valueFrom, etc.).
+  extraEnvRaw: []
+
+storage:
+  # local_disk | s3. local_disk is only the chart default so a bare
+  # `helm template` renders; values-t1/t3 switch to s3. GCS works through its
+  # S3 interoperability endpoint with HMAC keys.
+  provider: local_disk
+  s3:
+    bucket: ""
+    region: us-east-1
+    endpoint: ""
+    prefix: ""
+    forcePathStyle: false
+
+runLogs:
+  # Mirror run logs to object storage (RUN_LOG_S3_*).
+  s3:
+    enabled: false
+    bucket: ""
+    region: us-east-1
+    endpoint: ""
+    prefix: run-logs
+    forcePathStyle: false
+
+secrets:
+  # local_encrypted | aws_secrets_manager. gcp_secret_manager and vault are
+  # stubs today; on GCP use local_encrypted with the master key from the
+  # platform secret store (PAPERCLIP_SECRETS_MASTER_KEY in the Secret below).
+  provider: local_encrypted
+  strictMode: false
+
+# Sensitive env vars come from ONE Kubernetes Secret, mounted with envFrom.
+# Expected keys (only those you use): DATABASE_URL, BETTER_AUTH_SECRET,
+# PAPERCLIP_SECRETS_MASTER_KEY, PAPERCLIP_TOOL_ACTION_SIGNING_SECRET,
+# AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY,
+# GITHUB_TOKEN.
+envSecret:
+  # Use a Secret you manage out of band (sealed-secrets, Terraform, ...).
+  existingSecret: ""
+  # Or let the chart create one from `data` (dev only: values end up in the
+  # release manifest).
+  create: false
+  data: {}
+
+# External Secrets Operator. Renders an ExternalSecret that materializes the
+# env Secret above. Mutually exclusive with envSecret.create.
+externalSecret:
+  enabled: false
+  refreshInterval: 1h
+  secretStoreRef:
+    name: ""
+    kind: ClusterSecretStore
+  # - secretKey: DATABASE_URL
+  #   remoteRef: { key: paperclip/database-url }
+  data: []
+
+execution:
+  # "" (unrestricted, default) | kubernetes | any.
+  # kubernetes => the server creates a Kubernetes environment for every
+  # company at boot and pins runs to it (execution-policy-bootstrap.ts).
+  mode: ""
+  kubernetes:
+    # sandbox-cr (needs kubernetes-sigs/agent-sandbox) | job
+    backend: sandbox-cr
+    namespacePrefix: paperclip-
+    # standard | cilium
+    egressMode: standard
+    runtimeClassName: ""
+    imageRegistry: ""
+    adapterType: ""
+    egressAllowFqdns: []
+    egressAllowCidrs: []
+    rpcTimeoutMs: ""
+  # Managed environments / instance config as JSON (PAPERCLIP_MANAGED_CONFIG).
+  managedConfig: ""
+
+rbac:
+  # Create the ClusterRole the Kubernetes sandbox provider needs. Only
+  # rendered when execution.mode=kubernetes.
+  create: true
+  # Also grant agents.x-k8s.io/sandboxes (sandbox-cr backend).
+  sandboxCr: true
+  # Also grant cilium.io/ciliumnetworkpolicies (egressMode=cilium).
+  cilium: false
+
+serviceAccount:
+  create: true
+  name: ""
+  # Workload Identity (GKE) / IRSA (EKS) annotations go here.
+  annotations: {}
+
+persistence:
+  # PAPERCLIP_HOME: workspaces, worktrees, plugin tree, cleanup spool. The
+  # server disk is the authoritative copy of execution workspaces even for
+  # sandbox runs, so this is not optional in production.
+  enabled: true
+  # Reuse an existing claim (T2 green shares blue's volume).
+  existingClaim: ""
+  # ReadWriteOnce for T1/T2 (single node), ReadWriteMany for T3.
+  accessMode: ReadWriteOnce
+  size: 50Gi
+  storageClass: ""
+  annotations: {}
+  # Keep the PVC when the release is uninstalled.
+  retain: true
+
+service:
+  type: ClusterIP
+  port: 3100
+  annotations: {}
+
+# GKE only: a BackendConfig for the GCE ingress. The GCLB backend timeout
+# defaults to 30s, which cuts live-event and runner WebSockets.
+gke:
+  backendConfig:
+    enabled: false
+    timeoutSec: 3600
+    drainingTimeoutSec: 60
+  # Override the selector (T2: point a stable Service at one colour).
+  selectorOverride: {}
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: paperclip.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []
+
+# Pod-level settings. The image runs unprivileged when started as non-root
+# (scripts/docker-entrypoint.sh skips the UID remap).
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+  seccompProfile:
+    type: RuntimeDefault
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
+
+# Includes the shared 30s adapter-settlement window and final cleanup
+# (matches docker/docker-compose.yml stop_grace_period).
+terminationGracePeriodSeconds: 90
+
+resources:
+  requests:
+    cpu: "1"
+    memory: 2Gi
+  limits:
+    memory: 4Gi
+
+probes:
+  startup:
+    # Migrations and plugin install can take minutes on first boot.
+    failureThreshold: 60
+    periodSeconds: 5
+  liveness:
+    periodSeconds: 20
+    failureThreshold: 3
+  readiness:
+    periodSeconds: 10
+    failureThreshold: 3
+
+podAnnotations: {}
+podLabels: {}
+nodeSelector: {}
+tolerations: []
+affinity: {}
