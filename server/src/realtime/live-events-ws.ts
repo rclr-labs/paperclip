@@ -11,7 +11,7 @@ import type { BetterAuthSessionResult } from "../auth/better-auth.js";
 import { logger } from "../middleware/logger.js";
 import { activityToastIdentity } from "./activity-toast-identity.js";
 import { taskToastEligible } from "./task-toast-eligibility.js";
-import { subscribeCompanyLiveEvents } from "../services/live-events.js";
+import { subscribeClientCompanyLiveEvents } from "../services/live-events.js";
 import { trackIdleWork } from "../services/task-admission.js";
 
 interface WsSocket {
@@ -345,7 +345,7 @@ export function setupLiveEventsWebSocketServer(
     }
     let delivery = Promise.resolve();
     let pending = 0;
-    const unsubscribe = subscribeCompanyLiveEvents(context.companyId, (event) => {
+    const unsubscribe = subscribeClientCompanyLiveEvents(context.companyId, (event) => {
       if (socket.readyState !== WebSocket.OPEN) return;
       if (++pending > 1000) { socket.close(1013, "event backlog"); return; }
       delivery = delivery.then(async () => {

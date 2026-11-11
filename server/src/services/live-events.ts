@@ -8,6 +8,10 @@ type LiveEventListener = (event: LiveEvent) => void;
 
 const emitter = new EventEmitter();
 emitter.setMaxListeners(0);
+// Events received from other replicas. Kept apart so only client delivery
+// sees them; see subscribeClientCompanyLiveEvents.
+const remoteEmitter = new EventEmitter();
+remoteEmitter.setMaxListeners(0);
 const allCompanyEvents = Symbol("all-company-live-events");
 
 let nextEventId = 0;
@@ -49,13 +53,27 @@ export function publishGlobalLiveEvent(input: {
 }) {
   const event = toLiveEvent({ companyId: "*", type: input.type, payload: input.payload });
   emitter.emit("*", event);
-  forwardToReplicas("global", event);
   return event;
 }
 
 export function subscribeCompanyLiveEvents(companyId: string, listener: LiveEventListener) {
   emitter.on(companyId, listener);
   return () => emitter.off(companyId, listener);
+}
+
+/**
+ * Client delivery (the browser WebSocket): this process's events plus the
+ * events other replicas fan out. Internal observers use
+ * `subscribeCompanyLiveEvents`/`subscribeAllCompanyLiveEvents`, which see only
+ * local events, so a side effect never runs once per replica.
+ */
+export function subscribeClientCompanyLiveEvents(companyId: string, listener: LiveEventListener) {
+  emitter.on(companyId, listener);
+  remoteEmitter.on(companyId, listener);
+  return () => {
+    emitter.off(companyId, listener);
+    remoteEmitter.off(companyId, listener);
+  };
 }
 
 export function subscribeGlobalLiveEvents(listener: LiveEventListener) {
@@ -87,7 +105,8 @@ export const LIVE_EVENTS_CHANNEL = "paperclip_live_events";
 // Postgres rejects NOTIFY payloads of 8000 bytes or more.
 const MAX_NOTIFY_PAYLOAD_BYTES = 7_500;
 
-type ReplicaEnvelope = { v: 1; origin: string; scope: "company" | "global"; event: LiveEvent };
+// Only company events fan out: global events have no client subscriber.
+type ReplicaEnvelope = { v: 1; origin: string; scope: "company"; event: LiveEvent };
 type NotifyClient = {
   listen(channel: string, onNotify: (payload: string) => void): Promise<{ unlisten(): Promise<unknown> }>;
   notify(channel: string, payload: string): PromiseLike<unknown>;
@@ -120,12 +139,12 @@ function receiveFromReplica(text: string) {
   }
   if (envelope?.v !== 1 || envelope.origin === serverBootId) return;
   const remote = envelope.event;
-  if (!remote || typeof remote.companyId !== "string" || !knownEventTypes.has(remote.type)) return;
+  if (envelope.scope !== "company" || !remote || typeof remote.companyId !== "string" ||
+      remote.companyId === "*" || !knownEventTypes.has(remote.type)) return;
   const payload = remote.payload && typeof remote.payload === "object" ? remote.payload : {};
   // Re-number locally: ids are per-process sequence numbers.
   const event: LiveEvent = { ...toLiveEvent({ companyId: remote.companyId, type: remote.type, payload }), createdAt: remote.createdAt };
-  if (envelope.scope === "global") emitter.emit("*", event);
-  else if (envelope.scope === "company" && remote.companyId !== "*") emitCompanyEvent(event);
+  remoteEmitter.emit(event.companyId, event);
 }
 
 /** Start fan-out on a postgres.js client (it holds LISTEN on its own

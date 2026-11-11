@@ -1207,7 +1207,14 @@ async function startServerWithDatabaseTeardown(
   // this replica does not contend (scheduler disabled or suppressed), in which
   // case the tick keeps its pre-lease behavior.
   let schedulerLeadership: SchedulerLeadership | null = null;
-  const isSchedulerLeader = () => schedulerLeadership?.isLeader() ?? true;
+  // The lease generation whose new-owner recovery has finished. Ticks wait for
+  // it, so a takeover never schedules before orphaned runs are reaped.
+  let schedulerRecoveredGeneration: number | null = null;
+  const isSchedulerLeader = () => {
+    if (!schedulerLeadership) return true;
+    const generation = schedulerLeadership.generation();
+    return generation !== null && generation === schedulerRecoveredGeneration;
+  };
   const heartbeatSchedulerInFlight = new Set<Promise<void>>();
   const trackHeartbeatSchedulerWork = (work: Promise<unknown>) => {
     const finishIdleWork = beginIdleTrackedWork();
@@ -1733,16 +1740,28 @@ async function startServerWithDatabaseTeardown(
         }
       };
       let bootRecovery: Promise<void> | null = null;
+      // Single-flight: a lose-then-regain waits for the previous recovery.
+      let leaderRecoveryChain: Promise<void> = Promise.resolve();
       schedulerLeadership = await startSchedulerLeadership(db as any, {
         // Never await recovery here: lease renewal must keep running meanwhile.
         onAcquired: (generation) => {
           logger.info({ generation }, "heartbeat scheduler lease acquired");
-          const recovery = runHeartbeatLeaderRecovery().catch((err) => {
-            logger.error({ err }, "startup heartbeat recovery failed");
-            throw err;
+          const atBoot = bootRecovery === null;
+          const recovery = leaderRecoveryChain.then(async () => {
+            if (schedulerLeadership && schedulerLeadership.generation() !== generation) return;
+            try {
+              await runHeartbeatLeaderRecovery();
+            } catch (err) {
+              logger.error({ err, generation }, "startup heartbeat recovery failed");
+              // At boot this fails startup, as before. On a later takeover the
+              // periodic reaper and queue resumption are the degraded backstop.
+              if (atBoot) throw err;
+            }
+            schedulerRecoveredGeneration = generation;
           });
+          leaderRecoveryChain = recovery.catch(() => undefined);
           trackHeartbeatSchedulerWork(recovery);
-          if (bootRecovery === null) bootRecovery = recovery;
+          if (atBoot) bootRecovery = recovery;
           else void recovery.catch(() => undefined);
         },
         onLost: () => logger.warn("heartbeat scheduler lease lost; this replica stops scheduling"),

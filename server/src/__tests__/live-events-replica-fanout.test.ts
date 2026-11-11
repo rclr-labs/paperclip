@@ -7,8 +7,9 @@ import {
   LIVE_EVENTS_CHANNEL,
   publishLiveEvent,
   startLiveEventsReplicaFanout,
+  subscribeAllCompanyLiveEvents,
+  subscribeClientCompanyLiveEvents,
   subscribeCompanyLiveEvents,
-  subscribeGlobalLiveEvents,
 } from "../services/live-events.js";
 
 async function waitFor<T>(read: () => T | undefined, timeoutMs = 3_000): Promise<T> {
@@ -55,39 +56,40 @@ describe.skipIf(!support.supported)("live events fan-out between server processe
     expect(typeof message.origin).toBe("string");
   });
 
-  it("delivers another replica's events to local subscribers exactly once", async () => {
+  it("delivers another replica's events to clients only, exactly once", async () => {
     const companyId = randomUUID();
-    const received: LiveEvent[] = [];
-    const unsubscribe = subscribeCompanyLiveEvents(companyId, (event) => { received.push(event); });
+    const client: LiveEvent[] = [];
+    const internal: LiveEvent[] = [];
+    const unsubscribers = [
+      subscribeClientCompanyLiveEvents(companyId, (event) => { client.push(event); }),
+      // Server-side observers (budget, chat completion) must not run a side
+      // effect once per replica.
+      subscribeCompanyLiveEvents(companyId, (event) => { internal.push(event); }),
+      subscribeAllCompanyLiveEvents((event) => { if (event.companyId === companyId) internal.push(event); }),
+    ];
     try {
       const event = { id: 7, companyId, type: "activity.logged", createdAt: new Date().toISOString(), payload: { from: "peer" } };
       await peer.$client.notify(LIVE_EVENTS_CHANNEL, JSON.stringify({ v: 1, origin: "peer-boot", scope: "company", event }));
-      await waitFor(() => received[0]);
+      await waitFor(() => client[0]);
       await new Promise((resolve) => setTimeout(resolve, 100));
-      expect(received).toHaveLength(1);
-      expect(received[0]).toMatchObject({ companyId, type: "activity.logged", payload: { from: "peer" } });
+      expect(client).toHaveLength(1);
+      expect(client[0]).toMatchObject({ companyId, type: "activity.logged", payload: { from: "peer" } });
+      expect(internal).toHaveLength(0);
     } finally {
-      unsubscribe();
+      for (const unsubscribe of unsubscribers) unsubscribe();
     }
   });
 
-  it("routes global events and ignores its own echo", async () => {
-    const received: LiveEvent[] = [];
-    const unsubscribe = subscribeGlobalLiveEvents((event) => { received.push(event); });
+  it("ignores its own echo", async () => {
+    const companyId = randomUUID();
+    const client: LiveEvent[] = [];
+    const unsubscribe = subscribeClientCompanyLiveEvents(companyId, (event) => { client.push(event); });
     try {
-      const marker = randomUUID();
-      await peer.$client.notify(LIVE_EVENTS_CHANNEL, JSON.stringify({
-        v: 1, origin: "peer-boot", scope: "global",
-        event: { id: 1, companyId: "*", type: "activity.logged", createdAt: new Date().toISOString(), payload: { marker } },
-      }));
-      await waitFor(() => received.find((e) => e.payload.marker === marker));
-      // An event this process published comes back on LISTEN; it must not be
-      // emitted a second time.
-      const ownMarker = randomUUID();
-      publishLiveEvent({ companyId: randomUUID(), type: "activity.logged", payload: { ownMarker } });
-      await waitFor(() => peerReceived.find((m) => (m.event as LiveEvent).payload.ownMarker === ownMarker));
+      publishLiveEvent({ companyId, type: "activity.logged", payload: { own: true } });
+      // The NOTIFY came back to the peer, so it also came back to us.
+      await waitFor(() => peerReceived.find((m) => (m.event as LiveEvent).companyId === companyId));
       await new Promise((resolve) => setTimeout(resolve, 100));
-      expect(received.filter((e) => e.payload.ownMarker === ownMarker)).toHaveLength(0);
+      expect(client).toHaveLength(1);
     } finally {
       unsubscribe();
     }
