@@ -35,6 +35,7 @@ are relative to `server/src/services/heartbeat/`:
 | `runtime-execution.ts` | Dispatching prepared work through the runtime and handling its execution result. |
 | `run-completion.ts`, `run-lifecycle.ts` | Success/failure settlement; shared status transitions, events, and completion handoffs. |
 | `run-control.ts`, `retries.ts`, `recovery.ts` | Stop and cancellation; retry scheduling; restart recovery and unfinished cleanup. |
+| `run-ownership.ts`, `scheduler-leadership.ts` | Which server replica owns a run's controller lease; the singleton scheduler lease across replicas. |
 | `task-context.ts`, `task-markdown.ts` | Assembling task context and rendering assignment text. |
 | `run-output.ts`, `run-log.ts` | Per-run output handling; log formatting, redaction, and payload bounds. |
 

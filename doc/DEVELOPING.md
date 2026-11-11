@@ -1823,6 +1823,18 @@ and shared execution sets so separate service instances keep the same ownership
 and shutdown barriers. Cleanup single-flight state stays at module scope.
 Keep recovery policy changes separate from retry scheduling and execution changes.
 
+Cross-replica ownership is in `server/src/services/heartbeat/run-ownership.ts`
+and `server/src/services/heartbeat/scheduler-leadership.ts`. Every server
+process registers its boot ID and hostname in `server_instances`
+(`server/src/services/server-instance-registry.ts`); legacy and native
+controller leases name that boot ID. `classifyRunOwnership` tells the reaper
+whether a run belongs to another live replica (skip it), to a replica on
+another host that lost its lease (never probe its PIDs), or to this host
+(existing PID rules). The scheduler lease in `server_leases` makes ticks and
+new-owner recovery singleton across replicas; `HEARTBEAT_SCHEDULER_ENABLED=false`
+still means "never contend". `PAPERCLIP_LIVE_EVENTS_FANOUT=true` fans live
+events out to other replicas through Postgres `LISTEN/NOTIFY`.
+
 Queue admission and wakeup dispatch are in `server/src/services/heartbeat/queue.ts`.
 It owns wake coalescing and batching, queued-run claims, daily heartbeat caps,
 concurrency and priority checks, timer admission, and native status wake intents.
