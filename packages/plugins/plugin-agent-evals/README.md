@@ -8,7 +8,7 @@ are kept. Method and scenario format: [`evals/agents/README.md`](../../../evals/
 
 ```bash
 pnpm --filter @paperclipai/plugin-agent-evals build
-pnpm paperclipai plugin install /absolute/path/to/packages/plugins/plugin-agent-evals
+npx paperclipai plugin install /absolute/path/to/packages/plugins/plugin-agent-evals
 ```
 
 Published builds install from npm like any other plugin.
