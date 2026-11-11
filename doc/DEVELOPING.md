@@ -1833,7 +1833,10 @@ another host that lost its lease (never probe its PIDs), or to this host
 (existing PID rules). The scheduler lease in `server_leases` makes ticks and
 new-owner recovery singleton across replicas; `HEARTBEAT_SCHEDULER_ENABLED=false`
 still means "never contend". `PAPERCLIP_LIVE_EVENTS_FANOUT=true` fans live
-events out to other replicas through Postgres `LISTEN/NOTIFY`.
+events out to other replicas through Postgres `LISTEN/NOTIFY`. Remote events reach
+only WebSocket clients (`subscribeClientCompanyLiveEvents`), never internal
+observers. Replicas sharing a hostname but not a PID namespace must set a
+distinct `PAPERCLIP_SERVER_HOST_ID`.
 
 Queue admission and wakeup dispatch are in `server/src/services/heartbeat/queue.ts`.
 It owns wake coalescing and batching, queued-run claims, daily heartbeat caps,

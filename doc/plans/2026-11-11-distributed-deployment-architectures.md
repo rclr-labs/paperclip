@@ -117,6 +117,9 @@ flowchart LR
   contend for the lease.
 - Set `PAPERCLIP_LIVE_EVENTS_FANOUT=true` on both so a browser connected to
   either instance sees live updates published by the other.
+- Each replica needs a distinct host id: the hostname by default, or
+  `PAPERCLIP_SERVER_HOST_ID` when containers share a hostname but not a PID
+  namespace (Docker `network_mode: host`, a pinned compose `hostname:`).
 - Cutover:
   1. Start green; health-check `/api/health` and smoke-test.
   2. Route traffic to green.
