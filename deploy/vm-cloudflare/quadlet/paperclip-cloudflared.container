@@ -1,0 +1,20 @@
+# Remotely managed Cloudflare tunnel; every hostname points at the router
+# (see ../cloudflare/tunnel.tf).
+[Unit]
+Description=Paperclip Cloudflare tunnel
+After=paperclip-router.service
+Requires=paperclip-router.service
+
+[Container]
+Image=docker.io/cloudflare/cloudflared:2024.12.2
+ContainerName=paperclip-cloudflared
+Network=paperclip.network
+Exec=tunnel --no-autoupdate run
+# TUNNEL_TOKEN=... (0600)
+EnvironmentFile=%h/.config/paperclip/cloudflared.env
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

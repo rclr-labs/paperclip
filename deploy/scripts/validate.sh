@@ -2,6 +2,8 @@
 # Offline validation for deploy/: helm lint + template per values combination,
 # negative guard checks, terraform validate (no backend, no apply), docker
 # compose config, shell syntax. Creates no cloud resource.
+# ok() never fails, so `A && ok || bad` is a safe if/else here.
+# shellcheck disable=SC2015
 set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -53,7 +55,7 @@ else
 fi
 
 echo "== terraform"
-for root in "$here"/terraform/gcp "$here"/terraform/aws; do
+for root in "$here"/terraform/gcp "$here"/terraform/aws "$here"/vm-cloudflare/cloudflare; do
   if (cd "$root" && terraform init -backend=false -input=false >/dev/null && terraform validate -no-color >/dev/null); then
     ok "validate ${root#"$here"/}"
   else
@@ -61,6 +63,7 @@ for root in "$here"/terraform/gcp "$here"/terraform/aws; do
   fi
   (cd "$root" && terraform fmt -check -recursive >/dev/null) && ok "fmt ${root#"$here"/}" || bad "fmt ${root#"$here"/}"
   # Mock providers + plan only: no credentials, no cloud resources.
+  [ -d "$root/tests" ] || continue
   if (cd "$root" && terraform test -no-color >/dev/null); then
     ok "test ${root#"$here"/}"
   else
@@ -70,23 +73,24 @@ done
 
 echo "== docker compose"
 vm="$here/vm-cloudflare"
-for f in "$vm"/compose/docker-compose.yml; do
-  for color in blue green; do
-    if PAPERCLIP_COLOR=$color docker compose --env-file "$vm/compose/.env.example" -f "$f" -p "paperclip-$color" config -q; then
-      ok "compose config ($color)"
-    else
-      bad "compose config ($color)"
-    fi
-  done
+for color in blue green; do
+  if PAPERCLIP_COLOR=$color docker compose --env-file "$vm/compose/.env.example" -f "$vm/compose/server.compose.yml" -p "paperclip-$color" config -q; then
+    ok "compose config server ($color)"
+  else
+    bad "compose config server ($color)"
+  fi
 done
-if docker compose --env-file "$vm/compose/.env.example" -f "$vm/compose/edge.compose.yml" config -q; then
+if docker compose --env-file "$vm/compose/.env.example" -f "$vm/compose/edge.compose.yml" --profile localdb config -q; then
   ok "compose config (edge)"
 else
   bad "compose config (edge)"
 fi
 
+echo "== blue/green script (fake runtime)"
+bash "$here/vm-cloudflare/test/bluegreen.test.sh" >/dev/null && ok "bluegreen.test.sh" || { bad "bluegreen.test.sh"; bash "$here/vm-cloudflare/test/bluegreen.test.sh" | grep -A12 FAIL; }
+
 echo "== shell"
-for s in "$here"/vm-cloudflare/bin/*.sh "$here"/scripts/*.sh; do
+for s in "$here"/vm-cloudflare/bin/*.sh "$here"/vm-cloudflare/test/*.sh "$here"/scripts/*.sh; do
   bash -n "$s" && ok "bash -n ${s#"$here"/}" || bad "bash -n ${s#"$here"/}"
   if command -v shellcheck >/dev/null; then
     shellcheck -x "$s" && ok "shellcheck ${s#"$here"/}" || bad "shellcheck ${s#"$here"/}"

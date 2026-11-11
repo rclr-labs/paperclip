@@ -1,0 +1,62 @@
+# Long-lived edge: Cloudflare tunnel -> router -> active colour.
+#   docker compose -p paperclip-edge -f edge.compose.yml up -d
+#
+# cloudflared always targets http://paperclip-router:3100, so a cutover never
+# touches the tunnel. bin/bluegreen.sh rewrites router/active/upstream.caddy
+# and runs `caddy reload` (graceful: open WebSockets on the old upstream are
+# closed only when that upstream stops).
+name: paperclip-edge
+
+services:
+  router:
+    image: caddy:2.8.4-alpine
+    container_name: paperclip-router
+    restart: unless-stopped
+    volumes:
+      - ./router/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${PAPERCLIP_STATE_DIR:-../state}/router:/etc/caddy/active:ro
+    networks:
+      - paperclip
+
+  cloudflared:
+    image: cloudflare/cloudflared:2024.12.2
+    container_name: paperclip-cloudflared
+    restart: unless-stopped
+    # Remotely managed tunnel: ingress rules live in Cloudflare (see
+    # ../cloudflare/*.tf, which points every hostname at the router).
+    command: ["tunnel", "--no-autoupdate", "--metrics", "0.0.0.0:2000", "run"]
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?CLOUDFLARE_TUNNEL_TOKEN must be set}
+    depends_on:
+      - router
+    networks:
+      - paperclip
+
+  # Dev / single-VM only. Production uses Cloud SQL / RDS / any Postgres 17
+  # through DATABASE_URL. Enable with: --profile localdb
+  db:
+    profiles: ["localdb"]
+    image: postgres:17-alpine
+    container_name: paperclip-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: paperclip
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD must be set}
+      POSTGRES_DB: paperclip
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U paperclip -d paperclip"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - paperclip
+
+volumes:
+  pgdata:
+
+networks:
+  paperclip:
+    external: true
+    name: ${PAPERCLIP_NETWORK:-paperclip}

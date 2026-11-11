@@ -1,0 +1,10 @@
+{
+	# Admin API stays inside the container; bluegreen.sh reloads via `docker exec`.
+	admin localhost:2019
+	auto_https off
+}
+
+:3100 {
+	# Written by bin/bluegreen.sh: `reverse_proxy paperclip-<color>:3100 { ... }`
+	import /etc/caddy/active/upstream.caddy
+}
