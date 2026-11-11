@@ -23,7 +23,7 @@ export function splitFrontmatter(text: string): { frontmatter: Record<string, un
   return { frontmatter, body: normalized.slice(closing + 4).trim() };
 }
 
-async function readTree(dir: string, base = dir): Promise<Record<string, string>> {
+export async function readTree(dir: string, base = dir): Promise<Record<string, string>> {
   const out: Record<string, string> = {};
   for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
