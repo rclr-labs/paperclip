@@ -1,4 +1,4 @@
-import type { EvalScenario } from "./scenario.js";
+import type { Ablation, EvalScenario } from "./scenario.js";
 
 /**
  * What the agent under test is made of: the unit that actually changes
@@ -40,19 +40,35 @@ export function buildArms(
   previousRevision?: EvalBundle,
 ): readonly [EvalArm, EvalArm] {
   const withArm: EvalArm = { id: "with", bundle, ablation: null };
-
-  if (scenario.ablate === "instructions") {
-    if (!bundle.instructions) throw new ArmConstructionError(`${scenario.id}: bundle ${bundle.id} has no instructions to ablate`);
-    return [withArm, { id: "ablated", bundle: { ...bundle, id: `${bundle.id}~no-instructions`, instructions: null }, ablation: "instructions removed" }];
+  const ablations = Array.isArray(scenario.ablate) ? scenario.ablate : [scenario.ablate];
+  if (ablations.includes("revision:previous") && ablations.length > 1) {
+    throw new ArmConstructionError(`${scenario.id}: revision:previous replaces the whole bundle and cannot be combined`);
   }
 
-  if (scenario.ablate === "revision:previous") {
-    if (!previousRevision) throw new ArmConstructionError(`${scenario.id}: ablate=revision:previous needs the previous revision of ${bundle.id}`);
-    return [withArm, { id: "ablated", bundle: previousRevision, ablation: `previous revision ${previousRevision.revision ?? "(unknown)"}` }];
+  let ablated = bundle;
+  const descriptions: string[] = [];
+  for (const ablation of ablations) {
+    ablated = applyAblation(scenario.id, ablated, ablation, previousRevision);
+    descriptions.push(
+      ablation === "instructions" ? "instructions removed"
+      : ablation === "revision:previous" ? `previous revision ${previousRevision?.revision ?? "(unknown)"}`
+      : `skill ${ablation.slice("skill:".length)} removed`,
+    );
   }
+  return [withArm, { id: "ablated", bundle: ablated, ablation: descriptions.join(" + ") }];
+}
 
-  const slug = scenario.ablate.slice("skill:".length);
-  if (!(slug in bundle.skills)) throw new ArmConstructionError(`${scenario.id}: bundle ${bundle.id} has no skill "${slug}" to ablate`);
+function applyAblation(scenarioId: string, bundle: EvalBundle, ablation: Ablation, previousRevision?: EvalBundle): EvalBundle {
+  if (ablation === "instructions") {
+    if (!bundle.instructions) throw new ArmConstructionError(`${scenarioId}: bundle ${bundle.id} has no instructions to ablate`);
+    return { ...bundle, id: `${bundle.id}~no-instructions`, instructions: null };
+  }
+  if (ablation === "revision:previous") {
+    if (!previousRevision) throw new ArmConstructionError(`${scenarioId}: ablate=revision:previous needs the previous revision of ${bundle.id}`);
+    return previousRevision;
+  }
+  const slug = ablation.slice("skill:".length);
+  if (!(slug in bundle.skills)) throw new ArmConstructionError(`${scenarioId}: bundle ${bundle.id} has no skill "${slug}" to ablate`);
   const { [slug]: _removed, ...rest } = bundle.skills;
-  return [withArm, { id: "ablated", bundle: { ...bundle, id: `${bundle.id}~no-${slug}`, skills: rest }, ablation: `skill ${slug} removed` }];
+  return { ...bundle, id: `${bundle.id}~no-${slug}`, skills: rest };
 }

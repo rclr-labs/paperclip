@@ -39,7 +39,9 @@ export function extractRationalization(trace: EvalTrace, verdicts: readonly Rubr
   if (failedQuote) return failedQuote.trim();
   const text = (trace.finalText || trace.assistantText).trim();
   if (!text) return null;
-  const paragraphs = text.split(/\n{2,}/);
+  // Scenarios end with a forced-choice line ("DECISION: X"); the reasoning is the paragraph before it.
+  const isDecisionLine = (p: string) => /^[A-Z][A-Z -]*:\s*[A-Z0-9][A-Z0-9 -]*$/.test(p.trim());
+  const paragraphs = text.split(/\n{2,}/).map((p) => p.trim()).filter((p) => p.length > 0 && !isDecisionLine(p));
   return (paragraphs[paragraphs.length - 1] ?? text).slice(0, 600);
 }
 

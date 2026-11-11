@@ -62,3 +62,11 @@ describe("headless tier", () => {
     expect(trace).toMatchObject({ finalText: "done", exit: { ok: true } });
   });
 });
+
+describe("headless work dir", () => {
+  it("is stable per bundle so the CLI's prompt cache is reused across repetitions", async () => {
+    const { headlessWorkRoot } = await import("./headless.js");
+    expect(headlessWorkRoot(bundle)).toBe(headlessWorkRoot({ ...bundle }));
+    expect(headlessWorkRoot(bundle)).not.toBe(headlessWorkRoot({ ...bundle, id: "qa~no-instructions" }));
+  });
+});

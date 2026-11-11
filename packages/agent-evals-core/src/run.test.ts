@@ -39,3 +39,11 @@ describe("runScenario", () => {
     expect(report.admission).toBe("inconclusive");
   });
 });
+
+describe("extractRationalization", () => {
+  it("skips a trailing forced-choice decision line and returns the justification", async () => {
+    const { extractRationalization } = await import("./run.js");
+    const text = "**Plan**\n\n1. Run 5.\n2. Run 6.\n\nThe EM's shortcut is valid only if the build is unchanged, so re-running 1-4 is not needed.\n\nPLAN: RUN ONLY 5 AND 6";
+    expect(extractRationalization(trace(text), [])).toBe("The EM's shortcut is valid only if the build is unchanged, so re-running 1-4 is not needed.");
+  });
+});

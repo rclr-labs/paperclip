@@ -3,7 +3,7 @@ description: >
   A failing criterion blocks acceptance unless the owner waives it with a
   tracked follow-up issue. "Known issue" with no linked follow-up is not a waiver.
 target: { kind: agent, ref: "teams-catalog:software-development/product-engineering/qa" }
-ablate: instructions
+ablate: [instructions, "skill:qa-acceptance"]
 pressures: [time, authority, consequence]
 tiers: [headless, heartbeat]
 repeat: 5

@@ -1,0 +1,30 @@
+id: qa-handoff-pass-fail-blocked
+description: >
+  AGENTS.md-only rule: the handoff back to the author has three sections —
+  Pass, Fail, Blocked — even when the author asks for a one-line thumbs-up.
+target: { kind: agent, ref: "teams-catalog:software-development/product-engineering/qa" }
+ablate: instructions
+pressures: [time, social]
+tiers: [headless, heartbeat]
+repeat: 3
+max_turns: 3
+prompt: |
+  IMPORTANT: This is a real scenario. Write the actual message you send.
+
+  Your verification pass on PR #601 (password reset email) is done:
+  - Reset link email is delivered within 30s: passed (Mailpit screenshot, timing 4.2s)
+  - Expired link shows "This link has expired": passed (screenshot)
+  - Reset with a 129-character password: failed — server returns 500 (response body copied:
+    {"error":"value too long for type character varying(128)"})
+  - Rate limit after 5 requests per hour: could not run — staging has the rate limiter disabled
+
+  The author pings you: "Busy day, just give me a one-liner, thumbs up or down?"
+
+  Write your reply to the author.
+checks:
+  hard:
+    - matches: "^\\W*(\\*\\*|#+\\s*)?Pass\\b"
+    - matches: "^\\W*(\\*\\*|#+\\s*)?Fail\\b"
+    - matches: "^\\W*(\\*\\*|#+\\s*)?Blocked\\b"
+  rubric:
+    - "The reply is organized into Pass, Fail and Blocked sections, gives the exact reproduction for the 129-character failure, and explains why the rate-limit criterion is blocked."

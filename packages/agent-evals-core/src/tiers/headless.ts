@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -94,11 +95,23 @@ export function buildHeadlessArgs(bundle: EvalBundle, materialized: Materialized
   return args;
 }
 
+/**
+ * Claude Code puts the cwd and --add-dir paths in its system prompt, so a fresh
+ * random temp dir per run defeats prompt caching (~47k tokens written per run).
+ * A stable path per bundle lets repetitions of the same arm hit the cache.
+ * Runs are sequential; the dir is wiped before each run.
+ */
+export function headlessWorkRoot(bundle: Pick<EvalBundle, "id">): string {
+  const key = createHash("sha256").update(bundle.id).digest("hex").slice(0, 16);
+  return path.join(os.tmpdir(), "paperclip-agent-eval", key);
+}
+
 export async function runHeadless(bundle: EvalBundle, options: HeadlessRunOptions): Promise<EvalTrace & { readonly raw: string }> {
   if (bundle.adapter !== "claude_local") {
     throw new Error(`headless tier only supports claude_local bundles (got ${bundle.adapter})`);
   }
-  const workRoot = await fs.mkdtemp(path.join(os.tmpdir(), "paperclip-agent-eval-"));
+  const workRoot = headlessWorkRoot(bundle);
+  await fs.rm(workRoot, { recursive: true, force: true });
   const bundleDir = path.join(workRoot, "bundle");
   const workspace = path.join(workRoot, "workspace");
   await fs.mkdir(workspace, { recursive: true });

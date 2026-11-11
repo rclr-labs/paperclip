@@ -33,3 +33,15 @@ describe("buildArms", () => {
     expect(() => buildArms({ id: "s", ablate: "instructions" }, { ...bundle, instructions: null })).toThrow(ArmConstructionError);
   });
 });
+
+describe("buildArms with combined ablations", () => {
+  it("removes instructions and the duplicating skill together", () => {
+    const [, a] = buildArms({ id: "s", ablate: ["instructions", "skill:qa-acceptance"] }, bundle);
+    expect(a.bundle.instructions).toBeNull();
+    expect(Object.keys(a.bundle.skills)).toEqual(["other"]);
+    expect(a.ablation).toBe("instructions removed + skill qa-acceptance removed");
+  });
+  it("refuses to combine revision:previous", () => {
+    expect(() => buildArms({ id: "s", ablate: ["revision:previous", "instructions"] }, bundle, bundle)).toThrow(ArmConstructionError);
+  });
+});

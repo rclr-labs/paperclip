@@ -20,10 +20,16 @@ const targetRefSchema = z
     `target ref must be "<source>:<path-or-id>" with source in ${TARGET_SOURCES.join(", ")}`,
   );
 
-const ablateSchema = z.union([
+const singleAblationSchema = z.union([
   z.literal("instructions"),
   z.literal("revision:previous"),
   z.string().regex(/^skill:[a-z0-9][a-z0-9-]*$/, 'skill ablation must be "skill:<slug>"'),
+]);
+
+/** One ablation, or several applied together (e.g. instructions + the skill that duplicates them). */
+const ablateSchema = z.union([
+  singleAblationSchema,
+  z.array(singleAblationSchema).min(1).refine((a) => new Set(a).size === a.length, "duplicate ablations"),
 ]);
 
 const hardCheckSchema = z.union([
@@ -75,6 +81,7 @@ export const scenarioSchema = z
   .strict();
 
 export type EvalScenario = z.infer<typeof scenarioSchema>;
+export type Ablation = z.infer<typeof singleAblationSchema>;
 export type HardCheck = EvalScenario["checks"]["hard"][number];
 
 export class ScenarioParseError extends Error {
