@@ -851,6 +851,7 @@ The host enforces capabilities in the SDK layer and refuses calls outside the gr
 - `issue.relations.read`
 - `issue.subtree.read`
 - `agents.read`
+- `runs.events.read`
 - `goals.read`
 - `activity.read`
 - `costs.read`
@@ -884,6 +885,7 @@ The host enforces capabilities in the SDK layer and refuses calls outside the gr
 - `agents.pause`
 - `agents.resume`
 - `agents.invoke`
+- `agents.clone`
 - `agent.sessions.create`
 - `agent.sessions.list`
 - `agent.sessions.send`
@@ -918,6 +920,25 @@ The host enforces capabilities in the SDK layer and refuses calls outside the gr
 - `ui.dashboardWidget.register`
 - `ui.commentAnnotation.register`
 - `ui.action.register`
+
+## 15.1.1 Run events and agent cloning
+
+`runs.events.read` grants `ctx.runs.listEvents(runId, companyId, { afterSeq?, limit? })`.
+
+- It returns the run's `heartbeat_run_events` rows in `seq` order: `seq`, `eventType`, `stream`, `level`, `message`, `payload`, `createdAt`.
+- The host redacts each row exactly as `GET /api/heartbeat-runs/:runId/events` does. It redacts secret payload keys, applies the instance username setting, and replaces the run's registered secret values.
+- The result is an empty list when the run is outside `companyId`. It is also empty when the run is bound to an issue the plugin cannot read under issue privacy.
+- `limit` defaults to 200 and the host caps it at 1000.
+
+`agents.clone` grants `ctx.agents.clone(agentId, { sourceCompanyId, targetCompanyId, name?, instructionsOverride? })`.
+
+- The host creates a new agent in `targetCompanyId`. It copies the adapter type and config, the runtime config, the skills and the instructions bundle.
+- `instructionsOverride: { entryFile, content }` replaces one file of the copied bundle. `{ files, entryFile? }` replaces the whole bundle.
+- Company scope applies at both ends. Inside a host-issued invocation, both companies must equal the invocation's company. A cross-company clone is admitted only from a proactive call, such as a job or timer, and only when both companies are configured for the plugin. The source agent must belong to `sourceCompanyId`.
+- The clone goes through the standard hire lifecycle. If the target company requires board approval for new agents, the clone is `pending_approval` with a `hire_agent` approval. A direct creation with a monthly budget gets the agent's budget hard-stop policy.
+- The clone never inherits role `ceo`, permissions, the manager (`reportsTo`), the source's instruction directory, or a gateway device key.
+- A cross-company clone also drops config bound to the source company: `adapterConfig.env`, `adapterConfig.cwd`, `runtimeConfig.aiConnection`, `defaultEnvironmentId`, and desired skills that the target company does not have. The result lists every dropped path in `droppedConfig`.
+- The host writes `plugin.agent.cloned` to the target company's activity log. A cross-company clone also writes `plugin.agent.cloned_out` to the source company's activity log.
 
 ## 15.2 Forbidden Capabilities
 

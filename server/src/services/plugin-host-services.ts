@@ -1,6 +1,7 @@
 import { projectGitAuthorizationService } from "./project-git-authorization.js";
 import { createLiveEventDelivery } from "../realtime/live-event-delivery.js";
-import { createLiveRunEventRedactor } from "./live-run-event-redaction.js";
+import { createLiveRunEventRedactor, createStoredRunEventRedactor } from "./live-run-event-redaction.js";
+import { pluginAgentCloneService } from "./plugin-agent-clone.js";
 import { projectInstanceSecretService } from "./project-instance-secrets.js";
 import { pluginAgentRuntimeState, pluginAgentRuntimeIdentity } from "./plugin-agent-runtime-state.js";
 import { createAgentLifecycle } from "./agent-lifecycle.js";
@@ -24,6 +25,7 @@ import type {
   HostServices,
   Company,
   Agent,
+  PluginRunEvent,
   Project,
   Issue,
   Goal,
@@ -804,6 +806,8 @@ export function buildHostServices(
   const issueApprovals = issueApprovalService(db);
   const approvalSvc = approvalService(db);
   const interactions = issueThreadInteractionService(db);
+  const redactStoredRunEvents = createStoredRunEventRedactor(db);
+  const agentClones = pluginAgentCloneService(db, { pluginId, pluginKey });
   const scopedBus = eventBus.forPlugin(pluginKey);
   const lifecycleInbox = pluginLifecycleInbox(db, pluginId);
 
@@ -3106,6 +3110,13 @@ export function buildHostServices(
         if (!run) throw new Error("Agent wakeup was skipped by heartbeat policy");
         return { runId: run.id };
       },
+      async clone(params) {
+        const sourceCompanyId = ensureCompanyId(params.sourceCompanyId);
+        const targetCompanyId = ensureCompanyId(params.targetCompanyId);
+        await ensurePluginAvailableForCompany(sourceCompanyId);
+        await ensurePluginAvailableForCompany(targetCompanyId);
+        return agentClones.clone({ ...params, sourceCompanyId, targetCompanyId });
+      },
       async managedGet(params) {
         const companyId = ensureCompanyId(params.companyId);
         await ensurePluginAvailableForCompany(companyId);
@@ -3120,6 +3131,36 @@ export function buildHostServices(
         const companyId = ensureCompanyId(params.companyId);
         await ensurePluginAvailableForCompany(companyId);
         return managedAgents.reset(params.agentKey, companyId);
+      },
+    },
+
+    runs: {
+      async listEvents(params) {
+        const companyId = ensureCompanyId(params.companyId);
+        await ensurePluginAvailableForCompany(companyId);
+        const run = await heartbeat.getRunReadAccess(params.runId);
+        if (!run || run.companyId !== companyId) return [];
+        // An issue-bound run is as private as its issue: a non-member plugin
+        // reads it only when it could read the issue itself.
+        if (run.scopeKind !== "company") {
+          if (!run.issueId) return [];
+          if (!(await pluginCanReadIssue(await issues.getById(run.issueId)))) return [];
+        }
+        const afterSeq = parseWindowValue(params.afterSeq) ?? 0;
+        const limit = Math.max(1, Math.min(parseWindowValue(params.limit) ?? 200, 1000));
+        const rows = await heartbeat.listEvents(run.id, afterSeq, limit);
+        const events = rows.map((row) => ({
+          runId: row.runId,
+          agentId: row.agentId,
+          seq: row.seq,
+          eventType: row.eventType,
+          stream: (row.stream ?? null) as PluginRunEvent["stream"],
+          level: (row.level ?? null) as PluginRunEvent["level"],
+          message: row.message ?? null,
+          payload: (row.payload ?? null) as Record<string, unknown> | null,
+          createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
+        }));
+        return redactStoredRunEvents(companyId, run.id, events);
       },
     },
 
