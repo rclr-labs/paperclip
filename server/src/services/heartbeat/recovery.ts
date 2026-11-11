@@ -63,6 +63,7 @@ import {
 } from "../native-runtime/native-runner-ownership.js";
 import { performance } from "node:perf_hooks";
 import { buildProcessLossDiagnostic } from "../process-loss-diagnostics.js";
+import { loadRunOwnership } from "./run-ownership.js";
 import { logActivity } from "../activity-log.js";
 import { releaseRuntimeServicesForRun } from "../workspace-runtime.js";
 import { isProcessGroupAlive } from "../local-service-supervisor.js";
@@ -1986,7 +1987,11 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
     // cleared with a compare-and-set so the explicit retryable failure becomes
     // claimable in this same sweep.
     const retryableNativeProcesses = await db
-      .select({ run: heartbeatRuns })
+      .select({
+        run: heartbeatRuns,
+        controllerBootId: nativeRunFinalizations.controllerBootId,
+        leaseExpiresAt: nativeRunFinalizations.leaseExpiresAt,
+      })
       .from(heartbeatRuns)
       .innerJoin(
         nativeRunFinalizations,
@@ -2001,16 +2006,27 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
         ),
       );
     const claimableNativeRunIds = new Set<string>();
+    const retryableOwnership = await loadRunOwnership(
+      db,
+      retryableNativeProcesses.map(({ run, controllerBootId, leaseExpiresAt }) => ({
+        runId: run.id, ownerBootId: controllerBootId, leaseExpiresAt,
+      })),
+      now,
+    );
     for (const { run } of retryableNativeProcesses) {
       if (isNativeRunnerOwnershipHeld(run)) continue;
+      const ownership = retryableOwnership.get(run.id) ?? "local";
+      if (ownership === "foreign_live") continue;
       if (!run.processPid && !run.processGroupId) {
         claimableNativeRunIds.add(run.id);
         continue;
       }
+      // PIDs recorded by another host are never probed from this one.
+      const probesPids = ownership === "local";
       const processPidAlive =
-        !!run.processPid && isProcessAlive(run.processPid);
+        probesPids && !!run.processPid && isProcessAlive(run.processPid);
       const processGroupAlive =
-        !!run.processGroupId && isProcessGroupAlive(run.processGroupId);
+        probesPids && !!run.processGroupId && isProcessGroupAlive(run.processGroupId);
       if (processPidAlive || processGroupAlive) {
         await markNativeOwnershipUnverified(run, {
           reason: "live_process_identifier",
@@ -2200,6 +2216,16 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
 
     const reaped: string[] = [];
     const currentNativeController = await currentNativeControllerIdentity();
+    // Resolve each run's controller owner once. A native run is owned through
+    // its coordinator lease; a legacy run through its own controller lease.
+    const activeRunOwnership = await loadRunOwnership(
+      db,
+      activeRuns.map(({ run, nativeControllerBootId, nativeControllerLeaseExpiresAt }) =>
+        run.runtimeMode === "native"
+          ? { runId: run.id, ownerBootId: nativeControllerBootId, leaseExpiresAt: nativeControllerLeaseExpiresAt }
+          : { runId: run.id, ownerBootId: run.controllerBootId, leaseExpiresAt: run.controllerLeaseExpiresAt }),
+      now,
+    );
 
     for (const {
       run,
@@ -2220,10 +2246,16 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
       // The reconciler above either finishes it, records a bounded failure, or
       // preserves its explicit physical-copyback hold. Keep its source lease.
       if (nativeWorkspaceFinalizationPending) continue;
+      const ownership = activeRunOwnership.get(run.id) ?? "local";
+      // Another live server process owns this run; it is not orphaned.
+      if (ownership === "foreign_live") continue;
+      // PIDs recorded by another host name processes in that host's table.
+      const probesPids = ownership === "local";
       const nativeRun = run.runtimeMode === "native";
       const nativeProcessPidAlive =
-        nativeRun && !!run.processPid && isProcessAlive(run.processPid);
+        probesPids && nativeRun && !!run.processPid && isProcessAlive(run.processPid);
       const nativeProcessGroupAlive =
+        probesPids &&
         nativeRun &&
         !!run.processGroupId &&
         isProcessGroupAlive(run.processGroupId);
@@ -2300,7 +2332,8 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
       // for a read-only liveness check so a lost in-memory handle cannot cause
       // overlapping provider/tool execution while that child is still alive.
       const checksPersistedChildLiveness =
-        currentAdapterTracksLocalChild || run.runtimeMode === "native";
+        probesPids &&
+        (currentAdapterTracksLocalChild || run.runtimeMode === "native");
       const processPidAlive =
         checksPersistedChildLiveness &&
         run.processPid &&

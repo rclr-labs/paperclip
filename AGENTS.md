@@ -95,6 +95,9 @@ Explicit exception: announcement dismissals are instance-wide user preferences,
 keyed by user and announcement so they persist across companies. Their audit
 context must still validate company membership. The announcement publication-ID
 registry is instance-level feed metadata; it contains no company or user data.
+Server coordination rows (`server_instances`, `server_leases`) are also
+instance-level: they name server processes and the scheduler lease, and contain
+no company or user data.
 
 2. Keep contracts synchronized.
 If you change schema/API behavior, update all impacted layers:

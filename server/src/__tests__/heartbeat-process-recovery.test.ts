@@ -94,6 +94,7 @@ import {
   plugins,
   projects,
   projectWorkspaces,
+  serverInstances,
   statusDecisionEffects,
   statusDecisions,
   toolApplications,
@@ -1054,6 +1055,101 @@ describeEmbeddedPostgres("heartbeat orphaned process recovery", () => {
       releaseAdapter();
       await executorHeartbeat.drainActiveRunExecutions();
     }
+  });
+
+  describe("two server instances on one database", () => {
+    // Instance A is another server process (another container) that shares this
+    // database. It is represented by the durable rows it writes: its registry
+    // row and the controller lease on its run. This process is instance B.
+    async function registerReplicaA(input: { alive: boolean }) {
+      const bootId = randomUUID();
+      await db.insert(serverInstances).values({
+        bootId,
+        hostname: "replica-a.invalid",
+        pid: 1,
+        expiresAt: new Date(Date.now() + (input.alive ? 60_000 : -60_000)),
+      });
+      return bootId;
+    }
+
+    afterEach(async () => {
+      await db.delete(serverInstances);
+    });
+
+    it("does not reap or mark a live native run owned by another live instance", async () => {
+      const replicaA = await registerReplicaA({ alive: true });
+      // A PID from another container's process table is dead in this one.
+      const { companyId, runId, issueId } = await seedRunFixture({
+        adapterType: "paperclip_runner",
+        runtimeMode: "native",
+        processPid: 2_000_000_000,
+      });
+      await db.update(heartbeatRuns)
+        .set({ nativeIssueId: issueId, nativePhase: "observed" })
+        .where(eq(heartbeatRuns.id, runId));
+      await db.insert(nativeRunFinalizations).values({
+        runId, companyId, issueId, phase: "observed", attempt: 1,
+        leaseOwner: `${replicaA}:native`,
+        leaseExpiresAt: new Date(Date.now() + 10 * 60_000),
+        controllerBootId: replicaA,
+        controllerPid: 2_000_000_000,
+        controllerProcessStartedAt: new Date(0),
+        controllerGeneration: 1,
+      });
+
+      const replicaB = heartbeatService(db);
+      expect(await replicaB.reapOrphanedRuns()).toEqual({ reaped: 0, runIds: [] });
+      await replicaB.recoverNativeRunsAfterRestart();
+
+      expect(await replicaB.getRun(runId)).toMatchObject({
+        status: "running", error: null, errorCode: null,
+      });
+      const [coordinator] = await db.select().from(nativeRunFinalizations)
+        .where(eq(nativeRunFinalizations.runId, runId));
+      expect(coordinator).toMatchObject({
+        phase: "observed", controllerBootId: replicaA, controllerGeneration: 1, recoveryState: null,
+      });
+    });
+
+    it("does not reap a live legacy run owned by another live instance", async () => {
+      const replicaA = await registerReplicaA({ alive: true });
+      const { runId } = await seedRunFixture({ agentStatus: "running", processPid: 2_000_000_000 });
+      await db.update(heartbeatRuns).set({
+        controllerBootId: replicaA,
+        controllerLeaseExpiresAt: new Date(Date.now() + 60_000),
+        executionStage: "dispatching",
+      }).where(eq(heartbeatRuns.id, runId));
+
+      const replicaB = heartbeatService(db);
+      expect(await replicaB.reapOrphanedRuns()).toEqual({ reaped: 0, runIds: [] });
+      expect(await replicaB.getRun(runId)).toMatchObject({ status: "running", errorCode: null });
+    });
+
+    it("ignores a recorded PID from another host once that host's lease expired", async () => {
+      // The same numeric PID is alive here, but it names an unrelated process
+      // in this host's table. Only the expired lease decides.
+      const child = spawnAliveProcess();
+      childProcesses.add(child);
+      const replicaA = await registerReplicaA({ alive: false });
+      const { runId } = await seedRunFixture({
+        agentStatus: "running",
+        processPid: child.pid ?? null,
+        processLossRetryCount: 1,
+      });
+      await db.update(heartbeatRuns).set({
+        controllerBootId: replicaA,
+        controllerLeaseExpiresAt: new Date(Date.now() - 60_000),
+        executionStage: "dispatching",
+      }).where(eq(heartbeatRuns.id, runId));
+
+      const replicaB = heartbeatService(db);
+      const result = await replicaB.reapOrphanedRuns();
+
+      expect(result.runIds).toEqual([runId]);
+      expect(await replicaB.getRun(runId)).toMatchObject({ status: "failed", errorCode: "process_lost" });
+      expect(child.exitCode).toBeNull();
+      expect(mockTerminateLocalService).not.toHaveBeenCalled();
+    });
   });
 
   async function seedStrandedIssueFixture(input: {

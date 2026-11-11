@@ -97,32 +97,38 @@ flowchart LR
   G --> V
 ```
 
-- Green boots passive with `HEARTBEAT_SCHEDULER_ENABLED=false`. In that mode
-  the heartbeat service is not constructed at all (`server/src/index.ts`,
-  `const heartbeat = config.heartbeatSchedulerEnabled ? … : null`), so green
-  neither reaps orphaned runs nor schedules wakeups. It still runs the
-  environment-lease cleanup sweep and a few connector housekeeping sweeps
-  (external objects, GitHub polls), which are already safe to run twice. Green can serve API reads for smoke tests.
-- The flag is read at boot, so passive → active is a **restart** of green with
-  the flag on. There is no live flip today.
+- Both instances boot with the scheduler enabled. Each builds the heartbeat
+  service, registers itself in `server_instances`, and contends for the
+  `heartbeat_scheduler` row in `server_leases`. Blue already holds it, so
+  green boots as a standby: it serves API reads and writes, executes runs that
+  API requests start, and skips scheduler ticks and new-owner recovery.
+- Passive → active needs no restart. When blue stops, it releases the lease
+  after its scheduler goes quiet; green acquires it on its next renewal
+  attempt (every 5 s; the TTL is 30 s if blue dies without releasing), runs
+  the new-owner recovery, and starts ticking.
+- Runs that blue still drains stay fenced: their controller leases name blue's
+  boot ID and blue's registry row stays live until its drain finishes, so
+  green's reaper and native recovery leave them alone.
+- `HEARTBEAT_SCHEDULER_ENABLED=false` still makes an instance never contend
+  (the pre-lease passive mode).
 - `resolveHeartbeatSchedulingSuppression` (`heartbeat.ts`) is a different
   mechanism: it only triggers for worktree instances, a database restore in
-  progress, or a process-local task drain. It is not a blue/green switch.
+  progress, or a process-local task drain. A suppressed instance does not
+  contend for the lease.
+- Set `PAPERCLIP_LIVE_EVENTS_FANOUT=true` on both so a browser connected to
+  either instance sees live updates published by the other.
+- Each replica needs a distinct host id: the hostname by default, or
+  `PAPERCLIP_SERVER_HOST_ID` when containers share a hostname but not a PID
+  namespace (Docker `network_mode: host`, a pinned compose `hostname:`).
 - Cutover:
-  1. Start green passive; health-check `/api/health` and smoke-test.
-  2. Drain blue (task drain stops new admissions) and wait for live runs to
-     settle.
-  3. Stop blue.
-  4. Restart green with the scheduler enabled; its startup recovery now owns
-     every run.
-  5. Route traffic to green. If verification fails, stop green and start blue
-     again (automatic rollback).
-- The window between steps 3 and 4 has no scheduler. API traffic can stay up
-  on green; scheduled wakeups catch up at green's startup.
-- Both instances must never run with the scheduler enabled at the same time
-  until §6 ships: the second one would reap the first one's runs by PID.
+  1. Start green; health-check `/api/health` and smoke-test.
+  2. Route traffic to green.
+  3. Stop blue (SIGTERM). Its drain stops new admissions, settles live runs,
+     and releases the scheduler lease; green takes over scheduling.
+  4. If verification fails, start blue again and route back (automatic
+     rollback). Blue becomes a standby until green stops.
 
-### T3 — Multi-replica (blocked until fencing ships)
+### T3 — Multi-replica
 
 ```mermaid
 flowchart LR
@@ -137,7 +143,7 @@ flowchart LR
 
 - Any replica serves API and WebSocket traffic; exactly one holds the
   scheduler lease.
-- Requires the work in §6. Do not run `replicas > 1` before it lands.
+- Requires §6 items 1–4 (shipped) and item 5 (shared volume or affinity).
 - `PAPERCLIP_HOME` must be a shared RWX volume, because the server's disk is
   the authoritative copy of execution workspaces even for sandbox runs
   (`packages/plugins/sandbox-providers/SANDBOX-REQUIREMENTS.md`). The
@@ -210,18 +216,28 @@ IaC layout (to be built, one core per concern instead of four copies):
 Two live processes on one database already happen during every blue/green
 cutover, so this is a deploy-safety problem, not only a scaling one.
 
-| # | Process-local state | Location | Required change |
+| # | Process-local state | Location | Status |
 |---|---|---|---|
-| 1 | Orphan reaping by PID liveness (`process.kill(pid, 0)`) | `server/src/services/heartbeat/recovery.ts` (`reapOrphanedRuns`) | Record owner instance + lease generation on runs; reap other instances' runs only when their lease expired. Reuse `controllerGeneration` from native recovery. |
-| 2 | Scheduler timers | `server/src/index.ts` heartbeat ticks, `services/work-scheduler.ts` | Database-row leader lease (pattern: Discord gateway lease in `services/chat-channels.ts`). |
-| 3 | Per-agent start lock in a `Map` | `server/src/services/agent-start-lock.ts` | `pg_advisory_xact_lock` (pattern: `execution-workspace-lifecycle-lock.ts`). |
-| 4 | Live events via `EventEmitter` | `server/src/services/live-events.ts` | Cross-replica fan-out with `LISTEN/NOTIFY`, or sticky sessions as a stopgap. |
-| 5 | Workspaces, worktrees, plugin tree, cleanup spool on local disk | `PAPERCLIP_HOME` | Shared RWX volume (T3) or affinity. |
-| 6 | Passive/active is boot-time only | `HEARTBEAT_SCHEDULER_ENABLED` in `server/src/config.ts` | Covered by item 2: with a scheduler lease every replica runs the heartbeat service and only the leader schedules, so blue/green needs no restart. |
+| 1 | Orphan reaping and native takeover by PID liveness (`process.kill(pid, 0)`) | `server/src/services/heartbeat/recovery.ts` (`reapOrphanedRuns`), `native-runtime/native-restart-recovery.ts` | **Shipped.** Each process registers its boot ID and hostname in `server_instances` (`services/server-instance-registry.ts`). Legacy run leases (`heartbeat_runs.controller_boot_id`) and native coordinator leases (`native_run_finalizations.controller_boot_id`, with `controller_generation`) name that boot ID. `heartbeat/run-ownership.ts` classifies each run: another live replica with a live lease → skipped untouched; another host whose registry or run lease expired → reaped without probing its PIDs; this host or an unregistered owner → the existing PID rules. No new column on runs: the existing leases already carry the owner. |
+| 2 | Scheduler timers | `server/src/index.ts` heartbeat ticks, `services/work-scheduler.ts` | **Shipped.** `heartbeat/scheduler-leadership.ts`: one `server_leases` row, TTL 30 s, renewal every 5 s, `generation` incremented on every change of holder, times on the database clock. Only the holder runs ticks, timer/routine scheduling, and the new-owner recovery (also on a later takeover). |
+| 3 | Per-agent start lock in a `Map` | `server/src/services/agent-start-lock.ts` | **Shipped.** The in-process chain stays for local FIFO order; `startNextQueuedRunForAgent` also takes a session `pg_advisory_lock` on a dedicated connection (no idle transaction, no pool-capacity deadlock), with the same 30 s stale bound via `lock_timeout`. |
+| 4 | Live events via `EventEmitter` | `server/src/services/live-events.ts` | **Shipped, opt-in.** `PAPERCLIP_LIVE_EVENTS_FANOUT=true` NOTIFYs each event on `paperclip_live_events` and re-emits other replicas' events locally. Payloads over ~7.5 KB are sent as `{ truncated: true }` so clients refetch; own echoes are filtered by boot ID. |
+| 5 | Workspaces, worktrees, plugin tree, cleanup spool on local disk | `PAPERCLIP_HOME` | Open. Shared RWX volume (T3) or affinity. |
+| 6 | Passive/active is boot-time only | `HEARTBEAT_SCHEDULER_ENABLED` in `server/src/config.ts` | **Shipped** with item 2. The flag now means "contend for the lease"; `false` keeps the old never-schedule mode. |
 
 Existing coordination that already works across processes: advisory locks,
 `for update` row locks in the wake queue, compare-and-set run claims in
 `modules/run-dispatch`. No Redis is needed.
+
+Remaining limits:
+
+- Delivery-work queues registered with the heartbeat (`executionReplacement`,
+  `executionContinuation`) run on every replica with the scheduler enabled;
+  they rely on their own database claims, not on the leader lease.
+- A leader that loses its lease mid-tick finishes that tick. Overlap is bounded
+  by the TTL and is safe because run claims and reaping are fenced (item 1).
+- Runs owned by a process that predates the registry are treated as local
+  (existing PID rules) until they finish.
 
 `doc/plans/2026-10-08-instance-sleep-and-scheduler-inventory.md` already notes
 that multi-replica support requires shared fencing; this section is that work
@@ -231,17 +247,20 @@ item made concrete.
 
 1. Run **T1** now on every platform, with agents on the Kubernetes or a hosted
    sandbox provider. It needs no code change.
-2. Use **T2** for production deploys, with green passive until blue stops.
-3. Ship §6 items 1–4, then enable **T3** where load or availability requires
-   it.
+2. Use **T2** for production deploys: green boots as a lease standby and
+   takes over scheduling when blue stops, without a restart.
+3. Enable **T3** where load or availability requires it, once item 5 (shared
+   `PAPERCLIP_HOME`) is in place.
 4. Use **T4** when tenants need hard isolation.
 
 ## 8. Verification
 
 - T1/T2: `/api/health` on the target instance; start a run from the board UI
   and confirm it lands in the expected execution environment lease.
-- T3 (after §6): a two-instance integration test where instance B must not
-  reap instance A's live run; then a UI failover check: start a run, kill the
+- T3: the two-instance integration tests in
+  `server/src/__tests__/heartbeat-process-recovery.test.ts` ("two server
+  instances on one database") prove instance B does not reap or take over
+  instance A's live run; then a UI failover check: start a run, kill the
   owning replica, confirm the scheduler lease moves and the run is recovered,
   not reaped, by the new owner.
 - IaC: `helm lint`/`helm template` per values file, `terraform validate`,

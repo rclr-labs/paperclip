@@ -1,10 +1,12 @@
 import { randomUUID } from "node:crypto";
 import { and, eq, gt, lte, sql } from "drizzle-orm";
 import { heartbeatRuns, livenessDb, type Db } from "@paperclipai/db";
+import { serverBootId } from "./server-instance-registry.js";
 import type { LegacyControllerLeaseLossCause, LegacyControllerLeaseLossTiming } from "./run-cancellation.js";
 
-// A boot UUID has meaning across containers; a numeric PID does not.
-export const legacyControllerBootId = randomUUID();
+// A boot UUID has meaning across containers; a numeric PID does not. It is
+// the process's registry identity, so other replicas can resolve its host.
+export const legacyControllerBootId = serverBootId;
 export const LEGACY_CONTROLLER_LEASE_MS = 60_000;
 export const LEGACY_CONTROLLER_RENEW_MS = 10_000;
 
