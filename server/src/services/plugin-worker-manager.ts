@@ -2722,6 +2722,14 @@ export function createPluginWorkerHandle(
     return null;
   }
 
+  /** [source, target] for a two-company worker→host call, else null. */
+  function referencedCompanyPair(method: string, params: unknown): [string, string] | null {
+    if (method !== "agents.clone" || !isRecord(params)) return null;
+    const source = readNonEmptyString(params.sourceCompanyId);
+    const target = readNonEmptyString(params.targetCompanyId);
+    return source && target ? [source, target] : null;
+  }
+
   function contextForWorkerMessage(message: JsonRpcRequest | JsonRpcNotification): WorkerHostCallContext {
     const invocationId = readNonEmptyString(
       (message as { paperclipInvocationId?: unknown }).paperclipInvocationId,
@@ -2740,6 +2748,20 @@ export function createPluginWorkerHandle(
       );
       if (proactiveCompanyId && proactiveCompanyScopes.has(proactiveCompanyId)) {
         return { invocationScope: { companyId: proactiveCompanyId } };
+      }
+      // A two-company call (agents.clone) is admitted proactively only when
+      // both of its companies are configured for the plugin. The host-owned
+      // admitted set lets the SDK gate check each end; a host-issued
+      // invocation (above, with an id) stays strictly single-company.
+      const proactiveCompanyPair = referencedCompanyPair(
+        message.method,
+        (message as { params?: unknown }).params,
+      );
+      if (proactiveCompanyPair && proactiveCompanyPair.every((companyId) => proactiveCompanyScopes.has(companyId))) {
+        return {
+          invocationScope: { companyId: proactiveCompanyPair[1] },
+          admittedCompanyIds: proactiveCompanyPair,
+        };
       }
       const hasActiveInvocation = activeInvocations.size > 0 ||
         Array.from(pendingRequests.values()).some((pending) => pending.invocationId);
