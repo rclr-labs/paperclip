@@ -23,6 +23,7 @@ import { redactSensitiveText } from "../../redaction.js";
 import { issueRecoveryActionService } from "../issue-recovery-actions.js";
 import { isNewTerminalRunFailure, reportRunFailure } from "../run-failure-report.js";
 import { isNativeRunnerOwnershipHeld } from "./native-runner-ownership.js";
+import { resolveServerOwner, serverBootId } from "../server-instance-registry.js";
 import { nativeRestartInterruptedTurnId, type PersistedNativeSession } from "../../vendor/paperclip-runner/index.js";
 
 export type NativeControllerIdentity = {
@@ -95,7 +96,8 @@ export function nextNativeProviderAttempt(
     : currentAttempt + 1;
 }
 
-const controllerBootId = randomUUID();
+// The process registry identity (see server-instance-registry.ts).
+const controllerBootId = serverBootId;
 
 function processIsAlive(pid: number | null | undefined): boolean {
   if (!pid || !Number.isInteger(pid) || pid <= 0) return false;
@@ -580,11 +582,30 @@ export async function claimNativeRestartRecoveries(input: {
         } as const;
       }
 
+      // Another live server process that still holds this coordinator's
+      // lease owns the run. Leave it untouched: no disposition, no event.
+      const owner = await resolveServerOwner(
+        tx as unknown as Db,
+        row.coordinator.controllerBootId,
+      );
+      if (
+        owner.kind === "foreign" &&
+        owner.alive &&
+        !!row.coordinator.leaseExpiresAt &&
+        row.coordinator.leaseExpiresAt > now
+      ) {
+        return null;
+      }
       const takeover = await evaluateNativeControllerTakeover({
         owner: row.coordinator,
         now,
         coordinatedPreviousController:
           input.coordinatedPreviousController ?? null,
+        // A PID recorded on another host cannot be probed from this one. The
+        // owner's registry and coordinator leases are the evidence instead.
+        ...(owner.kind === "foreign" && !owner.sameHost
+          ? { isProcessAlive: () => false }
+          : {}),
       });
       if (!takeover.allowed) {
         const event = historyEntry({
@@ -1086,7 +1107,7 @@ export async function claimNativeRestartRecoveries(input: {
     });
     if (terminalRunToReport)
       void reportRunFailure(input.db, terminalRunToReport);
-    dispositions.push(disposition);
+    if (disposition) dispositions.push(disposition);
   }
   return dispositions;
 }
