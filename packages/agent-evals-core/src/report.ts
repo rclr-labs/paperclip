@@ -56,11 +56,12 @@ export function summarizeArm(attempts: readonly AttemptResult[]): ArmSummary {
  * the instruction is decoration.
  */
 export function classifyAdmission(withArm: ArmSummary, ablated: ArmSummary, threshold: number): Admission {
-  // TODO(rafael): implement — see the trade-offs in the PR conversation.
-  void withArm;
-  void ablated;
-  void threshold;
-  throw new Error("classifyAdmission not implemented");
+  // Errors first: an arm that mostly timed out or crashed says nothing.
+  if (withArm.errored > withArm.attempts / 2 || ablated.errored > ablated.attempts / 2) return "inconclusive";
+  // The instruction itself must hold; a worse ablated arm does not excuse it.
+  if (withArm.passRate < threshold) return "regressed";
+  if (ablated.passRate >= threshold) return "decorative";
+  return "admitted";
 }
 
 export function buildScenarioReport(scenario: Pick<EvalScenario, "id" | "threshold">, attempts: readonly AttemptResult[]): ScenarioReport {
