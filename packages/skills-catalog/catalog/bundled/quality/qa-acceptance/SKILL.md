@@ -1,6 +1,6 @@
 ---
 name: qa-acceptance
-description: Use before any QA decision on a feature change — writing acceptance criteria, running or re-planning a verification pass (including when criteria are added mid-pass), signing off or accepting a change, waiving a failing criterion, or replying to the author with QA results. Covers golden path, edge cases, error states, performance limits, evidence rules and the Pass/Fail/Blocked handoff.
+description: Use before any QA decision on a feature change — writing acceptance criteria, planning or re-planning a verification pass, signing off, waiving a failing criterion, or replying to the author with results. Covers edge cases, evidence rules and the Pass/Fail/Blocked handoff.
 key: paperclipai/bundled/quality/qa-acceptance
 recommendedForRoles:
   - qa
