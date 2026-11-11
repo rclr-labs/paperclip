@@ -2,7 +2,10 @@
 /**
  * Local instruction-eval loop (headless tier).
  *
- *   pnpm evals:agents [--scenario <file-or-dir>] [--repeat N] [--max-dollars D] [--keep]
+ *   pnpm evals:agents [--scenario <file-or-dir>] [--repeat N] [--model M] [--max-dollars D] [--judge [--judge-model M]] [--keep]
+ *
+ * Rubric criteria are only graded with --judge (opt-in: transcripts are sent to
+ * the Anthropic API for grading). Without it, only hard checks decide.
  *
  * Scenarios default to `evals/agents/scenarios`. Results go to
  * `evals/agents/results/<timestamp>/` (gitignored).
@@ -12,6 +15,7 @@ import path from "node:path";
 import { parseArgs } from "node:util";
 import type { EvalBundle } from "./arms.js";
 import { loadAgentBundleFromDir, loadSkillBundle } from "./bundle-loader.js";
+import { createAnthropicJudge, createClaudeCliJudge, DEFAULT_JUDGE_MODEL } from "./judge.js";
 import { renderMarkdownReport, type ScenarioReport } from "./report.js";
 import { runScenario } from "./run.js";
 import { parseScenario, type EvalScenario } from "./scenario.js";
@@ -55,6 +59,9 @@ async function main() {
       model: { type: "string" },
       "max-dollars": { type: "string", default: "5" },
       keep: { type: "boolean", default: false },
+      judge: { type: "boolean", default: false },
+      "judge-model": { type: "string", default: DEFAULT_JUDGE_MODEL },
+      "judge-backend": { type: "string", default: "cli" },
     },
   });
   const maxDollars = Number(values["max-dollars"]);
@@ -70,6 +77,18 @@ async function main() {
 
   const reports: ScenarioReport[] = [];
   let spent = 0;
+  const judgeTokens = { inputTokens: 0, outputTokens: 0 };
+  const onJudgeUsage = (u: { inputTokens: number; outputTokens: number; costUsd?: number | null }) => {
+    judgeTokens.inputTokens += u.inputTokens;
+    judgeTokens.outputTokens += u.outputTokens;
+    spent += u.costUsd ?? 0;
+  };
+  // "cli" reuses the claude CLI login; "api" needs ANTHROPIC_API_KEY (and is what the plugin uses).
+  const judge = !values.judge
+    ? undefined
+    : values["judge-backend"] === "api"
+      ? createAnthropicJudge({ model: values["judge-model"], onUsage: onJudgeUsage })
+      : createClaudeCliJudge({ model: values["judge-model"], onUsage: onJudgeUsage });
   for (const scenario of scenarios) {
     if (!scenario.tiers.includes("headless")) continue;
     const bundle = await resolveBundle(scenario, values.model);
@@ -77,6 +96,7 @@ async function main() {
     const { report, attempts } = await runScenario({
       scenario,
       bundle,
+      judge,
       execute: async (arm, s, repetition) => {
         if (spent >= maxDollars) throw new Error(`budget of $${maxDollars} reached`);
         const trace = await runHeadless(arm.bundle, { prompt: s.prompt, maxTurns: s.max_turns, keepWorkDir: values.keep });
@@ -91,8 +111,12 @@ async function main() {
   }
   const markdown = renderMarkdownReport(reports);
   await fs.writeFile(path.join(outDir, "report.md"), markdown);
-  await fs.writeFile(path.join(outDir, "report.json"), JSON.stringify({ reports, spentUsd: spent }, null, 2));
-  process.stdout.write(`${markdown}\nResults: ${path.relative(repoRoot, outDir)}  (spent $${spent.toFixed(2)})\n`);
+  const judgeSummary = judge ? { model: values["judge-model"], ...judgeTokens } : null;
+  await fs.writeFile(path.join(outDir, "report.json"), JSON.stringify({ reports, spentUsd: spent, judge: judgeSummary }, null, 2));
+  const judgeLine = judgeSummary
+    ? `, judge ${judgeSummary.model}: ${judgeSummary.inputTokens} in / ${judgeSummary.outputTokens} out tokens`
+    : ", rubric not graded (pass --judge)";
+  process.stdout.write(`${markdown}\nResults: ${path.relative(repoRoot, outDir)}  (total $${spent.toFixed(2)}, agent + judge${judgeLine})\n`);
   if (reports.some((r) => r.admission === "regressed")) process.exitCode = 1;
 }
 

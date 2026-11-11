@@ -6,3 +6,4 @@ export * from "./report.js";
 export * from "./tiers/headless.js";
 export * from "./bundle-loader.js";
 export * from "./run.js";
+export * from "./judge.js";
