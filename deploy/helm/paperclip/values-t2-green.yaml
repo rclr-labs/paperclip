@@ -1,0 +1,55 @@
+# T2 — green release of a blue/green pair (§2 T2). Layer on top of the same
+# files the blue release uses:
+#   helm upgrade --install paperclip-green . \
+#     -f values-t1.yaml -f values-prod.yaml -f values-t2-green.yaml \
+#     --set persistence.existingClaim=<blue release>-paperclip-home \
+#     --set image.digest=<new digest>
+#
+# Green boots PASSIVE: no heartbeat service, no reaping, no scheduling. It
+# shares blue's database and PAPERCLIP_HOME volume. Promotion order (never two
+# schedulers at once):
+#   1. helm install green (this file)      -> /api/health + smoke test
+#   2. drain blue (POST /api/instance/task-drain), wait quiescent
+#   3. kubectl scale deploy/<blue> --replicas=0
+#   4. helm upgrade green --set scheduler.enabled=true   (Recreate restarts it)
+#   5. flip the stable Service: service.selectorOverride -> color=green
+#   rollback: scale green to 0, then scale blue back to 1.
+#
+# Volume: an RWO PVC can only attach to one node. Either use an RWX class
+# (Filestore / EFS) for the shared claim, or pin both releases to one node
+# via `affinity` below.
+topology: t2
+color: green
+scheduler:
+  enabled: false
+
+# The new image applies pending migrations at boot (no TTY => auto-apply).
+# Migrations must stay backward compatible with blue's image (§5).
+server:
+  migrationAutoApply: true
+
+persistence:
+  enabled: true
+  # Required: blue's claim. Set with --set persistence.existingClaim=...
+  existingClaim: ""
+
+# Green's own Service selects green pods (null clears an env file's override,
+# e.g. values-prod.yaml pins the stable Service to blue).
+service:
+  selectorOverride: null
+
+# Green has no public route until cutover; the stable Service/Ingress belongs
+# to the blue release (or a dedicated router release) and is flipped with
+# service.selectorOverride.
+ingress:
+  enabled: false
+
+# Keep green on the node that holds the RWO volume. Replace with RWX to drop.
+affinity:
+  podAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: paperclip
+            paperclip.dev/color: blue
+        topologyKey: kubernetes.io/hostname

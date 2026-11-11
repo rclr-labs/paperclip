@@ -1,0 +1,40 @@
+# dev — throwaway cluster. One database per environment, never shared (§5).
+image:
+  tag: latest
+  pullPolicy: Always
+
+server:
+  publicUrl: https://paperclip.dev.example.com
+  deploymentExposure: private
+
+storage:
+  s3:
+    bucket: paperclip-dev-attachments
+runLogs:
+  s3:
+    bucket: paperclip-dev-attachments
+
+persistence:
+  size: 20Gi
+  retain: false
+
+# Own sandbox namespaces so dev runs cannot touch other environments' leases.
+execution:
+  kubernetes:
+    namespacePrefix: paperclip-dev-
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 1Gi
+  limits:
+    memory: 3Gi
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: paperclip.dev.example.com
+      paths:
+        - path: /
+          pathType: Prefix

@@ -1,0 +1,15 @@
+apiVersion: v2
+name: paperclip
+description: Paperclip control plane (T1 single server, T2 blue/green; T3 multi-replica gated until fencing ships)
+type: application
+version: 0.1.0
+# The image tag is set per environment (values-*.yaml or --set image.tag/digest).
+appVersion: "latest"
+kubeVersion: ">=1.27.0-0"
+home: https://github.com/paperclipai/paperclip
+sources:
+  - https://github.com/paperclipai/paperclip/tree/master/deploy/helm/paperclip
+keywords:
+  - paperclip
+  - ai-agents
+  - control-plane

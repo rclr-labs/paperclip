@@ -1,0 +1,89 @@
+{{- /*
+RBAC for PAPERCLIP_EXECUTION_MODE=kubernetes (in-cluster sandbox provider).
+
+packages/plugins/sandbox-providers/kubernetes/manifests/operator-prerequisites.yaml
+lists the cluster prerequisites (k8s 1.27+, stable APIs only, optional
+agent-sandbox CRD / Cilium / kata) but ships no RBAC objects, so the rules
+below are derived from the client calls in
+packages/plugins/sandbox-providers/kubernetes/src (tenant-orchestrator.ts,
+sandbox-cr-orchestrator.ts, job orchestrator, pod-exec.ts, file-sync.ts,
+scoped-network-egress.ts).
+
+Cluster-scoped on purpose: the server creates one `<namespacePrefix><company>`
+namespace per company lazily and then writes into it, so a namespaced Role
+cannot cover namespaces that do not exist yet.
+
+Escalation note: the server creates a per-tenant Role granting `get pods/log`.
+Kubernetes refuses to let a subject create a Role with permissions it does not
+hold itself, which is why `pods/log get` is in this ClusterRole too.
+*/ -}}
+{{- if and .Values.rbac.create (eq .Values.execution.mode "kubernetes") }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "paperclip.fullname" . }}-sandbox-provider
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+rules:
+  # Tenant namespace bootstrap (readNamespace / createNamespace).
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["get", "create"]
+  # Tenant baseline objects.
+  - apiGroups: [""]
+    resources: ["serviceaccounts", "resourcequotas", "limitranges"]
+    verbs: ["get", "create"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["roles", "rolebindings"]
+    verbs: ["get", "create"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "create", "delete"]
+  # Per-run env Secret (bootstrap token + adapter keys), owned by the Job/CR.
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "create", "delete"]
+  # Run pods: lookup, logs, cleanup.
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch", "delete"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get"]
+  # Multi-command exec + file sync into the sandbox pod (WebSocket exec needs
+  # both verbs on recent API servers).
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create", "get"]
+  # `job` backend.
+  - apiGroups: ["batch"]
+    resources: ["jobs", "jobs/status"]
+    verbs: ["get", "create", "delete"]
+  {{- if .Values.rbac.sandboxCr }}
+  # `sandbox-cr` backend (kubernetes-sigs/agent-sandbox).
+  - apiGroups: ["agents.x-k8s.io"]
+    resources: ["sandboxes"]
+    verbs: ["get", "create", "delete"]
+  {{- end }}
+  {{- if .Values.rbac.cilium }}
+  # egressMode=cilium and task-scoped FQDN egress grants.
+  - apiGroups: ["cilium.io"]
+    resources: ["ciliumnetworkpolicies"]
+    verbs: ["get", "create", "delete"]
+  {{- end }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "paperclip.fullname" . }}-sandbox-provider
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "paperclip.fullname" . }}-sandbox-provider
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "paperclip.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

@@ -1,0 +1,18 @@
+Paperclip {{ .Values.topology | upper }} release "{{ .Release.Name }}" (replicas={{ .Values.replicaCount }}, scheduler={{ .Values.scheduler.enabled }}{{ with .Values.color }}, color={{ . }}{{ end }}).
+
+Health:
+  kubectl -n {{ .Release.Namespace }} port-forward svc/{{ include "paperclip.fullname" . }} 3100:{{ .Values.service.port }}
+  curl -fsS http://127.0.0.1:3100/api/health
+
+{{- if not .Values.scheduler.enabled }}
+
+This release is PASSIVE (HEARTBEAT_SCHEDULER_ENABLED=false). It serves API
+reads but neither schedules wakeups nor reaps runs. The flag is read at boot:
+promote with `helm upgrade ... --set scheduler.enabled=true` only AFTER the
+active release has been stopped (Recreate strategy restarts the pod).
+{{- end }}
+{{- if eq .Values.execution.mode "kubernetes" }}
+
+Execution mode: kubernetes (in-cluster). Agent pods land in
+"{{ .Values.execution.kubernetes.namespacePrefix }}<company>" namespaces.
+{{- end }}

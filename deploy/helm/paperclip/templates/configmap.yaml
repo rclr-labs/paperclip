@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "paperclip.fullname" . }}
+  labels:
+    {{- include "paperclip.labels" . | nindent 4 }}
+data:
+  HOST: "0.0.0.0"
+  PORT: {{ .Values.service.port | quote }}
+  SERVE_UI: "true"
+  PAPERCLIP_HOME: /paperclip
+  PAPERCLIP_DEPLOYMENT_MODE: {{ .Values.server.deploymentMode | quote }}
+  PAPERCLIP_DEPLOYMENT_EXPOSURE: {{ .Values.server.deploymentExposure | quote }}
+  {{- with .Values.server.publicUrl }}
+  PAPERCLIP_PUBLIC_URL: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.server.apiUrl }}
+  PAPERCLIP_API_URL: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.server.runnerPublicUrl }}
+  PAPERCLIP_RUNNER_PUBLIC_URL: {{ . | quote }}
+  {{- end }}
+  PAPERCLIP_MIGRATION_AUTO_APPLY: {{ .Values.server.migrationAutoApply | quote }}
+  {{- if not .Values.server.migrationAutoApply }}
+  PAPERCLIP_MIGRATION_PROMPT: "never"
+  {{- end }}
+  HEARTBEAT_SCHEDULER_ENABLED: {{ .Values.scheduler.enabled | quote }}
+  PAPERCLIP_SECRETS_PROVIDER: {{ .Values.secrets.provider | quote }}
+  PAPERCLIP_SECRETS_STRICT_MODE: {{ .Values.secrets.strictMode | quote }}
+  PAPERCLIP_STORAGE_PROVIDER: {{ .Values.storage.provider | quote }}
+  {{- if eq .Values.storage.provider "s3" }}
+  PAPERCLIP_STORAGE_S3_BUCKET: {{ .Values.storage.s3.bucket | quote }}
+  PAPERCLIP_STORAGE_S3_REGION: {{ .Values.storage.s3.region | quote }}
+  {{- with .Values.storage.s3.endpoint }}
+  PAPERCLIP_STORAGE_S3_ENDPOINT: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.storage.s3.prefix }}
+  PAPERCLIP_STORAGE_S3_PREFIX: {{ . | quote }}
+  {{- end }}
+  PAPERCLIP_STORAGE_S3_FORCE_PATH_STYLE: {{ .Values.storage.s3.forcePathStyle | quote }}
+  {{- end }}
+  {{- if .Values.runLogs.s3.enabled }}
+  RUN_LOG_S3_BUCKET: {{ .Values.runLogs.s3.bucket | quote }}
+  RUN_LOG_S3_REGION: {{ .Values.runLogs.s3.region | quote }}
+  {{- with .Values.runLogs.s3.endpoint }}
+  RUN_LOG_S3_ENDPOINT: {{ . | quote }}
+  {{- end }}
+  RUN_LOG_S3_PREFIX: {{ .Values.runLogs.s3.prefix | quote }}
+  RUN_LOG_S3_FORCE_PATH_STYLE: {{ .Values.runLogs.s3.forcePathStyle | quote }}
+  {{- end }}
+  {{- with .Values.execution.mode }}
+  PAPERCLIP_EXECUTION_MODE: {{ . | quote }}
+  {{- end }}
+  {{- if eq .Values.execution.mode "kubernetes" }}
+  {{- $k := .Values.execution.kubernetes }}
+  # The server runs inside the cluster it dispatches to.
+  PAPERCLIP_K8S_IN_CLUSTER: "true"
+  PAPERCLIP_K8S_BACKEND: {{ $k.backend | quote }}
+  PAPERCLIP_K8S_NAMESPACE_PREFIX: {{ $k.namespacePrefix | quote }}
+  PAPERCLIP_K8S_EGRESS_MODE: {{ $k.egressMode | quote }}
+  {{- with $k.runtimeClassName }}
+  PAPERCLIP_K8S_RUNTIME_CLASS_NAME: {{ . | quote }}
+  {{- end }}
+  {{- with $k.imageRegistry }}
+  PAPERCLIP_K8S_IMAGE_REGISTRY: {{ . | quote }}
+  {{- end }}
+  {{- with $k.adapterType }}
+  PAPERCLIP_K8S_ADAPTER_TYPE: {{ . | quote }}
+  {{- end }}
+  {{- with $k.egressAllowFqdns }}
+  PAPERCLIP_K8S_EGRESS_ALLOW_FQDNS: {{ join "," . | quote }}
+  {{- end }}
+  {{- with $k.egressAllowCidrs }}
+  PAPERCLIP_K8S_EGRESS_ALLOW_CIDRS: {{ join "," . | quote }}
+  {{- end }}
+  {{- with $k.rpcTimeoutMs }}
+  PAPERCLIP_K8S_RPC_TIMEOUT_MS: {{ . | quote }}
+  {{- end }}
+  {{- end }}
+  {{- with .Values.execution.managedConfig }}
+  PAPERCLIP_MANAGED_CONFIG: {{ . | quote }}
+  {{- end }}
+  {{- range $k, $v := .Values.server.extraEnv }}
+  {{ $k }}: {{ $v | quote }}
+  {{- end }}

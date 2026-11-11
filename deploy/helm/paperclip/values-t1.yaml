@@ -1,0 +1,44 @@
+# T1 — single server + managed Postgres + object storage + remote execution.
+# Recommended topology today (§2 T1, §7). Layer an environment file on top:
+#   helm upgrade --install paperclip . -f values-t1.yaml -f values-prod.yaml
+topology: t1
+replicaCount: 1
+scheduler:
+  enabled: true
+
+storage:
+  provider: s3
+  s3:
+    # Set per environment (values-<env>.yaml or Terraform).
+    bucket: paperclip-attachments
+    region: us-east-1
+
+runLogs:
+  s3:
+    enabled: true
+    bucket: paperclip-attachments
+    region: us-east-1
+    prefix: run-logs
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 50Gi
+
+# DATABASE_URL, BETTER_AUTH_SECRET, PAPERCLIP_SECRETS_MASTER_KEY, ...
+envSecret:
+  existingSecret: paperclip-env
+
+# Agents run off-host. kubernetes = in-cluster sandbox pods (needs RBAC below).
+# Leave empty and register ssh / hosted-sandbox environments from the board
+# when the cluster should not run agents.
+execution:
+  mode: kubernetes
+  kubernetes:
+    backend: sandbox-cr
+    namespacePrefix: paperclip-
+    egressMode: standard
+
+rbac:
+  create: true
+  sandboxCr: true

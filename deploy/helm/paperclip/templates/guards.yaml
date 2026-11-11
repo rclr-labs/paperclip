@@ -1,0 +1,2 @@
+{{- /* Renders nothing; fails the release on unsafe values. See _helpers.tpl. */ -}}
+{{- include "paperclip.guards" . -}}

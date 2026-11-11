@@ -1,0 +1,52 @@
+# T3 — N API replicas + singleton scheduler + shared RWX volume (§2 T3).
+#
+# BLOCKED until §6 fencing ships (owner-instance orphan reaping, scheduler
+# leader lease, advisory start locks, cross-replica live events). The chart
+# refuses replicaCount > 1 while fencing.enabled=false:
+#
+#   helm template x . -f values-t3.yaml --set replicaCount=2   # => fails
+#
+# This file therefore renders the T3 *shape* (RWX volume, object storage,
+# in-cluster execution) at replicaCount=1, so the infrastructure can be
+# provisioned and measured (git worktrees on NFS are slower; measure workspace
+# setup time first) before the code lands.
+topology: t3
+replicaCount: 1
+fencing:
+  enabled: false
+scheduler:
+  enabled: true
+
+storage:
+  provider: s3
+  s3:
+    bucket: paperclip-attachments
+    region: us-east-1
+
+runLogs:
+  s3:
+    enabled: true
+    bucket: paperclip-attachments
+    region: us-east-1
+    prefix: run-logs
+
+persistence:
+  enabled: true
+  # Filestore (GKE) / EFS (EKS) / any RWX class.
+  accessMode: ReadWriteMany
+  size: 1Ti
+  storageClass: ""
+
+envSecret:
+  existingSecret: paperclip-env
+
+execution:
+  mode: kubernetes
+  kubernetes:
+    backend: sandbox-cr
+    namespacePrefix: paperclip-
+    egressMode: standard
+
+rbac:
+  create: true
+  sandboxCr: true

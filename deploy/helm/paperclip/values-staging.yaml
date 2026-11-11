@@ -1,0 +1,35 @@
+# staging — same image digest that will be promoted to prod (§5).
+image:
+  # Set by CI: --set image.digest=sha256:...
+  digest: ""
+
+server:
+  publicUrl: https://paperclip.staging.example.com
+  deploymentExposure: private
+
+storage:
+  s3:
+    bucket: paperclip-staging-attachments
+runLogs:
+  s3:
+    bucket: paperclip-staging-attachments
+
+persistence:
+  size: 50Gi
+
+execution:
+  kubernetes:
+    namespacePrefix: paperclip-stg-
+
+ingress:
+  enabled: true
+  className: nginx
+  hosts:
+    - host: paperclip.staging.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: paperclip-staging-tls
+      hosts:
+        - paperclip.staging.example.com
