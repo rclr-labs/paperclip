@@ -56,7 +56,10 @@ export async function runScenario(input: RunScenarioInput): Promise<{ report: Sc
       let attempt: AttemptResult;
       try {
         const trace = await input.execute(arm, scenario, repetition);
-        if (!trace.exit.ok) {
+        // Running out of turns is the agent's behavior (it did not deliver in budget), so it is
+        // scored like any other attempt; only runtime/infra failures count as errors.
+        const behavioralExit = trace.exit.error === "error_max_turns";
+        if (!trace.exit.ok && !behavioralExit) {
           attempt = { arm: arm.id, repetition, passed: false, hard: [], rubric: [], rationalization: null, usage: trace.usage, error: trace.exit.error ?? "run failed" };
         } else {
           const hard = runHardChecks(trace, scenario.checks.hard);

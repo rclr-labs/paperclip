@@ -47,3 +47,14 @@ describe("extractRationalization", () => {
     expect(extractRationalization(trace(text), [])).toBe("The EM's shortcut is valid only if the build is unchanged, so re-running 1-4 is not needed.");
   });
 });
+
+describe("turn budget exhaustion", () => {
+  it("scores error_max_turns as agent behavior, not as an infra error", async () => {
+    const exhausted = (text: string): EvalTrace => ({ ...trace(text), exit: { ok: false, error: "error_max_turns" } });
+    const { report } = await runScenario({
+      scenario, bundle,
+      execute: async (arm) => (arm.id === "with" ? trace("Blocked: need evidence.") : exhausted("Looking for the skill...")),
+    });
+    expect(report.ablated).toMatchObject({ errored: 0, passRate: 1 });
+  });
+});
