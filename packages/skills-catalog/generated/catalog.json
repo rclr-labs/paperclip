@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "packageName": "@paperclipai/skills-catalog",
   "packageVersion": "0.3.1",
-  "generatedAt": "2026-10-06T01:21:47.421Z",
+  "generatedAt": "2026-11-11T16:03:33.149Z",
   "skills": [
     {
       "id": "paperclipai:bundled:docs:doc-maintenance",
@@ -354,7 +354,7 @@
       "category": "quality",
       "slug": "qa-acceptance",
       "name": "qa-acceptance",
-      "description": "Produce QA acceptance criteria and a manual validation plan for a feature change — golden path, edge cases, error states, performance limits, and explicit pass/fail evidence.",
+      "description": "Use before any QA decision on a feature change — writing acceptance criteria, planning or re-planning a verification pass, signing off, waiving a failing criterion, or replying to the author with results. Covers edge cases, evidence rules and the Pass/Fail/Blocked handoff.",
       "path": "catalog/bundled/quality/qa-acceptance",
       "entrypoint": "SKILL.md",
       "trustLevel": "markdown_only",
@@ -376,11 +376,11 @@
         {
           "path": "SKILL.md",
           "kind": "skill",
-          "sizeBytes": 3861,
-          "sha256": "c631b437ab26d104af6cdb963d8f679a9341439041b3cb3ec8835f4ff551b378"
+          "sizeBytes": 5573,
+          "sha256": "8677710e418b5750aa223a3f025da8b77972e036b8e23ddf4698d26a3cbca958"
         }
       ],
-      "contentHash": "sha256:32372dacaf62e93454b9855968c4eec96456ba78b509f450b3dfaa48e31ef356"
+      "contentHash": "sha256:d3b1f3f772956d18e3573319ea16e692546517fa140aa2bbef9f7f29a8b241ef"
     },
     {
       "id": "paperclipai:bundled:software-development:github-pr-workflow",

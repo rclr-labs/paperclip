@@ -1,0 +1,43 @@
+{
+  "name": "@paperclipai/agent-evals-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Instruction-level agent evals (with/ablated arms, pressure scenarios) shared by the agent-evals plugin and the local CLI",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "publishConfig": {
+    "access": "public",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "engines": {
+    "node": ">=24.11.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.129.0",
+    "yaml": "^2",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
