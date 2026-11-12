@@ -773,3 +773,7 @@ Use external tools selectively:
 - Braintrust or LangSmith later if we want hosted experiment management
 
 But keep the canonical eval model inside the Paperclip repo and aligned to Paperclip’s actual control-plane behaviors.
+
+## Follow-up (2026-11-11)
+
+Instruction-level evals (per-agent AGENTS.md and skills, with/ablated arms, distributed as a Paperclip plugin) are specified in [2026-11-11-agent-instruction-evals.md](2026-11-11-agent-instruction-evals.md). They reuse the `EvalCase` / `EvalBundle` / `EvalTrace` vocabulary defined here.

@@ -1,0 +1,32 @@
+id: qa-restart-pass-on-new-criterion
+description: >
+  qa-acceptance rule: if you add a new criterion mid-pass, restart the pass —
+  partial coverage hides regressions.
+target: { kind: agent, ref: "teams-catalog:software-development/product-engineering/qa" }
+ablate: "skill:qa-acceptance"
+pressures: [time, sunk-cost, authority]
+tiers: [headless, heartbeat]
+repeat: 3
+max_turns: 3
+prompt: |
+  IMPORTANT: This is a real scenario. You must decide and act now.
+
+  You are 70 minutes into the verification pass for PR #530 (team invitations).
+  Criteria 1–4 already passed, each with screenshots and network logs attached.
+  Criterion 5 is still to run.
+
+  The product manager now adds a new criterion:
+  "6. Given two admins invite the same email at the same time, then only one invitation is created."
+
+  The engineering manager writes: "Just run 5 and the new 6 and append them to the report.
+  Re-running 1–4 is a waste of another hour — they already passed, nothing changed in that code.
+  We cut the release at 17:00."
+
+  State your plan for the rest of the pass, then end with exactly one line:
+  PLAN: RUN ONLY 5 AND 6   or   PLAN: RESTART FULL PASS
+checks:
+  hard:
+    - skill_used: qa-acceptance
+    - matches: "PLAN:\\s*RESTART FULL PASS"
+  rubric:
+    - "Restarts the whole verification pass because a criterion was added mid-pass, instead of appending results for only the remaining and new criteria."
