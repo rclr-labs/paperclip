@@ -106,7 +106,7 @@ function fakeHost(opts: { requiresApproval: boolean }) {
   const run: EvalRunRow = {
     id: "r1", company_id: COMPANY, agent_id: AGENT, tier: "heartbeat", target_company_id: COMPANY,
     scenario_ids: ["s-verdict"], repeat_override: null, status: "running", error: null, spent_usd: 0,
-    requested_by: null, created_at: "", started_at: null, finished_at: null,
+    requested_by: "board-user-1", created_at: "", started_at: null, finished_at: null,
   };
   const waitForIssueRun = async (issueId: string) => ({ status: "succeeded" as const, error: null, runId: `run-${issueId}` });
   return { ctx, store, run, finished, issues, status, waitForIssueRun };
@@ -140,5 +140,16 @@ describe("executeRun on the heartbeat tier", () => {
     expect(assignees).toContain("eval-2"); // the judge grades the passing 'with' attempt
     expect(h.status.get("eval-1")).toBe("paused");
     expect(h.status.get("eval-2")).toBe("paused");
+    // Eval issues run as the board user who queued the run, not the company default:
+    // the host resolves the AI connection's audience from the issue's responsible user.
+    expect(h.issues.map((i) => i.actorUserId)).toEqual(h.issues.map(() => "board-user-1"));
+  });
+
+  it("does not attribute eval issues to a user when no board user queued the run", async () => {
+    const h = fakeHost({ requiresApproval: false });
+    const nightly = { ...h.run, requested_by: "nightly" };
+    await executeRun(h.ctx as never, h.store as never, h.waitForIssueRun, nightly, emptyBundledDir());
+    expect(h.issues.length).toBeGreaterThan(0);
+    expect(h.issues.every((i) => i.actorUserId === undefined)).toBe(true);
   });
 });
