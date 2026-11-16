@@ -12,7 +12,7 @@ import {
 } from "../../../../server/src/services/plugin-database.js";
 import type { EvalArm, EvalScenario } from "@paperclipai/agent-evals-core";
 import manifest from "../src/manifest.js";
-import { createHeartbeatExecutor, traceFromRunEvents } from "../src/heartbeat-tier.js";
+import { createHeartbeatExecutor, readWholeRunLog, traceFromRunEvents, traceFromRunLog } from "../src/heartbeat-tier.js";
 import { loadBundledScenarios } from "../src/scenarios.js";
 import { createStore } from "../src/store.js";
 import { registerAgentEvals } from "../src/worker.js";
@@ -178,6 +178,43 @@ describe("heartbeat tier", () => {
     const { ctx } = fakeCtx();
     const exec = createHeartbeatExecutor({ ctx: ctx as never, waitForRun: async () => ({ status: "succeeded", error: null }), sourceAgentId: AGENT, sourceCompanyId: COMPANY, targetCompanyId: EVAL_COMPANY });
     await expect(exec(arm("ablated"), { ...scenario, ablate: "skill:qa-acceptance" })).rejects.toThrow(/only ablate instructions/);
+  });
+
+  it("rebuilds the trace from the run log, where the host keeps adapter stdout, even when chunks split a JSON line", () => {
+    // The host stores adapter stdout in the run log as NDJSON records
+    // ({ ts, stream, chunk, seq }); run events only carry structured lifecycle
+    // entries. Chunks are arbitrary slices of the CLI's stream-json.
+    const assistant = '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}\n';
+    const result = '{"type":"result","subtype":"success","is_error":false,"result":"Blocked.","total_cost_usd":0.031,"usage":{"input_tokens":10,"output_tokens":5}}\n';
+    const stdout = assistant + result;
+    const cut = assistant.length + 20;
+    const records = [
+      { ts: "t1", stream: "stdout", chunk: stdout.slice(0, 17), seq: 1 },
+      { ts: "t2", stream: "stderr", chunk: "[paperclip] warning\n", seq: 2 },
+      { ts: "t3", stream: "stdout", chunk: stdout.slice(17, cut), seq: 3 },
+      { ts: "t4", stream: "stdout", chunk: stdout.slice(cut), seq: 4 },
+    ];
+    const log = records.map((r) => JSON.stringify(r)).join("\n") + "\n";
+    const trace = traceFromRunLog(log, { status: "succeeded", error: null }, "run-9");
+    expect(trace).toMatchObject({ tier: "heartbeat", finalText: "Blocked.", runRef: "run-9", exit: { ok: true } });
+    expect(trace.assistantText).toBe("I will not approve.");
+    expect(trace.usage.costUsd).toBeCloseTo(0.031);
+  });
+
+  it("reads the whole run log through ctx.runs.readLog, following nextOffset", async () => {
+    const line = (chunk: string, seq: number) => `${JSON.stringify({ ts: "t", stream: "stdout", chunk, seq })}\n`;
+    const pages = [
+      { content: line('{"type":"result","subtype":"success","is_error":false,', 1), nextOffset: 100 },
+      { content: line('"result":"Done.","usage":{"input_tokens":1,"output_tokens":1}}\n', 2) },
+    ];
+    const offsets: number[] = [];
+    const runs = { readLog: async (_runId: string, _companyId: string, opts?: { offset?: number }) => {
+      offsets.push(opts?.offset ?? 0);
+      return pages[offsets.length - 1]!;
+    } };
+    const content = await readWholeRunLog(runs, "run-1", COMPANY);
+    expect(offsets).toEqual([0, 100]);
+    expect(traceFromRunLog(content, { status: "succeeded", error: null }, "run-1").finalText).toBe("Done.");
   });
 
   it("marks failed runs as errors, not behavior", () => {
