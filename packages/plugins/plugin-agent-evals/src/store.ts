@@ -1,5 +1,6 @@
 import type { PluginContext } from "@paperclipai/plugin-sdk";
 import type { AttemptResult, ScenarioReport } from "@paperclipai/agent-evals-core";
+import type { EvalAgentRecord, EvalAgentRegistry } from "./eval-agents.js";
 
 export type EvalTier = "headless" | "heartbeat";
 export type RunStatus = "queued" | "running" | "completed" | "failed";
@@ -93,6 +94,30 @@ export function createStore(ctx: Pick<PluginContext, "db">) {
          WHERE status IN ('completed', 'failed') ORDER BY company_id, agent_id, created_at DESC`,
       );
     },
+    /** Registry of eval agents (twins and judge) hired in each company. */
+    evalAgents: {
+      async find(companyId, role, ablation, sourceAgentId, sourceDigest) {
+        const rows = await ctx.db.query<EvalAgentRecord>(
+          `SELECT company_id, source_agent_id, role, ablation, source_digest, eval_agent_id, name FROM ${t("eval_agents")}
+           WHERE company_id = $1 AND role = $2 AND ablation = $3
+             AND ($4::uuid IS NULL OR source_agent_id = $4::uuid)
+             AND ($5::text IS NULL OR source_digest = $5::text)
+           ORDER BY created_at DESC LIMIT 1`,
+          [companyId, role, ablation, sourceAgentId, sourceDigest],
+        );
+        return rows[0] ?? null;
+      },
+      async save(r) {
+        await ctx.db.execute(
+          `INSERT INTO ${t("eval_agents")} (company_id, eval_agent_id, source_agent_id, role, ablation, source_digest, name)
+           VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (company_id, eval_agent_id) DO NOTHING`,
+          [r.company_id, r.eval_agent_id, r.source_agent_id, r.role, r.ablation, r.source_digest, r.name],
+        );
+      },
+      async remove(companyId, evalAgentId) {
+        await ctx.db.execute(`DELETE FROM ${t("eval_agents")} WHERE company_id = $1 AND eval_agent_id = $2`, [companyId, evalAgentId]);
+      },
+    } satisfies EvalAgentRegistry,
   };
 }
 

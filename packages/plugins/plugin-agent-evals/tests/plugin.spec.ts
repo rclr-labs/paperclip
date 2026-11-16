@@ -52,9 +52,12 @@ describe("manifest and migrations against the host validators", () => {
     expect(parsed.success ? [] : parsed.error.issues).toEqual([]);
   });
 
-  it("hard-codes the namespace the host derives and passes migration validation", () => {
+  it.each([
+    ["001_agent_evals.sql", 5], // 3 tables + 2 indexes
+    ["002_eval_agents.sql", 2], // 1 table + 1 index
+  ])("hard-codes the namespace the host derives and %s passes migration validation", (file, count) => {
     expect(namespace).toBe("plugin_agent_evals_1a9341c5d7");
-    const sql = readFileSync(path.resolve(here, "../migrations/001_agent_evals.sql"), "utf8");
+    const sql = readFileSync(path.resolve(here, "../migrations", file), "utf8");
     const statements = sql
       .split("\n")
       .filter((line) => !line.trim().startsWith("--"))
@@ -62,7 +65,7 @@ describe("manifest and migrations against the host validators", () => {
       .split(";")
       .map((s) => s.trim())
       .filter(Boolean);
-    expect(statements.length).toBe(5); // 3 tables + 2 indexes
+    expect(statements.length).toBe(count);
     for (const statement of statements) {
       expect(() => validatePluginMigrationStatement(statement, namespace, manifest.database!.coreReadTables ?? [])).not.toThrow();
     }
@@ -83,6 +86,10 @@ describe("manifest and migrations against the host validators", () => {
     await store.getRun(COMPANY, "r");
     await store.listResults("r");
     await store.latestRunPerAgent();
+    await store.evalAgents.find(COMPANY, "ablated", "instructions", AGENT, "d");
+    await store.evalAgents.find(COMPANY, "judge", "judge-v1", null, null);
+    await store.evalAgents.save({ company_id: COMPANY, source_agent_id: AGENT, role: "judge", ablation: "judge-v1", source_digest: "judge-v1", eval_agent_id: AGENT, name: "n" });
+    await store.evalAgents.remove(COMPANY, AGENT);
     for (const q of rec.queries) expect(() => validatePluginRuntimeQuery(q, namespace)).not.toThrow();
     for (const e of rec.executes) expect(() => validatePluginRuntimeExecute(e, namespace)).not.toThrow();
   });
@@ -171,11 +178,12 @@ describe("heartbeat tier", () => {
     return { ctx, clones, created, updates, logsRead };
   }
 
+  const TWIN = "66666666-6666-4666-8666-666666666666";
   function executor(ctx: unknown) {
     return createHeartbeatExecutor({
       ctx: ctx as never,
       waitForIssueRun: async (issueId) => ({ status: "succeeded", error: null, runId: `run-of-${issueId}` }),
-      sourceAgentId: AGENT,
+      agentFor: async (a) => (a.id === "with" ? AGENT : TWIN),
       companyId: COMPANY,
       projectId: PROJECT,
     });
@@ -200,24 +208,11 @@ describe("heartbeat tier", () => {
     expect(trace.assistantText).toBe("I will not approve.");
   });
 
-  it("delivers the 'ablated' arm the same way, to a clone with the instructions blanked, cloned once per scenario", async () => {
+  it("delivers the 'ablated' arm the same way, as an eval issue assigned to the twin, without a bare invoke", async () => {
     const { ctx, clones, created } = fakeCtx();
-    const exec = executor(ctx);
-    await exec(arm("ablated"), scenario);
-    await exec(arm("ablated"), scenario);
-    expect(clones).toHaveLength(1);
-    expect(clones[0]).toMatchObject({ sourceCompanyId: COMPANY, targetCompanyId: COMPANY, instructionsOverride: { entryFile: "AGENTS.md", content: "" } });
-    expect(created.map((c) => c.assigneeAgentId)).toEqual(["clone-1", "clone-1"]);
-  });
-
-  it("ablates skills by leaving them out of the clone, alongside blanked instructions", async () => {
-    const { ctx, clones } = fakeCtx();
-    await executor(ctx)(arm("ablated"), { ...scenario, ablate: ["instructions", "skill:release-checklist"] } as EvalScenario);
-    expect(clones[0]).toMatchObject({ instructionsOverride: { content: "" }, removeSkills: ["release-checklist"] });
-    const { ctx: ctx2, clones: clones2 } = fakeCtx();
-    await executor(ctx2)(arm("ablated"), { ...scenario, ablate: "skill:release-checklist" });
-    expect(clones2[0]).toMatchObject({ removeSkills: ["release-checklist"] });
-    expect(clones2[0]).not.toHaveProperty("instructionsOverride");
+    await executor(ctx)(arm("ablated"), scenario);
+    expect(clones).toHaveLength(0); // hiring twins is eval-agents' job, before any attempt runs
+    expect(created[0]).toMatchObject({ projectId: PROJECT, assigneeAgentId: TWIN, description: expect.stringContaining("Approve now.") });
   });
 
   it("closes the eval issue even when the run fails, and reports the failure as an error", async () => {
@@ -225,7 +220,7 @@ describe("heartbeat tier", () => {
     const exec = createHeartbeatExecutor({
       ctx: ctx as never,
       waitForIssueRun: async () => ({ status: "failed", error: "adapter crashed", runId: "r" }),
-      sourceAgentId: AGENT, companyId: COMPANY, projectId: PROJECT,
+      agentFor: async () => AGENT, companyId: COMPANY, projectId: PROJECT,
     });
     const trace = await exec(arm("with"), scenario);
     expect(trace.exit).toEqual({ ok: false, error: "adapter crashed" });

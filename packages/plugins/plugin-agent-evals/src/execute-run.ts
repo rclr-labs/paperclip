@@ -3,10 +3,13 @@ import {
   DEFAULT_JUDGE_MODEL,
   runHeadless,
   runScenario,
+  type EvalScenario,
   type ExecuteAttempt,
   type JudgeAttempt,
 } from "@paperclipai/agent-evals-core";
 import type { PluginContext } from "@paperclipai/plugin-sdk";
+import { AwaitingApprovalError, createEvalAgents, type EvalAgents } from "./eval-agents.js";
+import { createHeartbeatJudge } from "./heartbeat-judge.js";
 import { createHeartbeatExecutor, heartbeatTierAvailability, type WaitForIssueRun } from "./heartbeat-tier.js";
 import { EVALS_PROJECT_KEY } from "./manifest.js";
 import { loadInstanceAgentBundle } from "./instance-bundle.js";
@@ -39,6 +42,7 @@ export async function buildJudge(ctx: PluginContext, config: PluginEvalConfig, c
 export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIssueRun: WaitForIssueRun, run: EvalRunRow, bundledDir?: string): Promise<void> {
   const config = (await ctx.config.get(run.company_id)) as PluginEvalConfig;
   let spent = 0;
+  let evalAgents: EvalAgents | undefined;
   try {
     const maxDollars = config.maxDollarsPerRun ?? 5;
     const { scenarios } = await loadScenarioCatalog(store, run.company_id, bundledDir);
@@ -48,7 +52,7 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
     if (missing.length > 0) ctx.logger.warn("agent-evals: scenarios not found", { runId: run.id, missing });
 
     const bundle = await loadInstanceAgentBundle(ctx, run.agent_id, run.company_id);
-    const judge = await buildJudge(ctx, config, run.company_id);
+    let judge = await buildJudge(ctx, config, run.company_id);
 
     let execute: ExecuteAttempt;
     if (run.tier === "headless") {
@@ -59,7 +63,26 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
       if (!availability.available) throw new Error(availability.reason);
       const project = await ctx.projects.managed.reconcile(EVALS_PROJECT_KEY, run.company_id);
       if (!project.projectId) throw new Error("could not create the Evals project for eval issues");
-      execute = createHeartbeatExecutor({ ctx, waitForIssueRun, sourceAgentId: run.agent_id, companyId: run.company_id, projectId: project.projectId });
+      const source = await ctx.agents.get(run.agent_id, run.company_id);
+      if (!source) throw new Error(`agent ${run.agent_id} not found in company ${run.company_id}`);
+      evalAgents = createEvalAgents({ ctx, registry: store.evalAgents, companyId: run.company_id });
+      const heartbeatScenarios = selected.filter((s) => s.tiers.includes("heartbeat"));
+      const twins = await resolveEvalAgents(evalAgents, run.agent_id, source.name, bundle, heartbeatScenarios);
+      const issueInput = { ctx, waitForIssueRun, companyId: run.company_id, projectId: project.projectId };
+      execute = createHeartbeatExecutor({
+        ...issueInput,
+        agentFor: async (arm, scenario) => {
+          if (arm.id === "with") return run.agent_id;
+          const twin = twins.ablated.get(scenario.id);
+          if (!twin) throw new Error(`no ablated twin resolved for scenario ${scenario.id}`);
+          return twin;
+        },
+      });
+      // Rubric grading runs on the company's own AI connection through the Eval Judge, never an API key.
+      const judgeAgentId = twins.judge;
+      judge = judgeAgentId
+        ? createHeartbeatJudge({ ...issueInput, judgeAgentId: async () => judgeAgentId, onCost: (cost) => { spent += cost; } })
+        : undefined;
     }
 
     for (const base of selected) {
@@ -90,5 +113,43 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
     const message = err instanceof Error ? err.message : String(err);
     ctx.logger.error("agent-evals: run failed", { runId: run.id, error: message });
     await store.finishRun(run.id, "failed", spent, message);
+  } finally {
+    await evalAgents?.pauseResumed();
   }
+}
+
+/**
+ * Resolve every eval agent a heartbeat run needs before any attempt runs, so a
+ * company that requires board approval gets every pending hire in one run
+ * (one approval round) instead of one per attempt.
+ */
+async function resolveEvalAgents(
+  evalAgents: EvalAgents,
+  agentId: string,
+  agentName: string,
+  bundle: Awaited<ReturnType<typeof loadInstanceAgentBundle>>,
+  scenarios: readonly EvalScenario[],
+): Promise<{ ablated: Map<string, string>; judge: string | null }> {
+  const ablated = new Map<string, string>();
+  let judge: string | null = null;
+  const pending: string[] = [];
+  const attempt = async (resolve: () => Promise<string>, onReady: (id: string) => void) => {
+    try {
+      onReady(await resolve());
+    } catch (err) {
+      if (err instanceof AwaitingApprovalError) pending.push(err.agentName);
+      else throw err;
+    }
+  };
+  for (const scenario of scenarios) {
+    await attempt(() => evalAgents.ablatedTwin(agentId, agentName, bundle, scenario), (id) => ablated.set(scenario.id, id));
+  }
+  if (scenarios.some((s) => s.checks.rubric.length > 0)) {
+    await attempt(() => evalAgents.judge(agentId), (id) => { judge = id; });
+  }
+  if (pending.length > 0) {
+    const names = [...new Set(pending)].map((n) => `"${n}"`).join(", ");
+    throw new Error(`awaiting board approval for the eval agent(s) ${names}: approve the hire(s) in Approvals, then queue the run again`);
+  }
+  return { ablated, judge };
 }

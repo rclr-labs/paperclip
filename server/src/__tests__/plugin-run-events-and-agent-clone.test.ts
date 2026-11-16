@@ -437,6 +437,35 @@ describeEmbeddedPostgres("plugin runs.listEvents and agents.clone", () => {
     expect((source!.adapterConfig as Record<string, any>).paperclipSkillSync.desiredSkills).toEqual([ablated, keep]);
   });
 
+  it("hires an ablated eval twin that has no instructions and lacks the ablated skill, leaving the source intact", async () => {
+    const companyId = await seedCompany();
+    const keep = `company/${companyId}/style-guide`;
+    const ablated = `company/${companyId}/release-checklist`;
+    const sourceId = await seedAgentWithInstructions(companyId, {
+      adapterConfig: { command: "true", paperclipSkillSync: { desiredSkills: [ablated, keep] } },
+    });
+
+    // Exactly what the agent-evals plugin sends for `ablate: [instructions, skill:release-checklist]`.
+    const result = await hostServices().agents.clone({
+      agentId: sourceId,
+      sourceCompanyId: companyId,
+      targetCompanyId: companyId,
+      name: "eval twin",
+      instructionsOverride: { files: { "AGENTS.md": "" }, entryFile: "AGENTS.md" },
+      removeSkills: ["release-checklist"],
+    });
+
+    const twin = await readInstructions(result.agent.id);
+    expect(twin.files).toEqual({ "AGENTS.md": "" });
+    const [twinRow] = await db.select().from(agents).where(eq(agents.id, result.agent.id));
+    expect((twinRow!.adapterConfig as Record<string, any>).paperclipSkillSync.desiredSkills).toEqual([keep]);
+    expect(twinRow!.permissions).toMatchObject({ canCreateAgents: false });
+
+    const source = await readInstructions(sourceId);
+    expect(source.files["AGENTS.md"]).toContain("Always write tests first.");
+    expect(Object.keys(source.files).sort()).toEqual(["AGENTS.md", "TOOLS.md"]);
+  });
+
   it("refuses to remove a skill the agent does not have, so a typo cannot pass as an ablation", async () => {
     const companyId = await seedCompany();
     const sourceId = await seedAgent(companyId, { adapterConfig: { command: "true", paperclipSkillSync: { desiredSkills: [`company/${companyId}/release-checklist`] } } });

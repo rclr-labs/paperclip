@@ -6,9 +6,10 @@ import type { PluginContext, PluginEvent } from "@paperclipai/plugin-sdk";
  * own company.
  *
  *   with arm:    an eval issue assigned to the agent itself
- *   ablated arm: the same issue shape assigned to a clone whose instructions
- *                are blanked (an issue-level adapter override cannot blank
- *                instructions: the host re-materializes the agent's bundle)
+ *   ablated arm: the same issue shape assigned to the agent's ablated twin
+ *                (see eval-agents.ts); an issue-level adapter override cannot
+ *                blank instructions because the host re-materializes the
+ *                agent's own bundle for every run
  *   → wait for the issue's agent.run.* event → read the run log
  *   → normalize into the same EvalTrace as headless → cancel the eval issue
  *
@@ -22,13 +23,7 @@ import type { PluginContext, PluginEvent } from "@paperclipai/plugin-sdk";
  */
 
 interface CloneCapableAgents {
-  clone(agentId: string, input: {
-    sourceCompanyId: string;
-    targetCompanyId: string;
-    name?: string;
-    instructionsOverride?: { entryFile: string; content: string } | { files: Record<string, string>; entryFile?: string };
-    removeSkills?: string[];
-  }): Promise<{ agent: { id: string }; requiresApproval: boolean; droppedConfig: string[] }>;
+  clone(agentId: string, input: unknown): Promise<unknown>;
 }
 
 interface RunEvent {
@@ -179,10 +174,11 @@ export const EVAL_ISSUE_ORIGIN = "plugin:paperclipai.plugin-agent-evals" as cons
 export interface HeartbeatTierInput {
   readonly ctx: PluginContext;
   readonly waitForIssueRun: WaitForIssueRun;
-  readonly sourceAgentId: string;
   readonly companyId: string;
   /** The plugin-managed "Evals" project that holds every eval issue. */
   readonly projectId: string;
+  /** The agent that runs `arm` of `scenario`: the agent itself for `with`, its ablated twin otherwise. */
+  readonly agentFor: (arm: EvalArm, scenario: EvalScenario) => Promise<string>;
   readonly runTimeoutMs?: number;
 }
 
@@ -195,53 +191,44 @@ function evalIssueDescription(scenario: EvalScenario, arm: EvalArm): string {
   ].join("\n");
 }
 
-export function createHeartbeatExecutor(input: HeartbeatTierInput) {
-  const agents = input.ctx.agents as unknown as CloneCapableAgents & PluginContext["agents"];
+export interface IssueRunInput {
+  readonly ctx: PluginContext;
+  readonly waitForIssueRun: WaitForIssueRun;
+  readonly companyId: string;
+  readonly projectId: string;
+  readonly runTimeoutMs?: number;
+}
+
+/**
+ * Deliver a prompt as an eval issue assigned to `agentId`, wait for its run,
+ * rebuild the trace from the run log, and cancel the issue so the agent never
+ * keeps working it on later heartbeats.
+ */
+export async function runEvalIssue(input: IssueRunInput, agentId: string, title: string, description: string, originId: string): Promise<EvalTrace> {
   const runs = (input.ctx as unknown as { runs: RunsClient }).runs;
-  const clones = new Map<string, string>(); // scenario id → ablated clone agent id (one per scenario per eval run)
-
-  async function agentFor(arm: EvalArm, scenario: EvalScenario): Promise<string> {
-    if (arm.id === "with") return input.sourceAgentId;
-    const ablations = Array.isArray(scenario.ablate) ? scenario.ablate : [scenario.ablate];
-    const unsupported = ablations.filter((a) => a !== "instructions" && !a.startsWith("skill:"));
-    if (unsupported.length > 0) throw new Error(`heartbeat tier cannot ablate ${unsupported.join(" + ")}`);
-    const existing = clones.get(scenario.id);
-    if (existing) return existing;
-    const removeSkills = ablations.filter((a) => a.startsWith("skill:")).map((a) => a.slice("skill:".length));
-    const result = await agents.clone(input.sourceAgentId, {
-      sourceCompanyId: input.companyId,
-      targetCompanyId: input.companyId,
-      name: `eval · ${scenario.id} · ${arm.id}`,
-      ...(ablations.includes("instructions")
-        ? { instructionsOverride: { entryFile: arm.bundle.instructions?.entryFile ?? "AGENTS.md", content: "" } }
-        : {}),
-      ...(removeSkills.length > 0 ? { removeSkills } : {}),
-    });
-    if (result.requiresApproval) throw new Error("the company requires board approval for new agents; approve the eval clone and queue the run again");
-    clones.set(scenario.id, result.agent.id);
-    return result.agent.id;
+  const issue = await input.ctx.issues.create({
+    companyId: input.companyId,
+    projectId: input.projectId,
+    title,
+    description,
+    status: "todo",
+    assigneeAgentId: agentId,
+    originKind: EVAL_ISSUE_ORIGIN,
+    originId,
+  });
+  try {
+    const outcome = await input.waitForIssueRun(issue.id, input.runTimeoutMs ?? 15 * 60_000);
+    if (!outcome.runId) return traceFromStdout("", outcome, issue.id);
+    const log = await readWholeRunLog(runs, outcome.runId, input.companyId);
+    return traceFromRunLog(log, outcome, outcome.runId);
+  } finally {
+    await input.ctx.issues.update(issue.id, { status: "cancelled" }, input.companyId);
   }
+}
 
+export function createHeartbeatExecutor(input: HeartbeatTierInput) {
   return async (arm: EvalArm, scenario: EvalScenario): Promise<EvalTrace> => {
-    const assigneeAgentId = await agentFor(arm, scenario);
-    const issue = await input.ctx.issues.create({
-      companyId: input.companyId,
-      projectId: input.projectId,
-      title: `eval · ${scenario.id} · ${arm.id}`,
-      description: evalIssueDescription(scenario, arm),
-      status: "todo",
-      assigneeAgentId,
-      originKind: EVAL_ISSUE_ORIGIN,
-      originId: scenario.id,
-    });
-    try {
-      const outcome = await input.waitForIssueRun(issue.id, input.runTimeoutMs ?? 15 * 60_000);
-      if (!outcome.runId) return traceFromStdout("", outcome, issue.id);
-      const log = await readWholeRunLog(runs, outcome.runId, input.companyId);
-      return traceFromRunLog(log, outcome, outcome.runId);
-    } finally {
-      // The agent must not keep working an eval issue on later heartbeats.
-      await input.ctx.issues.update(issue.id, { status: "cancelled" }, input.companyId);
-    }
+    const agentId = await input.agentFor(arm, scenario);
+    return runEvalIssue(input, agentId, `eval · ${scenario.id} · ${arm.id}`, evalIssueDescription(scenario, arm), scenario.id);
   };
 }
