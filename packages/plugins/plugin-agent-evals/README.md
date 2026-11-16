@@ -40,19 +40,27 @@ and the agent's verbatim rationalizations.
 - **Heartbeat**: runs on the agent itself, in its own company. Every attempt is an eval issue in
   the plugin-managed **Evals** project:
   - the *with* arm is assigned to the agent;
-  - the *ablated* arm is assigned to a clone of the agent with its instruction entry blanked. An
-    issue-level adapter override cannot blank instructions, because the host re-materializes the
-    agent's bundle for every run.
+  - the *ablated* arm is assigned to the agent's **ablated twin**, `eval · <agent> · without <what>`:
+    a clone with the whole instruction bundle blanked (for `instructions`) and the ablated skills
+    removed (for `skill:<slug>`). An issue-level adapter override cannot blank instructions,
+    because the host re-materializes the agent's bundle for every run.
+  - rubric criteria are graded by the company's **Eval Judge** (`eval · Eval Judge`), a clone whose
+    only instruction is the judge's, so grading runs on the company's AI connection without an API
+    key. A judge run that fails, or answers without a parseable verdict list, is an errored attempt,
+    never a pass.
+
+  Twins and the judge are hired once and reused. A twin is keyed by a digest of the agent's
+  instructions, skills and model, so editing the agent hires a new twin. When the company requires
+  board approval for new agents, the run fails listing every hire to approve; approve them in
+  Approvals and queue again. Eval agents are paused between runs.
 
   The plugin waits for the issue's `agent.run.*` event, rebuilds the trace from the run log
-  (`runs.readLog`), and cancels the issue. Runs spend the agent's budget, so queueing one asks for
-  confirmation. When the company requires board approval for new agents, approve the clone and
-  queue again. A `skill:<slug>` ablation leaves
-  that skill out of the clone.
+  (`runs.readLog`), and cancels the issue. Runs spend the agents' budgets, so queueing one asks for
+  confirmation.
 - **Headless**: `claude -p` with the agent's instructions and skills read from the host, mirroring
   the `claude_local` adapter's prompt bundle.
 
 ## Data
 
-Three tables in the plugin's database namespace (`migrations/001_agent_evals.sql`): imported
-scenarios, eval runs, and per-scenario results. Every mutation writes an activity log entry.
+Four tables in the plugin's database namespace (`migrations/`): imported scenarios, eval runs,
+per-scenario results, and the eval agents (twins and judge) hired in each company. Every mutation writes an activity log entry.
