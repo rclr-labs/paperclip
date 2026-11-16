@@ -40,6 +40,28 @@ describe("runScenario", () => {
   });
 });
 
+describe("runScenario with a subset of arms", () => {
+  it("runs only the with arm and does not claim admission without an ablated arm", async () => {
+    const { report, attempts } = await runScenario({
+      scenario, bundle, arms: ["with"],
+      execute: async () => trace("Blocked: need evidence."),
+    });
+    expect(attempts.map((a) => a.arm)).toEqual(["with", "with", "with"]);
+    expect(report.ablated.attempts).toBe(0);
+    expect(report.admission).toBe("unablated");
+  });
+
+  it("hands each attempt its trace so callers can render what the agent did", async () => {
+    const seen: string[] = [];
+    await runScenario({
+      scenario, bundle, arms: ["with"],
+      execute: async () => trace("Blocked: need evidence."),
+      onAttempt: (_a, t) => seen.push(t?.finalText ?? "none"),
+    });
+    expect(seen).toEqual(["Blocked: need evidence.", "Blocked: need evidence.", "Blocked: need evidence."]);
+  });
+});
+
 describe("extractRationalization", () => {
   it("skips a trailing forced-choice decision line and returns the justification", async () => {
     const { extractRationalization } = await import("./run.js");
