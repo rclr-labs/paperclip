@@ -39,10 +39,12 @@ function memoryRegistry(): EvalAgentRegistry & { rows: EvalAgentRecord[] } {
 function fakeAgents(opts: { requiresApproval: boolean }) {
   const status = new Map<string, string>([[AGENT, "idle"]]);
   const names = new Map<string, string>([[AGENT, "QA Engineer"]]);
+  const lifecycle = new Map<string, { lifecycleState: string; lifecycleError: string | null }>();
   const clones: Array<Record<string, unknown>> = [];
   const calls: string[] = [];
   return {
     status,
+    lifecycle,
     clones,
     calls,
     agents: {
@@ -60,6 +62,7 @@ function fakeAgents(opts: { requiresApproval: boolean }) {
           id,
           name: names.get(id)!,
           status: status.get(id)!,
+          ...lifecycle.get(id),
           adapterConfig: { paperclipSkillSync: { desiredSkills: [`company/${COMPANY}/release-checklist`, { key: `company/${COMPANY}/other` }] } },
         };
       },
@@ -119,6 +122,30 @@ describe("eval agents (ablated twins and the judge)", () => {
     // The board approves (the host moves it to idle); the next run uses it.
     fake.status.set("eval-1", "idle");
     expect(await evalAgents.ablatedTwin(AGENT, "QA Engineer", bundle, scenario)).toBe("eval-1");
+  });
+
+  it("reports the host's verification state and error instead of trying to resume an eval agent the host is still verifying", async () => {
+    const fake = fakeAgents({ requiresApproval: false });
+    const evalAgents = createEvalAgents({ ctx: { agents: fake.agents } as never, registry: memoryRegistry(), companyId: COMPANY });
+    const hostError = "Execution configuration check failed. Authentication failed. Check the agent's AI connection or sign in to its execution tool, then retry.";
+    // Approved, but the host's hire verification (hello probe) has not passed yet.
+    fake.clones.length = 0;
+    const first = await evalAgents.ablatedTwin(AGENT, "QA Engineer", bundle, scenario).catch((e) => e);
+    expect(first).toBe("eval-1"); // a plain paused hire resumes as before
+    fake.status.set("eval-1", "paused");
+    fake.lifecycle.set("eval-1", { lifecycleState: "verifying", lifecycleError: hostError });
+    fake.calls.length = 0;
+    const failed = await evalAgents.ablatedTwin(AGENT, "QA Engineer", bundle, scenario).catch((e) => e);
+    expect(failed).toBeInstanceOf(Error);
+    expect(failed.message).toContain('"eval · QA Engineer · without instructions + release-checklist"');
+    expect(failed.message).toContain("verif");
+    expect(failed.message).toContain(hostError);
+    expect(fake.calls).toEqual([]); // never asks the host to resume it
+
+    fake.lifecycle.set("eval-1", { lifecycleState: "verifying", lifecycleError: null });
+    const pending = await evalAgents.ablatedTwin(AGENT, "QA Engineer", bundle, scenario).catch((e) => e);
+    expect(pending.message).toMatch(/still being verified.*queue the run again/i);
+    expect(fake.calls).toEqual([]);
   });
 
   it("hires a fresh twin when the recorded one was terminated", async () => {
