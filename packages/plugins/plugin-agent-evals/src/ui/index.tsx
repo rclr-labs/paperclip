@@ -4,7 +4,10 @@ import { usePluginAction, usePluginData } from "@paperclipai/plugin-sdk/ui/hooks
 
 type TierState = { available: true } | { available: false; reason: string };
 
-interface Overview {
+type Overview = { enabled: false; reason: string } | EnabledOverview;
+
+interface EnabledOverview {
+  enabled: true;
   scenarios: { id: string; description: string | null; source: "bundled" | "company"; tiers: string[]; ablate: string | string[]; repeat: number; pressures: string[] }[];
   invalidScenarios: { scenarioId: string; error: string }[];
   tiers: { headless: TierState; heartbeat: TierState };
@@ -89,6 +92,7 @@ function RunResults({ companyId, runId }: { companyId: string; runId: string }) 
 
 function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: string }) {
   const overview = usePluginData<Overview>("overview", { companyId });
+  const ready = overview.data?.enabled ? overview.data : undefined;
   const runs = usePluginData<{ runs: RunRow[] }>("runs", { companyId, agentId });
   const queueRun = usePluginAction("queue-run");
   const [selected, setSelected] = useState<string[]>([]);
@@ -97,8 +101,8 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const tierState = overview.data?.tiers[tier];
-  const eligible = useMemo(() => (overview.data?.scenarios ?? []).filter((s) => s.tiers.includes(tier)), [overview.data, tier]);
+  const tierState = ready?.tiers[tier];
+  const eligible = useMemo(() => (ready?.scenarios ?? []).filter((s) => s.tiers.includes(tier)), [ready, tier]);
 
   async function submit() {
     if (tier === "heartbeat" && !window.confirm("This run creates eval issues in the Evals project, assigns them to this agent (and to a copy of it without the instruction), and spends this agent's budget. Continue?")) return;
@@ -118,6 +122,7 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
 
   if (overview.loading) return <p className="text-sm text-muted-foreground">Loading…</p>;
   if (overview.error) return <p className="text-sm text-destructive">{overview.error.message}</p>;
+  if (overview.data && !overview.data.enabled) return <p className="text-sm text-muted-foreground">{overview.data.reason}</p>;
 
   return (
     <div className="flex flex-col gap-6">
@@ -137,7 +142,11 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
           </p>
         )}
         {tierState && !tierState.available && <p className="text-sm text-muted-foreground">Unavailable: {tierState.reason}</p>}
-        {!overview.data?.judge.enabled && <p className="text-sm text-muted-foreground">No judge configured: only deterministic checks decide.</p>}
+        {tier === "heartbeat" ? (
+          <p className="text-sm text-muted-foreground">Rubric criteria are graded by this company's "eval · Eval Judge" agent; ablated arms run on "eval · &lt;agent&gt; · without …" twins. Hiring them may need board approval.</p>
+        ) : (
+          !ready?.judge.enabled && <p className="text-sm text-muted-foreground">No judge configured: only deterministic checks decide.</p>
+        )}
         <ul className="flex flex-col gap-1">
           {eligible.map((s) => (
             <li key={s.id}>

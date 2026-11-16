@@ -65,6 +65,12 @@ const manifest: PaperclipPluginManifestV1 = {
   instanceConfigSchema: {
     type: "object",
     properties: {
+      enabled: {
+        type: "boolean",
+        title: "Enable in this company",
+        description: "Off by default. Eval runs hire eval agents (an ablated twin per agent and an Eval Judge) and spend agent budgets, so only companies that turn this on can import scenarios or queue runs.",
+        default: false,
+      },
       headlessEnabled: {
         type: "boolean",
         title: "Enable headless tier",

@@ -17,6 +17,8 @@ import { loadScenarioCatalog } from "./scenarios.js";
 import type { EvalRunRow, EvalStore } from "./store.js";
 
 export interface PluginEvalConfig {
+  /** Opt-in per company; runs and imports are refused elsewhere. */
+  enabled?: boolean;
   headlessEnabled?: boolean;
   judgeModel?: string;
   judgeApiKey?: unknown;
@@ -44,6 +46,7 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
   let spent = 0;
   let evalAgents: EvalAgents | undefined;
   try {
+    if (config.enabled !== true) throw new Error("Agent Evals is not enabled in this company");
     const maxDollars = config.maxDollarsPerRun ?? 5;
     const { scenarios } = await loadScenarioCatalog(store, run.company_id, bundledDir);
     const selected = scenarios.filter((s) => run.scenario_ids.includes(s.scenario.id)).map((s) => s.scenario);

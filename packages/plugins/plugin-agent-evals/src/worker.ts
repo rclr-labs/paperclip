@@ -12,6 +12,16 @@ function requireString(value: unknown, name: string): string {
   return value.trim();
 }
 
+export const NOT_ENABLED_MESSAGE =
+  "Agent Evals is not enabled in this company: turn on \"Enable in this company\" in the plugin settings for this company first";
+
+/** Throws unless the company opted in; eval runs hire agents and spend budgets, so the default is off. */
+async function requireCompanyEnabled(ctx: PluginContext, companyId: string): Promise<PluginEvalConfig> {
+  const config = (await ctx.config.get(companyId)) as PluginEvalConfig;
+  if (config.enabled !== true) throw new Error(NOT_ENABLED_MESSAGE);
+  return config;
+}
+
 export interface WorkerDeps {
   /** Override for tests; defaults to the plugin's bundled `scenarios/`. */
   bundledScenariosDir?: string;
@@ -41,9 +51,11 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
   ctx.data.register("overview", async (params) => {
     const companyId = requireString(params.companyId, "companyId");
     const config = (await ctx.config.get(companyId)) as PluginEvalConfig;
+    if (config.enabled !== true) return { enabled: false, reason: NOT_ENABLED_MESSAGE };
     const { scenarios, invalid } = await loadScenarioCatalog(store, companyId, deps.bundledScenariosDir);
     const heartbeat = heartbeatTierAvailability(ctx);
     return {
+      enabled: true,
       scenarios: scenarios.map((s) => ({
         id: s.scenario.id,
         description: s.scenario.description ?? null,
@@ -84,6 +96,7 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
 
   ctx.actions.register("import-scenario", async (params) => {
     const companyId = requireString(params.companyId, "companyId");
+    await requireCompanyEnabled(ctx, companyId);
     const yaml = requireString(params.yaml, "yaml");
     try {
       const scenario = parseScenario(yaml, "imported");
@@ -97,6 +110,7 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
 
   ctx.actions.register("queue-run", async (params, context) => {
     const companyId = requireString(params.companyId, "companyId");
+    await requireCompanyEnabled(ctx, companyId);
     const agentId = requireString(params.agentId, "agentId");
     const tier = requireString(params.tier, "tier") as EvalTier;
     if (tier !== "headless" && tier !== "heartbeat") throw new Error(`unknown tier ${tier}`);

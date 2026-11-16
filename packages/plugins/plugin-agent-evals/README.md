@@ -36,6 +36,12 @@ To keep the plugin to some companies only, disable it for the others in each com
 Results show, per scenario, the pass rate with and without the instruction, the admission verdict
 and the agent's verbatim rationalizations.
 
+## Enabling per company
+
+The plugin is off in every company until an operator turns on **Enable in this company** in the
+plugin settings for that company. Elsewhere its pages say so and imports and runs are refused:
+eval runs hire agents and spend budgets, so availability is opt-in rather than instance-wide.
+
 ## Tiers
 
 - **Heartbeat**: runs on the agent itself, in its own company. Every attempt is an eval issue in
