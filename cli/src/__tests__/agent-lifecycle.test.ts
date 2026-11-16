@@ -108,7 +108,7 @@ describe("agent lifecycle commands", () => {
     await run(["agent", "instructions-bundle", AGENT_ID]);
     await run(["agent", "instructions-bundle:update", AGENT_ID, "--payload-json", JSON.stringify({ mode: "managed" })]);
     await run(["agent", "instructions-file:get", AGENT_ID, "--path", "AGENTS.md"]);
-    await run(["agent", "instructions-file:put", AGENT_ID, "--path", "AGENTS.md", "--content", "hello"]);
+    await run(["agent", "instructions-file:put", AGENT_ID, "--path", "AGENTS.md", "--content", "hello", "--base-revision-id", REVISION_ID]);
     await run(["agent", "instructions-file:delete", AGENT_ID, "--path", "AGENTS.md", "--yes"]);
 
     expect(fetchMock.mock.calls.map((call) => [call[1]?.method ?? "GET", call[0]])).toEqual([
@@ -129,6 +129,35 @@ describe("agent lifecycle commands", () => {
       ["PUT", `http://localhost:3100/api/agents/${AGENT_ID}/instructions-bundle/file`],
       ["DELETE", `http://localhost:3100/api/agents/${AGENT_ID}/instructions-bundle/file?path=AGENTS.md`],
     ]);
+  });
+
+  it("sends the base revision the server requires for an instructions file write", async () => {
+    const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(jsonResponse()));
+    vi.stubGlobal("fetch", fetchMock);
+    await run(["agent", "instructions-file:put", AGENT_ID, "--path", "AGENTS.md", "--content", "hello", "--base-revision-id", REVISION_ID]);
+    expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ path: "AGENTS.md", content: "hello", baseRevisionId: REVISION_ID });
+  });
+
+  it("reads the current revision as the base when none is given", async () => {
+    const fetchMock = vi.fn()
+      .mockImplementationOnce(() => Promise.resolve(jsonResponse({ path: "AGENTS.md", content: "old", revision: { id: REVISION_ID } })))
+      .mockImplementation(() => Promise.resolve(jsonResponse()));
+    vi.stubGlobal("fetch", fetchMock);
+    await run(["agent", "instructions-file:put", AGENT_ID, "--path", "AGENTS.md", "--content", "hello"]);
+    expect(fetchMock.mock.calls.map((call) => [call[1]?.method ?? "GET", call[0]])).toEqual([
+      ["GET", `http://localhost:3100/api/agents/${AGENT_ID}/instructions-bundle/file?path=AGENTS.md`],
+      ["PUT", `http://localhost:3100/api/agents/${AGENT_ID}/instructions-bundle/file`],
+    ]);
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({ baseRevisionId: REVISION_ID });
+  });
+
+  it("uses a null base for a file that does not exist yet", async () => {
+    const fetchMock = vi.fn()
+      .mockImplementationOnce(() => Promise.resolve(jsonResponse({ error: "not found" }, { status: 404 })))
+      .mockImplementation(() => Promise.resolve(jsonResponse()));
+    vi.stubGlobal("fetch", fetchMock);
+    await run(["agent", "instructions-file:put", AGENT_ID, "--path", "NOTES.md", "--content", "hello"]);
+    expect(JSON.parse(fetchMock.mock.calls[1][1].body)).toMatchObject({ baseRevisionId: null });
   });
 
   it("refuses to delete an instructions file without confirmation", async () => {
