@@ -210,9 +210,14 @@ describe("heartbeat tier", () => {
     expect(created.map((c) => c.assigneeAgentId)).toEqual(["clone-1", "clone-1"]);
   });
 
-  it("refuses skill ablation it cannot express through agents.clone", async () => {
-    const { ctx } = fakeCtx();
-    await expect(executor(ctx)(arm("ablated"), { ...scenario, ablate: "skill:qa-acceptance" })).rejects.toThrow(/only ablate instructions/);
+  it("ablates skills by leaving them out of the clone, alongside blanked instructions", async () => {
+    const { ctx, clones } = fakeCtx();
+    await executor(ctx)(arm("ablated"), { ...scenario, ablate: ["instructions", "skill:release-checklist"] } as EvalScenario);
+    expect(clones[0]).toMatchObject({ instructionsOverride: { content: "" }, removeSkills: ["release-checklist"] });
+    const { ctx: ctx2, clones: clones2 } = fakeCtx();
+    await executor(ctx2)(arm("ablated"), { ...scenario, ablate: "skill:release-checklist" });
+    expect(clones2[0]).toMatchObject({ removeSkills: ["release-checklist"] });
+    expect(clones2[0]).not.toHaveProperty("instructionsOverride");
   });
 
   it("closes the eval issue even when the run fails, and reports the failure as an error", async () => {

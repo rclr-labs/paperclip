@@ -1240,6 +1240,7 @@ export function startWorkerRpcHost(options: WorkerRpcHostOptions): WorkerRpcHost
             targetCompanyId: input.targetCompanyId,
             ...(input.name !== undefined ? { name: input.name } : {}),
             ...(input.instructionsOverride !== undefined ? { instructionsOverride: input.instructionsOverride } : {}),
+            ...(input.removeSkills !== undefined ? { removeSkills: input.removeSkills } : {}),
           });
         },
 

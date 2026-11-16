@@ -2212,6 +2212,17 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
           status: requiresApproval ? "pending_approval" : "idle",
           spentMonthlyCents: 0,
           lastHeartbeatAt: null,
+          adapterConfig: input.removeSkills?.length
+            ? (() => {
+                const config = { ...(source!.adapterConfig as Record<string, unknown>) };
+                const sync = (config.paperclipSkillSync ?? {}) as { desiredSkills?: unknown[] };
+                const keep = (sync.desiredSkills ?? []).filter((entry) => {
+                  const key = typeof entry === "string" ? entry : (entry as { key?: string })?.key ?? "";
+                  return !input.removeSkills!.some((wanted) => key === wanted || key.endsWith(`/${wanted}`));
+                });
+                return { ...config, paperclipSkillSync: { ...sync, desiredSkills: keep } };
+              })()
+            : source!.adapterConfig,
           metadata: { ...(source!.metadata ?? {}), clonedFrom: { agentId, companyId: sourceCompanyId, pluginKey: manifest.id } },
           createdAt: now,
           updatedAt: now,

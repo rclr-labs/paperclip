@@ -47,8 +47,8 @@ and the agent's verbatim rationalizations.
   The plugin waits for the issue's `agent.run.*` event, rebuilds the trace from the run log
   (`runs.readLog`), and cancels the issue. Runs spend the agent's budget, so queueing one asks for
   confirmation. When the company requires board approval for new agents, approve the clone and
-  queue again. Skill ablation is not expressible through `agents.clone` yet, so `skill:` scenarios
-  run headless only.
+  queue again. A `skill:<slug>` ablation leaves
+  that skill out of the clone.
 - **Headless**: `claude -p` with the agent's instructions and skills read from the host, mirroring
   the `claude_local` adapter's prompt bundle.
 

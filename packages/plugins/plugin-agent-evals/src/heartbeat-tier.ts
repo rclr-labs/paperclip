@@ -27,6 +27,7 @@ interface CloneCapableAgents {
     targetCompanyId: string;
     name?: string;
     instructionsOverride?: { entryFile: string; content: string } | { files: Record<string, string>; entryFile?: string };
+    removeSkills?: string[];
   }): Promise<{ agent: { id: string }; requiresApproval: boolean; droppedConfig: string[] }>;
 }
 
@@ -202,16 +203,19 @@ export function createHeartbeatExecutor(input: HeartbeatTierInput) {
   async function agentFor(arm: EvalArm, scenario: EvalScenario): Promise<string> {
     if (arm.id === "with") return input.sourceAgentId;
     const ablations = Array.isArray(scenario.ablate) ? scenario.ablate : [scenario.ablate];
-    if (ablations.some((a) => a !== "instructions")) {
-      throw new Error(`heartbeat tier can only ablate instructions for now (scenario asks for ${ablations.join(" + ")})`);
-    }
+    const unsupported = ablations.filter((a) => a !== "instructions" && !a.startsWith("skill:"));
+    if (unsupported.length > 0) throw new Error(`heartbeat tier cannot ablate ${unsupported.join(" + ")}`);
     const existing = clones.get(scenario.id);
     if (existing) return existing;
+    const removeSkills = ablations.filter((a) => a.startsWith("skill:")).map((a) => a.slice("skill:".length));
     const result = await agents.clone(input.sourceAgentId, {
       sourceCompanyId: input.companyId,
       targetCompanyId: input.companyId,
       name: `eval · ${scenario.id} · ${arm.id}`,
-      instructionsOverride: { entryFile: arm.bundle.instructions?.entryFile ?? "AGENTS.md", content: "" },
+      ...(ablations.includes("instructions")
+        ? { instructionsOverride: { entryFile: arm.bundle.instructions?.entryFile ?? "AGENTS.md", content: "" } }
+        : {}),
+      ...(removeSkills.length > 0 ? { removeSkills } : {}),
     });
     if (result.requiresApproval) throw new Error("the company requires board approval for new agents; approve the eval clone and queue the run again");
     clones.set(scenario.id, result.agent.id);

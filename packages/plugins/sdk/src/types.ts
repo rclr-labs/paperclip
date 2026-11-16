@@ -1783,6 +1783,12 @@ export interface PluginAgentsClient {
     targetCompanyId: string;
     name?: string;
     instructionsOverride?: PluginAgentCloneInstructionsOverride;
+    /**
+     * Desired skills to leave out of the clone (an eval's skill ablation), by
+     * full key or by slug (the key's last segment). Each must match a skill
+     * the source agent has; otherwise the clone is refused.
+     */
+    removeSkills?: string[];
   }): Promise<PluginAgentCloneResult>;
   /** Resolve and reconcile manifest-declared plugin-managed agents by stable key. Requires `agents.managed`. */
   managed: {

@@ -2209,6 +2209,8 @@ export interface WorkerToHostMethods {
       targetCompanyId: string;
       name?: string;
       instructionsOverride?: PluginAgentCloneInstructionsOverride;
+      /** Desired skills to leave out of the clone, by key or by slug. Each must be one the agent has. */
+      removeSkills?: string[];
     },
     result: PluginAgentCloneResult,
   ];

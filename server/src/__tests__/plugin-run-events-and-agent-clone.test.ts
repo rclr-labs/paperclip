@@ -416,6 +416,37 @@ describeEmbeddedPostgres("plugin runs.listEvents and agents.clone", () => {
     expect(await db.select().from(activityLog)).toHaveLength(0);
   });
 
+  it("removes the skills an eval ablates, matching a skill by its key or by its slug", async () => {
+    const companyId = await seedCompany();
+    const keep = `company/${companyId}/style-guide`;
+    const ablated = `company/${companyId}/release-checklist`;
+    const sourceId = await seedAgentWithInstructions(companyId, {
+      adapterConfig: { command: "true", paperclipSkillSync: { desiredSkills: [ablated, keep] } },
+    });
+
+    const result = await hostServices().agents.clone({
+      agentId: sourceId,
+      sourceCompanyId: companyId,
+      targetCompanyId: companyId,
+      removeSkills: ["release-checklist"],
+    });
+
+    expect(result.agent.adapterConfig.paperclipSkillSync).toMatchObject({ desiredSkills: [keep] });
+    expect(result.droppedConfig).toContain(`adapterConfig.paperclipSkillSync.desiredSkills:${ablated}`);
+    const [source] = await db.select().from(agents).where(eq(agents.id, sourceId));
+    expect((source!.adapterConfig as Record<string, any>).paperclipSkillSync.desiredSkills).toEqual([ablated, keep]);
+  });
+
+  it("refuses to remove a skill the agent does not have, so a typo cannot pass as an ablation", async () => {
+    const companyId = await seedCompany();
+    const sourceId = await seedAgent(companyId, { adapterConfig: { command: "true", paperclipSkillSync: { desiredSkills: [`company/${companyId}/release-checklist`] } } });
+    await expect(hostServices().agents.clone({
+      agentId: sourceId, sourceCompanyId: companyId, targetCompanyId: companyId, removeSkills: ["task-envelop"],
+    })).rejects.toThrow(/task-envelop/);
+    const rows = await db.select().from(agents).where(eq(agents.companyId, companyId));
+    expect(rows).toHaveLength(1);
+  });
+
   it("drops company-bound config on a cross-company clone and audits both companies", async () => {
     const source = await seedCompany();
     const target = await seedCompany();

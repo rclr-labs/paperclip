@@ -41,6 +41,7 @@ export interface PluginAgentCloneInput {
   targetCompanyId: string;
   name?: string;
   instructionsOverride?: PluginAgentCloneInstructionsOverride;
+  removeSkills?: string[];
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -124,10 +125,32 @@ export function pluginAgentCloneService(db: Db, plugin: { pluginId: string; plug
     adapterConfig.paperclipSkillSync = { ...sync, desiredSkills: kept };
   }
 
-  async function buildCloneConfig(source: Agent, cloneId: string, crossCompany: boolean, targetCompanyId: string) {
+  /** Leave the requested skills out of the clone; every request must match one the agent has. */
+  function removeRequestedSkills(adapterConfig: Record<string, unknown>, requested: readonly string[], dropped: string[]) {
+    if (requested.length === 0) return;
+    const sync = isRecord(adapterConfig.paperclipSkillSync) ? adapterConfig.paperclipSkillSync : {};
+    const entries = Array.isArray(sync.desiredSkills) ? sync.desiredSkills : [];
+    const keyOf = (entry: unknown) => nonEmptyString(typeof entry === "string" ? entry : isRecord(entry) ? entry.key : null);
+    const matches = (key: string, wanted: string) => key === wanted || key.endsWith(`/${wanted}`);
+    for (const wanted of requested) {
+      if (!entries.some((entry) => { const key = keyOf(entry); return key !== null && matches(key, wanted); })) {
+        throw unprocessable(`removeSkills: the agent has no skill "${wanted}"`);
+      }
+    }
+    const kept = entries.filter((entry) => {
+      const key = keyOf(entry);
+      const remove = key !== null && requested.some((wanted) => matches(key, wanted));
+      if (remove) dropped.push(`adapterConfig.paperclipSkillSync.desiredSkills:${key}`);
+      return !remove;
+    });
+    adapterConfig.paperclipSkillSync = { ...sync, desiredSkills: kept };
+  }
+
+  async function buildCloneConfig(source: Agent, cloneId: string, crossCompany: boolean, targetCompanyId: string, removeSkills: readonly string[]) {
     const dropped: string[] = [];
     const adapterConfig: Record<string, unknown> = isRecord(source.adapterConfig) ? { ...source.adapterConfig } : {};
     for (const key of INSTRUCTION_CONFIG_KEYS) delete adapterConfig[key];
+    removeRequestedSkills(adapterConfig, removeSkills, dropped);
 
     // A gateway device key is the source agent's identity; never share it.
     if ("devicePrivateKeyPem" in adapterConfig) {
@@ -184,7 +207,8 @@ export function pluginAgentCloneService(db: Db, plugin: { pluginId: string; plug
     const crossCompany = input.sourceCompanyId !== input.targetCompanyId;
     const cloneId = randomUUID();
     const instructionFiles = await resolveInstructionFiles(source, input.instructionsOverride);
-    const config = await buildCloneConfig(source, cloneId, crossCompany, input.targetCompanyId);
+    const removeSkills = (input.removeSkills ?? []).map((skill) => nonEmptyString(skill)).filter((skill): skill is string => skill !== null);
+    const config = await buildCloneConfig(source, cloneId, crossCompany, input.targetCompanyId, removeSkills);
     const requiresApproval = company.requireBoardApprovalForNewAgents;
     const name = nonEmptyString(input.name) ?? source.name;
 
@@ -279,6 +303,7 @@ export function pluginAgentCloneService(db: Db, plugin: { pluginId: string; plug
       sourceCompanyId: source.companyId,
       targetCompanyId: input.targetCompanyId,
       instructionsOverridden: input.instructionsOverride !== undefined,
+      skillsRemoved: removeSkills,
       requiresApproval,
       approvalId,
       droppedConfig: config.dropped,
