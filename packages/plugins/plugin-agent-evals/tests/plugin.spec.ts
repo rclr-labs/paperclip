@@ -155,7 +155,7 @@ describe("queue-run guards", () => {
   });
 
   it("reports the heartbeat tier unavailable on hosts without agents.clone or runs.readLog", async () => {
-    const { harness } = await setup({});
+    const { harness } = await setup({ enabled: true });
     (harness.ctx as { runs?: unknown }).runs = {}; // an older host: no run-log reads
     const overview = await harness.getData<{ tiers: { heartbeat: { available: boolean; reason?: string } } }>("overview", { companyId: COMPANY });
     expect(overview.tiers.heartbeat).toMatchObject({ available: false });
