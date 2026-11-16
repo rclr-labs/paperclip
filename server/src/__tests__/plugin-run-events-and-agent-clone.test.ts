@@ -470,8 +470,8 @@ describeEmbeddedPostgres("plugin runs.listEvents and agents.clone", () => {
     const companyId = await seedCompany();
     const sourceId = await seedAgent(companyId, { adapterConfig: { command: "true", paperclipSkillSync: { desiredSkills: [`company/${companyId}/release-checklist`] } } });
     await expect(hostServices().agents.clone({
-      agentId: sourceId, sourceCompanyId: companyId, targetCompanyId: companyId, removeSkills: ["task-envelop"],
-    })).rejects.toThrow(/task-envelop/);
+      agentId: sourceId, sourceCompanyId: companyId, targetCompanyId: companyId, removeSkills: ["release-checklis"],
+    })).rejects.toThrow(/release-checklis/);
     const rows = await db.select().from(agents).where(eq(agents.companyId, companyId));
     expect(rows).toHaveLength(1);
   });
