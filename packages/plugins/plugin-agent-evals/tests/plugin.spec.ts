@@ -115,8 +115,17 @@ describe("queue-run guards", () => {
   }
   const base = { companyId: COMPANY, agentId: AGENT, tier: "heartbeat", scenarioIds: ["qa-restart-pass-on-new-criterion"] };
 
-  it("queues a heartbeat run on the agent's own company once the spend is confirmed", async () => {
+  it("stays inert in a company that has not turned it on: no imports, no runs", async () => {
     const { harness, rec } = await setup({});
+    const overview = await harness.getData<{ enabled: boolean }>("overview", { companyId: COMPANY });
+    expect(overview.enabled).toBe(false);
+    await expect(harness.performAction("queue-run", { ...base, confirmSpend: true })).rejects.toThrow(/not enabled in this company/);
+    await expect(harness.performAction("import-scenario", { companyId: COMPANY, yaml: "id: x" })).rejects.toThrow(/not enabled in this company/);
+    expect(rec.executes).toEqual([]);
+  });
+
+  it("queues a heartbeat run on the agent's own company once the spend is confirmed", async () => {
+    const { harness, rec } = await setup({ enabled: true });
     await expect(harness.performAction("queue-run", base)).rejects.toThrow(/spends this agent's budget/);
     await expect(harness.performAction("queue-run", { ...base, confirmSpend: true })).resolves.toMatchObject({ ok: true });
     const insert = rec.executes.find((sql) => sql.includes("eval_runs"));
@@ -124,12 +133,12 @@ describe("queue-run guards", () => {
   });
 
   it("refuses an agent outside the company", async () => {
-    const { harness } = await setup({});
+    const { harness } = await setup({ enabled: true });
     await expect(harness.performAction("queue-run", { ...base, agentId: "55555555-5555-4555-8555-555555555555", confirmSpend: true })).rejects.toThrow(/agent not found/);
   });
 
   it("nightly regression re-queues only headless runs: a heartbeat run spends agent budgets and needs a person to confirm it", async () => {
-    const { harness, rec } = await setup({});
+    const { harness, rec } = await setup({ enabled: true });
     const last = (tier: string, agent: string) => ({
       id: randomUUID(), company_id: COMPANY, agent_id: agent, tier, target_company_id: COMPANY,
       scenario_ids: ["qa-restart-pass-on-new-criterion"], repeat_override: null, status: "completed",
