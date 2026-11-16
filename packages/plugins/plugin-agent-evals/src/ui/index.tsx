@@ -30,7 +30,7 @@ interface ScenarioReport {
   with: { attempts: number; errored: number; passRate: number };
   ablated: { attempts: number; errored: number; passRate: number };
   delta: number;
-  admission: "admitted" | "decorative" | "regressed" | "inconclusive";
+  admission: "admitted" | "decorative" | "regressed" | "inconclusive" | "unablated";
   rationalizations: string[];
   costUsd: number;
 }
@@ -42,6 +42,7 @@ const ADMISSION_HELP: Record<ScenarioReport["admission"], string> = {
   decorative: "The agent passes even without the instruction. The scenario tests nothing.",
   regressed: "The agent fails even with the instruction. Fix the instruction or skill.",
   inconclusive: "Too many attempts errored to judge.",
+  unablated: "Only the with arm ran (demo run): the agent passed, but nothing is proven about the instruction.",
 };
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {

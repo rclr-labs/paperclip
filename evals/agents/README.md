@@ -50,7 +50,23 @@ pnpm evals:agents --scenario evals/agents/scenarios/qa --model claude-haiku-5-5 
   `ANTHROPIC_API_KEY`. `--judge-model` defaults to `claude-opus-5-5` (needs Claude Code ≥ 2.1.280).
 - `--max-dollars` caps a run (default 5).
 - Results land in `evals/agents/results/<timestamp>/` (gitignored): `report.md`, `report.json`,
-  per-scenario attempts and raw transcripts.
+  `demo.md`, per-scenario attempts and raw transcripts.
+- `demo.md` tells, per attempt, what the agent received (prompt), what it did (skills loaded, tool
+  calls), what it delivered (final text) and the verdict of each check. Use it to show what an
+  agent does; use `report.md` to decide whether a scenario belongs in the suite.
+- `--arms with` runs only the shipped agent (half the cost). It cannot admit a scenario: the
+  report marks it `unablated`.
+
+### Suites outside this repository
+
+A `dir:<path>` target resolves against the scenario file's directory, and an agent inside an
+agentcompanies package (`<pkg>/agents/<slug>/AGENTS.md` next to `<pkg>/skills/<slug>/SKILL.md`, the
+layout `company import` reads) loads its skills from that package. So a company can keep its
+scenarios next to its own agent definitions and run them with this CLI:
+
+```bash
+pnpm evals:agents --scenario /path/to/company-repo/evals/scenarios --arms with --repeat 1
+```
 
 The headless tier builds the same on-disk prompt bundle the `claude_local` adapter builds for a real
 heartbeat and runs `claude -p --setting-sources project`, so your own `~/.claude` settings and
