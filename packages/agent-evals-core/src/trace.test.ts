@@ -39,4 +39,9 @@ describe("traceFromClaudeStreamJson + runHardChecks", () => {
     expect(traceFromClaudeStreamJson('{"type":"result","subtype":"error_max_turns","is_error":true}', 0).exit).toEqual({ ok: false, error: "error_max_turns" });
     expect(traceFromClaudeStreamJson("", 1).exit).toEqual({ ok: false, error: "exit code 1" });
   });
+
+  it("reports the API error text when the result is an error with subtype success", () => {
+    const line = JSON.stringify({ type: "result", subtype: "success", is_error: true, result: "API Error: 400 this model needs a newer Claude Code" });
+    expect(traceFromClaudeStreamJson(line, 1).exit).toEqual({ ok: false, error: "API Error: 400 this model needs a newer Claude Code" });
+  });
 });
