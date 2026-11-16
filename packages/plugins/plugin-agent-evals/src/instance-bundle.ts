@@ -40,3 +40,42 @@ export async function loadInstanceAgentBundle(ctx: Pick<PluginContext, "agents">
     revision: (runtime as { revision?: unknown }).revision !== undefined ? String((runtime as { revision?: unknown }).revision) : undefined,
   };
 }
+
+interface AgentRecord {
+  id: string;
+  adapterType?: string | null;
+  adapterConfig?: Record<string, unknown> | null;
+}
+
+/**
+ * Bundle for the heartbeat tier, from the agent record alone.
+ *
+ * `getRuntime` (file contents and skill sources) is reserved by the host for
+ * the plugin that owns the agent's lifecycle, and the heartbeat tier does not
+ * need contents: both arms run on real agents, and the ablated twin is made by
+ * the host's clone. The bundle only has to say what can be ablated (an
+ * instruction entry, the desired skills by slug) and key the twin (adapter,
+ * model, skills). Instruction file contents are not read, so editing them does
+ * not hire a new twin; a twin that drops `instructions` is blank either way.
+ */
+export function heartbeatAgentBundle(agent: AgentRecord): EvalBundle {
+  const config = agent.adapterConfig ?? {};
+  const entryFile = typeof config.instructionsEntryFile === "string" && config.instructionsEntryFile ? config.instructionsEntryFile : "AGENTS.md";
+  const hasInstructions = ["instructionsBundleMode", "instructionsFilePath", "instructionsRootPath"].some(
+    (key) => typeof config[key] === "string" && (config[key] as string).length > 0,
+  );
+  const sync = config.paperclipSkillSync as { desiredSkills?: unknown[] } | undefined;
+  const skills: Record<string, Record<string, string>> = {};
+  for (const entry of sync?.desiredSkills ?? []) {
+    const key = typeof entry === "string" ? entry : (entry as { key?: unknown } | null)?.key;
+    if (typeof key !== "string" || !key.trim()) continue;
+    skills[key.trim().split("/").pop()!] = {};
+  }
+  return {
+    id: `instance:${agent.id}`,
+    adapter: agent.adapterType ?? "unknown",
+    model: typeof config.model === "string" ? config.model : undefined,
+    instructions: hasInstructions ? { entryFile, files: {} } : null,
+    skills,
+  };
+}

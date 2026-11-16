@@ -12,7 +12,7 @@ import { AwaitingApprovalError, createEvalAgents, type EvalAgents } from "./eval
 import { createHeartbeatJudge } from "./heartbeat-judge.js";
 import { createHeartbeatExecutor, heartbeatTierAvailability, type WaitForIssueRun } from "./heartbeat-tier.js";
 import { EVALS_PROJECT_KEY } from "./manifest.js";
-import { loadInstanceAgentBundle } from "./instance-bundle.js";
+import { heartbeatAgentBundle, loadInstanceAgentBundle } from "./instance-bundle.js";
 import { loadScenarioCatalog } from "./scenarios.js";
 import type { EvalRunRow, EvalStore } from "./store.js";
 
@@ -54,7 +54,11 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
     if (selected.length === 0) throw new Error(`no matching scenarios (requested: ${run.scenario_ids.join(", ")})`);
     if (missing.length > 0) ctx.logger.warn("agent-evals: scenarios not found", { runId: run.id, missing });
 
-    const bundle = await loadInstanceAgentBundle(ctx, run.agent_id, run.company_id);
+    const source = await ctx.agents.get(run.agent_id, run.company_id);
+    if (!source) throw new Error(`agent ${run.agent_id} not found in company ${run.company_id}`);
+    const bundle = run.tier === "heartbeat"
+      ? heartbeatAgentBundle(source as unknown as Parameters<typeof heartbeatAgentBundle>[0])
+      : await loadInstanceAgentBundle(ctx, run.agent_id, run.company_id);
     let judge = await buildJudge(ctx, config, run.company_id);
 
     let execute: ExecuteAttempt;
@@ -66,8 +70,6 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
       if (!availability.available) throw new Error(availability.reason);
       const project = await ctx.projects.managed.reconcile(EVALS_PROJECT_KEY, run.company_id);
       if (!project.projectId) throw new Error("could not create the Evals project for eval issues");
-      const source = await ctx.agents.get(run.agent_id, run.company_id);
-      if (!source) throw new Error(`agent ${run.agent_id} not found in company ${run.company_id}`);
       evalAgents = createEvalAgents({ ctx, registry: store.evalAgents, companyId: run.company_id });
       const heartbeatScenarios = selected.filter((s) => s.tiers.includes("heartbeat"));
       const twins = await resolveEvalAgents(evalAgents, run.agent_id, source.name, bundle, heartbeatScenarios);
@@ -130,7 +132,7 @@ async function resolveEvalAgents(
   evalAgents: EvalAgents,
   agentId: string,
   agentName: string,
-  bundle: Awaited<ReturnType<typeof loadInstanceAgentBundle>>,
+  bundle: ReturnType<typeof heartbeatAgentBundle>,
   scenarios: readonly EvalScenario[],
 ): Promise<{ ablated: Map<string, string>; judge: string | null }> {
   const ablated = new Map<string, string>();
