@@ -92,7 +92,11 @@ export function traceFromClaudeStreamJson(ndjson: string, exitCode: number | nul
         outputTokens = Number(usage.output_tokens ?? 0);
       }
       if (event.is_error === true || (typeof event.subtype === "string" && event.subtype !== "success")) {
-        resultError = typeof event.subtype === "string" ? event.subtype : "error";
+        // An API failure arrives as is_error with subtype "success": the reason is in `result`, not in the subtype.
+        resultError =
+          typeof event.subtype === "string" && event.subtype !== "success" ? event.subtype
+          : typeof event.result === "string" && event.result.trim() ? event.result.trim().slice(0, 300)
+          : "error";
       }
     }
   }

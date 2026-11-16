@@ -3,6 +3,11 @@
  * Local instruction-eval loop (headless tier).
  *
  *   pnpm evals:agents [--scenario <file-or-dir>] [--repeat N] [--model M] [--max-dollars D] [--judge [--judge-model M]] [--keep]
+ *                     [--arms with|with,ablated]
+ *
+ * `dir:<path>` targets resolve against the scenario file's directory, so a suite can live in another
+ * repository next to the agents it tests. `--arms with` is a demo/smoke run: half the cost, no admission.
+ * Besides `report.md`, every run writes `demo.md`: per attempt, what the agent received, did and delivered.
  *
  * Rubric criteria are only graded with --judge (opt-in: transcripts are sent to
  * the Anthropic API for grading). Without it, only hard checks decide.
@@ -13,10 +18,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { parseArgs } from "node:util";
-import type { EvalBundle } from "./arms.js";
+import type { ArmId, EvalBundle } from "./arms.js";
 import { loadAgentBundleFromDir, loadSkillBundle } from "./bundle-loader.js";
 import { createAnthropicJudge, createClaudeCliJudge, DEFAULT_JUDGE_MODEL } from "./judge.js";
-import { renderMarkdownReport, type ScenarioReport } from "./report.js";
+import { renderDemoReport, renderMarkdownReport, type DemoEntry, type ScenarioReport } from "./report.js";
 import { runScenario } from "./run.js";
 import { parseScenario, type EvalScenario } from "./scenario.js";
 import { runHeadless } from "./tiers/headless.js";
@@ -36,7 +41,7 @@ async function collectScenarioFiles(target: string): Promise<string[]> {
   return out.sort();
 }
 
-async function resolveBundle(scenario: EvalScenario, model: string | undefined): Promise<EvalBundle> {
+async function resolveBundle(scenario: EvalScenario, scenarioFile: string, model: string | undefined): Promise<EvalBundle> {
   const [source, ...rest] = scenario.target.ref.split(":");
   const ref = rest.join(":");
   if (scenario.target.kind === "skill") {
@@ -45,7 +50,7 @@ async function resolveBundle(scenario: EvalScenario, model: string | undefined):
   const agentDir =
     // teams-catalog:<category>/<team>/<role> → catalog/bundled/<category>/<team>/agents/<role>
     source === "teams-catalog" ? path.join(repoRoot, "packages/teams-catalog/catalog/bundled", path.dirname(ref), "agents", path.basename(ref))
-    : source === "dir" ? path.resolve(repoRoot, ref)
+    : source === "dir" ? path.resolve(path.dirname(scenarioFile), ref)
     : null;
   if (!agentDir) throw new Error(`${scenario.id}: source "${source}" is not available in the local CLI (use the agent-evals plugin for instance agents)`);
   return loadAgentBundleFromDir({ id: scenario.target.ref, agentDir, skillRoots, model });
@@ -62,20 +67,24 @@ async function main() {
       judge: { type: "boolean", default: false },
       "judge-model": { type: "string", default: DEFAULT_JUDGE_MODEL },
       "judge-backend": { type: "string", default: "cli" },
+      arms: { type: "string", default: "with,ablated" },
     },
   });
   const maxDollars = Number(values["max-dollars"]);
+  const arms = values.arms!.split(",").map((a) => a.trim());
+  if (arms.length === 0 || arms.some((a) => a !== "with" && a !== "ablated")) throw new Error(`--arms must list "with" and/or "ablated", got "${values.arms}"`);
   const files = await collectScenarioFiles(path.resolve(repoRoot, values.scenario!));
   const scenarios = await Promise.all(
     files.map(async (f) => {
       const s = parseScenario(await fs.readFile(f, "utf8"), path.relative(repoRoot, f));
-      return values.repeat ? { ...s, repeat: Number(values.repeat) } : s;
+      return { file: f, scenario: values.repeat ? { ...s, repeat: Number(values.repeat) } : s };
     }),
   );
   const outDir = path.join(repoRoot, "evals/agents/results", new Date().toISOString().replace(/[:.]/g, "-"));
   await fs.mkdir(path.join(outDir, "transcripts"), { recursive: true });
 
   const reports: ScenarioReport[] = [];
+  const demo: DemoEntry[] = [];
   let spent = 0;
   const judgeTokens = { inputTokens: 0, outputTokens: 0 };
   const onJudgeUsage = (u: { inputTokens: number; outputTokens: number; costUsd?: number | null }) => {
@@ -89,14 +98,15 @@ async function main() {
     : values["judge-backend"] === "api"
       ? createAnthropicJudge({ model: values["judge-model"], onUsage: onJudgeUsage })
       : createClaudeCliJudge({ model: values["judge-model"], onUsage: onJudgeUsage });
-  for (const scenario of scenarios) {
+  for (const { file, scenario } of scenarios) {
     if (!scenario.tiers.includes("headless")) continue;
-    const bundle = await resolveBundle(scenario, values.model);
-    process.stderr.write(`▶ ${scenario.id} (${scenario.repeat}× with/ablated)\n`);
+    const bundle = await resolveBundle(scenario, file, values.model);
+    process.stderr.write(`▶ ${scenario.id} (${scenario.repeat}× ${arms.join("/")})\n`);
     const { report, attempts } = await runScenario({
       scenario,
       bundle,
       judge,
+      arms: arms as ArmId[],
       execute: async (arm, s, repetition) => {
         if (spent >= maxDollars) throw new Error(`budget of $${maxDollars} reached`);
         const trace = await runHeadless(arm.bundle, { prompt: s.prompt, maxTurns: s.max_turns, keepWorkDir: values.keep });
@@ -104,13 +114,17 @@ async function main() {
         await fs.writeFile(path.join(outDir, "transcripts", `${s.id}.${arm.id}.${repetition}.ndjson`), trace.raw);
         return trace;
       },
-      onAttempt: (a) => process.stderr.write(`  ${a.arm.padEnd(7)} #${a.repetition} ${a.error ? `ERROR ${a.error}` : a.passed ? "pass" : "FAIL"}\n`),
+      onAttempt: (a, trace) => {
+        process.stderr.write(`  ${a.arm.padEnd(7)} #${a.repetition} ${a.error ? `ERROR ${a.error}` : a.passed ? "pass" : "FAIL"}\n`);
+        demo.push({ scenarioId: scenario.id, target: scenario.target.ref, description: scenario.description, prompt: scenario.prompt, arm: a.arm, repetition: a.repetition, trace, attempt: a });
+      },
     });
     reports.push(report);
     await fs.writeFile(path.join(outDir, `${scenario.id}.attempts.json`), JSON.stringify(attempts, null, 2));
   }
   const markdown = renderMarkdownReport(reports);
   await fs.writeFile(path.join(outDir, "report.md"), markdown);
+  await fs.writeFile(path.join(outDir, "demo.md"), renderDemoReport(demo));
   const judgeSummary = judge ? { model: values["judge-model"], ...judgeTokens } : null;
   await fs.writeFile(path.join(outDir, "report.json"), JSON.stringify({ reports, spentUsd: spent, judge: judgeSummary }, null, 2));
   const judgeLine = judgeSummary

@@ -1,11 +1,11 @@
-import { buildArms, type EvalArm, type EvalBundle } from "./arms.js";
+import { buildArms, type ArmId, type EvalArm, type EvalBundle } from "./arms.js";
 import { runHardChecks } from "./assertions.js";
 import { buildScenarioReport, type AttemptResult, type ScenarioReport } from "./report.js";
 import type { EvalScenario } from "./scenario.js";
 import type { EvalTrace } from "./trace.js";
 
 /**
- * Run one scenario on both arms, `repeat` times each.
+ * Run one scenario on both arms (or the subset in `arms`), `repeat` times each.
  *
  * Arms depend on the scenario (the ablation is per scenario), so this does not
  * go through the eval-kernel matrix, whose candidates are scenario-independent.
@@ -30,7 +30,10 @@ export interface RunScenarioInput {
   readonly execute: ExecuteAttempt;
   /** Omit to skip rubric criteria (the report then counts hard checks only). */
   readonly judge?: JudgeAttempt;
-  readonly onAttempt?: (attempt: AttemptResult) => void;
+  /** Receives the trace too (absent when the attempt threw), so callers can show what the agent did. */
+  readonly onAttempt?: (attempt: AttemptResult, trace?: EvalTrace) => void;
+  /** Run only these arms. `["with"]` is a demo/smoke run: cheaper, but it cannot admit a scenario. */
+  readonly arms?: readonly ArmId[];
 }
 
 /** Last assistant paragraph of a failing attempt: where the agent explains itself. */
@@ -47,15 +50,16 @@ export function extractRationalization(trace: EvalTrace, verdicts: readonly Rubr
 
 export async function runScenario(input: RunScenarioInput): Promise<{ report: ScenarioReport; attempts: AttemptResult[] }> {
   const { scenario } = input;
-  const arms = buildArms(scenario, input.bundle, input.previousRevision);
+  const arms = buildArms(scenario, input.bundle, input.previousRevision).filter((a) => !input.arms || input.arms.includes(a.id));
   const attempts: AttemptResult[] = [];
 
   for (let repetition = 1; repetition <= scenario.repeat; repetition++) {
     // Interleave arms so drift over time (rate limits, model updates) hits both equally.
     for (const arm of arms) {
       let attempt: AttemptResult;
+      let trace: EvalTrace | undefined;
       try {
-        const trace = await input.execute(arm, scenario, repetition);
+        trace = await input.execute(arm, scenario, repetition);
         // Running out of turns is the agent's behavior (it did not deliver in budget), so it is
         // scored like any other attempt; only runtime/infra failures count as errors.
         const behavioralExit = trace.exit.error === "error_max_turns";
@@ -90,7 +94,7 @@ export async function runScenario(input: RunScenarioInput): Promise<{ report: Sc
         };
       }
       attempts.push(attempt);
-      input.onAttempt?.(attempt);
+      input.onAttempt?.(attempt, trace);
     }
   }
   return { report: buildScenarioReport(scenario, attempts), attempts };

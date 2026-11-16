@@ -33,6 +33,10 @@ export async function readTree(dir: string, base = dir): Promise<Record<string, 
   return out;
 }
 
+async function isDir(p: string): Promise<boolean> {
+  return fs.stat(p).then((s) => s.isDirectory(), () => false);
+}
+
 async function isFile(p: string): Promise<boolean> {
   return fs.stat(p).then((s) => s.isFile(), () => false);
 }
@@ -67,8 +71,14 @@ export async function loadAgentBundleFromDir(input: {
   if (entryRaw === undefined) throw new Error(`${entryPath} not found`);
   const { frontmatter, body } = splitFrontmatter(entryRaw);
   const declared = Array.isArray(frontmatter.skills) ? frontmatter.skills.filter((s): s is string => typeof s === "string") : [];
+  // An agentcompanies package (`<pkg>/agents/<slug>/AGENTS.md` + `<pkg>/skills/<slug>/SKILL.md`, the layout
+  // `company import` reads) carries its own skills: resolve them first, so a package outside this repo loads as is.
+  const packageSkills = path.join(input.agentDir, "..", "..", "skills");
+  const skillRoots = path.basename(path.dirname(input.agentDir)) === "agents" && (await isDir(packageSkills))
+    ? [packageSkills, ...input.skillRoots]
+    : input.skillRoots;
   const skills: Record<string, Record<string, string>> = {};
-  for (const slug of declared) skills[slug] = await loadSkill(slug, input.skillRoots);
+  for (const slug of declared) skills[slug] = await loadSkill(slug, skillRoots);
   return {
     id: input.id,
     adapter: input.adapter ?? "claude_local",
