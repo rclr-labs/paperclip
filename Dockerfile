@@ -152,6 +152,9 @@ RUN pnpm --filter @paperclipai/plugin-agent-evals build \
 # same ARG again for the runtime fallback; an ARG goes out of scope at the
 # end of its stage. Empty for local `docker build`, which then writes no stamp.
 ENV NODE_OPTIONS=--max-old-space-size=4096
+# Extra tsc flags for small build hosts, e.g. --singleThreaded keeps the server
+# compile under ~4 GB next to a running instance.
+ARG PAPERCLIP_TSC_FLAGS=""
 RUN pnpm --filter @paperclipai/server build
 RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" && exit 1)
 RUN pnpm --filter @paperclipai/server build:runtime \
