@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -27,17 +28,20 @@ const AGENT = "33333333-3333-4333-8333-333333333333";
 function sqlRecorder(namespace: string) {
   const queries: string[] = [];
   const executes: string[] = [];
+  const params: unknown[][] = [];
   return {
     queries,
     executes,
+    params,
     db: {
       namespace,
-      query: async (sql: string) => {
+      query: async (sql: string): Promise<unknown[]> => {
         queries.push(sql);
         return [];
       },
-      execute: async (sql: string) => {
+      execute: async (sql: string, values: unknown[] = []) => {
         executes.push(sql);
+        params.push(values);
         return { rowCount: 1 };
       },
     },
@@ -122,6 +126,23 @@ describe("queue-run guards", () => {
   it("refuses an agent outside the company", async () => {
     const { harness } = await setup({});
     await expect(harness.performAction("queue-run", { ...base, agentId: "55555555-5555-4555-8555-555555555555", confirmSpend: true })).rejects.toThrow(/agent not found/);
+  });
+
+  it("nightly regression re-queues only headless runs: a heartbeat run spends agent budgets and needs a person to confirm it", async () => {
+    const { harness, rec } = await setup({});
+    const last = (tier: string, agent: string) => ({
+      id: randomUUID(), company_id: COMPANY, agent_id: agent, tier, target_company_id: COMPANY,
+      scenario_ids: ["qa-restart-pass-on-new-criterion"], repeat_override: null, status: "completed",
+    });
+    const HEADLESS_AGENT = "77777777-7777-4777-8777-777777777777";
+    rec.db.query = async (sql: string) => {
+      rec.queries.push(sql);
+      return (sql.includes("DISTINCT ON") ? [last("heartbeat", AGENT), last("headless", HEADLESS_AGENT)] : []) as never;
+    };
+    await harness.runJob("nightly-regression");
+    const inserts = rec.executes.filter((sql) => sql.startsWith("INSERT INTO") && sql.includes("eval_runs"));
+    expect(inserts).toHaveLength(1);
+    expect(rec.params.at(rec.executes.indexOf(inserts[0]!))).toContain(HEADLESS_AGENT);
   });
 
   it("reports the heartbeat tier unavailable on hosts without agents.clone or runs.readLog", async () => {
