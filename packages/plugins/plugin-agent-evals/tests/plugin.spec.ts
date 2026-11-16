@@ -132,6 +132,13 @@ describe("queue-run guards", () => {
     expect(insert).toBeDefined();
   });
 
+  it("records the board user who queued the run, from the host's action context", async () => {
+    const { harness, rec } = await setup({ enabled: true });
+    await harness.performAction("queue-run", { ...base, confirmSpend: true }, { actor: { type: "user", userId: "board-user-1" } });
+    const i = rec.executes.findIndex((sql) => sql.includes("INSERT INTO") && sql.includes("eval_runs"));
+    expect(rec.params[i]).toContain("board-user-1");
+  });
+
   it("refuses an agent outside the company", async () => {
     const { harness } = await setup({ enabled: true });
     await expect(harness.performAction("queue-run", { ...base, agentId: "55555555-5555-4555-8555-555555555555", confirmSpend: true })).rejects.toThrow(/agent not found/);

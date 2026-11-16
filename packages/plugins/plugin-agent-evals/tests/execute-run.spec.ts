@@ -142,7 +142,7 @@ describe("executeRun on the heartbeat tier", () => {
     expect(h.status.get("eval-2")).toBe("paused");
     // Eval issues run as the board user who queued the run, not the company default:
     // the host resolves the AI connection's audience from the issue's responsible user.
-    expect(h.issues.map((i) => i.actorUserId)).toEqual(h.issues.map(() => "board-user-1"));
+    expect(h.issues.map((i) => (i.actor as { actorUserId?: string } | undefined)?.actorUserId)).toEqual(h.issues.map(() => "board-user-1"));
   });
 
   it("does not attribute eval issues to a user when no board user queued the run", async () => {
@@ -150,6 +150,6 @@ describe("executeRun on the heartbeat tier", () => {
     const nightly = { ...h.run, requested_by: "nightly" };
     await executeRun(h.ctx as never, h.store as never, h.waitForIssueRun, nightly, emptyBundledDir());
     expect(h.issues.length).toBeGreaterThan(0);
-    expect(h.issues.every((i) => i.actorUserId === undefined)).toBe(true);
+    expect(h.issues.every((i) => i.actor === undefined)).toBe(true);
   });
 });
