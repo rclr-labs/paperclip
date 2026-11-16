@@ -59,6 +59,8 @@ export function summarizeArm(attempts: readonly AttemptResult[]): ArmSummary {
 export function classifyAdmission(withArm: ArmSummary, ablated: ArmSummary, threshold: number): Admission {
   // Errors first: an arm that mostly timed out or crashed says nothing.
   if (withArm.errored > withArm.attempts / 2 || ablated.errored > ablated.attempts / 2) return "inconclusive";
+  // An ablated-only run (`--arms ablated`) says nothing about the shipped instruction.
+  if (withArm.attempts === 0) return "inconclusive";
   // The instruction itself must hold; a worse ablated arm does not excuse it.
   if (withArm.passRate < threshold) return "regressed";
   if (ablated.attempts === 0) return "unablated";

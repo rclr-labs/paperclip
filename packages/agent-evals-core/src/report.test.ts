@@ -64,3 +64,9 @@ describe("renderDemoReport", () => {
     expect(md).not.toContain("y".repeat(300));
   });
 });
+
+describe("classifyAdmission without a with arm", () => {
+  it("is inconclusive, not regressed, when only the ablated arm ran", () => {
+    expect(classifyAdmission(arm(0, 0), arm(0), 0.8)).toBe("inconclusive");
+  });
+});
