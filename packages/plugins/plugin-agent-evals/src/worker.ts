@@ -136,7 +136,8 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
       target_company_id: targetCompanyId,
       scenario_ids: scenarioIds,
       repeat_override: repeat,
-      requested_by: (context as { actor?: { id?: string } } | undefined)?.actor?.id ?? null,
+      // The host's action context: { actor: { type, userId, agentId, runId }, companyId }.
+      requested_by: (context as { actor?: { userId?: string | null } } | undefined)?.actor?.userId ?? null,
     });
     await ctx.activity.log({
       companyId,

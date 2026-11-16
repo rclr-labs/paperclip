@@ -222,7 +222,7 @@ export async function runEvalIssue(input: IssueRunInput, agentId: string, title:
     assigneeAgentId: agentId,
     originKind: EVAL_ISSUE_ORIGIN,
     originId,
-    ...(input.actorUserId ? { actorUserId: input.actorUserId } : {}),
+    ...(input.actorUserId ? { actor: { actorUserId: input.actorUserId } } : {}),
   });
   try {
     const outcome = await input.waitForIssueRun(issue.id, input.runTimeoutMs ?? 15 * 60_000);
