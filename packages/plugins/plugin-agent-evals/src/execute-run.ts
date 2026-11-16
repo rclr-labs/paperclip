@@ -7,14 +7,13 @@ import {
   type JudgeAttempt,
 } from "@paperclipai/agent-evals-core";
 import type { PluginContext } from "@paperclipai/plugin-sdk";
-import { createHeartbeatExecutor, heartbeatTierAvailability, type WaitForRun } from "./heartbeat-tier.js";
+import { createHeartbeatExecutor, heartbeatTierAvailability, type WaitForIssueRun } from "./heartbeat-tier.js";
+import { EVALS_PROJECT_KEY } from "./manifest.js";
 import { loadInstanceAgentBundle } from "./instance-bundle.js";
 import { loadScenarioCatalog } from "./scenarios.js";
 import type { EvalRunRow, EvalStore } from "./store.js";
 
 export interface PluginEvalConfig {
-  evalCompanyId?: string;
-  allowRealCompany?: boolean;
   headlessEnabled?: boolean;
   judgeModel?: string;
   judgeApiKey?: unknown;
@@ -37,7 +36,7 @@ export async function buildJudge(ctx: PluginContext, config: PluginEvalConfig, c
 }
 
 /** Execute one claimed run end to end; never throws (failures are recorded on the run). */
-export async function executeRun(ctx: PluginContext, store: EvalStore, waitForRun: WaitForRun, run: EvalRunRow, bundledDir?: string): Promise<void> {
+export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIssueRun: WaitForIssueRun, run: EvalRunRow, bundledDir?: string): Promise<void> {
   const config = (await ctx.config.get(run.company_id)) as PluginEvalConfig;
   let spent = 0;
   try {
@@ -58,10 +57,9 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForRu
     } else {
       const availability = heartbeatTierAvailability(ctx);
       if (!availability.available) throw new Error(availability.reason);
-      if (run.target_company_id === run.company_id && !config.allowRealCompany) {
-        throw new Error("running in the agent's own company is disabled; set an eval company or enable allowRealCompany");
-      }
-      execute = createHeartbeatExecutor({ ctx, waitForRun, sourceAgentId: run.agent_id, sourceCompanyId: run.company_id, targetCompanyId: run.target_company_id });
+      const project = await ctx.projects.managed.reconcile(EVALS_PROJECT_KEY, run.company_id);
+      if (!project.projectId) throw new Error("could not create the Evals project for eval issues");
+      execute = createHeartbeatExecutor({ ctx, waitForIssueRun, sourceAgentId: run.agent_id, companyId: run.company_id, projectId: project.projectId });
     }
 
     for (const base of selected) {

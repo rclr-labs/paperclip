@@ -2,7 +2,7 @@ import { randomUUID } from "node:crypto";
 import { parseScenario, ScenarioParseError } from "@paperclipai/agent-evals-core";
 import { definePlugin, runWorker, type PluginContext } from "@paperclipai/plugin-sdk";
 import { executeRun, type PluginEvalConfig } from "./execute-run.js";
-import { createRunWaiter, heartbeatTierAvailability, type WaitForRun } from "./heartbeat-tier.js";
+import { createRunWaiter, heartbeatTierAvailability, type WaitForIssueRun } from "./heartbeat-tier.js";
 import { JOB_NIGHTLY, JOB_RUN_QUEUED } from "./manifest.js";
 import { loadScenarioCatalog } from "./scenarios.js";
 import { createStore, type EvalStore, type EvalTier } from "./store.js";
@@ -17,9 +17,9 @@ export interface WorkerDeps {
   bundledScenariosDir?: string;
 }
 
-export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): { store: EvalStore; waitForRun: WaitForRun } {
+export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): { store: EvalStore; waitForIssueRun: WaitForIssueRun } {
   const store = createStore(ctx);
-  const waitForRun = createRunWaiter(ctx);
+  const waitForIssueRun = createRunWaiter(ctx);
   let draining = false;
 
   async function drainQueue(): Promise<number> {
@@ -29,7 +29,7 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
     try {
       for (const run of await store.listQueuedRuns()) {
         if (!(await store.claimRun(run.id))) continue;
-        await executeRun(ctx, store, waitForRun, run, deps.bundledScenariosDir);
+        await executeRun(ctx, store, waitForIssueRun, run, deps.bundledScenariosDir);
         executed++;
       }
     } finally {
@@ -57,10 +57,8 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
       invalidScenarios: invalid,
       tiers: {
         headless: config.headlessEnabled ? { available: true } : { available: false, reason: "Disabled in plugin settings (needs the Claude CLI on the worker host)." },
-        heartbeat: heartbeat.available && !config.evalCompanyId ? { available: false, reason: "Set an eval company in the plugin settings." } : heartbeat,
+        heartbeat,
       },
-      evalCompanyId: config.evalCompanyId ?? null,
-      allowRealCompany: config.allowRealCompany === true,
       judge: config.judgeApiKey ? { enabled: true, model: config.judgeModel ?? "claude-opus-5-5" } : { enabled: false },
     };
   });
@@ -104,13 +102,13 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
     if (tier !== "headless" && tier !== "heartbeat") throw new Error(`unknown tier ${tier}`);
     const scenarioIds = Array.isArray(params.scenarioIds) ? params.scenarioIds.filter((s): s is string => typeof s === "string") : [];
     if (scenarioIds.length === 0) throw new Error("pick at least one scenario");
-    const config = (await ctx.config.get(companyId)) as PluginEvalConfig;
 
-    // Default: the dedicated eval company. The agent's own company only with the setting on AND an explicit confirmation.
-    const useRealCompany = params.useRealCompany === true;
-    if (useRealCompany && !config.allowRealCompany) throw new Error("running in the agent's own company is disabled in the plugin settings");
-    if (useRealCompany && params.confirmRealCompany !== true) throw new Error("confirm that this run creates issues and spends budget in the agent's own company");
-    const targetCompanyId = tier === "headless" ? companyId : useRealCompany ? companyId : requireString(config.evalCompanyId, "eval company (plugin settings)");
+    // The heartbeat tier runs on the agent itself, in its own company: eval issues
+    // land in the plugin's Evals project and the runs spend the agent's budget.
+    if (tier === "heartbeat" && params.confirmSpend !== true) {
+      throw new Error("confirm that this run creates eval issues in the Evals project and spends this agent's budget");
+    }
+    const targetCompanyId = companyId;
 
     const agent = await ctx.agents.get(agentId, companyId);
     if (!agent) throw new Error("agent not found in this company");
@@ -156,7 +154,7 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
     await drainQueue();
   });
 
-  return { store, waitForRun };
+  return { store, waitForIssueRun };
 }
 
 const plugin = definePlugin({

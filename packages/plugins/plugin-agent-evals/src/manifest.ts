@@ -3,14 +3,8 @@ import type { PaperclipPluginManifestV1 } from "@paperclipai/plugin-sdk";
 export const PLUGIN_ID = "paperclipai.plugin-agent-evals";
 export const JOB_RUN_QUEUED = "run-queued-evals";
 export const JOB_NIGHTLY = "nightly-regression";
+export const EVALS_PROJECT_KEY = "evals";
 
-/**
- * Capabilities the heartbeat tier needs on top of this list. They are added by
- * the plugin SDK extension (`runs.events.read`, `agents.clone`); until the host
- * ships them the worker reports the heartbeat tier as unavailable instead of
- * failing at install time on an unknown capability.
- */
-export const HEARTBEAT_TIER_CAPABILITIES = ["runs.events.read", "agents.clone"] as const;
 
 const manifest: PaperclipPluginManifestV1 = {
   id: PLUGIN_ID,
@@ -26,9 +20,12 @@ const manifest: PaperclipPluginManifestV1 = {
     "agents.read",
     "agents.lifecycle.manage",
     "agents.invoke",
+    "agents.clone",
     "runs.events.read",
     "issues.read",
     "issues.create",
+    "issues.update",
+    "projects.managed",
     "events.subscribe",
     "jobs.schedule",
     "database.namespace.migrate",
@@ -66,17 +63,6 @@ const manifest: PaperclipPluginManifestV1 = {
   instanceConfigSchema: {
     type: "object",
     properties: {
-      evalCompanyId: {
-        type: "string",
-        title: "Eval company",
-        description: "Company where heartbeat-tier evals clone agents and create issues. Create a dedicated company (for example \"eval-sandbox\") so evals never touch real work or budgets.",
-      },
-      allowRealCompany: {
-        type: "boolean",
-        title: "Allow running in the agent's own company",
-        description: "Off by default. When on, a run can target the agent's real company after an explicit confirmation; its issues still carry the plugin origin for cleanup.",
-        default: false,
-      },
       headlessEnabled: {
         type: "boolean",
         title: "Enable headless tier",
@@ -101,6 +87,14 @@ const manifest: PaperclipPluginManifestV1 = {
       },
     },
   },
+  projects: [
+    {
+      projectKey: EVALS_PROJECT_KEY,
+      displayName: "Evals",
+      description: "Eval issues created by the Agent Evals plugin. Each one is a scenario prompt for one arm of an eval run; the plugin cancels it when the run finishes.",
+      status: "in_progress",
+    },
+  ],
   ui: {
     slots: [
       { type: "page", id: "evals-page", displayName: "Evals", exportName: "EvalsPage", routePath: "evals" },

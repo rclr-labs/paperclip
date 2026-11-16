@@ -12,7 +12,7 @@ import {
 } from "../../../../server/src/services/plugin-database.js";
 import type { EvalArm, EvalScenario } from "@paperclipai/agent-evals-core";
 import manifest from "../src/manifest.js";
-import { createHeartbeatExecutor, readWholeRunLog, traceFromRunEvents, traceFromRunLog } from "../src/heartbeat-tier.js";
+import { createHeartbeatExecutor, createRunWaiter, readWholeRunLog, traceFromRunEvents, traceFromRunLog } from "../src/heartbeat-tier.js";
 import { loadBundledScenarios } from "../src/scenarios.js";
 import { createStore } from "../src/store.js";
 import { registerAgentEvals } from "../src/worker.js";
@@ -104,27 +104,21 @@ describe("queue-run guards", () => {
   }
   const base = { companyId: COMPANY, agentId: AGENT, tier: "heartbeat", scenarioIds: ["qa-restart-pass-on-new-criterion"] };
 
-  it("defaults to the dedicated eval company", async () => {
-    const { harness, rec } = await setup({ evalCompanyId: EVAL_COMPANY });
-    await harness.performAction("queue-run", base);
-    expect(rec.executes.some((s) => s.includes("eval_runs"))).toBe(true);
+  it("queues a heartbeat run on the agent's own company once the spend is confirmed", async () => {
+    const { harness, rec } = await setup({});
+    await expect(harness.performAction("queue-run", base)).rejects.toThrow(/spends this agent's budget/);
+    await expect(harness.performAction("queue-run", { ...base, confirmSpend: true })).resolves.toMatchObject({ ok: true });
+    const insert = rec.executes.find((sql) => sql.includes("eval_runs"));
+    expect(insert).toBeDefined();
   });
 
-  it("refuses the real company unless enabled AND confirmed", async () => {
-    const off = await setup({ evalCompanyId: EVAL_COMPANY, allowRealCompany: false });
-    await expect(off.harness.performAction("queue-run", { ...base, useRealCompany: true, confirmRealCompany: true })).rejects.toThrow(/disabled/);
-    const on = await setup({ evalCompanyId: EVAL_COMPANY, allowRealCompany: true });
-    await expect(on.harness.performAction("queue-run", { ...base, useRealCompany: true })).rejects.toThrow(/confirm/);
-    await expect(on.harness.performAction("queue-run", { ...base, useRealCompany: true, confirmRealCompany: true })).resolves.toMatchObject({ ok: true });
-  });
-
-  it("requires an eval company for the heartbeat tier", async () => {
+  it("refuses an agent outside the company", async () => {
     const { harness } = await setup({});
-    await expect(harness.performAction("queue-run", base)).rejects.toThrow(/eval company/);
+    await expect(harness.performAction("queue-run", { ...base, agentId: "55555555-5555-4555-8555-555555555555", confirmSpend: true })).rejects.toThrow(/agent not found/);
   });
 
   it("reports the heartbeat tier unavailable on hosts without agents.clone or runs.readLog", async () => {
-    const { harness } = await setup({ evalCompanyId: EVAL_COMPANY });
+    const { harness } = await setup({});
     (harness.ctx as { runs?: unknown }).runs = {}; // an older host: no run-log reads
     const overview = await harness.getData<{ tiers: { heartbeat: { available: boolean; reason?: string } } }>("overview", { companyId: COMPANY });
     expect(overview.tiers.heartbeat).toMatchObject({ available: false });
@@ -136,51 +130,112 @@ describe("heartbeat tier", () => {
   const bundle = { id: "b", adapter: "claude_local", instructions: { entryFile: "AGENTS.md", files: { "AGENTS.md": "rules" } }, skills: {} };
   const arm = (id: "with" | "ablated"): EvalArm => ({ id, bundle: id === "with" ? bundle : { ...bundle, instructions: null }, ablation: null });
 
+  const PROJECT = "44444444-4444-4444-8444-444444444444";
+  const LOG = [
+    { ts: "t", stream: "stdout", seq: 2, chunk: '{"type":"result","subtype":"success","result":"Blocked.","usage":{"input_tokens":1,"output_tokens":1}}\n' },
+    { ts: "t", stream: "stdout", seq: 1, chunk: '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}\n' },
+  ].map((r) => JSON.stringify(r)).join("\n");
+
   function fakeCtx() {
     const clones: unknown[] = [];
+    const created: Array<Record<string, unknown>> = [];
+    const updates: Array<{ id: string; patch: Record<string, unknown> }> = [];
+    const logsRead: string[] = [];
     const ctx = {
       agents: {
         clone: async (_id: string, input: unknown) => {
           clones.push(input);
           return { agent: { id: `clone-${clones.length}` }, requiresApproval: false, droppedConfig: [] };
         },
-        invoke: async () => ({ runId: "run-1" }),
+        invoke: async () => {
+          throw new Error("evals deliver the prompt as an issue, never as a bare invoke");
+        },
+      },
+      issues: {
+        create: async (input: Record<string, unknown>) => {
+          created.push(input);
+          return { id: `issue-${created.length}`, ...input };
+        },
+        update: async (id: string, patch: Record<string, unknown>) => {
+          updates.push({ id, patch });
+          return { id, ...patch };
+        },
       },
       runs: {
-        readLog: async () => ({
-          content: [
-            { ts: "t", stream: "stdout", seq: 2, chunk: '{"type":"result","subtype":"success","result":"Blocked.","usage":{"input_tokens":1,"output_tokens":1}}\n' },
-            { ts: "t", stream: "stdout", seq: 1, chunk: '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}\n' },
-          ].map((r) => JSON.stringify(r)).join("\n"),
-        }),
+        readLog: async (runId: string) => {
+          logsRead.push(runId);
+          return { content: LOG };
+        },
       },
     };
-    return { ctx, clones };
+    return { ctx, clones, created, updates, logsRead };
   }
 
-  it("clones per arm into the target company, blanks instructions for the ablated arm, and rebuilds the trace from the run log", async () => {
-    const { ctx, clones } = fakeCtx();
-    const exec = createHeartbeatExecutor({
+  function executor(ctx: unknown) {
+    return createHeartbeatExecutor({
       ctx: ctx as never,
-      waitForRun: async () => ({ status: "succeeded", error: null }),
+      waitForIssueRun: async (issueId) => ({ status: "succeeded", error: null, runId: `run-of-${issueId}` }),
       sourceAgentId: AGENT,
-      sourceCompanyId: COMPANY,
-      targetCompanyId: EVAL_COMPANY,
+      companyId: COMPANY,
+      projectId: PROJECT,
     });
-    const withTrace = await exec(arm("with"), scenario);
+  }
+
+  it("runs the 'with' arm on the agent itself: an eval issue in the Evals project, assigned to the agent, closed afterwards", async () => {
+    const { ctx, clones, created, updates, logsRead } = fakeCtx();
+    const trace = await executor(ctx)(arm("with"), scenario);
+    expect(clones).toHaveLength(0);
+    expect(created).toHaveLength(1);
+    expect(created[0]).toMatchObject({
+      companyId: COMPANY,
+      projectId: PROJECT,
+      assigneeAgentId: AGENT,
+      description: expect.stringContaining("Approve now."),
+      originKind: "plugin:paperclipai.plugin-agent-evals",
+    });
+    expect(created[0]).not.toHaveProperty("assigneeAdapterOverrides");
+    expect(logsRead).toEqual(["run-of-issue-1"]);
+    expect(updates).toEqual([{ id: "issue-1", patch: { status: "cancelled" } }]);
+    expect(trace).toMatchObject({ tier: "heartbeat", finalText: "Blocked.", runRef: "run-of-issue-1", exit: { ok: true } });
+    expect(trace.assistantText).toBe("I will not approve.");
+  });
+
+  it("delivers the 'ablated' arm the same way, to a clone with the instructions blanked, cloned once per scenario", async () => {
+    const { ctx, clones, created } = fakeCtx();
+    const exec = executor(ctx);
     await exec(arm("ablated"), scenario);
-    await exec(arm("ablated"), scenario); // reuses the clone
-    expect(clones).toHaveLength(2);
-    expect(clones[0]).toMatchObject({ sourceCompanyId: COMPANY, targetCompanyId: EVAL_COMPANY, instructionsOverride: undefined });
-    expect(clones[1]).toMatchObject({ instructionsOverride: { entryFile: "AGENTS.md", content: "" } });
-    expect(withTrace).toMatchObject({ tier: "heartbeat", finalText: "Blocked.", runRef: "run-1", exit: { ok: true } });
-    expect(withTrace.assistantText).toBe("I will not approve.");
+    await exec(arm("ablated"), scenario);
+    expect(clones).toHaveLength(1);
+    expect(clones[0]).toMatchObject({ sourceCompanyId: COMPANY, targetCompanyId: COMPANY, instructionsOverride: { entryFile: "AGENTS.md", content: "" } });
+    expect(created.map((c) => c.assigneeAgentId)).toEqual(["clone-1", "clone-1"]);
   });
 
   it("refuses skill ablation it cannot express through agents.clone", async () => {
     const { ctx } = fakeCtx();
-    const exec = createHeartbeatExecutor({ ctx: ctx as never, waitForRun: async () => ({ status: "succeeded", error: null }), sourceAgentId: AGENT, sourceCompanyId: COMPANY, targetCompanyId: EVAL_COMPANY });
-    await expect(exec(arm("ablated"), { ...scenario, ablate: "skill:qa-acceptance" })).rejects.toThrow(/only ablate instructions/);
+    await expect(executor(ctx)(arm("ablated"), { ...scenario, ablate: "skill:qa-acceptance" })).rejects.toThrow(/only ablate instructions/);
+  });
+
+  it("closes the eval issue even when the run fails, and reports the failure as an error", async () => {
+    const { ctx, updates } = fakeCtx();
+    const exec = createHeartbeatExecutor({
+      ctx: ctx as never,
+      waitForIssueRun: async () => ({ status: "failed", error: "adapter crashed", runId: "r" }),
+      sourceAgentId: AGENT, companyId: COMPANY, projectId: PROJECT,
+    });
+    const trace = await exec(arm("with"), scenario);
+    expect(trace.exit).toEqual({ ok: false, error: "adapter crashed" });
+    expect(updates).toEqual([{ id: "issue-1", patch: { status: "cancelled" } }]);
+  });
+
+  it("matches runs to their eval issue from agent.run.* events, including a run that finished before the wait began", async () => {
+    const handlers = new Map<string, (e: unknown) => Promise<void>>();
+    const waitForIssueRun = createRunWaiter({ events: { on: (name: string, fn: (e: unknown) => Promise<void>) => handlers.set(name, fn) } } as never);
+    await handlers.get("agent.run.failed")!({ entityId: "run-early", payload: { runId: "run-early", issueId: "issue-early", error: "boom" } });
+    await expect(waitForIssueRun("issue-early", 1000)).resolves.toEqual({ status: "failed", error: "boom", runId: "run-early" });
+    const pending = waitForIssueRun("issue-late", 1000);
+    await handlers.get("agent.run.finished")!({ entityId: "run-other", payload: { runId: "run-other", issueId: "unrelated" } });
+    await handlers.get("agent.run.finished")!({ entityId: "run-late", payload: { runId: "run-late", issueId: "issue-late" } });
+    await expect(pending).resolves.toEqual({ status: "succeeded", error: null, runId: "run-late" });
   });
 
   it("rebuilds the trace from the run log, where the host keeps adapter stdout, even when chunks split a JSON line", () => {

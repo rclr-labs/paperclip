@@ -8,8 +8,6 @@ interface Overview {
   scenarios: { id: string; description: string | null; source: "bundled" | "company"; tiers: string[]; ablate: string | string[]; repeat: number; pressures: string[] }[];
   invalidScenarios: { scenarioId: string; error: string }[];
   tiers: { headless: TierState; heartbeat: TierState };
-  evalCompanyId: string | null;
-  allowRealCompany: boolean;
   judge: { enabled: boolean; model?: string };
 }
 
@@ -95,7 +93,6 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
   const queueRun = usePluginAction("queue-run");
   const [selected, setSelected] = useState<string[]>([]);
   const [tier, setTier] = useState<"headless" | "heartbeat">("heartbeat");
-  const [useRealCompany, setUseRealCompany] = useState(false);
   const [openRun, setOpenRun] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -104,11 +101,11 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
   const eligible = useMemo(() => (overview.data?.scenarios ?? []).filter((s) => s.tiers.includes(tier)), [overview.data, tier]);
 
   async function submit() {
-    if (useRealCompany && !window.confirm("This run creates issues and spends budget in this agent's own company. Continue?")) return;
+    if (tier === "heartbeat" && !window.confirm("This run creates eval issues in the Evals project, assigns them to this agent (and to a copy of it without the instruction), and spends this agent's budget. Continue?")) return;
     setBusy(true);
     setMessage(null);
     try {
-      await queueRun({ companyId, agentId, tier, scenarioIds: selected, useRealCompany, confirmRealCompany: useRealCompany });
+      await queueRun({ companyId, agentId, tier, scenarioIds: selected, confirmSpend: tier === "heartbeat" });
       setMessage("Queued. The run starts within 5 minutes.");
       setSelected([]);
       runs.refresh();
@@ -133,13 +130,12 @@ function AgentEvalPanel({ companyId, agentId }: { companyId: string; agentId: st
               <option value="headless">Headless (claude -p)</option>
             </select>
           </label>
-          {tier === "heartbeat" && overview.data?.allowRealCompany && (
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={useRealCompany} onChange={(e) => setUseRealCompany(e.target.checked)} />
-              Run in this agent's own company instead of the eval company
-            </label>
-          )}
         </div>
+        {tier === "heartbeat" && (
+          <p className="text-sm text-muted-foreground">
+            Runs on this agent in this company. Eval issues go to the Evals project and are cancelled when the run ends; their cost counts toward the agent's budget.
+          </p>
+        )}
         {tierState && !tierState.available && <p className="text-sm text-muted-foreground">Unavailable: {tierState.reason}</p>}
         {!overview.data?.judge.enabled && <p className="text-sm text-muted-foreground">No judge configured: only deterministic checks decide.</p>}
         <ul className="flex flex-col gap-1">
