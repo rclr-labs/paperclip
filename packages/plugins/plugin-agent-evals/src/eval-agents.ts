@@ -66,9 +66,12 @@ interface CloneInput {
   removeSkills?: string[];
 }
 
+/** Host lifecycle phases in which a paused agent cannot be resumed yet (the host is still preparing or verifying the hire). */
+const HOST_SETTLING_STATES = new Set(["preparing", "verifying", "resuming"]);
+
 interface EvalAgentsClient {
   clone(agentId: string, input: CloneInput): Promise<{ agent: { id: string }; requiresApproval: boolean }>;
-  get(agentId: string, companyId: string): Promise<{ id: string; name: string; status: string; adapterConfig?: unknown } | null>;
+  get(agentId: string, companyId: string): Promise<{ id: string; name: string; status: string; lifecycleState?: string | null; lifecycleError?: string | null; adapterConfig?: unknown } | null>;
   pause(agentId: string, companyId: string): Promise<unknown>;
   resume(agentId: string, companyId: string): Promise<unknown>;
 }
@@ -113,6 +116,14 @@ export function createEvalAgents(input: EvalAgentsInput) {
       return null; // gone: hire a new one
     }
     if (agent.status === "pending_approval") throw new AwaitingApprovalError(agent.name);
+    if (agent.status === "paused" && agent.lifecycleState && HOST_SETTLING_STATES.has(agent.lifecycleState)) {
+      // The host checks every new hire (a hello probe through the agent's AI
+      // connection) before it can run; resuming now is refused. Surface the
+      // host's own, secret-free error so the board knows what to fix.
+      throw new Error(agent.lifecycleError
+        ? `the eval agent "${agent.name}" did not pass the host's hire verification (${agent.lifecycleState}): ${agent.lifecycleError}`
+        : `the eval agent "${agent.name}" is still being verified by the host (${agent.lifecycleState}); queue the run again in a few minutes`);
+    }
     if (agent.status === "paused") {
       try {
         await agents.resume(agent.id, input.companyId);
