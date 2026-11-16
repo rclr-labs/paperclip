@@ -140,6 +140,8 @@ export function registerAgentEvals(ctx: PluginContext, deps: WorkerDeps = {}): {
 
   ctx.jobs.register(JOB_NIGHTLY, async () => {
     for (const last of await store.latestRunPerAgent()) {
+      // A heartbeat run creates issues and spends agent budgets; only a person queues one.
+      if (last.tier !== "headless") continue;
       await store.queueRun({
         id: randomUUID(),
         company_id: last.company_id,

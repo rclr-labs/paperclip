@@ -30,7 +30,8 @@ To keep the plugin to some companies only, disable it for the others in each com
   as YAML.
 - **Agent → Evals tab**: the same panel for one agent.
 - Runs are queued and picked up by the `run-queued-evals` job (every 5 minutes).
-- The `nightly-regression` job re-queues each agent's latest run at 03:00 and only reports.
+- The `nightly-regression` job re-queues each agent's latest headless run at 03:00 and only reports.
+  Heartbeat runs spend agent budgets, so they are never re-queued automatically.
 
 Results show, per scenario, the pass rate with and without the instruction, the admission verdict
 and the agent's verbatim rationalizations.
