@@ -26,6 +26,7 @@ const manifest: PaperclipPluginManifestV1 = {
     "agents.read",
     "agents.lifecycle.manage",
     "agents.invoke",
+    "runs.events.read",
     "issues.read",
     "issues.create",
     "events.subscribe",
