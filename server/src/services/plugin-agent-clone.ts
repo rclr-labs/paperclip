@@ -202,8 +202,9 @@ export function pluginAgentCloneService(db: Db, plugin: { pluginId: string; plug
       runtimeConfig: config.runtimeConfig,
       defaultEnvironmentId: config.defaultEnvironmentId,
       budgetMonthlyCents: source.budgetMonthlyCents ?? 0,
-      // Elevated permissions are granted by a board user, not inherited.
-      permissions: {},
+      // Elevated permissions are granted by a board user, never inherited, and
+      // a plugin-made copy never hires agents or creates skills on its own.
+      permissions: { canCreateAgents: false, canCreateSkills: false },
       status: requiresApproval ? "pending_approval" : "idle",
       metadata: {
         clonedFrom: { agentId: source.id, companyId: source.companyId, pluginKey: plugin.pluginKey },

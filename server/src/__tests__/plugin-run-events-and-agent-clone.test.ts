@@ -338,7 +338,8 @@ describeEmbeddedPostgres("plugin runs.listEvents and agents.clone", () => {
       title: "Code reviewer",
       capabilities: "Reviews pull requests.",
       adapterType: "process",
-      status: "idle",
+      // New hires start paused while the lifecycle driver prepares them.
+      status: "paused",
     });
     expect(clone.adapterConfig).toMatchObject({ command: "pnpm review", env: { MODE: { type: "plain", value: "strict" } } });
     expect(clone.runtimeConfig).toMatchObject({ heartbeat: { enabled: false } });
