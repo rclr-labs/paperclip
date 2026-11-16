@@ -465,6 +465,17 @@ export interface PluginRunEvent {
 }
 
 /**
+ * One page of a heartbeat run log as returned to a plugin by
+ * `ctx.runs.readLog` (capability `runs.events.read`). `content` is NDJSON,
+ * one record per line: `{ ts, stream: "stdout" | "stderr", chunk, seq? }`.
+ * `nextOffset` is set while more of the log remains.
+ */
+export interface PluginRunLogPage {
+  content: string;
+  nextOffset?: number;
+}
+
+/**
  * Instruction override for `ctx.agents.clone` (capability `agents.clone`).
  *
  * - `{ entryFile, content }` replaces one file of the copied bundle and keeps

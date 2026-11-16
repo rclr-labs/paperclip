@@ -1076,6 +1076,7 @@ export type {
   PluginAgentCloneInstructionsOverride,
   PluginAgentCloneResult,
   PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectResolution,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,

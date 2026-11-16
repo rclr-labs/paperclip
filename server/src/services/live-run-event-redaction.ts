@@ -39,3 +39,10 @@ export function createStoredRunEventRedactor(db: Db) {
     return redactions.redactForRun(companyId, runId, redacted);
   };
 }
+
+/** Redact a stored run-log page for a plugin the way `GET /api/heartbeat-runs/:runId/log` does. */
+export function createStoredRunLogRedactor(db: Db) {
+  const redactions = createRunSecretRedactionRegistry(db);
+  return async <T extends { content: string }>(companyId: string, runId: string, page: T): Promise<T> =>
+    redactions.redactForRun(companyId, runId, page);
+}

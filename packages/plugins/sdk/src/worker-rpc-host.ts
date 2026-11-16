@@ -1164,6 +1164,14 @@ export function startWorkerRpcHost(options: WorkerRpcHostOptions): WorkerRpcHost
             ...(options?.limit !== undefined ? { limit: options.limit } : {}),
           });
         },
+        async readLog(runId: string, companyId: string, options?: { offset?: number; limitBytes?: number }) {
+          return callHost("runs.readLog", {
+            runId,
+            companyId,
+            ...(options?.offset !== undefined ? { offset: options.offset } : {}),
+            ...(options?.limitBytes !== undefined ? { limitBytes: options.limitBytes } : {}),
+          });
+        },
       },
 
       approvals: {

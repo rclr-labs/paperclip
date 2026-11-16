@@ -27,6 +27,8 @@ import {
 import { buildHostServices } from "../services/plugin-host-services.js";
 import { agentInstructionsService } from "../services/agent-instructions.js";
 import { REDACTED_EVENT_VALUE } from "../redaction.js";
+import { getRunLogStore } from "../services/run-log-store.js";
+import { createRunSecretRedactionRegistry } from "../services/run-secret-redaction.js";
 
 const embeddedPostgresSupport = await getEmbeddedPostgresTestSupport();
 const describeEmbeddedPostgres = embeddedPostgresSupport.supported ? describe : describe.skip;
@@ -218,6 +220,89 @@ describeEmbeddedPostgres("plugin runs.listEvents and agents.clone", () => {
 
     await expect(hostServices().runs.listEvents({ runId: privateRun, companyId })).resolves.toEqual([]);
     await expect(hostServices().runs.listEvents({ runId: openRun, companyId })).resolves.toHaveLength(3);
+  });
+
+  // ---------------------------------------------------------------------------
+  // runs.readLog: adapter stdout lives in the run log, not in run events
+  // ---------------------------------------------------------------------------
+
+  async function seedRunLog(companyId: string, runId: string, agentId: string, chunks: Array<{ stream: "stdout" | "stderr"; chunk: string }>) {
+    const store = getRunLogStore();
+    const handle = await store.begin({ companyId, agentId, runId, newRun: true });
+    let seq = 0;
+    for (const entry of chunks) {
+      seq += 1;
+      await store.append(handle, { ...entry, ts: new Date().toISOString(), seq });
+    }
+    const finalized = await store.finalize(handle);
+    await db.update(heartbeatRuns)
+      .set({ logStore: handle.store, logRef: handle.logRef, logBytes: finalized.bytes ?? null })
+      .where(eq(heartbeatRuns.id, runId));
+  }
+
+  function stdoutOf(content: string) {
+    return content.split("\n").filter(Boolean)
+      .map((line) => JSON.parse(line) as { stream: string; chunk: string })
+      .filter((record) => record.stream === "stdout")
+      .map((record) => record.chunk)
+      .join("");
+  }
+
+  it("reads the run log a plugin needs to rebuild adapter stdout, with registered run secrets redacted", async () => {
+    const companyId = await seedCompany();
+    const agentId = await seedAgent(companyId);
+    const runId = await seedRun(companyId, agentId);
+    const secret = "ghp_pluginMustNeverSeeThisToken123";
+    await createRunSecretRedactionRegistry(db).register(companyId, runId, secret);
+    await seedRunLog(companyId, runId, agentId, [
+      { stream: "stdout", chunk: '{"type":"assistant","message":{"content":[{"type":"text","text":"token ' },
+      { stream: "stderr", chunk: "[paperclip] warning\n" },
+      { stream: "stdout", chunk: `${secret}"}]}}\n{"type":"result","subtype":"success","result":"ok"}\n` },
+    ]);
+
+    const page = await hostServices().runs.readLog({ runId, companyId });
+
+    expect(page.nextOffset).toBeUndefined();
+    expect(page.content).not.toContain(secret);
+    const stdout = stdoutOf(page.content);
+    expect(stdout).toContain('{"type":"result","subtype":"success","result":"ok"}');
+    expect(stdout.startsWith('{"type":"assistant"')).toBe(true);
+  });
+
+  it("pages the run log with offset and limitBytes", async () => {
+    const companyId = await seedCompany();
+    const agentId = await seedAgent(companyId);
+    const runId = await seedRun(companyId, agentId);
+    await seedRunLog(companyId, runId, agentId, Array.from({ length: 20 }, (_, i) => ({ stream: "stdout" as const, chunk: `line-${i}\n` })));
+
+    let content = "";
+    let offset = 0;
+    let pages = 0;
+    for (;;) {
+      const page = await hostServices().runs.readLog({ runId, companyId, offset, limitBytes: 300 });
+      content += page.content;
+      pages += 1;
+      if (page.nextOffset === undefined) break;
+      offset = page.nextOffset;
+    }
+    expect(pages).toBeGreaterThan(1);
+    expect(stdoutOf(content)).toBe(Array.from({ length: 20 }, (_, i) => `line-${i}\n`).join(""));
+  });
+
+  it("returns an empty log for another company's run and for a private issue's run", async () => {
+    process.env.PAPERCLIP_ISSUE_PRIVACY_MODE = "enforce";
+    const companyA = await seedCompany();
+    const companyB = await seedCompany();
+    const agentB = await seedAgent(companyB);
+    const runB = await seedRun(companyB, agentB);
+    await seedRunLog(companyB, runB, agentB, [{ stream: "stdout", chunk: "secret work\n" }]);
+    await expect(hostServices().runs.readLog({ runId: runB, companyId: companyA })).resolves.toEqual({ content: "" });
+
+    const privateIssueId = randomUUID();
+    await db.insert(issues).values({ id: privateIssueId, companyId: companyB, title: "Confidential", status: "todo", priority: "medium", visibility: "private" });
+    const privateRun = await seedRun(companyB, agentB, { issueId: privateIssueId });
+    await seedRunLog(companyB, privateRun, agentB, [{ stream: "stdout", chunk: "private\n" }]);
+    await expect(hostServices().runs.readLog({ runId: privateRun, companyId: companyB })).resolves.toEqual({ content: "" });
   });
 
   // ---------------------------------------------------------------------------

@@ -123,8 +123,9 @@ describe("queue-run guards", () => {
     await expect(harness.performAction("queue-run", base)).rejects.toThrow(/eval company/);
   });
 
-  it("reports the heartbeat tier unavailable on hosts without agents.clone", async () => {
+  it("reports the heartbeat tier unavailable on hosts without agents.clone or runs.readLog", async () => {
     const { harness } = await setup({ evalCompanyId: EVAL_COMPANY });
+    (harness.ctx as { runs?: unknown }).runs = {}; // an older host: no run-log reads
     const overview = await harness.getData<{ tiers: { heartbeat: { available: boolean; reason?: string } } }>("overview", { companyId: COMPANY });
     expect(overview.tiers.heartbeat).toMatchObject({ available: false });
   });
@@ -146,16 +147,18 @@ describe("heartbeat tier", () => {
         invoke: async () => ({ runId: "run-1" }),
       },
       runs: {
-        listEvents: async () => [
-          { seq: 2, eventType: "log", stream: "stdout", message: '{"type":"result","subtype":"success","result":"Blocked.","usage":{"input_tokens":1,"output_tokens":1}}', payload: null },
-          { seq: 1, eventType: "log", stream: "stdout", message: '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}', payload: null },
-        ],
+        readLog: async () => ({
+          content: [
+            { ts: "t", stream: "stdout", seq: 2, chunk: '{"type":"result","subtype":"success","result":"Blocked.","usage":{"input_tokens":1,"output_tokens":1}}\n' },
+            { ts: "t", stream: "stdout", seq: 1, chunk: '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}\n' },
+          ].map((r) => JSON.stringify(r)).join("\n"),
+        }),
       },
     };
     return { ctx, clones };
   }
 
-  it("clones per arm into the target company, blanks instructions for the ablated arm, and rebuilds the trace from run events", async () => {
+  it("clones per arm into the target company, blanks instructions for the ablated arm, and rebuilds the trace from the run log", async () => {
     const { ctx, clones } = fakeCtx();
     const exec = createHeartbeatExecutor({
       ctx: ctx as never,

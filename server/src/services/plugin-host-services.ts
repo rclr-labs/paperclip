@@ -1,6 +1,6 @@
 import { projectGitAuthorizationService } from "./project-git-authorization.js";
 import { createLiveEventDelivery } from "../realtime/live-event-delivery.js";
-import { createLiveRunEventRedactor, createStoredRunEventRedactor } from "./live-run-event-redaction.js";
+import { createLiveRunEventRedactor, createStoredRunEventRedactor, createStoredRunLogRedactor } from "./live-run-event-redaction.js";
 import { pluginAgentCloneService } from "./plugin-agent-clone.js";
 import { projectInstanceSecretService } from "./project-instance-secrets.js";
 import { pluginAgentRuntimeState, pluginAgentRuntimeIdentity } from "./plugin-agent-runtime-state.js";
@@ -807,6 +807,9 @@ export function buildHostServices(
   const approvalSvc = approvalService(db);
   const interactions = issueThreadInteractionService(db);
   const redactStoredRunEvents = createStoredRunEventRedactor(db);
+  const redactStoredRunLog = createStoredRunLogRedactor(db);
+  /** Largest run-log page a plugin may request in one call. */
+  const PLUGIN_RUN_LOG_PAGE_BYTES = 512 * 1024;
   const agentClones = pluginAgentCloneService(db, { pluginId, pluginKey });
   const scopedBus = eventBus.forPlugin(pluginKey);
   const lifecycleInbox = pluginLifecycleInbox(db, pluginId);
@@ -3161,6 +3164,28 @@ export function buildHostServices(
           createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : String(row.createdAt),
         }));
         return redactStoredRunEvents(companyId, run.id, events);
+      },
+      async readLog(params) {
+        const companyId = ensureCompanyId(params.companyId);
+        await ensurePluginAvailableForCompany(companyId);
+        const run = await heartbeat.getRunLogAccess(params.runId);
+        if (!run || run.companyId !== companyId) return { content: "" };
+        // Same issue-privacy rule as listEvents.
+        if (run.scopeKind !== "company") {
+          if (!run.issueId) return { content: "" };
+          if (!(await pluginCanReadIssue(await issues.getById(run.issueId)))) return { content: "" };
+        }
+        if (!run.logStore || !run.logRef) return { content: "" };
+        const offset = Math.max(0, parseWindowValue(params.offset) ?? 0);
+        const limitBytes = Math.max(1, Math.min(parseWindowValue(params.limitBytes) ?? PLUGIN_RUN_LOG_PAGE_BYTES, PLUGIN_RUN_LOG_PAGE_BYTES));
+        const result = await heartbeat.readLog(run, { offset, limitBytes });
+        // Chunks are identity-redacted when appended; registered run secrets are
+        // redacted on read, as the web app's run-log route does.
+        const redacted = await redactStoredRunLog(companyId, run.id, { content: result.content });
+        return {
+          content: redacted.content,
+          ...(typeof result.nextOffset === "number" ? { nextOffset: result.nextOffset } : {}),
+        };
       },
     },
 

@@ -290,6 +290,7 @@ export interface HostServices {
   /** Provides `runs.listEvents`. */
   runs: {
     listEvents(params: WorkerToHostMethods["runs.listEvents"][0]): Promise<WorkerToHostMethods["runs.listEvents"][1]>;
+    readLog(params: WorkerToHostMethods["runs.readLog"][0]): Promise<WorkerToHostMethods["runs.readLog"][1]>;
   };
 
   /** Provides `agents.sessions.create`, `agents.sessions.list`, `agents.sessions.sendMessage`, `agents.sessions.close`. */
@@ -512,6 +513,7 @@ const METHOD_CAPABILITY_MAP: Record<WorkerToHostMethodName, PluginCapability | n
 
   // Runs
   "runs.listEvents": "runs.events.read",
+  "runs.readLog": "runs.events.read",
   "agents.managed.get": "agents.managed",
   "agents.managed.reconcile": "agents.managed",
   "agents.managed.reset": "agents.managed",
@@ -1064,6 +1066,9 @@ export function createHostClientHandlers(
     // Runs
     "runs.listEvents": gated("runs.listEvents", async (params) => {
       return services.runs.listEvents(params);
+    }),
+    "runs.readLog": gated("runs.readLog", async (params) => {
+      return services.runs.readLog(params);
     }),
     "agents.managed.get": gated("agents.managed.get", async (params) => {
       return services.agents.managedGet(params);

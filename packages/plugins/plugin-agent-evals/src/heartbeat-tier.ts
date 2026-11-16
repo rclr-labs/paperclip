@@ -30,15 +30,21 @@ interface RunEvent {
   payload: Record<string, unknown> | null;
 }
 
+interface RunLogPage {
+  content: string;
+  nextOffset?: number;
+}
+
 interface RunsClient {
   listEvents(runId: string, companyId: string, options?: { afterSeq?: number; limit?: number }): Promise<RunEvent[]>;
+  readLog(runId: string, companyId: string, options?: { offset?: number; limitBytes?: number }): Promise<RunLogPage>;
 }
 
 export function heartbeatTierAvailability(ctx: PluginContext): { available: true } | { available: false; reason: string } {
   const agents = ctx.agents as unknown as Partial<CloneCapableAgents>;
   const runs = (ctx as unknown as { runs?: Partial<RunsClient> }).runs;
-  if (typeof agents.clone !== "function" || typeof runs?.listEvents !== "function") {
-    return { available: false, reason: "This Paperclip host does not expose agents.clone / runs.events.read to plugins yet." };
+  if (typeof agents.clone !== "function" || typeof runs?.readLog !== "function") {
+    return { available: false, reason: "This Paperclip host does not expose agents.clone / runs.readLog to plugins yet." };
   }
   return { available: true };
 }
@@ -87,13 +93,33 @@ export function createRunWaiter(ctx: Pick<PluginContext, "events">) {
 
 export type WaitForRun = ReturnType<typeof createRunWaiter>;
 
-/** The adapter forwards the CLI's stream-json on stdout; rebuild it from the run events. */
-export function traceFromRunEvents(events: readonly RunEvent[], outcome: RunOutcome, runId: string): EvalTrace {
-  const stdout = events
-    .filter((e) => e.stream === "stdout" && typeof e.message === "string")
-    .sort((a, b) => a.seq - b.seq)
-    .map((e) => e.message as string)
-    .join("\n");
+/** Concatenate the stdout chunks of a run log (NDJSON records `{ ts, stream, chunk, seq? }`) in order. */
+export function stdoutFromRunLog(log: string): string {
+  const records: Array<{ chunk: string; seq: number; index: number }> = [];
+  const seen = new Set<number>();
+  for (const [index, line] of log.split("\n").entries()) {
+    if (!line.trim()) continue;
+    let record: { stream?: unknown; chunk?: unknown; seq?: unknown };
+    try {
+      record = JSON.parse(line);
+    } catch {
+      continue; // a torn trailing record while the log is still being written
+    }
+    if (record.stream !== "stdout" || typeof record.chunk !== "string") continue;
+    const seq = typeof record.seq === "number" ? record.seq : Number.NaN;
+    if (Number.isFinite(seq)) {
+      if (seen.has(seq)) continue; // readers may see a record twice across recovery
+      seen.add(seq);
+    }
+    records.push({ chunk: record.chunk, seq, index });
+  }
+  const ordered = records.every((r) => Number.isFinite(r.seq))
+    ? records.sort((a, b) => a.seq - b.seq)
+    : records;
+  return ordered.map((r) => r.chunk).join("");
+}
+
+function traceFromStdout(stdout: string, outcome: RunOutcome, runId: string): EvalTrace {
   const base = traceFromClaudeStreamJson(stdout, outcome.status === "succeeded" ? 0 : 1);
   return {
     ...base,
@@ -103,15 +129,36 @@ export function traceFromRunEvents(events: readonly RunEvent[], outcome: RunOutc
   };
 }
 
-async function readAllEvents(runs: RunsClient, runId: string, companyId: string): Promise<RunEvent[]> {
-  const out: RunEvent[] = [];
-  let afterSeq = 0;
-  for (;;) {
-    const page = await runs.listEvents(runId, companyId, { afterSeq, limit: 1000 });
-    out.push(...page);
-    if (page.length < 1000) return out;
-    afterSeq = page[page.length - 1]!.seq;
+/**
+ * The host keeps adapter stdout in the run log, chunked at arbitrary byte
+ * boundaries; rebuild the CLI's stream-json from it.
+ */
+export function traceFromRunLog(log: string, outcome: RunOutcome, runId: string): EvalTrace {
+  return traceFromStdout(stdoutFromRunLog(log), outcome, runId);
+}
+
+/** Legacy path for hosts that mirror stdout lines into run events. */
+export function traceFromRunEvents(events: readonly RunEvent[], outcome: RunOutcome, runId: string): EvalTrace {
+  const stdout = events
+    .filter((e) => e.stream === "stdout" && typeof e.message === "string")
+    .sort((a, b) => a.seq - b.seq)
+    .map((e) => e.message as string)
+    .join("\n");
+  return traceFromStdout(stdout, outcome, runId);
+}
+
+const MAX_RUN_LOG_PAGES = 200;
+
+export async function readWholeRunLog(runs: Pick<RunsClient, "readLog">, runId: string, companyId: string): Promise<string> {
+  let content = "";
+  let offset = 0;
+  for (let page = 0; page < MAX_RUN_LOG_PAGES; page++) {
+    const result = await runs.readLog(runId, companyId, { offset });
+    content += result.content;
+    if (typeof result.nextOffset !== "number" || result.nextOffset <= offset) return content;
+    offset = result.nextOffset;
   }
+  throw new Error(`run log for ${runId} exceeded ${MAX_RUN_LOG_PAGES} pages`);
 }
 
 export interface HeartbeatTierInput {
@@ -155,7 +202,7 @@ export function createHeartbeatExecutor(input: HeartbeatTierInput) {
       reason: `agent-evals ${scenario.id} (${arm.id})`,
     });
     const outcome = await input.waitForRun(runId, input.runTimeoutMs ?? 15 * 60_000);
-    const events = await readAllEvents(runs, runId, input.targetCompanyId);
-    return traceFromRunEvents(events, outcome, runId);
+    const log = await readWholeRunLog(runs, runId, input.targetCompanyId);
+    return traceFromRunLog(log, outcome, runId);
   };
 }

@@ -44,6 +44,7 @@ import type {
   PluginAgentCloneInstructionsOverride,
   PluginAgentCloneResult,
   PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectResolution,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,
@@ -78,6 +79,7 @@ export type {
   PluginAgentCloneInstructionsOverride,
   PluginAgentCloneResult,
   PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectDeclaration,
   PluginManagedProjectResolution,
   PluginManagedRoutineDeclaration,
@@ -1805,6 +1807,15 @@ export interface PluginRunsClient {
    * Requires `runs.events.read`.
    */
   listEvents(runId: string, companyId: string, options?: { afterSeq?: number; limit?: number }): Promise<PluginRunEvent[]>;
+  /**
+   * Read a page of a run's log: NDJSON records `{ ts, stream, chunk, seq? }`
+   * holding the adapter's stdout/stderr, already redacted like the web app's
+   * run-log read route. Adapter stdout lives here, not in `listEvents`.
+   * Follow `nextOffset` until it is absent. Returns empty content for a run
+   * outside `companyId`, bound to an issue the plugin cannot read, or without
+   * a log. Requires `runs.events.read`.
+   */
+  readLog(runId: string, companyId: string, options?: { offset?: number; limitBytes?: number }): Promise<PluginRunLogPage>;
 }
 
 // ---------------------------------------------------------------------------

@@ -123,6 +123,8 @@ export interface TestHarness {
     agents?: Agent[];
     /** Heartbeat run events served by `ctx.runs.listEvents`, already redacted. */
     runEvents?: Array<PluginRunEvent & { companyId: string }>;
+    /** Run logs served by `ctx.runs.readLog`: NDJSON content, already redacted. */
+    runLogs?: Array<{ runId: string; companyId: string; content: string }>;
     goals?: Goal[];
     projectWorkspaces?: PluginWorkspace[];
     executionWorkspaces?: PluginExecutionWorkspaceMetadata[];
@@ -523,6 +525,7 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
   const issueDocuments = new Map<string, IssueDocument>();
   const agents = new Map<string, Agent>();
   const runEvents = new Map<string, Array<PluginRunEvent & { companyId: string }>>();
+  const runLogs = new Map<string, { companyId: string; content: string }>();
   const goals = new Map<string, Goal>();
   const accessMembers = new Map<string, PluginAccessMember>();
   const principalGrants = new Map<string, PrincipalPermissionGrant[]>();
@@ -2075,6 +2078,20 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
           .slice(0, limit)
           .map(({ companyId: _companyId, ...event }) => event);
       },
+      async readLog(runId, companyId, options) {
+        requireCapability(manifest, capabilitySet, "runs.events.read");
+        const cid = requireCompanyId(companyId);
+        const log = runLogs.get(runId);
+        if (!log || log.companyId !== cid) return { content: "" };
+        const bytes = Buffer.from(log.content, "utf8");
+        const offset = Math.max(0, options?.offset ?? 0);
+        const limit = Math.max(1, options?.limitBytes ?? 256 * 1024);
+        const end = Math.min(bytes.length, offset + limit);
+        return {
+          content: bytes.subarray(offset, end).toString("utf8"),
+          ...(end < bytes.length ? { nextOffset: end } : {}),
+        };
+      },
     },
     approvals: {
       async list(input) {
@@ -2689,6 +2706,7 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
         list.push(row);
         runEvents.set(row.runId, list);
       }
+      for (const row of input.runLogs ?? []) runLogs.set(row.runId, { companyId: row.companyId, content: row.content });
       for (const row of input.goals ?? []) goals.set(row.id, row);
       for (const row of input.projectWorkspaces ?? []) {
         const list = projectWorkspaces.get(row.projectId) ?? [];

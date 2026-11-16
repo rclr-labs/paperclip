@@ -352,6 +352,7 @@ export type {
   PluginAgentCloneInstructionsOverride,
   PluginAgentCloneResult,
   PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectDeclaration,
   PluginManagedProjectResolution,
   PluginManagedRoutineDeclaration,

@@ -41,6 +41,7 @@ import type {
   PluginAgentCloneInstructionsOverride,
   PluginAgentCloneResult,
   PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectResolution,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,
@@ -2162,6 +2163,10 @@ export interface WorkerToHostMethods {
   "runs.listEvents": [
     params: { runId: string; companyId: string; afterSeq?: number; limit?: number },
     result: PluginRunEvent[],
+  ];
+  "runs.readLog": [
+    params: { runId: string; companyId: string; offset?: number; limitBytes?: number },
+    result: PluginRunLogPage,
   ];
 
   // Agents (read)
