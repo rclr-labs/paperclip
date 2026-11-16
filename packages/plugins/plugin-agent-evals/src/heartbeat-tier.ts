@@ -173,6 +173,7 @@ export const EVAL_ISSUE_ORIGIN = "plugin:paperclipai.plugin-agent-evals" as cons
 
 export interface HeartbeatTierInput {
   readonly ctx: PluginContext;
+  readonly actorUserId?: string;
   readonly waitForIssueRun: WaitForIssueRun;
   readonly companyId: string;
   /** The plugin-managed "Evals" project that holds every eval issue. */
@@ -196,6 +197,12 @@ export interface IssueRunInput {
   readonly waitForIssueRun: WaitForIssueRun;
   readonly companyId: string;
   readonly projectId: string;
+  /**
+   * The board user who queued the run. Eval issues are created on their behalf
+   * so the host resolves them as the responsible user (AI connection audience,
+   * cost attribution) instead of the company default.
+   */
+  readonly actorUserId?: string;
   readonly runTimeoutMs?: number;
 }
 
@@ -215,6 +222,7 @@ export async function runEvalIssue(input: IssueRunInput, agentId: string, title:
     assigneeAgentId: agentId,
     originKind: EVAL_ISSUE_ORIGIN,
     originId,
+    ...(input.actorUserId ? { actorUserId: input.actorUserId } : {}),
   });
   try {
     const outcome = await input.waitForIssueRun(issue.id, input.runTimeoutMs ?? 15 * 60_000);

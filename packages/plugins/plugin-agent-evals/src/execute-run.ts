@@ -73,7 +73,9 @@ export async function executeRun(ctx: PluginContext, store: EvalStore, waitForIs
       evalAgents = createEvalAgents({ ctx, registry: store.evalAgents, companyId: run.company_id });
       const heartbeatScenarios = selected.filter((s) => s.tiers.includes("heartbeat"));
       const twins = await resolveEvalAgents(evalAgents, run.agent_id, source.name, bundle, heartbeatScenarios);
-      const issueInput = { ctx, waitForIssueRun, companyId: run.company_id, projectId: project.projectId };
+      // "nightly" (and any non-user requester) leaves the host's own attribution in place.
+      const actorUserId = run.requested_by && run.requested_by !== "nightly" ? run.requested_by : undefined;
+      const issueInput = { ctx, waitForIssueRun, companyId: run.company_id, projectId: project.projectId, actorUserId };
       execute = createHeartbeatExecutor({
         ...issueInput,
         agentFor: async (arm, scenario) => {
