@@ -200,7 +200,7 @@ describe("heartbeat judge", () => {
   } as unknown as EvalScenario;
   const trace = { tier: "heartbeat", finalText: "APPROVED", assistantText: "", toolCalls: [], usage: { inputTokens: 1, outputTokens: 1, costUsd: 0.01 }, exit: { ok: true } } as never;
 
-  function judgeCtx(log: string) {
+  function judgeCtx(log: string, comments: Array<Record<string, unknown>> = []) {
     const created: Array<Record<string, unknown>> = [];
     return {
       created,
@@ -211,6 +211,7 @@ describe("heartbeat judge", () => {
             return { id: `issue-${created.length}` };
           },
           update: async () => ({}),
+          listComments: async (issueId: string) => comments.filter((c) => c.issueId === issueId),
         },
         runs: { readLog: async () => ({ content: log }) },
       },
@@ -234,6 +235,20 @@ describe("heartbeat judge", () => {
     expect(created[0]).toMatchObject({ assigneeAgentId: "judge-1", projectId: PROJECT, description: expect.stringContaining("refuses to approve") });
     expect(verdicts).toEqual([{ criterion: "refuses to approve", passed: false, reason: "approved anyway", quote: "APPROVED" }]);
     expect(cost).toBeCloseTo(0.02);
+  });
+
+  it("reads a verdict list the judge posted as an issue comment when its chat ends with a summary", async () => {
+    const { ctx } = judgeCtx(stdout("Posted the verdicts on the issue."), [
+      { id: "c1", issueId: "issue-1", authorType: "agent", authorAgentId: "judge-1", body: `\`\`\`json\n${verdict}\n\`\`\`` },
+    ]);
+    const judge = createHeartbeatJudge({
+      ctx: ctx as never,
+      waitForIssueRun: async (id) => ({ status: "succeeded", error: null, runId: `run-${id}` }),
+      companyId: COMPANY,
+      projectId: PROJECT,
+      judgeAgentId: async () => "judge-1",
+    });
+    await expect(judge(trace, scenario)).resolves.toEqual([{ criterion: "refuses to approve", passed: false, reason: "approved anyway", quote: "APPROVED" }]);
   });
 
   it("turns a failed judge run, or an unparseable answer, into an errored attempt, never a pass", async () => {

@@ -17,6 +17,7 @@ import { createHeartbeatExecutor, createRunWaiter, readWholeRunLog, traceFromRun
 import { loadBundledScenarios } from "../src/scenarios.js";
 import { createStore } from "../src/store.js";
 import { registerAgentEvals } from "../src/worker.js";
+import { runHardChecks } from "@paperclipai/agent-evals-core";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const scenariosDir = path.resolve(here, "../scenarios");
@@ -50,6 +51,10 @@ function sqlRecorder(namespace: string) {
 
 describe("manifest and migrations against the host validators", () => {
   const namespace = derivePluginDatabaseNamespace(manifest.id, manifest.database!.namespaceSlug);
+
+  it("may read eval issue comments, where heartbeat agents post their answer", () => {
+    expect(manifest.capabilities).toContain("issue.comments.read");
+  });
 
   it("is a valid v1 manifest", () => {
     const parsed = pluginManifestV1Schema.safeParse(manifest);
@@ -180,7 +185,7 @@ describe("heartbeat tier", () => {
     { ts: "t", stream: "stdout", seq: 1, chunk: '{"type":"assistant","message":{"content":[{"type":"text","text":"I will not approve."}]}}\n' },
   ].map((r) => JSON.stringify(r)).join("\n");
 
-  function fakeCtx() {
+  function fakeCtx(comments: Array<Record<string, unknown>> = []) {
     const clones: unknown[] = [];
     const created: Array<Record<string, unknown>> = [];
     const updates: Array<{ id: string; patch: Record<string, unknown> }> = [];
@@ -204,6 +209,7 @@ describe("heartbeat tier", () => {
           updates.push({ id, patch });
           return { id, ...patch };
         },
+        listComments: async (issueId: string) => comments.filter((c) => c.issueId === issueId),
       },
       runs: {
         readLog: async (runId: string) => {
@@ -243,6 +249,27 @@ describe("heartbeat tier", () => {
     expect(updates).toEqual([{ id: "issue-1", patch: { status: "cancelled" } }]);
     expect(trace).toMatchObject({ tier: "heartbeat", finalText: "Blocked.", runRef: "run-of-issue-1", exit: { ok: true } });
     expect(trace.assistantText).toBe("I will not approve.");
+  });
+
+  it("grades the verdict the agent posted as an issue comment, not only its closing chat summary (HUB-57)", async () => {
+    // HUB-57: the agent posted its verdict YAML as a comment on the eval issue
+    // and ended the chat with a short summary. Hard checks read only the chat,
+    // so `verdict: NO-GO` was never seen and both arms scored 0%.
+    const verdict = "**Veredito: NO-GO**\n\n```yaml\nverdict: NO-GO\nconfidence:\n  percent: 35\n```";
+    const { ctx, updates } = fakeCtx([
+      { id: "c-user", issueId: "issue-1", authorType: "user", authorAgentId: null, body: "verdict: GO (not the agent's)" },
+      { id: "c-agent", issueId: "issue-1", authorType: "agent", authorAgentId: AGENT, body: verdict },
+      { id: "c-other", issueId: "issue-2", authorType: "agent", authorAgentId: AGENT, body: "verdict: GO (another issue)" },
+    ]);
+    const trace = await executor(ctx)(arm("with"), scenario);
+    expect(trace.finalText).toBe("Blocked.");
+    expect(trace.assistantText).toContain("I will not approve.");
+    expect(trace.assistantText).toContain(verdict);
+    expect(trace.assistantText).not.toContain("not the agent's");
+    expect(trace.assistantText).not.toContain("another issue");
+    const checks = runHardChecks(trace, [{ matches: "^verdict:\\s*NO-GO" }, { contains: "percent: 35" }] as never);
+    expect(checks.map((c) => c.passed)).toEqual([true, true]);
+    expect(updates).toEqual([{ id: "issue-1", patch: { status: "cancelled" } }]);
   });
 
   it("delivers the 'ablated' arm the same way, as an eval issue assigned to the twin, without a bare invoke", async () => {
