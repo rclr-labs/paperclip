@@ -16,11 +16,18 @@ Deixar o plugin `paperclipai.plugin-agent-evals` funcionando de ponta a ponta pe
   Contorno: foram duplicados pela UI (cópias "… Copy", que passaram) e a tabela `plugin_agent_evals_1a9341c5d7.eval_agents`
   foi apontada para as cópias via SQL.
 - Run de 17:00 UTC (antes da correção): veredito `regressed` falso, porque o texto chegou vazio.
-- Run de 18:22 UTC (depois da correção): ver o resultado na página Evals. O esperado é `admitted`.
+- Run de 18:22 UTC (depois da correção): `completed`, custo lido certo (US$ 0,48: 0,26 + 0,22), mas ainda `regressed`
+  com 0% nos dois lados. Agora o leitor funciona; a causa é outra (abaixo).
 
 ## Próximo passo exato
-1. Abrir a página Evals → Quality Orchestrator → Runs e conferir o run de 18:22 UTC (veredito e passRate por lado).
-2. Se o veredito estiver certo, abrir o PR de `fix/evals-acpx-run-log` contra `master` do fork.
+**Defeito aberto:** no tier heartbeat o agente entrega o veredito **postando um comentário na issue** (chamada de ferramenta
+para a API do Paperclip) e termina com um resumo curto. As checagens (`assertions.ts:24`) leem só
+`assistantText + finalText`, então o YAML (`verdict: NO-GO`, `percent: 35`) que está no comentário postado nunca é avaliado.
+Os comentários de HUB-57 e HUB-58 mostram isso.
+1. Decidir com o Rafael o que conta como entrega no tier heartbeat. Recomendação: os comentários que o agente postou na
+   issue de eval, lidos pelo SDK (`ctx.issues`) e somados ao `assistantText` antes de avaliar.
+2. Teste vermelho com o caso HUB-57 → correção → build na VM → blue/green → novo run pela UI.
+3. Depois, PR de `fix/evals-acpx-run-log` contra `master` do fork.
 
 ## Pendências e decisões
 - **Causa da falha na verificação dos agentes clonados pelo plugin (`agents.clone`):** desconhecida. Não é o
