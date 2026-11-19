@@ -101,6 +101,19 @@ export function traceFromClaudeStreamJson(ndjson: string, exitCode: number | nul
     }
   }
 
+  return buildTrace(textParts, finalText, toolCalls, skills, { inputTokens, outputTokens, costUsd }, exitCode, resultError);
+}
+
+function buildTrace(
+  textParts: readonly string[],
+  finalText: string | null,
+  toolCalls: EvalToolCall[],
+  skills: ReadonlySet<string>,
+  usage: EvalTrace["usage"],
+  exitCode: number | null,
+  resultError: string | undefined,
+): EvalTrace {
+  const { inputTokens, outputTokens, costUsd } = usage;
   const assistantText = textParts.join("\n");
   const ok = exitCode === 0 && resultError === undefined;
   return {
@@ -112,4 +125,96 @@ export function traceFromClaudeStreamJson(ndjson: string, exitCode: number | nul
     usage: { inputTokens, outputTokens, costUsd },
     exit: ok ? { ok } : { ok, error: resultError ?? `exit code ${exitCode}` },
   };
+}
+
+/** Runtime skill dirs carry a content hash suffix: `verdict-with-confidence--7d17c7a973`. */
+const RUNTIME_SKILL_SUFFIX_RE = /--[0-9a-f]{6,}$/;
+
+function skillFromCommand(command: string): string | null {
+  const match = /(?:^|\/)skills\/([^/"'\s]+)\/SKILL\.md\b/.exec(command);
+  return match?.[1]?.replace(RUNTIME_SKILL_SUFFIX_RE, "") ?? null;
+}
+
+/**
+ * Build an EvalTrace from the ACPX engine's NDJSON (`acpx.*` events), which is
+ * what a heartbeat run log holds when the host drives Claude through the ACP
+ * engine. Text deltas between tool calls form one assistant message; usage and
+ * cost come from the last `usage_update` status that reports them.
+ */
+export function traceFromAcpxNdjson(ndjson: string, exitCode: number | null = 0): EvalTrace {
+  const messages: string[] = [];
+  let current = "";
+  const calls = new Map<string, { name: string; command?: string }>();
+  const skills = new Set<string>();
+  let usage: EvalTrace["usage"] = { inputTokens: 0, outputTokens: 0, costUsd: null };
+  let resultError: string | undefined;
+  let sawResult = false;
+
+  const closeMessage = () => {
+    if (current.trim()) messages.push(current);
+    current = "";
+  };
+
+  for (const line of ndjson.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("{")) continue;
+    let event: Record<string, unknown>;
+    try {
+      event = JSON.parse(trimmed) as Record<string, unknown>;
+    } catch {
+      continue;
+    }
+    switch (event.type) {
+      case "acpx.text_delta":
+        if (event.channel === "output" && typeof event.text === "string") current += event.text;
+        break;
+      case "acpx.tool_call": {
+        closeMessage();
+        const id = typeof event.toolCallId === "string" ? event.toolCallId : `call-${calls.size}`;
+        const name = typeof event.name === "string" ? event.name : "";
+        const call = calls.get(id);
+        if (!call) {
+          calls.set(id, { name });
+        } else if (event.tag === "tool_call_update" && event.status === undefined && name && name !== call.name) {
+          // The engine re-sends the call with its concrete command (e.g. `cat ".../SKILL.md"`) as the name.
+          call.command = name;
+        }
+        const skill = skillFromCommand(name);
+        if (skill) skills.add(skill);
+        break;
+      }
+      case "acpx.status": {
+        const breakdown = event.breakdown as Record<string, unknown> | undefined;
+        const cost = event.cost as { amount?: unknown } | undefined;
+        if (breakdown) {
+          usage = {
+            inputTokens: Number(breakdown.inputTokens ?? 0) + Number(breakdown.cachedReadTokens ?? 0) + Number(breakdown.cachedWriteTokens ?? 0),
+            outputTokens: Number(breakdown.outputTokens ?? 0),
+            costUsd: typeof cost?.amount === "number" ? cost.amount : usage.costUsd,
+          };
+        }
+        break;
+      }
+      case "acpx.result":
+        sawResult = true;
+        if (event.summary !== "completed") {
+          const stop = typeof event.stopReason === "string" ? ` (${event.stopReason})` : "";
+          resultError = `${typeof event.summary === "string" ? event.summary : "error"}${stop}`;
+        }
+        break;
+    }
+  }
+  closeMessage();
+  if (!sawResult && exitCode === 0) resultError = "the run ended without an ACPX result";
+
+  const toolCalls: EvalToolCall[] = [...calls.values()].map((c) => ({
+    name: c.name,
+    input: JSON.stringify(c.command ? { command: c.command } : {}),
+  }));
+  return buildTrace(messages, messages[messages.length - 1] ?? null, toolCalls, skills, usage, exitCode, resultError);
+}
+
+/** True when the NDJSON holds ACPX engine events rather than Claude stream-json. */
+export function isAcpxNdjson(ndjson: string): boolean {
+  return /^\{"type":"acpx\./m.test(ndjson);
 }

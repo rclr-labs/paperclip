@@ -1,4 +1,4 @@
-import { traceFromClaudeStreamJson, type EvalArm, type EvalScenario, type EvalTrace } from "@paperclipai/agent-evals-core";
+import { isAcpxNdjson, traceFromAcpxNdjson, traceFromClaudeStreamJson, type EvalArm, type EvalScenario, type EvalTrace } from "@paperclipai/agent-evals-core";
 import type { PluginContext, PluginEvent } from "@paperclipai/plugin-sdk";
 
 /**
@@ -128,7 +128,7 @@ export function stdoutFromRunLog(log: string): string {
 }
 
 function traceFromStdout(stdout: string, outcome: RunOutcome, runId: string): EvalTrace {
-  const base = traceFromClaudeStreamJson(stdout, outcome.status === "succeeded" ? 0 : 1);
+  const base = (isAcpxNdjson(stdout) ? traceFromAcpxNdjson : traceFromClaudeStreamJson)(stdout, outcome.status === "succeeded" ? 0 : 1);
   return {
     ...base,
     tier: "heartbeat",
