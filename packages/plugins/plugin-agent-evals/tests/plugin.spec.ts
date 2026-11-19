@@ -296,6 +296,52 @@ describe("heartbeat tier", () => {
     expect(trace.usage.costUsd).toBeCloseTo(0.031);
   });
 
+  it("rebuilds the trace from an ACPX run log (claude_local through the ACP engine)", () => {
+    // Shape copied from a real heartbeat run: the host mirrors the ACPX engine's
+    // NDJSON events, not Claude's stream-json, so no "assistant"/"result" events exist.
+    const skillPath = "/paperclip/instances/x/companies/c/acp-engine/agents/a/runtime-skills/claude/h/.claude/skills/verdict-with-confidence--7d17c7a973/SKILL.md";
+    const events = [
+      { type: "acpx.session", agent: "claude", sessionId: "s-1" },
+      { type: "acpx.status", text: "available commands updated (49)", tag: "available_commands_update" },
+      { type: "acpx.text_delta", text: "Lendo a skill.", channel: "output", tag: "agent_message_chunk" },
+      { type: "acpx.tool_call", name: "Terminal", toolCallId: "toolu_1", status: "pending", text: "Terminal (pending)", tag: "tool_call" },
+      { type: "acpx.tool_call", name: `cat "${skillPath}"`, toolCallId: "toolu_1", text: `cat "${skillPath}"`, tag: "tool_call_update" },
+      { type: "acpx.tool_call", name: "Terminal", toolCallId: "toolu_1", status: "completed", text: "tool call (completed): ...", tag: "tool_call_update" },
+      { type: "acpx.text_delta", text: "**Veredito: NO-GO**\n\n```yaml\nverdict: NO-GO\n", channel: "output", tag: "agent_message_chunk" },
+      { type: "acpx.text_delta", text: "confidence:\n  percent: 35\n```", channel: "output", tag: "agent_message_chunk" },
+      { type: "acpx.status", text: "usage updated: 31680/200000", tag: "usage_update", used: 31680, size: 200000 },
+      { type: "acpx.status", text: "usage updated: 31680/1000000", tag: "usage_update", used: 31680, size: 1000000,
+        cost: { amount: 0.2205996, currency: "USD" },
+        breakdown: { inputTokens: 4, outputTokens: 2698, cachedReadTokens: 38718, cachedWriteTokens: 18932 } },
+      { type: "acpx.result", summary: "completed", stopReason: "end_turn", message: null },
+    ];
+    const stdout = "[paperclip] Using fallback workspace for this run.\n" + events.map((e) => JSON.stringify(e)).join("\n") + "\n";
+    const records = [
+      { ts: "t1", stream: "stdout", chunk: stdout.slice(0, 90), seq: 1 },
+      { ts: "t2", stream: "stderr", chunk: "[paperclip] Adapter execution timeout: none\n", seq: 2 },
+      { ts: "t3", stream: "stdout", chunk: stdout.slice(90), seq: 3 },
+    ];
+    const log = records.map((r) => JSON.stringify(r)).join("\n") + "\n";
+
+    const trace = traceFromRunLog(log, { status: "succeeded", error: null }, "run-acpx");
+
+    expect(trace).toMatchObject({ tier: "heartbeat", runRef: "run-acpx", exit: { ok: true } });
+    expect(trace.finalText).toBe("**Veredito: NO-GO**\n\n```yaml\nverdict: NO-GO\nconfidence:\n  percent: 35\n```");
+    expect(trace.assistantText).toBe(`Lendo a skill.\n${trace.finalText}`);
+    expect(trace.toolCalls).toEqual([{ name: "Terminal", input: JSON.stringify({ command: `cat "${skillPath}"` }) }]);
+    expect(trace.skillsUsed).toEqual(["verdict-with-confidence"]);
+    expect(trace.usage).toEqual({ inputTokens: 4 + 38718 + 18932, outputTokens: 2698, costUsd: 0.2205996 });
+  });
+
+  it("reports an ACPX run that did not complete as an error, not behavior", () => {
+    const stdout = [
+      { type: "acpx.text_delta", text: "partial", channel: "output", tag: "agent_message_chunk" },
+      { type: "acpx.result", summary: "failed", stopReason: "refusal", message: null },
+    ].map((e) => JSON.stringify(e)).join("\n") + "\n";
+    const log = JSON.stringify({ ts: "t", stream: "stdout", chunk: stdout, seq: 1 }) + "\n";
+    expect(traceFromRunLog(log, { status: "succeeded", error: null }, "r").exit).toEqual({ ok: false, error: "failed (refusal)" });
+  });
+
   it("reads the whole run log through ctx.runs.readLog, following nextOffset", async () => {
     const line = (chunk: string, seq: number) => `${JSON.stringify({ ts: "t", stream: "stdout", chunk, seq })}\n`;
     const pages = [
