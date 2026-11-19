@@ -10,7 +10,11 @@ import { runEvalIssue, type IssueRunInput } from "./heartbeat-tier.js";
  * never as a pass.
  */
 
-/** The last JSON object in the judge's answer that matches the verdict schema. */
+/**
+ * The last JSON object in the judge's answer that matches the verdict schema.
+ * The judge's chat and the comments it posted are both scanned, so a verdict
+ * list posted on the issue still counts when the chat ends with a summary.
+ */
 export function parseJudgeAnswer(text: string): JudgeOutput | null {
   const candidates: string[] = [];
   for (const fenced of text.matchAll(/```(?:json)?\s*([\s\S]*?)```/g)) candidates.push(fenced[1]!);
@@ -57,7 +61,7 @@ export function createHeartbeatJudge(input: IssueRunInput & {
     const judged = await runEvalIssue(input, agentId, `eval · judge · ${scenario.id}`, description, `${scenario.id}:judge`);
     input.onCost?.(judged.usage.costUsd ?? 0);
     if (!judged.exit.ok) throw new Error(`judge run failed: ${judged.exit.error ?? "unknown error"}`);
-    const output = parseJudgeAnswer(judged.finalText || judged.assistantText);
+    const output = parseJudgeAnswer(`${judged.assistantText}\n${judged.finalText}`);
     if (!output) throw new Error("judge answer is not a parseable verdict list");
     return verdictsFromOutput(scenario.checks.rubric, output);
   };

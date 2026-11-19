@@ -27,6 +27,7 @@ const manifest: PaperclipPluginManifestV1 = {
     "issues.read",
     "issues.create",
     "issues.update",
+    "issue.comments.read",
     "projects.managed",
     "events.subscribe",
     "jobs.schedule",

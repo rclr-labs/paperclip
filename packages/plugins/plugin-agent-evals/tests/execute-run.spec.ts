@@ -92,6 +92,7 @@ function fakeHost(opts: { requiresApproval: boolean }) {
         return { id: `issue-${issues.length}` };
       },
       update: async () => ({}),
+      listComments: async () => [],
     },
     runs: {
       readLog: async (runId: string) => {

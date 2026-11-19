@@ -11,13 +11,15 @@ import type { PluginContext, PluginEvent } from "@paperclipai/plugin-sdk";
  *                blank instructions because the host re-materializes the
  *                agent's own bundle for every run
  *   → wait for the issue's agent.run.* event → read the run log
- *   → normalize into the same EvalTrace as headless → cancel the eval issue
+ *   → normalize into the same EvalTrace as headless, plus the comments the
+ *     agent posted on the issue (its delivered answer) → cancel the eval issue
  *
  * Both arms receive the prompt the same way, as an issue in the plugin's
  * managed "Evals" project, so the only difference between them is the
  * instruction under test.
  *
- * Needs `agents.clone` and `runs.events.read` (for `runs.readLog`). They are
+ * Needs `agents.clone`, `runs.events.read` (for `runs.readLog`) and
+ * `issue.comments.read`. They are
  * read structurally so the plugin still loads on hosts without them;
  * `heartbeatTierAvailability` tells the UI why the tier is off.
  */
@@ -207,6 +209,20 @@ export interface IssueRunInput {
 }
 
 /**
+ * A heartbeat agent delivers its answer the way it delivers real work: as a
+ * comment on the issue, often ending the chat with only a short summary. The
+ * comments the assigned agent posted on its eval issue count as assistant text,
+ * read before the issue is cancelled. Comments by anyone else never do.
+ */
+async function postedAnswer(input: IssueRunInput, issueId: string, agentId: string): Promise<string> {
+  const comments = await input.ctx.issues.listComments(issueId, input.companyId);
+  return comments
+    .filter((c) => c.authorType === "agent" && c.authorAgentId === agentId)
+    .map((c) => c.body)
+    .join("\n");
+}
+
+/**
  * Deliver a prompt as an eval issue assigned to `agentId`, wait for its run,
  * rebuild the trace from the run log, and cancel the issue so the agent never
  * keeps working it on later heartbeats.
@@ -228,7 +244,9 @@ export async function runEvalIssue(input: IssueRunInput, agentId: string, title:
     const outcome = await input.waitForIssueRun(issue.id, input.runTimeoutMs ?? 15 * 60_000);
     if (!outcome.runId) return traceFromStdout("", outcome, issue.id);
     const log = await readWholeRunLog(runs, outcome.runId, input.companyId);
-    return traceFromRunLog(log, outcome, outcome.runId);
+    const trace = traceFromRunLog(log, outcome, outcome.runId);
+    const posted = await postedAnswer(input, issue.id, agentId);
+    return posted ? { ...trace, assistantText: trace.assistantText ? `${trace.assistantText}\n${posted}` : posted } : trace;
   } finally {
     await input.ctx.issues.update(issue.id, { status: "cancelled" }, input.companyId);
   }
