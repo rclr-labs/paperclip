@@ -4,6 +4,8 @@ Eval framework for testing Paperclip agent behaviors across models and prompt ve
 
 See [the evals framework plan](../doc/plans/2026-03-13-agent-evals-framework.md) for full design rationale.
 
+> **Instruction-level evals** for individual agents and skills (with/without the instruction, pressure scenarios, admission verdicts) live in [`evals/agents/`](agents/README.md) and ship to instances as the Agent Evals plugin.
+
 ## Quick Start
 
 ### Prerequisites

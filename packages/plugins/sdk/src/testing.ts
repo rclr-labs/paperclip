@@ -6,6 +6,7 @@ import type {
   PluginEventType,
   PluginIssueOriginKind,
   PluginManagedAgentResolution,
+  PluginRunEvent,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,
   CompanySkill,
@@ -120,6 +121,10 @@ export interface TestHarness {
     issueAttachments?: Array<IssueAttachment & { contentBase64?: string }>;
     approvals?: Approval[];
     agents?: Agent[];
+    /** Heartbeat run events served by `ctx.runs.listEvents`, already redacted. */
+    runEvents?: Array<PluginRunEvent & { companyId: string }>;
+    /** Run logs served by `ctx.runs.readLog`: NDJSON content, already redacted. */
+    runLogs?: Array<{ runId: string; companyId: string; content: string }>;
     goals?: Goal[];
     projectWorkspaces?: PluginWorkspace[];
     executionWorkspaces?: PluginExecutionWorkspaceMetadata[];
@@ -519,6 +524,8 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
   const approvals = new Map<string, Approval>();
   const issueDocuments = new Map<string, IssueDocument>();
   const agents = new Map<string, Agent>();
+  const runEvents = new Map<string, Array<PluginRunEvent & { companyId: string }>>();
+  const runLogs = new Map<string, { companyId: string; content: string }>();
   const goals = new Map<string, Goal>();
   const accessMembers = new Map<string, PluginAccessMember>();
   const principalGrants = new Map<string, PrincipalPermissionGrant[]>();
@@ -2059,6 +2066,33 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
         },
       },
     },
+    runs: {
+      async listEvents(runId, companyId, options) {
+        requireCapability(manifest, capabilitySet, "runs.events.read");
+        const cid = requireCompanyId(companyId);
+        const afterSeq = options?.afterSeq ?? 0;
+        const limit = Math.max(1, Math.min(options?.limit ?? 200, 1000));
+        return (runEvents.get(runId) ?? [])
+          .filter((event) => event.companyId === cid && event.seq > afterSeq)
+          .sort((left, right) => left.seq - right.seq)
+          .slice(0, limit)
+          .map(({ companyId: _companyId, ...event }) => event);
+      },
+      async readLog(runId, companyId, options) {
+        requireCapability(manifest, capabilitySet, "runs.events.read");
+        const cid = requireCompanyId(companyId);
+        const log = runLogs.get(runId);
+        if (!log || log.companyId !== cid) return { content: "" };
+        const bytes = Buffer.from(log.content, "utf8");
+        const offset = Math.max(0, options?.offset ?? 0);
+        const limit = Math.max(1, options?.limitBytes ?? 256 * 1024);
+        const end = Math.min(bytes.length, offset + limit);
+        return {
+          content: bytes.subarray(offset, end).toString("utf8"),
+          ...(end < bytes.length ? { nextOffset: end } : {}),
+        };
+      },
+    },
     approvals: {
       async list(input) {
         requireCapability(manifest, capabilitySet, "approvals.read");
@@ -2158,6 +2192,54 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
           throw new Error(`Agent is not invokable in its current state: ${agent!.status}`);
         }
         return { runId: randomUUID() };
+      },
+      async clone(agentId, input) {
+        requireCapability(manifest, capabilitySet, "agents.clone");
+        const sourceCompanyId = requireCompanyId(input?.sourceCompanyId);
+        const targetCompanyId = requireCompanyId(input?.targetCompanyId);
+        const source = agents.get(agentId);
+        if (!isInCompany(source, sourceCompanyId)) throw new Error("Agent not found");
+        const requiresApproval = companies.get(targetCompanyId)?.requireBoardApprovalForNewAgents === true;
+        const now = new Date();
+        const clone: Agent = {
+          ...source!,
+          id: randomUUID(),
+          companyId: targetCompanyId,
+          name: input.name ?? source!.name,
+          role: source!.role === "ceo" ? "general" : source!.role,
+          reportsTo: null,
+          permissions: { canCreateAgents: false },
+          status: requiresApproval ? "pending_approval" : "idle",
+          spentMonthlyCents: 0,
+          lastHeartbeatAt: null,
+          adapterConfig: input.removeSkills?.length
+            ? (() => {
+                const config = { ...(source!.adapterConfig as Record<string, unknown>) };
+                const sync = (config.paperclipSkillSync ?? {}) as { desiredSkills?: unknown[] };
+                const keep = (sync.desiredSkills ?? []).filter((entry) => {
+                  const key = typeof entry === "string" ? entry : (entry as { key?: string })?.key ?? "";
+                  return !input.removeSkills!.some((wanted) => key === wanted || key.endsWith(`/${wanted}`));
+                });
+                return { ...config, paperclipSkillSync: { ...sync, desiredSkills: keep } };
+              })()
+            : source!.adapterConfig,
+          metadata: { ...(source!.metadata ?? {}), clonedFrom: { agentId, companyId: sourceCompanyId, pluginKey: manifest.id } },
+          createdAt: now,
+          updatedAt: now,
+        };
+        agents.set(clone.id, clone);
+        activity.push({
+          message: "plugin.agent.cloned",
+          entityType: "agent",
+          entityId: clone.id,
+          metadata: {
+            sourceAgentId: agentId,
+            sourceCompanyId,
+            targetCompanyId,
+            instructionsOverridden: input.instructionsOverride !== undefined,
+          },
+        });
+        return { agent: clone, requiresApproval, approvalId: requiresApproval ? randomUUID() : null, droppedConfig: [] };
       },
       managed: {
         async get(agentKey, companyId) {
@@ -2630,6 +2712,12 @@ export function createTestHarness(options: TestHarnessOptions): TestHarness {
       }
       for (const row of input.approvals ?? []) approvals.set(row.id, row);
       for (const row of input.agents ?? []) agents.set(row.id, row);
+      for (const row of input.runEvents ?? []) {
+        const list = runEvents.get(row.runId) ?? [];
+        list.push(row);
+        runEvents.set(row.runId, list);
+      }
+      for (const row of input.runLogs ?? []) runLogs.set(row.runId, { companyId: row.companyId, content: row.content });
       for (const row of input.goals ?? []) goals.set(row.id, row);
       for (const row of input.projectWorkspaces ?? []) {
         const list = projectWorkspaces.get(row.projectId) ?? [];

@@ -1,0 +1,115 @@
+import type { PaperclipPluginManifestV1 } from "@paperclipai/plugin-sdk";
+
+export const PLUGIN_ID = "paperclipai.plugin-agent-evals";
+export const JOB_RUN_QUEUED = "run-queued-evals";
+export const JOB_NIGHTLY = "nightly-regression";
+export const EVALS_PROJECT_KEY = "evals";
+
+
+const manifest: PaperclipPluginManifestV1 = {
+  id: PLUGIN_ID,
+  apiVersion: 1,
+  version: "0.1.0",
+  displayName: "Agent Evals",
+  description:
+    "Pressure-test agent instructions and skills: every scenario runs with the instruction and without it, and only scenarios the instruction makes pass are kept.",
+  author: "Paperclip",
+  categories: ["automation", "ui"],
+  capabilities: [
+    "companies.read",
+    "agents.read",
+    "agents.lifecycle.manage",
+    "agents.invoke",
+    "agents.clone",
+    "agents.pause",
+    "agents.resume",
+    "runs.events.read",
+    "issues.read",
+    "issues.create",
+    "issues.update",
+    "issue.comments.read",
+    "projects.managed",
+    "events.subscribe",
+    "jobs.schedule",
+    "database.namespace.migrate",
+    "database.namespace.read",
+    "database.namespace.write",
+    "secrets.read-ref",
+    "http.outbound",
+    "activity.log.write",
+    "ui.page.register",
+    "ui.detailTab.register",
+  ],
+  entrypoints: {
+    worker: "./dist/worker.js",
+    ui: "./dist/ui",
+  },
+  database: {
+    namespaceSlug: "agent_evals",
+    migrationsDir: "migrations",
+    coreReadTables: ["companies"],
+  },
+  jobs: [
+    {
+      jobKey: JOB_RUN_QUEUED,
+      displayName: "Run queued evals",
+      description: "Executes eval runs requested from the Evals page.",
+      schedule: "*/5 * * * *",
+    },
+    {
+      jobKey: JOB_NIGHTLY,
+      displayName: "Nightly eval regression",
+      description: "Re-queues the most recent eval run of every agent so instruction regressions show up the next morning. Reports only; never blocks anything.",
+      schedule: "0 3 * * *",
+    },
+  ],
+  instanceConfigSchema: {
+    type: "object",
+    properties: {
+      enabled: {
+        type: "boolean",
+        title: "Enable in this company",
+        description: "Off by default. Eval runs hire eval agents (an ablated twin per agent and an Eval Judge) and spend agent budgets, so only companies that turn this on can import scenarios or queue runs.",
+        default: false,
+      },
+      headlessEnabled: {
+        type: "boolean",
+        title: "Enable headless tier",
+        description: "Runs `claude -p` on the worker host. Needs the Claude CLI and a credential on that host.",
+        default: false,
+      },
+      judgeModel: {
+        type: "string",
+        title: "Judge model",
+        default: "claude-opus-5-5",
+      },
+      judgeApiKey: {
+        type: "string",
+        format: "secret-ref",
+        title: "Anthropic API key for the rubric judge",
+        description: "Optional. Without it, only deterministic checks decide.",
+      },
+      maxDollarsPerRun: {
+        type: "number",
+        title: "Budget per eval run (USD)",
+        default: 5,
+      },
+    },
+  },
+  projects: [
+    {
+      projectKey: EVALS_PROJECT_KEY,
+      displayName: "Evals",
+      description: "Eval issues created by the Agent Evals plugin. Each one is a scenario prompt for one arm of an eval run; the plugin cancels it when the run finishes.",
+      status: "in_progress",
+    },
+  ],
+  ui: {
+    slots: [
+      { type: "page", id: "evals-page", displayName: "Evals", exportName: "EvalsPage", routePath: "evals" },
+      { type: "detailTab", id: "agent-evals-tab", displayName: "Evals", exportName: "AgentEvalsTab", entityTypes: ["agent"] },
+    ],
+  },
+};
+
+export default manifest;

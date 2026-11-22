@@ -84,6 +84,7 @@ interface AgentInstructionsFilePutOptions extends BaseClientOptions {
   path: string;
   content?: string;
   contentFile?: string;
+  baseRevisionId?: string;
   clearLegacyPromptTemplate?: boolean;
 }
 
@@ -697,14 +698,23 @@ export function registerAgentCommands(program: Command): void {
       .requiredOption("--path <path>", "Bundle-relative file path")
       .option("--content <text>", "File content")
       .option("--content-file <path>", "Read file content from disk")
+      .option("--base-revision-id <id>", "Revision the edit is based on; defaults to the file's current revision (none for a new file)")
       .option("--clear-legacy-prompt-template", "Clear legacy prompt template")
       .action(async (agentId: string, opts: AgentInstructionsFilePutOptions) => {
         try {
           const ctx = resolveCommandContext(opts);
           const content = opts.contentFile ? await fs.readFile(opts.contentFile, "utf8") : opts.content;
+          // The server rejects writes without the revision they are based on (INSTRUCTION_BASE_REQUIRED).
+          const baseRevisionId = opts.baseRevisionId ?? (
+            await ctx.api.get<{ revision?: { id?: string } | null }>(
+              `${apiPath`/api/agents/${agentId}/instructions-bundle/file`}?${new URLSearchParams({ path: opts.path }).toString()}`,
+              { ignoreNotFound: true },
+            )
+          )?.revision?.id ?? null;
           const payload = upsertAgentInstructionsFileSchema.parse({
             path: opts.path,
             content,
+            baseRevisionId,
             clearLegacyPromptTemplate: Boolean(opts.clearLegacyPromptTemplate),
           });
           const result = await ctx.api.put(apiPath`/api/agents/${agentId}/instructions-bundle/file`, payload);

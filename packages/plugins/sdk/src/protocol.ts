@@ -38,6 +38,10 @@ import type {
   CreateIssueThreadInteractionInput,
   Approval,
   PluginManagedAgentResolution,
+  PluginAgentCloneInstructionsOverride,
+  PluginAgentCloneResult,
+  PluginRunEvent,
+  PluginRunLogPage,
   PluginManagedProjectResolution,
   PluginManagedRoutineResolution,
   PluginManagedSkillResolution,
@@ -317,6 +321,14 @@ export interface WorkerHostCallContext {
   /** Host-owned aggregate timing budget; never received from the worker. */
   providerSpanBudget?: { remaining: number };
   invocationScope?: PluginInvocationScope | null;
+  /**
+   * Host-owned set of companies a two-company call (`agents.clone`) may touch.
+   * The worker manager sets it only for a proactive call (no host-issued
+   * invocation) whose companies are all in the plugin's configured proactive
+   * scope. Never received from the worker. When absent, a two-company call is
+   * admitted only when both companies equal `invocationScope.companyId`.
+   */
+  admittedCompanyIds?: readonly string[];
   invalidInvocationScope?: boolean;
   /**
    * The W3C `traceparent` the host minted for the echoed invocation. The host
@@ -2147,6 +2159,16 @@ export interface WorkerToHostMethods {
     result: { approval: Approval; applied: boolean },
   ];
 
+  // Runs
+  "runs.listEvents": [
+    params: { runId: string; companyId: string; afterSeq?: number; limit?: number },
+    result: PluginRunEvent[],
+  ];
+  "runs.readLog": [
+    params: { runId: string; companyId: string; offset?: number; limitBytes?: number },
+    result: PluginRunLogPage,
+  ];
+
   // Agents (read)
   "agents.list": [
     params: { companyId: string; status?: string; limit?: number; offset?: number },
@@ -2177,6 +2199,20 @@ export interface WorkerToHostMethods {
   "agents.invoke": [
     params: { agentId: string; companyId: string; prompt: string; reason?: string },
     result: { runId: string },
+  ];
+  "agents.clone": [
+    params: {
+      agentId: string;
+      /** Company that owns the source agent. Must be in scope. */
+      sourceCompanyId: string;
+      /** Company the clone is created in. Must be in scope. */
+      targetCompanyId: string;
+      name?: string;
+      instructionsOverride?: PluginAgentCloneInstructionsOverride;
+      /** Desired skills to leave out of the clone, by key or by slug. Each must be one the agent has. */
+      removeSkills?: string[];
+    },
+    result: PluginAgentCloneResult,
   ];
   "agents.managed.get": [
     params: { agentKey: string; companyId: string },

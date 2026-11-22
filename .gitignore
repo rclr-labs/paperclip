@@ -103,3 +103,6 @@ test-results/
 
 # Content-addressed CI task results
 .turbo/
+
+# agent instruction eval results
+evals/agents/results/

@@ -46,6 +46,8 @@ COPY --parents packages/plugins/sandbox-providers/./*/package.json packages/plug
 COPY packages/plugins/paperclip-plugin-fake-sandbox/package.json packages/plugins/paperclip-plugin-fake-sandbox/
 COPY packages/plugins/plugin-llm-wiki/package.json packages/plugins/plugin-llm-wiki/
 COPY packages/plugins/plugin-workspace-diff/package.json packages/plugins/plugin-workspace-diff/
+COPY packages/agent-evals-core/package.json packages/agent-evals-core/
+COPY packages/plugins/plugin-agent-evals/package.json packages/plugins/plugin-agent-evals/
 COPY patches/ patches/
 COPY scripts/link-plugin-dev-sdk.mjs scripts/
 COPY packages/paperclip-runner/scripts/install-copilot-assets.mjs packages/paperclip-runner/scripts/materialize-copilot-binary.mjs packages/paperclip-runner/scripts/copilot-inner-distribution.mjs packages/paperclip-runner/scripts/
@@ -140,6 +142,9 @@ RUN find packages/paperclip-runner/runner packages/paperclip-runner/protocol -ty
 ARG PAPERCLIP_BUILD_COMMIT=""
 RUN pnpm --filter @paperclipai/ui build
 RUN pnpm --filter @paperclipai/plugin-sdk build
+# Prebuilt so the bundled-plugin catalog offers it installable without a build on the server.
+RUN pnpm --filter @paperclipai/plugin-agent-evals build \
+  && test -f packages/plugins/plugin-agent-evals/dist/worker.js || (echo "ERROR: agent-evals plugin build output missing" && exit 1)
 # The server build runs scripts/write-build-stamp.mjs, which stamps the built
 # commit into dist/build-info.json. The build context has no .git, so the
 # script reads PAPERCLIP_BUILD_COMMIT instead. Docker exposes an ARG to the
@@ -147,6 +152,9 @@ RUN pnpm --filter @paperclipai/plugin-sdk build
 # same ARG again for the runtime fallback; an ARG goes out of scope at the
 # end of its stage. Empty for local `docker build`, which then writes no stamp.
 ENV NODE_OPTIONS=--max-old-space-size=4096
+# Extra tsc flags for small build hosts, e.g. --singleThreaded keeps the server
+# compile under ~4 GB next to a running instance.
+ARG PAPERCLIP_TSC_FLAGS=""
 RUN pnpm --filter @paperclipai/server build
 RUN test -f server/dist/index.js || (echo "ERROR: server build output missing" && exit 1)
 RUN pnpm --filter @paperclipai/server build:runtime \

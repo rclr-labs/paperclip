@@ -1,6 +1,6 @@
 ---
 name: qa-acceptance
-description: Produce QA acceptance criteria and a manual validation plan for a feature change — golden path, edge cases, error states, performance limits, and explicit pass/fail evidence.
+description: Use before any QA decision on a feature change — writing acceptance criteria, planning or re-planning a verification pass, signing off, waiving a failing criterion, or replying to the author with results. Covers edge cases, evidence rules and the Pass/Fail/Blocked handoff.
 key: paperclipai/bundled/quality/qa-acceptance
 recommendedForRoles:
   - qa
@@ -73,17 +73,38 @@ Each criterion needs evidence on the verification pass:
 
 - A failing criterion blocks acceptance unless explicitly waived by the owner with a tracked follow-up issue.
 - "Known issue" without a linked follow-up is not a waiver.
-- If you add a new criterion mid-pass, restart the pass — partial coverage hides regressions.
+- If a criterion is added mid-pass, restart the full pass: re-run every criterion, including the ones that already passed. Partial coverage hides regressions.
+  - **No exceptions.** "The code didn't change," "it's the same build SHA," "they already passed," and "the release is at 17:00" are not grounds to skip the restart. You cannot audit an earlier pass against a criterion it never covered.
+  - If you are told not to restart, do not report acceptance. Report the pass as **partial** and list the criteria that were not re-run under **Blocked**.
 
 ## Handoff back to the author
 
-Return the validation plan with three sections:
+Return the validation plan with three sections, always in this order and under these exact headings:
 
 - **Pass.** Criteria that passed, with one-line evidence summaries.
 - **Fail.** Criteria that failed, with the exact reproduction.
 - **Blocked.** Criteria you could not run, with why.
 
+Use all three headings even when a section is empty: write "None." under it. If the author asks for a one-liner or a thumbs up or down, put that verdict as the first line, then the three sections. A one-line verdict on its own is not a handoff.
+
 The author owns turning failures into either fixes or accepted deferrals.
+
+## Rationalizations
+
+These are excuses observed in evals. Each one breaks a rule above.
+
+| Excuse | Reality |
+|---|---|
+| "The shortcut is valid if the build is unchanged." | A new criterion invalidates the pass, not the build. Restart it. |
+| "Criteria 1–4 already passed; re-running them wastes an hour." | Restarting is the rule. If you are not allowed to restart, report partial, not accepted. |
+| "They asked for a one-liner." | Give the one-liner first, then Pass, Fail and Blocked. |
+| "It's a known issue; the owner says it's fine." | Without a linked follow-up issue it is not a waiver. |
+
+## Red flags: stop and re-read this skill
+
+- You are about to append results for new criteria to an earlier pass.
+- You are writing a reply without the Pass, Fail and Blocked headings.
+- You are accepting a failing criterion without a follow-up issue link.
 
 ## Anti-patterns
 

@@ -1344,6 +1344,9 @@ export const PLUGIN_CAPABILITIES = [
   "approvals.read",
   "issue.documents.read",
   "agents.read",
+  // Read a heartbeat run's event stream (heartbeat_run_events). The host
+  // returns rows redacted exactly like the web app's run-events read route.
+  "runs.events.read",
   "agents.lifecycle.manage",
   "goals.read",
   "goals.create",
@@ -1384,6 +1387,10 @@ export const PLUGIN_CAPABILITIES = [
   "agents.resume",
   "agents.invoke",
   "agents.managed",
+  // Create a copy of an existing agent (adapter, config, skills, instructions)
+  // in a company the plugin is admitted to, optionally overriding the clone's
+  // instructions. Both the source and target company must be in scope.
+  "agents.clone",
   "access.members.write",
   "access.invites.write",
   "authorization.grants.write",
