@@ -1152,6 +1152,72 @@ describeEmbeddedPostgres("heartbeat orphaned process recovery", () => {
       expect(child.exitCode).toBeNull();
       expect(mockTerminateLocalService).not.toHaveBeenCalled();
     });
+
+    async function seedExpiredNativeRun(phase: "retryable_failure" | "admitted", processPid: number) {
+      const replicaA = await registerReplicaA({ alive: false });
+      const fixture = await seedRunFixture({
+        adapterType: "paperclip_runner",
+        runtimeMode: "native",
+        processPid,
+      });
+      await db.update(heartbeatRuns)
+        .set({ nativeIssueId: fixture.issueId, nativePhase: phase })
+        .where(eq(heartbeatRuns.id, fixture.runId));
+      await db.insert(nativeRunFinalizations).values({
+        runId: fixture.runId, companyId: fixture.companyId, issueId: fixture.issueId, phase, attempt: 1,
+        leaseOwner: `${replicaA}:native`,
+        leaseExpiresAt: new Date(Date.now() - 60_000),
+        controllerBootId: replicaA,
+        controllerPid: 2_000_000_000,
+        controllerProcessStartedAt: new Date(0),
+        controllerGeneration: 1,
+      });
+      return fixture;
+    }
+
+    it("clears a retryable native run's PID from another host once that host's lease expired", async () => {
+      const child = spawnAliveProcess();
+      childProcesses.add(child);
+      const { runId } = await seedExpiredNativeRun("retryable_failure", child.pid!);
+
+      const replicaB = heartbeatService(db);
+      await replicaB.reapOrphanedRuns();
+      await replicaB.drainActiveRunExecutions();
+
+      const [run] = await db.select().from(heartbeatRuns).where(eq(heartbeatRuns.id, runId));
+      expect(run.processPid).not.toBe(child.pid);
+      expect(child.exitCode).toBeNull();
+      expect(mockTerminateLocalService).not.toHaveBeenCalled();
+    });
+
+    it("keeps a remote-sandbox retry on the restart-recovery path after its owner expired", async () => {
+      const { runId } = await seedExpiredNativeRun("retryable_failure", 2_000_000_000);
+      await db.update(nativeRunFinalizations)
+        .set({ nextAttemptAt: new Date(Date.now() + 60_000) })
+        .where(eq(nativeRunFinalizations.runId, runId));
+      await db.update(heartbeatRuns)
+        .set({ runnerProfileJson: { nativeWorkspaceSync: { kind: "remote" } } })
+        .where(eq(heartbeatRuns.id, runId));
+
+      const replicaB = heartbeatService(db);
+      expect(await replicaB.reapOrphanedRuns()).toEqual({ reaped: 0, runIds: [] });
+
+      const [run] = await db.select().from(heartbeatRuns).where(eq(heartbeatRuns.id, runId));
+      expect(run).toMatchObject({ status: "running", processPid: 2_000_000_000, errorCode: null });
+    });
+
+    it("reaps an active native run from another host once that host's lease expired", async () => {
+      const child = spawnAliveProcess();
+      childProcesses.add(child);
+      const { runId } = await seedExpiredNativeRun("admitted", child.pid!);
+
+      const replicaB = heartbeatService(db);
+      const result = await replicaB.reapOrphanedRuns();
+
+      expect(result.runIds).toEqual([runId]);
+      expect(child.exitCode).toBeNull();
+      expect(mockTerminateLocalService).not.toHaveBeenCalled();
+    });
   });
 
   async function seedStrandedIssueFixture(input: {

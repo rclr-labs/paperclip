@@ -1436,6 +1436,45 @@ describe("startServer feedback export wiring", () => {
     }
   });
 
+  it("does not tick timers, monitors or routines on a replica without the scheduler lease", async () => {
+    loadConfigMock.mockReturnValue(buildTestConfig({ heartbeatSchedulerEnabled: true, heartbeatSchedulerIntervalMs: 30000 }));
+    resolveHeartbeatSchedulingSuppressionMock.mockReturnValue({ suppressed: false, reason: null });
+    const { startSchedulerLeadership } = await import("../services/heartbeat/scheduler-leadership.js");
+    vi.mocked(startSchedulerLeadership).mockImplementationOnce((async () => ({
+      isLeader: () => false, generation: () => null, stop: async () => undefined,
+    })) as never);
+
+    await startServer();
+    await settleStartupHousekeeping();
+
+    expect(heartbeatServiceMock.tickAgentTimers).not.toHaveBeenCalled();
+    expect(heartbeatServiceMock.tickIssueMonitors).not.toHaveBeenCalled();
+    expect(routineServiceMock.tickScheduledTriggers).not.toHaveBeenCalled();
+  });
+
+  it("stops a running scheduler tick when this replica loses the lease", async () => {
+    loadConfigMock.mockReturnValue(buildTestConfig({ heartbeatSchedulerEnabled: true, heartbeatSchedulerIntervalMs: 30000 }));
+    resolveHeartbeatSchedulingSuppressionMock.mockReturnValue({ suppressed: false, reason: null });
+    let generation: number | null = 1;
+    const { startSchedulerLeadership } = await import("../services/heartbeat/scheduler-leadership.js");
+    vi.mocked(startSchedulerLeadership).mockImplementationOnce((async (_db: unknown, opts?: { onAcquired?: (g: number) => void }) => {
+      opts?.onAcquired?.(1);
+      return { isLeader: () => generation !== null, generation: () => generation, stop: async () => undefined };
+    }) as never);
+
+    await startServer();
+    await settleStartupHousekeeping();
+
+    const mayContinue = [
+      vi.mocked(heartbeatServiceMock.tickAgentTimers).mock.calls.at(-1)?.[1],
+      vi.mocked(heartbeatServiceMock.tickIssueMonitors).mock.calls.at(-1)?.[1],
+      vi.mocked(routineServiceMock.tickScheduledTriggers).mock.calls.at(-1)?.[1],
+    ] as Array<() => boolean>;
+    expect(mayContinue.map(check => check())).toEqual([true, true, true]);
+    generation = null;
+    expect(mayContinue.map(check => check())).toEqual([false, false, false]);
+  });
+
   it("keeps external object refresh active when heartbeat scheduling is disabled", async () => {
     loadConfigMock.mockReturnValue(buildTestConfig({
       heartbeatSchedulerEnabled: false,
