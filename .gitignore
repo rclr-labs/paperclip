@@ -99,6 +99,10 @@ test-results/
 
 # Opt-in CI timing artifacts
 .ci-profile/
+.ci-test-selection/
+
+# Content-addressed CI task results
+.turbo/
 
 # agent instruction eval results
 evals/agents/results/
