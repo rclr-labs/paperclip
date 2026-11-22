@@ -101,6 +101,17 @@ The manager permits at most two outstanding inspection RPCs across workers.
 Caller timeouts retain their slots until the actual worker reply or exit;
 timeouts cannot accumulate additional provider reads in later sweeps.
 
+If a failed ephemeral lease has no usable local inspection path, a managed
+Daytona instance can ask Cloud for a cleanup-only absence receipt. Cloud checks
+the stack's historical credential organization and reads the exact allocation
+with its manager credential. Only confirmed absence can produce a signed receipt
+bound to the stack, company, environment, lease, provider handle and nullable run.
+The separate cleanup type and audience cannot authorize run recovery. Older
+Cloud servers, unsupported providers, invalid signatures, changed organizations
+and failed reads leave the lease unresolved. Existing bounded cleanup batches
+and retry deadlines own these reads; no new idle polling is added. An explicit
+local provider observation is retained rather than replaced by this fallback.
+
 Host-owned verification metadata binds the company, environment, resource,
 provider handle, optional run, and exact row version. Concurrent resume,
 replacement, cleanup, or configuration changes invalidate verification.
@@ -445,3 +456,14 @@ timer remains; an empty buffer performs no database work. Existing Muse durable
 sleep blockers, external worker stop evidence, and ingress requirements remain
 unchanged. This change establishes database quiet for inactive Muse, not host
 sleep eligibility for a configured Muse connection.
+
+## Skill package maintenance
+
+The package delivery worker automatically converts legacy snapshots and versions.
+Legacy contents remain authoritative until conversion is verified. Unfinished or
+failed conversions, including rows retained while package storage is disabled,
+may wait for the next ingress wake and do not block idle sleep. Their persisted
+retry dates and package/object/native-asset retention timestamps are earliest
+maintenance eligibility, not promised delivery deadlines. Workers reconstruct persisted rows and filesystem
+access leases on startup, and use the existing coordinator's drain/standby/shutdown
+controls. No external Cloud alarm or provider suspension is established by these tests.

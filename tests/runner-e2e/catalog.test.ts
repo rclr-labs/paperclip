@@ -20,6 +20,7 @@ import {
   daytonaWarmEnvironment,
   isImmutableDaytonaImage,
   pendingContextIntegrityProfiles,
+  productJourneys,
   suiteDefinitionHash,
   validateRunnerCatalog,
 } from "./catalog.js";
@@ -32,6 +33,24 @@ import {
 } from "./selectors.js";
 
 describe("runner E2E catalog", () => {
+  it("selects non-reused Kimi lifecycle leases without changing its warm or local cases", () => {
+    const suite = runnerSuites.find(row => row.id === "kimi-qualification")!;
+    const cells = runnerMatrix.filter(row => row.suite.id === suite.id);
+    const input = { secretRefs: { DAYTONA_API_KEY: { type: "secret_ref" as const, secretId: "fixture-secret", version: "latest" as const } },
+      daytonaImage: `registry.example.test/runtime@sha256:${"a".repeat(64)}`, executionId: "fixture" };
+    expect(cells).toHaveLength(20);
+    for (const cell of cells) {
+      if (cell.environment.id === "local") {
+        expect(cell.environment).toBe(suite.environments.find(environment => environment.id === "local"));
+        continue;
+      }
+      const lifecycle = cell.task.flow === "kimi_native_lifecycle";
+      expect(cell.environment.buildEnvironment(input).config).toMatchObject({ reuseLease: !lifecycle, runnerLifecycleMode: lifecycle ? "per_turn" : "warm" });
+      expect(cell.groups.includes("warm")).toBe(!lifecycle);
+    }
+    expect(suiteDefinitionHash(suite)).not.toBe(suiteDefinitionHash({ ...suite, environmentOverrides: undefined }));
+  });
+
   it.each([
     ["runner-codex-subscription", "CODEX_AUTH_JSON"], ["runner-codex", "OPENAI_API_KEY"],
   ])("keeps %s receipt smoke separately selectable with exactly four bounded native turns", (profile, credential) => {
@@ -41,7 +60,7 @@ describe("runner E2E catalog", () => {
     expect(cell.requiredCredentials).toEqual([credential]);
     expect(cell.task).toMatchObject({ flow: "case_handoff", expectedRunCount: 4, minimumExpectedRunCount: 4,
       turnTimeoutMs: 90_000, attemptTimeoutMs: { local: 300_000 }, automaticRetryPolicy: "single_attempt" });
-    expect(cell.suite.definitionMetadata).toMatchObject({ version: 3, scheduling: "explicit-only",
+    expect(cell.suite.definitionMetadata).toMatchObject({ version: 4, scheduling: "explicit-only",
       credentialModes: ["isolated-company-subscription-login", "company-encrypted-api-secret-reference"],
       cases: { "receipt-smoke": { budgetMonthlyCents: 100, maximumProviderTurns: 4, minimumProviderTurns: 4,
         runTimeoutMs: 90_000, reasoningEffort: "low", agentDailyRunCaps: { triage: 1, builder: 2, verifier: 1 } },
@@ -55,6 +74,13 @@ describe("runner E2E catalog", () => {
     }
     expect(suiteDefinitionHash({ ...cell.suite, tasks: cell.suite.tasks.map(task => task.id === cell.task.id
       ? { ...task, expectedRunCount: 5 } : task) })).not.toBe(cell.suiteDefinitionHash);
+  });
+
+  it("exports deployment journeys separately from the model matrix and default selection", () => {
+    expect(productJourneys.map(journey => journey.id)).toEqual(["task-create", "project-task-context", "ask-question", "question-answer-resume", "task-properties", "task-document-persistence", "task-search-filter", "plan-revise-accept", "build-revise", "protected-actions", "create-skill-studio", "stop-redirect", "followup-while-running", "cloud-onboarding"]);
+    expect(runnerSuites.some(suite => suite.id === "product-journeys")).toBe(false);
+    expect(runnerMatrix.some(execution => execution.suite.id === "product-journeys")).toBe(false);
+    expect(selectRunnerExecutions(parseRunnerSelectors(["--all"])).some(execution => execution.suite.id === "product-journeys")).toBe(false);
   });
 
   it("keeps the single managed onboarding variant explicit-only without changing local onboarding coverage", () => {
@@ -211,10 +237,10 @@ describe("runner E2E catalog", () => {
     expect(localIntegrityTasks).toHaveLength(2);
     expect(openRouterBreadthTasks).toHaveLength(3);
     expect(runnerSuites.map((suite) => suite.expectedMatrixSize)).toEqual([
-      1, 3, 2, 2, 4, 4, 4, 4, 4, 4, 8, 10, 6, 63, 12, 6, 4, 2, 4, 2, 30, 3, 16, 16, 2, 6, 8, 46, 2, 23, 15, 52, 6, 6, 20, 26, 52, 28, 18, 2, 6, 6, 13, 10, 48, 16, 10, 2, 1, 1, 3, 116, 2,
+      2, 1, 3, 2, 2, 4, 4, 4, 4, 4, 4, 8, 10, 6, 63, 12, 6, 4, 2, 4, 2, 30, 3, 16, 16, 20, 2, 6, 8, 46, 2, 23, 15, 52, 6, 6, 20, 26, 52, 5, 28, 18, 2, 6, 6, 13, 10, 4, 48, 16, 10, 2, 1, 1, 4, 116, 2, 1, 2,
     ]);
-    expect(validateRunnerCatalog()).toHaveLength(760);
-    expect(new Set(runnerMatrix.map((entry) => entry.id)).size).toBe(760);
+    expect(validateRunnerCatalog()).toHaveLength(795);
+    expect(new Set(runnerMatrix.map((entry) => entry.id)).size).toBe(795);
     expect(
       runnerMatrix.filter((entry) => entry.suite.id === "core-compatibility"),
     ).toHaveLength(48);
@@ -243,6 +269,22 @@ describe("runner E2E catalog", () => {
       runnerTasks.find((task) => task.id === "plan-revise-accept")
         ?.attemptTimeoutMs,
     ).toEqual({ local: 8 * 60_000, daytona: 12 * 60_000 });
+  });
+
+  it("bounds ephemeral Daytona lifetime beyond each declared attempt and acquire budget", () => {
+    const environment = runnerEnvironments.find(entry => entry.id === "daytona")!;
+    const payload = environment.buildEnvironment({
+      executionId: "bounded-lifetime", daytonaImage: `runner@sha256:${"a".repeat(64)}`,
+      secretRefs: { DAYTONA_API_KEY: { type: "secret_ref", secretId: "22222222-2222-4222-8222-222222222222", version: "latest" } },
+    });
+    const config = payload.config as Record<string, unknown>;
+    const lifetimeMs = Number(config.ttlMinutes) * 60_000;
+    expect(Number.isFinite(lifetimeMs)).toBe(true);
+    const cells = runnerMatrix.filter(entry => entry.environment === environment);
+    expect(cells.length).toBeGreaterThan(0);
+    for (const cell of cells) {
+      expect(lifetimeMs, cell.id).toBeGreaterThan(cell.task.attemptTimeoutMs.daytona + Number(config.timeoutMs));
+    }
   });
 
   it("defines the warm Daytona continuity fixture as exactly two Codex cells", () => {
@@ -511,13 +553,13 @@ describe("runner E2E catalog", () => {
 
   it("uses only declared secret references in generated payloads", () => {
     expect(
-      runnerMatrix.filter(entry => entry.task.flow !== "provider_connection").every((entry) =>
+      runnerMatrix.filter(entry => !["provider_connection", "github_review_journey", "antigravity_agent_journey"].includes(entry.task.flow)).every((entry) =>
         entry.requiredCredentials.includes(entry.profile.credential),
       ),
     ).toBe(true);
     expect(
       runnerMatrix
-        .filter((entry) => entry.environment.id === "daytona" && entry.task.flow !== "provider_connection")
+        .filter((entry) => entry.environment.id === "daytona" && !["provider_connection", "github_review_journey", "antigravity_agent_journey"].includes(entry.task.flow))
         .every((entry) =>
           entry.requiredCredentials.includes("DAYTONA_API_KEY"),
         ),
