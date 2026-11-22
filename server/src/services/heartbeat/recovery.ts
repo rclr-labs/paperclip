@@ -1863,6 +1863,16 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
     return leases.every(lease => lease.provider === "local");
   }
 
+  /** The provider process runs in a remote sandbox or a runner task lease, not on any server host. */
+  async function nativeRunHasRemoteExecution(run: HeartbeatRun) {
+    if (parseObject(run.runnerProfileJson).nativeWorkspaceSync != null) return true;
+    const [taskLease] = await db.select({ id: environmentLeases.id }).from(environmentLeases).where(and(
+      eq(environmentLeases.companyId, run.companyId), eq(environmentLeases.heartbeatRunId, run.id),
+      sql`${environmentLeases.metadata}->>'runnerTaskLease' = 'true'`,
+    )).limit(1);
+    return !!taskLease;
+  }
+
   async function markNativeOwnershipUnverified(
     run: typeof heartbeatRuns.$inferSelect,
     evidence: {
@@ -2100,18 +2110,12 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
       }
       // PIDs recorded by another host are never probed from this one.
       const probesPids = ownership === "local";
-      if (!await nativeProcessIsLocal(run)) {
+      // After another host's lease expires, a process on that host is presumed
+      // gone. Remote execution outlives that host and keeps its recovery path.
+      if (probesPids ? !await nativeProcessIsLocal(run) : await nativeRunHasRemoteExecution(run)) {
         if (nextAttemptAt && nextAttemptAt > now) continue;
         if (activeRunExecutions.has(run.id) || runningProcesses.has(run.id)) continue;
-        if (parseObject(run.runnerProfileJson).nativeWorkspaceSync != null) {
-          remoteRetryRunIds.push(run.id);
-        } else {
-          const [taskLease] = await db.select({ id: environmentLeases.id }).from(environmentLeases).where(and(
-            eq(environmentLeases.companyId, run.companyId), eq(environmentLeases.heartbeatRunId, run.id),
-            sql`${environmentLeases.metadata}->>'runnerTaskLease' = 'true'`,
-          )).limit(1);
-          if (taskLease) remoteRetryRunIds.push(run.id);
-        }
+        if (await nativeRunHasRemoteExecution(run)) remoteRetryRunIds.push(run.id);
         continue;
       }
       const processPidAlive =
@@ -2377,13 +2381,12 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
       // PIDs recorded by another host name processes in that host's table.
       const probesPids = ownership === "local";
       const nativeRun = run.runtimeMode === "native";
-      const nativeLocalProcess = nativeRun && !!(run.processPid || run.processGroupId) &&
+      const nativeLocalProcess = probesPids && nativeRun && !!(run.processPid || run.processGroupId) &&
         await nativeProcessIsLocal(run);
       const nativeProcessPidAlive =
-        nativeLocalProcess && probesPids && !!run.processPid && isProcessAlive(run.processPid);
+        nativeLocalProcess && !!run.processPid && isProcessAlive(run.processPid);
       const nativeProcessGroupAlive =
         nativeLocalProcess &&
-        probesPids &&
         !!run.processGroupId &&
         isProcessGroupAlive(run.processGroupId);
       const coordinatorOwnedByCurrentController =
@@ -2440,7 +2443,8 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
         });
         continue;
       }
-      if (nativeRun && !locallyTracked && (run.processPid || run.processGroupId) && !nativeLocalProcess) continue;
+      if (nativeRun && !locallyTracked && (run.processPid || run.processGroupId) && !nativeLocalProcess &&
+        (probesPids || await nativeRunHasRemoteExecution(run))) continue;
       if (resumedRunIds.has(run.id)) continue;
       if (locallyTracked) continue;
       if (await hasLiveLegacyController(db, run)) continue;
@@ -2460,8 +2464,7 @@ export function createHeartbeatRecovery(db: Db, dependencies: HeartbeatRecoveryD
       // for a read-only liveness check so a lost in-memory handle cannot cause
       // overlapping provider/tool execution while that child is still alive.
       const checksPersistedChildLiveness =
-        probesPids &&
-        (nativeRun ? nativeLocalProcess : currentAdapterTracksLocalChild);
+        nativeRun ? nativeLocalProcess : probesPids && currentAdapterTracksLocalChild;
       const processPidAlive =
         checksPersistedChildLiveness &&
         run.processPid &&

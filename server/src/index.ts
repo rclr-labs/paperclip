@@ -2162,17 +2162,17 @@ async function startServerWithDatabaseTeardown(
         retryMs: config.heartbeatSchedulerIntervalMs,
         tickAgentTimers: async signal => {
           const result = await heartbeat.tickAgentTimers(new Date(),
-            () => !signal.aborted && readTaskDrain(new Date()) === null && !isWarmStandby() && !heartbeatSchedulerStopped);
+            () => !signal.aborted && isSchedulerLeader() && readTaskDrain(new Date()) === null && !isWarmStandby() && !heartbeatSchedulerStopped);
           if (result.enqueued > 0) logger.info({ ...result }, "heartbeat timer tick enqueued runs");
         },
-        canRun: () => !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped,
+        canRun: () => isSchedulerLeader() && !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped,
         nextAgentTimerAt: () => heartbeat.nextAgentTimerAt(),
         nextIssueMonitorAt: () => heartbeat.nextIssueMonitorAt(),
         tickIssueMonitors: signal => heartbeat.tickIssueMonitors(new Date(),
-          () => !signal.aborted && !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped),
+          () => !signal.aborted && isSchedulerLeader() && !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped),
         nextRoutineRunAt: () => routines.nextScheduledTriggerAt(),
         tickRoutines: signal => routines.tickScheduledTriggers(new Date(),
-          () => !signal.aborted && !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped).then(result => {
+          () => !signal.aborted && isSchedulerLeader() && !isIdleTaskDrainActive() && !isWarmStandby() && !heartbeatSchedulerStopped).then(result => {
           if (result.triggered > 0) logger.info({ ...result }, "routine scheduler tick enqueued runs");
         }),
       });
